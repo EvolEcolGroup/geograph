@@ -91,10 +91,10 @@ library("geoGraph")
 Data representation refers to the way a given type of data is handled by a computer program.
 Two types of objects are used in *geoGraph*: `gGraph`, and `gData` objects.
 Both objects are defined as formal (S4) classes and often have methods for similar generic function
-(\textit{e.g.}, getNodes is defined for both objects).
+(e.g. `getNodes` is defined for both objects).
 Essentially, `gGraph` objects contain underlying layers of informations, including a spatial
 grid and possibly node attributes, and covering the area of interest.
-`gData` are sets of locations -- like sampled sites, for instance -- which have been interfaced
+`gData` are sets of locations (like sampled sites, for instance) which have been interfaced
 to a `gGraph` object, to allow further manipulations such as finding paths on the grid between
 pairs of locations.
 
