@@ -17,9 +17,9 @@
 \usage{
 buffer(x, \dots)
 
-\S4method{buffer}{gGraph}(x, nodes, d, res.type=c("nodes",  "gGraph"),\ldots)
+\S4method{buffer}{gGraph}(x, d, res.type = c("nodes", "gData", "gGraph"), \ldots)
 
-\S4method{buffer}{gData}(x, nodes, d, res.type=c("nodes","gGraph", "gData"), \ldots)
+\S4method{buffer}{gData}(x, d, res.type = c("nodes", "gData", "gGraph"), \ldots)
 }
 \arguments{
   \item{x}{ a valid \linkS4class{gGraph} or \linkS4class{gData} object.}

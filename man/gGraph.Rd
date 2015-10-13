@@ -4,6 +4,7 @@
 \alias{gGraph-class}
 \alias{[,gGraph-method}
 \alias{[,gGraph,ANY,ANY-method}
+\alias{[,gGraph,ANY,ANY,ANY-method}
 \alias{getCoords,gGraph-method}
 % \alias{getDates,gGraph-method}
 \alias{getGraph,gGraph-method}

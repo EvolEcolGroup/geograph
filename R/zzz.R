@@ -40,11 +40,11 @@ colnames(bookmarks) <- c("x1","x2","y1","y2")
 
 
 ## some assignements
-assign("zoom.log", zoom.log, env=.geoGraphEnv)
-assign("psize", 0.5, env=.geoGraphEnv)
-assign("last.plot.param", temp, env=.geoGraphEnv)
-assign("sticky.points", FALSE, env=.geoGraphEnv)
-assign("bookmarks", bookmarks, env=.geoGraphEnv)
+assign("zoom.log", zoom.log, envir=.geoGraphEnv)
+assign("psize", 0.5, envir=.geoGraphEnv)
+assign("last.plot.param", temp, envir=.geoGraphEnv)
+assign("sticky.points", FALSE, envir=.geoGraphEnv)
+assign("bookmarks", bookmarks, envir=.geoGraphEnv)
 
 ## remove temp variables
 rm(zoom.log)

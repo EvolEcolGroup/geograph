@@ -87,7 +87,7 @@ setMethod("plot", signature(x = "gGraph", y="missing"), function(x, y,shape="wor
 
     ## handle shape
     if(!is.null(shape) && is.character(shape) && shape=="world"){
-        if(!require(sp)) stop("sp package needed to map the world")
+        ## if(!require(sp)) stop("sp package needed to map the world")
         data(worldshape)
         shape <- worldshape
     }

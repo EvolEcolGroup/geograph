@@ -4,6 +4,7 @@
 \alias{gData-class}
 \alias{[,gData-method}
 \alias{[,gData,ANY,ANY-method}
+\alias{[,gData,ANY,ANY,ANY-method}
 \alias{getCoords,gData-method}
 \alias{getData-methods}
 \alias{getData,gData-method}
