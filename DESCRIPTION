@@ -1,0 +1,12 @@
+Package: geoGraph
+Version: 1.0-0
+Date: 2010/07/01
+Title: geoGraph: implementing geographic graphs for large-scale spatial modelling.
+Author: Thibaut Jombart, Francois Balloux and Andrea Manica
+Maintainer: Thibaut Jombart <tjombart@imperial.ac.uk>
+Suggests: 
+Depends: methods, graph, RBGL, sp, maptools, MASS, fields
+Description: .
+License: GPL (>=2)
+LazyLoad: yes
+Collate: classes.R basicMethods.R accessors.R auxil.R connectivity.R dropDead.R closestNode.R isInArea.R rebuild.R plot.R zoom.R findLand.R extractFromLayer.R interact.R setCosts.R dijkstra.R setDistCosts.R makeGrid.R buffer.R zzz.R

@@ -1,0 +1,94 @@
+\name{plot-gData}
+\docType{methods}
+\alias{plot,gData-method}
+\alias{plot,gData,missing-method}
+\alias{plot.gData}
+\alias{points,gData-method}
+\alias{points.gData}
+\title{ Plot a gData object. }
+\description{
+  Various functions to plot a \linkS4class{gData} object: \code{plot}
+  opens a device and plots the object, while \code{points} plots the object on
+  the existing device. Plotting of \linkS4class{gData} object relies on
+  plotting the \linkS4class{gGraph} object to which it is linked, and
+  then represent the locations of the \linkS4class{gData} and/or the
+  associated nodes.
+}
+\usage{
+ \S4method{plot}{gData}(x, type=c("nodes","original","both"),
+                        pch.ori=4, pch.nodes=1,
+                        col.ori="black", col.nodes="red",
+                        col.gGraph=NULL, reset=FALSE,
+                        sticky.points=TRUE,\dots)
+
+ \S4method{points}{gData}(x, type=c("nodes","original","both"),
+                          pch.ori=4, pch.nodes=1,
+                          col.ori="black", col.nodes="red",
+                          sticky.points=TRUE,\dots)
+}
+\arguments{
+  \item{x}{a valid \linkS4class{gData} object. The
+    \linkS4class{gData} object to which it is
+    linked must exist in the global environment.}
+  \item{type}{a character string indicating which information
+    should be plotted: original locations ('original'), associated nodes
+    ('nodes', default), or both ('both'). In the latter case, an arrow
+    goes from locations to nodes.}
+  \item{pch.ori}{a numeric or a character indicating the type of
+    point for locations.}
+  \item{pch.nodes}{a numeric or a character indicating the type of
+    point for nodes.}
+  \item{col.ori}{a character string indicating the color to be
+    used for locations.}
+  \item{col.nodes}{a character string indicating the color to be
+    used for nodes.}
+  \item{col.gGraph}{a (recycled) color vector for the associated
+    \linkS4class{gGraph} object. If NULL, default color is used. Set to
+    \code{NA} or "transparent" to avoid plotting the \linkS4class{gGraph}.}
+  \item{reset}{a logical stating whether the plotting area should be
+    reset to fit the \code{gData} object (TRUE), or should conserve
+    previous plotting and settings (FALSE, default).}
+  \item{sticky.points}{a logical indicating if added points should
+    be kept when replotting (TRUE, default), or not (FALSE). In any case,
+    \code{reset=TRUE} will prevent points to be redrawn.}
+  \item{\dots}{further arguments passed to \code{points}.}
+}
+\details{
+  When \code{sticky.points} is set to TRUE, all operations performed on
+  the graphics like zooming or sliding the window can be performed
+  without loosing the \code{gData} plot.\cr
+}
+\seealso{
+  - Different functions to explore these plots:\cr
+  \code{\link{geo.zoomin}}, \code{\link{geo.zoomout}},
+  \code{\link{geo.slide}}, \code{\link{geo.back}},
+  \code{\link{geo.bookmark}}, \code{\link{geo.goto}}.\cr
+}
+\author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
+\examples{
+data(worldgraph.10k)
+
+myLoc <- list(x=c(3, -8, 11, 28), y=c(50, 57, 71, 67)) # some locations
+obj <- new("gData", coords=myLoc) # new gData object
+obj
+
+obj@gGraph.name <- "worldgraph.10k"
+obj <- closestNode(obj, attr.name="habitat", attr.value="land")
+
+## plot the result (original location -> assigned node)
+plot(obj, type="both",reset=TRUE)
+title("'x'=location, 'o'=assigned node")
+
+## using different parameters
+points(obj, type="both", pch.ori=2, col.ori="red", pch.nodes=20, col.nodes="pink")
+
+## only nodes, fancy plot
+plot(obj, col.nodes="red", cex=1, pch.node=20)
+points(obj, col.nodes="red", cex=2)
+points(obj, col.nodes="orange", cex=3)
+points(obj, col.nodes="yellow", cex=4)
+
+}
+\keyword{methods}
+\keyword{hplot}
+\keyword{spatial}
