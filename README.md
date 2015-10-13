@@ -8,7 +8,10 @@
 
 Installing *geograph*
 -------------
-You may need to install manually the packages *graph* and *RBGL* from *Bioconductor* (try "http://..." if "https://..." is not available):
+
+All the following instructions should be entered from a new R session to avoid errors due to installing attached packages.
+
+You may need to install manually the packages *graph* and *RBGL* from *Bioconductor* (try "http" if "https" is not available):
 ```r
 source("https://bioconductor.org/biocLite.R")
 biocLite("graph")
