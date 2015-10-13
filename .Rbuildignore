@@ -1,0 +1,7 @@
+^\.travis\.yml$
+^misc
+README.Rmd
+^.*\.Rproj$
+^\.Rproj\.user$
+inst/shiny/.RData
+inst/shiny/.Rhistory
