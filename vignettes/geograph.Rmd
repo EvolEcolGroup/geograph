@@ -200,7 +200,7 @@ of locations.
 
 
 
-\section{Using *geoGraph*}
+# Using *geoGraph*
 
 
 An overview of the material implemented in the package is summarized the package's manpage, accessible
@@ -381,19 +381,19 @@ Zooming in:
 ```{r eval=FALSE}
 geo.zoomin()
 ```
-\includegraphics{figs/zoomin.png}
+![img](figs/zoomin.png)
 
  Zooming out:
 ```{r eval=FALSE}
 geo.zoomout()
 ```
-\includegraphics{figs/zoomout.png}
+![img](figs/zoomout.png)
 
  Sliding to the east:
 ```{r eval=FALSE}
 geo.slide()
 ```
-\includegraphics{figs/slide.png}
+![img](figs/slide.png)
 
 
 One important thing which makes plotting `gGraph` objects different from most other plotting in
@@ -551,7 +551,7 @@ newGraph <- geo.remove.edges(newGraph)
 ```{r eval=TRUE, echo=FALSE}
 load("Robjects/newGraph.RData")
 ```
-\includegraphics{figs/georemove.png}
+![img](figs/georemove.png)
 
  When adding connections within an area or in an entire graph, node addition is based on
 another `gGraph`, \textit{i.e.} only connections existing in another `gGraph` serving as
