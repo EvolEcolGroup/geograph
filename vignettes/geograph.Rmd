@@ -130,7 +130,7 @@ For instance, `worldgraph.10k` is a graph of the world with approximately 10,000
 only on-land connectivity (\textit{i.e.` no travelling on the seas).
 ```{r }
 worldgraph.10k
-worldgraph.10k```meta
+worldgraph.10k@meta
 ```
 Lastly, the `graph` component is a `graphNEL` object, which is the standard class for
 graphs in the *graph* and *RBGL* packages.
@@ -337,7 +337,7 @@ Alternatively, the color of the nodes can be specified via the `col` argument in
 
 Here is an example using `worldgraph.10k`:
 ```{r wg10kdefplot, fig=TRUE}
-worldgraph.10k```meta$colors
+worldgraph.10k@meta$colors
 head(getNodesAttr(worldgraph.10k))
 table(getNodesAttr(worldgraph.10k))
 plot(worldgraph.10k, reset=TRUE)
@@ -496,9 +496,9 @@ Costs of a given node attribute (here, `habitat') are indicated in the `meta$cos
 ```{r }
 rawgraph.10k@meta$costs
 newGraph <- rawgraph.10k
-newGraph```meta$costs[2:6,2] <- 100
-newGraph```meta$costs[1,2] <- 1
-newGraph```meta$costs
+newGraph@meta$costs[2:6,2] <- 100
+newGraph@meta$costs[1,2] <- 1
+newGraph@meta$costs
 ```
 We have just changed the costs associated to habitat type, but this change is not yet effective on
 edges between nodes.
@@ -576,7 +576,7 @@ newGraph <- temp
 load("Robjects/newGraph2.RData")
 ```
 ```{r fig=TRUE}
-newGraph```meta$colors
+newGraph@meta$colors
 plot(newGraph,edge=TRUE)
 ```
 
@@ -704,7 +704,7 @@ After setting a `gGraph` with uniform costs, we use `dijkstraFrom` to find the s
 paths between Addis abeba and the populations of `hgdp`:
 ```{r }
 myGraph <- dropCosts(worldgraph.40k)
-hgdp```gGraph.name <- "myGraph"
+hgdp@gGraph.name <- "myGraph"
 addis <- cbind(38,9)
 ori <- closestNode(myGraph, addis)
 paths <- dijkstraFrom(hgdp, ori)
@@ -739,8 +739,8 @@ As a toy example, we will consider that coasts are four times more favourable fo
 the rest of the landmasses.
 We define these new costs, and then compute and plot the corresponding shortest paths:
 ```{r }
-myGraph```meta$costs[7,] <- c("coast", 0.25)
-myGraph```meta$costs
+myGraph@meta$costs[7,] <- c("coast", 0.25)
+myGraph@meta$costs
 myGraph <- setCosts(myGraph, attr.name="habitat")
 paths.2 <- dijkstraFrom(hgdp, ori)
 ```
