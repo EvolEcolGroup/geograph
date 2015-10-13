@@ -1,20 +1,20 @@
 \encoding{UTF-8}
-\name{geoGraph-package}
-\alias{geoGraph-package}
-\alias{geoGraph}
+\name{geograph-package}
+\alias{geograph-package}
+\alias{geograph}
 \docType{package}
-\title{The geoGraph package}
+\title{The geograph package}
 
 \description{
   This package implements classes and methods for large-scale
   georeferenced data handled through spatial graphs.\cr
 
   
-  Main functionalities of \code{geoGraph} are summarized below.\cr
+  Main functionalities of \code{geograph} are summarized below.\cr
 
  
    === DATA HANDLING ===\cr
-   In \code{geoGraph}, data are stored as a particular formal class
+   In \code{geograph}, data are stored as a particular formal class
    named \linkS4class{gGraph}. This class contains spatial coordinates
    of a set of nodes (@coords), attributes for these nodes
    (@nodes.attr), meta-information about nodes attributes (@meta), and a
@@ -68,7 +68,7 @@
    
 
    === GRAPHICS ===\cr
-   \code{geoGraph} aims at providing advanced graphical facilities,
+   \code{geograph} aims at providing advanced graphical facilities,
    such as zooming in or out particular area, moving the plotted
    area, or visualizing connectivity between nodes. \cr
    
@@ -97,7 +97,7 @@
 
 
    === DATASETS ===\cr
-   Datasets occupy a central place in \code{geoGraph}, since they
+   Datasets occupy a central place in \code{geograph}, since they
    provide the spatial models used in later operations.
 
    Two main datasets are proposed, each being a \linkS4class{gGraph}
@@ -111,12 +111,12 @@
    - \code{\link{globalcoord.10k}}: spatial coordinates used in \code{\link{worldgraph.10k}}.\cr
    - \code{\link{globalcoord.40k}}: spatial coordinates used in \code{\link{worldgraph.40k}}.\cr
  
-   To cite geoGraph, please use the reference given by
-   \code{citation("geoGraph")}.
+   To cite geograph, please use the reference given by
+   \code{citation("geograph")}.
  }
 \details{
   \tabular{ll}{
-    Package: \tab geoGraph\cr
+    Package: \tab geograph\cr
     Type: \tab Package\cr
     Version: \tab 1.0-0\cr
     Date: \tab 2010-07-01 \cr

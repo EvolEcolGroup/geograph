@@ -12,7 +12,7 @@ geo.add.edges <- function(x, mode=c("points","area","all"), refObj="rawgraph.40k
     nodes <- getNodes(x)
     lon <- coords[,1]
     lat <- coords[,2]
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    env <- get(".geographEnv", envir=.GlobalEnv) # env is our target environnement
 
     ## handle refObj
     if(is.character(refObj) && refObj=="rawgraph.10k"){
@@ -113,7 +113,7 @@ geo.remove.edges <- function(x, mode=c("points","area")) {
     nodeNames <- getNodes(x)
     lon <- coords[,1]
     lat <- coords[,2]
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    env <- get(".geographEnv", envir=.GlobalEnv) # env is our target environnement
     psize <- get("psize", env=env)
     mode <- match.arg(mode)
 
@@ -231,7 +231,7 @@ geo.change.attr <- function(x, mode=c("points","area"), attr.name, attr.value,
     coords <- getCoords(x)
     lon <- coords[,1]
     lat <- coords[,2]
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    env <- get(".geographEnv", envir=.GlobalEnv) # env is our target environnement
     mode <- match.arg(mode)
     if(!attr.name %in% colnames(x@nodes.attr)) stop("specified node attribute name not found")
 

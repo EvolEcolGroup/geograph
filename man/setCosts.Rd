@@ -14,7 +14,7 @@
   edges: the larger the cost associated to an edge, the lower the
   connectivity between the two concerned nodes.\cr
 
-  Also note that 'costs' defined in \code{geoGraph} are equivalent to
+  Also note that 'costs' defined in \code{geograph} are equivalent to
   'weights' as defined in \code{graph} and \code{RBGL} packages.
 }
 \usage{

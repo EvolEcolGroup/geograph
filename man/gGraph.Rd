@@ -159,8 +159,8 @@
   }
 
   Note that other functions not directly related to gGraph objects are
-  of important use in \code{\link{geoGraph}}. See package documentation
-  (\code{?geoGraph}) for a more complete list of implemented functions.
+  of important use in \code{\link{geograph}}. See package documentation
+  (\code{?geograph}) for a more complete list of implemented functions.
 }
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 

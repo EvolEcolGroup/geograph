@@ -123,9 +123,9 @@ geo.segments <- function(x0, y0, x1, y1,
 
 
 #######################
-## installDep.geoGraph
+## installDep.geograph
 #######################
-installDep.geoGraph <- function(){
+installDep.geograph <- function(){
     cat("\nInstalling MASS, sp, maptools, fields from CRAN ... \n")
     install.packages("MASS")
     install.packages("sp")
@@ -141,4 +141,4 @@ installDep.geoGraph <- function(){
     cat("\nInstalling RBGL from Bioconductor\n")
     biocLite("RBGL")
     cat("\n...done.\n")
-} # end checkInstall.geoGraph
+} # end checkInstall.geograph

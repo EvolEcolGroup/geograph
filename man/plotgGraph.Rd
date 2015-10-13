@@ -37,7 +37,7 @@ col.rules=NULL, sticky.edges=FALSE, \dots)
     be of the class \code{SpatialPolygonsDataFrame}
     (see \code{readShapePoly} in maptools package to import such data
     from a GIS shapefile). Alternatively, a character string indicating
-    one shapefile released with geoGraph.}
+    one shapefile released with geograph.}
   \item{psize}{a numeric giving the size of points.}
   \item{pch}{a numeric or a character indicating the type of point.}
   \item{col}{a character string indicating the color to be used.}
@@ -73,8 +73,8 @@ col.rules=NULL, sticky.edges=FALSE, \dots)
 }
 \details{
   To be able to zoom in and out, or slide the window, previous plotting
-  information are stored in a particular environment (.geoGraphEnv),
-  which is created when loading \code{geoGraph}. Users should not have
+  information are stored in a particular environment (.geographEnv),
+  which is created when loading \code{geograph}. Users should not have
   to interact directly with objects in this environment.\cr
 
   The resulting plotting behaviour is that when plotting a \code{gGraph}

@@ -7,13 +7,13 @@ setMethod("plot", signature(x = "gGraph", y="missing"), function(x, y,shape="wor
     ## some checks
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
 
-    ## create the .geoGraphEnv if it does not exist
-    if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-        assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
-        warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
+    ## create the .geographEnv if it does not exist
+    if(!exists(".geographEnv", envir=.GlobalEnv)) {
+        assign(".geographEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
+        warning(".geographEnv was not present, which may indicate a problem in loading geograph.")
     }
 
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    env <- get(".geographEnv", envir=.GlobalEnv) # env is our target environnement
 
     coords <- getCoords(x)
 
@@ -172,13 +172,13 @@ setMethod("points", signature("gGraph"), function(x, psize=NULL, pch=NULL, col=N
     ## some checks
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
 
-    ## create the .geoGraphEnv if it does not exist
-    if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-        assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
-        warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
+    ## create the .geographEnv if it does not exist
+    if(!exists(".geographEnv", envir=.GlobalEnv)) {
+        assign(".geographEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
+        warning(".geographEnv was not present, which may indicate a problem in loading geograph.")
     }
 
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    env <- get(".geographEnv", envir=.GlobalEnv) # env is our target environnement
 
     zoomlog <- get("zoom.log", envir=env)
     zoomlog <- zoomlog[1,]
@@ -296,7 +296,7 @@ plotEdges <- function(x, useCosts=NULL, col="black", lwd=1,
     }
 
     ## get the environment
-    env <- get(".geoGraphEnv", envir=.GlobalEnv)
+    env <- get(".geographEnv", envir=.GlobalEnv)
 
 
     if(exists("last.points", env=env)){
@@ -421,7 +421,7 @@ setMethod("points", signature(x = "gData"), function(x, type=c("nodes","original
     type <- match.arg(type)
 
     ## get the environment
-    env <- get(".geoGraphEnv", envir=.GlobalEnv)
+    env <- get(".geographEnv", envir=.GlobalEnv)
 
     ## subset data to visible area ##
     coords.ori <- getCoords(x)
@@ -499,7 +499,7 @@ setMethod("plot", signature(x="gData", y="missing"), function(x, type=c("nodes",
     type <- match.arg(type)
 
     ## get the environment
-    env <- get(".geoGraphEnv", envir=.GlobalEnv)
+    env <- get(".geographEnv", envir=.GlobalEnv)
 
     if(!exists(x@gGraph.name, env=.GlobalEnv)){ # if the gGraph is missing, stop
             stop(paste("The gGraph object",x@gGraph.name,"is missing."))

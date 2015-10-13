@@ -34,7 +34,7 @@ extractFromLayer(x, \dots)
   \item{layer}{a shapefile of the class \code{SpatialPolygonsDataFrame}
     (see \code{readShapePoly} in maptools package to import such data
     from a GIS shapefile). Alternatively, a character string indicating
-    one shapefile released with geoGraph; currently, only 'world' is
+    one shapefile released with geograph; currently, only 'world' is
     available (see \code{?data(worldshape)}).}
   \item{attr}{a character vector giving names of the variables to
     be extracted from the layer. If 'all', all available variables are

@@ -26,7 +26,7 @@ makeGrid <- function(size=NULL, n.lon=NULL, n.lat=NULL, lon.range=NULL, lat.rang
 
     ## GET LON/LAT FROM ZOOM LOG ##
     ## get zoom log info
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    geoEnv <- get(".geographEnv", envir=.GlobalEnv)
     zoomLog <- get("zoom.log", env=geoEnv)
     if(nrow(zoomLog)<1) {
         curZoom <- c(-180,180,-90,90)

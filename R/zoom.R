@@ -4,7 +4,7 @@
 .zoomlog.up <- function(vec){ # vec is xmin, xmax, ymin, ymax
     if(!is.vector(vec) || length(vec)!=4 || !is.numeric(vec)) stop("Updating zoomlog using a wrong value.")
 
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    geoEnv <- get(".geographEnv", envir=.GlobalEnv)
     oldZoomLog <- get("zoom.log", env=geoEnv)
     newZoomLog <- rbind(vec, oldZoomLog)
     colnames(newZoomLog) <- colnames(oldZoomLog)
@@ -37,7 +37,7 @@ geo.zoomin <- function(reg=NULL){ # reg should be a list as returned by locator(
     }
 
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    geoEnv <- get(".geographEnv", envir=.GlobalEnv)
 
     ## get last plot
     last.plot.call <- get("last.plot", envir=geoEnv)
@@ -116,7 +116,7 @@ geo.zoomin <- function(reg=NULL){ # reg should be a list as returned by locator(
 ###############
 geo.zoomout <- function(){
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    geoEnv <- get(".geographEnv", envir=.GlobalEnv)
 
     ## loop ##
     while(!is.null(locator(1))){
@@ -185,7 +185,7 @@ geo.zoomout <- function(){
 ############
 geo.back <- function(){
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    geoEnv <- get(".geographEnv", envir=.GlobalEnv)
 
     ## loop ##
     while(!is.null(locator(1))){
@@ -222,7 +222,7 @@ geo.back <- function(){
 #############
 geo.slide <- function(){
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    geoEnv <- get(".geographEnv", envir=.GlobalEnv)
 
     ## loop ##
     while(!is.null(spoint <- locator(1))){
@@ -263,7 +263,7 @@ geo.slide <- function(){
 ############
 geo.bookmark <- function(name=NULL){
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    geoEnv <- get(".geographEnv", envir=.GlobalEnv)
 
     if(is.null(name)){
         cat("\nAvailable bookmarks:\n")
@@ -301,7 +301,7 @@ geo.bookmark <- function(name=NULL){
 ############
 geo.goto <- function(name){
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    geoEnv <- get(".geographEnv", envir=.GlobalEnv)
 
     ## get next zoom coords
     bookmarks <- get("bookmarks", env=geoEnv)

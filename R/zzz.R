@@ -4,13 +4,13 @@
     ## library.dynam("adegenet", pkg, lib)
 
     cat("\n\t========================\n")
-    cat("\tgeoGraph 1.0-0 is loaded")
+    cat("\tgeograph 1.0-0 is loaded")
     cat("\n\t========================\n")
 
     ## define various items in our specific environment
     ## doesn't work when R CMD checking...
-    ## assign(".geoGraphEnv", new.env(parent=.GlobalEnv), env=.GlobalEnv)
-    ## geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    ## assign(".geographEnv", new.env(parent=.GlobalEnv), env=.GlobalEnv)
+    ## geoEnv <- get(".geographEnv", envir=.GlobalEnv)
 
     ## zoom.log <- matrix(c(-180,180,-90,90),ncol=4)
     ## colnames(zoom.log) <- c("x1","x2","y1","y2")
@@ -29,7 +29,7 @@
 ## R CMD checking...
 
 ## new environment
-.geoGraphEnv <- new.env(parent=.GlobalEnv)
+.geographEnv <- new.env(parent=.GlobalEnv)
 
 ## temporary variables
 zoom.log <- matrix(c(-180,180,-90,90),ncol=4)
@@ -40,11 +40,11 @@ colnames(bookmarks) <- c("x1","x2","y1","y2")
 
 
 ## some assignements
-assign("zoom.log", zoom.log, env=.geoGraphEnv)
-assign("psize", 0.5, env=.geoGraphEnv)
-assign("last.plot.param", temp, env=.geoGraphEnv)
-assign("sticky.points", FALSE, env=.geoGraphEnv)
-assign("bookmarks", bookmarks, env=.geoGraphEnv)
+assign("zoom.log", zoom.log, env=.geographEnv)
+assign("psize", 0.5, env=.geographEnv)
+assign("last.plot.param", temp, env=.geographEnv)
+assign("sticky.points", FALSE, env=.geographEnv)
+assign("bookmarks", bookmarks, env=.geographEnv)
 
 ## remove temp variables
 rm(zoom.log)
