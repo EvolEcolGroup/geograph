@@ -23,7 +23,6 @@
 \begin{document}
 
 
-
 \definecolor{Soutput}{rgb}{0,0,0.56}
 \definecolor{Sinput}{rgb}{0.56,0,0}
 \DefineVerbatimEnvironment{Sinput}{Verbatim}
@@ -44,7 +43,7 @@
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
 
-\SweaveOpts{prefix.string = figs/geoGraph, fig = FALSE, eps = FALSE, pdf = TRUE, width = 6, height = 6}
+\SweaveOpts{prefix.string = figs/geoGraph, fig = FALSE, eps = FALSE, pdf = TRUE, width = 6, height =6}
 
 
 This document describes the \code{geoGraph} package for the R software.
@@ -108,8 +107,8 @@ In all cases, the latest version of \code{geoGraph} can be found from \url{https
 
 When loading the package, dependencies are also loaded:
 <<load>>=
-library(graph, RBGL, sp, maptools, MASS, fields)
-library(geoGraph)
+library("maptools")
+library("geoGraph")
 search()
 @
 

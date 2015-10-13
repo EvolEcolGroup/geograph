@@ -17,7 +17,7 @@
 \usage{
 buffer(x, \dots)
 
-\S4method{buffer}{gGraph}(x, d, res.type = c("nodes", "gData", "gGraph"), \ldots)
+\S4method{buffer}{gGraph}(x, d, res.type = c("nodes", "gGraph"), \ldots)
 
 \S4method{buffer}{gData}(x, d, res.type = c("nodes", "gData", "gGraph"), \ldots)
 }

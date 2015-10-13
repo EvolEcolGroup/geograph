@@ -1,7 +1,7 @@
 Package: geoGraph
 Version: 1.0-0
 Date: 2015/09/13
-Title: Walking through the geographic space using graphs.
+Title: walking through the geographic space using graphs
 Author: Thibaut Jombart
 Maintainer: Thibaut Jombart <t.jombart@imperial.ac.uk>
 Suggests: testthat
