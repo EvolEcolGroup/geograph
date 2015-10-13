@@ -39,7 +39,7 @@ costs path from one location to another, or find the most parsimonious way of co
 Interfacing spatial data and graphs can be a complicated task.
 The purpose of *geoGraph* is to provide tools to achieve and simplify this 'preliminary' step.
 This is achieved by defining new classes of objects which are essentially geo-referenced graphs
-with node attributes (*gGraph* objects), and interfaced spatial data (*gData* objects).
+with node attributes (`gGraph` objects), and interfaced spatial data (`gData` objects).
 In this vignette, we show how to install *geoGraph*, construct and handle
 *gGraph*/*gData* objects, and illustrate some basic features of graph algorithms.
 
@@ -89,13 +89,13 @@ library("geoGraph")
 ## Data representation
 
 Data representation refers to the way a given type of data is handled by a computer program.
-Two types of objects are used in *geoGraph*: *gGraph*, and *gData* objects.
+Two types of objects are used in *geoGraph*: `gGraph`, and `gData` objects.
 Both objects are defined as formal (S4) classes and often have methods for similar generic function
 (\textit{e.g.}, getNodes is defined for both objects).
-Essentially, *gGraph* objects contain underlying layers of informations, including a spatial
+Essentially, `gGraph` objects contain underlying layers of informations, including a spatial
 grid and possibly node attributes, and covering the area of interest.
-*gData* are sets of locations -- like sampled sites, for instance -- which have been interfaced
-to a *gGraph* object, to allow further manipulations such as finding paths on the grid between
+`gData` are sets of locations -- like sampled sites, for instance -- which have been interfaced
+to a `gGraph` object, to allow further manipulations such as finding paths on the grid between
 pairs of locations.
 
 
@@ -104,7 +104,7 @@ pairs of locations.
 
 ### gGraph objects
 
-The definition of the formal class *gGraph* can be obtained using:
+The definition of the formal class `gGraph` can be obtained using:
 ```{r }
 getClass("gGraph")
 ```
@@ -121,10 +121,10 @@ nodes, and additional informations on the nodes or on the graph itself.
 row corresponds to a node of the grid, while each column corresponds to a variable.
 `meta` is a list containing miscellanous informations about the graph itself.
 There is no contraint applying to the components of the list, but some typical components such as
-`\$costs` or `\$colors` will be recognised by certain functions.
+`$costs` or `$colors` will be recognised by certain functions.
 For instance, you can specify plotting rules for representing a given node attribute by a given
-color by defining a component `\$colors`.
-Similarly, you can associate costs to a given node attribute by defining a component `\$costs`.
+color by defining a component `$colors`.
+Similarly, you can associate costs to a given node attribute by defining a component `$costs`.
 An example of this can be found in already existing `gGraph` objects.
 For instance, `worldgraph.10k` is a graph of the world with approximately 10,000 nodes, and
 only on-land connectivity (\textit{i.e.` no travelling on the seas).
@@ -259,7 +259,7 @@ worldgraph.10k
 plot(worldgraph.10k)
 ```
 
-\noindent (we could use `worldgraph.40k` for a better resolution).
+ (we could use `worldgraph.40k` for a better resolution).
 In this figure, each node is represented with a color depending on the habitat type, either 'sea'
 (blue) or 'land' (green).
 We are going to interface the cities data with this grid; to do so, we create a `gData` object using
@@ -271,7 +271,7 @@ plot(cities, type="both", reset=TRUE)
 plotEdges(worldgraph.10k)
 ```
 
-\noindent This figure illustrates the matching of original locations (black crosses) to nodes of the grid
+ This figure illustrates the matching of original locations (black crosses) to nodes of the grid
 (red circles).
 As we can see, an issue occured for Bordeaux, which has been assigned to a node in the sea (in blue).
 Locations can be re-assigned to nodes with restrictions for some node attribute values using
@@ -283,7 +283,7 @@ plot(cities, type="both", reset=TRUE)
 plotEdges(worldgraph.10k)
 ```
 
-\noindent Now, all cities have been assigned to a `land' node of the grid (again, better accuracy will be
+ Now, all cities have been assigned to a `land' node of the grid (again, better accuracy will be
 gained on 40k or finer grids - we use 10k for illustrative purposes only).
 Content of `cities` can be accessed via various accessors (see `?gData`).
 For instance, we can retrieve original locations, assigned nodes, and stored data using:
@@ -332,7 +332,7 @@ By default, plotting a `gGraph` displays the grid of nodes overlaying a shapefil
 the landmasses).
 Edges can be plotted at the same time (argument `edges`), or added afterwards using `plotEdges`.
 If the `gGraph` object possesses an adequately formed `meta$colors` component, the
-colors of the nodes are chosen according to the node attributes and the color scheme specified in `meta\$colors`.
+colors of the nodes are chosen according to the node attributes and the color scheme specified in `meta$colors`.
 Alternatively, the color of the nodes can be specified via the `col` argument in `plot`/`points`.
 
 Here is an example using `worldgraph.10k`:
@@ -344,7 +344,7 @@ plot(worldgraph.10k, reset=TRUE)
 title("Default plotting of worldgraph.10k")
 ```
 
-\noindent It may be worth noting that plotting `gGraph` objects involves plotting a fairly
+ It may be worth noting that plotting `gGraph` objects involves plotting a fairly
 large number of points and edges.
 On some graphical devices, the resulting plotting can be slow.
 For instance, one may want to disable `cairo` under linux: this graphical device yields better
@@ -383,13 +383,13 @@ geo.zoomin()
 ```
 \includegraphics{figs/zoomin.png}
 
-\noindent Zooming out:
+ Zooming out:
 ```{r eval=FALSE}
 geo.zoomout()
 ```
 \includegraphics{figs/zoomout.png}
 
-\noindent Sliding to the east:
+ Sliding to the east:
 ```{r eval=FALSE}
 geo.slide()
 ```
@@ -426,7 +426,7 @@ plot(cities, reset=TRUE)
 text(getCoords(cities), rownames(getData(cities)))
 ```
 
-\noindent Note the argument `reset=TRUE`, which tells the plotting function to adapt the
+ Note the argument `reset=TRUE`, which tells the plotting function to adapt the
 plotting area to the geographic extent of the dataset.
 
 
@@ -482,7 +482,7 @@ geo.zoomin(c(35,54,-26,-10))
 plotEdges(rawgraph.10k)
 ```
 
-\noindent We shall set a bookmark for this area, in case we would want to get back to this place
+ We shall set a bookmark for this area, in case we would want to get back to this place
 later on:
 ```{r }
 geo.bookmark("madagascar")
@@ -553,7 +553,7 @@ load("Robjects/newGraph.RData")
 ```
 \includegraphics{figs/georemove.png}
 
-\noindent When adding connections within an area or in an entire graph, node addition is based on
+ When adding connections within an area or in an entire graph, node addition is based on
 another `gGraph`, \textit{i.e.} only connections existing in another `gGraph` serving as
 reference can be added to the current `gGraph`.
 For graphs based on 10k or 40k grids, the raw graphs provided in `geoGraph` should be used,
@@ -625,7 +625,7 @@ tail(colMat)
 plot(newGraph, col.rules=colMat, reset=TRUE)
 ```
 
-\noindent This information could in turn be used to define costs for travelling on the grid.
+ This information could in turn be used to define costs for travelling on the grid.
 For instance, one could import habitat descriptors from a GIS, use these values to formulate a
 habitat model, and derive costs for dispersal on the grid.
 
@@ -665,7 +665,7 @@ hgdp
 plot(hgdp, reset=TRUE)
 ```
 
-\noindent Populations of the dataset are shown by red circles, while the underlying grid
+ Populations of the dataset are shown by red circles, while the underlying grid
 (`worldgraph.40k`) is represented with colors depending on habitat (blue: sea; green: land;
 pink: coasts).
 Population genetics predicts that genetic diversity within populations should decay as populations are
@@ -720,7 +720,7 @@ text(addis[1]+35, addis[2], "Addis abeba", cex=.8, font=2)
 points(hgdp, col.node="black")
 ```
 
-\noindent In this graph, each path is plotted with a different color, but several paths overlap in several places.
+In this graph, each path is plotted with a different color, but several paths overlap in several places.
 We can extract the distances from the `origin' using `gPath2dist`, and then examine the
 relationship between genetic diversity within populations (stored in `hgdp`) and the distance from the origin:
 ```{r fig=TRUE}
