@@ -8,7 +8,7 @@ importFrom("grDevices", "rainbow")
 importFrom("graphics", "arrows", "identify", "locator", "par",
            "segments")
 importFrom("stats", "dist")
-importFrom("utils", "data", "head", "install.packages")
+importFrom("utils", "data", "head", "install.packages", "packageDescription")
 
 
 ## Import all packages listed as Imports or Depends
