@@ -1,10 +1,10 @@
-Package: geoGraph
+Package: geograph
 Version: 1.0-0
-Date: 2010/07/01
-Title: geoGraph: implementing geographic graphs for large-scale spatial modelling.
-Author: Thibaut Jombart, Francois Balloux and Andrea Manica
-Maintainer: Thibaut Jombart <tjombart@imperial.ac.uk>
-Suggests: 
+Date: 2015/09/13
+Title: Walking through the geographic space using graphs.
+Author: Thibaut Jombart
+Maintainer: Thibaut Jombart <t.jombart@imperial.ac.uk>
+Suggests: testthat
 Depends: methods, graph, RBGL, sp, maptools, MASS, fields
 Description: .
 License: GPL (>=2)
