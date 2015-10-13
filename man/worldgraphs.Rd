@@ -56,7 +56,6 @@ data(worldshape)
 }
 \examples{
 
-data(worldgraph.10k)
 worldgraph.10k
 
 ## plotting the object

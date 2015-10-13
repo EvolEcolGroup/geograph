@@ -66,7 +66,6 @@
 }
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
-data(worldgraph.10k)
 
 myLoc <- list(x=c(3, -8, 11, 28), y=c(50, 57, 71, 67)) # some locations
 obj <- new("gData", coords=myLoc) # new gData object

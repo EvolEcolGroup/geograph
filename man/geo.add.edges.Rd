@@ -41,7 +41,6 @@ geo.remove.edges(x, mode=c("points","area"))
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
 \dontrun{
-data(worldgraph.10k)
 plot(worldgraph.10k, reset=TRUE)
 
 ## zooming in

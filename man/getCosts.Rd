@@ -53,8 +53,6 @@ getNodeCosts(x, \dots)
 }
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
-data(worldgraph.10k)
-
 head(getEdges(worldgraph.10k, res.type="matNames",unique=TRUE))
 head(getCosts(worldgraph.10k,res.type="vector",unique=TRUE))
 

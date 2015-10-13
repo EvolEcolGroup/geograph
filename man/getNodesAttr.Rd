@@ -36,12 +36,10 @@ getNodesAttr(x, \dots)
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
 ## gGraph method
-data(worldgraph.40k)
 head(getNodesAttr(worldgraph.40k))
 
 
 ## gData method
-data(hgdp)
 getNodesAttr(hgdp)
 
 }

@@ -50,7 +50,6 @@ geo.change.attr(x, mode=c("points","area"), attr.name, attr.value,
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
 \dontrun{
-data(worldgraph.10k)
 plot(worldgraph.10k, reset=TRUE)
 
 ## have to click here for an area

@@ -62,8 +62,6 @@ extractFromLayer(x, \dots)
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
 \dontrun{
-data(worldgraph.10k)
-data(worldshape)
 
 plot(worldgraph.10k, reset=TRUE)
 

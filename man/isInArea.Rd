@@ -51,7 +51,6 @@ isInArea(x, \dots)
 }
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
-data(worldgraph.10k)
 plot(worldgraph.10k, reset=TRUE)
 
 ## zooming in

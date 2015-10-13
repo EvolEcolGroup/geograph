@@ -41,9 +41,6 @@ getColors(x, \dots)
 }
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
-## 
-data(worldgraph.10k)
-
 worldgraph.10k # there is a node attribute 'habitat'
 worldgraph.10k@meta$color
 

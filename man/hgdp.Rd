@@ -34,9 +34,7 @@ data(hgdpPlus)
  Authors \emph{Journal}, YEAR, \bold{nb}: pp-pp.
 }
 \examples{
-
-data(hgdp)
-data(worldgraph.40k)
+## check object
 hgdp
 
 ## plotting the object

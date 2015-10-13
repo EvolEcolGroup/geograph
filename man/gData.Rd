@@ -120,9 +120,6 @@
   -  \code{\linkS4class{gGraph}}\cr
 }
 \examples{
-## load data
-data(worldgraph.40k)
-data(hgdp)
 hgdp
 
 ## plot data

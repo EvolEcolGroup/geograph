@@ -49,7 +49,6 @@ findLand(x, \dots)
 }
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
-data(worldshape)
 
 ## create a new gGraph with random coordinates
 myCoords <- data.frame(long=runif(1000,-180,180), lat=runif(1000,-90,90))

@@ -18,9 +18,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer="world", attr="all",..
 
     ## Load default shapefile ##
     if(is.character(layer) && layer[1]=="world"){
-        if(!require(sp)) stop("sp package needed to map the world")
-        data(worldshape)
-        layer <- worldshape
+         layer <- worldshape
     }
 
     if(!is.null(layer)){

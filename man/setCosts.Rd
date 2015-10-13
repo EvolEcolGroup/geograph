@@ -44,7 +44,6 @@ setCosts(x, attr.name=NULL, node.costs=NULL, method=c("mean", "product"))
 }
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
-data(rawgraph.10k)
 plot(rawgraph.10k, reset=TRUE)
 
 ## zooming in

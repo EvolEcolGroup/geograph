@@ -17,7 +17,7 @@
 \usage{
 buffer(x, \dots)
 
-\S4method{buffer}{gGraph}(x, d, res.type = c("nodes", "gGraph"), \ldots)
+\S4method{buffer}{gGraph}(x, nodes, d, res.type = c("nodes", "gGraph"), \ldots)
 
 \S4method{buffer}{gData}(x, d, res.type = c("nodes", "gData", "gGraph"), \ldots)
 }
@@ -45,7 +45,6 @@ buffer(x, \dots)
 \examples{
 #### gGraph example ####
 ## zoom in to an area
-data(worldgraph.10k)
 plot(worldgraph.10k, reset=TRUE)
 geo.zoomin(list(x=c(-6,38), y=c(35,73)))
 
@@ -63,8 +62,6 @@ plot(buf1000km, col.rules=buf1000km@meta$buf.colors)
 
 
 #### gData example ####
-data(hgdp)
-data(worldgraph.40k)
 x <- hgdp[27:30] # retain a subset of hgdp 
 plot(x, reset=TRUE, col.g="lightgrey", pch.node=20)
 buf.200 <- buffer(x, 200, res="gData")

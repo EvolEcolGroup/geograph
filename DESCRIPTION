@@ -10,4 +10,5 @@ Imports: maptools, MASS, fields
 Description: .
 License: GPL (>=2)
 LazyLoad: yes
+LazyData: TRUE
 Collate: classes.R basicMethods.R accessors.R auxil.R connectivity.R dropDead.R closestNode.R isInArea.R rebuild.R plot.R zoom.R findLand.R extractFromLayer.R interact.R setCosts.R dijkstra.R setDistCosts.R makeGrid.R buffer.R zzz.R

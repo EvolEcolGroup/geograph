@@ -16,10 +16,8 @@ geo.add.edges <- function(x, mode=c("points","area","all"), refObj="rawgraph.40k
 
     ## handle refObj
     if(is.character(refObj) && refObj=="rawgraph.10k"){
-        data(rawgraph.10k)
         refObj <- rawgraph.10k
     } else if(is.character(refObj) && refObj=="rawgraph.40k"){
-        data(rawgraph.40k)
         refObj <- rawgraph.40k
     } else if(!is.gGraph(refObj)){
         stop("refObj is not a valid gGraph object.")
@@ -217,10 +215,8 @@ geo.change.attr <- function(x, mode=c("points","area"), attr.name, attr.value,
     ## handle refObj ##
     if(restore.edges){
         if(is.character(refObj) && refObj=="rawgraph.10k"){
-            data(rawgraph.10k)
             refObj <- rawgraph.10k
         } else if(is.character(refObj) && refObj=="rawgraph.40k"){
-            data(rawgraph.40k)
             refObj <- rawgraph.40k
         } else if(!is.gGraph(refObj)){
             stop("refObj is not a valid gGraph object.")

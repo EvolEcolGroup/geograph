@@ -90,7 +90,6 @@ col.rules=NULL, sticky.edges=FALSE, \dots)
 }
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
-data(worldgraph.10k)
 
 ## just the background
 plot(worldgraph.10k,reset=TRUE,type="n")

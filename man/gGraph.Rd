@@ -178,7 +178,6 @@ new("gGraph")
 
 
 ## plotting the object
-data(rawgraph.10k)
 plot(rawgraph.10k, reset=TRUE)
 
 ## zooming in

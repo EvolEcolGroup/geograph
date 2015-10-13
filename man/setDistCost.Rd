@@ -39,7 +39,6 @@ setDistCosts(x, \dots)
 \examples{
 if(require(fields)){
 ## load data
-data(rawgraph.10k)
 plot(rawgraph.10k,reset=TRUE)
 geo.zoomin(list(x=c(110,150),y=c(-10,-40)))
 plotEdges(rawgraph.10k)

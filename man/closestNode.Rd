@@ -61,7 +61,6 @@ closestNode(x, \dots)
 \examples{
 \dontrun{
 ## interactive example ##
-data(worldgraph.10k)
 plot(worldgraph.10k, reset=TRUE)
 
 ## zooming in
@@ -77,8 +76,6 @@ points(getCoords(worldgraph.10k)[myNodes,], col="red")
 }
 
 ## example with a gData object ##
-data(worldgraph.10k)
-
 myLoc <- list(x=c(3, -8, 11, 28), y=c(50, 57, 71, 67)) # some locations
 obj <- new("gData", coords=myLoc) # new gData object
 obj

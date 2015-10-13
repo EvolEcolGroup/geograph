@@ -20,8 +20,6 @@ setMethod("findLand", "matrix", function(x, shape="world", ...) {
 
     ## Load country shapefile
     if(is.character(shape) && shape[1]=="world"){
-        if(!require(sp)) stop("sp package needed to map the world")
-        data(worldshape)
         shape <- worldshape
     }
 

@@ -28,7 +28,6 @@ makeGrid(size=NULL, n.lon=NULL, n.lat=NULL, lon.range=NULL, lat.range=NULL)
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
 ## zoom in to a smaller area
-data(worldgraph.10k)
 plot(worldgraph.10k)
 geo.zoomin(c(-10,0, 50,54))
 

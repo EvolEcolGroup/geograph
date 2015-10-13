@@ -94,9 +94,6 @@ setMethod("buffer", "gGraph", function(x, nodes, d, res.type=c("nodes", "gGraph"
 setMethod("buffer", "gData", function(x, d, res.type=c("nodes", "gData", "gGraph"), ...){
     ## CHECKS ##
     res.type <- match.arg(res.type)
-    if(x@gGraph.name %in% c("rawgraph.10k","rawgraph.40k","worldgraph.10k","worldgraph.40k")){
-        data(list=x@gGraph.name)
-    }
     if(!is.gData(x)) stop("x is not a valid gData object")
 
 

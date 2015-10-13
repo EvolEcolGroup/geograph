@@ -130,7 +130,6 @@
 }
 \examples{
 ## the class gGraph
-data(worldgraph.10k)
 worldgraph.10k
 
 ## plotting the object

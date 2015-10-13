@@ -40,7 +40,6 @@ geo.segments(x0, y0, x1, y1, col = par("fg"), lty = par("lty"),
 }
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
-data(worldgraph.10k)
 hasCosts(worldgraph.10k)
 }
 \keyword{utilities}

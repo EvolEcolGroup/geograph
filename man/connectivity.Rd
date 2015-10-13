@@ -77,8 +77,6 @@ isReachable(x, loc)
 }
 \author{Thibaut Jombart (\email{t.jombart@imperial.ac.uk})}
 \examples{
-data(rawgraph.10k)
-data(worldgraph.10k)
 connectivityPlot(rawgraph.10k)
 connectivityPlot(worldgraph.10k)
 }
