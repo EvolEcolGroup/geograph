@@ -3,11 +3,11 @@
 \alias{hasCosts}
 \alias{rebuild}
 \alias{geo.segments}
-\title{Auxiliary methods for geograph}
+\title{Auxiliary methods for geoGraph}
 \description{
   These methods are low-level functions called by other procedures of
-  \code{geograph}. Some can, however, be useful in themselves. Note that
-  unlike other functions in \code{geograph}, these functions do not
+  \code{geoGraph}. Some can, however, be useful in themselves. Note that
+  unlike other functions in \code{geoGraph}, these functions do not
   generally test for the validity of the provided arguments (for speed
   purposes).\cr
 

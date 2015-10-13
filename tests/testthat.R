@@ -1,4 +1,4 @@
 library(testthat)
-library(geograph)
+library(geoGraph)
 
-test_check("geograph")
+test_check("geoGraph")

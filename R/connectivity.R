@@ -164,13 +164,13 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed=NULL){
     ## some checks ##
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
 
-    ## create the .geographEnv if it does not exist
-    if(!exists(".geographEnv", envir=.GlobalEnv)) {
-        assign(".geographEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
-        warning(".geographEnv was not present, which may indicate a problem in loading geograph.")
+    ## create the .geoGraphEnv if it does not exist
+    if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
+        assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
+        warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
     }
 
-    env <- get(".geographEnv", envir=.GlobalEnv) # env is our target environnement
+    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
 
     ## get connected sets ##
@@ -239,7 +239,7 @@ setMethod("connectivityPlot", "gData", function(x, col.gGraph=0, ...,seed=NULL){
     ## some checks ##
     if(!is.gData(x)) stop("x is not a valid gData object")
 
-    env <- get(".geographEnv", envir=.GlobalEnv) # env is our target environnement
+    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
     ## get connected sets ##
     connected.sets <- connectedComp(getGraph(x))

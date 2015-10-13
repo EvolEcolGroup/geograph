@@ -28,7 +28,7 @@ findLand(x, \dots)
   \item{shape}{a shapefile of the class \code{SpatialPolygonsDataFrame}
     (see \code{readShapePoly} in maptools package to import such data
     from a GIS shapefile). Alternatively, a character string indicating
-    one shapefile released with geograph; currently, only 'world' is
+    one shapefile released with geoGraph; currently, only 'world' is
     available (see \code{?data(worldshape)}).}
   \item{\dots}{further arguments to be passed to other
     methods. Currently not used.}

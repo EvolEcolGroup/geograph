@@ -1,6 +1,6 @@
 \documentclass{article}
-% \VignettePackage{geograph}
-% \VignetteIndexEntry{geograph: exploratory analyses for the phylogenetic comparative method}
+% \VignettePackage{geoGraph}
+% \VignetteIndexEntry{geoGraph: exploratory analyses for the phylogenetic comparative method}
 
 \usepackage{graphicx}
 \usepackage[colorlinks=true,urlcolor=blue]{hyperref}
@@ -9,7 +9,7 @@
 
 \usepackage[utf8]{inputenc} % for UTF-8/single quotes from sQuote()
 \newcommand{\code}[1]{{{\tt #1}}}
-\title{\code{geograph}: implementing geographic graphs for large-scale spatial modelling}
+\title{\code{geoGraph}: implementing geographic graphs for large-scale spatial modelling}
 \author{Thibaut Jombart, Fran\c{c}ois Balloux, Andrea Manica}
 \date{\today}
 
@@ -44,12 +44,12 @@
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
 
-\SweaveOpts{prefix.string = figs/geograph, fig = FALSE, eps = FALSE, pdf = TRUE, width = 6, height = 6}
+\SweaveOpts{prefix.string = figs/geoGraph, fig = FALSE, eps = FALSE, pdf = TRUE, width = 6, height = 6}
 
 
-This document describes the \code{geograph} package for the R software.
-\code{geograph} aims at implementing graph approaches for geographic data.
-In \code{geograph}, a given geographic area is modelled by a fine regular grid, where each vertice
+This document describes the \code{geoGraph} package for the R software.
+\code{geoGraph} aims at implementing graph approaches for geographic data.
+In \code{geoGraph}, a given geographic area is modelled by a fine regular grid, where each vertice
 has a set of spatial coordinates and a set of attributes, which can be for instance habitat
 descriptors, or the presence/abundance of a given species.
 'Travelling' within the geographic area can then be easily modelled as moving between connected vertices.
@@ -57,7 +57,7 @@ The cost of moving from one vertex to another can be defined according to attrib
 allows for instance to define \emph{friction routes} based on habitat.
 \\
 
-\code{geograph} harnesses the full power of graph algorithms implemented in R by the \code{graph}
+\code{geoGraph} harnesses the full power of graph algorithms implemented in R by the \code{graph}
 and \code{RBGL} (R Boost Graph Library) packages.
 In particular, RBGL is an interface between R and the comprehensive \emph{Boost Graph Library} in C++,
 which provides fast and efficient implementations of a wide range of graph algorithms.
@@ -67,10 +67,10 @@ costs path from one location to another, or find the most parsimonious way of co
 
 %Once all data are set, calling upon RBGL routines is generally straightforward.
 Interfacing spatial data and graphs can be a complicated task.
-The purpose of \code{geograph} is to provide tools to achieve and simplify this 'preliminary' step.
+The purpose of \code{geoGraph} is to provide tools to achieve and simplify this 'preliminary' step.
 This is achieved by defining new classes of objects which are essentially geo-referenced graphs
 with node attributes (\code{gGraph} objects), and interfaced spatial data (\code{gData} objects).
-In this vignette, we show how to install \code{geograph}, construct and handle
+In this vignette, we show how to install \code{geoGraph}, construct and handle
 \code{gGraph}/\code{gData} objects, and illustrate some basic features of graph algorithms.
 
 
@@ -92,23 +92,23 @@ In this vignette, we show how to install \code{geograph}, construct and handle
 
 What is tricky here is that a vignette is basically available once the package
 is installed.  Assuming you got this document before installing the package, here are some clues
-about installing \code{geograph}.  \\
+about installing \code{geoGraph}.  \\
 
-First of all, \code{geograph} depends on several other packages, including, \code{graph} and
+First of all, \code{geoGraph} depends on several other packages, including, \code{graph} and
 \code{RBGL}, both on Bioconductor (\url{http://www.bioconductor.org/}).
 These dependencies are mandatory, that is, you actually need to
-have these packages installed before using \code{geograph}.
+have these packages installed before using \code{geoGraph}.
 Also, it is better to make sure you are using the latest versions of these packages.
 \code{graph} and \code{RBGL} are no longer released on CRAN, although some outdated versions still
 persist there.
-To make sure you are using the right package versions, use the command \code{installDep.geograph()} while
+To make sure you are using the right package versions, use the command \code{installDep.geoGraph()} while
 connected on the internet.
 Do NOT use \code{install.packages}, or related functionalities from the interactive menus.
-In all cases, the latest version of \code{geograph} can be found from \url{https://r-forge.r-project.org/projects/geograph/}.  \\
+In all cases, the latest version of \code{geoGraph} can be found from \url{https://r-forge.r-project.org/projects/geoGraph/}.  \\
 
 When loading the package, dependencies are also loaded:
 <<load>>=
-library(geograph)
+library(geoGraph)
 search()
 @
 
@@ -121,7 +121,7 @@ search()
 \subsection{Data representation}
 %%%%%%%%%%%%%%%%%%%%%
 Data representation refers to the way a given type of data is handled by a computer program.
-Two types of objects are used in \code{geograph}: \code{gGraph}, and \code{gData} objects.
+Two types of objects are used in \code{geoGraph}: \code{gGraph}, and \code{gData} objects.
 Both objects are defined as formal (S4) classes and often have methods for similar generic function
 (\textit{e.g.}, getNodes is defined for both objects).
 Essentially, \code{gGraph} objects contain underlying layers of informations, including a spatial
@@ -171,7 +171,7 @@ This object contains all information on the connections between nodes, and the w
 these connections.
 \\
 
-Four main \code{gGraph} are provided with \code{geograph}: \code{rawgraph.10k}, \code{rawgraph.40k},
+Four main \code{gGraph} are provided with \code{geoGraph}: \code{rawgraph.10k}, \code{rawgraph.40k},
 \code{worldgraph.10k}, and \code{worldgraph.40k}.
 These datasets are available using the command \code{data}.
 The grid used in these datasets are the best geometric approximation of a regular grid for the surface of a sphere.
@@ -233,25 +233,25 @@ of locations.
 
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
-\section{Using \code{geograph}}
+\section{Using \code{geoGraph}}
 %%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%
 An overview of the material implemented in the package is summarized the package's manpage, accessible
 via:
 <<eval=FALSE>>=
-?geograph
+?geoGraph
 @
 The html version of this manpage may be preferred to browse more easily the content
-of \code{geograph}; it is accessible by typing:
+of \code{geoGraph}; it is accessible by typing:
 <<eval=FALSE>>=
-help("geograph", package="geograph", html=TRUE)
+help("geoGraph", package="geoGraph", html=TRUE)
 @
 To revert help back to text mode, simply type:
 <<eval=FALSE>>=
 options(htmlhelp = FALSE)
 @
 
-In the following, we go through various tasks that can be achieve using \code{geograph}.
+In the following, we go through various tasks that can be achieve using \code{geoGraph}.
 
 
 
@@ -262,10 +262,10 @@ In the following, we go through various tasks that can be achieve using \code{ge
 %%%%%%%%%%%%%%%%%%%%%
 \subsection{Importing geographic data}
 %%%%%%%%%%%%%%%%%%%%%
-Geographic data consist of a set of locations, possibly accompanied by additional information.
+GeoGraphic data consist of a set of locations, possibly accompanied by additional information.
 For instance, one may want to study the migrations amongst a set of biological populations with known
 geographic coordinates.
-In \code{geograph}, geographic data are stored in \code{gData} objects.
+In \code{geoGraph}, geographic data are stored in \code{gData} objects.
 These objects match locations to the closest nodes on a grid (a \code{gGraph} object), and store
 additional data if needed.
 \\
@@ -350,7 +350,7 @@ However, more complex habitat information could be incorporated, for instance fr
 \subsection{Visualizing data}
 %%%%%%%%%%%%%%%%
 An essential aspect of spatial analysis lies in visualizing the data.
-In \code{geograph}, the spatial grids (\code{gGraph}) and spatial data (\code{gData}) can be plotted
+In \code{geoGraph}, the spatial grids (\code{gGraph}) and spatial data (\code{gData}) can be plotted
 and browsed using a variety of functions.
 
 
@@ -432,17 +432,17 @@ geo.slide()
 
 
 One important thing which makes plotting \code{gGraph} objects different from most other plotting in
-R is that \code{geograph} keeps the changes made to the plotting area in memory.
+R is that \code{geoGraph} keeps the changes made to the plotting area in memory.
 This allows to undo one or several moves using \code{geo.back}.
 Moreover, even if the graphical device is killed, plotting again a \code{gGraph} will use the old
 parameters by default.
 To disable this behavior, set the argument \code{reset=TRUE} when calling upon \code{plot}.
 Technically, this 'plotting memory' is implemented by storing plotting information in an environment
-defined as the hidden variable \code{.geographEnv}:
+defined as the hidden variable \code{.geoGraphEnv}:
 <<>>=
-.geographEnv
-ls(env=.geographEnv)
-get("last.plot", .geographEnv)
+.geoGraphEnv
+ls(env=.geoGraphEnv)
+get("last.plot", .geoGraphEnv)
 @
 It is recommended not to modify these objects directly, unless you really know what you are doing.
 In any case, plotting a \code{gGraph} object with argument \code{reset=TRUE} will remove previous
@@ -491,7 +491,7 @@ symbols(getCoords(cities)[,1], getCoords(cities)[,2], circ=sqrt(unlist(getData(c
 %%%%%%%%%%%%%%%%
 \subsection{Editing \code{gGraphs}}
 %%%%%%%%%%%%%%%%
-Editing graphs is an essential task in \code{geograph}.
+Editing graphs is an essential task in \code{geoGraph}.
 While available \code{gGraph} objects provide a basis to work with (see \code{?worldgraph.10k}),
 one may want to adapt a graph to a specific case.
 For instance, connectivity should be defined according to biological knowledge of the organism under study.
@@ -547,7 +547,7 @@ plot(newGraph,edge=TRUE)
 On this new graph, we represent the edges with a width inversely proportional to the associated
 cost; that is, bold lines for easy travelling and light edges/dotted lines for more costly mouvement.
 This is not enough yet, since travelling on land is still possible.
-However, we can tell \code{geograph} to remove all edges associated to too strong a cost, as defined
+However, we can tell \code{geoGraph} to remove all edges associated to too strong a cost, as defined
 by a given threshold (using \code{dropDeadEdges}).
 Here, only sea-sea connections shall be retained, that is, edges with cost 1.
 <<fig=TRUE>>=
@@ -592,7 +592,7 @@ load("Robjects/newGraph.RData")
 \noindent When adding connections within an area or in an entire graph, node addition is based on
 another \code{gGraph}, \textit{i.e.} only connections existing in another \code{gGraph} serving as
 reference can be added to the current \code{gGraph}.
-For graphs based on 10k or 40k grids, the raw graphs provided in \code{geograph} should be used,
+For graphs based on 10k or 40k grids, the raw graphs provided in \code{geoGraph} should be used,
 (\code{rawgraph.10k}, \code{rawgraph.40k}), since they are fully connected.
 \\
 
@@ -627,15 +627,15 @@ effective.
 %%%%%%%%%%%%%%%%%%%%%
 \subsection{Extracting information from GIS shapefiles}
 %%%%%%%%%%%%%%%%%%%%%
-An important feature of \code{geograph} is serving as an interface between \emph{geographic information
+An important feature of \code{geoGraph} is serving as an interface between \emph{geographic information
 system} (GIS) layers and geographic data.
-As currently implemented, \code{geograph} can extract information from shapefiles with the Arc GIS
+As currently implemented, \code{geoGraph} can extract information from shapefiles with the Arc GIS
 (\url{http://www.esri.com/software/arcgis/index.html}) format, using the function \code{extractFromLayer}.
 Here, we illustrate this procedure using the shapefile \code{world-countries.shp} provided with the
 package.
 The GIS shapefile is first read in R using \code{readShapePoly} from the \code{maptools} package:
 <<>>=
-world.countries <- readShapePoly(system.file("files/shapefiles/world-countries.shp",package="geograph"))
+world.countries <- readShapePoly(system.file("files/shapefiles/world-countries.shp",package="geoGraph"))
 class(world.countries)
 summary(world.countries)
 @
@@ -686,7 +686,7 @@ getNodesAttr(cities)
 %%%%%%%%%%%%%%%%%%%%%
 \subsection{Finding least-cost paths}
 %%%%%%%%%%%%%%%%%%%%%
-One of the most useful applications of \code{geograph} is the research of least-cost paths between
+One of the most useful applications of \code{geoGraph} is the research of least-cost paths between
 couples of locations.
 This can be achieved using the functions \code{dijkstraFrom} and \code{dijkstraBetween} on a
 \code{gData} object which contains all the locations of interest.
@@ -765,7 +765,7 @@ relationship between genetic diversity within populations (stored in \code{hgdp}
 <<fig=TRUE>>=
 div <- getData(hgdp)$"Genetic.Div"
 dgeo.unif <- gPath2dist(paths, res.type="vector")
-plot(div~dgeo.unif, xlab="Geographic distance (arbitrary units)", ylab="Genetic diversity")
+plot(div~dgeo.unif, xlab="GeoGraphic distance (arbitrary units)", ylab="Genetic diversity")
 lm.unif <- lm(div~dgeo.unif)
 abline(lm.unif, col="red")
 summary(lm.unif)
@@ -795,7 +795,7 @@ The new paths are slightly different from the previous ones.
 We can examine the new relationship with genetic distance:
 <<fig=TRUE>>=
 dgeo.hab <- gPath2dist(paths.2, res.type="vector")
-plot(div~dgeo.hab, xlab="Geographic distance (arbitrary units)", ylab="Genetic diversity")
+plot(div~dgeo.hab, xlab="GeoGraphic distance (arbitrary units)", ylab="Genetic diversity")
 lm.hab <- lm(div~dgeo.hab)
 abline(lm.hab, col="red")
 summary(lm.hab)

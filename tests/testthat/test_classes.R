@@ -1,4 +1,4 @@
-library("geograph")
+library("geoGraph")
 context("Test classes")
 
 test_that("Empty constructors work", {

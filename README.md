@@ -2,11 +2,11 @@
 
 
 
-*geograph*: walking through the geographic space using graphs.
+*geoGraph*: walking through the geographic space using graphs.
 =================================================
 
 
-Installing *geograph*
+Installing *geoGraph*
 -------------
 
 All the following instructions should be entered from a new R session to avoid errors due to installing attached packages.
@@ -18,15 +18,15 @@ biocLite("graph")
 biocLite("RBGL")
 ```
 
-*devtools* is also needed to install *geograph*:
+*devtools* is also needed to install *geoGraph*:
 ```r
 install.packages("devtools")
 ```
 
 
-Then, to install *geograph*, simply type:
+Then, to install *geoGraph*, simply type:
 ```r
 library(devtools)
-install_github("thibautjombart/geograph")
+install_github("thibautjombart/geoGraph")
 ```
 

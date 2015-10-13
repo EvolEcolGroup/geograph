@@ -14,7 +14,7 @@ setGeneric("isInArea", function(x, ...) {
 setMethod("isInArea", "matrix", function(x, reg="current", res.type=c("logical","integer","character"), buffer=0){
     ## some checks / definitiona
     res.type <- match.arg(res.type)
-    env <- get(".geographEnv", envir=.GlobalEnv) # env is our target environnement
+    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
     coords <- x
 
     ## get xlim and ylim
