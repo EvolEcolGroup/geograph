@@ -16,7 +16,6 @@ setGeneric("closestNode", function(x,...) {
 setMethod("closestNode", "gGraph", function(x, loc, zoneSize=5, attr.name=NULL, attr.values=NULL){
 
     ## handle arguments
-    if(!require(fields)) stop("package fields is required.")
     if(!is.gGraph(x)) stop("x is not a valid gGraph object.")
     loc <- as.data.frame(loc)
     if(ncol(loc) != 2) stop("coords does not have two columns.")

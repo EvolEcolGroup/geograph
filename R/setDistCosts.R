@@ -15,7 +15,6 @@ setGeneric("setDistCosts", function(x,...) {
 setMethod("setDistCosts", "gGraph", function(x, ...){
 
     ## some checks ##
-    if(!require(fields)) stop("Package fields is required.")
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
 
 
