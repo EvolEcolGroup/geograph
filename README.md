@@ -2,7 +2,7 @@
 
 
 
-*geograph*: geographic graphs for large-scale spatial modelling
+*geograph*: walking through the geographic space using graphs.
 =================================================
 
 
