@@ -1,5 +1,10 @@
-# Sample .travis.yml for R projects
 
 language: r
+
 warnings_are_errors: false
+
 sudo: required
+
+bioc_packages: 
+- graph
+- RBGL
