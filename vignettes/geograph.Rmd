@@ -12,7 +12,7 @@ vignette: >
 
 ```{r setup, echo=FALSE}
 # set global chunk options: images will be 7x5 inches
-knitr::opts_chunk$set(fig.width=7, fig.height=10, fig.path="figs/")
+knitr::opts_chunk$set(fig.width=8, fig.height=8, fig.path="figs/")
 options(digits = 4)
 ```
 
@@ -144,8 +144,6 @@ These datasets are available using the command `data`.
 The grid used in these datasets are the best geometric approximation of a regular grid for the surface of a sphere.
 One advantage of working with these grids is that we do not have to use a projection for geographic
 coordinates, which is a usual issue in regular GIS.
-%% All these datasets provide evenly spaced grids covering the entire earth, with some basic habitats
-%% descriptors provided as node attributes.
 
 The difference between rawgraphs and worldgraphs is that the first are entirely connected, while in the
 second connections occur only on land.
@@ -264,7 +262,7 @@ In this figure, each node is represented with a color depending on the habitat t
 (blue) or 'land' (green).
 We are going to interface the cities data with this grid; to do so, we create a `gData` object using
 `new` (see `?gData` object):
-```{r cities, fig=TRUE}
+```{r citiesplot, fig=TRUE}
 cities <- new("gData", coords=cities.dat[,1:2], data=cities.dat[,3,drop=FALSE], gGraph.name="worldgraph.10k")
 cities
 plot(cities, type="both", reset=TRUE)
@@ -372,11 +370,11 @@ adjacent areas; in all cases, a right click ends the function.
 Also note that `geo.zoomin` can accept an argument specifying a rectangular region, which will
 be adapted by the function to fit best a square area with similar position and centre, and zoom to
 this area (see `?geo.zoomin`).
-`geo.bookmark` and `geo.goto` respectively set and go to a bookmark, \textit{i.e.} a tagged area.
+`geo.bookmark` and `geo.goto` respectively set and go to a bookmark, *i.e.* a tagged area.
 This is most useful when one has to switch between distant areas repeatedly.
 
 
-Here are some examples based on the previous plotting of `worldgraph.10k`:%, but you are best playing with these functions by yourself.
+Here are some examples based on the previous plotting of `worldgraph.10k`:
 Zooming in:
 ```{r eval=FALSE}
 geo.zoomin()
@@ -554,7 +552,7 @@ load("Robjects/newGraph.RData")
 ![img](figs/georemove.png)
 
  When adding connections within an area or in an entire graph, node addition is based on
-another `gGraph`, \textit{i.e.} only connections existing in another `gGraph` serving as
+another `gGraph`,*i.e.* only connections existing in another `gGraph` serving as
 reference can be added to the current `gGraph`.
 For graphs based on 10k or 40k grids, the raw graphs provided in `geoGraph` should be used,
 (`rawgraph.10k`, `rawgraph.40k`), since they are fully connected.
@@ -594,7 +592,7 @@ effective.
 An important feature of *geoGraph* is serving as an interface between *geographic information
 system* (GIS) layers and geographic data.
 As currently implemented, *geoGraph* can extract information from shapefiles with the Arc GIS
-(\url{http://www.esri.com/software/arcgis/index.html}) format, using the function `extractFromLayer`.
+(http://www.esri.com/software/arcgis/index.html) format, using the function `extractFromLayer`.
 Here, we illustrate this procedure using the shapefile `world-countries.shp` provided with the
 package.
 The GIS shapefile is first read in R using `readShapePoly` from the *maptools* package:
