@@ -41,7 +41,7 @@ The purpose of *geoGraph* is to provide tools to achieve and simplify this 'prel
 This is achieved by defining new classes of objects which are essentially geo-referenced graphs
 with node attributes (`gGraph` objects), and interfaced spatial data (`gData` objects).
 In this vignette, we show how to install *geoGraph*, construct and handle
-*gGraph*/*gData* objects, and illustrate some basic features of graph algorithms.
+`gGraph`/`gData` objects, and illustrate some basic features of graph algorithms.
 
 
 
