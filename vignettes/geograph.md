@@ -1,7 +1,7 @@
 ---
 title: "An introduction to geoGraph"
 author: "Thibaut Jombart"
-date: "`r Sys.Date()`"
+date: "2015-10-13"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
@@ -10,11 +10,7 @@ vignette: >
 ---
 
 
-```{r setup, echo=FALSE}
-# set global chunk options: images will be 7x5 inches
-knitr::opts_chunk$set(fig.width=8, fig.height=8, fig.path="figs/")
-options(digits = 4)
-```
+
 
 
 *geoGraph*: walking through the geographic space using graphs.
@@ -82,8 +78,20 @@ install_github("thibautjombart/geoGraph")
 ```
 
 Once installed, the package can be loaded using:
-```{r load}
+
+```r
 library("geoGraph")
+```
+
+```
+## Loading required package: graph
+## Loading required package: RBGL
+## Loading required package: sp
+## 
+##    /// geoGraph 1.0-0 is loaded ////////////
+## 
+##    > overview: '?geoGraph'
+##    > tutorials/doc/questions: https://github.com/thibautjombart/geograph'
 ```
 
 
@@ -109,12 +117,41 @@ pairs of locations.
 ### gGraph objects
 
 The definition of the formal class `gGraph` can be obtained using:
-```{r }
+
+```r
 getClass("gGraph")
 ```
+
+```
+## Class "gGraph" [package "geoGraph"]
+## 
+## Slots:
+##                                                   
+## Name:      coords nodes.attr       meta      graph
+## Class:     matrix data.frame       list   graphNEL
+```
 and a new empty object can be obtained using the constructor:
-```{r }
+
+```r
 new("gGraph")
+```
+
+```
+## 
+## === gGraph object ===
+## 
+## @coords: spatial coordinates of 0 nodes
+##      lon lat
+## 
+## @nodes.attr: 0 nodes attributes
+## data frame with 0 columns and 0 rows
+## 
+## @meta: list of meta information with 0 items
+## 
+## @graph:
+## A graphNEL graph with undirected edges
+## Number of Nodes = 0 
+## Number of Edges = 0
 ```
 
 The documentation `?gGraph` explains the basics about the object's content.
@@ -132,9 +169,60 @@ Similarly, you can associate costs to a given node attribute by defining a compo
 An example of this can be found in already existing `gGraph` objects.
 For instance, `worldgraph.10k` is a graph of the world with approximately 10,000 nodes, and
 only on-land connectivity (\textit{i.e.` no travelling on the seas).
-```{r }
+
+```r
 worldgraph.10k
+```
+
+```
+## 
+## === gGraph object ===
+## 
+## @coords: spatial coordinates of 10242 nodes
+##       lon    lat
+## 1 -180.00  90.00
+## 2  144.00 -90.00
+## 3  -33.78  27.19
+## ...
+## 
+## @nodes.attr: 1 nodes attributes
+##   habitat
+## 1     sea
+## 2     sea
+## 3     sea
+## ...
+## 
+## @meta: list of meta information with 2 items
+## [1] "$colors" "$costs" 
+## 
+## @graph:
+## A graphNEL graph with undirected edges
+## Number of Nodes = 10242 
+## Number of Edges = 6954
+```
+
+```r
 worldgraph.10k@meta
+```
+
+```
+## $colors
+##            habitat       color
+## 1              sea        blue
+## 2             land       green
+## 3         mountain       brown
+## 4       landbridge light green
+## 5 oceanic crossing  light blue
+## 6  deselected land   lightgray
+## 
+## $costs
+##            habitat cost
+## 1              sea  100
+## 2             land    1
+## 3         mountain   10
+## 4       landbridge    5
+## 5 oceanic crossing   20
+## 6  deselected land  100
 ```
 Lastly, the `graph` component is a `graphNEL` object, which is the standard class for
 graphs in the *graph* and *RBGL* packages.
@@ -171,12 +259,39 @@ types of habitats.
 
 
 Like for `gGraph`, the content of the formal class `gData` can be obtained using:
-```{r }
+
+```r
 getClass("gData")
 ```
+
+```
+## Class "gData" [package "geoGraph"]
+## 
+## Slots:
+##                                                       
+## Name:       coords    nodes.id        data gGraph.name
+## Class:      matrix   character         ANY   character
+```
 and a new empty object can be obtained using the constructor:
-```{r }
+
+```r
 new("gData")
+```
+
+```
+## 
+## === gData object ===
+## 
+## @coords: spatial coordinates of 0 nodes
+##      lon lat
+## 
+## @nodes.id: nodes identifiers
+## character(0)
+## 
+## @data: data
+## NULL
+## 
+## Associated gGraph:
 ```
 As before, the description of the content of these objects can be found in the documentation (`?gData`).
 `coords` is a matrix of xy (longitude/latitude) coordinates in which each row is a location.
@@ -207,16 +322,19 @@ of locations.
 
 An overview of the material implemented in the package is summarized the package's manpage, accessible
 via:
-```{r eval=FALSE}
+
+```r
 ?geoGraph
 ```
 The html version of this manpage may be preferred to browse more easily the content
 of *geoGraph*; it is accessible by typing:
-```{r eval=FALSE}
+
+```r
 help("geoGraph", package="geoGraph", html=TRUE)
 ```
 To revert help back to text mode, simply type:
-```{r eval=FALSE}
+
+```r
 options(htmlhelp = FALSE)
 ```
 
@@ -244,7 +362,8 @@ As a toy example, let us consider four locations: Bordeaux (France), London (UK)
 Since we will be working with a crude grid (10,000 nodes), locations need not be exact.
 We enter the longitudes and latitudes (in this order, that is, xy coordinates) of these cities in
 decimal degrees, as well as approximate population sizes:
-```{r cities}
+
+```r
 Bordeaux <- c(-1,45)
 London <- c(0,51)
 Malaga <- c(-4,37)
@@ -255,23 +374,96 @@ cities.dat$pop <- c(1e6, 13e6, 5e5, 1.2e6)
 row.names(cities.dat) <- c("Bordeaux","London","Malaga","Zagreb")
 cities.dat
 ```
+
+```
+##          lon lat     pop
+## Bordeaux  -1  45 1.0e+06
+## London     0  51 1.3e+07
+## Malaga    -4  37 5.0e+05
+## Zagreb    16  46 1.2e+06
+```
 We load a `gGraph` object which contains the grid that will support the data:
-```{r wg10plot, fig=TRUE, fig.width=12}
+
+```r
 worldgraph.10k
+```
+
+```
+## 
+## === gGraph object ===
+## 
+## @coords: spatial coordinates of 10242 nodes
+##       lon    lat
+## 1 -180.00  90.00
+## 2  144.00 -90.00
+## 3  -33.78  27.19
+## ...
+## 
+## @nodes.attr: 1 nodes attributes
+##   habitat
+## 1     sea
+## 2     sea
+## 3     sea
+## ...
+## 
+## @meta: list of meta information with 2 items
+## [1] "$colors" "$costs" 
+## 
+## @graph:
+## A graphNEL graph with undirected edges
+## Number of Nodes = 10242 
+## Number of Edges = 6954
+```
+
+```r
 plot(worldgraph.10k)
 ```
+
+![plot of chunk wg10plot](figs/wg10plot-1.png) 
 
  (we could use `worldgraph.40k` for a better resolution).
 In this figure, each node is represented with a color depending on the habitat type, either 'sea'
 (blue) or 'land' (green).
 We are going to interface the cities data with this grid; to do so, we create a `gData` object using
 `new` (see `?gData` object):
-```{r citiesplot, fig=TRUE}
+
+```r
 cities <- new("gData", coords=cities.dat[,1:2], data=cities.dat[,3,drop=FALSE], gGraph.name="worldgraph.10k")
 cities
+```
+
+```
+## 
+## === gData object ===
+## 
+## @coords: spatial coordinates of 4 nodes
+##   lon lat
+## 1  -1  45
+## 2   0  51
+## 3  -4  37
+## ...
+## 
+## @nodes.id: nodes identifiers
+##      1      2      3 
+## "5774" "6413" "4815" 
+## ...
+## 
+## @data: 4 data
+##              pop
+## Bordeaux 1.0e+06
+## London   1.3e+07
+## Malaga   5.0e+05
+## ...
+## 
+## Associated gGraph: worldgraph.10k
+```
+
+```r
 plot(cities, type="both", reset=TRUE)
 plotEdges(worldgraph.10k)
 ```
+
+![plot of chunk citiesplot](figs/citiesplot-1.png) 
 
  This figure illustrates the matching of original locations (black crosses) to nodes of the grid
 (red circles).
@@ -279,29 +471,78 @@ As we can see, an issue occured for Bordeaux, which has been assigned to a node 
 Locations can be re-assigned to nodes with restrictions for some node attribute values using
 `closestNode`; for instance, here we constrain matching nodes to have an `habitat` value
 (defined as node attribute in `worldgraph.10k`) equalling `land` (green points):
-```{r closeNode, fig=TRUE}
+
+```r
 cities <- closestNode(cities, attr.name="habitat", attr.value="land")
 plot(cities, type="both", reset=TRUE)
 plotEdges(worldgraph.10k)
 ```
 
+![plot of chunk closeNode](figs/closeNode-1.png) 
+
  Now, all cities have been assigned to a `land' node of the grid (again, better accuracy will be
 gained on 40k or finer grids - we use 10k for illustrative purposes only).
 Content of `cities` can be accessed via various accessors (see `?gData`).
 For instance, we can retrieve original locations, assigned nodes, and stored data using:
-```{r }
+
+```r
 getCoords(cities)
+```
+
+```
+##      lon lat
+## 5775  -1  45
+## 6413   0  51
+## 4815  -4  37
+## 7699  16  46
+```
+
+```r
 getNodes(cities)
+```
+
+```
+##   5774   6413   4815   7699 
+## "5775" "6413" "4815" "7699"
+```
+
+```r
 getData(cities)
 ```
+
+```
+##              pop
+## Bordeaux 1.0e+06
+## London   1.3e+07
+## Malaga   5.0e+05
+## Zagreb   1.2e+06
+```
 We can also get the coordinates of the matching nodes (\textit{i.e.}, red circle on previous figure) using:
-```{r }
+
+```r
 getCoords(cities, original=FALSE)
+```
+
+```
+##             lon   lat
+## 5775  1.002e-05 43.73
+## 6413  1.002e-05 51.38
+## 4815 -3.788e+00 37.75
+## 7699  1.548e+01 46.74
 ```
 More interestingly, we can now retrieve all the geographic information contained in the underlying
 grid (\textit{i.e.}, `gGraph` object) as node attributes:
-```{r }
+
+```r
 getNodesAttr(cities)
+```
+
+```
+##      habitat
+## 5775    land
+## 6413    land
+## 4815    land
+## 7699    land
 ```
 In this example, the information stored in `worldgraph.10k` is rather crude: `habitat` only
 distinguishes the land from the sea.
@@ -338,13 +579,51 @@ colors of the nodes are chosen according to the node attributes and the color sc
 Alternatively, the color of the nodes can be specified via the `col` argument in `plot`/`points`.
 
 Here is an example using `worldgraph.10k`:
-```{r wg10kdefplot, fig=TRUE, fig.width=12}
+
+```r
 worldgraph.10k@meta$colors
+```
+
+```
+##            habitat       color
+## 1              sea        blue
+## 2             land       green
+## 3         mountain       brown
+## 4       landbridge light green
+## 5 oceanic crossing  light blue
+## 6  deselected land   lightgray
+```
+
+```r
 head(getNodesAttr(worldgraph.10k))
+```
+
+```
+##   habitat
+## 1     sea
+## 2     sea
+## 3     sea
+## 4     sea
+## 5     sea
+## 6     sea
+```
+
+```r
 table(getNodesAttr(worldgraph.10k))
+```
+
+```
+## 
+## deselected land            land             sea 
+##             290            2632            7320
+```
+
+```r
 plot(worldgraph.10k, reset=TRUE)
 title("Default plotting of worldgraph.10k")
 ```
+
+![plot of chunk wg10kdefplot](figs/wg10kdefplot-1.png) 
 
  It may be worth noting that plotting `gGraph` objects involves plotting a fairly
 large number of points and edges.
@@ -352,11 +631,13 @@ On some graphical devices, the resulting plotting can be slow.
 For instance, one may want to disable `cairo` under linux: this graphical device yields better
 graphics than `Xlib`, but at the expense of increase computational time.
 To switch to `Xlib`, type:
-```{r eval=FALSE}
+
+```r
 X11.options(type="Xlib")
 ```
 and to revert to `cairo`, type:
-```{r eval=FALSE}
+
+```r
 X11.options(type="cairo")
 ```
 
@@ -380,19 +661,22 @@ This is most useful when one has to switch between distant areas repeatedly.
 
 Here are some examples based on the previous plotting of `worldgraph.10k`:
 Zooming in:
-```{r eval=FALSE}
+
+```r
 geo.zoomin()
 ```
 ![img](figs/zoomin.png)
 
  Zooming out:
-```{r eval=FALSE}
+
+```r
 geo.zoomout()
 ```
 ![img](figs/zoomout.png)
 
  Sliding to the east:
-```{r eval=FALSE}
+
+```r
 geo.slide()
 ```
 ![img](figs/slide.png)
@@ -406,10 +690,30 @@ parameters by default.
 To disable this behavior, set the argument `reset=TRUE` when calling upon `plot`.
 Technically, this 'plotting memory' is implemented by storing plotting information in an environment
 defined as the hidden variable `.geoGraphEnv`:
-```{r }
+
+```r
 .geoGraphEnv
+```
+
+```
+## <environment: 0x6981740>
+```
+
+```r
 ls(env=.geoGraphEnv)
+```
+
+```
+## [1] "bookmarks"       "last.plot"       "last.plot.param" "last.points"    
+## [5] "psize"           "sticky.points"   "usr"             "zoom.log"
+```
+
+```r
 get("last.plot", .geoGraphEnv)
+```
+
+```
+## plot(worldgraph.10k, reset = TRUE)
 ```
 It is recommended not to modify these objects directly, unless you really know what you are doing.
 In any case, plotting a `gGraph` object with argument `reset=TRUE` will remove previous
@@ -423,10 +727,13 @@ plotting history and undo possible wrong manipulations.
 
 `gData` objects are by default plotted overlaying the corresponding `gGraph`.
 For instance, using the `cities` example from above:
-```{r citiesPlot2, fig=TRUE}
+
+```r
 plot(cities, reset=TRUE)
 text(getCoords(cities), rownames(getData(cities)))
 ```
+
+![plot of chunk citiesPlot2](figs/citiesPlot2-1.png) 
 
  Note the argument `reset=TRUE`, which tells the plotting function to adapt the
 plotting area to the geographic extent of the dataset.
@@ -437,7 +744,8 @@ This is achieved by `getCoords`.
 This method takes an extra argument `original`, which is TRUE if original spatial coordinates
 are seeked, or FALSE for coordinates of the nodes on the grid.
 We can use this to represent, for instance, the population sizes for the different cities:
-```{r fig=TRUE}
+
+```r
 transp <- function(col, alpha=.5){
     res <- apply(col2rgb(col),2, function(c) rgb(c[1]/255, c[2]/255, c[3]/255, alpha))
     return(res)
@@ -449,6 +757,8 @@ par(xpd=TRUE)
 text(getCoords(cities)+-.5, rownames(getData(cities)))
 symbols(getCoords(cities)[,1], getCoords(cities)[,2], circ=sqrt(unlist(getData(cities))), inch=.2, bg=transp("red"), add=TRUE)
 ```
+
+![plot of chunk unnamed-chunk-18](figs/unnamed-chunk-18-1.png) 
 
 
 
@@ -479,15 +789,24 @@ Let's assume we are interested in saltwater fishes.
 To model fish dispersal, we have to define a graph which connects only nodes overlaying the sea.
 We load the `gGraph` object `rawgraph.10k`, and zoom in to a smaller area (Madagascar) to illustrate
 changes in connectivity:
-```{r fig=TRUE}
+
+```r
 geo.zoomin(c(35,54,-26,-10))
 plotEdges(rawgraph.10k)
 ```
 
+![plot of chunk unnamed-chunk-19](figs/unnamed-chunk-19-1.png) 
+
  We shall set a bookmark for this area, in case we would want to get back to this place
 later on:
-```{r }
+
+```r
 geo.bookmark("madagascar")
+```
+
+```
+## 
+## Bookmark ' madagascar  'saved.
 ```
 What we now want to do is remove all but sea-sea connections.
 To do so, the easiest approach is to i) define costs for the edges based on habitat, with land being
@@ -495,20 +814,47 @@ given large costs and ii) remove all edges with large costs.
 
 
 Costs of a given node attribute (here, `habitat') are indicated in the `meta$costs` slot:
-```{r }
+
+```r
 rawgraph.10k@meta$costs
+```
+
+```
+##            habitat cost
+## 1              sea  100
+## 2             land    1
+## 3         mountain   10
+## 4       landbridge    5
+## 5 oceanic crossing   20
+## 6  deselected land  100
+```
+
+```r
 newGraph <- rawgraph.10k
 newGraph@meta$costs[2:6,2] <- 100
 newGraph@meta$costs[1,2] <- 1
 newGraph@meta$costs
 ```
+
+```
+##            habitat cost
+## 1              sea    1
+## 2             land  100
+## 3         mountain  100
+## 4       landbridge  100
+## 5 oceanic crossing  100
+## 6  deselected land  100
+```
 We have just changed the costs associated to habitat type, but this change is not yet effective on
 edges between nodes.
 We use `setCosts` to set the cost of an edge to the average of the costs of its nodes:
-```{r fig=TRUE, fig.width=12}
+
+```r
 newGraph <- setCosts(newGraph, attr.name="habitat")
 plot(newGraph,edge=TRUE)
 ```
+
+![plot of chunk unnamed-chunk-22](figs/unnamed-chunk-22-1.png) 
 
 On this new graph, we represent the edges with a width inversely proportional to the associated
 cost; that is, bold lines for easy travelling and light edges/dotted lines for more costly mouvement.
@@ -516,17 +862,31 @@ This is not enough yet, since travelling on land is still possible.
 However, we can tell *geoGraph* to remove all edges associated to too strong a cost, as defined
 by a given threshold (using `dropDeadEdges`).
 Here, only sea-sea connections shall be retained, that is, edges with cost 1.
-```{r fig=TRUE}
+
+```r
 newGraph <- dropDeadEdges(newGraph, thres=1.1)
 plot(newGraph,edge=TRUE)
 ```
 
+![plot of chunk unnamed-chunk-23](figs/unnamed-chunk-23-1.png) 
+
 Here we are: `newGraph` only contains connections in the sea.
 Note that, although we restrained the plotting area to Madagascar, this change is effective everywhere.
 For instance, travelling to the nort-west Australian coasts:
-```{r fig=TRUE}
+
+```r
 geo.zoomin(c(110,130,-27,-12))
+```
+
+![plot of chunk unnamed-chunk-24](figs/unnamed-chunk-24-1.png) 
+
+```r
 geo.bookmark("australia")
+```
+
+```
+## 
+## Bookmark ' australia  'saved.
 ```
 
 
@@ -546,13 +906,12 @@ area in which edges are added or removed.
 See `?geo.add.edges` for more information on these functions.
 For instance, we can remove a few odd connections in the previous graph, near the Australian coasts
 (note that we have to save the changes using `<-`):
-```{r eval=FALSE}
+
+```r
 geo.goto("autralia")
 newGraph <- geo.remove.edges(newGraph)
 ```
-```{r eval=TRUE, echo=FALSE}
-load("Robjects/newGraph.RData")
-```
+
 ![img](figs/georemove.png)
 
  When adding connections within an area or in an entire graph, node addition is based on
@@ -568,19 +927,35 @@ In addition to changing grid connectivity, we may also want to modify the attrib
 This is again done interactively, using the function `geo.change.attr`.
 For instance, here, we define a new value `shalowwater` (plotted in light blue) for the attribute `habitat`,
 selecting affected nodes using the 'area' mode first, and refining the changes using the 'point' mode:
-```{r eval=FALSE}
+
+```r
 plot(newGraph, edge=TRUE)
 temp <- geo.change.attr(newGraph, mode="area", attr.name="habitat", attr.value="shallowwater", newCol="deepskyblue")
 temp <- geo.change.attr(temp, attr.name="habitat", attr.value="shallowwater", newCol="deepskyblue")
 newGraph <- temp
 ```
-```{r echo=FALSE}
-load("Robjects/newGraph2.RData")
-```
-```{r fig=TRUE}
+
+
+```r
 newGraph@meta$colors
+```
+
+```
+##            habitat       color
+## 1              sea        blue
+## 2             land       green
+## 3         mountain       brown
+## 4       landbridge light green
+## 5 oceanic crossing  light blue
+## 6  deselected land   lightgray
+## 7     shallowwater deepskyblue
+```
+
+```r
 plot(newGraph,edge=TRUE)
 ```
+
+![plot of chunk unnamed-chunk-29](figs/unnamed-chunk-29-1.png) 
 
 Again, note that the changes made to the graph have to be save in an object (using `<-`) to be
 effective.
@@ -600,32 +975,130 @@ As currently implemented, *geoGraph* can extract information from shapefiles wit
 Here, we illustrate this procedure using the shapefile `world-countries.shp` provided with the
 package.
 The GIS shapefile is first read in R using `readShapePoly` from the *maptools* package:
-```{r }
+
+```r
 library(maptools)
+```
+
+```
+## Checking rgeos availability: FALSE
+##  	Note: when rgeos is not available, polygon geometry 	computations in maptools depend on gpclib,
+##  	which has a restricted licence. It is disabled by default;
+##  	to enable gpclib, type gpclibPermit()
+```
+
+```r
 world.countries <- readShapePoly(system.file("files/shapefiles/world-countries.shp",package="geoGraph"))
 class(world.countries)
+```
+
+```
+## [1] "SpatialPolygonsDataFrame"
+## attr(,"package")
+## [1] "sp"
+```
+
+```r
 summary(world.countries)
+```
+
+```
+## Object of class SpatialPolygonsDataFrame
+## Coordinates:
+##      min    max
+## x -180.0 181.80
+## y  -89.9  84.93
+## Is projected: NA 
+## proj4string : [NA]
+## Data attributes:
+##    WORCNTRY_I          ID                  NAME         ISO_2    
+##  Min.   :  1.0   ABW    :  1   Afghanistan   :  1   AD     :  1  
+##  1st Qu.: 60.5   AFG    :  1   Albania       :  1   AE     :  1  
+##  Median :120.0   AGO    :  1   Algeria       :  1   AF     :  1  
+##  Mean   :120.0   AIA    :  1   American Samoa:  1   AG     :  1  
+##  3rd Qu.:179.5   ALB    :  1   Andorra       :  1   AI     :  1  
+##  Max.   :239.0   AND    :  1   Angola        :  1   AL     :  1  
+##                  (Other):233   (Other)       :233   (Other):233  
+##     ISO_NUM         CAPITAL       POP_1994                CONTINENT 
+##  10     :  1   N/A      :  2   Min.   :0.00e+00   Africa       :59  
+##  100    :  1   Victoria :  2   1st Qu.:1.38e+05   Antarctica   : 2  
+##  104    :  1   Abidjan  :  1   Median :3.58e+06   Asia         :73  
+##  108    :  1   Abu Dhabi:  1   Mean   :2.24e+07   Australia    : 2  
+##  112    :  1   Accra    :  1   3rd Qu.:1.12e+07   Europe       :51  
+##  116    :  1   (Other)  :209   Max.   :1.18e+09   North America:34  
+##  (Other):233   NA's     : 23                      South America:18
 ```
 The summary of `world.countries` shows the data (attributes) stored in the layer.
 Let us assume that we are interested in retrieving continent and country information for the
 `worldgraph.10k` object.
 Note that `extractFromLayer` can extract information to other types of objects than `gGraph` (see `?extractFromLayer`)
-```{r }
+
+```r
 summary(getNodesAttr(worldgraph.10k))
+```
+
+```
+##             habitat    
+##  deselected land: 290  
+##  land           :2632  
+##  sea            :7320
+```
+
+```r
 newGraph <- extractFromLayer(worldgraph.10k,  layer=world.countries, attr=c("CONTINENT","NAME"))
 summary(getNodesAttr(newGraph))
+```
+
+```
+##             habitat             CONTINENT                    NAME     
+##  deselected land: 290   Asia         : 957   Russian Federation: 339  
+##  land           :2632   Africa       : 607   Antartica         : 241  
+##  sea            :7320   North America: 430   United States     : 192  
+##                         South America: 359   Canada            : 188  
+##                         Antarctica   : 241   China             : 184  
+##                         (Other)      : 325   (Other)           :1775  
+##                         NA's         :7323   NA's              :7323
 ```
 The new object `newGraph` is a `gGraph` which now includes, for each node of the grid, the
 corresponding continent and country retrieved from the GIS layer.
 We can use the newly acquired information for plotting `newGraph`, by defining new color rules:
-```{r fig=TRUE}
+
+```r
 temp <- unique(getNodesAttr(newGraph)$"NAME")
 col <- c("transparent", rainbow(length(temp)-1))
 colMat <- data.frame(NAME=temp, color=col)
 head(colMat)
+```
+
+```
+##           NAME       color
+## 1         <NA> transparent
+## 2    Antartica   #FF0000FF
+## 3 Saudi Arabia   #FF0B00FF
+## 4        Yemen   #FF1500FF
+## 5      Somalia   #FF2000FF
+## 6        China   #FF2B00FF
+```
+
+```r
 tail(colMat)
+```
+
+```
+##           NAME     color
+## 140     Latvia #FF0040FF
+## 141    Belarus #FF0035FF
+## 142    Eritrea #FF002AFF
+## 143   Djibouti #FF0020FF
+## 144 East Timor #FF0015FF
+## 145     Jordan #FF000BFF
+```
+
+```r
 plot(newGraph, col.rules=colMat, reset=TRUE)
 ```
+
+![plot of chunk unnamed-chunk-32](figs/unnamed-chunk-32-1.png) 
 
  This information could in turn be used to define costs for travelling on the grid.
 For instance, one could import habitat descriptors from a GIS, use these values to formulate a
@@ -636,12 +1109,43 @@ As soon as a GIS layer has been extracted to a `gGraph`, this information become
 any `gData` interfaced with this object.
 For instance, we can re-use the `cities` example defined in a previous section, and interface it
 with `newGraph` to retrieve continent and country information for the cities of the dataset:
-```{r }
+
+```r
 cities.dat
+```
+
+```
+##          lon lat     pop
+## Bordeaux  -1  45 1.0e+06
+## London     0  51 1.3e+07
+## Malaga    -4  37 5.0e+05
+## Zagreb    16  46 1.2e+06
+```
+
+```r
 cities <- new("gData", coords=cities.dat[,1:2], data=cities.dat[,3,drop=FALSE], gGraph.name="newGraph")
 cities <- closestNode(cities, attr.name="habitat", attr.value="land")
 getData(cities)
+```
+
+```
+##              pop
+## Bordeaux 1.0e+06
+## London   1.3e+07
+## Malaga   5.0e+05
+## Zagreb   1.2e+06
+```
+
+```r
 getNodesAttr(cities)
+```
+
+```
+##      habitat CONTINENT                 NAME
+## 5775    land    Europe France, Metropolitan
+## 6413    land    Europe       United Kingdom
+## 4815    land    Europe                Spain
+## 7699    land    Europe              Austria
 ```
 
 
@@ -662,10 +1166,42 @@ These functions return least-cost paths with the format `gPath`.
 `gData`.
 Below, we detail the example of the documentation of these functions, which uses the famous dataset of native
 Human populations, HGDP:
-```{r fig=TRUE, fig.width=12}
+
+```r
 hgdp
+```
+
+```
+## 
+## === gData object ===
+## 
+## @coords: spatial coordinates of 52 nodes
+##   lon lat
+## 1  -3  59
+## 2  39  44
+## 3  40  61
+## ...
+## 
+## @nodes.id: nodes identifiers
+##   28179   11012   22532 
+## "26898" "11652" "22532" 
+## ...
+## 
+## @data: 52 data
+##   Population Region Label  n Latitude Longitude Genetic.Div
+## 1   Orcadian EUROPE     1 15       59        -3      0.7259
+## 2     Adygei EUROPE     2 17       44        39      0.7298
+## 3    Russian EUROPE     3 25       61        40      0.7320
+## ...
+## 
+## Associated gGraph: worldgraph.40k
+```
+
+```r
 plot(hgdp, reset=TRUE)
 ```
+
+![plot of chunk unnamed-chunk-34](figs/unnamed-chunk-34-1.png) 
 
  Populations of the dataset are shown by red circles, while the underlying grid
 (`worldgraph.40k`) is represented with colors depending on habitat (blue: sea; green: land;
@@ -677,21 +1213,32 @@ We shall seek all paths through landmasses to the HGDP populations.
 
 
 First, we check that all populations are connected on the grid using `isConnected`:
-```{r }
+
+```r
 isConnected(hgdp)
+```
+
+```
+## [1] TRUE
 ```
 Note that in practice, we may often want to assess graphically the connectivity of the underlying grid, especially
 if not all locations of the `gData` are connected.
 This can be done using `connectivityPlot`, which has methods for both `gGraph` and
 `gData`, and represents different connected components using different colors.
 For instance, for `worldgraph.10k`:
-```{r connectivityPlot, fig.width=12}
+
+```r
 connectivityPlot(worldgraph.10k, edges=TRUE, seed=1)
 ```
-```{r fig=TRUE}
+
+![plot of chunk connectivityPlot](figs/connectivityPlot-1.png) 
+
+```r
 geo.zoomin(c(90,150,18,-25))
 title("Different connected components\n in worldgraph.10k")
 ```
+
+![plot of chunk unnamed-chunk-36](figs/unnamed-chunk-36-1.png) 
 
 
 Since all locations in `hgdp` are connected, we can proceed further.
@@ -704,7 +1251,8 @@ costs (using `setCosts`).
 We shall first illustrate the strictly uniform costs.
 After setting a `gGraph` with uniform costs, we use `dijkstraFrom` to find the shortest
 paths between Addis abeba and the populations of `hgdp`:
-```{r }
+
+```r
 myGraph <- dropCosts(worldgraph.40k)
 hgdp@gGraph.name <- "myGraph"
 addis <- cbind(38,9)
@@ -713,7 +1261,8 @@ paths <- dijkstraFrom(hgdp, ori)
 ```
 The object `paths` contains the identified paths, which are stored as a list with class `gPath` (see `?gPath`).
 Paths can be plotted easily:
-```{r fig=TRUE, fig.width=12}
+
+```r
 addis <- as.vector(addis)
 plot(newGraph, col=NA, reset=TRUE)
 plot(paths)
@@ -722,31 +1271,76 @@ text(addis[1]+35, addis[2], "Addis abeba", cex=.8, font=2)
 points(hgdp, col.node="black")
 ```
 
+![plot of chunk unnamed-chunk-38](figs/unnamed-chunk-38-1.png) 
+
 In this graph, each path is plotted with a different color, but several paths overlap in several places.
 We can extract the distances from the `origin' using `gPath2dist`, and then examine the
 relationship between genetic diversity within populations (stored in `hgdp`) and the distance from the origin:
-```{r fig=TRUE}
+
+```r
 div <- getData(hgdp)$"Genetic.Div"
 dgeo.unif <- gPath2dist(paths, res.type="vector")
 plot(div~dgeo.unif, xlab="GeoGraphic distance (arbitrary units)", ylab="Genetic diversity")
 lm.unif <- lm(div~dgeo.unif)
 abline(lm.unif, col="red")
 summary(lm.unif)
+```
+
+```
+## 
+## Call:
+## lm(formula = div ~ dgeo.unif)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.07327 -0.00660  0.00074  0.01015  0.05449 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  7.70e-01   4.58e-03   168.2   <2e-16 ***
+## dgeo.unif   -8.39e-04   5.31e-05   -15.8   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.0185 on 50 degrees of freedom
+## Multiple R-squared:  0.833,	Adjusted R-squared:  0.83 
+## F-statistic:  250 on 1 and 50 DF,  p-value: <2e-16
+```
+
+```r
 title("Genetic diversity vs geographic distance \n uniform costs ")
 ```
+
+![plot of chunk unnamed-chunk-39](figs/unnamed-chunk-39-1.png) 
 
 
 Alternatively, we can use costs based on habitat.
 As a toy example, we will consider that coasts are four times more favourable for dispersal than
 the rest of the landmasses.
 We define these new costs, and then compute and plot the corresponding shortest paths:
-```{r }
+
+```r
 myGraph@meta$costs[7,] <- c("coast", 0.25)
 myGraph@meta$costs
+```
+
+```
+##            habitat cost
+## 1              sea  100
+## 2             land    1
+## 3         mountain   10
+## 4       landbridge    5
+## 5 oceanic crossing   20
+## 6  deselected land  100
+## 7            coast 0.25
+```
+
+```r
 myGraph <- setCosts(myGraph, attr.name="habitat")
 paths.2 <- dijkstraFrom(hgdp, ori)
 ```
-```{r fig=TRUE, fig.width=12}
+
+```r
 plot(newGraph, col=NA, reset=TRUE)
 plot(paths.2)
 points(addis[1], addis[2], pch="x", cex=2)
@@ -754,16 +1348,45 @@ text(addis[1]+35, addis[2], "Addis abeba", cex=.8, font=2)
 points(hgdp, col.node="black")
 ```
 
+![plot of chunk unnamed-chunk-41](figs/unnamed-chunk-41-1.png) 
+
 The new paths are slightly different from the previous ones.
 We can examine the new relationship with genetic distance:
-```{r fig=TRUE}
+
+```r
 dgeo.hab <- gPath2dist(paths.2, res.type="vector")
 plot(div~dgeo.hab, xlab="GeoGraphic distance (arbitrary units)", ylab="Genetic diversity")
 lm.hab <- lm(div~dgeo.hab)
 abline(lm.hab, col="red")
 summary(lm.hab)
+```
+
+```
+## 
+## Call:
+## lm(formula = div ~ dgeo.hab)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.11183 -0.00976  0.00133  0.01216  0.06413 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  0.770137   0.007174  107.36  < 2e-16 ***
+## dgeo.hab    -0.001421   0.000145   -9.79  3.2e-13 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.0265 on 50 degrees of freedom
+## Multiple R-squared:  0.657,	Adjusted R-squared:  0.651 
+## F-statistic: 95.9 on 1 and 50 DF,  p-value: 3.21e-13
+```
+
+```r
 title("Genetic diversity vs geographic distance \n habitat costs ")
 ```
+
+![plot of chunk unnamed-chunk-42](figs/unnamed-chunk-42-1.png) 
 
 Of course, the distinction between coasts and inner landmasses is a somewhat poor description of habitat.
 In practice, complex habitat models can be used as simply.

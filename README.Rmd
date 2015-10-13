@@ -1,0 +1,24 @@
+[![Travis-CI Build Status](https://travis-ci.org/thibautjombart/geograph.svg?branch=master)](https://travis-ci.org/thibautjombart/geograph)
+
+
+
+```{r compileVignette, results="hide",echo=FALSE,message=FALSE}
+## recompile vignette
+setwd("vignettes")
+knit("geograph.Rmd")
+setwd("../")
+```
+
+```{r include, results="asis", echo=FALSE, warning=FALSE}
+## read md of the vignette
+mdInput <- readLines("vignettes/geograph.md")
+
+## remove vignette-specific headers
+toRemove <- 1:10
+mdInput <- mdInput[-toRemove]
+
+## restore right path for figures
+mdInput <- gsub("figs/","vignettes/figs/",mdInput)
+cat(paste(mdInput,collapse="\n"))
+```
+
