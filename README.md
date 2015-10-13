@@ -2,15 +2,29 @@
 
 
 
-*geograph*: Phylogenetic Methods for Multiple Gene Data
+*geograph*: geographic graphs for large-scale spatial modelling
 =================================================
-*geograph* implements new classes and methods for handling spatial graphs.
 
 
 Installing *geograph*
 -------------
-To install the development version from github:
 
+All the following instructions should be entered from a new R session to avoid errors due to installing attached packages.
+
+You may need to install manually the packages *graph* and *RBGL* from *Bioconductor* (try "http" if "https" is not available):
+```r
+source("https://bioconductor.org/biocLite.R")
+biocLite("graph")
+biocLite("RBGL")
+```
+
+*devtools* is also needed to install *geograph*:
+```r
+install.packages("devtools")
+```
+
+
+Then, to install *geograph*, simply type:
 ```r
 library(devtools)
 install_github("thibautjombart/geograph")
