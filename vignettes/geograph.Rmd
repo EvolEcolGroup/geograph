@@ -252,7 +252,7 @@ row.names(cities.dat) <- c("Bordeaux","London","Malaga","Zagreb")
 cities.dat
 ```
 We load a `gGraph` object which contains the grid that will support the data:
-```{r wg10plot, fig=TRUE}
+```{r wg10plot, fig=TRUE, fig.width=12}
 worldgraph.10k
 plot(worldgraph.10k)
 ```
@@ -334,7 +334,7 @@ colors of the nodes are chosen according to the node attributes and the color sc
 Alternatively, the color of the nodes can be specified via the `col` argument in `plot`/`points`.
 
 Here is an example using `worldgraph.10k`:
-```{r wg10kdefplot, fig=TRUE}
+```{r wg10kdefplot, fig=TRUE, fig.width=12}
 worldgraph.10k@meta$colors
 head(getNodesAttr(worldgraph.10k))
 table(getNodesAttr(worldgraph.10k))
@@ -658,7 +658,7 @@ These functions return least-cost paths with the format `gPath`.
 `gData`.
 Below, we detail the example of the documentation of these functions, which uses the famous dataset of native
 Human populations, HGDP:
-```{r fig=TRUE}
+```{r fig=TRUE, fig.width=12}
 hgdp
 plot(hgdp, reset=TRUE)
 ```
@@ -681,7 +681,7 @@ if not all locations of the `gData` are connected.
 This can be done using `connectivityPlot`, which has methods for both `gGraph` and
 `gData`, and represents different connected components using different colors.
 For instance, for `worldgraph.10k`:
-```{r }
+```{r connectivityPlot, fig.width=12}
 connectivityPlot(worldgraph.10k, edges=TRUE, seed=1)
 ```
 ```{r fig=TRUE}
@@ -709,7 +709,7 @@ paths <- dijkstraFrom(hgdp, ori)
 ```
 The object `paths` contains the identified paths, which are stored as a list with class `gPath` (see `?gPath`).
 Paths can be plotted easily:
-```{r fig=TRUE}
+```{r fig=TRUE, fig.width=12}
 addis <- as.vector(addis)
 plot(newGraph, col=NA, reset=TRUE)
 plot(paths)
@@ -742,7 +742,7 @@ myGraph@meta$costs
 myGraph <- setCosts(myGraph, attr.name="habitat")
 paths.2 <- dijkstraFrom(hgdp, ori)
 ```
-```{r fig=TRUE}
+```{r fig=TRUE, fig.width=12}
 plot(newGraph, col=NA, reset=TRUE)
 plot(paths.2)
 points(addis[1], addis[2], pch="x", cex=2)
