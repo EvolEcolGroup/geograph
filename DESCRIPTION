@@ -5,8 +5,8 @@ Title: Walking through the geographic space using graphs.
 Author: Thibaut Jombart
 Maintainer: Thibaut Jombart <t.jombart@imperial.ac.uk>
 Suggests: testthat
-Depends: methods, graph, RBGL
-Imports: sp, maptools, MASS, fields
+Depends: methods, graph, RBGL, sp
+Imports: maptools, MASS, fields
 Description: .
 License: GPL (>=2)
 LazyLoad: yes
