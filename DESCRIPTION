@@ -4,11 +4,12 @@ Date: 2015/09/13
 Title: walking through the geographic space using graphs
 Author: Thibaut Jombart
 Maintainer: Thibaut Jombart <t.jombart@imperial.ac.uk>
-Suggests: testthat
 Depends: methods, graph, RBGL, sp
 Imports: maptools, MASS, fields
-Description: .
+Suggests: testthat, knitr
+Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
 License: GPL (>=2)
 LazyLoad: yes
 LazyData: TRUE
 Collate: classes.R basicMethods.R accessors.R auxil.R connectivity.R dropDead.R closestNode.R isInArea.R rebuild.R plot.R zoom.R findLand.R extractFromLayer.R interact.R setCosts.R dijkstra.R setDistCosts.R makeGrid.R buffer.R zzz.R
+VignetteBuilder: knitr
