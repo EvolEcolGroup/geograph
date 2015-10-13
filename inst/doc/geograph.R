@@ -42,7 +42,7 @@ cities.dat$pop <- c(1e6, 13e6, 5e5, 1.2e6)
 row.names(cities.dat) <- c("Bordeaux","London","Malaga","Zagreb")
 cities.dat
 
-## ----wg10plot, fig=TRUE--------------------------------------------------
+## ----wg10plot, fig=TRUE, fig.width=12------------------------------------
 worldgraph.10k
 plot(worldgraph.10k)
 
@@ -68,7 +68,7 @@ getCoords(cities, original=FALSE)
 ## ------------------------------------------------------------------------
 getNodesAttr(cities)
 
-## ----wg10kdefplot, fig=TRUE----------------------------------------------
+## ----wg10kdefplot, fig=TRUE, fig.width=12--------------------------------
 worldgraph.10k@meta$colors
 head(getNodesAttr(worldgraph.10k))
 table(getNodesAttr(worldgraph.10k))
@@ -95,7 +95,7 @@ title("Default plotting of worldgraph.10k")
 ls(env=.geoGraphEnv)
 get("last.plot", .geoGraphEnv)
 
-## ----citiesPlot, fig=TRUE------------------------------------------------
+## ----citiesPlot2, fig=TRUE-----------------------------------------------
 plot(cities, reset=TRUE)
 text(getCoords(cities), rownames(getData(cities)))
 
@@ -125,7 +125,7 @@ newGraph@meta$costs[2:6,2] <- 100
 newGraph@meta$costs[1,2] <- 1
 newGraph@meta$costs
 
-## ----fig=TRUE------------------------------------------------------------
+## ----fig=TRUE, fig.width=12----------------------------------------------
 newGraph <- setCosts(newGraph, attr.name="habitat")
 plot(newGraph,edge=TRUE)
 
@@ -183,14 +183,14 @@ cities <- closestNode(cities, attr.name="habitat", attr.value="land")
 getData(cities)
 getNodesAttr(cities)
 
-## ----fig=TRUE------------------------------------------------------------
+## ----fig=TRUE, fig.width=12----------------------------------------------
 hgdp
 plot(hgdp, reset=TRUE)
 
 ## ------------------------------------------------------------------------
 isConnected(hgdp)
 
-## ------------------------------------------------------------------------
+## ----connectivityPlot, fig.width=12--------------------------------------
 connectivityPlot(worldgraph.10k, edges=TRUE, seed=1)
 
 ## ----fig=TRUE------------------------------------------------------------
@@ -204,7 +204,7 @@ addis <- cbind(38,9)
 ori <- closestNode(myGraph, addis)
 paths <- dijkstraFrom(hgdp, ori)
 
-## ----fig=TRUE------------------------------------------------------------
+## ----fig=TRUE, fig.width=12----------------------------------------------
 addis <- as.vector(addis)
 plot(newGraph, col=NA, reset=TRUE)
 plot(paths)
@@ -227,7 +227,7 @@ myGraph@meta$costs
 myGraph <- setCosts(myGraph, attr.name="habitat")
 paths.2 <- dijkstraFrom(hgdp, ori)
 
-## ----fig=TRUE------------------------------------------------------------
+## ----fig=TRUE, fig.width=12----------------------------------------------
 plot(newGraph, col=NA, reset=TRUE)
 plot(paths.2)
 points(addis[1], addis[2], pch="x", cex=2)

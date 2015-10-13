@@ -419,7 +419,7 @@ plotting history and undo possible wrong manipulations.
 
 `gData` objects are by default plotted overlaying the corresponding `gGraph`.
 For instance, using the `cities` example from above:
-```{r citiesPlot, fig=TRUE}
+```{r citiesPlot2, fig=TRUE}
 plot(cities, reset=TRUE)
 text(getCoords(cities), rownames(getData(cities)))
 ```
@@ -501,7 +501,7 @@ newGraph@meta$costs
 We have just changed the costs associated to habitat type, but this change is not yet effective on
 edges between nodes.
 We use `setCosts` to set the cost of an edge to the average of the costs of its nodes:
-```{r fig=TRUE}
+```{r fig=TRUE, fig.width=12}
 newGraph <- setCosts(newGraph, attr.name="habitat")
 plot(newGraph,edge=TRUE)
 ```
