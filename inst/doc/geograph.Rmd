@@ -5,16 +5,19 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{apex: Phylogenetic Methods for Multiple Gene Data.}
+  %\VignetteIndexEntry{geoGraph}
   \usepackage[utf8]{inputenc}
 ---
 
 
 ```{r setup, echo=FALSE}
-# set global chunk options: images will be 7x5 inches
-knitr::opts_chunk$set(fig.width=8, fig.height=8, fig.path="figs/")
+knitr::opts_chunk$set(fig.width = 7, fig.height = 6, fig.path="figs/")
 options(digits = 4)
 ```
+
+
+*geoGraph*: walking through the geographic space using graphs.
+=================================================
 
 
 
@@ -59,26 +62,26 @@ Installing *geoGraph*
 All the following instructions should be entered from a new R session to avoid errors due to installing attached packages.
 
 You may need to install manually the packages *graph* and *RBGL* from *Bioconductor* (try "http" if "https" is not available):
-```r
+```{r eval = FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite("graph")
 biocLite("RBGL")
 ```
 
 *devtools* is also needed to install *geoGraph*:
-```r
+```{r eval = FALSE}
 install.packages("devtools")
 ```
 
 
 Then, to install *geoGraph*, simply type:
-```r
+```{r eval = FALSE}
 library(devtools)
 install_github("thibautjombart/geoGraph")
 ```
 
 Once installed, the package can be loaded using:
-```{r load}
+```{r load, message = FALSE}
 library("geoGraph")
 ```
 
@@ -88,15 +91,16 @@ library("geoGraph")
 
 ## Data representation
 
-Data representation refers to the way a given type of data is handled by a computer program.
-Two types of objects are used in *geoGraph*: `gGraph`, and `gData` objects.
-Both objects are defined as formal (S4) classes and often have methods for similar generic function
-(e.g. `getNodes` is defined for both objects).
-Essentially, `gGraph` objects contain underlying layers of informations, including a spatial
-grid and possibly node attributes, and covering the area of interest.
-`gData` are sets of locations (like sampled sites, for instance) which have been interfaced
-to a `gGraph` object, to allow further manipulations such as finding paths on the grid between
-pairs of locations.
+Data representation refers to the way a given type of data is handled by a
+computer program.  Two types of objects are used in *geoGraph*: `gGraph`, and
+`gData` objects.  Both objects are defined as formal (S4) classes and often have
+methods for similar generic function (e.g. `getNodes` is defined for both
+objects).  Essentially, `gGraph` objects contain underlying layers of
+informations, including a spatial grid and possibly node attributes, and
+covering the area of interest.  `gData` are sets of locations (like sampled
+sites, for instance) which have been interfaced to a `gGraph` object, to allow
+further manipulations such as finding paths on the grid between pairs of
+locations.
 
 
 
@@ -113,45 +117,42 @@ and a new empty object can be obtained using the constructor:
 new("gGraph")
 ```
 
-The documentation `?gGraph` explains the basics about the object's content.
-In a nutshell, these objects are spatial grids with nodes and segments connecting neighbouring
-nodes, and additional informations on the nodes or on the graph itself.
-`coords` is a matrix of longitudes and latitudes of the nodes.
-`nodes.attr` is a data.frame storing attributes of the nodes, such as habitat descriptors; each
-row corresponds to a node of the grid, while each column corresponds to a variable.
-`meta` is a list containing miscellanous informations about the graph itself.
-There is no contraint applying to the components of the list, but some typical components such as
-`$costs` or `$colors` will be recognised by certain functions.
-For instance, you can specify plotting rules for representing a given node attribute by a given
-color by defining a component `$colors`.
-Similarly, you can associate costs to a given node attribute by defining a component `$costs`.
-An example of this can be found in already existing `gGraph` objects.
-For instance, `worldgraph.10k` is a graph of the world with approximately 10,000 nodes, and
-only on-land connectivity (\textit{i.e.` no travelling on the seas).
-```{r }
-worldgraph.10k
-worldgraph.10k@meta
-```
-Lastly, the `graph` component is a `graphNEL` object, which is the standard class for
-graphs in the *graph* and *RBGL* packages.
-This object contains all information on the connections between nodes, and the weights (costs) of
-these connections.
+The documentation `?gGraph` explains the basics about the object's content.  In
+a nutshell, these objects are spatial grids with nodes and segments connecting
+neighbouring nodes, and additional informations on the nodes or on the graph
+itself.  `coords` is a matrix of longitudes and latitudes of the nodes.
+`nodes.attr` is a data.frame storing attributes of the nodes, such as habitat
+descriptors; each row corresponds to a node of the grid, while each column
+corresponds to a variable.  `meta` is a list containing miscellanous
+informations about the graph itself.  There is no contraint applying to the
+components of the list, but some typical components such as `$costs` or
+`$colors` will be recognised by certain functions.  For instance, you can
+specify plotting rules for representing a given node attribute by a given color
+by defining a component `$colors`.  Similarly, you can associate costs to a
+given node attribute by defining a component `$costs`.  An example of this can
+be found in already existing `gGraph` objects.  For instance, `worldgraph.10k`
+is a graph of the world with approximately 10,000 nodes, and only on-land
+connectivity (\textit{i.e.` no travelling on the seas).  ```{r } worldgraph.10k
+worldgraph.10k@meta ``` Lastly, the `graph` component is a `graphNEL` object,
+which is the standard class for graphs in the *graph* and *RBGL* packages.  This
+object contains all information on the connections between nodes, and the
+weights (costs) of these connections.
 
 
 Four main `gGraph` are provided with *geoGraph*: `rawgraph.10k`, `rawgraph.40k`,
-`worldgraph.10k`, and `worldgraph.40k`.
-These datasets are available using the command `data`.
-The grid used in these datasets are the best geometric approximation of a regular grid for the surface of a sphere.
-One advantage of working with these grids is that we do not have to use a projection for geographic
-coordinates, which is a usual issue in regular GIS.
+`worldgraph.10k`, and `worldgraph.40k`.  These datasets are available using the
+command `data`.  The grid used in these datasets are the best geometric
+approximation of a regular grid for the surface of a sphere.  One advantage of
+working with these grids is that we do not have to use a projection for
+geographic coordinates, which is a usual issue in regular GIS.
 
-The difference between rawgraphs and worldgraphs is that the first are entirely connected, while in the
-second connections occur only on land.
-Numbers `10k' and `40k' indicate that the grids consist of roughly 10,000 and 40,000 nodes.
-For illustrative purposes, we will often use the 10k grids, since they are less heavy to handle.
-For most large-scale applications, the 40k versions should provide sufficient resolution.
-New `gGraph` can be constructed using the constructor (`new(...)`), but this topic is not
-documented in this vignette.
+The difference between rawgraphs and worldgraphs is that the first are entirely
+connected, while in the second connections occur only on land.  Numbers `10k'
+and `40k' indicate that the grids consist of roughly 10,000 and 40,000 nodes.
+For illustrative purposes, we will often use the 10k grids, since they are less
+heavy to handle.  For most large-scale applications, the 40k versions should
+provide sufficient resolution.  New `gGraph` can be constructed using the
+constructor (`new(...)`), but this topic is not documented in this vignette.
 
 
 
@@ -174,21 +175,24 @@ and a new empty object can be obtained using the constructor:
 ```{r }
 new("gData")
 ```
-As before, the description of the content of these objects can be found in the documentation (`?gData`).
-`coords` is a matrix of xy (longitude/latitude) coordinates in which each row is a location.
-`nodes.id` is vector of characters giving the name of the vertices matching the locations; this is
-defined automatically when creating a new `gData`, or using the function `closestNode`.
-`data` is a slot storing data associated to the locations; it can be any type of object, but a data.frame
-should cover most requirements for storing data.
-Note that this object should be subsettable (i.e. the `[` operator should be defined), so that data can be subsetted when subsetting the `gData` object.
-Lastly, the slot `gGraph.name` contains the name of the `gGraph` object to which the
-`gData` has been interfaced.
+
+As before, the description of the content of these objects can be found in the
+documentation (`?gData`).  `coords` is a matrix of xy (longitude/latitude)
+coordinates in which each row is a location.  `nodes.id` is vector of characters
+giving the name of the vertices matching the locations; this is defined
+automatically when creating a new `gData`, or using the function `closestNode`.
+`data` is a slot storing data associated to the locations; it can be any type of
+object, but a data.frame should cover most requirements for storing data.  Note
+that this object should be subsettable (i.e. the `[` operator should be
+defined), so that data can be subsetted when subsetting the `gData` object.
+Lastly, the slot `gGraph.name` contains the name of the `gGraph` object to which
+the `gData` has been interfaced.
 
 
 
-Contrary to `gGraph` objects, `gData` objects will frequently be constructed by the user.
-In the next sections, we illustrate how we can build and use `gData` objects from a set
-of locations.
+Contrary to `gGraph` objects, `gData` objects will frequently be constructed by
+the user.  In the next sections, we illustrate how we can build and use `gData`
+objects from a set of locations.
 
 
 
@@ -201,8 +205,9 @@ of locations.
 # Using *geoGraph*
 
 
-An overview of the material implemented in the package is summarized the package's manpage, accessible
-via:
+An overview of the material implemented in the package is summarized the
+package's manpage, accessible via:
+
 ```{r eval=FALSE}
 ?geoGraph
 ```
@@ -227,19 +232,21 @@ In the following, we go through various tasks that can be achieve using *geoGrap
 
 ## Importing geographic data
 
-GeoGraphic data consist of a set of locations, possibly accompanied by additional information.
-For instance, one may want to study the migrations amongst a set of biological populations with known
-geographic coordinates.
-In *geoGraph*, geographic data are stored in `gData` objects.
-These objects match locations to the closest nodes on a grid (a `gGraph` object), and store
+GeoGraphic data consist of a set of locations, possibly accompanied by
+additional information.  For instance, one may want to study the migrations
+amongst a set of biological populations with known geographic coordinates.  In
+*geoGraph*, geographic data are stored in `gData` objects.  These objects match
+locations to the closest nodes on a grid (a `gGraph` object), and store
 additional data if needed.
 
 
 
-As a toy example, let us consider four locations: Bordeaux (France), London (UK), Malaga (Spain), and Zagreb (Croatia).
-Since we will be working with a crude grid (10,000 nodes), locations need not be exact.
-We enter the longitudes and latitudes (in this order, that is, xy coordinates) of these cities in
+As a toy example, let us consider four locations: Bordeaux (France), London
+(UK), Malaga (Spain), and Zagreb (Croatia).  Since we will be working with a
+crude grid (10,000 nodes), locations need not be exact.  We enter the longitudes
+and latitudes (in this order, that is, xy coordinates) of these cities in
 decimal degrees, as well as approximate population sizes:
+
 ```{r cities}
 Bordeaux <- c(-1,45)
 London <- c(0,51)
@@ -252,16 +259,16 @@ row.names(cities.dat) <- c("Bordeaux","London","Malaga","Zagreb")
 cities.dat
 ```
 We load a `gGraph` object which contains the grid that will support the data:
-```{r wg10plot, fig=TRUE, fig.width=12}
+```{r wg10plot, fig = TRUE, fig.width = 8}
 worldgraph.10k
 plot(worldgraph.10k)
 ```
 
- (we could use `worldgraph.40k` for a better resolution).
-In this figure, each node is represented with a color depending on the habitat type, either 'sea'
-(blue) or 'land' (green).
-We are going to interface the cities data with this grid; to do so, we create a `gData` object using
-`new` (see `?gData` object):
+ (we could use `worldgraph.40k` for a better resolution).  In this figure, each
+node is represented with a color depending on the habitat type, either 'sea'
+(blue) or 'land' (green).  We are going to interface the cities data with this
+grid; to do so, we create a `gData` object using `new` (see `?gData` object):
+
 ```{r citiesplot, fig=TRUE}
 cities <- new("gData", coords=cities.dat[,1:2], data=cities.dat[,3,drop=FALSE], gGraph.name="worldgraph.10k")
 cities
@@ -334,7 +341,8 @@ colors of the nodes are chosen according to the node attributes and the color sc
 Alternatively, the color of the nodes can be specified via the `col` argument in `plot`/`points`.
 
 Here is an example using `worldgraph.10k`:
-```{r wg10kdefplot, fig=TRUE, fig.width=12}
+
+```{r wg10kdefplot, fig=TRUE, fig.width=8}
 worldgraph.10k@meta$colors
 head(getNodesAttr(worldgraph.10k))
 table(getNodesAttr(worldgraph.10k))
@@ -501,7 +509,7 @@ newGraph@meta$costs
 We have just changed the costs associated to habitat type, but this change is not yet effective on
 edges between nodes.
 We use `setCosts` to set the cost of an edge to the average of the costs of its nodes:
-```{r fig=TRUE, fig.width=12}
+```{r fig = TRUE, fig.width = 8}
 newGraph <- setCosts(newGraph, attr.name="habitat")
 plot(newGraph,edge=TRUE)
 ```
@@ -658,7 +666,7 @@ These functions return least-cost paths with the format `gPath`.
 `gData`.
 Below, we detail the example of the documentation of these functions, which uses the famous dataset of native
 Human populations, HGDP:
-```{r fig=TRUE, fig.width=12}
+```{r fig=TRUE, fig.width = 8}
 hgdp
 plot(hgdp, reset=TRUE)
 ```
@@ -681,7 +689,7 @@ if not all locations of the `gData` are connected.
 This can be done using `connectivityPlot`, which has methods for both `gGraph` and
 `gData`, and represents different connected components using different colors.
 For instance, for `worldgraph.10k`:
-```{r connectivityPlot, fig.width=12}
+```{r connectivityPlot, fig.width = 8}
 connectivityPlot(worldgraph.10k, edges=TRUE, seed=1)
 ```
 ```{r fig=TRUE}
@@ -709,7 +717,7 @@ paths <- dijkstraFrom(hgdp, ori)
 ```
 The object `paths` contains the identified paths, which are stored as a list with class `gPath` (see `?gPath`).
 Paths can be plotted easily:
-```{r fig=TRUE, fig.width=12}
+```{r fig=TRUE, fig.width = 8}
 addis <- as.vector(addis)
 plot(newGraph, col=NA, reset=TRUE)
 plot(paths)
@@ -742,7 +750,7 @@ myGraph@meta$costs
 myGraph <- setCosts(myGraph, attr.name="habitat")
 paths.2 <- dijkstraFrom(hgdp, ori)
 ```
-```{r fig=TRUE, fig.width=12}
+```{r fig=TRUE, fig.width = 8}
 plot(newGraph, col=NA, reset=TRUE)
 plot(paths.2)
 points(addis[1], addis[2], pch="x", cex=2)

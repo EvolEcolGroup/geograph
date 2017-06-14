@@ -1,9 +1,20 @@
 ## ----setup, echo=FALSE---------------------------------------------------
-# set global chunk options: images will be 7x5 inches
-knitr::opts_chunk$set(fig.width=8, fig.height=8, fig.path="figs/")
+knitr::opts_chunk$set(fig.width = 7, fig.height = 6, fig.path="figs/")
 options(digits = 4)
 
-## ----load----------------------------------------------------------------
+## ----eval = FALSE--------------------------------------------------------
+#  source("https://bioconductor.org/biocLite.R")
+#  biocLite("graph")
+#  biocLite("RBGL")
+
+## ----eval = FALSE--------------------------------------------------------
+#  install.packages("devtools")
+
+## ----eval = FALSE--------------------------------------------------------
+#  library(devtools)
+#  install_github("thibautjombart/geoGraph")
+
+## ----load, message = FALSE-----------------------------------------------
 library("geoGraph")
 
 ## ------------------------------------------------------------------------
@@ -11,10 +22,6 @@ getClass("gGraph")
 
 ## ------------------------------------------------------------------------
 new("gGraph")
-
-## ------------------------------------------------------------------------
-worldgraph.10k
-worldgraph.10k@meta
 
 ## ------------------------------------------------------------------------
 getClass("gData")
@@ -42,7 +49,7 @@ cities.dat$pop <- c(1e6, 13e6, 5e5, 1.2e6)
 row.names(cities.dat) <- c("Bordeaux","London","Malaga","Zagreb")
 cities.dat
 
-## ----wg10plot, fig=TRUE, fig.width=12------------------------------------
+## ----wg10plot, fig = TRUE, fig.width = 8---------------------------------
 worldgraph.10k
 plot(worldgraph.10k)
 
@@ -68,7 +75,7 @@ getCoords(cities, original=FALSE)
 ## ------------------------------------------------------------------------
 getNodesAttr(cities)
 
-## ----wg10kdefplot, fig=TRUE, fig.width=12--------------------------------
+## ----wg10kdefplot, fig=TRUE, fig.width=8---------------------------------
 worldgraph.10k@meta$colors
 head(getNodesAttr(worldgraph.10k))
 table(getNodesAttr(worldgraph.10k))
@@ -125,7 +132,7 @@ newGraph@meta$costs[2:6,2] <- 100
 newGraph@meta$costs[1,2] <- 1
 newGraph@meta$costs
 
-## ----fig=TRUE, fig.width=12----------------------------------------------
+## ----fig = TRUE, fig.width = 8-------------------------------------------
 newGraph <- setCosts(newGraph, attr.name="habitat")
 plot(newGraph,edge=TRUE)
 
@@ -183,14 +190,14 @@ cities <- closestNode(cities, attr.name="habitat", attr.value="land")
 getData(cities)
 getNodesAttr(cities)
 
-## ----fig=TRUE, fig.width=12----------------------------------------------
+## ----fig=TRUE, fig.width = 8---------------------------------------------
 hgdp
 plot(hgdp, reset=TRUE)
 
 ## ------------------------------------------------------------------------
 isConnected(hgdp)
 
-## ----connectivityPlot, fig.width=12--------------------------------------
+## ----connectivityPlot, fig.width = 8-------------------------------------
 connectivityPlot(worldgraph.10k, edges=TRUE, seed=1)
 
 ## ----fig=TRUE------------------------------------------------------------
@@ -204,7 +211,7 @@ addis <- cbind(38,9)
 ori <- closestNode(myGraph, addis)
 paths <- dijkstraFrom(hgdp, ori)
 
-## ----fig=TRUE, fig.width=12----------------------------------------------
+## ----fig=TRUE, fig.width = 8---------------------------------------------
 addis <- as.vector(addis)
 plot(newGraph, col=NA, reset=TRUE)
 plot(paths)
@@ -227,7 +234,7 @@ myGraph@meta$costs
 myGraph <- setCosts(myGraph, attr.name="habitat")
 paths.2 <- dijkstraFrom(hgdp, ori)
 
-## ----fig=TRUE, fig.width=12----------------------------------------------
+## ----fig=TRUE, fig.width = 8---------------------------------------------
 plot(newGraph, col=NA, reset=TRUE)
 plot(paths.2)
 points(addis[1], addis[2], pch="x", cex=2)
