@@ -21,7 +21,7 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to){
     if(!all(to %in% getNodes(x))) stop("Some ending nodes are not in x.")
 
     ## check connectivity ##
-    if(!areConnected(myGraph, unique(c(from,to)))) stop("Not all nodes are connected by the graph.")
+    if(!areConnected(x, unique(c(from,to)))) stop("Not all nodes are connected by the graph.")
 
     ## build the wrapper ##
     myGraph <- getGraph(x)
