@@ -6,7 +6,7 @@ Author: Thibaut Jombart
 Maintainer: Thibaut Jombart <t.jombart@imperial.ac.uk>
 Depends: methods, graph, RBGL, sp
 Imports: maptools, MASS, fields
-Suggests: testthat, knitr
+Suggests: testthat, knitr, rmarkdown
 Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
 License: GPL (>=2)
 LazyLoad: yes
