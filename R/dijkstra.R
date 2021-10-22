@@ -1,6 +1,89 @@
+#' Shortest path using Dijkstra algorithm
+#'
+#' The methods \code{dijkstraFrom} and \code{dijkstraBetween} are wrappers of
+#' procedures implemented in RBGL package, designed for \linkS4class{gGraph}
+#' and \linkS4class{gData} object.\cr
+#'
+#' \code{dijkstraFrom} finds minimum costs paths to nodes from a given 'source'
+#' node.\cr
+#'
+#' \code{dijkstraBetween} finds minimum costs paths between all possible pairs
+#' of nodes given two sets of nodes.\cr
+#'
+#' All these functions return objects with S3 class "gPath". These objects can
+#' be plotted using \code{plot.gPath}.
+#'
+#' \code{gPath2dist} extracts the pairwise distances from the \code{gPath}
+#' returned by \code{dijkstraBetween} and returns a \code{dist} object. Note
+#' that if the \code{gPath} does not contain pairwise information, a warning
+#' will be issued, but the resulting output will likely be meaningless.\cr
+#'
+#' In 'dijkstraBetween', paths are seeked all possible pairs of nodes between
+#' 'from' and 'to'.
+#'
+#' @name dijkstra-methods
+#' @aliases dijkstraFrom dijkstraFrom-methods dijkstraFrom,gData-method
+#' dijkstraFrom,gGraph-method dijkstraBetween dijkstraBetween-methods
+#' dijkstraBetween,gData-method dijkstraBetween,gGraph-method gPath2dist gPath
+#' plot.gPath
+#' @docType methods
+#' @param x a \linkS4class{gGraph} or a \linkS4class{gData} object. For
+#' plotting method of \code{gPath} objects, a \code{gPath} object.
+#' @param start a character string naming the 'source' node.
+#' @param from a vector of character strings giving node names.
+#' @param to a vector of character strings giving node names.
+#' @param col a character string indicating a color or a palette of colors to
+#' be used for plotting edges.
+#' @param lwd a numeric value indicating the width of edges.
+#' @param m a \code{gPath} object obtained by \code{dijkstraBetween}.
+#' @param diag,upper unused parameters added for consistency with
+#' \code{as.dist}.
+#' @param res.type a character string indicating what type of result should be
+#' returned: a \code{dist} object ('dist'), or a vector of distances
+#' ('vector'). Note that 'dist' should only be required for pairwise data, as
+#' output by dijkstraBetween (as opposed to dijkstraFrom).
+#' @param \dots further arguments passed to the \code{segments} method.
+#' @return A "gPath" object. These are basically the outputs of RBGL's
+#' \code{sp.between} function (see \code{?sp.between}), with a class attribute
+#' set to "gPath", and an additional slot 'xy' containing geographic
+#' coordinates of the nodes involved in the paths.\cr
+#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+#' @keywords methods spatial
+#' @examples
+#'
+#' \dontrun{
+#'
+#' ## plotting
+#' world <- worldgraph.40k
+#' par(mar=rep(.1,4))
+#' plot(world, reset=TRUE)
+#'
+#' ## check connectivity
+#' isConnected(hgdp) # must be ok
+#'
+#' ## Lowest cost path from an hypothetical origin
+#' ori.coord <- list(33,10) # one given location long/lat
+#' points(data.frame(ori.coord), pch="x", col="black", cex=3) # an 'x' shows the putative origin
+#' ori <- closestNode(world, ori.coord) # assign it the closest node
+#'
+#' myPath <- dijkstraFrom(hgdp, ori) # compute shortest path
+#'
+#' ## plotting
+#' plot(world,pch="") # plot the world
+#' points(hgdp, lwd=3) # plot populations
+#' points(data.frame(ori.coord), pch="x", col="black", cex=3) # add origin
+#' plot(myPath) # plot the path
+#' }
+#'
+NULL
+
+
+
 ###################
 ## dijkstraBetween
 ###################
+#' @rdname dijkstra-methods
+#' @export
 setGeneric("dijkstraBetween", function(x,...) {
     standardGeneric("dijkstraBetween")
 })
@@ -13,6 +96,8 @@ setGeneric("dijkstraBetween", function(x,...) {
 #####################
 ## method for gGraph
 #####################
+#' @rdname dijkstra-methods
+#' @export
 setMethod("dijkstraBetween", "gGraph", function(x, from, to){
     ## some checks ##
     if(!require(RBGL)) stop("RBGL is required.")
@@ -49,7 +134,7 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to){
 
     ## wrap ##
     ## ! sp.between does not return duplicated paths
-    res <- sp.between(myGraph, start=from[pairIdStart], finish=to[pairIdStop])
+    res <- RBGL::sp.between(myGraph, start=from[pairIdStart], finish=to[pairIdStop])
 
 
     ## handle duplicated paths ##
@@ -76,6 +161,8 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to){
 #####################
 ## method for gData
 #####################
+#' @rdname dijkstra-methods
+#' @export
 setMethod("dijkstraBetween", "gData", function(x){
 ##temp <- function(x){ # for debugging
 
@@ -105,7 +192,7 @@ setMethod("dijkstraBetween", "gData", function(x){
 
     ## wrap ##
     ## ! sp.between does not return duplicated paths
-    res <- sp.between(myGraph, start=x@nodes.id[pairIdStart], finish=x@nodes.id[pairIdStop])
+    res <- RBGL::sp.between(myGraph, start=x@nodes.id[pairIdStart], finish=x@nodes.id[pairIdStop])
 
 
     ## handle duplicated paths ##
@@ -140,6 +227,8 @@ setMethod("dijkstraBetween", "gData", function(x){
 ################
 ## dijkstraFrom
 ################
+#' @rdname dijkstra-methods
+#' @export
 setGeneric("dijkstraFrom", function(x,...) {
     standardGeneric("dijkstraFrom")
 })
@@ -152,6 +241,8 @@ setGeneric("dijkstraFrom", function(x,...) {
 #####################
 ## method for gGraph
 #####################
+#' @rdname dijkstra-methods
+#' @export
 setMethod("dijkstraFrom", "gGraph", function(x, start){
 
     ## some checks ##
@@ -169,7 +260,7 @@ setMethod("dijkstraFrom", "gGraph", function(x, start){
     ##     }
 
     ## wrap ##
-    res <- dijkstra.sp(myGraph, start=start)
+    res <- RBGL::dijkstra.sp(myGraph, start=start)
 
     ## sp.between uses unique(x@nodes.id) ##
     ## eventually have to duplicate paths ##
@@ -194,6 +285,8 @@ setMethod("dijkstraFrom", "gGraph", function(x, start){
 ####################
 ## method for gData
 ####################
+#' @rdname dijkstra-methods
+#' @export
 setMethod("dijkstraFrom", "gData", function(x, start){
 
     ## some checks ##
@@ -215,7 +308,7 @@ setMethod("dijkstraFrom", "gData", function(x, start){
 
 
     ## wrap ##
-    res <- sp.between(myGraph, start=start, finish=x@nodes.id)
+    res <- RBGL::sp.between(myGraph, start=start, finish=x@nodes.id)
 
 
     ## sp.between uses unique(x@nodes.id) ##
@@ -250,6 +343,9 @@ setMethod("dijkstraFrom", "gData", function(x, start){
 #################
 ## plot methods
 #################
+#' @rdname dijkstra-methods
+#' @method plot gPath
+#' @export
 plot.gPath <- function(x, col="rainbow", lwd=3, ...){
 
     ##listNodes <- lapply(x[-length(x)], function(e) e$path_detail)
@@ -261,7 +357,7 @@ plot.gPath <- function(x, col="rainbow", lwd=3, ...){
 
     ## handle color ##
     if(is.character(col) && col[1]=="rainbow"){
-        col <- sample(rainbow(length(x)))
+        col <- sample(grDevices::rainbow(length(x)))
     }
     col <- rep(col, length=Npath)
     lwd <- rep(lwd, length=Npath)
@@ -300,6 +396,8 @@ plot.gPath <- function(x, col="rainbow", lwd=3, ...){
 ## CONVERSION gPath -> distance
 ##
 
+#' @rdname dijkstra-methods
+#' @export
 gPath2dist <- function(m, diag=FALSE, upper=FALSE, res.type=c("dist","vector")){
 
     ## find the size of the dist object ##
@@ -328,7 +426,7 @@ gPath2dist <- function(m, diag=FALSE, upper=FALSE, res.type=c("dist","vector")){
     ## BUILD RESULT ##
     ## type == dist
     if(res.type=="dist"){
-        res <- dist(1:resSize)
+        res <- stats::dist(1:resSize)
         res[] <- resDist
     } else {
         ## type == vector (no change)

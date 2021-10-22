@@ -1,6 +1,55 @@
+#' @importFrom graphics  identify locator segments
+NULL
+
 #################
 ## geo.add.edges
 #################
+
+
+#' Add and remove edges from a gGraph object
+#'
+#' The functions \code{geo.add.edges} and \code{geo.remove.edges} allow one to
+#' add or remove edges interactively with a \linkS4class{gGraph} object. When
+#' adding edges, two approaches are possible:\cr - click vertices defining new
+#' edges (mode="points")\cr - select an area in which all edges from a
+#' reference graph are added (mode="area").\cr
+#'
+#'
+#' @aliases geo.add.edges geo.remove.edges
+#' @param x a valid \linkS4class{gGraph} object.
+#' @param mode a character string indicating the mode for addition or removal
+#' of edges. 'points': user is expected to click vertices to indicate edges.
+#' 'area': user is expected to click two points defining a rectangular area
+#' within which all edges are selected. 'all': all edges from the reference
+#' graph are added to the current object.
+#' @param refObj a valid \linkS4class{gGraph} object, used as a reference when
+#' adding edges. When selecting an area inside which edges are added, all edges
+#' existing in this area in \code{refObj} are added to \code{x}. Alternatively,
+#' a character string can be provided, corresponding to one of the following
+#' datasets: 'rawgraph.10k', rawgraph.40k'.
+#' @return A \linkS4class{gGraph} object with newly added or removed edges.
+#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+#' @seealso \code{\link{setEdges}} to non-interactively add or remove edges in
+#' a \linkS4class{gGraph} object.
+#' @keywords utilities
+#' @examples
+#'
+#' \dontrun{
+#' plot(worldgraph.10k, reset=TRUE)
+#'
+#' ## zooming in
+#' geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+#' title("Europe")
+#'
+#' ## remove edges
+#' geo.remove.edges(worldgraph.10k) # points mode
+#' geo.remove.edges(worldgraph.10k, mode="area") # area mode
+#'
+#' ## add edges
+#' geo.add.edges(worldgraph.10k) # points mode
+#' geo.add.edges(worldgraph.10k, mode="area") # area mode
+#' }
+#'
 geo.add.edges <- function(x, mode=c("points","area","all"), refObj="rawgraph.40k") {
     ## preliminary stuff
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
@@ -112,7 +161,7 @@ geo.remove.edges <- function(x, mode=c("points","area")) {
     lon <- coords[,1]
     lat <- coords[,2]
     env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
-    psize <- get("psize", env=env)
+    psize <- get("psize", envir=env)
     mode <- match.arg(mode)
 
     ## handle plot param
@@ -195,6 +244,61 @@ geo.remove.edges <- function(x, mode=c("points","area")) {
 ###################
 ## geo.change.attr
 ###################
+
+
+#' Change values of a node attribute
+#'
+#' The functions \code{geo.change.attr} changes values of a given node
+#' attribute for a set of selected nodes of a \linkS4class{gGraph} object.
+#'
+#' The argument \code{only.name} allows one to perform a more accurate
+#' selection of nodes whose attribute is changed, by specifying values
+#' (\code{only.value}) of an attribute (\code{only.name}) that can be selected.
+#' For instance, one may want to define new attributes for nodes of
+#' worldgraph.10k that are exclusively on land: this would be done by
+#' specifying \code{only.name="habitat"} and \code{only.value="land"}.
+#'
+#' @param x a valid \linkS4class{gGraph} object.
+#' @param mode a character string indicating whether selected nodes are clicked
+#' one by one ('points') or by defining a rectangular area ('area').
+#' @param attr.name the name of the node attribute to be modified.
+#' @param attr.value the new value of attribute assigned to selected nodes.
+#' @param only.name (optional) in area mode, the name of a node attribute to
+#' add an extra selection criterion. See details.
+#' @param only.value (optional) in area mode, and if \code{only.name} is
+#' specified, the values of \code{only.name} that can be selected. See details.
+#' @param newCol a character string giving the new color for the attribute
+#' value.
+#' @param restore.edges a logical indicating whether edges stemming from the
+#' modified nodes should be re-added to the graph, using \code{refObj} as a
+#' reference. This is useful when connectivity is to be redefined using
+#' \code{\link{setCosts}} for nodes that were previously disconnected.
+#' @param refObj a character string or a \linkS4class{gGraph} object, used as
+#' reference when re-adding edges. If a character string is provided, it must
+#' match one of the following dataset: 'rawgraph.10k', 'rawgraph.40k'.
+#' @return A \linkS4class{gGraph} object with modified node attributes.
+#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+#' @keywords utilities
+#' @examples
+#'
+#' \dontrun{
+#' plot(worldgraph.10k, reset=TRUE)
+#'
+#' ## have to click here for an area
+#' ## all nodes are modified in the area
+#' x <- geo.change.attr(worldgraph.10k, mode="area", attr.name="habitat", attr.value="fancy
+#' habitat", newCol="pink") # modify selected area
+#'
+#' plot(x,reset=TRUE) # modification in the whole selected area
+#'
+#' ## have to click here for an area
+#' ## only nodes on land are modified
+#' x <- geo.change.attr(x, mode="area", attr.name="habitat", attr.value="fancy2
+#' habitat", newCol="purple", only.name="habitat", only.value="land")
+#'
+#' plot(x,reset=TRUE) # modification in the whole selected area
+#' }
+#'
 geo.change.attr <- function(x, mode=c("points","area"), attr.name, attr.value,
                             only.name=NULL, only.value=NULL, newCol="black",
                             restore.edges=FALSE, refObj="rawgraph.40k") {

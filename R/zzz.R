@@ -1,5 +1,5 @@
 .onAttach <- function(libname, pkgname){
-    pkg.version <- packageDescription("geoGraph", fields = "Version")
+    pkg.version <- utils::packageDescription("geoGraph", fields = "Version")
 
     startup.txt <- paste("\n   /// geoGraph ", pkg.version, " is loaded ////////////",
                          "\n\n   > overview: '?geoGraph'",
@@ -9,10 +9,12 @@
 }
 
 
+
 ## create some environment variables
 ## (there probably are better ways of doing this)
 
 ## new environment
+#' @rawNamespace exportPattern(".")
 .geoGraphEnv <- new.env(parent=.GlobalEnv)
 
 ## temporary variables
