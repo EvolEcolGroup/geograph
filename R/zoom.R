@@ -1,33 +1,3 @@
-###############
-## .zoomlog.up
-###############
-#' @export
-.zoomlog.up <- function(vec){ # vec is xmin, xmax, ymin, ymax
-    if(!is.vector(vec) || length(vec)!=4 || !is.numeric(vec)) stop("Updating zoomlog using a wrong value.")
-
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-    oldZoomLog <- get("zoom.log", env=geoEnv)
-    newZoomLog <- rbind(vec, oldZoomLog)
-    colnames(newZoomLog) <- colnames(oldZoomLog)
-
-    if(nrow(newZoomLog) > 100){
-        newZoomLog <- newZoomLog[1:100,]
-    }
-    assign("zoom.log", newZoomLog,env=geoEnv)
-
-
-    return(invisible())
-}
-
-
-
-
-
-##############
-## geo.zoomin
-##############
-
-
 #' Navigate in the plot of a gGraph object
 #' 
 #' The functions \code{geo.zoomin}, \code{geo.zoomout}, \code{geo.slide},
@@ -65,11 +35,10 @@
 #' plotting window, in the order: xmin, xmax, ymin, ymax.
 #' @param name a character string giving the name of the bookmark to create (in
 #' \code{geo.bookmark}) or to get back to (in \code{geo.goto}).
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
 #' @seealso \code{\link{plot.gGraph}} for plotting of a \linkS4class{gGraph}
 #' object.
 #' @keywords utilities hplot
-#' @export
+#' @name zoom
 #' @examples
 #' 
 #' plot(worldgraph.10k, reset=TRUE)
@@ -96,6 +65,42 @@
 #' geo.slide() # you have to click !
 #' }
 #' 
+NULL
+
+
+
+
+###############
+## .zoomlog.up
+###############
+#' @export
+.zoomlog.up <- function(vec){ # vec is xmin, xmax, ymin, ymax
+    if(!is.vector(vec) || length(vec)!=4 || !is.numeric(vec)) stop("Updating zoomlog using a wrong value.")
+
+    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    oldZoomLog <- get("zoom.log", env=geoEnv)
+    newZoomLog <- rbind(vec, oldZoomLog)
+    colnames(newZoomLog) <- colnames(oldZoomLog)
+
+    if(nrow(newZoomLog) > 100){
+        newZoomLog <- newZoomLog[1:100,]
+    }
+    assign("zoom.log", newZoomLog,env=geoEnv)
+
+
+    return(invisible())
+}
+
+
+
+
+
+##############
+## geo.zoomin
+##############
+
+
+#' @export
 geo.zoomin <- function(reg=NULL){ # reg should be a list as returned by locator()
     ## a few checks
     if(is.list(reg)){

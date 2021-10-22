@@ -1,16 +1,48 @@
 Package: geoGraph
+Type: Package
 Version: 1.0-0
 Date: 2015/09/13
 Title: walking through the geographic space using graphs
+Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
 Author: Thibaut Jombart
 Maintainer: Thibaut Jombart <t.jombart@imperial.ac.uk>
-Depends: methods, graph, RBGL, sp
-Imports: maptools, MASS, fields
-Suggests: testthat, knitr, rmarkdown
-Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
 License: GPL (>=2)
 LazyLoad: yes
 LazyData: TRUE
-Collate: classes.R basicMethods.R accessors.R auxil.R connectivity.R dropDead.R closestNode.R isInArea.R rebuild.R plot.R zoom.R findLand.R extractFromLayer.R interact.R setCosts.R dijkstra.R setDistCosts.R makeGrid.R buffer.R zzz.R
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
+Depends: 
+  methods,
+  graph, 
+  RBGL, 
+  sp
+Imports: 
+  maptools, 
+  MASS, 
+  fields
+Suggests: 
+  testthat, 
+  knitr, 
+  rmarkdown
+Collate: 
+    'classes.R'
+    'accessors.R'
+    'auxil.R'
+    'basicMethods.R'
+    'buffer.R'
+    'closestNode.R'
+    'connectivity.R'
+    'datasets.R'
+    'dijkstra.R'
+    'dropDead.R'
+    'extractFromLayer.R'
+    'findLand.R'
+    'interact.R'
+    'isInArea.R'
+    'makeGrid.R'
+    'plot.R'
+    'rebuild.R'
+    'setCosts.R'
+    'setDistCosts.R'
+    'zoom.R'
+    'zzz.R'

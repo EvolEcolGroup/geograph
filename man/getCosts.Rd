@@ -13,6 +13,8 @@ getCosts(x, ...)
 
 \S4method{getCosts}{gGraph}(x, res.type = c("asIs", "vector"), unique = FALSE, ...)
 
+getNodeCosts(x, ...)
+
 \S4method{getNodeCosts}{gGraph}(x, attr.name, ...)
 }
 \arguments{
@@ -55,6 +57,8 @@ connectivity there is between the couple of concerned nodes.
 \section{Functions}{
 \itemize{
 \item \code{getCosts,gGraph-method}: Method for gGraph object
+
+\item \code{getNodeCosts}: Function to get the costs values for nodes
 
 \item \code{getNodeCosts,gGraph-method}: Method to get node costs for gGraph object
 }}

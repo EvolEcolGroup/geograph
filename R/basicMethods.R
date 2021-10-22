@@ -1,3 +1,7 @@
+#' @include classes.R
+NULL
+
+
 #################
 ## BASIC METHODS
 #################
