@@ -138,7 +138,7 @@ setMethod("closestNode", "gGraph", function(x, loc, zoneSize=5, attr.name=NULL, 
         xy <- coords[toKeep,,drop=FALSE]
 
         ## compute all great circle distances between nodes and loc
-        temp <- rdist.earth(xy, matrix(oneLoc, nrow=1))
+        temp <- fields::rdist.earth(xy, matrix(oneLoc, nrow=1))
         closeNode <- rownames(temp)[which.min(temp)]
         return(closeNode)
     } # end closeOne
