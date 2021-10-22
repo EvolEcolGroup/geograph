@@ -1,29 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #' The geoGraph package
 #' 
 #' This package implements classes and methods for large-scale georeferenced
@@ -166,6 +140,32 @@
 #' 
 #' 
 NULL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

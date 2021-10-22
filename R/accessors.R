@@ -257,7 +257,47 @@ setMethod("setEdges", "gGraph", function(x, add=NULL, remove=NULL, costs=NULL, .
 
 
 
-
+#' Get costs associated to edges of a gGraph object
+#' 
+#' The function \code{getCosts} returns the costs associated to the edges of a
+#' \linkS4class{gGraph} object using different possible outputs. These outputs
+#' are designed to match possible outputs of \code{\link{getEdges}} function.
+#' 
+#' \code{getNodeCosts} returns the costs associated to nodes based on one node
+#' attribute.
+#' 
+#' The notion of 'costs' in the context of \linkS4class{gGraph} objects is
+#' identical to the concept of 'weights' in \linkS4class{graph} (and thus
+#' \linkS4class{graphNEL}) objects. The larger it is for an edge, the less
+#' connectivity there is between the couple of concerned nodes.
+#' 
+#' @aliases getCosts getCosts-methods getCosts,gGraph-method getNodeCosts
+#' getNodeCosts-methods getNodeCosts,gGraph-method
+#' @param x a valid \linkS4class{gGraph}.
+#' @param res.type a character string indicating which kind of output should be
+#' used. See value.
+#' @param unique a logical indicating whether the costs should be returned for
+#' unique edges (TRUE), or if duplicate edges should be considered as well
+#' (TRUE, default).
+#' @param attr.name the name of the node attribute used to define node costs.
+#' @param \dots other arguments passed to other methods (currently unused).
+#' @return The output depends on the value of the argument \code{res.type}:\cr
+#' - \code{asIs}: output is a named list of weights, each slot containing
+#' weights associated to the edges stemming from one given node. This format is
+#' that of the \code{weights} accessor for \linkS4class{graphNEL} objects.\cr
+#' 
+#' - \code{vector}: a vector of weights; this output matches matrix outputs of
+#' \code{\link{getEdges}}.\cr
+#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+#' @seealso Most other accessors are documented in \linkS4class{gGraph}
+#' manpage.\cr
+#' @keywords utilities methods
+#' @examples
+#' 
+#' head(getEdges(worldgraph.10k, res.type="matNames",unique=TRUE))
+#' head(getCosts(worldgraph.10k,res.type="vector",unique=TRUE))
+#' 
+#' 
 ##############
 ## getCosts
 ##############
@@ -266,7 +306,8 @@ setGeneric("getCosts", function(x, ...) {
 })
 
 
-
+#' @describeIn getCosts Method for gGraph object
+#' @export
 setMethod("getCosts", "gGraph", function(x, res.type=c("asIs","vector"), unique=FALSE, ...) {
     res.type <- match.arg(res.type)
     if(res.type=="asIs") return(edgeWeights(x@graph))
@@ -394,12 +435,14 @@ setMethod("getColors", "gGraph", function(x, nodes="all", attr.name, col.rules=N
 #################
 ## getNodeCosts
 #################
+#' @export
 setGeneric("getNodeCosts", function(x, ...) {
     standardGeneric("getNodeCosts")
 })
 
 
-
+#' @describeIn getCosts Method to get node costs for gGraph object
+#' @export
 setMethod("getNodeCosts", "gGraph", function(x, attr.name, ...) {
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
 

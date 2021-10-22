@@ -6,13 +6,15 @@
                          "\n   > tutorials/doc/questions: https://github.com/thibautjombart/geograph' \n", sep="")
 
     packageStartupMessage(startup.txt)
-
 }
+
+
 
 ## create some environment variables
 ## (there probably are better ways of doing this)
 
 ## new environment
+#' @rawNamespace exportPattern(".")
 .geoGraphEnv <- new.env(parent=.GlobalEnv)
 
 ## temporary variables
@@ -34,6 +36,3 @@ assign("bookmarks", bookmarks, envir=.geoGraphEnv)
 rm(zoom.log)
 rm(temp)
 rm(bookmarks)
-
-
-

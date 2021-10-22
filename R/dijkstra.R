@@ -344,6 +344,7 @@ setMethod("dijkstraFrom", "gData", function(x, start){
 ## plot methods
 #################
 #' @rdname dijkstra-methods
+#' @method plot gPath
 #' @export
 plot.gPath <- function(x, col="rainbow", lwd=3, ...){
 

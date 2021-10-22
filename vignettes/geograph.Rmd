@@ -719,7 +719,7 @@ The object `paths` contains the identified paths, which are stored as a list wit
 Paths can be plotted easily:
 ```{r fig=TRUE, fig.width = 8}
 addis <- as.vector(addis)
-plot(newGraph, col=NA, reset=TRUE)
+plot(myGraph, col=NA, reset=TRUE)
 plot(paths)
 points(addis[1], addis[2], pch="x", cex=2)
 text(addis[1]+35, addis[2], "Addis abeba", cex=.8, font=2)

@@ -28,7 +28,7 @@ dijkstraFrom(x, ...)
 
 \S4method{dijkstraFrom}{gData}(x, start)
 
-plot.gPath(x, col = "rainbow", lwd = 3, ...)
+\method{plot}{gPath}(x, col = "rainbow", lwd = 3, ...)
 
 gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
 }
