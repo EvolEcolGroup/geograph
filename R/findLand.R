@@ -1,6 +1,68 @@
+#' Find which nodes are on land
+#' 
+#' The generic function \code{findLand} uses information from a GIS shapefile
+#' to define which nodes are on land, and which are not. Strickly speaking,
+#' being 'on land' is in fact being inside a polygon of the shapefile.
+#' 
+#' Nodes can be specified either as a matrix of geographic coordinates, or as a
+#' \linkS4class{gGraph} object.
+#' 
+#' 
+#' @aliases findLand findLand-methods findLand,matrix-method
+#' findLand,data.frame-method findLand,gGraph-method
+#' @param x a matrix, a data.frame, or a valid \linkS4class{gGraph} object. For
+#' matrix and data.frame, input must have two columns giving longitudes and
+#' latitudes of locations being considered.
+#' @param shape a shapefile of the class \code{SpatialPolygonsDataFrame} (see
+#' \code{readShapePoly} in maptools package to import such data from a GIS
+#' shapefile). Alternatively, a character string indicating one shapefile
+#' released with geoGraph; currently, only 'world' is available (see
+#' \code{?data(worldshape)}).
+#' @param \dots further arguments to be passed to other methods. Currently not
+#' used.
+#' @param attr.name a character string giving the name of the node attribute in
+#' which the output is to be stored.
+#' @return The output depends on the nature of the input:\cr - \code{matrix,
+#' data.frame}: a factor with two levels being 'land' and 'sea'.\cr
+#' 
+#' - \code{gGraph}: a \linkS4class{gGraph} object with a new node attribute,
+#' possibly added to previously existing node attributes (\code{@nodes.attr}
+#' slot).\cr
+#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+#' @seealso \code{\link{extractFromLayer}}, to retrieve any information from a
+#' GIS shapefile.
+#' @keywords utilities methods
+#' @name findLand
+#' @examples
+#' 
+#' 
+#' ## create a new gGraph with random coordinates
+#' myCoords <- data.frame(long=runif(1000,-180,180), lat=runif(1000,-90,90))
+#' obj <- new("gGraph", coords=myCoords)
+#' obj # note: no node attribute 
+#' plot(obj)
+#' 
+#' ## find which points are on land
+#' obj <- findLand(obj)
+#' obj # note: new node attribute
+#' 
+#' ## define rules for colors
+#' temp <- data.frame(habitat=c("land","sea"), color=c("green","blue"))
+#' temp
+#' obj@meta$color <- temp
+#' 
+#' ## plot object with new colors
+#' plot(obj)
+#' 
+#' 
+NULL
+
+
 ############
 ## findLand
 ############
+#' @rdname findLand
+#' @export
 setGeneric("findLand", function(x,...) {
     standardGeneric("findLand")
 })
@@ -13,6 +75,8 @@ setGeneric("findLand", function(x,...) {
 ################
 ## for matrices (of long/lat)
 ################
+#' @rdname findLand
+#' @export
 setMethod("findLand", "matrix", function(x, shape="world", ...) {
 
     ## This functions automatically assigns to land all points overlapping the country polygons
@@ -53,12 +117,11 @@ setMethod("findLand", "matrix", function(x, shape="world", ...) {
 
 
 
-
-
-
 ################
 ## for data.frames (of long/lat)
 ################
+#' @rdname findLand
+#' @export
 setMethod("findLand", "data.frame", function(x, shape="world",...){
     x <- as.matrix(x)
     return(findLand(x, shape=shape, ...))
@@ -72,6 +135,8 @@ setMethod("findLand", "data.frame", function(x, shape="world",...){
 ##############
 ## for gGraph
 ##############
+#' @rdname findLand
+#' @export
 setMethod("findLand", "gGraph", function(x, shape="world", attr.name="habitat",...){
     coords <- getCoords(x)
     res <- findLand(coords, shape=shape, ...)

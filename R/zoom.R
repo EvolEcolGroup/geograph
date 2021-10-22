@@ -1,6 +1,7 @@
 ###############
 ## .zoomlog.up
 ###############
+#' @export
 .zoomlog.up <- function(vec){ # vec is xmin, xmax, ymin, ymax
     if(!is.vector(vec) || length(vec)!=4 || !is.numeric(vec)) stop("Updating zoomlog using a wrong value.")
 
@@ -68,6 +69,7 @@
 #' @seealso \code{\link{plot.gGraph}} for plotting of a \linkS4class{gGraph}
 #' object.
 #' @keywords utilities hplot
+#' @export
 #' @examples
 #' 
 #' plot(worldgraph.10k, reset=TRUE)
@@ -183,6 +185,7 @@ geo.zoomin <- function(reg=NULL){ # reg should be a list as returned by locator(
 ###############
 ## geo.zoomout
 ###############
+#' @export
 geo.zoomout <- function(){
     ## get environment
     geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
@@ -252,6 +255,7 @@ geo.zoomout <- function(){
 ############
 ## geo.back
 ############
+#' @export
 geo.back <- function(){
     ## get environment
     geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
@@ -289,6 +293,7 @@ geo.back <- function(){
 #############
 ## geo.slide
 #############
+#' @export
 geo.slide <- function(){
     ## get environment
     geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
@@ -330,6 +335,7 @@ geo.slide <- function(){
 ############
 ## geo.bookmark
 ############
+#' @export
 geo.bookmark <- function(name=NULL){
     ## get environment
     geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
@@ -368,6 +374,7 @@ geo.bookmark <- function(name=NULL){
 ############
 ## geo.goto
 ############
+#' @export
 geo.goto <- function(name){
     ## get environment
     geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)

@@ -15,6 +15,7 @@
 
 
 
+#' @export
 setClass("gGraph",
          representation(coords = "matrix", nodes.attr = "data.frame", meta = "list",
                         graph = "graphNEL"),
@@ -25,7 +26,67 @@ setClass("gGraph",
          )
 
 
+#' Formal class "gData"
+#' 
+#' The class \code{gData} is a formal (S4) class storing georeferenced data,
+#' consisting in a set of locations (longitude and latitude) where one or
+#' several variables have been measured. These data are designed to be matched
+#' against a \linkS4class{gGraph} object, each location being assigned to the
+#' closest node of the \linkS4class{gGraph} object.\cr
+#' 
+#' Note that for several operations on a \code{gData} object, the
+#' \linkS4class{gGraph} object to which it is linked will have to be present in
+#' the same environment.
+#' 
+#' 
+#' @name gData-class
+#' @aliases gData gData-class [,gData-method [,gData,ANY,ANY-method
+#' [,gData,ANY,ANY,ANY-method getCoords,gData-method getData-methods
+#' getData,gData-method getData getNodes,gData-method initialize,gData-method
+#' show,gData-method is.gData getGraph,gData-method
+#' @docType class
+#' @section Objects from the class gData: \code{gData} objects can be created
+#' by calls to \code{new("gData", ...)}, where '...' can be the following
+#' arguments:
+#' 
+#' \describe{ \item{list("coords")}{a matrix of spatial coordinates with two
+#' columns, being respectively longitude (from -180 to 180) and latitude.
+#' Positive numbers are intended as 'east' and 'north', respectively.}
+#' \item{list("nodes.id")}{a vector of character strings giving the name of the
+#' nodes (of the \linkS4class{gGraph} object) associated to the locations.}
+#' \item{list("data")}{any kind of data associated to the locations in coords.
+#' For matrix-like objects, rows should correspond to locations.}
+#' \item{list("gGraph.name")}{a character string the name of the
+#' \linkS4class{gGraph} object against which the object is matched.} } Note
+#' that none of these is mandatory: \code{new("gData")} would work, and create
+#' an empty \code{gGraph} object. Also note that a finer matching of locations
+#' against the nodes of a \code{gGraph} object can be achieved after creating
+#' the object, for instance using the \code{closestNode} method.
+#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+#' @seealso Related class:\cr - \code{\linkS4class{gGraph}}\cr
+#' @keywords classes spatial
+#' @examples
+#' 
+#' hgdp
+#' 
+#' ## plot data
+#' plot(worldgraph.40k, pch="")
+#' points(hgdp)
+#' 
+#' ## subset and plot data
+#' onlyNorth <- hgdp[hgdp@data$Latitude >0] # only northern populations
+#' 
+#' plot(worldgraph.40k, reset=TRUE)
+#' abline(h=0) # equator
+#' points(onlyNorth, pch.node=20, cex=2, col.node="purple")
+#' 
+#' 
+NULL
 
+
+
+
+#' @export
 setClass("gData", representation(coords="matrix", nodes.id="character", data="ANY",
                                  gGraph.name="character"),
          prototype(coords = matrix(numeric(0), ncol=2, dimnames=list(NULL, c("lon","lat"))),
@@ -41,6 +102,7 @@ setClass("gData", representation(coords="matrix", nodes.id="character", data="AN
 ####################
 ## VALIDITY METHODS
 ####################
+#' @export
 .gGprah.valid <- function(object){
     x <- object
     N <- nrow(x@coords)
@@ -111,7 +173,7 @@ setClass("gData", representation(coords="matrix", nodes.id="character", data="AN
 
 
 
-
+#' @export
 .gData.valid <- function(object){
     x <- object
     Ncoords <- nrow(x@coords)
@@ -135,8 +197,10 @@ setClass("gData", representation(coords="matrix", nodes.id="character", data="AN
 
 
 
+#' @export
 setValidity("gGraph", .gGprah.valid)
 ## setValidity("gGraphHistory", .gGprahHistory.valid)
+#' @export
 setValidity("gData", .gData.valid)
 
 
@@ -145,11 +209,13 @@ setValidity("gData", .gData.valid)
 ##     return(res)
 ## }
 
+#' @export
 is.gGraph <- function(x){
     res <- (is(x, "gGraph") & validObject(x))
     return(res)
 }
 
+#' @export
 is.gData <- function(x){
     res <- (is(x, "gData") & validObject(x))
     return(res)
@@ -216,6 +282,7 @@ is.gData <- function(x){
 ##########
 ## gGraph
 ##########
+#' @export
 setMethod("initialize", "gGraph", function(.Object, ...) {
     x <- .Object
     input <- list(...)
@@ -297,6 +364,7 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
 ##########
 ## gData
 ##########
+#' @export
 setMethod("initialize", "gData", function(.Object, ...) {
     x <- .Object
     input <- list(...)
