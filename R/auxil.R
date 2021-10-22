@@ -125,6 +125,18 @@ geo.segments <- function(x0, y0, x1, y1,
 #######################
 ## installDep.geoGraph
 #######################
+
+
+#' Install dependencies for geoGraph
+#' 
+#' This simple function installs the latest versions of the packages
+#' \code{graph} and \code{RBGL} on Bioconductor. This function requires a
+#' working internet connection, as well as administrator rights for the
+#' directory where the libraries are installed.
+#' 
+#' 
+#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+#' @keywords utilities
 installDep.geoGraph <- function(){
     cat("\nInstalling MASS, sp, maptools, fields from CRAN ... \n")
     install.packages("MASS")

@@ -25,6 +25,75 @@
 ##############
 ## geo.zoomin
 ##############
+
+
+#' Navigate in the plot of a gGraph object
+#' 
+#' The functions \code{geo.zoomin}, \code{geo.zoomout}, \code{geo.slide},
+#' \code{geo.back}, \code{geo.bookmark} and \code{geo.goto} are used to
+#' navigate interactively in the plot of a \linkS4class{gGraph} object.
+#' 
+#' \code{geo.zoomin} and \code{geo.zoomout} are used to zoom in and out. For
+#' zooming in, the user has to delimit the opposite corner of the new plotting
+#' area; alternatively, a set of coordinates can be provided. For zooming out,
+#' each click on the screen will zoom out further.\cr
+#' 
+#' \code{geo.slide} moves the window toward the direction indicated by clicking
+#' in the screen.\cr
+#' 
+#' \code{geo.back} redraws previous plots each time screen is clicked.\cr
+#' 
+#' \code{geo.bookmark} sets a bookmark for the current area. If the name for
+#' the bookmark is left to NULL, then the list of currently available bookmarks
+#' is returned.\cr
+#' 
+#' \code{geo.goto} allows the user to get back to a bookmarked area.\cr
+#' 
+#' \code{.zoomlog.up} is an auxiliary function used to update the zoom log, by
+#' providing new sets of coordinates.
+#' 
+#' Whenever clicking is needed, a right-click will stop the function.
+#' 
+#' 
+#' @aliases geo.zoomin geo.zoomout geo.slide geo.back geo.bookmark geo.goto
+#' .zoomlog.up
+#' @param reg a list of length 2, with its first component being the new x
+#' (longitude) boundaries (a vector of length 2), and its second being new y
+#' (latitude) boundaries (a vector of length 2).
+#' @param vec a numeric vector of length 4 giving the new coordinates of the
+#' plotting window, in the order: xmin, xmax, ymin, ymax.
+#' @param name a character string giving the name of the bookmark to create (in
+#' \code{geo.bookmark}) or to get back to (in \code{geo.goto}).
+#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+#' @seealso \code{\link{plot.gGraph}} for plotting of a \linkS4class{gGraph}
+#' object.
+#' @keywords utilities hplot
+#' @examples
+#' 
+#' plot(worldgraph.10k, reset=TRUE)
+#' 
+#' ## zooming in
+#' x.ini <- c(-100,-60)
+#' y.ini <- c(-30,30)
+#' for(i in 0:3){
+#' geo.zoomin(list(x=x.ini + i*60, y=y.ini))
+#' }
+#' 
+#' 
+#' \dontrun{
+#' ## going back
+#' geo.back() # you have to click !
+#' 
+#' ## zooming in interactively
+#' geo.zoomin() # you have to click !
+#' 
+#' ## zooming out
+#' geo.zoomout() # you have to click !
+#' 
+#' ## moving window
+#' geo.slide() # you have to click !
+#' }
+#' 
 geo.zoomin <- function(reg=NULL){ # reg should be a list as returned by locator()
     ## a few checks
     if(is.list(reg)){
