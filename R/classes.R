@@ -4,14 +4,15 @@
 ###############################################################
 ###############################################################
 
-
-
+#' @import methods
+#' @import graph
+NULL
 
 ######################
 ## CLASSES DEFINITION
 ######################
 #' Formal class "gGraph"
-#' 
+#'
 #' The class \code{gGraph} is a formal (S4) class storing geographic data.\cr
 #' Such data are composed of a set of geographic coordinates of vertices (or
 #' 'nodes'), and a graph describing connectivity between these vertices. Data
@@ -20,11 +21,11 @@
 #' associated to the edges based on nodes attributes.\cr % History associated
 #' to a \code{gGraph} object is stored in the slot % \code{history}, as an
 #' object of the class % \linkS4class{gGraphHistory}.\cr
-#' 
+#'
 #' In all slots, nodes are uniquely identified by their name (reference is
 #' taken from the row names of \code{@coords} slot).
-#' 
-#' 
+#'
+#'
 #' @name gGraph-class
 #' @aliases gGraph gGraph-class [,gGraph-method [,gGraph,ANY,ANY-method
 #' [,gGraph,ANY,ANY,ANY-method getCoords,gGraph-method getGraph,gGraph-method
@@ -34,7 +35,7 @@
 #' @section Objects from the class gGraph: \code{gGraph} objects can be created
 #' by calls to \code{new("gGraph", ...)}, where '...' can be the following
 #' arguments:
-#' 
+#'
 #' @slot coords a matrix of spatial coordinates with two
 #' columns, being respectively longitude (from -180 to 180) and latitude.
 #' Positive numbers are intended as 'east' and 'north', respectively.
@@ -45,7 +46,7 @@
 #' @slot graph an object of the class \linkS4class{graphNEL},
 #' from the \code{graph} package (see \code{class?graphNEL}), describing
 #' connectivity among nodes.
-#' 
+#'
 #' Note that none of these is mandatory: \code{new("gGraph")} would work, and
 #' create an empty \code{gGraph} object.
 #' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
@@ -55,40 +56,40 @@
 #' @keywords classes spatial graphs
 #' @exportClass gGraph
 #' @examples
-#' 
+#'
 #' ## create an empty object
 #' new("gGraph")
-#' 
-#' 
+#'
+#'
 #' ## plotting the object
 #' plot(rawgraph.10k, reset=TRUE)
-#' 
+#'
 #' ## zooming in
 #' geo.zoomin(list(x=c(-6,38), y=c(35,73)))
 #' title("Europe")
-#' 
+#'
 #' ## to play interactively with graphics, use:
 #' # geo.zoomin()
 #' # geo.zoomout()
 #' # geo.slide()
 #' # geo.back()
-#' 
+#'
 #' ## defining a new object restrained to visible nodes
 #' x <- rawgraph.10k[isInArea(rawgraph.10k)]
 #' plot(x,reset=TRUE, edges=TRUE)
 #' title("x does just contain these visible nodes.")
-#' 
+#'
 #' ## define weights for edges
 #' x <- setCosts(x, attr.name="habitat", method="prod")
 #' plot(x,edges=TRUE)
 #' title("costs defined by habitat (land/land=1, other=100)")
-#' 
+#'
 #' ## drop 'dead edges' (i.e. with weight 0)
 #' x <- dropDeadEdges(x, thres=10)
 #' plot(x,edges=TRUE)
 #' title("after droping edges with null weight")
-#' 
-#' 
+#'
+#'
 setClass("gGraph",
          representation(coords = "matrix", nodes.attr = "data.frame", meta = "list",
                         graph = "graphNEL"),
@@ -100,18 +101,18 @@ setClass("gGraph",
 
 
 #' Formal class "gData"
-#' 
+#'
 #' The class \code{gData} is a formal (S4) class storing georeferenced data,
 #' consisting in a set of locations (longitude and latitude) where one or
 #' several variables have been measured. These data are designed to be matched
 #' against a \linkS4class{gGraph} object, each location being assigned to the
 #' closest node of the \linkS4class{gGraph} object.\cr
-#' 
+#'
 #' Note that for several operations on a \code{gData} object, the
 #' \linkS4class{gGraph} object to which it is linked will have to be present in
 #' the same environment.
-#' 
-#' 
+#'
+#'
 #' @name gData-class
 #' @aliases gData gData-class [,gData-method [,gData,ANY,ANY-method
 #' [,gData,ANY,ANY,ANY-method getCoords,gData-method getData-methods
@@ -121,7 +122,7 @@ setClass("gGraph",
 #' @section Objects from the class gData: \code{gData} objects can be created
 #' by calls to \code{new("gData", ...)}, where '...' can be the following
 #' arguments:
-#' 
+#'
 #' @slot coords a matrix of spatial coordinates with two
 #' columns, being respectively longitude (from -180 to 180) and latitude.
 #' Positive numbers are intended as 'east' and 'north', respectively.
@@ -131,7 +132,7 @@ setClass("gGraph",
 #' For matrix-like objects, rows should correspond to locations.
 #' @slot gGraph.name a character string the name of the
 #' \linkS4class{gGraph} object against which the object is matched.
-#' 
+#'
 #' Note
 #' that none of these is mandatory: \code{new("gData")} would work, and create
 #' an empty \code{gGraph} object. Also note that a finer matching of locations
@@ -140,21 +141,21 @@ setClass("gGraph",
 #' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
 #' @seealso Related class:\cr - \code{\linkS4class{gGraph}}\cr
 #' @examples
-#' 
+#'
 #' hgdp
-#' 
+#'
 #' ## plot data
 #' plot(worldgraph.40k, pch="")
 #' points(hgdp)
-#' 
+#'
 #' ## subset and plot data
 #' onlyNorth <- hgdp[hgdp@data$Latitude >0] # only northern populations
-#' 
+#'
 #' plot(worldgraph.40k, reset=TRUE)
 #' abline(h=0) # equator
 #' points(onlyNorth, pch.node=20, cex=2, col.node="purple")
-#' 
-#' 
+#'
+#'
 #' @exportClass gData
 setClass("gData", representation(coords="matrix", nodes.id="character", data="ANY",
                                  gGraph.name="character"),
@@ -255,7 +256,7 @@ setClass("gData", representation(coords="matrix", nodes.id="character", data="AN
     }
 
     ## gGraph object
-    if(!exists(x@gGraph.name, env=.GlobalEnv)){
+    if(!exists(x@gGraph.name, envir=.GlobalEnv)){
         warning(paste("The gGraph object",x@gGraph.name,"is missing."))
     }
 
@@ -466,11 +467,11 @@ setMethod("initialize", "gData", function(.Object, ...) {
 
     ## handle gGraph.name and gGraph.version
     if(!is.null(input$gGraph.name)){
-        if(!exists(input$gGraph.name, env=.GlobalEnv)){
+        if(!exists(input$gGraph.name, envir=.GlobalEnv)){
             warning(paste("The gGraph object",input$gGraphName,"is missing."))
             myGraph <- NULL
         } else {
-            myGraph <- get(input$gGraph.name, env=.GlobalEnv) # used later for node.id
+            myGraph <- get(input$gGraph.name, envir=.GlobalEnv) # used later for node.id
             x@gGraph.name <- input$gGraph.name
         }
 

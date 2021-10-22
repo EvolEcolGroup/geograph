@@ -1,29 +1,32 @@
 Package: geoGraph
 Type: Package
-Version: 1.0-0
-Date: 2015/09/13
-Title: walking through the geographic space using graphs
-Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
-Author: Thibaut Jombart
+Title: What the Package Does (Title Case)
+Version: 1.0-1
+Author: Thibaut Jombart,
+  Andrea Manica
 Maintainer: Thibaut Jombart <t.jombart@imperial.ac.uk>
+Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
 License: GPL (>=2)
-LazyLoad: yes
-LazyData: TRUE
+Encoding: UTF-8
+LazyData: true
+LazyDataCompression: xz
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
-Depends: 
+Depends:
+  R (>= 3.5.0),
   methods,
-  graph, 
-  RBGL, 
-  sp
+  graph
 Imports: 
   maptools, 
   MASS, 
-  fields
+  fields,
+  RBGL, 
+  sp
 Suggests: 
   testthat, 
   knitr, 
-  rmarkdown
+  rmarkdown,
+  BiocManager
+RoxygenNote: 7.1.2
 Collate: 
     'classes.R'
     'accessors.R'
@@ -37,6 +40,7 @@ Collate:
     'dropDead.R'
     'extractFromLayer.R'
     'findLand.R'
+    'geograph.R'
     'interact.R'
     'isInArea.R'
     'makeGrid.R'

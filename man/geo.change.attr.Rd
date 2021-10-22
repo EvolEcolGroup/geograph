@@ -74,7 +74,7 @@ plot(x,reset=TRUE) # modification in the whole selected area
 ## have to click here for an area
 ## only nodes on land are modified
 x <- geo.change.attr(x, mode="area", attr.name="habitat", attr.value="fancy2
-habitat", newCol="purple", only.name="habitat", only.value="land") 
+habitat", newCol="purple", only.name="habitat", only.value="land")
 
 plot(x,reset=TRUE) # modification in the whole selected area
 }

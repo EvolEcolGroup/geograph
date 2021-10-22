@@ -1,28 +1,28 @@
 #' Check connectivity of a gGraph object
-#' 
+#'
 #' The functions \code{areNeighbours}, \code{areConnected} and the method
 #' \code{isConnected} test connectivity in different ways.\cr
-#' 
+#'
 #' - \code{areNeighbours}: tests connectivity between couples of nodes on an
 #' object inheriting \code{graph} class (like a \linkS4class{graphNEL}
 #' object).\cr
-#' 
+#'
 #' - \code{areConnected}: tests if a set of nodes form a connected set on a
 #' \linkS4class{gGraph} object.\cr
-#' 
+#'
 #' - \code{isConnected}: tests if the nodes of a \linkS4class{gData} object
 #' form a connected set. Note that this is a method for \linkS4class{gData},
 #' the generic being defined in the \code{graph} package.\cr
-#' 
+#'
 #' - \code{isReachable}: tests if one location (actually, the closest node to
 #' it) is reachable from the set of nodes of a \linkS4class{gData} object.\cr
-#' 
+#'
 #' - \code{connectivityPlot}: plots connected sets of a \linkS4class{gGraph} or
 #' a \linkS4class{gData} object with different colors.\cr
-#' 
+#'
 #' In \code{connectivityPlot}, isolated nodes (i.e. belonging to no connected
 #' set of size > 1) are plotted in light grey.
-#' 
+#'
 #' @aliases areNeighbours areConnected isConnected,gData-method isReachable
 #' connectivityPlot connectivityPlot-methods connectivityPlot,gGraph-method
 #' connectivityPlot,gData-method
@@ -44,20 +44,20 @@
 #' '0', meaning that nodes are invisible.
 #' @return - \code{areNeighbours}: a vector of logical, having one value for
 #' each couple of nodes.\cr
-#' 
+#'
 #' - \code{areConnected}: a single logical value, being TRUE if nodes form a
 #' connected set.\cr
-#' 
+#'
 #' - \code{isConnected}: a single logical value, being TRUE if nodes of the
 #' object form a connected set.\cr
 #' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
 #' @keywords utilities methods
 #' @name connectivity
 #' @examples
-#' 
+#'
 #' connectivityPlot(rawgraph.10k)
 #' connectivityPlot(worldgraph.10k)
-#' 
+#'
 NULL
 
 
@@ -112,9 +112,9 @@ areConnected <- function(x, nodes){ # x is a gGraph
 
 
     ## get connected sets ##
-    ## !! use connectedComp from RBGL rather than connComp from graph
+    ## !! use RBGL::connectedComp from RBGL rather than connComp from graph
     ## 100 times faster
-    connected.sets <- connectedComp(getGraph(x))
+    connected.sets <- RBGL::connectedComp(getGraph(x))
 
     ## just keep sets > 1 node
     temp <- sapply(connected.sets, length)
@@ -151,7 +151,7 @@ setMethod("isConnected", "gData", function(object, ...){
 
 
     ## set args for areConnected ##
-    myGraph <- get(x@gGraph.name, env=.GlobalEnv)
+    myGraph <- get(x@gGraph.name, envir=.GlobalEnv)
     myNodes <- getNodes(x)
 
     ## wrapper ##
@@ -179,7 +179,7 @@ isReachable <- function(x, loc){ # x is a gData object
 
 
     ## get connected sets ##
-    connected.sets <- connectedComp(getGraph(x))
+    connected.sets <- RBGL::connectedComp(getGraph(x))
 
 
     ## just keep sets > 1 node
@@ -243,16 +243,20 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed=NULL){
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
 
     ## create the .geoGraphEnv if it does not exist
+    # am315 This should not be necessary, as .geoGraphEnv should always exist
     if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-        assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
-        warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
+        stop (".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
     }
+    # if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
+    #     assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
+    #     warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
+    # }
 
     env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
 
     ## get connected sets ##
-    connected.sets <- connectedComp(getGraph(x))
+    connected.sets <- RBGL::connectedComp(getGraph(x))
 
     ## just keep sets > 1 node
     temp <- sapply(connected.sets, length)
@@ -271,7 +275,7 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed=NULL){
         set.seed(seed)
     }
 
-    colSets <- sample(rainbow(nbSets))
+    colSets <- sample(grDevices::rainbow(nbSets))
 
     myNodes <- getNodes(x)
     col <- rep("lightgray", length(myNodes))
@@ -322,7 +326,7 @@ setMethod("connectivityPlot", "gData", function(x, col.gGraph=0, ...,seed=NULL){
     env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
     ## get connected sets ##
-    connected.sets <- connectedComp(getGraph(x))
+    connected.sets <- RBGL::connectedComp(getGraph(x))
 
     ## just keep sets > 1 node
     temp <- sapply(connected.sets, length)
@@ -350,7 +354,7 @@ setMethod("connectivityPlot", "gData", function(x, col.gGraph=0, ...,seed=NULL){
     if(!is.null(seed) && is.numeric(seed)) {
         set.seed(seed)
     }
-    colSets <- sample(rainbow(nbRelSets))
+    colSets <- sample(grDevices::rainbow(nbRelSets))
 
     col <- rep("lightgray", length(myNodes))
     names(col) <- myNodes

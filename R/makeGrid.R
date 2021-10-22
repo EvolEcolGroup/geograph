@@ -4,13 +4,13 @@
 
 
 #' Build a regular grid gGraph
-#' 
+#'
 #' The function \code{makeGrid} builds a \linkS4class{gGraph} using a regular
 #' grid for a given area. If no area is specified, currently plotted area is
 #' used. Note that such grid is only valid for small scales, for cases in which
 #' curvature of the surface of the earth can be neglected.
-#' 
-#' 
+#'
+#'
 #' @param size an integer giving the approximate number of nodes of the grid.
 #' The function will attempt to make a square grid of (approximately) this
 #' size.
@@ -24,22 +24,22 @@
 #' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
 #' @keywords utilities methods
 #' @examples
-#' 
+#'
 #' ## zoom in to a smaller area
 #' plot(worldgraph.10k)
 #' geo.zoomin(c(-10,0, 50,54))
-#' 
-#' 
+#'
+#'
 #' ## make a new gGraph
 #' newGraph <- makeGrid(1e3)
 #' newGraph <- findLand(newGraph)
 #' newGraph@meta$colors <- data.frame(habitat=c("sea","land"),
 #' color=c("blue","green"))
-#' 
-#' 
+#'
+#'
 #' ## plot the new gGraph
 #' plot(newGraph, reset=TRUE, edge=TRUE)
-#' 
+#'
 makeGrid <- function(size=NULL, n.lon=NULL, n.lat=NULL, lon.range=NULL, lat.range=NULL){
     ## HANDLE ARGUMENTS ##
     if(is.null(n.lon)){
@@ -66,7 +66,7 @@ makeGrid <- function(size=NULL, n.lon=NULL, n.lat=NULL, lon.range=NULL, lat.rang
     ## GET LON/LAT FROM ZOOM LOG ##
     ## get zoom log info
     geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-    zoomLog <- get("zoom.log", env=geoEnv)
+    zoomLog <- get("zoom.log", envir=geoEnv)
     if(nrow(zoomLog)<1) {
         curZoom <- c(-180,180,-90,90)
     } else {

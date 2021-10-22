@@ -1,5 +1,5 @@
 .onAttach <- function(libname, pkgname){
-    pkg.version <- packageDescription("geoGraph", fields = "Version")
+    pkg.version <- utils::packageDescription("geoGraph", fields = "Version")
 
     startup.txt <- paste("\n   /// geoGraph ", pkg.version, " is loaded ////////////",
                          "\n\n   > overview: '?geoGraph'",

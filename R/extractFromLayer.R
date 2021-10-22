@@ -1,14 +1,14 @@
 #' Retrieves node attributes from a layer
-#' 
+#'
 #' The generic function \code{extractFromLayer} uses information from a GIS
 #' shapefile to define node attributes. For each node, information is retrieved
 #' from the layer and assigned to that node.\cr
-#' 
+#'
 #' Nodes can be specified in different ways, including by providing a
 #' \linkS4class{gGraph} or a \linkS4class{gData} object. Outputs match the
 #' input formats.
-#' 
-#' 
+#'
+#'
 #' @aliases extractFromLayer extractFromLayer-methods
 #' extractFromLayer,matrix-method extractFromLayer,data.frame-method
 #' extractFromLayer,list-method extractFromLayer,gGraph-method
@@ -32,11 +32,11 @@
 #' @return The output depends on the nature of the input:\cr - \code{matrix,
 #' data.frame, list}: a data.frame with one row per location, and as many
 #' columns as requested variables ('attributes').\cr
-#' 
+#'
 #' - \code{gGraph}: a \linkS4class{gGraph} object with new node attributes
 #' (\code{@nodes.attr} slot). If nodes attributes already existed, new
 #' attributes are added as new columns.\cr
-#' 
+#'
 #' - \code{gData}: a \linkS4class{gData} object with new data associated to
 #' locations (\code{@data} slot). New information is merge to older information
 #' according to the type of data being stored. \cr
@@ -45,32 +45,32 @@
 #' @keywords utilities methods
 #' @name extractFromLayer
 #' @examples
-#' 
+#'
 #' \dontrun{
-#' 
+#'
 #' plot(worldgraph.10k, reset=TRUE)
-#' 
-#' 
+#'
+#'
 #' ## see what info is available
 #' names(worldshape@data)
 #' unique(worldshape@data$CONTINENT)
-#' 
-#' 
+#'
+#'
 #' ## retrieve continent info for all nodes
 #' ## (might take a few seconds)
-#' x <- extractFromLayer(worldgraph.10k, layer=worldshape, attr="CONTINENT") 
+#' x <- extractFromLayer(worldgraph.10k, layer=worldshape, attr="CONTINENT")
 #' x
 #' table(getNodesAttr(x, attr.name="CONTINENT"))
-#' 
-#' 
+#'
+#'
 #' ## subset Africa
 #' temp <- getNodesAttr(x, attr.name="CONTINENT")=="Africa"
 #' temp[is.na(temp)] <- FALSE
 #' x <- x[temp]
 #' plot(x, reset=TRUE)
-#' 
+#'
 #' }
-#' 
+#'
 NULL
 
 
@@ -114,7 +114,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer="world", attr="all",..
         if(any(is.na(selAttr))){ # attribute not found in layer@data
             cat("\nSome requested attribute (attr) not found in the layer.\n")
             cat("\nAvailable data are:\n")
-            print(head(layer@data))
+            print(utils::head(layer@data))
             return(NULL) # return NULL if attr not found, not generate an error
         }
     }
@@ -141,7 +141,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer="world", attr="all",..
         for (j in 1:n.polys) { ##
             this.poly <- this.poly.list@Polygons[[j]]
             points.in.this.poly <- points.in.this.poly +
-                point.in.polygon(long,lat, this.poly@coords[,1], this.poly@coords[,2])
+                sp::point.in.polygon(long,lat, this.poly@coords[,1], this.poly@coords[,2])
 
             points.in.this.poly <- as.logical(points.in.this.poly)
 

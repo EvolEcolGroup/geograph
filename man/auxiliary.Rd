@@ -14,9 +14,9 @@ geo.segments(
   y0,
   x1,
   y1,
-  col = par("fg"),
-  lty = par("lty"),
-  lwd = par("lwd"),
+  col = graphics::par("fg"),
+  lty = graphics::par("lty"),
+  lwd = graphics::par("lwd"),
   ...
 )
 }

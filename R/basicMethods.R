@@ -217,11 +217,11 @@ setMethod("show", "gGraph", function(object){
     ## printing
     cat("\n=== gGraph object ===\n")
     cat("\n@coords: spatial coordinates of",nrow(x@coords),"nodes\n")
-    print(head(x@coords, nDisp))
+    print(utils::head(x@coords, nDisp))
     if(N > nDisp) cat("...\n")
 
     cat("\n@nodes.attr:",ncol(x@nodes.attr),"nodes attributes\n")
-    print(head(x@nodes.attr, nDisp))
+    print(utils::head(x@nodes.attr, nDisp))
     if(nrow(x@nodes.attr) > nDisp) cat("...\n")
 
     cat("\n@meta: list of meta information with", length(x@meta),"items\n")
@@ -252,15 +252,15 @@ setMethod("show", "gData", function(object){
     ## printing
     cat("\n=== gData object ===\n")
     cat("\n@coords: spatial coordinates of",nrow(x@coords),"nodes\n")
-    print(head(x@coords, nDisp))
+    print(utils::head(x@coords, nDisp))
     if(N > nDisp) cat("...\n")
 
     cat("\n@nodes.id:",nrow(x@nodes.id),"nodes identifiers\n")
-    print(head(x@nodes.id, nDisp))
+    print(utils::head(x@nodes.id, nDisp))
     if(length(x@nodes.id) > nDisp) cat("...\n")
 
     cat("\n@data:",nrow(x@data),"data\n")
-    print(head(x@data, nDisp))
+    print(utils::head(x@data, nDisp))
     if(N > nDisp) cat("...\n")
 
     ##cat("\nAssociated gGraph:",x@gGraph.name, "[",x@gGraph.version,"]\n")

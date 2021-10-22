@@ -29,24 +29,33 @@ Note that for several operations on a \code{gData} object, the
 \linkS4class{gGraph} object to which it is linked will have to be present in
 the same environment.
 }
+\section{Slots}{
+
+\describe{
+\item{\code{coords}}{a matrix of spatial coordinates with two
+columns, being respectively longitude (from -180 to 180) and latitude.
+Positive numbers are intended as 'east' and 'north', respectively.}
+
+\item{\code{nodes.id}}{a vector of character strings giving the name of the
+nodes (of the \linkS4class{gGraph} object) associated to the locations.}
+
+\item{\code{data}}{any kind of data associated to the locations in coords.
+For matrix-like objects, rows should correspond to locations.}
+
+\item{\code{gGraph.name}}{a character string the name of the
+\linkS4class{gGraph} object against which the object is matched.
+
+Note
+that none of these is mandatory: \code{new("gData")} would work, and create
+an empty \code{gGraph} object. Also note that a finer matching of locations
+against the nodes of a \code{gGraph} object can be achieved after creating
+the object, for instance using the \code{closestNode} method.}
+}}
+
 \section{Objects from the class gData}{
  \code{gData} objects can be created
 by calls to \code{new("gData", ...)}, where '...' can be the following
 arguments:
-
-\describe{ \item{list("coords")}{a matrix of spatial coordinates with two
-columns, being respectively longitude (from -180 to 180) and latitude.
-Positive numbers are intended as 'east' and 'north', respectively.}
-\item{list("nodes.id")}{a vector of character strings giving the name of the
-nodes (of the \linkS4class{gGraph} object) associated to the locations.}
-\item{list("data")}{any kind of data associated to the locations in coords.
-For matrix-like objects, rows should correspond to locations.}
-\item{list("gGraph.name")}{a character string the name of the
-\linkS4class{gGraph} object against which the object is matched.} } Note
-that none of these is mandatory: \code{new("gData")} would work, and create
-an empty \code{gGraph} object. Also note that a finer matching of locations
-against the nodes of a \code{gGraph} object can be achieved after creating
-the object, for instance using the \code{closestNode} method.
 }
 
 \examples{
@@ -72,5 +81,3 @@ Related class:\cr - \code{\linkS4class{gGraph}}\cr
 \author{
 Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
 }
-\keyword{classes}
-\keyword{spatial}

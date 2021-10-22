@@ -47,7 +47,7 @@ myPath <- dijkstraFrom(hgdp, addis)
 plot(worldgraph.40k, col=0)
 points(hgdp)
 points(worldgraph.40k[addis], psize=3,pch="x", col="black")
-plot(myPath) 
+plot(myPath)
 
 ## correlations distance/genetic div.
 geo.dist <- sapply(myPath[-length(myPath)],function(e) e$length)

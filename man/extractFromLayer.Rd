@@ -80,7 +80,7 @@ unique(worldshape@data$CONTINENT)
 
 ## retrieve continent info for all nodes
 ## (might take a few seconds)
-x <- extractFromLayer(worldgraph.10k, layer=worldshape, attr="CONTINENT") 
+x <- extractFromLayer(worldgraph.10k, layer=worldshape, attr="CONTINENT")
 x
 table(getNodesAttr(x, attr.name="CONTINENT"))
 

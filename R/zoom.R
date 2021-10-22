@@ -1,31 +1,31 @@
 #' Navigate in the plot of a gGraph object
-#' 
+#'
 #' The functions \code{geo.zoomin}, \code{geo.zoomout}, \code{geo.slide},
 #' \code{geo.back}, \code{geo.bookmark} and \code{geo.goto} are used to
 #' navigate interactively in the plot of a \linkS4class{gGraph} object.
-#' 
+#'
 #' \code{geo.zoomin} and \code{geo.zoomout} are used to zoom in and out. For
 #' zooming in, the user has to delimit the opposite corner of the new plotting
 #' area; alternatively, a set of coordinates can be provided. For zooming out,
 #' each click on the screen will zoom out further.\cr
-#' 
+#'
 #' \code{geo.slide} moves the window toward the direction indicated by clicking
 #' in the screen.\cr
-#' 
+#'
 #' \code{geo.back} redraws previous plots each time screen is clicked.\cr
-#' 
+#'
 #' \code{geo.bookmark} sets a bookmark for the current area. If the name for
 #' the bookmark is left to NULL, then the list of currently available bookmarks
 #' is returned.\cr
-#' 
+#'
 #' \code{geo.goto} allows the user to get back to a bookmarked area.\cr
-#' 
+#'
 #' \code{.zoomlog.up} is an auxiliary function used to update the zoom log, by
 #' providing new sets of coordinates.
-#' 
+#'
 #' Whenever clicking is needed, a right-click will stop the function.
-#' 
-#' 
+#'
+#'
 #' @aliases geo.zoomin geo.zoomout geo.slide geo.back geo.bookmark geo.goto
 #' .zoomlog.up
 #' @param reg a list of length 2, with its first component being the new x
@@ -40,31 +40,31 @@
 #' @keywords utilities hplot
 #' @name zoom
 #' @examples
-#' 
+#'
 #' plot(worldgraph.10k, reset=TRUE)
-#' 
+#'
 #' ## zooming in
 #' x.ini <- c(-100,-60)
 #' y.ini <- c(-30,30)
 #' for(i in 0:3){
 #' geo.zoomin(list(x=x.ini + i*60, y=y.ini))
 #' }
-#' 
-#' 
+#'
+#'
 #' \dontrun{
 #' ## going back
 #' geo.back() # you have to click !
-#' 
+#'
 #' ## zooming in interactively
 #' geo.zoomin() # you have to click !
-#' 
+#'
 #' ## zooming out
 #' geo.zoomout() # you have to click !
-#' 
+#'
 #' ## moving window
 #' geo.slide() # you have to click !
 #' }
-#' 
+#'
 NULL
 
 
@@ -78,14 +78,14 @@ NULL
     if(!is.vector(vec) || length(vec)!=4 || !is.numeric(vec)) stop("Updating zoomlog using a wrong value.")
 
     geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-    oldZoomLog <- get("zoom.log", env=geoEnv)
+    oldZoomLog <- get("zoom.log", envir=geoEnv)
     newZoomLog <- rbind(vec, oldZoomLog)
     colnames(newZoomLog) <- colnames(oldZoomLog)
 
     if(nrow(newZoomLog) > 100){
         newZoomLog <- newZoomLog[1:100,]
     }
-    assign("zoom.log", newZoomLog,env=geoEnv)
+    assign("zoom.log", newZoomLog,envir=geoEnv)
 
 
     return(invisible())
@@ -148,7 +148,7 @@ geo.zoomin <- function(reg=NULL){ # reg should be a list as returned by locator(
         ##     temp <- paste(temp, ")")
 
         newCall <- parse(text=temp)
-        eval(newCall, env=.GlobalEnv)
+        eval(newCall, envir=.GlobalEnv)
 
     } else { ## reg not provided => looping ##
 
@@ -172,7 +172,7 @@ geo.zoomin <- function(reg=NULL){ # reg should be a list as returned by locator(
                 temp <- sub(",[[:blank:]]*res..[^)]*", "",temp) # same thing, if last arg
 
                 newCall <- parse(text=temp)
-                eval(newCall, env=.GlobalEnv)
+                eval(newCall, envir=.GlobalEnv)
 
                 reg <- data.frame(reg)
             } # end if nrow(reg) > 1
@@ -201,7 +201,7 @@ geo.zoomout <- function(){
         last.plot.call <- get("last.plot", envir=geoEnv)
 
         ## get former coordinates and go one step back
-        zoomLog <- get("zoom.log", env=geoEnv)
+        zoomLog <- get("zoom.log", envir=geoEnv)
         if(nrow(zoomLog) < 2) {
             cat("\nNo previous zoom coordinates in zoom history.\n")
             return(invisible())
@@ -247,7 +247,7 @@ geo.zoomout <- function(){
 
         newCall <- parse(text=temp)
 
-        eval(newCall, env=.GlobalEnv)
+        eval(newCall, envir=.GlobalEnv)
     }
 
     return(invisible())
@@ -271,21 +271,21 @@ geo.back <- function(){
         last.plot.call <- get("last.plot", envir=geoEnv)
 
         ## get former coordinates and go one step back
-        zoomLog <- get("zoom.log", env=geoEnv)
+        zoomLog <- get("zoom.log", envir=geoEnv)
         if(nrow(zoomLog) < 2) {
             cat("\nNo previous zoom coordinates in zoom history.\n")
             return(invisible())
         }
 
         zoomLog <- zoomLog[-1,,drop=FALSE]
-        assign("zoom.log", zoomLog, env=geoEnv)
+        assign("zoom.log", zoomLog, envir=geoEnv)
 
         ## reconstruct a valid call to plot
         temp <- deparse(last.plot.call)
 
         newCall <- parse(text=temp)
 
-        eval(newCall, env=.GlobalEnv)
+        eval(newCall, envir=.GlobalEnv)
     }
 
     return(invisible())
@@ -309,7 +309,7 @@ geo.slide <- function(){
         last.plot.call <- get("last.plot", envir=geoEnv)
 
         ## get former coordinates and go one step back
-        zoomLog <- get("zoom.log", env=geoEnv)
+        zoomLog <- get("zoom.log", envir=geoEnv)
 
         ## find center of the current frame
         size.x <- abs(diff(zoomLog[1,1:2]))
@@ -326,7 +326,7 @@ geo.slide <- function(){
 
         newCall <- parse(text=temp)
 
-        eval(newCall, env=.GlobalEnv)
+        eval(newCall, envir=.GlobalEnv)
     }
 
     return(invisible())
@@ -347,16 +347,16 @@ geo.bookmark <- function(name=NULL){
 
     if(is.null(name)){
         cat("\nAvailable bookmarks:\n")
-        return(get("bookmarks", env=geoEnv))
+        return(get("bookmarks", envir=geoEnv))
     }
 
 
     ## get current zoom coords
-    zoomLog <- get("zoom.log", env=geoEnv)
+    zoomLog <- get("zoom.log", envir=geoEnv)
     new.book <- zoomLog[1,]
 
     ## update bookmarks
-    bookmarks <- get("bookmarks", env=geoEnv)
+    bookmarks <- get("bookmarks", envir=geoEnv)
     if(name %in% rownames(bookmarks)){ # erase previous bookmark if it exists
         bookmarks[name,] <-  new.book
         warning("This bookmark already existed; removing previous bookmark.")
@@ -367,7 +367,7 @@ geo.bookmark <- function(name=NULL){
         cat("\nBookmark '", name, " 'saved.\n")
     }
 
-    assign("bookmarks", bookmarks, env=geoEnv)
+    assign("bookmarks", bookmarks, envir=geoEnv)
 
     return(invisible())
 } # end geo.bookmark
@@ -385,8 +385,8 @@ geo.goto <- function(name){
     geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
 
     ## get next zoom coords
-    bookmarks <- get("bookmarks", env=geoEnv)
-    zoomLog <- get("zoom.log", env=geoEnv)
+    bookmarks <- get("bookmarks", envir=geoEnv)
+    zoomLog <- get("zoom.log", envir=geoEnv)
     last.plot.call <- get("last.plot", envir=geoEnv)
 
     if(! name %in% rownames(bookmarks)) {
@@ -395,12 +395,12 @@ geo.goto <- function(name){
     }
 
     zoomLog <- rbind(as.vector(bookmarks[name, ]), zoomLog)
-    assign("zoom.log", zoomLog, env=geoEnv)
+    assign("zoom.log", zoomLog, envir=geoEnv)
 
     ## reconstruct a valid call to plot
     temp <- deparse(last.plot.call)
     newCall <- parse(text=temp)
-    eval(newCall, env=.GlobalEnv)
+    eval(newCall, envir=.GlobalEnv)
 
     return(invisible())
 } # end geo.goto
