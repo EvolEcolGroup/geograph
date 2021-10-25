@@ -12,7 +12,7 @@
 #' cost of an edge is computed as a function (see argument \code{method}) of
 #' the costs of its nodes.\cr
 #' 
-#' Note that costs are inversely proportionnal to connectivity between edges:
+#' Note that costs are inversely proportional to connectivity between edges:
 #' the larger the cost associated to an edge, the lower the connectivity
 #' between the two concerned nodes.\cr
 #' 
@@ -27,9 +27,11 @@
 #' @param node.costs a numeric vector giving costs associated to the nodes. If
 #' provided, it will be used instead of \code{attr.name}.
 #' @param method a character string indicating which method should be used to
-#' compute edge cost from nodes costs. Currently available options are 'mean'
-#' and 'prod', where the cost associated to an edge is respectively computed as
-#' the mean, or as the product of the costs of its nodes.
+#' compute edge cost from nodes costs. Currently available options are 'mean',
+#' 'prod' and 'function', where the cost associated to an edge is respectively computed as
+#' the mean, the product or a custom function (defined in \code{FUN}) of the costs of its nodes.
+#' @param FUN a function used to compute the cost between two nodes (needed if \code{method="function"}).
+#' @param \dots additional parameters to be passed to \code{FUN}.
 #' @return A \linkS4class{gGraph} object with the newly defined costs used as
 #' weightings of edges.
 #' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
@@ -54,11 +56,13 @@
 #' title("costs defined by habitat (land/land=1, other=100)")
 #' 
 #' 
-setCosts <- function(x, attr.name=NULL, node.costs=NULL, method=c("mean", "product")){
+setCosts <- function(x, attr.name=NULL, node.costs=NULL, method=c("mean", "product", "function"), FUN=NULL,...){
     ## some checks + argument handling
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
     method <- match.arg(method)
-
+    if ((method=="function") && (is.null(FUN))){
+        stop("if method='function', FUN needs to be defined.")
+    }
 
     ## assign costs to vertices
     if(is.null(node.costs)){ # costs from a node attribute
@@ -99,6 +103,13 @@ setCosts <- function(x, attr.name=NULL, node.costs=NULL, method=c("mean", "produ
             }
     }
 
+    ## method == function ##
+    if (method=="function"){
+        for(i in 1:length(EL)){
+            EL[[i]]$weights <- FUN(nodeCosts[i], nodeCosts[EL[[i]]$edges], ...)
+        }            
+    }
+    
     ## return result
     newGraph <- new("graphNEL", nodes=getNodes(x), edgeL=EL)
     res <- x
