@@ -112,12 +112,13 @@ setMethod("plot", signature(x = "gGraph", y="missing"), function(x, y,shape="wor
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
 
     ## create the .geoGraphEnv if it does not exist
-    if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-        assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
-        warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
-    }
+    # if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
+    #     assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
+    #     warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
+    # }
 
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    #env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    env <- .geoGraphEnv
 
     coords <- getCoords(x)
 
@@ -598,7 +599,8 @@ setMethod("plot", signature(x="gData", y="missing"), function(x, type=c("nodes",
     type <- match.arg(type)
 
     ## get the environment
-    env <- get(".geoGraphEnv", envir=.GlobalEnv)
+#    env <- get(".geoGraphEnv", envir=.GlobalEnv)
+    env <- .geoGraphEnv
 
     if(!exists(x@gGraph.name, envir=.GlobalEnv)){ # if the gGraph is missing, stop
             stop(paste("The gGraph object",x@gGraph.name,"is missing."))

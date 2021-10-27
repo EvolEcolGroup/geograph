@@ -77,15 +77,15 @@ NULL
 .zoomlog.up <- function(vec){ # vec is xmin, xmax, ymin, ymax
     if(!is.vector(vec) || length(vec)!=4 || !is.numeric(vec)) stop("Updating zoomlog using a wrong value.")
 
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-    oldZoomLog <- get("zoom.log", envir=geoEnv)
+#    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    oldZoomLog <- get("zoom.log", envir=.geoGraphEnv)
     newZoomLog <- rbind(vec, oldZoomLog)
     colnames(newZoomLog) <- colnames(oldZoomLog)
 
     if(nrow(newZoomLog) > 100){
         newZoomLog <- newZoomLog[1:100,]
     }
-    assign("zoom.log", newZoomLog,envir=geoEnv)
+    assign("zoom.log", newZoomLog,envir=.geoGraphEnv)
 
 
     return(invisible())
@@ -113,10 +113,11 @@ geo.zoomin <- function(reg=NULL){ # reg should be a list as returned by locator(
     }
 
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    #geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+
 
     ## get last plot
-    last.plot.call <- get("last.plot", envir=geoEnv)
+    last.plot.call <- get("last.plot", envir=.geoGraphEnv)
 
 
     ## reg provided => no loop ##
@@ -193,15 +194,15 @@ geo.zoomin <- function(reg=NULL){ # reg should be a list as returned by locator(
 #' @export
 geo.zoomout <- function(){
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+   # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
 
     ## loop ##
     while(!is.null(locator(1))){
         ## get last plot
-        last.plot.call <- get("last.plot", envir=geoEnv)
+        last.plot.call <- get("last.plot", envir=.geoGraphEnv)
 
         ## get former coordinates and go one step back
-        zoomLog <- get("zoom.log", envir=geoEnv)
+        zoomLog <- get("zoom.log", envir=.geoGraphEnv)
         if(nrow(zoomLog) < 2) {
             cat("\nNo previous zoom coordinates in zoom history.\n")
             return(invisible())
@@ -263,22 +264,22 @@ geo.zoomout <- function(){
 #' @export
 geo.back <- function(){
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    #geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
 
     ## loop ##
     while(!is.null(locator(1))){
         ## get last plot
-        last.plot.call <- get("last.plot", envir=geoEnv)
+        last.plot.call <- get("last.plot", envir=.geoGraphEnv)
 
         ## get former coordinates and go one step back
-        zoomLog <- get("zoom.log", envir=geoEnv)
+        zoomLog <- get("zoom.log", envir=.geoGraphEnv)
         if(nrow(zoomLog) < 2) {
             cat("\nNo previous zoom coordinates in zoom history.\n")
             return(invisible())
         }
 
         zoomLog <- zoomLog[-1,,drop=FALSE]
-        assign("zoom.log", zoomLog, envir=geoEnv)
+        assign("zoom.log", zoomLog, envir=.geoGraphEnv)
 
         ## reconstruct a valid call to plot
         temp <- deparse(last.plot.call)
@@ -301,15 +302,15 @@ geo.back <- function(){
 #' @export
 geo.slide <- function(){
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    #geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
 
     ## loop ##
     while(!is.null(spoint <- locator(1))){
         ## get last plot
-        last.plot.call <- get("last.plot", envir=geoEnv)
+        last.plot.call <- get("last.plot", envir=.geoGraphEnv)
 
         ## get former coordinates and go one step back
-        zoomLog <- get("zoom.log", envir=geoEnv)
+        zoomLog <- get("zoom.log", envir=.geoGraphEnv)
 
         ## find center of the current frame
         size.x <- abs(diff(zoomLog[1,1:2]))

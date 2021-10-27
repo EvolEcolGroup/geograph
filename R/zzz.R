@@ -14,8 +14,8 @@
 ## (there probably are better ways of doing this)
 
 ## new environment
-#' @rawNamespace exportPattern(".")
-.geoGraphEnv <- new.env(parent=.GlobalEnv)
+## #' @rawNamespace exportPattern(".")
+.geoGraphEnv <- new.env(parent=emptyenv())
 
 ## temporary variables
 zoom.log <- matrix(c(-180,180,-90,90),ncol=4)
