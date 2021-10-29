@@ -145,19 +145,20 @@ setMethod("getNodesAttr", "gData", function(x, attr.name=NULL,...) {
 #############
 ## getCoords
 #############
+#' @export
 setGeneric("getCoords", function(x, ...) {
     standardGeneric("getCoords")
 })
 
 
-
+#' @export
 setMethod("getCoords", "gGraph", function(x, ...) {
     res <- x@coords
     return(res)
 })
 
 
-
+#' @export
 setMethod("getCoords", "gData", function(x, original=TRUE, ...) {
     if(original){ # original coords
         res <- x@coords
