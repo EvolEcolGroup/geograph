@@ -129,17 +129,17 @@ setMethod("plot", signature(x = "gGraph", y="missing"), function(x, y,shape="wor
 
     ## handle reset ##
     if(reset){
-        assign("sticky.points",FALSE,envir=env)
-        assign("last.points",expression(),envir=env)
+        assign("sticky.points",FALSE,envir=.geoGraphEnv)
+        assign("last.points",expression(),envir=.geoGraphEnv)
     }
 
     ## handle xlim and ylim
-    if((!exists("zoom.log", envir=env)) | reset) { # if xlim absent or if reset
+    if((!exists("zoom.log", envir=.geoGraphEnv)) | reset) { # if xlim absent or if reset
         temp <- c(range(coords[,1]), range(coords[,2]))
         .zoomlog.up(temp)
     }
 
-    zoomlog <- get("zoom.log", envir=env)
+    zoomlog <- get("zoom.log", envir=.geoGraphEnv)
     zoomlog <- zoomlog[1,]
 
     xlim <- zoomlog[1:2]
@@ -147,7 +147,7 @@ setMethod("plot", signature(x = "gGraph", y="missing"), function(x, y,shape="wor
 
     ## handle zoom and psize
     if(is.null(psize)){
-        psize <- get("psize", envir=env)
+        psize <- get("psize", envir=.geoGraphEnv)
     }
 
     ## handle color from attribute
@@ -171,8 +171,8 @@ setMethod("plot", signature(x = "gGraph", y="missing"), function(x, y,shape="wor
 
 
     ## store previous last.points in envir (is erased by plotEdges)
-    if(exists("last.points", envir=env)){
-        last.points <- get("last.points", envir=env)
+    if(exists("last.points", envir=.geoGraphEnv)){
+        last.points <- get("last.points", envir=.geoGraphEnv)
     } else {
         last.points <- expression()
     }
@@ -238,23 +238,23 @@ setMethod("plot", signature(x = "gGraph", y="missing"), function(x, y,shape="wor
 
 
     ## misc assignements in our dedicated environment
-    assign("usr", graphics::par("usr"), envir=env)
+    assign("usr", graphics::par("usr"), envir=.geoGraphEnv)
 
     curCall <- sys.call(-1)
-    assign("last.plot", curCall, envir=env)
-    temp <- get("last.plot.param", envir=env)
+    assign("last.plot", curCall, envir=.geoGraphEnv)
+    temp <- get("last.plot.param", envir=.geoGraphEnv)
     temp$psize <- psize
     temp$pch <- pch.ori
     temp$col <- col.ori
-    assign("last.plot.param", temp, envir=env)
+    assign("last.plot.param", temp, envir=.geoGraphEnv)
 
     ## must re-assign the last call to points in envir.
-    assign("last.points", last.points, envir=env)
+    assign("last.points", last.points, envir=.geoGraphEnv)
 
     ## add previously added points if needed ##
-    sticky.points <- get("sticky.points", envir=env)
+    sticky.points <- get("sticky.points", envir=.geoGraphEnv)
     if(sticky.points){
-        temp <- get("last.points", envir=env) # this may be a list of calls
+        temp <- get("last.points", envir=.geoGraphEnv) # this may be a list of calls
         invisible(lapply(temp, eval))
     }
 
@@ -277,14 +277,14 @@ setMethod("points", signature("gGraph"), function(x, psize=NULL, pch=NULL, col=N
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
 
     ## create the .geoGraphEnv if it does not exist
-    if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-        assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
-        warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
-    }
+    # if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
+    #     assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
+    #     warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
+    # }
 
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    #env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
-    zoomlog <- get("zoom.log", envir=env)
+    zoomlog <- get("zoom.log", envir=.geoGraphEnv)
     zoomlog <- zoomlog[1,]
 
     xlim <- zoomlog[1:2]
@@ -301,7 +301,7 @@ setMethod("points", signature("gGraph"), function(x, psize=NULL, pch=NULL, col=N
     coords <- coords[toKeep, , drop=FALSE]
 
     ## handle plot param
-    last.plot.param <- get("last.plot.param", envir=env)
+    last.plot.param <- get("last.plot.param", envir=.geoGraphEnv)
     if(is.null(psize)) psize <- last.plot.param$psize
     if(is.null(pch)) pch <- last.plot.param$pch
 
@@ -348,7 +348,7 @@ setMethod("points", signature("gGraph"), function(x, psize=NULL, pch=NULL, col=N
 
     ## handle zoom and psize
     if(is.null(psize)){
-        psize <- get("psize", envir=env)
+        psize <- get("psize", envir=.geoGraphEnv)
     }
 
 
@@ -364,7 +364,7 @@ setMethod("points", signature("gGraph"), function(x, psize=NULL, pch=NULL, col=N
     ## if sticky points are used, store info in env ##
     if(sticky.points) {
         curCall <- sys.call(-1)
-        temp <- get("last.points", envir=env) # might be a single expression or a list of expressions
+        temp <- get("last.points", envir=.geoGraphEnv) # might be a single expression or a list of expressions
         if(!is.list(temp)){
             temp <- list(temp) # make sure it is a list
         }
@@ -372,9 +372,9 @@ setMethod("points", signature("gGraph"), function(x, psize=NULL, pch=NULL, col=N
         existExp <- any(sapply(temp, identical, curCall))
         if(!existExp){
             temp[[length(temp)+1]] <- curCall
-            assign("last.points", temp, envir=env)
+            assign("last.points", temp, envir=.geoGraphEnv)
         }
-        assign("sticky.points", TRUE, envir=env)
+        assign("sticky.points", TRUE, envir=.geoGraphEnv)
     }
 
     return(invisible())
@@ -401,22 +401,22 @@ plotEdges <- function(x, useCosts=NULL, col="black", lwd=1,
     }
 
     ## get the environment
-    env <- get(".geoGraphEnv", envir=.GlobalEnv)
+    #env <- get(".geoGraphEnv", envir=.GlobalEnv)
 
 
-    if(exists("last.points", envir=env)){
-        last.points <- get("last.points", envir=env)
+    if(exists("last.points", envir=.geoGraphEnv)){
+        last.points <- get("last.points", envir=.geoGraphEnv)
     } else {
         last.points <- expression()
     }
 
     ## handle plot param # ! discarded: now call last points
-    ## last.plot.param <- get("last.plot.param", envir=env)
+    ## last.plot.param <- get("last.plot.param", envir=.geoGraphEnv)
     ## if(is.null(psize)) psize <- last.plot.param$psize
     ## if(is.null(pch)) pch <- last.plot.param$pch
     ## if(is.null(pcol)) pcol <- last.plot.param$col
     ## if(is.null(psize)){
-    ##     psize <- get("psize", envir=env)
+    ##     psize <- get("psize", envir=.geoGraphEnv)
     ## }
 
     ## retained coords (those within plotting area)
@@ -493,7 +493,7 @@ plotEdges <- function(x, useCosts=NULL, col="black", lwd=1,
     if(sticky.edges) {
         ## curCall <- sys.call(-1) # does not work as plotEdges is not a S4 method
         curCall <- match.call()
-        temp <- get("last.points", envir=env) # might be a single expression or a list of expressions
+        temp <- get("last.points", envir=.geoGraphEnv) # might be a single expression or a list of expressions
         if(!is.list(temp)){
             temp <- list(temp) # make sure it is a list
         }
@@ -501,9 +501,9 @@ plotEdges <- function(x, useCosts=NULL, col="black", lwd=1,
         existExp <- any(sapply(temp, identical, curCall))
         if(!existExp){
             temp[[length(temp)+1]] <- curCall
-            assign("last.points", temp, envir=env)
+            assign("last.points", temp, envir=.geoGraphEnv)
         }
-        assign("sticky.points", TRUE, envir=env)
+        assign("sticky.points", TRUE, envir=.geoGraphEnv)
     }
 
     return(invisible())
@@ -615,12 +615,12 @@ setMethod("plot", signature(x="gData", y="missing"), function(x, type=c("nodes",
 
     ## cleaning if required ##
     if(reset){
-        assign("sticky.points", FALSE, envir=env) # remove possible sticky points
-        assign("last.points", expression(), envir=env) # remove possible sticky points
+        assign("sticky.points", FALSE, envir=.geoGraphEnv) # remove possible sticky points
+        assign("last.points", expression(), envir=.geoGraphEnv) # remove possible sticky points
     }
 
     ## define visible area if reset ##
-    if((!exists("zoom.log", envir=env)) | reset){
+    if((!exists("zoom.log", envir=.geoGraphEnv)) | reset){
         loc <- getCoords(x)
         coords.nodes <- getCoords(myGraph)[x@nodes.id,, drop=FALSE]
         temp <- rbind(loc, coords.nodes)
@@ -628,7 +628,7 @@ setMethod("plot", signature(x="gData", y="missing"), function(x, type=c("nodes",
         .zoomlog.up(myRegion) # define new window limits
     }
 
-    zoomlog <- get("zoom.log", envir=env)
+    zoomlog <- get("zoom.log", envir=.geoGraphEnv)
     zoomlog <- zoomlog[1,]
 
     xlim <- zoomlog[1:2]
@@ -641,8 +641,8 @@ setMethod("plot", signature(x="gData", y="missing"), function(x, type=c("nodes",
 
     ## call to points ##
     ## store previous last.points in envir (is erased by points)
-    if(exists("last.points", envir=env)){
-        last.points <- get("last.points", envir=env)
+    if(exists("last.points", envir=.geoGraphEnv)){
+        last.points <- get("last.points", envir=.geoGraphEnv)
     } else {
         last.points <- expression()
     }
@@ -654,14 +654,14 @@ setMethod("plot", signature(x="gData", y="missing"), function(x, type=c("nodes",
 
     ## some assignments
     curCall <- sys.call(-1)
-    assign("last.plot", curCall, envir=env)
+    assign("last.plot", curCall, envir=.geoGraphEnv)
     ## must re-assign the last call to points in envir.
-    assign("last.points", last.points, envir=env)
+    assign("last.points", last.points, envir=.geoGraphEnv)
 
     ## add previously added points if needed ##
-    sticky.points <- get("sticky.points", envir=env)
+    sticky.points <- get("sticky.points", envir=.geoGraphEnv)
     if(sticky.points){
-        temp <- get("last.points", envir=env) # this may be a list of calls
+        temp <- get("last.points", envir=.geoGraphEnv) # this may be a list of calls
         invisible(lapply(temp, eval))
     }
 
@@ -683,7 +683,7 @@ setMethod("points", signature(x = "gData"), function(x, type=c("nodes","original
     type <- match.arg(type)
 
     ## get the environment
-    env <- get(".geoGraphEnv", envir=.GlobalEnv)
+ #   env <- get(".geoGraphEnv", envir=.GlobalEnv)
 
     ## subset data to visible area ##
     coords.ori <- getCoords(x)
@@ -722,7 +722,7 @@ setMethod("points", signature(x = "gData"), function(x, type=c("nodes","original
     ## if sticky points are used, store info in env ##
     if(sticky.points){
         curCall <- sys.call(-1)
-        temp <- get("last.points", envir=env) # might be a single expression or a list of expressions
+        temp <- get("last.points", envir=.geoGraphEnv) # might be a single expression or a list of expressions
         if(!is.list(temp)){
             temp <- list(temp) # make sure it is a list
         }
@@ -730,9 +730,9 @@ setMethod("points", signature(x = "gData"), function(x, type=c("nodes","original
         existExp <- any(sapply(temp, identical, curCall))
         if(!existExp){
             temp[[length(temp)+1]] <- curCall
-            assign("last.points", temp, envir=env)
+            assign("last.points", temp, envir=.geoGraphEnv)
         }
-        assign("sticky.points", TRUE, envir=env)
+        assign("sticky.points", TRUE, envir=.geoGraphEnv)
     }
 
     return(invisible())

@@ -76,12 +76,12 @@ setGeneric("isInArea", function(x, ...) {
 setMethod("isInArea", "matrix", function(x, reg="current", res.type=c("logical","integer","character"), buffer=0){
     ## some checks / definitiona
     res.type <- match.arg(res.type)
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    #env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
     coords <- x
 
     ## get xlim and ylim
-    if(exists("zoom.log", envir=env) && length(reg)==1 && reg=="zoom"){ # xlim/ylim taken from log
-        zoomlog <- get("zoom.log", envir=env)
+    if(exists("zoom.log", envir=.geoGraphEnv) && length(reg)==1 && reg=="zoom"){ # xlim/ylim taken from log
+        zoomlog <- get("zoom.log", envir=.geoGraphEnv)
         zoomlog <- zoomlog[1,]
 
         xlim <- zoomlog[1:2]

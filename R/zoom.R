@@ -344,20 +344,20 @@ geo.slide <- function(){
 #' @export
 geo.bookmark <- function(name=NULL){
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    #geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
 
     if(is.null(name)){
         cat("\nAvailable bookmarks:\n")
-        return(get("bookmarks", envir=geoEnv))
+        return(get("bookmarks", envir=.geoGraphEnv))
     }
 
 
     ## get current zoom coords
-    zoomLog <- get("zoom.log", envir=geoEnv)
+    zoomLog <- get("zoom.log", envir=.geoGraphEnv)
     new.book <- zoomLog[1,]
 
     ## update bookmarks
-    bookmarks <- get("bookmarks", envir=geoEnv)
+    bookmarks <- get("bookmarks", envir=.geoGraphEnv)
     if(name %in% rownames(bookmarks)){ # erase previous bookmark if it exists
         bookmarks[name,] <-  new.book
         warning("This bookmark already existed; removing previous bookmark.")
@@ -368,7 +368,7 @@ geo.bookmark <- function(name=NULL){
         cat("\nBookmark '", name, " 'saved.\n")
     }
 
-    assign("bookmarks", bookmarks, envir=geoEnv)
+    assign("bookmarks", bookmarks, envir=.geoGraphEnv)
 
     return(invisible())
 } # end geo.bookmark
@@ -383,12 +383,12 @@ geo.bookmark <- function(name=NULL){
 #' @export
 geo.goto <- function(name){
     ## get environment
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    #geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
 
     ## get next zoom coords
-    bookmarks <- get("bookmarks", envir=geoEnv)
-    zoomLog <- get("zoom.log", envir=geoEnv)
-    last.plot.call <- get("last.plot", envir=geoEnv)
+    bookmarks <- get("bookmarks", envir=.geoGraphEnv)
+    zoomLog <- get("zoom.log", envir=.geoGraphEnv)
+    last.plot.call <- get("last.plot", envir=.geoGraphEnv)
 
     if(! name %in% rownames(bookmarks)) {
         cat("\nUnknown bookmark\n")
@@ -396,7 +396,7 @@ geo.goto <- function(name){
     }
 
     zoomLog <- rbind(as.vector(bookmarks[name, ]), zoomLog)
-    assign("zoom.log", zoomLog, envir=geoEnv)
+    assign("zoom.log", zoomLog, envir=.geoGraphEnv)
 
     ## reconstruct a valid call to plot
     temp <- deparse(last.plot.call)
