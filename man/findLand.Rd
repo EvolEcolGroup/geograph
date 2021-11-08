@@ -56,7 +56,7 @@ Nodes can be specified either as a matrix of geographic coordinates, or as a
 ## create a new gGraph with random coordinates
 myCoords <- data.frame(long=runif(1000,-180,180), lat=runif(1000,-90,90))
 obj <- new("gGraph", coords=myCoords)
-obj # note: no node attribute 
+obj # note: no node attribute
 plot(obj)
 
 ## find which points are on land
