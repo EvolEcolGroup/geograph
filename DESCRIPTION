@@ -41,6 +41,7 @@ Collate:
     'extractFromLayer.R'
     'findLand.R'
     'geograph.R'
+    'globals.R'
     'interact.R'
     'isInArea.R'
     'makeGrid.R'

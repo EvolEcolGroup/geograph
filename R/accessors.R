@@ -444,12 +444,13 @@ setMethod("getCosts", "gGraph", function(x, res.type=c("asIs","vector"), unique=
 ###############
 ## dropCosts
 ###############
+#' @export
 setGeneric("dropCosts", function(x, ...) {
     standardGeneric("dropCosts")
 })
 
 
-
+#' @export
 setMethod("dropCosts", "gGraph", function(x) {
     myGraph <- getGraph(x)
     myGraph@edgeData@data <- list()
@@ -464,12 +465,13 @@ setMethod("dropCosts", "gGraph", function(x) {
 #############
 ## getData
 #############
+#' @export
 setGeneric("getData", function(x, ...) {
     standardGeneric("getData")
 })
 
 
-
+#' @export
 setMethod("getData", "gData", function(x, ...) {
     res <- x@data
     return(res)

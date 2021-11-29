@@ -410,10 +410,9 @@ parameters by default.
 To disable this behavior, set the argument `reset=TRUE` when calling upon `plot`.
 Technically, this 'plotting memory' is implemented by storing plotting information in an environment
 defined as the hidden variable `.geoGraphEnv`:
-```{r }
-.geoGraphEnv
+```{r eval=FALSE}
 ls(env=.geoGraphEnv)
-get("last.plot", .geoGraphEnv)
+get("last.plot.param", envir=.geoGraphEnv)
 ```
 It is recommended not to modify these objects directly, unless you really know what you are doing.
 In any case, plotting a `gGraph` object with argument `reset=TRUE` will remove previous

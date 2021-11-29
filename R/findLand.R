@@ -1,13 +1,13 @@
 #' Find which nodes are on land
-#' 
+#'
 #' The generic function \code{findLand} uses information from a GIS shapefile
 #' to define which nodes are on land, and which are not. Strickly speaking,
 #' being 'on land' is in fact being inside a polygon of the shapefile.
-#' 
+#'
 #' Nodes can be specified either as a matrix of geographic coordinates, or as a
 #' \linkS4class{gGraph} object.
-#' 
-#' 
+#'
+#'
 #' @aliases findLand findLand-methods findLand,matrix-method
 #' findLand,data.frame-method findLand,gGraph-method
 #' @param x a matrix, a data.frame, or a valid \linkS4class{gGraph} object. For
@@ -24,7 +24,7 @@
 #' which the output is to be stored.
 #' @return The output depends on the nature of the input:\cr - \code{matrix,
 #' data.frame}: a factor with two levels being 'land' and 'sea'.\cr
-#' 
+#'
 #' - \code{gGraph}: a \linkS4class{gGraph} object with a new node attribute,
 #' possibly added to previously existing node attributes (\code{@nodes.attr}
 #' slot).\cr
@@ -34,27 +34,27 @@
 #' @keywords utilities methods
 #' @name findLand
 #' @examples
-#' 
-#' 
+#'
+#'
 #' ## create a new gGraph with random coordinates
 #' myCoords <- data.frame(long=runif(1000,-180,180), lat=runif(1000,-90,90))
 #' obj <- new("gGraph", coords=myCoords)
-#' obj # note: no node attribute 
+#' obj # note: no node attribute
 #' plot(obj)
-#' 
+#'
 #' ## find which points are on land
 #' obj <- findLand(obj)
 #' obj # note: new node attribute
-#' 
+#'
 #' ## define rules for colors
 #' temp <- data.frame(habitat=c("land","sea"), color=c("green","blue"))
 #' temp
 #' obj@meta$color <- temp
-#' 
+#'
 #' ## plot object with new colors
 #' plot(obj)
-#' 
-#' 
+#'
+#'
 NULL
 
 

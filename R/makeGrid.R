@@ -23,6 +23,7 @@
 #' @return A \linkS4class{gGraph} object.
 #' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
 #' @keywords utilities methods
+#' @export
 #' @examples
 #'
 #' ## zoom in to a smaller area
@@ -65,8 +66,8 @@ makeGrid <- function(size=NULL, n.lon=NULL, n.lat=NULL, lon.range=NULL, lat.rang
 
     ## GET LON/LAT FROM ZOOM LOG ##
     ## get zoom log info
-    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-    zoomLog <- get("zoom.log", envir=geoEnv)
+    #geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
+    zoomLog <- get("zoom.log", envir=.geoGraphEnv)
     if(nrow(zoomLog)<1) {
         curZoom <- c(-180,180,-90,90)
     } else {
