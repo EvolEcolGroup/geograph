@@ -49,7 +49,7 @@ NULL
 #' geo.add.edges(worldgraph.10k) # points mode
 #' geo.add.edges(worldgraph.10k, mode="area") # area mode
 #' }
-#'
+#' @export
 geo.add.edges <- function(x, mode=c("points","area","all"), refObj="rawgraph.40k") {
     ## preliminary stuff
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
@@ -151,6 +151,7 @@ geo.add.edges <- function(x, mode=c("points","area","all"), refObj="rawgraph.40k
 ####################
 ## geo.remove.edges
 ####################
+#' @export
 geo.remove.edges <- function(x, mode=c("points","area")) {
     ## preliminary stuff
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
@@ -299,6 +300,7 @@ geo.remove.edges <- function(x, mode=c("points","area")) {
 #' plot(x,reset=TRUE) # modification in the whole selected area
 #' }
 #'
+#' @export
 geo.change.attr <- function(x, mode=c("points","area"), attr.name, attr.value,
                             only.name=NULL, only.value=NULL, newCol="black",
                             restore.edges=FALSE, refObj="rawgraph.40k") {
