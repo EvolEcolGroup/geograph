@@ -61,18 +61,10 @@ Installing *geoGraph*
 
 All the following instructions should be entered from a new R session to avoid errors due to installing attached packages.
 
-You may need to install manually the packages *graph* and *RBGL* from *Bioconductor* (try "http" if "https" is not available):
-```{r eval = FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("graph")
-biocLite("RBGL")
-```
-
 *devtools* is also needed to install *geoGraph*:
 ```{r eval = FALSE}
 install.packages("devtools")
 ```
-
 
 Then, to install *geoGraph*, simply type:
 ```{r eval = FALSE}
@@ -85,7 +77,13 @@ Once installed, the package can be loaded using:
 library("geoGraph")
 ```
 
+If you have an error regarding missing packages, you may need to install manually the packages *graph* and *RBGL* from *Bioconductor*:
+```{r eval = FALSE}
+install.packages("BiocManager")
+BiocManager::install(c("graph", "RBGL"))
+```
 
+And then attempt to reinstall *geoGraph* from GitHub.
 
 
 
@@ -387,19 +385,28 @@ Zooming in:
 ```{r eval=FALSE}
 geo.zoomin()
 ```
-![img](figs/zoomin.png)
+
+```{r zoomin, echo=FALSE}
+geo.zoomin(c(-19.25, 44.77, 15.09, 66.19))
+```
+
 
  Zooming out:
 ```{r eval=FALSE}
 geo.zoomout()
 ```
-![img](figs/zoomout.png)
+```{r zoomout, echo=FALSE}
+geo.zoomin(c(-51.26, 76.78, -23.38, 90.00))
+```
+
 
  Sliding to the east:
 ```{r eval=FALSE}
 geo.slide()
 ```
-![img](figs/slide.png)
+```{r geoslide, echo=FALSE}
+geo.zoomin(c( 41.76, 169.80, -28.28, 99.76))
+```
 
 
 One important thing which makes plotting `gGraph` objects different from most other plotting in
@@ -409,12 +416,16 @@ Moreover, even if the graphical device is killed, plotting again a `gGraph` will
 parameters by default.
 To disable this behavior, set the argument `reset=TRUE` when calling upon `plot`.
 Technically, this 'plotting memory' is implemented by storing plotting information in an environment
-defined as the hidden variable `.geoGraphEnv`:
-```{r eval=FALSE}
-ls(env=.geoGraphEnv)
-get("last.plot.param", envir=.geoGraphEnv)
+defined as the hidden environment `geoGraph:::.geoGraphEnv`:
+```{r}
+ls(env=geoGraph:::.geoGraphEnv)
 ```
-It is recommended not to modify these objects directly, unless you really know what you are doing.
+You can inspect individual variables within this environment:
+```{r}
+get("last.plot.param", envir=geoGraph:::.geoGraphEnv)
+```
+
+However, it is recommended not to modify these objects directly, unless you really know what you are doing.
 In any case, plotting a `gGraph` object with argument `reset=TRUE` will remove previous
 plotting history and undo possible wrong manipulations.
 
@@ -440,7 +451,7 @@ This is achieved by `getCoords`.
 This method takes an extra argument `original`, which is TRUE if original spatial coordinates
 are seeked, or FALSE for coordinates of the nodes on the grid.
 We can use this to represent, for instance, the population sizes for the different cities:
-```{r fig=TRUE}
+```{r cities_plot, fig=TRUE}
 transp <- function(col, alpha=.5){
     res <- apply(col2rgb(col),2, function(c) rgb(c[1]/255, c[2]/255, c[3]/255, alpha))
     return(res)
@@ -482,7 +493,7 @@ Let's assume we are interested in saltwater fishes.
 To model fish dispersal, we have to define a graph which connects only nodes overlaying the sea.
 We load the `gGraph` object `rawgraph.10k`, and zoom in to a smaller area (Madagascar) to illustrate
 changes in connectivity:
-```{r fig=TRUE}
+```{r plot_edges,fig=TRUE}
 geo.zoomin(c(35,54,-26,-10))
 plotEdges(rawgraph.10k)
 ```
@@ -527,7 +538,7 @@ plot(newGraph,edge=TRUE)
 Here we are: `newGraph` only contains connections in the sea.
 Note that, although we restrained the plotting area to Madagascar, this change is effective everywhere.
 For instance, travelling to the nort-west Australian coasts:
-```{r fig=TRUE}
+```{r bookmark, fig=TRUE}
 geo.zoomin(c(110,130,-27,-12))
 geo.bookmark("australia")
 ```
@@ -550,9 +561,10 @@ See `?geo.add.edges` for more information on these functions.
 For instance, we can remove a few odd connections in the previous graph, near the Australian coasts
 (note that we have to save the changes using `<-`):
 ```{r eval=FALSE}
-geo.goto("autralia")
+geo.goto("australia")
 newGraph <- geo.remove.edges(newGraph)
 ```
+
 ```{r eval=TRUE, echo=FALSE}
 load("Robjects/newGraph.RData")
 ```
