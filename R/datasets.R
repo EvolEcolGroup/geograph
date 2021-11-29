@@ -66,12 +66,12 @@ NULL
 #' 'rawgraph's are raw graphs as obtained directly from the method provided in
 #' references.\cr
 #'
-#' 'worldgraph's are 'rawgraph's that have been modified manually to recitify
+#' 'worldgraph's are 'rawgraph's that have been modified manually to rectify
 #' connectivity between edges at some places. The most noticable change is that
-#' all edges oversea have been removed.\cr
+#' all edges involving sea vertices have been removed.\cr
 #'
 #' 'globalcoord.10k' and 'globalcoord.40k' are matrices of geographic
-#' coordinates of nodes, used to construct 'worlgraph' objects.\cr
+#' coordinates of nodes, used to construct 'rawgraph' and 'worlgraph' objects.\cr
 #'
 #' 'worldshape' is a shapefile of contries of the world (snapshot from 1994).
 #'

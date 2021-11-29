@@ -244,15 +244,12 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed=NULL){
 
     ## create the .geoGraphEnv if it does not exist
     # am315 This should not be necessary, as .geoGraphEnv should always exist
-    if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-        stop (".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
-    }
     # if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
     #     assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
     #     warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
     # }
 
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    #env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
 
     ## get connected sets ##
@@ -292,7 +289,7 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed=NULL){
 
     ## save plot param ## (will be used by plot gGraph
     dots <- list(...)
-    temp <- get("last.plot.param", envir=env)
+    temp <- get("last.plot.param", envir=.geoGraphEnv)
     if(!is.null(dots$psize)) {
         temp$psize <- dots$psize
     }
@@ -300,11 +297,11 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed=NULL){
         temp$pch <- dots$pch
     }
     temp$col <- col
-    assign("last.plot.param", temp, envir=env)
+    assign("last.plot.param", temp, envir=.geoGraphEnv)
 
     ## fix last call ##
     curCall <- sys.call(-1)
-    assign("last.plot", curCall, envir=env)
+    assign("last.plot", curCall, envir=.geoGraphEnv)
 
     return(invisible(col))
 }) # end connectivityPlot gGraph
@@ -371,7 +368,7 @@ setMethod("connectivityPlot", "gData", function(x, col.gGraph=0, ...,seed=NULL){
 
     ## fix last call ##
     curCall <- sys.call(-1)
-    assign("last.plot", curCall, envir=env)
+    assign("last.plot", curCall, envir=.geoGraphEnv)
 
     return(invisible(col))
 }) # end connectivityPlot gData

@@ -49,7 +49,7 @@ NULL
 #' geo.add.edges(worldgraph.10k) # points mode
 #' geo.add.edges(worldgraph.10k, mode="area") # area mode
 #' }
-#'
+#' @export
 geo.add.edges <- function(x, mode=c("points","area","all"), refObj="rawgraph.40k") {
     ## preliminary stuff
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
@@ -61,7 +61,7 @@ geo.add.edges <- function(x, mode=c("points","area","all"), refObj="rawgraph.40k
     nodes <- getNodes(x)
     lon <- coords[,1]
     lat <- coords[,2]
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    #env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
     ## handle refObj
     if(is.character(refObj) && refObj=="rawgraph.10k"){
@@ -73,7 +73,7 @@ geo.add.edges <- function(x, mode=c("points","area","all"), refObj="rawgraph.40k
     }
 
     ## handle plot param
-    last.plot.param <- get("last.plot.param", envir=env)
+    last.plot.param <- get("last.plot.param", envir=.geoGraphEnv)
     psize <- last.plot.param$psize
     pch <- last.plot.param$pch
 
@@ -151,6 +151,7 @@ geo.add.edges <- function(x, mode=c("points","area","all"), refObj="rawgraph.40k
 ####################
 ## geo.remove.edges
 ####################
+#' @export
 geo.remove.edges <- function(x, mode=c("points","area")) {
     ## preliminary stuff
     if(!is.gGraph(x)) stop("x is not a valid gGraph object")
@@ -160,12 +161,12 @@ geo.remove.edges <- function(x, mode=c("points","area")) {
     nodeNames <- getNodes(x)
     lon <- coords[,1]
     lat <- coords[,2]
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
-    psize <- get("psize", envir=env)
+    #env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    psize <- get("psize", envir=.geoGraphEnv)
     mode <- match.arg(mode)
 
     ## handle plot param
-    last.plot.param <- get("last.plot.param", envir=env)
+    last.plot.param <- get("last.plot.param", envir=.geoGraphEnv)
     psize <- last.plot.param$psize
     pch <- last.plot.param$pch
 
@@ -299,6 +300,7 @@ geo.remove.edges <- function(x, mode=c("points","area")) {
 #' plot(x,reset=TRUE) # modification in the whole selected area
 #' }
 #'
+#' @export
 geo.change.attr <- function(x, mode=c("points","area"), attr.name, attr.value,
                             only.name=NULL, only.value=NULL, newCol="black",
                             restore.edges=FALSE, refObj="rawgraph.40k") {
@@ -331,7 +333,7 @@ geo.change.attr <- function(x, mode=c("points","area"), attr.name, attr.value,
     coords <- getCoords(x)
     lon <- coords[,1]
     lat <- coords[,2]
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+    #env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
     mode <- match.arg(mode)
     if(!attr.name %in% colnames(x@nodes.attr)) stop("specified node attribute name not found")
 
@@ -353,7 +355,7 @@ geo.change.attr <- function(x, mode=c("points","area"), attr.name, attr.value,
 
 
     ## handle plot param
-    last.plot.param <- get("last.plot.param", envir=env)
+    last.plot.param <- get("last.plot.param", envir=.geoGraphEnv)
     psize <- last.plot.param$psize
     pch <- last.plot.param$pch
 
