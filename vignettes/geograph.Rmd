@@ -719,7 +719,7 @@ Paths can be plotted easily:
 ```{r fig=TRUE, fig.width = 8}
 addis <- as.vector(addis)
 plot(myGraph, col=NA, reset=TRUE)
-plot(paths)
+plot.gPath(paths)
 points(addis[1], addis[2], pch="x", cex=2)
 text(addis[1]+35, addis[2], "Addis abeba", cex=.8, font=2)
 points(hgdp, col.node="black")
@@ -751,7 +751,7 @@ paths.2 <- dijkstraFrom(hgdp, ori)
 ```
 ```{r fig=TRUE, fig.width = 8}
 plot(newGraph, col=NA, reset=TRUE)
-plot(paths.2)
+plot.gPath(paths.2)
 points(addis[1], addis[2], pch="x", cex=2)
 text(addis[1]+35, addis[2], "Addis abeba", cex=.8, font=2)
 points(hgdp, col.node="black")
