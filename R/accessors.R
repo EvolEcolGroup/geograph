@@ -158,7 +158,6 @@ setMethod("getCoords", "gGraph", function(x, ...) {
 })
 
 
-
 #' @export
 setMethod("getCoords", "gData", function(x, original=TRUE, ...) {
     if(original){ # original coords
