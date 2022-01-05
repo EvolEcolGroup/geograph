@@ -1,6 +1,48 @@
+#' Auxiliary methods for geoGraph
+#'
+#' These methods are low-level functions called by other procedures of
+#' \code{geoGraph}. Some can, however, be useful in themselves. Note that
+#' unlike other functions in \code{geoGraph}, these functions do not generally
+#' test for the validity of the provided arguments (for speed purposes).\cr
+#'
+#' - \code{hasCosts}: tests whether a \linkS4class{gGraph} has costs associated
+#' to its edges.\cr
+#'
+#' - \code{geo.segments}: a substitute to \code{segments} which correctly draws
+#' segments between locations distant by more than 90 degrees of longitude.\cr
+#'
+#' - \code{rebuild}: in development.
+#'
+#'
+#' @aliases hasCosts rebuild geo.segments
+#' @param x a valid \linkS4class{gGraph}.
+#' @param x0,y0 coordinates of points *from* which to draw.
+#' @param x1,y1 coordinates of points *to* which to draw.
+#' @param col a character string or an integer indicating the color of the
+#' segments.
+#' @param lty a character string or an integer indicating the type of line.
+#' @param lwd an integer indicating the line width.
+#' @param \dots further graphical parameters (from 'par') passed to the
+#' \code{segments} function.
+#' @return For \code{hasCost}, a logical value is returned. \code{geo.segments}
+#' returns NULL.
+#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+#' @keywords utilities methods
+#' @name auxiliary
+#' @examples
+#'
+#' hasCosts(worldgraph.10k)
+#'
+NULL
+
+
+
 ##############
 ## hasCosts
 ##############
+#' @rdname auxiliary
+#' @export
+
 hasCosts <- function(x){
     if(length(getGraph(x)@edgeData@data)==0) return(FALSE)
     w <- getCosts(x, res.type="vector")
@@ -23,18 +65,21 @@ hasCosts <- function(x){
 ##
 ## Is to be called instead segments but will be slower.
 ##
+#' @rdname auxiliary
+#' @export
+
 geo.segments <- function(x0, y0, x1, y1,
-             col = par("fg"), lty = par("lty"), lwd = par("lwd"), ...){
+             col = graphics::par("fg"), lty = graphics::par("lty"), lwd = graphics::par("lwd"), ...){
 
     ## some declarations ##
     THRES <- 90
-    XMIN <- par("usr")[1]
-    XMAX <- par("usr")[2]
+    XMIN <- graphics::par("usr")[1]
+    XMAX <- graphics::par("usr")[2]
 
     ## pin down problematic segments ##
     toChange <- abs(x0-x1) > THRES
     if(sum(toChange)==0){ # exit here if everything is ok.
-        segments(x0, y0, x1, y1,
+        graphics::segments(x0, y0, x1, y1,
              col = col, lty = lty, lwd = lwd, ...)
         return(invisible())
     }
@@ -66,7 +111,8 @@ geo.segments <- function(x0, y0, x1, y1,
     ## notations:
     ## - x0: x coord, left point
     ## - x1: x coord, right point
-    ## - d0: distance x0 - XMIN
+    ## - d0: distance x0 -
+    XMIN
     ## - d1: distance XMAX - x1
     ## - h0, h1: differential of y coord for new coord
     ## (h0/d0 = h1/d1)
@@ -104,16 +150,16 @@ geo.segments <- function(x0, y0, x1, y1,
 
     ## final call to segments ##
     ## non-modified segments
-    oxpd <- par("xpd")
-    par(xpd=TRUE)
-    segments(x0.ok, y0.ok, x1.ok, y1.ok,
+    oxpd <- graphics::par("xpd")
+    graphics::par(xpd=TRUE)
+    graphics::segments(x0.ok, y0.ok, x1.ok, y1.ok,
              col = col, lty = lty, lwd = lwd, ...)
 
     ## modified segments
-    segments(x0.out, y0.out, x1.out, y1.out,
+    graphics::segments(x0.out, y0.out, x1.out, y1.out,
              col = col, lty = 3, lwd = lwd, ...)
 
-    par(xpd=oxpd)
+    graphics::par(xpd=oxpd)
     return(invisible())
 } # end geo.segments
 
@@ -125,20 +171,32 @@ geo.segments <- function(x0, y0, x1, y1,
 #######################
 ## installDep.geoGraph
 #######################
+
+
+#' Install dependencies for geoGraph
+#'
+#' This simple function installs the latest versions of the packages
+#' \code{graph} and \code{RBGL} on Bioconductor. This function requires a
+#' working internet connection, as well as administrator rights for the
+#' directory where the libraries are installed.
+#'
+#'
+#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+#' @keywords utilities
+#' @export
 installDep.geoGraph <- function(){
     cat("\nInstalling MASS, sp, maptools, fields from CRAN ... \n")
-    install.packages("MASS")
-    install.packages("sp")
-    install.packages("maptools")
-    install.packages("fields")
+    utils::install.packages("MASS")
+    utils::install.packages("sp")
+    utils::install.packages("maptools")
+    utils::install.packages("fields")
    cat("\n...done.\n")
 
     cat("\nInstalling graph from Bioconductor ... \n")
-    source("http://bioconductor.org/biocLite.R")
-    biocLite("graph")
+    BiocManager::install("graph")
     cat("\n...done.\n")
 
     cat("\nInstalling RBGL from Bioconductor\n")
-    biocLite("RBGL")
+    BiocManager::install("RBGL")
     cat("\n...done.\n")
 } # end checkInstall.geoGraph

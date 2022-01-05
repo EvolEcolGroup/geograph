@@ -2,3 +2,6 @@
 inst/shiny/.RData
 inst/shiny/.Rhistory
 misc/*
+.Rproj.user
+geograph.Rproj
+.Rhistory
