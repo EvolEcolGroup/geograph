@@ -18,7 +18,6 @@ Depends:
   graph
 Imports: 
   maptools, 
-  MASS, 
   fields,
   RBGL, 
   sp
