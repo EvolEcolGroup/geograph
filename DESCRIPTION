@@ -1,7 +1,7 @@
 Package: geoGraph
 Type: Package
 Title: Walking through the geographic space using graphs
-Version: 1.1-1
+Version: 1.1.1.9001
 Author: Thibaut Jombart,
   Andrea Manica
 Maintainer: Andrea Manica <am315@cam.ac.uk>
@@ -16,8 +16,7 @@ Depends:
   R (>= 3.5.0),
   methods,
   graph
-Imports: 
-  maptools, 
+Imports:
   fields,
   RBGL, 
   sp
@@ -28,8 +27,8 @@ Suggests:
   testthat, 
   knitr, 
   rmarkdown,
-  BiocManager
-RoxygenNote: 7.1.2
+  maptools
+RoxygenNote: 7.2.3
 Collate: 
     'classes.R'
     'accessors.R'

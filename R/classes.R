@@ -18,9 +18,7 @@ NULL
 #' 'nodes'), and a graph describing connectivity between these vertices. Data
 #' associated to the nodes can also be stored ('nodes attributes'), as well as
 #' meta-information used when plotting the object, or when computing weights
-#' associated to the edges based on nodes attributes.\cr % History associated
-#' to a \code{gGraph} object is stored in the slot % \code{history}, as an
-#' object of the class % \linkS4class{gGraphHistory}.\cr
+#' associated to the edges based on nodes attributes.\cr
 #'
 #' In all slots, nodes are uniquely identified by their name (reference is
 #' taken from the row names of \code{@coords} slot).
@@ -50,8 +48,7 @@ NULL
 #' Note that none of these is mandatory: \code{new("gGraph")} would work, and
 #' create an empty \code{gGraph} object.
 #' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
-#' @seealso Related classes are:\cr % - \code{\linkS4class{gGraphHistory}}:
-#' slot \code{@history} in \code{gGraph}.\cr - \code{\linkS4class{graphNEL}}
+#' @seealso Related classes are:\cr % - \code{\linkS4class{graphNEL}}
 #' (graph package): slot \code{@graph} in \code{gGraph}.\cr
 #' @keywords classes spatial graphs
 #' @exportClass gGraph
@@ -213,36 +210,6 @@ setClass("gData", representation(coords="matrix", nodes.id="character", data="AN
 
 
 
-
-## .gGprahHistory.valid <- function(object){
-##     x <- object
-##     Lcmd <- length(x@cmd)
-##     Ldates <- length(x@dates)
-##     Lcomments <- length(x@comments)
-##     ## several cases of non-validity ##
-
-##     ## empty object always ok
-##     if(all(c(Lcmd,Ldates,Lcomments) == 0)) return(TRUE)
-
-##     ## different length
-##     if(length(unique(c(Lcmd, Ldates, Lcomments)))>1) {
-##         cat("\n Components have different lengths.")
-##         return(FALSE)
-##     }
-
-##     ## cmd wrong class
-##     if(!all(sapply(x@cmd, class)=="expression")){
-##         cat("\n Some cmd components are not calls.")
-##         return(FALSE)
-##     }
-
-##     return(TRUE)
-## } # end .gGprahHistory.valid
-
-
-
-
-
 #' @export
 .gData.valid <- function(object){
     x <- object
@@ -273,12 +240,6 @@ setValidity("gGraph", .gGraph.valid)
 #' @export
 setValidity("gData", .gData.valid)
 
-
-## is.gGraphHistory <- function(x){
-##     res <- (is(x, "gGraphHistory") & validObject(x))
-##     return(res)
-## }
-
 #' @export
 is.gGraph <- function(x){
     res <- (is(x, "gGraph") & validObject(x))
@@ -299,55 +260,6 @@ is.gData <- function(x){
 ################
 ## CONSTRUCTORS
 ################
-
-##################
-## gGraphHistory
-##################
-## setMethod("initialize", "gGraphHistory", function(.Object, ...) {
-##     x <- .Object
-##     input <- list(...)
-##     inputClasses <- sapply(input, class)
-
-
-##     ## handle ... ##
-##     if(is.null(input$cmd)){
-##         input$cmd <- expression()
-##     }
-
-##     if(is.null(input$dates)){
-##         input$dates <- format(Sys.time())
-##     } else{
-##         input$dates <- as.character(input$dates)
-##     }
-
-##     if(is.null(input$comments)){
-##         input$comments <- ""
-##     } else{
-##         input$comments <- as.character(input$comments)
-##     }
-
-
-##     ## if a gGraphHistory object is provided in ..., merge data with it. ##
-##     if(length(input)>0 && any(inputClasses=="gGraphHistory")){
-##         prevObj <- input[[which(inputClasses=="gGraphHistory")[1]]] # 1st obj taken if several provided
-##         res <- prevObj
-##         res@cmd[[length(res@cmd)+1]] <- input$cmd
-##         res@dates <- c(res@dates, input$dates)
-##         res@comments <- c(res@comments, input$comments)
-##     } else{
-##         res <- x
-##         res@cmd[[length(res@cmd)+1]] <- input$cmd
-##         res@dates <- input$dates
-##         res@comments <- input$comments
-##     }
-
-##     return(res)
-## }) # end gGraphHistory constructor
-
-
-
-
-
 
 ##########
 ## gGraph
@@ -407,20 +319,6 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
     }
 
     x@graph <- input$graph
-
-
-    ## ## handle history ##
-    ## if(is.null(input$cmd)){
-    ##     input$cmd <-sys.call(-2)
-    ## }
-
-    ## if(is.null(input$comments) || input$comments==""){
-    ##     input$comments <- "Creation of the object (using new)."
-    ## }
-
-    ## x@history <- new("gGraphHistory", history=input$history,
-    ##              cmd=input$cmd, dates=input$dates, comments=input$comments)
-
 
     ## return object
     return(x)

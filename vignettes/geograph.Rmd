@@ -85,8 +85,6 @@ BiocManager::install(c("graph", "RBGL"))
 
 And then attempt to reinstall *geoGraph* from GitHub.
 
-
-
 ## Data representation
 
 Data representation refers to the way a given type of data is handled by a

@@ -36,10 +36,11 @@ which the output is to be stored.}
 \value{
 The output depends on the nature of the input:\cr - \code{matrix,
 data.frame}: a factor with two levels being 'land' and 'sea'.\cr
-
-- \code{gGraph}: a \linkS4class{gGraph} object with a new node attribute,
+\itemize{
+\item \code{gGraph}: a \linkS4class{gGraph} object with a new node attribute,
 possibly added to previously existing node attributes (\code{@nodes.attr}
 slot).\cr
+}
 }
 \description{
 The generic function \code{findLand} uses information from a GIS shapefile

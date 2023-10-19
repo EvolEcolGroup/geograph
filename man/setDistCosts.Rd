@@ -35,9 +35,9 @@ connectivity there is between the couple of concerned nodes.
 }
 \section{Functions}{
 \itemize{
-\item \code{setDistCosts,gGraph-method}: Method for gGraph object
-}}
+\item \code{setDistCosts(gGraph)}: Method for gGraph object
 
+}}
 \examples{
 
 if(require(fields)){

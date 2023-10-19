@@ -62,11 +62,11 @@ that it is not possible to specify node attributes (\code{attr.names} and
 }
 \section{Functions}{
 \itemize{
-\item \code{closestNode,gGraph-method}: Method for gGraph
+\item \code{closestNode(gGraph)}: Method for gGraph
 
-\item \code{closestNode,gData-method}: Method for gData
+\item \code{closestNode(gData)}: Method for gData
+
 }}
-
 \examples{
 
 \dontrun{

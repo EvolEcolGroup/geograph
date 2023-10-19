@@ -61,14 +61,14 @@ area, as a proportion of current area's dimensions.}
 }
 \value{
 The output depends on the value of the argument \code{res.type}:\cr
-- \code{logical}: a vector of logicals having one value for each node of the
+\itemize{
+\item \code{logical}: a vector of logicals having one value for each node of the
 input.\cr
-
-- \code{integer}: a vector of integers corresponding to the indices of nodes
+\item \code{integer}: a vector of integers corresponding to the indices of nodes
 falling within the area.\cr
-
-- \code{character}: a vector of characters corresponding to the names of the
+\item \code{character}: a vector of characters corresponding to the names of the
 nodes falling within the area.\cr
+}
 }
 \description{
 The generic function \code{isInArea} finds which nodes fall in a given area.
@@ -78,15 +78,15 @@ the output are also available.
 }
 \section{Functions}{
 \itemize{
-\item \code{isInArea,matrix-method}: Method for matrix
+\item \code{isInArea(matrix)}: Method for matrix
 
-\item \code{isInArea,data.frame-method}: Method for data.frame
+\item \code{isInArea(data.frame)}: Method for data.frame
 
-\item \code{isInArea,gGraph-method}: Method for gGraph object
+\item \code{isInArea(gGraph)}: Method for gGraph object
 
-\item \code{isInArea,gData-method}: Method for gData object
+\item \code{isInArea(gData)}: Method for gData object
+
 }}
-
 \examples{
 
 plot(worldgraph.10k, reset=TRUE)

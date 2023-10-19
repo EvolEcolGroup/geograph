@@ -36,11 +36,11 @@ associated to the nodes (i.e. node attributes) of a \linkS4class{gGraph} or
 }
 \section{Functions}{
 \itemize{
-\item \code{getNodesAttr,gGraph-method}: Method for gGraph objects
+\item \code{getNodesAttr(gGraph)}: Method for gGraph objects
 
-\item \code{getNodesAttr,gData-method}: Method for gData objects
+\item \code{getNodesAttr(gData)}: Method for gData objects
+
 }}
-
 \examples{
 
 ## gGraph method
