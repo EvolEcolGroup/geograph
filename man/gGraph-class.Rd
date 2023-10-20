@@ -25,9 +25,7 @@ Such data are composed of a set of geographic coordinates of vertices (or
 'nodes'), and a graph describing connectivity between these vertices. Data
 associated to the nodes can also be stored ('nodes attributes'), as well as
 meta-information used when plotting the object, or when computing weights
-associated to the edges based on nodes attributes.\cr % History associated
-to a \code{gGraph} object is stored in the slot % \code{history}, as an
-object of the class % \linkS4class{gGraphHistory}.\cr
+associated to the edges based on nodes attributes.\cr
 }
 \details{
 In all slots, nodes are uniquely identified by their name (reference is
@@ -97,8 +95,7 @@ title("after droping edges with null weight")
 
 }
 \seealso{
-Related classes are:\cr % - \code{\linkS4class{gGraphHistory}}:
-slot \code{@history} in \code{gGraph}.\cr - \code{\linkS4class{graphNEL}}
+Related classes are:\cr \% - \code{\linkS4class{graphNEL}}
 (graph package): slot \code{@graph} in \code{gGraph}.\cr
 }
 \author{

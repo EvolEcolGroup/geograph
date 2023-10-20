@@ -54,36 +54,34 @@ nodes to be used when plotting the \linkS4class{gGraph} object. Defaults to
 '0', meaning that nodes are invisible.}
 }
 \value{
-- \code{areNeighbours}: a vector of logical, having one value for
+\itemize{
+\item \code{areNeighbours}: a vector of logical, having one value for
 each couple of nodes.\cr
-
-- \code{areConnected}: a single logical value, being TRUE if nodes form a
+\item \code{areConnected}: a single logical value, being TRUE if nodes form a
 connected set.\cr
-
-- \code{isConnected}: a single logical value, being TRUE if nodes of the
+\item \code{isConnected}: a single logical value, being TRUE if nodes of the
 object form a connected set.\cr
+}
 }
 \description{
 The functions \code{areNeighbours}, \code{areConnected} and the method
 \code{isConnected} test connectivity in different ways.\cr
 }
 \details{
-- \code{areNeighbours}: tests connectivity between couples of nodes on an
+\itemize{
+\item \code{areNeighbours}: tests connectivity between couples of nodes on an
 object inheriting \code{graph} class (like a \linkS4class{graphNEL}
 object).\cr
-
-- \code{areConnected}: tests if a set of nodes form a connected set on a
+\item \code{areConnected}: tests if a set of nodes form a connected set on a
 \linkS4class{gGraph} object.\cr
-
-- \code{isConnected}: tests if the nodes of a \linkS4class{gData} object
+\item \code{isConnected}: tests if the nodes of a \linkS4class{gData} object
 form a connected set. Note that this is a method for \linkS4class{gData},
 the generic being defined in the \code{graph} package.\cr
-
-- \code{isReachable}: tests if one location (actually, the closest node to
+\item \code{isReachable}: tests if one location (actually, the closest node to
 it) is reachable from the set of nodes of a \linkS4class{gData} object.\cr
-
-- \code{connectivityPlot}: plots connected sets of a \linkS4class{gGraph} or
+\item \code{connectivityPlot}: plots connected sets of a \linkS4class{gGraph} or
 a \linkS4class{gData} object with different colors.\cr
+}
 
 In \code{connectivityPlot}, isolated nodes (i.e. belonging to no connected
 set of size > 1) are plotted in light grey.

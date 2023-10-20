@@ -33,12 +33,13 @@ unique edges (TRUE), or if duplicate edges should be considered as well
 }
 \value{
 The output depends on the value of the argument \code{res.type}:\cr
-- \code{asIs}: output is a named list of weights, each slot containing
+\itemize{
+\item \code{asIs}: output is a named list of weights, each slot containing
 weights associated to the edges stemming from one given node. This format is
 that of the \code{weights} accessor for \linkS4class{graphNEL} objects.\cr
-
-- \code{vector}: a vector of weights; this output matches matrix outputs of
+\item \code{vector}: a vector of weights; this output matches matrix outputs of
 \code{\link{getEdges}}.\cr
+}
 }
 \description{
 The function \code{getCosts} returns the costs associated to the edges of a
@@ -56,13 +57,13 @@ connectivity there is between the couple of concerned nodes.
 }
 \section{Functions}{
 \itemize{
-\item \code{getCosts,gGraph-method}: Method for gGraph object
+\item \code{getCosts(gGraph)}: Method for gGraph object
 
-\item \code{getNodeCosts}: Function to get the costs values for nodes
+\item \code{getNodeCosts()}: Function to get the costs values for nodes
 
-\item \code{getNodeCosts,gGraph-method}: Method to get node costs for gGraph object
+\item \code{getNodeCosts(gGraph)}: Method to get node costs for gGraph object
+
 }}
-
 \examples{
 
 head(getEdges(worldgraph.10k, res.type="matNames",unique=TRUE))

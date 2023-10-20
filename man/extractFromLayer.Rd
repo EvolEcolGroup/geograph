@@ -47,14 +47,14 @@ data are also stored in \code{layer@data}.}
 The output depends on the nature of the input:\cr - \code{matrix,
 data.frame, list}: a data.frame with one row per location, and as many
 columns as requested variables ('attributes').\cr
-
-- \code{gGraph}: a \linkS4class{gGraph} object with new node attributes
+\itemize{
+\item \code{gGraph}: a \linkS4class{gGraph} object with new node attributes
 (\code{@nodes.attr} slot). If nodes attributes already existed, new
 attributes are added as new columns.\cr
-
-- \code{gData}: a \linkS4class{gData} object with new data associated to
+\item \code{gData}: a \linkS4class{gData} object with new data associated to
 locations (\code{@data} slot). New information is merge to older information
 according to the type of data being stored. \cr
+}
 }
 \description{
 The generic function \code{extractFromLayer} uses information from a GIS

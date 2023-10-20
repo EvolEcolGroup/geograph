@@ -23,15 +23,15 @@ unique (TRUE) or if duplicated edges should be allowed (TRUE, default).}
 }
 \value{
 The output depends on the value of the argument \code{res.type}:\cr
-- \code{asIs}: output is a named list of nodes, each slot containing nodes
+\itemize{
+\item \code{asIs}: output is a named list of nodes, each slot containing nodes
 forming an edge with one given node. This format is that of the \code{edges}
 accessor for \linkS4class{graphNEL} objects.\cr
-
-- \code{matNames}: a matrix with two columns giving couples of node names
+\item \code{matNames}: a matrix with two columns giving couples of node names
 forming edges.\cr
-
-- \code{matId}: a matrix with two columns giving couples of node indices
+\item \code{matId}: a matrix with two columns giving couples of node indices
 forming edges.\cr
+}
 }
 \description{
 The function \code{getEdges} returns the edges of a \linkS4class{gGraph}
@@ -39,9 +39,9 @@ object using different possible outputs.
 }
 \section{Functions}{
 \itemize{
-\item \code{getEdges,gGraph-method}: Method for gGraph objects
-}}
+\item \code{getEdges(gGraph)}: Method for gGraph objects
 
+}}
 \examples{
 
 example(gGraph)
