@@ -28,9 +28,8 @@ Dead nodes are nodes that are not connected to any other node, thus not
 having any role in the connectivity of a graph.\cr
 }
 \examples{
-
 \dontrun{
-plot(worldgraph.10k,reset=TRUE)
+plot(worldgraph.10k, reset = TRUE)
 x <- dropDeadNodes(worldgraph.10k)
 plot(x)
 }

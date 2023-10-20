@@ -11,7 +11,7 @@
 #' for the chosen attribute, which is associated to a costs (a friction). The
 #' cost of an edge is computed as a function (see argument \code{method}) of
 #' the costs of its nodes.\cr
-#' 
+#'
 #' Note that costs are inversely proportional to connectivity between edges:
 #' the larger the cost associated to an edge, the lower the connectivity
 #' between the two concerned nodes.\cr
@@ -55,35 +55,30 @@
 #' x <- setCosts(x, attr.name = "habitat")
 #' plot(x, edges = TRUE)
 #' title("costs defined by habitat (land/land=1, other=100)")
-#' 
-#' 
-setCosts <- function(x, attr.name=NULL, node.costs=NULL, method=c("mean", "product", "function"), FUN=NULL,...){
-    ## some checks + argument handling
-    if(!is.gGraph(x)) stop("x is not a valid gGraph object")
-    method <- match.arg(method)
-    if ((method=="function") && (is.null(FUN))){
-        stop("if method='function', FUN needs to be defined.")
-    }
+#'
+setCosts <- function(x, attr.name = NULL, node.costs = NULL, method = c("mean", "product", "function"), FUN = NULL, ...) {
+  ## some checks + argument handling
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
+  method <- match.arg(method)
+  if ((method == "function") && (is.null(FUN))) {
+    stop("if method='function', FUN needs to be defined.")
+  }
 
-    ## assign costs to vertices
-    if(is.null(node.costs)){ # costs from a node attribute
-        nodeAttr <- unlist(getNodesAttr(x, attr.name=attr.name))
-        if(!is.null(x@meta$costs)){
-            if(!any(attr.name %in% colnames(x@meta$costs))) {
-                stop("attr.name is not documented in x@meta$costs.")
-            }
-            nodeCosts <- as.character(nodeAttr)
-            rules <- x@meta$costs
-            for(i in 1:nrow(x@meta$costs)){
-                nodeCosts[nodeCosts==rules[i,attr.name]] <- rules[i,ncol(rules)]
-            }
-            nodeCosts <- as.numeric(nodeCosts)
-        } else stop("x@meta does not contain a 'costs' component.")
-    } else{ # cost directly provided
-        if(!is.numeric(node.costs)) stop("Provided 'node.costs' not numeric.")
-        node.costs <- rep(node.costs, length=length(getNodes(x))) # recycling node costs
-        nodeCosts <- node.costs
-        ## might add some more checks here...
+  ## assign costs to vertices
+  if (is.null(node.costs)) { # costs from a node attribute
+    nodeAttr <- unlist(getNodesAttr(x, attr.name = attr.name))
+    if (!is.null(x@meta$costs)) {
+      if (!any(attr.name %in% colnames(x@meta$costs))) {
+        stop("attr.name is not documented in x@meta$costs.")
+      }
+      nodeCosts <- as.character(nodeAttr)
+      rules <- x@meta$costs
+      for (i in 1:nrow(x@meta$costs)) {
+        nodeCosts[nodeCosts == rules[i, attr.name]] <- rules[i, ncol(rules)]
+      }
+      nodeCosts <- as.numeric(nodeCosts)
+    } else {
+      stop("x@meta does not contain a 'costs' component.")
     }
   } else { # cost directly provided
     if (!is.numeric(node.costs)) stop("Provided 'node.costs' not numeric.")
@@ -91,7 +86,6 @@ setCosts <- function(x, attr.name=NULL, node.costs=NULL, method=c("mean", "produ
     nodeCosts <- node.costs
     ## might add some more checks here...
   }
-
 
   ## find costs of edges as a function of terminating vertices
   EL <- getGraph(x)@edgeL
@@ -110,17 +104,17 @@ setCosts <- function(x, attr.name=NULL, node.costs=NULL, method=c("mean", "produ
     }
   }
 
-    ## method == function ##
-    if (method=="function"){
-        for(i in 1:length(EL)){
-            EL[[i]]$weights <- FUN(nodeCosts[i], nodeCosts[EL[[i]]$edges], ...)
-        }            
+  ## method == function ##
+  if (method == "function") {
+    for (i in 1:length(EL)) {
+      EL[[i]]$weights <- FUN(nodeCosts[i], nodeCosts[EL[[i]]$edges], ...)
     }
-    
-    ## return result
-    newGraph <- new("graphNEL", nodes=getNodes(x), edgeL=EL)
-    res <- x
-    res@graph <- newGraph
+  }
+
+  ## return result
+  newGraph <- new("graphNEL", nodes = getNodes(x), edgeL = EL)
+  res <- x
+  res@graph <- newGraph
 
   return(res)
 } # end setCosts

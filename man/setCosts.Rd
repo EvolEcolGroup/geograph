@@ -54,18 +54,18 @@ Also note that 'costs' defined in \code{geoGraph} are equivalent to
 }
 \examples{
 
-plot(rawgraph.10k, reset=TRUE)
+plot(rawgraph.10k, reset = TRUE)
 
 ## zooming in
-geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 title("Europe")
 
 ## defining a new object restrained to visible nodes
 x <- rawgraph.10k[isInArea(rawgraph.10k)]
 
 ## define weights for edges
-x <- setCosts(x, attr.name="habitat")
-plot(x,edges=TRUE)
+x <- setCosts(x, attr.name = "habitat")
+plot(x, edges = TRUE)
 title("costs defined by habitat (land/land=1, other=100)")
 
 

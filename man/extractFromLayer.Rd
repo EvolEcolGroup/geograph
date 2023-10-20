@@ -67,10 +67,9 @@ Nodes can be specified in different ways, including by providing a
 input formats.
 }
 \examples{
-
 \dontrun{
 
-plot(worldgraph.10k, reset=TRUE)
+plot(worldgraph.10k, reset = TRUE)
 
 
 ## see what info is available
@@ -80,17 +79,16 @@ unique(worldshape@data$CONTINENT)
 
 ## retrieve continent info for all nodes
 ## (might take a few seconds)
-x <- extractFromLayer(worldgraph.10k, layer=worldshape, attr="CONTINENT")
+x <- extractFromLayer(worldgraph.10k, layer = worldshape, attr = "CONTINENT")
 x
-table(getNodesAttr(x, attr.name="CONTINENT"))
+table(getNodesAttr(x, attr.name = "CONTINENT"))
 
 
 ## subset Africa
-temp <- getNodesAttr(x, attr.name="CONTINENT")=="Africa"
+temp <- getNodesAttr(x, attr.name = "CONTINENT") == "Africa"
 temp[is.na(temp)] <- FALSE
 x <- x[temp]
-plot(x, reset=TRUE)
-
+plot(x, reset = TRUE)
 }
 
 }

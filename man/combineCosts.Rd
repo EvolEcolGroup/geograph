@@ -7,7 +7,7 @@
 combineCosts(x1, x2, method = c("sum", "product", "function"), FUN = NULL, ...)
 }
 \arguments{
-\item{x1}{The firt gGraph (which will be used as a template to build the combined gGraph )}
+\item{x1}{The firt gGraph (which will be used as a template to build the combined gGraph)}
 
 \item{x2}{The second gGraph from which costs will be combined}
 
@@ -44,6 +44,8 @@ data("worldgraph.40k")
 exp.cost <- function(x1, x2, cost.coeff) {
  exp(-abs(x1 - x2) * cost.coeff)
 }
+# create a set of node costs
+worldgraph.40k@nodes.attr$meanProd<-runif(n=40962)
 new_costs_graph <-
   setCosts(
     worldgraph.40k,

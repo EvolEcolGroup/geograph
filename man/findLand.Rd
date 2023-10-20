@@ -55,8 +55,8 @@ Nodes can be specified either as a matrix of geographic coordinates, or as a
 
 
 ## create a new gGraph with random coordinates
-myCoords <- data.frame(long=runif(1000,-180,180), lat=runif(1000,-90,90))
-obj <- new("gGraph", coords=myCoords)
+myCoords <- data.frame(long = runif(1000, -180, 180), lat = runif(1000, -90, 90))
+obj <- new("gGraph", coords = myCoords)
 obj # note: no node attribute
 plot(obj)
 
@@ -65,13 +65,12 @@ obj <- findLand(obj)
 obj # note: new node attribute
 
 ## define rules for colors
-temp <- data.frame(habitat=c("land","sea"), color=c("green","blue"))
+temp <- data.frame(habitat = c("land", "sea"), color = c("green", "blue"))
 temp
 obj@meta$color <- temp
 
 ## plot object with new colors
 plot(obj)
-
 
 }
 \seealso{
