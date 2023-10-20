@@ -7,7 +7,7 @@
 setCosts(
   x,
   attr.name = NULL,
-  node.costs = NULL,
+  node.values = NULL,
   method = c("mean", "product", "function"),
   FUN = NULL,
   ...
@@ -20,7 +20,7 @@ a \code{@meta$costs} component (for an example, see worldgraph.10k dataset).}
 \item{attr.name}{the name of the node attribute used to compute costs (i.e.,
 of one column of \code{@nodes.attr}).}
 
-\item{node.costs}{a numeric vector giving costs associated to the nodes. If
+\item{node.values}{a numeric vector giving costs associated to the nodes. If
 provided, it will be used instead of \code{attr.name}.}
 
 \item{method}{a character string indicating which method should be used to

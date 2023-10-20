@@ -34,7 +34,7 @@
 #' new_costs_graph <-
 #'   setCosts(
 #'     worldgraph.40k,
-#'     node.costs = worldgraph.40k@nodes.attr$meanProd,
+#'     node.values = worldgraph.40k@nodes.attr$meanProd,
 #'     method = "function",
 #'     FUN = exp.cost,
 #'     cost.coeff = 0.5
