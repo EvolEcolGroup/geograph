@@ -94,16 +94,17 @@ setGeneric("extractFromLayer", function(x, ...) {
 setMethod("extractFromLayer", "matrix", function(x, layer="world", attr="all",...){
 
     ## This functions automatically assigns to land all points overlapping the country polygons
-    if(!require(maptools)) stop("maptools package is required.")
+    #if(!require(maptools)) stop("maptools package is required.")
 
     ## Load default shapefile ##
     if(is.character(layer) && layer[1]=="world"){
          layer <- worldshape
     }
 
+    ## TODO if the layer is null, we should throw an error!!!
     if(!is.null(layer)){
         if(!inherits(layer,"SpatialPolygonsDataFrame"))
-            stop("Layer must be a SpatialPolygonsDataFrame object \n(see readShapePoly in maptools to import such data from a GIS shapefile).")
+            stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
     }
 
     ## search attr in data ##

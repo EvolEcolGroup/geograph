@@ -197,7 +197,7 @@ setMethod("plot", signature(x = "gGraph", y="missing"), function(x, y,shape="wor
 
     if(!is.null(shape)){ ## plot with background ##
         if(!inherits(shape,"SpatialPolygonsDataFrame"))
-            stop("Shape must be a SpatialPolygonsDataFrame object \n(see readShapePoly in maptools to import such data from a GIS shapefile).")
+          stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
 
         ## plot background
         plot(shape, col=bg.col, border=border.col, xlim=xlim, ylim=ylim)

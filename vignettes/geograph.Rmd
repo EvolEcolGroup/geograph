@@ -611,11 +611,14 @@ system* (GIS) layers and geographic data.
 As currently implemented, *geoGraph* can extract information from shapefiles with the Arc GIS
 (http://www.esri.com/software/arcgis/index.html) format, using the function `extractFromLayer`.
 Here, we illustrate this procedure using the shapefile `world-countries.shp` provided with the
-package.
-The GIS shapefile is first read in R using `readShapePoly` from the *maptools* package:
+package. *geoGraph* still relies on `SpatialPolygonDataFrame` objects from the `sp` package.
+A move to `sf` objects is planned, but for the moment we have to use `sf::st_read()` to read
+a GIS shapefile into an `sf` object, and then cast it to a `SpatialPolygonDataFrame` with 
+`sf::as_Spatial()`:
 ```{r }
-library(maptools)
-world.countries <- readShapePoly(system.file("files/shapefiles/world-countries.shp",package="geoGraph"))
+library(sf)
+world.countries <- sf::st_read(system.file("files/shapefiles/world-countries.shp",package="geoGraph"))
+world.countries <- sf::as_Spatial(world.countries)                               
 class(world.countries)
 summary(world.countries)
 ```

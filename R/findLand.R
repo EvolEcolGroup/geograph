@@ -80,7 +80,7 @@ setGeneric("findLand", function(x,...) {
 setMethod("findLand", "matrix", function(x, shape="world", ...) {
 
     ## This functions automatically assigns to land all points overlapping the country polygons
-    if(!require(maptools)) stop("maptools package is required.")
+#    if(!require(maptools)) stop("maptools package is required.")
 
     ## Load country shapefile
     if(is.character(shape) && shape[1]=="world"){
@@ -89,7 +89,7 @@ setMethod("findLand", "matrix", function(x, shape="world", ...) {
 
     if(!is.null(shape)){ # with background
         if(!inherits(shape,"SpatialPolygonsDataFrame"))
-            stop("Shape must be a SpatialPolygonsDataFrame object \n(see readShapePoly in maptools to import such data from a GIS shapefile).")
+          stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
     }
 
     long <- x[,1]
