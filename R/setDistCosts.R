@@ -23,28 +23,27 @@
 #' @keywords utilities methods
 #' @examples
 #'
-#' if(require(fields)){
-#' ## load data
-#' plot(rawgraph.10k,reset=TRUE)
-#' geo.zoomin(list(x=c(110,150),y=c(-10,-40)))
-#' plotEdges(rawgraph.10k)
+#' if (require(fields)) {
+#'   ## load data
+#'   plot(rawgraph.10k, reset = TRUE)
+#'   geo.zoomin(list(x = c(110, 150), y = c(-10, -40)))
+#'   plotEdges(rawgraph.10k)
 #'
-#' ## compute costs
-#' x <- rawgraph.10k[isInArea(rawgraph.10k)]
-#' x <- setDistCosts(x)
+#'   ## compute costs
+#'   x <- rawgraph.10k[isInArea(rawgraph.10k)]
+#'   x <- setDistCosts(x)
 #'
-#' ## replot edges
-#' plotEdges(x) # no big differences can be seen
-#' head(getCosts(x))
+#'   ## replot edges
+#'   plotEdges(x) # no big differences can be seen
+#'   head(getCosts(x))
 #' }
 #'
-
 ############
 ## generic
 ############
 #' @export
-setGeneric("setDistCosts", function(x,...) {
-    standardGeneric("setDistCosts")
+setGeneric("setDistCosts", function(x, ...) {
+  standardGeneric("setDistCosts")
 })
 
 
@@ -56,25 +55,24 @@ setGeneric("setDistCosts", function(x,...) {
 #################
 #' @export
 #' @describeIn setDistCosts Method for gGraph object
-setMethod("setDistCosts", "gGraph", function(x, ...){
-
-    ## some checks ##
-    if(!is.gGraph(x)) stop("x is not a valid gGraph object")
-
-
-    ## get edges and coords ##
-    E <- getEdges(x, res.type="matNames")
-
-    xy <- getCoords(x)
-    xy1 <- xy[E[,1],]
-    xy2 <- xy[E[,2],]
+setMethod("setDistCosts", "gGraph", function(x, ...) {
+  ## some checks ##
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
 
 
-    ## get costs ##
-    w <- sapply(1:nrow(E), function(i) fields::rdist.earth(xy1[i,,drop=FALSE], xy2[i,,drop=FALSE])) # list of costs
+  ## get edges and coords ##
+  E <- getEdges(x, res.type = "matNames")
 
-    ## assign costs to the graphNEL ##
-    edgeData(x@graph, from = E[,1], to = E[,2], attr = "weight") <- w
+  xy <- getCoords(x)
+  xy1 <- xy[E[, 1], ]
+  xy2 <- xy[E[, 2], ]
 
-    return(x)
+
+  ## get costs ##
+  w <- sapply(1:nrow(E), function(i) fields::rdist.earth(xy1[i, , drop = FALSE], xy2[i, , drop = FALSE])) # list of costs
+
+  ## assign costs to the graphNEL ##
+  edgeData(x@graph, from = E[, 1], to = E[, 2], attr = "weight") <- w
+
+  return(x)
 }) # end setDistCosts gGraph

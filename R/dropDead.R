@@ -24,37 +24,38 @@
 #' @keywords utilities methods
 #' @export
 #' @examples
-#'
 #' \dontrun{
-#' plot(worldgraph.10k,reset=TRUE)
+#' plot(worldgraph.10k, reset = TRUE)
 #' x <- dropDeadNodes(worldgraph.10k)
 #' plot(x)
 #' }
 #'
-dropDeadEdges <- function(x, thres){ # x is a gGraph object
-    if(!is.gGraph(x)) stop("x is not a valid gGraph object.")
-    if(!hasCosts(x)) return(x)
+dropDeadEdges <- function(x, thres) { # x is a gGraph object
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
+  if (!hasCosts(x)) {
+    return(x)
+  }
 
-    ## check weights under threshold
-    myGraph <- getGraph(x)
-    edgeW <- edgeWeights(myGraph)
-    edgeL <- edgeL(myGraph)
-    toKeep <- lapply(edgeW, function(v) v <= thres)
+  ## check weights under threshold
+  myGraph <- getGraph(x)
+  edgeW <- edgeWeights(myGraph)
+  edgeL <- edgeL(myGraph)
+  toKeep <- lapply(edgeW, function(v) v <= thres)
 
-    newEdgeL <- list()
-    for(i in 1:length(edgeL)){
-        newEdgeL[[i]] <- list()
-        newEdgeL[[i]]$edges <- edgeL[[i]]$edges[toKeep[[i]]]
-        newEdgeL[[i]]$weights <- edgeW[[i]][toKeep[[i]]]
-    }
+  newEdgeL <- list()
+  for (i in 1:length(edgeL)) {
+    newEdgeL[[i]] <- list()
+    newEdgeL[[i]]$edges <- edgeL[[i]]$edges[toKeep[[i]]]
+    newEdgeL[[i]]$weights <- edgeW[[i]][toKeep[[i]]]
+  }
 
-    names(newEdgeL) <- nodes(myGraph) # items of the list must be named
+  names(newEdgeL) <- nodes(myGraph) # items of the list must be named
 
-    newGraph <- new("graphNEL", nodes=nodes(myGraph), edgeL=newEdgeL)
-    res <- x
-    res@graph <- newGraph
+  newGraph <- new("graphNEL", nodes = nodes(myGraph), edgeL = newEdgeL)
+  res <- x
+  res@graph <- newGraph
 
-    return(res)
+  return(res)
 } # end dropDeadEdges
 
 
@@ -66,14 +67,14 @@ dropDeadEdges <- function(x, thres){ # x is a gGraph object
 ## dropDeadNodes
 #################
 #' @export
-dropDeadNodes <- function(x){ # x is a gGraph object
-    if(!is.gGraph(x)) stop("x is not a valid gGraph object.")
+dropDeadNodes <- function(x) { # x is a gGraph object
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
 
-    ## get names of connected nodes
-    nodes.in.edges <- unique(as.vector(getEdges(x,res.type="matNames")))
+  ## get names of connected nodes
+  nodes.in.edges <- unique(as.vector(getEdges(x, res.type = "matNames")))
 
-    ## get all nodes
-    res <- x[nodes.in.edges]
+  ## get all nodes
+  res <- x[nodes.in.edges]
 
-    return(res)
+  return(res)
 } # end dropDeadNodes

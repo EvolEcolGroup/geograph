@@ -22,21 +22,21 @@ NULL
 ##############
 ## getGraph
 ##############
-setGeneric("getGraph", function(x,...) {
-    standardGeneric("getGraph")
+setGeneric("getGraph", function(x, ...) {
+  standardGeneric("getGraph")
 })
 
 
 setMethod("getGraph", "gGraph", function(x, ...) {
-    res <- x@graph
-    return(res)
+  res <- x@graph
+  return(res)
 })
 
 
 setMethod("getGraph", "gData", function(x, ...) {
-    if(!exists(x@gGraph.name, envir=.GlobalEnv)) stop(paste("gGraph object",x@gGraph.name,"not found."))
-    res <- getGraph(get(x@gGraph.name, envir=.GlobalEnv))
-    return(res)
+  if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
+  res <- getGraph(get(x@gGraph.name, envir = .GlobalEnv))
+  return(res)
 })
 
 
@@ -76,42 +76,41 @@ setMethod("getGraph", "gData", function(x, ...) {
 #' ## gData method
 #' getNodesAttr(hgdp)
 #'
-#'
 #' @export
-setGeneric("getNodesAttr", function(x,...) {
-    standardGeneric("getNodesAttr")
+setGeneric("getNodesAttr", function(x, ...) {
+  standardGeneric("getNodesAttr")
 })
 
 #' @describeIn getNodesAttr Method for gGraph objects
 #' @export
-setMethod("getNodesAttr", "gGraph", function(x, nodes=NULL, attr.name=NULL,...) {
-    if(is.null(nodes)){ # no node specified -> all nodes kept
-        nodes <- TRUE
-    }
-    if(is.null(attr.name)){ # no attr specified -> all attr kept
-        attr.name <- TRUE
-    }
+setMethod("getNodesAttr", "gGraph", function(x, nodes = NULL, attr.name = NULL, ...) {
+  if (is.null(nodes)) { # no node specified -> all nodes kept
+    nodes <- TRUE
+  }
+  if (is.null(attr.name)) { # no attr specified -> all attr kept
+    attr.name <- TRUE
+  }
 
-    res <- x@nodes.attr[nodes,attr.name, drop=FALSE]
+  res <- x@nodes.attr[nodes, attr.name, drop = FALSE]
 
-    return(res)
+  return(res)
 })
 
 
 #' @describeIn getNodesAttr Method for gData objects
 #' @export
-setMethod("getNodesAttr", "gData", function(x, attr.name=NULL,...) {
-    if(is.null(attr.name)){ # no attr specified -> all attr kept
-        attr.name <- TRUE
-    }
+setMethod("getNodesAttr", "gData", function(x, attr.name = NULL, ...) {
+  if (is.null(attr.name)) { # no attr specified -> all attr kept
+    attr.name <- TRUE
+  }
 
-    myNodes <- getNodes(x)
-    if(!exists(x@gGraph.name, .GlobalEnv)) stop("gGraph object not found in global environment.")
-    mygGraph <- get(x@gGraph.name, envir=.GlobalEnv)
+  myNodes <- getNodes(x)
+  if (!exists(x@gGraph.name, .GlobalEnv)) stop("gGraph object not found in global environment.")
+  mygGraph <- get(x@gGraph.name, envir = .GlobalEnv)
 
-    res <- getNodesAttr(mygGraph, nodes=myNodes, attr.name=attr.name)
+  res <- getNodesAttr(mygGraph, nodes = myNodes, attr.name = attr.name)
 
-    return(res)
+  return(res)
 })
 
 
@@ -147,26 +146,26 @@ setMethod("getNodesAttr", "gData", function(x, attr.name=NULL,...) {
 #############
 #' @export
 setGeneric("getCoords", function(x, ...) {
-    standardGeneric("getCoords")
+  standardGeneric("getCoords")
 })
 
 
 #' @export
 setMethod("getCoords", "gGraph", function(x, ...) {
-    res <- x@coords
-    return(res)
+  res <- x@coords
+  return(res)
 })
 
 
 #' @export
-setMethod("getCoords", "gData", function(x, original=TRUE, ...) {
-    if(original){ # original coords
-        res <- x@coords
-    } else {
-        res <- getCoords(get(x@gGraph.name, envir=.GlobalEnv))[getNodes(x),,drop=FALSE] #
-    }
-    rownames(res) <- x@nodes.id
-    return(res)
+setMethod("getCoords", "gData", function(x, original = TRUE, ...) {
+  if (original) { # original coords
+    res <- x@coords
+  } else {
+    res <- getCoords(get(x@gGraph.name, envir = .GlobalEnv))[getNodes(x), , drop = FALSE] #
+  }
+  rownames(res) <- x@nodes.id
+  return(res)
 })
 
 
@@ -176,21 +175,21 @@ setMethod("getCoords", "gData", function(x, original=TRUE, ...) {
 #############
 #' @export
 setGeneric("getNodes", function(x, ...) {
-    standardGeneric("getNodes")
+  standardGeneric("getNodes")
 })
 
 
 #' @export
 setMethod("getNodes", "gGraph", function(x, ...) {
-    res <- rownames(x@coords)
-    return(res)
+  res <- rownames(x@coords)
+  return(res)
 })
 
 
 #' @export
 setMethod("getNodes", "gData", function(x, ...) {
-    res <- x@nodes.id
-    return(res)
+  res <- x@nodes.id
+  return(res)
 })
 
 
@@ -236,45 +235,47 @@ setMethod("getNodes", "gData", function(x, ...) {
 #' example(gGraph)
 #'
 #' getEdges(x)
-#' getEdges(x,res.type="matNames")
-#' getEdges(x,res.type="matId")
+#' getEdges(x, res.type = "matNames")
+#' getEdges(x, res.type = "matId")
 #'
 setGeneric("getEdges", function(x, ...) {
-    standardGeneric("getEdges")
+  standardGeneric("getEdges")
 })
 
 
 #' @export
 #' @describeIn getEdges Method for gGraph objects
-setMethod("getEdges", "gGraph", function(x, res.type=c("asIs","matNames", "matId"), unique=FALSE, ...) {
-    res.type <- match.arg(res.type)
-##    if(res.type=="asIs") return(x@graph@edgeL)
-    if(res.type=="asIs") return(edges(x@graph))
+setMethod("getEdges", "gGraph", function(x, res.type = c("asIs", "matNames", "matId"), unique = FALSE, ...) {
+  res.type <- match.arg(res.type)
+  ##    if(res.type=="asIs") return(x@graph@edgeL)
+  if (res.type == "asIs") {
+    return(edges(x@graph))
+  }
 
-    if(res.type=="matNames"){ # return matrix of node names
-        res <- edges(x@graph)
-        temp <- sapply(res, length)
-        col1 <- rep(names(res), temp)
-        ## col1 <- rep(1:length(res), temp)
-        col2 <- unlist(res)
-        res <- cbind(Vi=col1, Vj=col2)
-    }
+  if (res.type == "matNames") { # return matrix of node names
+    res <- edges(x@graph)
+    temp <- sapply(res, length)
+    col1 <- rep(names(res), temp)
+    ## col1 <- rep(1:length(res), temp)
+    col2 <- unlist(res)
+    res <- cbind(Vi = col1, Vj = col2)
+  }
 
-    if(res.type=="matId"){ # return matrix of node numbers
-        res <- edgeL(x@graph)
-        temp <- sapply(res, function(e) length(e$edges))
-        col1 <- rep(1:length(res), temp)
-        col2 <- unlist(res)
-        res <- cbind(Vi=col1, Vj=col2)
-    }
+  if (res.type == "matId") { # return matrix of node numbers
+    res <- edgeL(x@graph)
+    temp <- sapply(res, function(e) length(e$edges))
+    col1 <- rep(1:length(res), temp)
+    col2 <- unlist(res)
+    res <- cbind(Vi = col1, Vj = col2)
+  }
 
-    if(unique){
-            toKeep <- res[,1] < res[,2]
-            res <- res[toKeep,, drop=FALSE]
-        }
+  if (unique) {
+    toKeep <- res[, 1] < res[, 2]
+    res <- res[toKeep, , drop = FALSE]
+  }
 
-    rownames(res) <- NULL
-    return(res)
+  rownames(res) <- NULL
+  return(res)
 })
 
 
@@ -312,54 +313,55 @@ setMethod("getEdges", "gGraph", function(x, res.type=c("asIs","matNames", "matId
 #' @keywords utilities methods
 #' @export
 setGeneric("setEdges", function(x, ...) {
-    standardGeneric("setEdges")
+  standardGeneric("setEdges")
 })
 
 
 #' @export
 #' @describeIn setEdges Method for gGraph object
-setMethod("setEdges", "gGraph", function(x, add=NULL, remove=NULL, costs=NULL, ...) {
-    ## some checks
-    if(is.null(add) & is.null(remove)) return(x)
+setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = NULL, ...) {
+  ## some checks
+  if (is.null(add) & is.null(remove)) {
+    return(x)
+  }
 
-    if(!is.null(add)){ ## add edges ##
-        add <- as.data.frame(add)
-        if(ncol(add) != 2) stop("add does not have two columns")
-        from <- as.character(add[[1]])
-        to <- as.character(add[[2]])
-        if(!all(unique(c(from,to)) %in% getNodes(x))) stop("unknown specified nodes") # unknown nodes
-        if(is.null(costs)){
-            costs <- rep(1, length(from))
-        }
-
-        myGraph <- suppressWarnings(addEdge(from=from, to=to, graph=x@graph, weights=costs))
-
-    } else { ## remove edges ##
-        remove <- as.data.frame(remove)
-        if(ncol(remove) != 2) stop("remove does not have two columns")
-        from <- as.character(remove[[1]])
-        to <- as.character(remove[[2]])
-        if(!all(unique(c(from,to)) %in% getNodes(x))) stop("unknown specified nodes") # unknown nodes
-
-        ## avoid attempts to removing non-existing edges
-        temp <- areNeighbours(from, to, x@graph)
-        myGraph <- removeEdge(from=from[temp], to=to[temp], graph=x@graph)
+  if (!is.null(add)) { ## add edges ##
+    add <- as.data.frame(add)
+    if (ncol(add) != 2) stop("add does not have two columns")
+    from <- as.character(add[[1]])
+    to <- as.character(add[[2]])
+    if (!all(unique(c(from, to)) %in% getNodes(x))) stop("unknown specified nodes") # unknown nodes
+    if (is.null(costs)) {
+      costs <- rep(1, length(from))
     }
 
-    ##  subx <- deparse(substitute(x))
-    res <- x
-    res@graph <- myGraph
+    myGraph <- suppressWarnings(addEdge(from = from, to = to, graph = x@graph, weights = costs))
+  } else { ## remove edges ##
+    remove <- as.data.frame(remove)
+    if (ncol(remove) != 2) stop("remove does not have two columns")
+    from <- as.character(remove[[1]])
+    to <- as.character(remove[[2]])
+    if (!all(unique(c(from, to)) %in% getNodes(x))) stop("unknown specified nodes") # unknown nodes
 
-    ## remember this action
-    curCall <- match.call()
-    ##newHist <- new("gGraphHistory", res@history, cmd=curCall, comments="Modified edges using setEdges.")
-    ##res@history <- newHist
+    ## avoid attempts to removing non-existing edges
+    temp <- areNeighbours(from, to, x@graph)
+    myGraph <- removeEdge(from = from[temp], to = to[temp], graph = x@graph)
+  }
 
-    ## make assignement
-    ## parEnv <- parent.frame()
-    ## assign(subx, res, parEnv)
+  ##  subx <- deparse(substitute(x))
+  res <- x
+  res@graph <- myGraph
 
-    return(res)
+  ## remember this action
+  curCall <- match.call()
+  ## newHist <- new("gGraphHistory", res@history, cmd=curCall, comments="Modified edges using setEdges.")
+  ## res@history <- newHist
+
+  ## make assignement
+  ## parEnv <- parent.frame()
+  ## assign(subx, res, parEnv)
+
+  return(res)
 }) # end setEdges
 
 
@@ -404,37 +406,39 @@ setMethod("setEdges", "gGraph", function(x, add=NULL, remove=NULL, costs=NULL, .
 #' @keywords utilities methods
 #' @examples
 #'
-#' head(getEdges(worldgraph.10k, res.type="matNames",unique=TRUE))
-#' head(getCosts(worldgraph.10k,res.type="vector",unique=TRUE))
+#' head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
+#' head(getCosts(worldgraph.10k, res.type = "vector", unique = TRUE))
 #'
 #'
 ##############
 ## getCosts
 ##############
 setGeneric("getCosts", function(x, ...) {
-    standardGeneric("getCosts")
+  standardGeneric("getCosts")
 })
 
 
 #' @describeIn getCosts Method for gGraph object
 #' @export
-setMethod("getCosts", "gGraph", function(x, res.type=c("asIs","vector"), unique=FALSE, ...) {
-    res.type <- match.arg(res.type)
-    if(res.type=="asIs") return(edgeWeights(x@graph))
+setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector"), unique = FALSE, ...) {
+  res.type <- match.arg(res.type)
+  if (res.type == "asIs") {
+    return(edgeWeights(x@graph))
+  }
 
-    if(res.type=="vector"){ # return a matrix of node names
-        res <- edgeWeights(x@graph)
-        res <- unlist(res) # res is a vector of edge weights named as Ni.Nj
-    }
+  if (res.type == "vector") { # return a matrix of node names
+    res <- edgeWeights(x@graph)
+    res <- unlist(res) # res is a vector of edge weights named as Ni.Nj
+  }
 
-    if(unique){
-        nodeNames <- names(res)
-        temp <- strsplit(nodeNames, "[.]")
-        toKeep <- sapply(temp, function(v) v[1] < v[2])
-        res <- res[toKeep]
-    }
+  if (unique) {
+    nodeNames <- names(res)
+    temp <- strsplit(nodeNames, "[.]")
+    toKeep <- sapply(temp, function(v) v[1] < v[2])
+    res <- res[toKeep]
+  }
 
-    return(res)
+  return(res)
 })
 
 
@@ -446,17 +450,17 @@ setMethod("getCosts", "gGraph", function(x, res.type=c("asIs","vector"), unique=
 ###############
 #' @export
 setGeneric("dropCosts", function(x, ...) {
-    standardGeneric("dropCosts")
+  standardGeneric("dropCosts")
 })
 
 
 #' @export
 setMethod("dropCosts", "gGraph", function(x) {
-    myGraph <- getGraph(x)
-    myGraph@edgeData@data <- list()
-    x@graph <- myGraph
+  myGraph <- getGraph(x)
+  myGraph@edgeData@data <- list()
+  x@graph <- myGraph
 
-    return(x)
+  return(x)
 })
 
 
@@ -467,14 +471,14 @@ setMethod("dropCosts", "gGraph", function(x) {
 #############
 #' @export
 setGeneric("getData", function(x, ...) {
-    standardGeneric("getData")
+  standardGeneric("getData")
 })
 
 
 #' @export
 setMethod("getData", "gData", function(x, ...) {
-    res <- x@data
-    return(res)
+  res <- x@data
+  return(res)
 })
 
 
@@ -522,59 +526,57 @@ setMethod("getData", "gData", function(x, ...) {
 #' worldgraph.10k@meta$color
 #'
 #' head(getNodes(worldgraph.10k))
-#' head(getColors(worldgraph.10k,res.type="vector", attr.name="habitat"))
-#'
+#' head(getColors(worldgraph.10k, res.type = "vector", attr.name = "habitat"))
 #'
 setGeneric("getColors", function(x, ...) {
-    standardGeneric("getColors")
+  standardGeneric("getColors")
 })
 
 #' @export
 #' @describeIn getColors Method for gGraph objects
 
-setMethod("getColors", "gGraph", function(x, nodes="all", attr.name, col.rules=NULL, ...) {
-    if(!attr.name %in% colnames(getNodesAttr(x))) {
-        stop("Requested attribute not found in x@nodes.attr.")
-    }
+setMethod("getColors", "gGraph", function(x, nodes = "all", attr.name, col.rules = NULL, ...) {
+  if (!attr.name %in% colnames(getNodesAttr(x))) {
+    stop("Requested attribute not found in x@nodes.attr.")
+  }
 
-    if(is.null(col.rules)){
-        if(is.null(x@meta$colors)){
-            stop("No rule for color provided, and none defined in x (x@meta$colors is NULL).")
-        } else {
-            col.rules <- x@meta$colors
-        }
+  if (is.null(col.rules)) {
+    if (is.null(x@meta$colors)) {
+      stop("No rule for color provided, and none defined in x (x@meta$colors is NULL).")
+    } else {
+      col.rules <- x@meta$colors
     }
+  }
 
-    if(is.null(ncol(col.rules)) || ncol(col.rules)!=2){
-        stop("Color rules does not contain two columns.")
-    }
+  if (is.null(ncol(col.rules)) || ncol(col.rules) != 2) {
+    stop("Color rules does not contain two columns.")
+  }
 
-    if(!attr.name %in% colnames(col.rules)){
-        stop(paste("Nothing known about",attr.name,"in color rules."))
-    }
+  if (!attr.name %in% colnames(col.rules)) {
+    stop(paste("Nothing known about", attr.name, "in color rules."))
+  }
 
-    ## handle nodes ##
-    if(length(nodes)==1 && nodes=="all"){
-        toKeep <- TRUE
-    } else if(is.numeric(nodes)){
-        toKeep <- nodes
-    }
-    else if(is.character(nodes)){
-        toKeep <- match(nodes, getNodes(x))
-    } else{
-        stop("Don't know what to do with 'nodes': wrong specification.")
-    }
+  ## handle nodes ##
+  if (length(nodes) == 1 && nodes == "all") {
+    toKeep <- TRUE
+  } else if (is.numeric(nodes)) {
+    toKeep <- nodes
+  } else if (is.character(nodes)) {
+    toKeep <- match(nodes, getNodes(x))
+  } else {
+    stop("Don't know what to do with 'nodes': wrong specification.")
+  }
 
-    ## define colors ##
-    criterion <- getNodesAttr(x, nodes=toKeep, attr.name=attr.name) # seek criterion in nodes.attr
-    col <- as.character(unlist(criterion))
+  ## define colors ##
+  criterion <- getNodesAttr(x, nodes = toKeep, attr.name = attr.name) # seek criterion in nodes.attr
+  col <- as.character(unlist(criterion))
 
-    for(i in 1:nrow(col.rules)){
-        col[col==col.rules[i,1]] <- col.rules[i,2]
-    }
+  for (i in 1:nrow(col.rules)) {
+    col[col == col.rules[i, 1]] <- col.rules[i, 2]
+  }
 
-    names(col) <- getNodes(x)[toKeep]
-    return(col)
+  names(col) <- getNodes(x)[toKeep]
+  return(col)
 }) # end getColors for gGraph
 
 
@@ -590,30 +592,31 @@ setMethod("getColors", "gGraph", function(x, nodes="all", attr.name, col.rules=N
 #' @export
 #' @describeIn getCosts Function to get the costs values for nodes
 setGeneric("getNodeCosts", function(x, ...) {
-    standardGeneric("getNodeCosts")
+  standardGeneric("getNodeCosts")
 })
 
 
 #' @describeIn getCosts Method to get node costs for gGraph object
 #' @export
 setMethod("getNodeCosts", "gGraph", function(x, attr.name, ...) {
-    if(!is.gGraph(x)) stop("x is not a valid gGraph object")
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
 
-    ## assign costs to vertices
-    nodeAttr <- unlist(getNodesAttr(x, attr.name=attr.name))
-    if(!is.null(x@meta$costs)){
-        if(!any(attr.name %in% colnames(x@meta$costs))) {
-            stop("attr.name is not documented in x@meta$costs.")
-        }
-        nodeCosts <- as.character(nodeAttr)
-        rules <- x@meta$costs
-        for(i in 1:nrow(x@meta$costs)){
-            nodeCosts[nodeCosts==rules[i,attr.name]] <- rules[i,ncol(rules)]
-        }
-        nodeCosts <- as.numeric(nodeCosts)
-    } else stop("x@meta does not contain a 'costs' component.")
+  ## assign costs to vertices
+  nodeAttr <- unlist(getNodesAttr(x, attr.name = attr.name))
+  if (!is.null(x@meta$costs)) {
+    if (!any(attr.name %in% colnames(x@meta$costs))) {
+      stop("attr.name is not documented in x@meta$costs.")
+    }
+    nodeCosts <- as.character(nodeAttr)
+    rules <- x@meta$costs
+    for (i in 1:nrow(x@meta$costs)) {
+      nodeCosts[nodeCosts == rules[i, attr.name]] <- rules[i, ncol(rules)]
+    }
+    nodeCosts <- as.numeric(nodeCosts)
+  } else {
+    stop("x@meta does not contain a 'costs' component.")
+  }
 
 
-    return(nodeCosts)
+  return(nodeCosts)
 }) # end getNodeCosts
-

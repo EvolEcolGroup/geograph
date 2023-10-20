@@ -34,24 +34,24 @@
 #' ## results from Handley et al.
 #' \dontrun{
 #' ## Addis Ababa
-#' addis <- list(lon=38.74,lat=9.03)
-#' addis <- closestNode(worldgraph.40k,addis) # this takes a while
+#' addis <- list(lon = 38.74, lat = 9.03)
+#' addis <- closestNode(worldgraph.40k, addis) # this takes a while
 #'
 #' ## shortest path from Addis Ababa
 #' myPath <- dijkstraFrom(hgdp, addis)
 #'
 #' ## plot results
-#' plot(worldgraph.40k, col=0)
+#' plot(worldgraph.40k, col = 0)
 #' points(hgdp)
-#' points(worldgraph.40k[addis], psize=3,pch="x", col="black")
+#' points(worldgraph.40k[addis], psize = 3, pch = "x", col = "black")
 #' plot(myPath)
 #'
 #' ## correlations distance/genetic div.
-#' geo.dist <- sapply(myPath[-length(myPath)],function(e) e$length)
-#' gen.div <- getData(hgdp)[,"Genetic.Div"]
-#' plot(gen.div~geo.dist)
-#' lm1 <- lm(gen.div~geo.dist)
-#' abline(lm1, col="blue") # this regression is wrong
+#' geo.dist <- sapply(myPath[-length(myPath)], function(e) e$length)
+#' gen.div <- getData(hgdp)[, "Genetic.Div"]
+#' plot(gen.div ~ geo.dist)
+#' lm1 <- lm(gen.div ~ geo.dist)
+#' abline(lm1, col = "blue") # this regression is wrong
 #' summary(lm1)
 #' }
 #'
@@ -95,24 +95,24 @@ NULL
 #' worldgraph.10k
 #'
 #' ## plotting the object
-#' plot(worldgraph.10k, reset=TRUE)
+#' plot(worldgraph.10k, reset = TRUE)
 #' title("Hello world")
 #'
 #' ## zooming in
-#' geo.zoomin(list(x=c(-12,45), y=c(33,75)))
+#' geo.zoomin(list(x = c(-12, 45), y = c(33, 75)))
 #' title("Europe")
-#' geo.zoomin(list(x=c(-12,2), y=c(50,60)))
+#' geo.zoomin(list(x = c(-12, 2), y = c(50, 60)))
 #' plotEdges(worldgraph.10k)
 #' title("United Kingdom")
 #'
 #' ## zooming out
 #' # geo.zoomout() # needs clicking on device
-#' geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+#' geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 #' title("Europe")
 #'
 #' ## defining the subset of visible points
 #' x <- worldgraph.10k[isInArea(worldgraph.10k)]
-#' plot(x,reset=TRUE, edges=TRUE)
+#' plot(x, reset = TRUE, edges = TRUE)
 #' title("One subsetted object.")
 #'
 #' \dontrun{
@@ -120,7 +120,4 @@ NULL
 #' geo.zoomin()
 #' }
 #'
-#'
 NULL
-
-

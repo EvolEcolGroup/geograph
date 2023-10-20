@@ -50,28 +50,27 @@
 #' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
 #' @keywords methods spatial
 #' @examples
-#'
 #' \dontrun{
 #'
 #' ## plotting
 #' world <- worldgraph.40k
-#' par(mar=rep(.1,4))
-#' plot(world, reset=TRUE)
+#' par(mar = rep(.1, 4))
+#' plot(world, reset = TRUE)
 #'
 #' ## check connectivity
 #' isConnected(hgdp) # must be ok
 #'
 #' ## Lowest cost path from an hypothetical origin
-#' ori.coord <- list(33,10) # one given location long/lat
-#' points(data.frame(ori.coord), pch="x", col="black", cex=3) # an 'x' shows the putative origin
+#' ori.coord <- list(33, 10) # one given location long/lat
+#' points(data.frame(ori.coord), pch = "x", col = "black", cex = 3) # an 'x' shows the putative origin
 #' ori <- closestNode(world, ori.coord) # assign it the closest node
 #'
 #' myPath <- dijkstraFrom(hgdp, ori) # compute shortest path
 #'
 #' ## plotting
-#' plot(world,pch="") # plot the world
-#' points(hgdp, lwd=3) # plot populations
-#' points(data.frame(ori.coord), pch="x", col="black", cex=3) # add origin
+#' plot(world, pch = "") # plot the world
+#' points(hgdp, lwd = 3) # plot populations
+#' points(data.frame(ori.coord), pch = "x", col = "black", cex = 3) # add origin
 #' plot(myPath) # plot the path
 #' }
 #'
@@ -84,8 +83,8 @@ NULL
 ###################
 #' @rdname dijkstra-methods
 #' @export
-setGeneric("dijkstraBetween", function(x,...) {
-    standardGeneric("dijkstraBetween")
+setGeneric("dijkstraBetween", function(x, ...) {
+  standardGeneric("dijkstraBetween")
 })
 
 
@@ -98,59 +97,59 @@ setGeneric("dijkstraBetween", function(x,...) {
 #####################
 #' @rdname dijkstra-methods
 #' @export
-setMethod("dijkstraBetween", "gGraph", function(x, from, to){
-    ## some checks ##
-    if(!require(RBGL)) stop("RBGL is required.")
-    if(!is.gGraph(x)) stop("x is not a valid gGraph object")
-    if(!all(from %in% getNodes(x))) stop("Some starting nodes are not in x.")
-    if(!all(to %in% getNodes(x))) stop("Some ending nodes are not in x.")
+setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
+  ## some checks ##
+  if (!require(RBGL)) stop("RBGL is required.")
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
+  if (!all(from %in% getNodes(x))) stop("Some starting nodes are not in x.")
+  if (!all(to %in% getNodes(x))) stop("Some ending nodes are not in x.")
 
-    ## check connectivity ##
-    if(!areConnected(x, unique(c(from,to)))) stop("Not all nodes are connected by the graph.")
+  ## check connectivity ##
+  if (!areConnected(x, unique(c(from, to)))) stop("Not all nodes are connected by the graph.")
 
-    ## build the wrapper ##
-    myGraph <- getGraph(x)
+  ## build the wrapper ##
+  myGraph <- getGraph(x)
 
-    ## recycle from and to
-    maxLength <- max(length(from), length(to))
-    from <- rep(from, length=maxLength)
-    to <- rep(to, length=maxLength)
+  ## recycle from and to
+  maxLength <- max(length(from), length(to))
+  from <- rep(from, length = maxLength)
+  to <- rep(to, length = maxLength)
 
-    ## build indices of all pairwise combinations ##
-    if(maxLength>1){
-        pairIdStart <- integer()
-        pairIdStop <- integer()
+  ## build indices of all pairwise combinations ##
+  if (maxLength > 1) {
+    pairIdStart <- integer()
+    pairIdStop <- integer()
 
-        for(i in 1:maxLength){
-            j <- i
-            while((j <- j+1) < (maxLength+1) ){
-                pairIdStart <- c(pairIdStart, i)
-                pairIdStop <- c(pairIdStop, j)
-            }
-        }
-    } else {
-        pairIdStart <- pairIdStop <- 1
+    for (i in 1:maxLength) {
+      j <- i
+      while ((j <- j + 1) < (maxLength + 1)) {
+        pairIdStart <- c(pairIdStart, i)
+        pairIdStop <- c(pairIdStop, j)
+      }
     }
+  } else {
+    pairIdStart <- pairIdStop <- 1
+  }
 
-    ## wrap ##
-    ## ! sp.between does not return duplicated paths
-    res <- RBGL::sp.between(myGraph, start=from[pairIdStart], finish=to[pairIdStop])
-
-
-    ## handle duplicated paths ##
-    if(length(res) < maxLength){ # res should have length = laxLength
-        fromTo <- paste(from[pairIdStart], to[pairIdStop], sep=":") # all different paths
-        res <- res[fromTo]
-    }
+  ## wrap ##
+  ## ! sp.between does not return duplicated paths
+  res <- RBGL::sp.between(myGraph, start = from[pairIdStart], finish = to[pairIdStop])
 
 
-    ## make it a class "gPath" (output + xy coords) ##
-    allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
-    ##res$xy <- getCoords(x)[allNodes,]
-    attr(res,"xy") <- getCoords(x)[allNodes,]
-    class(res) <- "gPath"
+  ## handle duplicated paths ##
+  if (length(res) < maxLength) { # res should have length = laxLength
+    fromTo <- paste(from[pairIdStart], to[pairIdStop], sep = ":") # all different paths
+    res <- res[fromTo]
+  }
 
-    return(res)
+
+  ## make it a class "gPath" (output + xy coords) ##
+  allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
+  ## res$xy <- getCoords(x)[allNodes,]
+  attr(res, "xy") <- getCoords(x)[allNodes, ]
+  class(res) <- "gPath"
+
+  return(res)
 }) # end dijkstraBetween for gGraph
 
 
@@ -163,52 +162,52 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to){
 #####################
 #' @rdname dijkstra-methods
 #' @export
-setMethod("dijkstraBetween", "gData", function(x){
-##temp <- function(x){ # for debugging
+setMethod("dijkstraBetween", "gData", function(x) {
+  ## temp <- function(x){ # for debugging
 
-    ## some checks ##
-    if(!require(RBGL)) stop("RBGL is required.")
-    if(!is.gData(x)) stop("x is not a valid gData object")
-    if(!exists(x@gGraph.name, envir=.GlobalEnv)) stop(paste("gGraph object",x@gGraph.name,"not found."))
-    if(length(x@nodes.id)==0) stop("No assigned nodes (x@nodes.id is empty).")
-    if(!isConnected(x)) stop("Not all locations are connected by the graph.")
+  ## some checks ##
+  if (!require(RBGL)) stop("RBGL is required.")
+  if (!is.gData(x)) stop("x is not a valid gData object")
+  if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
+  if (length(x@nodes.id) == 0) stop("No assigned nodes (x@nodes.id is empty).")
+  if (!isConnected(x)) stop("Not all locations are connected by the graph.")
 
-    ## build the wrapper ##
-    myGraph <- get(x@gGraph.name, envir=.GlobalEnv)
-    coords <- getCoords(myGraph) # store xy coords for later
-    myGraph <- getGraph(myGraph) # don't do this before getCoords
+  ## build the wrapper ##
+  myGraph <- get(x@gGraph.name, envir = .GlobalEnv)
+  coords <- getCoords(myGraph) # store xy coords for later
+  myGraph <- getGraph(myGraph) # don't do this before getCoords
 
-    ## build indices of all pairwise combinations ##
-    pairIdStart <- integer()
-    pairIdStop <- integer()
+  ## build indices of all pairwise combinations ##
+  pairIdStart <- integer()
+  pairIdStop <- integer()
 
-    for(i in 1:(length(getNodes(x))+1)){
-        j <- i
-        while((j <- j+1) < length(getNodes(x))+1){
-            pairIdStart <- c(pairIdStart, i)
-            pairIdStop <- c(pairIdStop, j)
-        }
+  for (i in 1:(length(getNodes(x)) + 1)) {
+    j <- i
+    while ((j <- j + 1) < length(getNodes(x)) + 1) {
+      pairIdStart <- c(pairIdStart, i)
+      pairIdStop <- c(pairIdStop, j)
     }
+  }
 
-    ## wrap ##
-    ## ! sp.between does not return duplicated paths
-    res <- RBGL::sp.between(myGraph, start=x@nodes.id[pairIdStart], finish=x@nodes.id[pairIdStop])
-
-
-    ## handle duplicated paths ##
-    if(length(res) < length(pairIdStart)){ # res should have length = pairIdStart
-        fromTo <- paste(x@nodes.id[pairIdStart], x@nodes.id[pairIdStop], sep=":") # all different paths
-        res <- res[fromTo]
-    }
+  ## wrap ##
+  ## ! sp.between does not return duplicated paths
+  res <- RBGL::sp.between(myGraph, start = x@nodes.id[pairIdStart], finish = x@nodes.id[pairIdStop])
 
 
-    ## make it a class "gPath" (output + xy coords) ##
-    allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
-    ##res$xy <- getCoords(x)[allNodes,]
-    attr(res,"xy") <- coords[allNodes,]
-    class(res) <- "gPath"
+  ## handle duplicated paths ##
+  if (length(res) < length(pairIdStart)) { # res should have length = pairIdStart
+    fromTo <- paste(x@nodes.id[pairIdStart], x@nodes.id[pairIdStop], sep = ":") # all different paths
+    res <- res[fromTo]
+  }
 
-    return(res)
+
+  ## make it a class "gPath" (output + xy coords) ##
+  allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
+  ## res$xy <- getCoords(x)[allNodes,]
+  attr(res, "xy") <- coords[allNodes, ]
+  class(res) <- "gPath"
+
+  return(res)
 }) # end dijkstraBetween for gData
 
 
@@ -229,8 +228,8 @@ setMethod("dijkstraBetween", "gData", function(x){
 ################
 #' @rdname dijkstra-methods
 #' @export
-setGeneric("dijkstraFrom", function(x,...) {
-    standardGeneric("dijkstraFrom")
+setGeneric("dijkstraFrom", function(x, ...) {
+  standardGeneric("dijkstraFrom")
 })
 
 
@@ -243,38 +242,37 @@ setGeneric("dijkstraFrom", function(x,...) {
 #####################
 #' @rdname dijkstra-methods
 #' @export
-setMethod("dijkstraFrom", "gGraph", function(x, start){
+setMethod("dijkstraFrom", "gGraph", function(x, start) {
+  ## some checks ##
+  if (!require(RBGL)) stop("RBGL is required.")
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
+  if (!all(start %in% getNodes(x))) stop("Starting node is not in x.")
 
-    ## some checks ##
-    if(!require(RBGL)) stop("RBGL is required.")
-    if(!is.gGraph(x)) stop("x is not a valid gGraph object")
-    if(!all(start %in% getNodes(x))) stop("Starting node is not in x.")
+  ## check connectivity ##
+  if (!areConnected(x, getNodes(myGraph))) stop("Not all nodes are connected by the graph.")
 
-    ## check connectivity ##
-    if(!areConnected(x, getNodes(myGraph))) stop("Not all nodes are connected by the graph.")
+  ## build the wrapper ##
+  myGraph <- getGraph(x)
+  ##  if(is.character(costs) && costs=="default"){
+  ##         costs <- unlist(edgeWeights(myGraph))
+  ##     }
 
-    ## build the wrapper ##
-    myGraph <- getGraph(x)
-    ##  if(is.character(costs) && costs=="default"){
-    ##         costs <- unlist(edgeWeights(myGraph))
-    ##     }
+  ## wrap ##
+  res <- RBGL::dijkstra.sp(myGraph, start = start)
 
-    ## wrap ##
-    res <- RBGL::dijkstra.sp(myGraph, start=start)
-
-    ## sp.between uses unique(x@nodes.id) ##
-    ## eventually have to duplicate paths ##
-    temp <- gsub(".*:","",names(res))
-    res <- res[match(getNodes(x), temp)]
+  ## sp.between uses unique(x@nodes.id) ##
+  ## eventually have to duplicate paths ##
+  temp <- gsub(".*:", "", names(res))
+  res <- res[match(getNodes(x), temp)]
 
 
-    ## make it a class "gPath" (output + xy coords) ##
-    allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
-    ##res$xy <- getCoords(x)[allNodes,]
-    attr(res,"xy") <- getCoords(x)[allNodes,]
-    class(res) <- "gPath"
+  ## make it a class "gPath" (output + xy coords) ##
+  allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
+  ## res$xy <- getCoords(x)[allNodes,]
+  attr(res, "xy") <- getCoords(x)[allNodes, ]
+  class(res) <- "gPath"
 
-    return(res)
+  return(res)
 }) # end dijkstraFrom for gGraph
 
 
@@ -287,43 +285,42 @@ setMethod("dijkstraFrom", "gGraph", function(x, start){
 ####################
 #' @rdname dijkstra-methods
 #' @export
-setMethod("dijkstraFrom", "gData", function(x, start){
-
-    ## some checks ##
-    if(!require(RBGL)) stop("RBGL is required.")
-    if(!is.gData(x)) stop("x is not a valid gData object")
-    if(!exists(x@gGraph.name, envir=.GlobalEnv)) stop(paste("gGraph object",x@gGraph.name,"not found."))
-    if(length(x@nodes.id)==0) stop("No assigned nodes (x@nodes.id is empty).")
-    if(!isConnected(x)) stop("Not all locations are connected by the graph")
-
-
-    ## build the wrapper ##
-    myGraph <- get(x@gGraph.name, envir=.GlobalEnv) # myGraph is a gGraph object
-    coords <- getCoords(myGraph) # store xy for later
-    myGraph <- getGraph(myGraph)
-
-    ##  if(is.character(weights) && weights=="default"){ # no longer used
-    ##         weights <- unlist(edgeWeights(myGraph))
-    ##     }
+setMethod("dijkstraFrom", "gData", function(x, start) {
+  ## some checks ##
+  if (!require(RBGL)) stop("RBGL is required.")
+  if (!is.gData(x)) stop("x is not a valid gData object")
+  if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
+  if (length(x@nodes.id) == 0) stop("No assigned nodes (x@nodes.id is empty).")
+  if (!isConnected(x)) stop("Not all locations are connected by the graph")
 
 
-    ## wrap ##
-    res <- RBGL::sp.between(myGraph, start=start, finish=x@nodes.id)
+  ## build the wrapper ##
+  myGraph <- get(x@gGraph.name, envir = .GlobalEnv) # myGraph is a gGraph object
+  coords <- getCoords(myGraph) # store xy for later
+  myGraph <- getGraph(myGraph)
+
+  ##  if(is.character(weights) && weights=="default"){ # no longer used
+  ##         weights <- unlist(edgeWeights(myGraph))
+  ##     }
 
 
-    ## sp.between uses unique(x@nodes.id) ##
-    ## eventually have to duplicate paths ##
-    temp <- gsub(".*:","",names(res))
-    res <- res[match(getNodes(x), temp)]
+  ## wrap ##
+  res <- RBGL::sp.between(myGraph, start = start, finish = x@nodes.id)
 
 
-    ## make it a class "gPath" (output + xy coords) ##
-    allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
-    ##res$xy <- getCoords(x)[allNodes,]
-    attr(res,"xy") <- coords[allNodes,]
-    class(res) <- "gPath"
+  ## sp.between uses unique(x@nodes.id) ##
+  ## eventually have to duplicate paths ##
+  temp <- gsub(".*:", "", names(res))
+  res <- res[match(getNodes(x), temp)]
 
-    return(res)
+
+  ## make it a class "gPath" (output + xy coords) ##
+  allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
+  ## res$xy <- getCoords(x)[allNodes,]
+  attr(res, "xy") <- coords[allNodes, ]
+  class(res) <- "gPath"
+
+  return(res)
 }) # end dijkstraFrom for gData
 
 
@@ -346,38 +343,39 @@ setMethod("dijkstraFrom", "gData", function(x, start){
 #' @rdname dijkstra-methods
 #' @method plot gPath
 #' @export
-plot.gPath <- function(x, col="rainbow", lwd=3, ...){
+plot.gPath <- function(x, col = "rainbow", lwd = 3, ...) {
+  ## listNodes <- lapply(x[-length(x)], function(e) e$path_detail)
+  listNodes <- lapply(x, function(e) e$path_detail)
 
-    ##listNodes <- lapply(x[-length(x)], function(e) e$path_detail)
-    listNodes <- lapply(x, function(e) e$path_detail)
+  ## xy <- x$xy
+  xy <- attr(x, "xy")
+  Npath <- length(listNodes)
 
-    ##xy <- x$xy
-    xy <- attr(x,"xy")
-    Npath <- length(listNodes)
-
-    ## handle color ##
-    if(is.character(col) && col[1]=="rainbow"){
-        col <- sample(grDevices::rainbow(length(x)))
-    }
-    col <- rep(col, length=Npath)
-    lwd <- rep(lwd, length=Npath)
-
-
-    ## function plotting one gPath
-    f1 <- function(vecNodes, col, lwd, ...){
-        N <- length(vecNodes)
-        if(N<2) return() # escape if a path is a single vertice
-        from <- vecNodes[1:(N-1)]
-        to <- vecNodes[2:N]
-        ## segments(xy[from,1], xy[from,2], xy[to,1], xy[to,2], col=col, lwd=lwd, ...)
-        geo.segments(xy[from,1], xy[from,2], xy[to,1], xy[to,2], col=col, lwd=lwd, ...)
-    }
+  ## handle color ##
+  if (is.character(col) && col[1] == "rainbow") {
+    col <- sample(grDevices::rainbow(length(x)))
+  }
+  col <- rep(col, length = Npath)
+  lwd <- rep(lwd, length = Npath)
 
 
-    ## plot all gPaths
-    lapply(1:length(listNodes), function(i) f1(listNodes[[i]], col=col[i], lwd=lwd[i], ...))
+  ## function plotting one gPath
+  f1 <- function(vecNodes, col, lwd, ...) {
+    N <- length(vecNodes)
+    if (N < 2) {
+      return()
+    } # escape if a path is a single vertice
+    from <- vecNodes[1:(N - 1)]
+    to <- vecNodes[2:N]
+    ## segments(xy[from,1], xy[from,2], xy[to,1], xy[to,2], col=col, lwd=lwd, ...)
+    geo.segments(xy[from, 1], xy[from, 2], xy[to, 1], xy[to, 2], col = col, lwd = lwd, ...)
+  }
 
-    return(invisible())
+
+  ## plot all gPaths
+  lapply(1:length(listNodes), function(i) f1(listNodes[[i]], col = col[i], lwd = lwd[i], ...))
+
+  return(invisible())
 } # end plot.gPath
 
 
@@ -398,40 +396,40 @@ plot.gPath <- function(x, col="rainbow", lwd=3, ...){
 
 #' @rdname dijkstra-methods
 #' @export
-gPath2dist <- function(m, diag=FALSE, upper=FALSE, res.type=c("dist","vector")){
+gPath2dist <- function(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector")) {
+  ## find the size of the dist object ##
+  x <- m
+  res.type <- match.arg(res.type)
+  L <- length(x)
+  x.names <- sub(":.*", "", names(x))
+  i <- 1
+  while (x.names[i] == x.names[i + 1] && i < L) {
+    i <- i + 1
+  }
 
-    ## find the size of the dist object ##
-    x <- m
-    res.type <- match.arg(res.type)
-    L <- length(x)
-    x.names <- sub(":.*","",names(x))
-    i <- 1
-    while(x.names[i]==x.names[i+1] && i<L){
-        i <- i+1
+  resSize <- i + 1
+
+  ## check size consistency
+  if (L != (resSize * (resSize - 1) * 0.5)) {
+    if (res.type == "dist") {
+      warning("Length of x does not match a number of pairwise comparisons.")
     }
-
-    resSize <- i+1
-
-    ## check size consistency
-    if(L != (resSize * (resSize-1) *0.5)){
-        if(res.type=="dist")
-        warning("Length of x does not match a number of pairwise comparisons.")
-    }
+  }
 
 
-    ## GET DISTANCES ##
-    resDist <- sapply(x, function(e) sum(e$length_detail[[1]], na.rm=TRUE))
+  ## GET DISTANCES ##
+  resDist <- sapply(x, function(e) sum(e$length_detail[[1]], na.rm = TRUE))
 
 
-    ## BUILD RESULT ##
-    ## type == dist
-    if(res.type=="dist"){
-        res <- stats::dist(1:resSize)
-        res[] <- resDist
-    } else {
-        ## type == vector (no change)
-        res <- resDist
-    }
+  ## BUILD RESULT ##
+  ## type == dist
+  if (res.type == "dist") {
+    res <- stats::dist(1:resSize)
+    res[] <- resDist
+  } else {
+    ## type == vector (no change)
+    res <- resDist
+  }
 
-    return(res)
+  return(res)
 } # end gPath2dist
