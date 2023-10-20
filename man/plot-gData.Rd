@@ -83,9 +83,9 @@ the \code{gData} plot.\cr
 }
 \section{Functions}{
 \itemize{
-\item \code{points,gData-method}: Plot as points
-}}
+\item \code{points(gData)}: Plot as points
 
+}}
 \examples{
 
 
@@ -112,10 +112,12 @@ points(obj, col.nodes="yellow", cex=4)
 
 }
 \seealso{
-- Different functions to explore these plots:\cr
+\itemize{
+\item Different functions to explore these plots:\cr
 \code{\link{geo.zoomin}}, \code{\link{geo.zoomout}},
 \code{\link{geo.slide}}, \code{\link{geo.back}}, \code{\link{geo.bookmark}},
 \code{\link{geo.goto}}.\cr
+}
 }
 \author{
 Thibaut Jombart (\email{t.jombart@imperial.ac.uk})

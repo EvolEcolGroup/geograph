@@ -26,15 +26,15 @@ should be computed.}
 }
 \value{
 The output depends on the value of the argument \code{res.type}:\cr
-- \code{nodes}: a vector of characters identifying the nodes of the
+\itemize{
+\item \code{nodes}: a vector of characters identifying the nodes of the
 buffers.\cr
-
-- \code{gGraph}: a \linkS4class{gGraph} object with a new attribute "buffer"
+\item \code{gGraph}: a \linkS4class{gGraph} object with a new attribute "buffer"
 (TRUE: within buffers; FALSE: outside buffers), and new color rules for this
 attribute in \code{@meta$buf.colors}.\cr
-
-- \code{gData}: a \linkS4class{gData} object including all the nodes of the
+\item \code{gData}: a \linkS4class{gData} object including all the nodes of the
 buffers.\cr
+}
 }
 \description{
 The generic function \code{buffer} finds buffers around specified locations

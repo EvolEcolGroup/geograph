@@ -39,10 +39,10 @@
 #' @export
 #' @examples
 #'
-#' plot(worldgraph.10k, reset=TRUE)
+#' plot(worldgraph.10k, reset = TRUE)
 #'
 #' ## zooming in
-#' geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+#' geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 #' title("Europe")
 #'
 #'
@@ -52,17 +52,17 @@
 #' sum(isInArea(worldgraph.10k))
 #' head(which(isInArea(worldgraph.10k))) # which nodes are TRUE ?
 #'
-#' head(isInArea(worldgraph.10k, res.type="integer")) # node indices
+#' head(isInArea(worldgraph.10k, res.type = "integer")) # node indices
 #'
-#' head(isInArea(worldgraph.10k, res.type="character")) # node names
+#' head(isInArea(worldgraph.10k, res.type = "character")) # node names
 #'
 #'
 #' ## use isInArea to have a subset of visible nodes
 #' x <- worldgraph.10k[isInArea(worldgraph.10k)]
-#' plot(x, reset=TRUE)
+#' plot(x, reset = TRUE)
 #'
 setGeneric("isInArea", function(x, ...) {
-    standardGeneric("isInArea")
+  standardGeneric("isInArea")
 })
 
 
@@ -73,59 +73,57 @@ setGeneric("isInArea", function(x, ...) {
 ################
 #' @export
 #' @describeIn isInArea Method for matrix
-setMethod("isInArea", "matrix", function(x, reg="current", res.type=c("logical","integer","character"), buffer=0){
-    ## some checks / definitiona
-    res.type <- match.arg(res.type)
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
-    coords <- x
+setMethod("isInArea", "matrix", function(x, reg = "current", res.type = c("logical", "integer", "character"), buffer = 0) {
+  ## some checks / definitiona
+  res.type <- match.arg(res.type)
+  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+  coords <- x
 
-    ## get xlim and ylim
-    if(exists("zoom.log", envir=env) && length(reg)==1 && reg=="zoom"){ # xlim/ylim taken from log
-        zoomlog <- get("zoom.log", envir=env)
-        zoomlog <- zoomlog[1,]
+  ## get xlim and ylim
+  if (exists("zoom.log", envir = .geoGraphEnv) && length(reg) == 1 && reg == "zoom") { # xlim/ylim taken from log
+    zoomlog <- get("zoom.log", envir = .geoGraphEnv)
+    zoomlog <- zoomlog[1, ]
 
-        xlim <- zoomlog[1:2]
-        ylim <- zoomlog[3:4]
+    xlim <- zoomlog[1:2]
+    ylim <- zoomlog[3:4]
+  } else if (length(reg) == 1 && reg == "current") { # xlim/ylim taken from par("usr")
+    xlim <- sort(graphics::par("usr")[1:2])
+    ylim <- sort(graphics::par("usr")[3:4])
+  } else if (is.list(reg)) { # xlim/ylim user-provided (reg)
+    if (length(reg) != 2) stop("reg is not a list of length 2.")
+    xlim <- sort(reg[[1]])[1:2]
+    ylim <- sort(reg[[2]])[1:2]
+  } else {
+    return(NA)
+  }
 
-    } else if(length(reg)==1 && reg=="current"){ # xlim/ylim taken from par("usr")
-        xlim <- sort(graphics::par("usr")[1:2])
-        ylim <- sort(graphics::par("usr")[3:4])
 
-    }  else if(is.list(reg)){ # xlim/ylim user-provided (reg)
-        if(length(reg)!=2) stop("reg is not a list of length 2.")
-        xlim <- sort(reg[[1]])[1:2]
-        ylim <- sort(reg[[2]])[1:2]
+  ## main computations ##
 
-    } else return(NA)
+  ## handle a buffer around area
+  bufferx <- (xlim[2] - xlim[1]) * buffer
+  buffery <- (ylim[2] - ylim[1]) * buffer
 
+  xlim <- xlim + c(-bufferx, bufferx)
+  ylim <- ylim + c(-buffery, buffery)
 
-    ## main computations ##
+  toKeep <- ((coords[, 1] >= xlim[1]) & (coords[, 1] <= xlim[2]) # matching longitude
+  & (coords[, 2] >= ylim[1]) & (coords[, 2] <= ylim[2])) # matching latitude
 
-    ## handle a buffer around area
-    bufferx <- (xlim[2]-xlim[1])*buffer
-    buffery <- (ylim[2]-ylim[1])*buffer
+  names(toKeep) <- rownames(coords)
 
-    xlim <- xlim + c(-bufferx, bufferx)
-    ylim <- ylim + c(-buffery, buffery)
+  if (res.type == "logical") { # return a named vector of logicals
+    return(toKeep)
+  }
 
-    toKeep <- ( (coords[,1] >= xlim[1]) & (coords[,1] <= xlim[2])  # matching longitude
-               & (coords[,2] >= ylim[1]) & (coords[,2] <= ylim[2]) ) # matching latitude
+  if (res.type == "integer") { # return a named vector of node numbers
+    return(which(toKeep))
+  }
 
-    names(toKeep) <- rownames(coords)
-
-    if(res.type=="logical"){ # return a named vector of logicals
-        return(toKeep)
-    }
-
-    if(res.type=="integer"){ # return a named vector of node numbers
-        return(which(toKeep))
-    }
-
-    if(res.type=="character"){ # return names of nodes in the area
-        res <- names(toKeep)[toKeep]
-        return(res)
-    }
-
+  if (res.type == "character") { # return names of nodes in the area
+    res <- names(toKeep)[toKeep]
+    return(res)
+  }
 }) # end isInArea for matrix
 
 
@@ -138,13 +136,12 @@ setMethod("isInArea", "matrix", function(x, reg="current", res.type=c("logical",
 ################
 #' @export
 #' @describeIn isInArea Method for data.frame
-setMethod("isInArea", "data.frame", function(x, reg="current", res.type=c("logical","integer","character"), buffer=0){
+setMethod("isInArea", "data.frame", function(x, reg = "current", res.type = c("logical", "integer", "character"), buffer = 0) {
+  ## preliminary stuff
+  x <- as.data.frame(x)
 
-    ## preliminary stuff
-    x <- as.data.frame(x)
-
-    res <- isInArea(x=x, reg=reg, res.type=res.type, buffer=buffer)
-    return(res)
+  res <- isInArea(x = x, reg = reg, res.type = res.type, buffer = buffer)
+  return(res)
 }) # end isInArea for data.frame
 
 
@@ -157,14 +154,13 @@ setMethod("isInArea", "data.frame", function(x, reg="current", res.type=c("logic
 ################
 #' @export
 #' @describeIn isInArea Method for gGraph object
-setMethod("isInArea", "gGraph", function(x, reg="current", res.type=c("logical","integer","character"), buffer=0){
+setMethod("isInArea", "gGraph", function(x, reg = "current", res.type = c("logical", "integer", "character"), buffer = 0) {
+  ## preliminary stuff
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
+  coords <- getCoords(x)
 
-    ## preliminary stuff
-    if(!is.gGraph(x)) stop("x is not a valid gGraph object")
-    coords <- getCoords(x)
-
-    res <- isInArea(x=coords, reg=reg, res.type=res.type, buffer=buffer)
-    return(res)
+  res <- isInArea(x = coords, reg = reg, res.type = res.type, buffer = buffer)
+  return(res)
 }) # end isInArea for gGraph
 
 
@@ -177,12 +173,11 @@ setMethod("isInArea", "gGraph", function(x, reg="current", res.type=c("logical",
 ################
 #' @export
 #' @describeIn isInArea Method for gData object
-setMethod("isInArea", "gData", function(x, reg="current", res.type=c("logical","integer","character"), buffer=0){
+setMethod("isInArea", "gData", function(x, reg = "current", res.type = c("logical", "integer", "character"), buffer = 0) {
+  ## preliminary stuff
+  if (!is.gData(x)) stop("x is not a valid gGraph object")
+  coords <- getCoords(x)
 
-    ## preliminary stuff
-    if(!is.gData(x)) stop("x is not a valid gGraph object")
-    coords <- getCoords(x)
-
-    res <- isInArea(x=coords, reg=reg, res.type=res.type, buffer=buffer)
-    return(res)
+  res <- isInArea(x = coords, reg = reg, res.type = res.type, buffer = buffer)
+  return(res)
 }) # end isInArea for gData

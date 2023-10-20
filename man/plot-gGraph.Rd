@@ -117,11 +117,12 @@ plot(worldgraph.10k[!inSea], bg.col="darkgreen", col="purple", edges=TRUE)
 
 }
 \seealso{
-- Different functions to explore these plots:\cr
+\itemize{
+\item Different functions to explore these plots:\cr
 \code{\link{geo.zoomin}}, \code{\link{geo.zoomout}},
 \code{\link{geo.slide}}, \code{\link{geo.back}}.\cr
-
-- \code{\link{isInArea}}, to retain a set of visible data.\cr
+\item \code{\link{isInArea}}, to retain a set of visible data.\cr
+}
 }
 \author{
 Thibaut Jombart (\email{t.jombart@imperial.ac.uk})

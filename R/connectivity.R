@@ -69,21 +69,21 @@ NULL
 #' @rdname connectivity
 #' @export
 
-areNeighbours <- function(V1, V2, graph){
-    V1 <- as.character(V1)
-    V2 <- as.character(V2)
-    if(length(V1) != length(V2)) stop("V1 and V2 have different lengths.")
+areNeighbours <- function(V1, V2, graph) {
+  V1 <- as.character(V1)
+  V2 <- as.character(V2)
+  if (length(V1) != length(V2)) stop("V1 and V2 have different lengths.")
 
-    edg <- edges(graph)
+  edg <- edges(graph)
 
-    ## function testing if two nodes are directly connected
-    f1 <- function(A,B){
-        return(any(edg[[A]]==B))
-    }
+  ## function testing if two nodes are directly connected
+  f1 <- function(A, B) {
+    return(any(edg[[A]] == B))
+  }
 
-    res <- mapply(function(x,y) f1(x,y), V1, V2)
+  res <- mapply(function(x, y) f1(x, y), V1, V2)
 
-    return(res)
+  return(res)
 } # end areNeighbours
 
 
@@ -96,40 +96,40 @@ areNeighbours <- function(V1, V2, graph){
 ################
 #' @rdname connectivity
 #' @export
-areConnected <- function(x, nodes){ # x is a gGraph
-    ## some checks ##
-    ##if(!require(RBGL)) stop("RBGL package is required.") not needed
-    if(!is.gGraph(x)) stop("x is not a valid gGraph object")
-    if(!all(nodes %in% getNodes(x))) stop("Some specified nodes were not found in the gGraph object.")
-    nodes <- unique(nodes)
+areConnected <- function(x, nodes) { # x is a gGraph
+  ## some checks ##
+  ## if(!require(RBGL)) stop("RBGL package is required.") not needed
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
+  if (!all(nodes %in% getNodes(x))) stop("Some specified nodes were not found in the gGraph object.")
+  nodes <- unique(nodes)
 
 
-    ## This is now pointless, function is already fast ##
-    ##   ## first check that all our nodes are part of an edge ##
-    ##     temp <- unique(as.vector(getEdges(x, res.type="matName")))
-    ##     nodes.in.edges <- nodes %in% temp
-    ##     if(!all(nodes.in.edges)) return(FALSE) # not a connected set if some nodes aren't connected at all
+  ## This is now pointless, function is already fast ##
+  ##   ## first check that all our nodes are part of an edge ##
+  ##     temp <- unique(as.vector(getEdges(x, res.type="matName")))
+  ##     nodes.in.edges <- nodes %in% temp
+  ##     if(!all(nodes.in.edges)) return(FALSE) # not a connected set if some nodes aren't connected at all
 
 
-    ## get connected sets ##
-    ## !! use RBGL::connectedComp from RBGL rather than connComp from graph
-    ## 100 times faster
-    connected.sets <- RBGL::connectedComp(getGraph(x))
+  ## get connected sets ##
+  ## !! use RBGL::connectedComp from RBGL rather than connComp from graph
+  ## 100 times faster
+  connected.sets <- RBGL::connectedComp(getGraph(x))
 
-    ## just keep sets > 1 node
-    temp <- sapply(connected.sets, length)
-    reOrd <- order(temp,decreasing=TRUE) # sets ordered in decreasing size
-    temp <- temp[reOrd]
-    if(min(temp)==1){
-        connected.sets <- connected.sets[reOrd][1:(which.min(temp)-1)]
-    }
+  ## just keep sets > 1 node
+  temp <- sapply(connected.sets, length)
+  reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
+  temp <- temp[reOrd]
+  if (min(temp) == 1) {
+    connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
+  }
 
-    names(connected.sets) <- paste("set",1:length(connected.sets))
+  names(connected.sets) <- paste("set", 1:length(connected.sets))
 
-    res <- sapply(connected.sets, function(e) all(nodes %in% e))
-    res <- any(res)
+  res <- sapply(connected.sets, function(e) all(nodes %in% e))
+  res <- any(res)
 
-    return(res)
+  return(res)
 } # end areConnected
 
 
@@ -143,22 +143,22 @@ areConnected <- function(x, nodes){ # x is a gGraph
 ## the GENERIC of this method is given in package 'graph'
 #' @rdname connectivity
 #' @export
-setMethod("isConnected", "gData", function(object, ...){
-    ## checks ##
-    x <- object
-    if(!is.gData(x)) stop("'object' is not a valid gData object.")
-    if(!exists(x@gGraph.name, envir=.GlobalEnv)) stop(paste("gGraph object",x@gGraph.name,"not found."))
+setMethod("isConnected", "gData", function(object, ...) {
+  ## checks ##
+  x <- object
+  if (!is.gData(x)) stop("'object' is not a valid gData object.")
+  if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
 
 
-    ## set args for areConnected ##
-    myGraph <- get(x@gGraph.name, envir=.GlobalEnv)
-    myNodes <- getNodes(x)
+  ## set args for areConnected ##
+  myGraph <- get(x@gGraph.name, envir = .GlobalEnv)
+  myNodes <- getNodes(x)
 
-    ## wrapper ##
-    res <- areConnected(myGraph, myNodes)
+  ## wrapper ##
+  res <- areConnected(myGraph, myNodes)
 
-    ## return res ##
-    return(res)
+  ## return res ##
+  return(res)
 }) # end isConnected for gData
 
 
@@ -171,50 +171,50 @@ setMethod("isConnected", "gData", function(object, ...){
 #################
 #' @rdname connectivity
 #' @export
-isReachable <- function(x, loc){ # x is a gData object
-    ## checks ##
-    if(!is.gData(x)) stop("x is not a valid gData object.")
-    if(!exists(x@gGraph.name, envir=.GlobalEnv)) stop(paste("gGraph object",x@gGraph.name,"not found."))
-    mygGraph <- get(x@gGraph.name, envir=.GlobalEnv)
+isReachable <- function(x, loc) { # x is a gData object
+  ## checks ##
+  if (!is.gData(x)) stop("x is not a valid gData object.")
+  if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
+  mygGraph <- get(x@gGraph.name, envir = .GlobalEnv)
 
 
-    ## get connected sets ##
-    connected.sets <- RBGL::connectedComp(getGraph(x))
+  ## get connected sets ##
+  connected.sets <- RBGL::connectedComp(getGraph(x))
 
 
-    ## just keep sets > 1 node
-    temp <- sapply(connected.sets, length)
-    reOrd <- order(temp,decreasing=TRUE) # sets ordered in decreasing size
-    temp <- temp[reOrd]
-    if(min(temp)==1){
-        connected.sets <- connected.sets[reOrd][1:(which.min(temp)-1)]
-    }
+  ## just keep sets > 1 node
+  temp <- sapply(connected.sets, length)
+  reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
+  temp <- temp[reOrd]
+  if (min(temp) == 1) {
+    connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
+  }
 
-    names(connected.sets) <- paste("set",1:length(connected.sets))
+  names(connected.sets) <- paste("set", 1:length(connected.sets))
 
 
-    ## check which set contains refNode ##
-    refNode <- closestNode(mygGraph,loc)
-    temp <- sapply(connected.sets, function(e) refNode %in% e)
-    if(!any(temp)) {
-        warning("The reference node is not connected to any node.")
-        return(FALSE)
-    }
-    refSet <- connected.sets[[which(temp)]]
+  ## check which set contains refNode ##
+  refNode <- closestNode(mygGraph, loc)
+  temp <- sapply(connected.sets, function(e) refNode %in% e)
+  if (!any(temp)) {
+    warning("The reference node is not connected to any node.")
+    return(FALSE)
+  }
+  refSet <- connected.sets[[which(temp)]]
 
-    ## check reachability for each node ##
-    myNodes <- getNodes(x)
+  ## check reachability for each node ##
+  myNodes <- getNodes(x)
 
-    f1 <- function(oneNode){ # finds the set in which a node is
-        temp <- sapply(connected.sets, function(e) oneNode %in% refSet)
-        return(any(temp))
-    }
+  f1 <- function(oneNode) { # finds the set in which a node is
+    temp <- sapply(connected.sets, function(e) oneNode %in% refSet)
+    return(any(temp))
+  }
 
-    res <- sapply(myNodes, f1)
-    names(res) <- myNodes
+  res <- sapply(myNodes, f1)
+  names(res) <- myNodes
 
-   ## return res ##
-    return(res)
+  ## return res ##
+  return(res)
 } # end isReachable
 
 
@@ -227,8 +227,8 @@ isReachable <- function(x, loc){ # x is a gData object
 #####################
 #' @rdname connectivity
 #' @export
-setGeneric("connectivityPlot", function(x,...) {
-    standardGeneric("connectivityPlot")
+setGeneric("connectivityPlot", function(x, ...) {
+  standardGeneric("connectivityPlot")
 })
 
 
@@ -238,75 +238,72 @@ setGeneric("connectivityPlot", function(x,...) {
 ##################
 #' @rdname connectivity
 #' @export
-setMethod("connectivityPlot", "gGraph", function(x, ..., seed=NULL){
-    ## some checks ##
-    if(!is.gGraph(x)) stop("x is not a valid gGraph object")
+setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
+  ## some checks ##
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
 
-    ## create the .geoGraphEnv if it does not exist
-    # am315 This should not be necessary, as .geoGraphEnv should always exist
-    if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-        stop (".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
-    }
-    # if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-    #     assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
-    #     warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
-    # }
+  ## create the .geoGraphEnv if it does not exist
+  # am315 This should not be necessary, as .geoGraphEnv should always exist
+  # if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
+  #     assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
+  #     warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
+  # }
 
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
 
-    ## get connected sets ##
-    connected.sets <- RBGL::connectedComp(getGraph(x))
+  ## get connected sets ##
+  connected.sets <- RBGL::connectedComp(getGraph(x))
 
-    ## just keep sets > 1 node
-    temp <- sapply(connected.sets, length)
-    reOrd <- order(temp,decreasing=TRUE) # sets ordered in decreasing size
-    temp <- temp[reOrd]
-    if(min(temp)==1){
-        connected.sets <- connected.sets[reOrd][1:(which.min(temp)-1)]
-    }
+  ## just keep sets > 1 node
+  temp <- sapply(connected.sets, length)
+  reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
+  temp <- temp[reOrd]
+  if (min(temp) == 1) {
+    connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
+  }
 
-    names(connected.sets) <- paste("set",1:length(connected.sets))
-
-
-    ## define colors ##
-    nbSets <- length(connected.sets)
-    if(!is.null(seed) && is.numeric(seed)) {
-        set.seed(seed)
-    }
-
-    colSets <- sample(grDevices::rainbow(nbSets))
-
-    myNodes <- getNodes(x)
-    col <- rep("lightgray", length(myNodes))
-    names(col) <- myNodes
-
-    for(i in 1:nbSets){
-        e <- connected.sets[[i]] # 'e' is a vector of connected nodes
-        col[e] <- colSets[i]
-    }
+  names(connected.sets) <- paste("set", 1:length(connected.sets))
 
 
-    ## call to plot ##
-    plot(x, col=col, ...)
+  ## define colors ##
+  nbSets <- length(connected.sets)
+  if (!is.null(seed) && is.numeric(seed)) {
+    set.seed(seed)
+  }
 
-    ## save plot param ## (will be used by plot gGraph
-    dots <- list(...)
-    temp <- get("last.plot.param", envir=env)
-    if(!is.null(dots$psize)) {
-        temp$psize <- dots$psize
-    }
-    if(!is.null(dots$pch)){
-        temp$pch <- dots$pch
-    }
-    temp$col <- col
-    assign("last.plot.param", temp, envir=env)
+  colSets <- sample(grDevices::rainbow(nbSets))
 
-    ## fix last call ##
-    curCall <- sys.call(-1)
-    assign("last.plot", curCall, envir=env)
+  myNodes <- getNodes(x)
+  col <- rep("lightgray", length(myNodes))
+  names(col) <- myNodes
 
-    return(invisible(col))
+  for (i in 1:nbSets) {
+    e <- connected.sets[[i]] # 'e' is a vector of connected nodes
+    col[e] <- colSets[i]
+  }
+
+
+  ## call to plot ##
+  plot(x, col = col, ...)
+
+  ## save plot param ## (will be used by plot gGraph
+  dots <- list(...)
+  temp <- get("last.plot.param", envir = .geoGraphEnv)
+  if (!is.null(dots$psize)) {
+    temp$psize <- dots$psize
+  }
+  if (!is.null(dots$pch)) {
+    temp$pch <- dots$pch
+  }
+  temp$col <- col
+  assign("last.plot.param", temp, envir = .geoGraphEnv)
+
+  ## fix last call ##
+  curCall <- sys.call(-1)
+  assign("last.plot", curCall, envir = .geoGraphEnv)
+
+  return(invisible(col))
 }) # end connectivityPlot gGraph
 
 
@@ -319,59 +316,59 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed=NULL){
 #################
 #' @rdname connectivity
 #' @export
-setMethod("connectivityPlot", "gData", function(x, col.gGraph=0, ...,seed=NULL){
-    ## some checks ##
-    if(!is.gData(x)) stop("x is not a valid gData object")
+setMethod("connectivityPlot", "gData", function(x, col.gGraph = 0, ..., seed = NULL) {
+  ## some checks ##
+  if (!is.gData(x)) stop("x is not a valid gData object")
 
-    env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+  env <- get(".geoGraphEnv", envir = .GlobalEnv) # env is our target environnement
 
-    ## get connected sets ##
-    connected.sets <- RBGL::connectedComp(getGraph(x))
+  ## get connected sets ##
+  connected.sets <- RBGL::connectedComp(getGraph(x))
 
-    ## just keep sets > 1 node
-    temp <- sapply(connected.sets, length)
-    reOrd <- order(temp,decreasing=TRUE) # sets ordered in decreasing size
-    temp <- temp[reOrd]
-    if(min(temp)==1){
-        connected.sets <- connected.sets[reOrd][1:(which.min(temp)-1)]
+  ## just keep sets > 1 node
+  temp <- sapply(connected.sets, length)
+  reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
+  temp <- temp[reOrd]
+  if (min(temp) == 1) {
+    connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
+  }
+
+  names(connected.sets) <- paste("set", 1:length(connected.sets))
+
+
+  ## define colors ##
+  nbSets <- length(connected.sets)
+  ## find the number of relevant sets
+  nbRelSets <- 0
+  myNodes <- getNodes(x)
+
+  for (i in 1:nbSets) {
+    if (any(myNodes %in% connected.sets[[i]])) {
+      nbRelSets <- nbRelSets + 1
     }
+  }
 
-    names(connected.sets) <- paste("set",1:length(connected.sets))
+  if (!is.null(seed) && is.numeric(seed)) {
+    set.seed(seed)
+  }
+  colSets <- sample(grDevices::rainbow(nbRelSets))
 
+  col <- rep("lightgray", length(myNodes))
+  names(col) <- myNodes
 
-    ## define colors ##
-    nbSets <- length(connected.sets)
-    ## find the number of relevant sets
-    nbRelSets <- 0
-    myNodes <- getNodes(x)
-
-    for(i in 1:nbSets){
-        if(any(myNodes %in% connected.sets[[i]])){
-            nbRelSets <- nbRelSets + 1
-        }
-    }
-
-    if(!is.null(seed) && is.numeric(seed)) {
-        set.seed(seed)
-    }
-    colSets <- sample(grDevices::rainbow(nbRelSets))
-
-    col <- rep("lightgray", length(myNodes))
-    names(col) <- myNodes
-
-    for(i in 1:nbSets){
-        e <- connected.sets[[i]] # 'e' is a vector of connected nodes
-        col[names(col) %in% e] <- colSets[i]
-    }
+  for (i in 1:nbSets) {
+    e <- connected.sets[[i]] # 'e' is a vector of connected nodes
+    col[names(col) %in% e] <- colSets[i]
+  }
 
 
-    ## call to plot ##
-    plot(x, col.ori=col, col.nodes=col, col.gGraph=col.gGraph, ...)
+  ## call to plot ##
+  plot(x, col.ori = col, col.nodes = col, col.gGraph = col.gGraph, ...)
 
 
-    ## fix last call ##
-    curCall <- sys.call(-1)
-    assign("last.plot", curCall, envir=env)
+  ## fix last call ##
+  curCall <- sys.call(-1)
+  assign("last.plot", curCall, envir = .geoGraphEnv)
 
-    return(invisible(col))
+  return(invisible(col))
 }) # end connectivityPlot gData

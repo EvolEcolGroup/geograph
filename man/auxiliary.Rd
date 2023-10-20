@@ -23,9 +23,9 @@ geo.segments(
 \arguments{
 \item{x}{a valid \linkS4class{gGraph}.}
 
-\item{x0, y0}{coordinates of points *from* which to draw.}
+\item{x0, y0}{coordinates of points \emph{from} which to draw.}
 
-\item{x1, y1}{coordinates of points *to* which to draw.}
+\item{x1, y1}{coordinates of points \emph{to} which to draw.}
 
 \item{col}{a character string or an integer indicating the color of the
 segments.}
@@ -48,13 +48,13 @@ unlike other functions in \code{geoGraph}, these functions do not generally
 test for the validity of the provided arguments (for speed purposes).\cr
 }
 \details{
-- \code{hasCosts}: tests whether a \linkS4class{gGraph} has costs associated
+\itemize{
+\item \code{hasCosts}: tests whether a \linkS4class{gGraph} has costs associated
 to its edges.\cr
-
-- \code{geo.segments}: a substitute to \code{segments} which correctly draws
+\item \code{geo.segments}: a substitute to \code{segments} which correctly draws
 segments between locations distant by more than 90 degrees of longitude.\cr
-
-- \code{rebuild}: in development.
+\item \code{rebuild}: in development.
+}
 }
 \examples{
 

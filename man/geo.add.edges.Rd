@@ -49,7 +49,6 @@ geo.remove.edges(worldgraph.10k, mode="area") # area mode
 geo.add.edges(worldgraph.10k) # points mode
 geo.add.edges(worldgraph.10k, mode="area") # area mode
 }
-
 }
 \seealso{
 \code{\link{setEdges}} to non-interactively add or remove edges in

@@ -37,9 +37,9 @@ a data.frame. This low-level function is called by \code{geo.add.edges} and
 }
 \section{Functions}{
 \itemize{
-\item \code{setEdges,gGraph-method}: Method for gGraph object
-}}
+\item \code{setEdges(gGraph)}: Method for gGraph object
 
+}}
 \seealso{
 \code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} to
 interactively add or remove edges in a \linkS4class{gGraph} object. \cr

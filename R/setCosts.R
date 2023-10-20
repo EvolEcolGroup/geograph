@@ -4,7 +4,7 @@
 
 
 #' Set friction in a gGraph object
-#' 
+#'
 #' The function \code{setCosts} define costs for the edges of a
 #' \linkS4class{gGraph} object according to a node attribute and some rules
 #' defined in the \code{@meta\$costs} slot of the object. Each node has a value
@@ -15,11 +15,11 @@
 #' Note that costs are inversely proportional to connectivity between edges:
 #' the larger the cost associated to an edge, the lower the connectivity
 #' between the two concerned nodes.\cr
-#' 
+#'
 #' Also note that 'costs' defined in \code{geoGraph} are equivalent to
 #' 'weights' as defined in \code{graph} and \code{RBGL} packages.
-#' 
-#' 
+#'
+#'
 #' @param x a \linkS4class{gGraph} object with a least one node attribute, and
 #' a \code{@meta$costs} component (for an example, see worldgraph.10k dataset).
 #' @param attr.name the name of the node attribute used to compute costs (i.e.,
@@ -39,20 +39,21 @@
 #' a given threshold. \code{\link{geo.add.edges}} to add edges to a
 #' \linkS4class{gGraph} object.
 #' @keywords utilities
+#' @export
 #' @examples
-#' 
-#' plot(rawgraph.10k, reset=TRUE)
-#' 
+#'
+#' plot(rawgraph.10k, reset = TRUE)
+#'
 #' ## zooming in
-#' geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+#' geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 #' title("Europe")
-#' 
+#'
 #' ## defining a new object restrained to visible nodes
 #' x <- rawgraph.10k[isInArea(rawgraph.10k)]
-#' 
+#'
 #' ## define weights for edges
-#' x <- setCosts(x, attr.name="habitat")
-#' plot(x,edges=TRUE)
+#' x <- setCosts(x, attr.name = "habitat")
+#' plot(x, edges = TRUE)
 #' title("costs defined by habitat (land/land=1, other=100)")
 #' 
 #' 
@@ -84,24 +85,30 @@ setCosts <- function(x, attr.name=NULL, node.costs=NULL, method=c("mean", "produ
         nodeCosts <- node.costs
         ## might add some more checks here...
     }
+  } else { # cost directly provided
+    if (!is.numeric(node.costs)) stop("Provided 'node.costs' not numeric.")
+    node.costs <- rep(node.costs, length = length(getNodes(x))) # recycling node costs
+    nodeCosts <- node.costs
+    ## might add some more checks here...
+  }
 
 
-    ## find costs of edges as a function of terminating vertices
-    EL <- getGraph(x)@edgeL
+  ## find costs of edges as a function of terminating vertices
+  EL <- getGraph(x)@edgeL
 
-    ## method == mean ##
-    if(method=="mean"){
-        for(i in 1:length(EL)){
-            EL[[i]]$weights <- (nodeCosts[i] + nodeCosts[EL[[i]]$edges]) / 2
-            }
+  ## method == mean ##
+  if (method == "mean") {
+    for (i in 1:length(EL)) {
+      EL[[i]]$weights <- (nodeCosts[i] + nodeCosts[EL[[i]]$edges]) / 2
     }
+  }
 
-    ## method == product ##
-    if(method=="product"){
-        for(i in 1:length(EL)){
-            EL[[i]]$weights <- nodeCosts[i] * nodeCosts[EL[[i]]$edges]
-            }
+  ## method == product ##
+  if (method == "product") {
+    for (i in 1:length(EL)) {
+      EL[[i]]$weights <- nodeCosts[i] * nodeCosts[EL[[i]]$edges]
     }
+  }
 
     ## method == function ##
     if (method=="function"){
@@ -115,5 +122,5 @@ setCosts <- function(x, attr.name=NULL, node.costs=NULL, method=c("mean", "produ
     res <- x
     res@graph <- newGraph
 
-    return(res)
+  return(res)
 } # end setCosts

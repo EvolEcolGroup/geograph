@@ -5,3 +5,8 @@ README.Rmd
 ^\.Rproj\.user$
 inst/shiny/.RData
 inst/shiny/.Rhistory
+^\.github$
+data-raw
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

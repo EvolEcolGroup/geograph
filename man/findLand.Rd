@@ -36,10 +36,11 @@ which the output is to be stored.}
 \value{
 The output depends on the nature of the input:\cr - \code{matrix,
 data.frame}: a factor with two levels being 'land' and 'sea'.\cr
-
-- \code{gGraph}: a \linkS4class{gGraph} object with a new node attribute,
+\itemize{
+\item \code{gGraph}: a \linkS4class{gGraph} object with a new node attribute,
 possibly added to previously existing node attributes (\code{@nodes.attr}
 slot).\cr
+}
 }
 \description{
 The generic function \code{findLand} uses information from a GIS shapefile
@@ -56,7 +57,7 @@ Nodes can be specified either as a matrix of geographic coordinates, or as a
 ## create a new gGraph with random coordinates
 myCoords <- data.frame(long=runif(1000,-180,180), lat=runif(1000,-90,90))
 obj <- new("gGraph", coords=myCoords)
-obj # note: no node attribute 
+obj # note: no node attribute
 plot(obj)
 
 ## find which points are on land

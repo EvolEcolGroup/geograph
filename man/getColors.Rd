@@ -46,9 +46,9 @@ See example section to know how this slot should be designed.
 }
 \section{Functions}{
 \itemize{
-\item \code{getColors,gGraph-method}: Method for gGraph objects
-}}
+\item \code{getColors(gGraph)}: Method for gGraph objects
 
+}}
 \examples{
 
 worldgraph.10k # there is a node attribute 'habitat'

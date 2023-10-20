@@ -19,72 +19,54 @@ coordinates of a set of nodes (@coords), attributes for these nodes
 of connections between nodes of class graphNEL (@graph).\cr
 
 Several functions are available for handling gGraph data:
-
-- some accessors allow to access slots of an object, sometimes with
+\itemize{
+\item some accessors allow to access slots of an object, sometimes with
 additional treatment of information: \code{\link{getGraph}},
 \code{\link{getNodesAttr}}, \code{\link{getCoords}}, \code{\link{getNodes}},
 \code{\link{getEdges}}, \code{\link{getCosts}}.\cr
-
-- \code{\link{setEdges}}: add/remove edges specified edges.\cr
-
-- \code{\link{setCosts}}: set costs of edges.\cr
-
-- \code{\link{hasCosts}}: tests if the graph is weighted (i.e., has
+\item \code{\link{setEdges}}: add/remove edges specified edges.\cr
+\item \code{\link{setCosts}}: set costs of edges.\cr
+\item \code{\link{hasCosts}}: tests if the graph is weighted (i.e., has
 non-uniform costs).\cr
-
-- \code{\link{isInArea}}: finds which nodes are in the currently plotted
+\item \code{\link{isInArea}}: finds which nodes are in the currently plotted
 area.\cr
-
-- \code{\link{areConnected}}: tests if nodes are directly connected.\cr
-
-- \code{\link{connectivityPlot}}: plot connected components with different
+\item \code{\link{areConnected}}: tests if nodes are directly connected.\cr
+\item \code{\link{connectivityPlot}}: plot connected components with different
 colors.\cr
-
-- \code{\link{dropDeadEdges}}: suppress edges whose weight is null.\cr
-
-- \code{\link{closestNode}}: given a longitude and a latitude, finds the
+\item \code{\link{dropDeadEdges}}: suppress edges whose weight is null.\cr
+\item \code{\link{closestNode}}: given a longitude and a latitude, finds the
 closest node; specific values of node attribute can be provided, for
 instance, to find the closest node on land.\cr
-
-- \code{\link{show}}: printing of gGraph objects.\cr
-
-- \code{\link{extractFromLayer}}: extract information from GIS layers.\cr
-
-- \code{\link{findLand}}: checks which nodes are on land.\cr
-
-- \code{\link{setCosts}}: define edges weights accoring to rules specified
+\item \code{\link{show}}: printing of gGraph objects.\cr
+\item \code{\link{extractFromLayer}}: extract information from GIS layers.\cr
+\item \code{\link{findLand}}: checks which nodes are on land.\cr
+\item \code{\link{setCosts}}: define edges weights accoring to rules specified
 in the @meta slot.\cr
-
-- \code{\link{geo.add.edges}}, \code{\link{geo.remove.edges}}: graphical
+\item \code{\link{geo.add.edges}}, \code{\link{geo.remove.edges}}: graphical
 functions for adding or removing edges.\cr
-
-- \code{\link{geo.change.attr}}: graphical functions for changing attributes
+\item \code{\link{geo.change.attr}}: graphical functions for changing attributes
 of nodes.\cr
+}
 
 === GRAPHICS ===\cr \code{geoGraph} aims at providing advanced graphical
 facilities, such as zooming in or out particular area, moving the plotted
 area, or visualizing connectivity between nodes. \cr
-
-- \code{\link{plot}}: plot method with various options, allowing to display
+\itemize{
+\item \code{\link{plot}}: plot method with various options, allowing to display
 a shapefile (by default, the map of the world), using color according to
 attributes, showing connectivity between nodes, etc.\cr
-
-- \code{\link{points}}: similar to plot method, except that a new plot is
+\item \code{\link{points}}: similar to plot method, except that a new plot is
 not created.\cr
-
-- \code{\link{plotEdges}}: the specific function plotting edges. It detects
+\item \code{\link{plotEdges}}: the specific function plotting edges. It detects
 if the object is a weighted graph, and plots edges accordingly.\cr
-
-- \code{\link{geo.zoomin}}, \code{\link{geo.zoomout}}: zoom in and out a
+\item \code{\link{geo.zoomin}}, \code{\link{geo.zoomout}}: zoom in and out a
 plot.\cr
-
-- \code{\link{geo.back}}: replot the previous screens.\cr
-
-- \code{\link{geo.slide}}: slide the plotted area toward the indicated
+\item \code{\link{geo.back}}: replot the previous screens.\cr
+\item \code{\link{geo.slide}}: slide the plotted area toward the indicated
 direction.\cr
-
-- \code{\link{geo.bookmark}}, \code{\link{geo.goto}}: set and goto a
+\item \code{\link{geo.bookmark}}, \code{\link{geo.goto}}: set and goto a
 bookmarked area.\cr
+}
 
 === DATASETS ===\cr Datasets occupy a central place in \code{geoGraph},
 since they provide the spatial models used in later operations.
@@ -96,15 +78,10 @@ sizes. Two different resolutions are provided:\cr -
 \code{\link{worldgraph.40k}}: coverage using about 40,000 nodes\cr
 
 Other datasets are:\cr - \code{\link{worldshape}}: shapefile containing
-world countries.\cr - \code{\link{globalcoord.10k}}: spatial coordinates
-used in \code{\link{worldgraph.10k}}.\cr - \code{\link{globalcoord.40k}}:
-spatial coordinates used in \code{\link{worldgraph.40k}}.\cr
+world countries.\cr
 
 To cite geoGraph, please use the reference given by
 \code{citation("geoGraph")}.
-
-\tabular{ll}{ Package: \tab geoGraph\cr Type: \tab Package\cr Version: \tab
-1.0-0\cr Date: \tab 2010-07-01 \cr License: \tab GPL (>=2) }
 }
 \examples{
 
@@ -140,10 +117,6 @@ plot(x,edges=TRUE)
 title("after droping edges with null weight")
 
 
-}
-\author{
-Thibaut Jombart <t.jombart@imperial.ac.uk> (maintainer)\cr François
-Balloux \cr Andrea Manica \cr
 }
 \keyword{manip}
 \keyword{spatial}

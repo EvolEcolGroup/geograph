@@ -89,21 +89,14 @@
 #' \code{\link{worldgraph.40k}}: coverage using about 40,000 nodes\cr
 #'
 #' Other datasets are:\cr - \code{\link{worldshape}}: shapefile containing
-#' world countries.\cr - \code{\link{globalcoord.10k}}: spatial coordinates
-#' used in \code{\link{worldgraph.10k}}.\cr - \code{\link{globalcoord.40k}}:
-#' spatial coordinates used in \code{\link{worldgraph.40k}}.\cr
+#' world countries.\cr
 #'
 #' To cite geoGraph, please use the reference given by
 #' \code{citation("geoGraph")}.
 #'
-#' \tabular{ll}{ Package: \tab geoGraph\cr Type: \tab Package\cr Version: \tab
-#' 1.0-0\cr Date: \tab 2010-07-01 \cr License: \tab GPL (>=2) }
-#'
 #' @name geoGraph-package
 #' @aliases geoGraph-package geoGraph
 #' @docType package
-#' @author Thibaut Jombart <t.jombart@@imperial.ac.uk> (maintainer)\cr François
-#' Balloux \cr Andrea Manica \cr
 #' @keywords manip spatial
 #' @examples
 #'
@@ -111,10 +104,10 @@
 #' worldgraph.10k
 #'
 #' ## plotting the object
-#' plot(worldgraph.10k, reset=TRUE)
+#' plot(worldgraph.10k, reset = TRUE)
 #'
 #' ## zooming in
-#' geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+#' geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 #' title("Europe")
 #'
 #' ## to play interactively with graphics, use:
@@ -125,18 +118,17 @@
 #'
 #' ## defining a new object restrained to visible nodes
 #' x <- worldgraph.10k[isInArea(worldgraph.10k)]
-#' plot(x,reset=TRUE, edges=TRUE)
+#' plot(x, reset = TRUE, edges = TRUE)
 #' title("x does just contain these visible nodes.")
 #'
 #' ## define weights for edges
-#' x <- setCosts(x, attr.name="habitat", method="prod")
-#' plot(x,edges=TRUE)
+#' x <- setCosts(x, attr.name = "habitat", method = "prod")
+#' plot(x, edges = TRUE)
 #' title("connectivity defined by habitat (land/land=1, other=0)")
 #'
 #' ## drop 'dead edges' (i.e. with weight 0)
 #' x <- dropDeadEdges(x)
-#' plot(x,edges=TRUE)
+#' plot(x, edges = TRUE)
 #' title("after droping edges with null weight")
-#'
 #'
 NULL

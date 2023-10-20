@@ -7,10 +7,10 @@
 \title{Human genome diversity panel - georeferenced data}
 \format{
 \code{hgdp} is a \linkS4class{gGraph} object with the following
-data: % \describe{ % \item{@nodes.attr$habitat}{habitat corresponding to
-each % vertice; currently 'land' or 'sea'.} % \item{@meta$color}{a matrix
-assigning a color for plotting % vertices (second column) to different
-values of habitat (first % column).} % }
+data: \% \describe{ \% \item{@nodes.attr$habitat}{habitat corresponding to
+each \% vertice; currently 'land' or 'sea'.} \% \item{@meta$color}{a matrix
+assigning a color for plotting \% vertices (second column) to different
+values of habitat (first \% column).} \% }
 }
 \description{
 The datasets \code{hgdp} and \code{hgdpPlus} provides genetic diversity
