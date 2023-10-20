@@ -2,6 +2,7 @@
 # geoGraph
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/dramanica/geograph/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dramanica/geograph/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 `geoGraph` aims at implementing graph approaches for geographic data.
