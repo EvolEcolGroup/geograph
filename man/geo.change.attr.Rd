@@ -60,23 +60,22 @@ worldgraph.10k that are exclusively on land: this would be done by
 specifying \code{only.name="habitat"} and \code{only.value="land"}.
 }
 \examples{
-
 \dontrun{
-plot(worldgraph.10k, reset=TRUE)
+plot(worldgraph.10k, reset = TRUE)
 
 ## have to click here for an area
 ## all nodes are modified in the area
-x <- geo.change.attr(worldgraph.10k, mode="area", attr.name="habitat", attr.value="fancy
-habitat", newCol="pink") # modify selected area
+x <- geo.change.attr(worldgraph.10k, mode = "area", attr.name = "habitat", attr.value = "fancy
+habitat", newCol = "pink") # modify selected area
 
-plot(x,reset=TRUE) # modification in the whole selected area
+plot(x, reset = TRUE) # modification in the whole selected area
 
 ## have to click here for an area
 ## only nodes on land are modified
-x <- geo.change.attr(x, mode="area", attr.name="habitat", attr.value="fancy2
-habitat", newCol="purple", only.name="habitat", only.value="land")
+x <- geo.change.attr(x, mode = "area", attr.name = "habitat", attr.value = "fancy2
+habitat", newCol = "purple", only.name = "habitat", only.value = "land")
 
-plot(x,reset=TRUE) # modification in the whole selected area
+plot(x, reset = TRUE) # modification in the whole selected area
 }
 
 }

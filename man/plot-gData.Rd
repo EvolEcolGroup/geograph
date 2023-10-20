@@ -89,26 +89,25 @@ the \code{gData} plot.\cr
 \examples{
 
 
-myLoc <- list(x=c(3, -8, 11, 28), y=c(50, 57, 71, 67)) # some locations
-obj <- new("gData", coords=myLoc) # new gData object
+myLoc <- list(x = c(3, -8, 11, 28), y = c(50, 57, 71, 67)) # some locations
+obj <- new("gData", coords = myLoc) # new gData object
 obj
 
 obj@gGraph.name <- "worldgraph.10k"
-obj <- closestNode(obj, attr.name="habitat", attr.value="land")
+obj <- closestNode(obj, attr.name = "habitat", attr.value = "land")
 
 ## plot the result (original location -> assigned node)
-plot(obj, type="both",reset=TRUE)
+plot(obj, type = "both", reset = TRUE)
 title("'x'=location, 'o'=assigned node")
 
 ## using different parameters
-points(obj, type="both", pch.ori=2, col.ori="red", pch.nodes=20, col.nodes="pink")
+points(obj, type = "both", pch.ori = 2, col.ori = "red", pch.nodes = 20, col.nodes = "pink")
 
 ## only nodes, fancy plot
-plot(obj, col.nodes="red", cex=1, pch.node=20)
-points(obj, col.nodes="red", cex=2)
-points(obj, col.nodes="orange", cex=3)
-points(obj, col.nodes="yellow", cex=4)
-
+plot(obj, col.nodes = "red", cex = 1, pch.node = 20)
+points(obj, col.nodes = "red", cex = 2)
+points(obj, col.nodes = "orange", cex = 3)
+points(obj, col.nodes = "yellow", cex = 4)
 
 }
 \seealso{

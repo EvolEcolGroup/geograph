@@ -33,6 +33,7 @@ Collate:
     'basicMethods.R'
     'buffer.R'
     'closestNode.R'
+    'combineCosts.R'
     'connectivity.R'
     'datasets.R'
     'dijkstra.R'

@@ -68,33 +68,32 @@ that it is not possible to specify node attributes (\code{attr.names} and
 
 }}
 \examples{
-
 \dontrun{
 ## interactive example ##
-plot(worldgraph.10k, reset=TRUE)
+plot(worldgraph.10k, reset = TRUE)
 
 ## zooming in
-geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 title("Europe")
 
 ## click some locations
-myNodes <- closestNode(worldgraph.10k,locator(), attr.name="habitat", attr.value="land")
+myNodes <- closestNode(worldgraph.10k, locator(), attr.name = "habitat", attr.value = "land")
 myNodes
 
 ## here are the closestNodes
-points(getCoords(worldgraph.10k)[myNodes,], col="red")
+points(getCoords(worldgraph.10k)[myNodes, ], col = "red")
 }
 
 ## example with a gData object ##
-myLoc <- list(x=c(3, -8, 11, 28), y=c(50, 57, 71, 67)) # some locations
-obj <- new("gData", coords=myLoc) # new gData object
+myLoc <- list(x = c(3, -8, 11, 28), y = c(50, 57, 71, 67)) # some locations
+obj <- new("gData", coords = myLoc) # new gData object
 obj
 
 obj@gGraph.name <- "worldgraph.10k" # this could be done when creating obj
-obj <- closestNode(obj, attr.name="habitat", attr.value="land")
+obj <- closestNode(obj, attr.name = "habitat", attr.value = "land")
 
 ## plot the result (original location -> assigned node)
-plot(obj, method="both", reset=TRUE)
+plot(obj, method = "both", reset = TRUE)
 title("'x'=location, 'o'=assigned node")
 
 

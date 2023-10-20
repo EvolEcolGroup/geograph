@@ -37,24 +37,24 @@ plot(hgdp)
 ## results from Handley et al.
 \dontrun{
 ## Addis Ababa
-addis <- list(lon=38.74,lat=9.03)
-addis <- closestNode(worldgraph.40k,addis) # this takes a while
+addis <- list(lon = 38.74, lat = 9.03)
+addis <- closestNode(worldgraph.40k, addis) # this takes a while
 
 ## shortest path from Addis Ababa
 myPath <- dijkstraFrom(hgdp, addis)
 
 ## plot results
-plot(worldgraph.40k, col=0)
+plot(worldgraph.40k, col = 0)
 points(hgdp)
-points(worldgraph.40k[addis], psize=3,pch="x", col="black")
+points(worldgraph.40k[addis], psize = 3, pch = "x", col = "black")
 plot(myPath)
 
 ## correlations distance/genetic div.
-geo.dist <- sapply(myPath[-length(myPath)],function(e) e$length)
-gen.div <- getData(hgdp)[,"Genetic.Div"]
-plot(gen.div~geo.dist)
-lm1 <- lm(gen.div~geo.dist)
-abline(lm1, col="blue") # this regression is wrong
+geo.dist <- sapply(myPath[-length(myPath)], function(e) e$length)
+gen.div <- getData(hgdp)[, "Genetic.Div"]
+plot(gen.div ~ geo.dist)
+lm1 <- lm(gen.div ~ geo.dist)
+abline(lm1, col = "blue") # this regression is wrong
 summary(lm1)
 }
 
