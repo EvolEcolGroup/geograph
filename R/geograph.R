@@ -89,21 +89,14 @@
 #' \code{\link{worldgraph.40k}}: coverage using about 40,000 nodes\cr
 #'
 #' Other datasets are:\cr - \code{\link{worldshape}}: shapefile containing
-#' world countries.\cr - \code{\link{globalcoord.10k}}: spatial coordinates
-#' used in \code{\link{worldgraph.10k}}.\cr - \code{\link{globalcoord.40k}}:
-#' spatial coordinates used in \code{\link{worldgraph.40k}}.\cr
+#' world countries.\cr
 #'
 #' To cite geoGraph, please use the reference given by
 #' \code{citation("geoGraph")}.
 #'
-#' \tabular{ll}{ Package: \tab geoGraph\cr Type: \tab Package\cr Version: \tab
-#' 1.0-0\cr Date: \tab 2010-07-01 \cr License: \tab GPL (>=2) }
-#'
 #' @name geoGraph-package
 #' @aliases geoGraph-package geoGraph
 #' @docType package
-#' @author Thibaut Jombart <t.jombart@@imperial.ac.uk> (maintainer)\cr François
-#' Balloux \cr Andrea Manica \cr
 #' @keywords manip spatial
 #' @examples
 #'

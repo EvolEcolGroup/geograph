@@ -67,18 +67,15 @@ NULL
 #' references.\cr
 #'
 #' 'worldgraph's are 'rawgraph's that have been modified manually to rectify
-#' connectivity between edges at some places. The most noticable change is that
+#' connectivity between edges at some places. The most noticeable change is that
 #' all edges involving sea vertices have been removed.\cr
 #'
-#' 'globalcoord.10k' and 'globalcoord.40k' are matrices of geographic
-#' coordinates of nodes, used to construct 'rawgraph' and 'worlgraph' objects.\cr
-#'
-#' 'worldshape' is a shapefile of contries of the world (snapshot from 1994).
+#' 'worldshape' is a shapefile of countries of the world (snapshot from 1994).
 #'
 #'
 #' @name worldgraph
 #' @aliases worldgraph rawgraph.10k rawgraph.40k worldgraph.10k worldgraph.40k
-#' globalcoord.10k globalcoord.40k worldshape
+#' worldshape
 #' @docType data
 #' @format \code{worldgraph.10k} and \code{worldgraph.40k} are
 #' \linkS4class{gGraph} objects with the following specificities: \describe{
