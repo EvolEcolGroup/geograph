@@ -11,7 +11,7 @@ vignette: >
 
 
 ```{r setup, echo=FALSE}
-knitr::opts_chunk$set(fig.width = 7, fig.height = 6, fig.path="figs/")
+knitr::opts_chunk$set(fig.width = 7, fig.height = 6)
 options(digits = 4)
 ```
 
