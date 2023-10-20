@@ -20,9 +20,6 @@ Imports:
   fields,
   RBGL,
   sp
-Remotes: 
-  bioc::graph,
-  bioc::RBGL
 Suggests: 
   testthat, 
   knitr, 
