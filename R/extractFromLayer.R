@@ -95,35 +95,46 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
 
   ## Load default shapefile ##
   if (is.character(layer) && layer[1] == "world") {
-    layer <- worldshape
+    # layer <- worldshape
+    layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
 
   ## TODO if the layer is null, we should throw an error!!!
   if (!is.null(layer)) {
     if (!inherits(layer, "SpatialPolygonsDataFrame")) {
-      stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
+#      stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
     }
   }
 
   ## search attr in data ##
   if (attr[1] == "all") {
-    selAttr <- 1:ncol(layer@data)
+    selAttr <- 1:ncol(layer)
   } else {
-    selAttr <- match(attr, colnames(layer@data)) # selected attributes
+    selAttr <- match(attr, colnames(layer)) # selected attributes
     if (any(is.na(selAttr))) { # attribute not found in layer@data
       cat("\nSome requested attribute (attr) not found in the layer.\n")
       cat("\nAvailable data are:\n")
-      print(utils::head(layer@data))
+      print(utils::head(layer))
       return(NULL) # return NULL if attr not found, not generate an error
     }
   }
 
+  # create an sf point object from the coordinates
+  locations_st <- x %>% as.data.frame %>%sf::st_as_sf(coords=c(1,2))
+  points_within <- sf::st_within(locations_st, layer)
+  points_within <- sf::st_join(locations_st, layer, join = sf::st_within)
+  points_within <- sf::st_intersects(layer, locations_st)
+  points_within <- data.frame(x = unlist(points_within), 
+                              polygon = rep(seq_along(lengths(points_within)), lengths(points_within)))
+  
+  
+  
   ## variables and initialization ##
   long <- unlist(x[, 1]) # unlist needed when nrow==1
   lat <- unlist(x[, 2])
   n.poly.list <- length(layer@polygons) # number of lists of Polygons obj.
   res <- NULL
-  dat <- layer@data
+  dat <- layer
   layerId <- rep(NA, length(long)) # stores the id of matching polygon for each location
 
 
