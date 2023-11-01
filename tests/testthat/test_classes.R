@@ -1,4 +1,3 @@
-library("geoGraph")
 
 test_that("Empty constructors work", {
   x <- new("gGraph")
