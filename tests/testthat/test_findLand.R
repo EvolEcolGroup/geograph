@@ -5,4 +5,8 @@ test_that("find land correctly",{
   obj <- findLand(obj) 
   # check that we classified the nodes correctly
   expect_true(all(obj@nodes.attr$habitat==c("sea","land")))
+  
+  # error if we pass an incorrect class
+  expect_error(findLand("blah"),
+               "unable to find an inherited method")
 })
