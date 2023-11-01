@@ -84,6 +84,8 @@ setGeneric("extractFromLayer", function(x, ...) {
 #' @rdname extractFromLayer
 #' @export
 setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all", ...) {
+  sf::sf_use_s2(FALSE)
+  
   ## This functions automatically assigns to land all points overlapping the country polygons
   # if(!require(maptools)) stop("maptools package is required.")
 
@@ -114,7 +116,9 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
   }
 
   # create an sf point object from the coordinates
-  locations_st <- x %>% as.data.frame %>%sf::st_as_sf(coords=c(1,2))
+  locations_st <- x %>% as.data.frame %>% 
+    sf::st_as_sf(coords=c(1,2)) %>%
+    sf::st_set_crs(sf::st_crs(layer))
   # now find points in polygons
   points_within <- sf::st_intersects(layer, locations_st)
   points_within <- data.frame(x = unlist(points_within), 
