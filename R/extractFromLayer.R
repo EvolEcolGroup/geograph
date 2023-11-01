@@ -91,14 +91,15 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
 
   ## Load default shapefile ##
   if (is.character(layer) && layer[1] == "world") {
-    # layer <- worldshape
+    # use rnaturalearth instead of the inbuilt dataset
+    # layer <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
     layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
 
   ## TODO if the layer is null, we should throw an error!!!
   if (!is.null(layer)) {
-    if (!inherits(layer, "SpatialPolygonsDataFrame")) {
-#      stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
+    if (!inherits(layer, "sf")) {
+      stop("Layer must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
     }
   }
 
