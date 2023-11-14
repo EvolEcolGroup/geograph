@@ -30,10 +30,10 @@ world, with respective resolutions of 10,242 and 40,962 vertices.\cr
 references.\cr
 
 'worldgraph's are 'rawgraph's that have been modified manually to rectify
-connectivity between edges at some places. The most noticable change is that
+connectivity between edges at some places. The most noticeable change is that
 all edges involving sea vertices have been removed.\cr
 
-'worldshape' is a shapefile of contries of the world (snapshot from 1994).
+'worldshape' is a shapefile of countries of the world (snapshot from 1994).
 }
 \examples{
 
@@ -41,31 +41,30 @@ all edges involving sea vertices have been removed.\cr
 worldgraph.10k
 
 ## plotting the object
-plot(worldgraph.10k, reset=TRUE)
+plot(worldgraph.10k, reset = TRUE)
 title("Hello world")
 
 ## zooming in
-geo.zoomin(list(x=c(-12,45), y=c(33,75)))
+geo.zoomin(list(x = c(-12, 45), y = c(33, 75)))
 title("Europe")
-geo.zoomin(list(x=c(-12,2), y=c(50,60)))
+geo.zoomin(list(x = c(-12, 2), y = c(50, 60)))
 plotEdges(worldgraph.10k)
 title("United Kingdom")
 
 ## zooming out
 # geo.zoomout() # needs clicking on device
-geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 title("Europe")
 
 ## defining the subset of visible points
 x <- worldgraph.10k[isInArea(worldgraph.10k)]
-plot(x,reset=TRUE, edges=TRUE)
+plot(x, reset = TRUE, edges = TRUE)
 title("One subsetted object.")
 
 \dontrun{
 ## interactive zooming
 geo.zoomin()
 }
-
 
 }
 \references{

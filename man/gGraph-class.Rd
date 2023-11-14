@@ -65,10 +65,10 @@ new("gGraph")
 
 
 ## plotting the object
-plot(rawgraph.10k, reset=TRUE)
+plot(rawgraph.10k, reset = TRUE)
 
 ## zooming in
-geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 title("Europe")
 
 ## to play interactively with graphics, use:
@@ -79,19 +79,18 @@ title("Europe")
 
 ## defining a new object restrained to visible nodes
 x <- rawgraph.10k[isInArea(rawgraph.10k)]
-plot(x,reset=TRUE, edges=TRUE)
+plot(x, reset = TRUE, edges = TRUE)
 title("x does just contain these visible nodes.")
 
 ## define weights for edges
-x <- setCosts(x, attr.name="habitat", method="prod")
-plot(x,edges=TRUE)
+x <- setCosts(x, attr.name = "habitat", method = "prod")
+plot(x, edges = TRUE)
 title("costs defined by habitat (land/land=1, other=100)")
 
 ## drop 'dead edges' (i.e. with weight 0)
-x <- dropDeadEdges(x, thres=10)
-plot(x,edges=TRUE)
+x <- dropDeadEdges(x, thres = 10)
+plot(x, edges = TRUE)
 title("after droping edges with null weight")
-
 
 }
 \seealso{

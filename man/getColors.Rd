@@ -55,8 +55,7 @@ worldgraph.10k # there is a node attribute 'habitat'
 worldgraph.10k@meta$color
 
 head(getNodes(worldgraph.10k))
-head(getColors(worldgraph.10k,res.type="vector", attr.name="habitat"))
-
+head(getColors(worldgraph.10k, res.type = "vector", attr.name = "habitat"))
 
 }
 \author{

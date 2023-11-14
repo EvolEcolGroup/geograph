@@ -89,10 +89,10 @@ To cite geoGraph, please use the reference given by
 worldgraph.10k
 
 ## plotting the object
-plot(worldgraph.10k, reset=TRUE)
+plot(worldgraph.10k, reset = TRUE)
 
 ## zooming in
-geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 title("Europe")
 
 ## to play interactively with graphics, use:
@@ -103,19 +103,18 @@ title("Europe")
 
 ## defining a new object restrained to visible nodes
 x <- worldgraph.10k[isInArea(worldgraph.10k)]
-plot(x,reset=TRUE, edges=TRUE)
+plot(x, reset = TRUE, edges = TRUE)
 title("x does just contain these visible nodes.")
 
 ## define weights for edges
-x <- setCosts(x, attr.name="habitat", method="prod")
-plot(x,edges=TRUE)
+x <- setCosts(x, attr.name = "habitat", method = "prod")
+plot(x, edges = TRUE)
 title("connectivity defined by habitat (land/land=1, other=0)")
 
 ## drop 'dead edges' (i.e. with weight 0)
 x <- dropDeadEdges(x)
-plot(x,edges=TRUE)
+plot(x, edges = TRUE)
 title("after droping edges with null weight")
-
 
 }
 \keyword{manip}

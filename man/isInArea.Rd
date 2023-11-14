@@ -89,10 +89,10 @@ the output are also available.
 }}
 \examples{
 
-plot(worldgraph.10k, reset=TRUE)
+plot(worldgraph.10k, reset = TRUE)
 
 ## zooming in
-geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 title("Europe")
 
 
@@ -102,14 +102,14 @@ length(isInArea(worldgraph.10k))
 sum(isInArea(worldgraph.10k))
 head(which(isInArea(worldgraph.10k))) # which nodes are TRUE ?
 
-head(isInArea(worldgraph.10k, res.type="integer")) # node indices
+head(isInArea(worldgraph.10k, res.type = "integer")) # node indices
 
-head(isInArea(worldgraph.10k, res.type="character")) # node names
+head(isInArea(worldgraph.10k, res.type = "character")) # node names
 
 
 ## use isInArea to have a subset of visible nodes
 x <- worldgraph.10k[isInArea(worldgraph.10k)]
-plot(x, reset=TRUE)
+plot(x, reset = TRUE)
 
 }
 \author{

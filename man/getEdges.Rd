@@ -47,8 +47,8 @@ object using different possible outputs.
 example(gGraph)
 
 getEdges(x)
-getEdges(x,res.type="matNames")
-getEdges(x,res.type="matId")
+getEdges(x, res.type = "matNames")
+getEdges(x, res.type = "matId")
 
 }
 \seealso{

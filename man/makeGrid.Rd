@@ -39,18 +39,20 @@ curvature of the surface of the earth can be neglected.
 
 ## zoom in to a smaller area
 plot(worldgraph.10k)
-geo.zoomin(c(-10,0, 50,54))
+geo.zoomin(c(-10, 0, 50, 54))
 
 
 ## make a new gGraph
 newGraph <- makeGrid(1e3)
 newGraph <- findLand(newGraph)
-newGraph@meta$colors <- data.frame(habitat=c("sea","land"),
-color=c("blue","green"))
+newGraph@meta$colors <- data.frame(
+  habitat = c("sea", "land"),
+  color = c("blue", "green")
+)
 
 
 ## plot the new gGraph
-plot(newGraph, reset=TRUE, edge=TRUE)
+plot(newGraph, reset = TRUE, edge = TRUE)
 
 }
 \author{
