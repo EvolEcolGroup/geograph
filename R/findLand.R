@@ -91,6 +91,10 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
     }
   }
 
+  if (any(is.na(x))) {
+    stop("Matrix contains NA values.")
+  }
+  
   long <- x[, 1]
   lat <- x[, 2]
   n.country <- length(shape@polygons)

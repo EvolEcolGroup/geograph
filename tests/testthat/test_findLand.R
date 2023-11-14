@@ -9,13 +9,24 @@ test_that("find land correctly",{
   # error if we pass an incorrect class
   expect_error(findLand("blah"),
                "unable to find an inherited method")
+  
+  #Create gGraph with NA's
+  NACoords <- data.frame(long = c(-24, NA), lat =  c(31,55))
+  NA_gGraph <- new("gGraph", coords = NACoords)
+  
+  #NA entries are recognised and produce error in plot
+  expect_error(plot(NA_gGraph))
+  
+  #NA produces error in findLand
+  expect_error(findLand(NA_gGraph))
+  
 
 })
 
 
-#Test whether findLand generates an error with invalid object
+#Test whether findLand generates an error with invalid matrix object
 test_that("co-ordinate format",{
-  #Create co-ordinates
+  #Create co-ordinates matrix
   obj <- matrix(c(-24, 31, 37, 55), nrow=2,ncol=2, byrow=TRUE)
   obj <- findLand(obj) 
   
@@ -24,14 +35,16 @@ test_that("co-ordinate format",{
   #check for correct output
   expect_equal(obj,factor(c('sea','land')))
   
-  #obj1 <- matrix(c(-24, NA, 37, 55), nrow=2,ncol=2, byrow=TRUE)
-  #NA entries in matrix do not produce error
-  #expect_error(findLand(obj1))
+  #Create co-ordinates matrix with NA
+  NA_matrix <- matrix(c(-24, NA, 37, 55), nrow=2,ncol=2, byrow=TRUE)
+  #NA entries are recognised and produce error in plot 
+  expect_true(is.na(NA_matrix[1,2]))
+  expect_error(plotEdges(NA_matrix))
+  
+  #NA produces error in findLand
+  expect_error(findLand(NA_matrix))
   
   
-  
-  #obj2 <- data.frame(long = c(-24, 37), lat =  c(31,55))
-  #expect_error(obj2 <- findLand())
 })
 
 
