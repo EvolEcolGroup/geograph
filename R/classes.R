@@ -289,7 +289,15 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
       input$coords <- as.matrix(input$coords)
     }
 
-    if (nrow(input$coords) > 0 && !is.numeric(input$coords)) stop("Argument coords has to be numeric.")
+    if (nrow(input$coords) > 0 && !is.numeric(input$coords)) {
+      stop("Argument coords has to be numeric.")
+      }
+    
+    ## NAs in coords
+    if (any(is.na(input$coords))) {
+      stop("Argument coords includes NAs")
+    }
+    
 
     ## names of the matrix
     colnames(input$coords) <- c("lon", "lat")

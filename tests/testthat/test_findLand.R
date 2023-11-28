@@ -10,16 +10,13 @@ test_that("find land correctly",{
   expect_error(findLand("blah"),
                "unable to find an inherited method")
   
-  #Create gGraph with NA's
+  # tests error for NAs as coordinates (this only applies to matrices and data.frames)
+  # gGraph objects should fail when creted with NA coordinates
   NACoords <- data.frame(long = c(-24, NA), lat =  c(31,55))
-  NA_gGraph <- new("gGraph", coords = NACoords)
+  expect_error(findLand(NACoords),
+               "Matrix contains NA")
   
-  #NA entries are recognised and produce error in plot
-  expect_error(plot(NA_gGraph))
-  
-  #NA produces error in findLand
-  expect_error(findLand(NA_gGraph))
-  
+ 
 
 })
 
