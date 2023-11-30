@@ -88,32 +88,31 @@ specify \code{reset=TRUE} as argument to \code{plot}.
 
 
 ## just the background
-plot(worldgraph.10k,reset=TRUE,type="n")
+plot(worldgraph.10k, reset = TRUE, type = "n")
 
 ## basic plot
 plot(worldgraph.10k)
 
 ## zooming and adding edges
-geo.zoomin(list(x=c(90,150),y=c(0,-50)))
-plot(worldgraph.10k, edges=TRUE)
+geo.zoomin(list(x = c(90, 150), y = c(0, -50)))
+plot(worldgraph.10k, edges = TRUE)
 
 
 ## display edges differently
-plotEdges(worldgraph.10k, col="red", lwd=2)
+plotEdges(worldgraph.10k, col = "red", lwd = 2)
 
 
 ## replot points with different color
-points(worldgraph.10k, col="orange")
+points(worldgraph.10k, col = "orange")
 
 ## mask points in the sea
-inSea <- unlist(getNodesAttr(worldgraph.10k,attr.name="habitat"))=="sea"
+inSea <- unlist(getNodesAttr(worldgraph.10k, attr.name = "habitat")) == "sea"
 head(inSea)
-points(worldgraph.10k[inSea], col="white", sticky=TRUE) # this will stay
+points(worldgraph.10k[inSea], col = "white", sticky = TRUE) # this will stay
 
 ## but better, only draw those on land, and use a fancy setup
-par(bg="blue")
-plot(worldgraph.10k[!inSea], bg.col="darkgreen", col="purple", edges=TRUE)
-
+par(bg = "blue")
+plot(worldgraph.10k[!inSea], bg.col = "darkgreen", col = "purple", edges = TRUE)
 
 }
 \seealso{

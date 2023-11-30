@@ -50,7 +50,6 @@ head(getNodesAttr(worldgraph.40k))
 ## gData method
 getNodesAttr(hgdp)
 
-
 }
 \seealso{
 Most other accessors are documented in \linkS4class{gGraph} and
