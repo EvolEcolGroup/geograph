@@ -281,6 +281,10 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
 
   ## handle @coords ##
   if (!is.null(input$coords)) {
+    if (is.list(input$coords) && length(input$coords) > 2) {
+      stop("Argument coords must include only two columns (longitude and latitude).")
+    }
+
     if (is.list(input$coords) && length(input$coords) == 2) {
       input$coords <- as.data.frame(input$coords)
     }
