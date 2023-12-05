@@ -50,15 +50,14 @@ Whenever clicking is needed, a right-click will stop the function.
 }
 \examples{
 
-plot(worldgraph.10k, reset=TRUE)
+plot(worldgraph.10k, reset = TRUE)
 
 ## zooming in
-x.ini <- c(-100,-60)
-y.ini <- c(-30,30)
-for(i in 0:3){
-geo.zoomin(list(x=x.ini + i*60, y=y.ini))
+x.ini <- c(-100, -60)
+y.ini <- c(-30, 30)
+for (i in 0:3) {
+  geo.zoomin(list(x = x.ini + i * 60, y = y.ini))
 }
-
 
 \dontrun{
 ## going back

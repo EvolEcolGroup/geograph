@@ -33,21 +33,20 @@ edges (mode="points")\cr - select an area in which all edges from a
 reference graph are added (mode="area").\cr
 }
 \examples{
-
 \dontrun{
-plot(worldgraph.10k, reset=TRUE)
+plot(worldgraph.10k, reset = TRUE)
 
 ## zooming in
-geo.zoomin(list(x=c(-6,38), y=c(35,73)))
+geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 title("Europe")
 
 ## remove edges
 geo.remove.edges(worldgraph.10k) # points mode
-geo.remove.edges(worldgraph.10k, mode="area") # area mode
+geo.remove.edges(worldgraph.10k, mode = "area") # area mode
 
 ## add edges
 geo.add.edges(worldgraph.10k) # points mode
-geo.add.edges(worldgraph.10k, mode="area") # area mode
+geo.add.edges(worldgraph.10k, mode = "area") # area mode
 }
 }
 \seealso{

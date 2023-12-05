@@ -17,14 +17,17 @@ Depends:
   methods,
   graph
 Imports:
-  fields,
-  RBGL,
-  sp
+    fields,
+    RBGL,
+    rnaturalearth,
+    rnaturalearthdata,
+    sp,
+    sf,
+    magrittr
 Suggests: 
   testthat, 
   knitr, 
-  rmarkdown,
-  sf
+  rmarkdown
 RoxygenNote: 7.2.3
 Collate: 
     'classes.R'
@@ -48,5 +51,6 @@ Collate:
     'rebuild.R'
     'setCosts.R'
     'setDistCosts.R'
+    'utils-pipe.R'
     'zoom.R'
     'zzz.R'

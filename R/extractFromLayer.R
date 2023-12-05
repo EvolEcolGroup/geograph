@@ -84,7 +84,7 @@ setGeneric("extractFromLayer", function(x, ...) {
 #' @rdname extractFromLayer
 #' @export
 setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all", ...) {
-  sf::sf_use_s2(FALSE)
+  
   
   ## This functions automatically assigns to land all points overlapping the country polygons
   # if(!require(maptools)) stop("maptools package is required.")
@@ -93,13 +93,18 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
   if (is.character(layer) && layer[1] == "world") {
     # use rnaturalearth instead of the inbuilt dataset
     # layer <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
+    # sf::sf_use_s2(FALSE)
     layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
 
   ## TODO if the layer is null, we should throw an error!!!
   if (!is.null(layer)) {
     if (!inherits(layer, "sf")) {
-      stop("Layer must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
+      if (inherits(layer, "SpatialPolygonsDataFrame")){
+        layer <- sf::st_as_sf(layer)
+      } else {
+        stop("Layer must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
+      }
     }
   }
 

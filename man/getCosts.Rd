@@ -66,8 +66,8 @@ connectivity there is between the couple of concerned nodes.
 }}
 \examples{
 
-head(getEdges(worldgraph.10k, res.type="matNames",unique=TRUE))
-head(getCosts(worldgraph.10k,res.type="vector",unique=TRUE))
+head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
+head(getCosts(worldgraph.10k, res.type = "vector", unique = TRUE))
 
 
 }

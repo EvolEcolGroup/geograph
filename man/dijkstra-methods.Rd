@@ -89,28 +89,27 @@ In 'dijkstraBetween', paths are seeked all possible pairs of nodes between
 'from' and 'to'.
 }
 \examples{
-
 \dontrun{
 
 ## plotting
 world <- worldgraph.40k
-par(mar=rep(.1,4))
-plot(world, reset=TRUE)
+par(mar = rep(.1, 4))
+plot(world, reset = TRUE)
 
 ## check connectivity
 isConnected(hgdp) # must be ok
 
 ## Lowest cost path from an hypothetical origin
-ori.coord <- list(33,10) # one given location long/lat
-points(data.frame(ori.coord), pch="x", col="black", cex=3) # an 'x' shows the putative origin
+ori.coord <- list(33, 10) # one given location long/lat
+points(data.frame(ori.coord), pch = "x", col = "black", cex = 3) # an 'x' shows the putative origin
 ori <- closestNode(world, ori.coord) # assign it the closest node
 
 myPath <- dijkstraFrom(hgdp, ori) # compute shortest path
 
 ## plotting
-plot(world,pch="") # plot the world
-points(hgdp, lwd=3) # plot populations
-points(data.frame(ori.coord), pch="x", col="black", cex=3) # add origin
+plot(world, pch = "") # plot the world
+points(hgdp, lwd = 3) # plot populations
+points(data.frame(ori.coord), pch = "x", col = "black", cex = 3) # add origin
 plot(myPath) # plot the path
 }
 
