@@ -281,18 +281,20 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
 
   ## handle @coords ##
   if (!is.null(input$coords)) {
-    if (is.list(input$coords) && length(input$coords) > 2) {
-      stop("Argument coords must include only two columns (longitude and latitude).")
-    }
 
-    if (is.list(input$coords) && length(input$coords) == 2) {
+
+    if (is.list(input$coords)) {
       input$coords <- as.data.frame(input$coords)
     }
 
     if (is.data.frame(input$coords)) {
       input$coords <- as.matrix(input$coords)
     }
-
+    
+    if (ncol(input$coords)!=2){
+      stop("Argument coords must include only two columns (longitude and latitude).")
+    }
+    
     if (nrow(input$coords) > 0 && !is.numeric(input$coords)) {
       stop("Argument coords has to be numeric.")
       }
