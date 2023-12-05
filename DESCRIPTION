@@ -1,7 +1,7 @@
 Package: geoGraph
 Type: Package
 Title: Walking through the geographic space using graphs
-Version: 1.1.1.9001
+Version: 1.1.1.9002
 Author: Thibaut Jombart,
   Andrea Manica
 Maintainer: Andrea Manica <am315@cam.ac.uk>
@@ -36,6 +36,7 @@ Collate:
     'basicMethods.R'
     'buffer.R'
     'closestNode.R'
+    'combineCosts.R'
     'connectivity.R'
     'datasets.R'
     'dijkstra.R'
