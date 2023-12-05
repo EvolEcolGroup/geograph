@@ -13,3 +13,19 @@ test_that("Contructors fails with invalid coordinates",{
                "Argument coords includes NAs")
 
 })
+
+test_that("Contructors fails with invalid matrix dimensions",{
+  extra_coords <- data.frame(long = c(-24, 37), lat =  c(31,55), x = c(31,31))
+  #Create gGraph with three columns
+  expect_error(new("gGraph", coords = extra_coords),
+               "Argument coords must include")
+
+})
+
+test_that("Contructors fails with invalid non-numeric matrix",{
+  non_num_coords <- data.frame(long = c("lon1", 37), lat =  c(31,55))
+  #Create gGraph with non numeric elements
+  expect_error(new("gGraph", coords = non_num_coords),
+               "Argument coords has to be numeric")
+  
+})
