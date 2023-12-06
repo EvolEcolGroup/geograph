@@ -29,3 +29,15 @@ test_that("Contructors fails with invalid non-numeric matrix",{
                "Argument coords has to be numeric")
   
 })
+
+test_that("Constructor checks column headings" , {
+  column_heading <- data.frame(lat = c(-24, 37), lon =  c(31,55)) 
+  #Create Ggraph with lat/lon headings
+  correct_heading <- new("gGraph", coords = column_heading)
+  column_heading <- data.frame(lon =  c(31,55), lat = c(-24, 37))
+  #Create Ggraph with lon/lat headings
+  swapped_heading <- new("gGraph", coords = column_heading)
+  expect_identical(correct_heading, swapped_heading,
+                  "Argument column names are not recognised")
+})
+  

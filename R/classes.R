@@ -304,6 +304,10 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
       stop("Argument coords includes NAs")
     }
     
+    if (identical(colnames(input$coords), c("lat", "lon"))) {
+      input$coords[ , c(1,2)] <- input$coords[ , c(2,1)]
+    }
+      
 
     ## names of the matrix
     colnames(input$coords) <- c("lon", "lat")
