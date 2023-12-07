@@ -125,16 +125,16 @@ GIS shapefile.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## create a new gGraph with random coordinates</span></span></span>
 <span class="r-in"><span><span class="va">myCoords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>long <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="op">-</span><span class="fl">180</span>, <span class="fl">180</span><span class="op">)</span>, lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="op">-</span><span class="fl">90</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/new.html" class="external-link">new</a></span><span class="op">(</span><span class="st">"gGraph"</span>, coords <span class="op">=</span> <span class="va">myCoords</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">"gGraph"</span>, coords <span class="op">=</span> <span class="va">myCoords</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">obj</span> <span class="co"># note: no node attribute</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> === gGraph object ===</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @coords: spatial coordinates of 1000 nodes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          lon        lat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 131.376254   9.197927</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   9.895808 -29.228724</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -47.166208 -54.017421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         lon       lat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  40.29170  31.11900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 165.59095 -66.41186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -61.37574 -80.05892</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @nodes.attr: 0 nodes attributes</span>
@@ -155,15 +155,15 @@ GIS shapefile.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> === gGraph object ===</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @coords: spatial coordinates of 1000 nodes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          lon        lat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 131.376254   9.197927</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   9.895808 -29.228724</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -47.166208 -54.017421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         lon       lat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  40.29170  31.11900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 165.59095 -66.41186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 -61.37574 -80.05892</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @nodes.attr: 1 nodes attributes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   habitat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     sea</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    land</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2     sea</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3     sea</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
