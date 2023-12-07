@@ -1,5 +1,5 @@
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/thibautjombart/geograph/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/thibautjombart/geograph/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 
