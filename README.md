@@ -19,7 +19,6 @@ which provides fast and efficient implementations of a wide range of graph algor
 Once we have defined frictions for an entire geographic area, we can easily, for instance, find the least
 costs path from one location to another, or find the most parsimonious way of connecting a set of locations.
 
-
 Interfacing spatial data and graphs can be a complicated task.
 The purpose of `geoGraph` is to provide tools to achieve and simplify this 'preliminary' step.
 This is achieved by defining new classes of objects which are essentially geo-referenced graphs
