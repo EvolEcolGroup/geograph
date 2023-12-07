@@ -2,16 +2,21 @@ Package: geoGraph
 Type: Package
 Title: Walking through the geographic space using graphs
 Version: 1.1.1.9001
-Author: c(
+Authors@R: c(
     person("Thibaut", "Jombart", role = "aut"),
-    person("Andrea", "Manica", , "am315@cam.ac.uk", role = c("aut", "cre")))
+    person("Andrea", "Manica", email = "am315@cam.ac.uk", role = c("aut", "cre")))
 Maintainer: Andrea Manica <am315@cam.ac.uk>
 Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
 License: GPL (>=2)
+Language: en-GB
+URL: https://github.com/EvolEcolGroup/geograph,
+    https://evolecolgroup.github.io/geograph/
+BugReports: https://github.com/EvolEcolGroup/geograph/issues
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
 VignetteBuilder: knitr
+Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 Depends:
   R (>= 3.5.0),
