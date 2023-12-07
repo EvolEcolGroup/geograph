@@ -2,8 +2,9 @@ Package: geoGraph
 Type: Package
 Title: Walking through the geographic space using graphs
 Version: 1.1.1.9001
-Author: Thibaut Jombart,
-  Andrea Manica
+Author: c(
+    person("Thibaut", "Jombart", role = "aut"),
+    person("Andrea", "Manica", , "am315@cam.ac.uk", role = c("aut", "cre")))
 Maintainer: Andrea Manica <am315@cam.ac.uk>
 Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
 License: GPL (>=2)
