@@ -115,10 +115,10 @@ between the two concerned nodes.<br></p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"worldgraph.40k"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># new graph with custom cost function</span></span></span>
 <span class="r-in"><span><span class="va">exp.cost</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span>, <span class="va">cost.coeff</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">x1</span> <span class="op">-</span> <span class="va">x2</span><span class="op">)</span> <span class="op">*</span> <span class="va">cost.coeff</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">x1</span> <span class="op">-</span> <span class="va">x2</span><span class="op">)</span> <span class="op">*</span> <span class="va">cost.coeff</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="co"># create a set of node costs</span></span></span>
-<span class="r-in"><span><span class="va">worldgraph.40k</span><span class="op">@</span><span class="va">nodes.attr</span><span class="op">$</span><span class="va">meanProd</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">40962</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">worldgraph.40k</span><span class="op">@</span><span class="va">nodes.attr</span><span class="op">$</span><span class="va">meanProd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">40962</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">new_costs_graph</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="setCosts.html">setCosts</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="va">worldgraph.40k</span>,</span></span>
@@ -128,7 +128,7 @@ between the two concerned nodes.<br></p>
 <span class="r-in"><span>    cost.coeff <span class="op">=</span> <span class="fl">0.5</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># combine costs from the original graph with the new costs</span></span></span>
-<span class="r-in"><span><span class="va">combine_costs_graph</span><span class="op">&lt;-</span> <span class="fu">combineCosts</span><span class="op">(</span><span class="va">worldgraph.40k</span>, <span class="va">new_costs_graph</span>, method<span class="op">=</span><span class="st">"sum"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">combine_costs_graph</span> <span class="op">&lt;-</span> <span class="fu">combineCosts</span><span class="op">(</span><span class="va">worldgraph.40k</span>, <span class="va">new_costs_graph</span>, method <span class="op">=</span> <span class="st">"sum"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
