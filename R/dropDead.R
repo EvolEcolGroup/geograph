@@ -20,7 +20,7 @@
 #' @param thres a numeric value indicating the threshold cost for an edge to be
 #' removed. All costs strictly greater than \code{thres} will be removed.
 #' @return A \linkS4class{gGraph} object.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @keywords utilities methods
 #' @export
 #' @examples

@@ -53,7 +53,4 @@ geo.add.edges(worldgraph.10k, mode = "area") # area mode
 \code{\link{setEdges}} to non-interactively add or remove edges in
 a \linkS4class{gGraph} object.
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{utilities}

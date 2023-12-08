@@ -26,7 +26,7 @@
 #' \code{segments} function.
 #' @return For \code{hasCost}, a logical value is returned. \code{geo.segments}
 #' returns NULL.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @keywords utilities methods
 #' @name auxiliary
 #' @examples

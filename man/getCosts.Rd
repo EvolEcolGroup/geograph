@@ -75,8 +75,5 @@ head(getCosts(worldgraph.10k, res.type = "vector", unique = TRUE))
 Most other accessors are documented in \linkS4class{gGraph}
 manpage.\cr
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

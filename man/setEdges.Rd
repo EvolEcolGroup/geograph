@@ -46,8 +46,5 @@ interactively add or remove edges in a \linkS4class{gGraph} object. \cr
 
 \code{\link{getEdges}} to retrieve edges in different formats.
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

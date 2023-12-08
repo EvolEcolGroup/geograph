@@ -47,7 +47,7 @@
 #' \code{sp.between} function (see \code{?sp.between}), with a class attribute
 #' set to "gPath", and an additional slot 'xy' containing geographic
 #' coordinates of the nodes involved in the paths.\cr
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @keywords methods spatial
 #' @examples
 #' \dontrun{

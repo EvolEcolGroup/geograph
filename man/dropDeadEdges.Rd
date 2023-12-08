@@ -35,8 +35,5 @@ plot(x)
 }
 
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

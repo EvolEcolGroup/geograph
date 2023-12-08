@@ -31,7 +31,7 @@ You can install the development version of `geoGraph` from [GitHub](https://gith
 
 ``` r
 install.packages("devtools")
-devtools::install_github("thibautjombart/geoGraph")
+devtools::install_github("EvolEcolGroup/geograph/")
 ```
 
 ## How the package works

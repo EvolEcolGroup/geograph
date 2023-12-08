@@ -97,9 +97,6 @@ title("after droping edges with null weight")
 Related classes are:\cr \% - \code{\linkS4class{graphNEL}}
 (graph package): slot \code{@graph} in \code{gGraph}.\cr
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{classes}
 \keyword{graphs}
 \keyword{spatial}

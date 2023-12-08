@@ -42,10 +42,10 @@ Also note that 'costs' defined in \code{geoGraph} are equivalent to
 data("worldgraph.40k")
 # new graph with custom cost function
 exp.cost <- function(x1, x2, cost.coeff) {
- exp(-abs(x1 - x2) * cost.coeff)
+  exp(-abs(x1 - x2) * cost.coeff)
 }
 # create a set of node costs
-worldgraph.40k@nodes.attr$meanProd<-runif(n=40962)
+worldgraph.40k@nodes.attr$meanProd <- runif(n = 40962)
 new_costs_graph <-
   setCosts(
     worldgraph.40k,
@@ -55,5 +55,5 @@ new_costs_graph <-
     cost.coeff = 0.5
   )
 # combine costs from the original graph with the new costs
-combine_costs_graph<- combineCosts(worldgraph.40k, new_costs_graph, method="sum")
+combine_costs_graph <- combineCosts(worldgraph.40k, new_costs_graph, method = "sum")
 }
