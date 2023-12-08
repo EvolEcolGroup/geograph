@@ -50,7 +50,7 @@
 #'
 #' - \code{isConnected}: a single logical value, being TRUE if nodes of the
 #' object form a connected set.\cr
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @keywords utilities methods
 #' @name connectivity
 #' @examples

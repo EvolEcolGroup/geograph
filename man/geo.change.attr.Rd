@@ -79,7 +79,4 @@ plot(x, reset = TRUE) # modification in the whole selected area
 }
 
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{utilities}

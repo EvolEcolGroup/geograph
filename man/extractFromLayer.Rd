@@ -95,8 +95,5 @@ plot(x, reset = TRUE)
 \seealso{
 \code{\link{findLand}}, to find which locations are on land.
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

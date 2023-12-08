@@ -17,7 +17,7 @@
 #' @return For the \linkS4class{gGraph} method, a \linkS4class{gGraph} object
 #' with appropriate weights. Note that former weights will be removed from the
 #' object.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso The \code{\link{getCosts}} accessor, returning costs of the edges
 #' of a \linkS4class{gGraph} object in different ways.\cr
 #' @keywords utilities methods

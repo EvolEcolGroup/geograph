@@ -102,8 +102,5 @@ title("'x'=location, 'o'=assigned node")
 \code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} to
 interactively add or remove edges in a \linkS4class{gGraph} object.
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

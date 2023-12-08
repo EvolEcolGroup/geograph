@@ -80,8 +80,5 @@ points(buf.200, col.node = "orange")
 title("Different buffers for a gData \n(100km, 200km, 500km)")
 
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

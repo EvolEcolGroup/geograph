@@ -77,6 +77,3 @@ points(onlyNorth, pch.node = 20, cex = 2, col.node = "purple")
 \seealso{
 Related class:\cr - \code{\linkS4class{gGraph}}\cr
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}

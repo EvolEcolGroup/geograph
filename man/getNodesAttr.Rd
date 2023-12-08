@@ -55,8 +55,5 @@ getNodesAttr(hgdp)
 Most other accessors are documented in \linkS4class{gGraph} and
 \linkS4class{gData} manpages.\cr
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}
