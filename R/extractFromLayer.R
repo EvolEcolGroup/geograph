@@ -105,6 +105,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
     }
   }
 
+
   ## search attr in data ##
   if (attr[1] == "all") {
     selAttr <- 1:ncol(layer@data)
@@ -150,6 +151,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
     } # end for j
   } # end for i
 
+  # @TOFIX the line below will fail if layerId is all NAs (i.e. no points were assigned to a polygon)
   res <- dat[layerId, selAttr, drop = FALSE]
   row.names(res) <- rownames(x)
 
