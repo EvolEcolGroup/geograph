@@ -307,7 +307,7 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
     ## Convert all column names to lower case
     colnames(input$coords) <- tolower(colnames(input$coords))
     ## Create list of lon/lat column heading names
-    lonlist <- list("lon", "longitude", "x")
+    lonlist <- list("lon", "long", "longitude", "x")
     latlist <- list("lat", "latitude", "y")
     ## Test if the column order is inverted
     if (is.element(colnames(input$coords)[1], latlist) & 
