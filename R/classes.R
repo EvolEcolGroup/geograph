@@ -309,27 +309,15 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
     ## Create list of lon/lat column heading names
     lonlist <- list("lon", "longitude", "x")
     latlist <- list("lat", "latitude", "y")
-    ## Test first column name against list
-    if (is.element(colnames(input$coords)[1], lonlist)) {
-      reverse_column = FALSE
-    }  else if (is.element(colnames(input$coords)[1], latlist)) {
-      reverse_column = TRUE
-    }   else {
-      stop("Argument first column name not recognised")
-    }
-    ## Test second column name against list
-    if (is.element(colnames(input$coords)[2], latlist)) {
-      reverse_column = FALSE
-    }  else if (is.element(colnames(input$coords)[2], lonlist)) {
-      reverse_column = TRUE
-    }  else {
-      stop("Argument second column name not recognised")
-    }
-    
-    if (reverse_column) {
+    ## Test if the column order is inverted
+    if (is.element(colnames(input$coords)[1], latlist) & 
+        is.element(colnames(input$coords)[2], lonlist)) {
       input$coords[, c(1, 2)] <- input$coords[, c(2, 1)]
-    }
-      
+    } else if  (!(is.element(colnames(input$coords)[1], lonlist) & 
+                  is.element(colnames(input$coords)[2], latlist))){
+      message("The coordinate column names are not part of the standardised list;\n",
+      "we will use the order they were given in, make sure it corresponds to x and y!")
+    } # if neither of the if catches it, then the names are part of the lists and in the correct order
 
     ## names of the matrix
     colnames(input$coords) <- c("lon", "lat")
