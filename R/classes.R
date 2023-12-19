@@ -304,8 +304,30 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
       stop("Argument coords includes NAs")
     }
     
-    if (identical(colnames(input$coords), c("lat", "lon"))) {
-      input$coords[ , c(1,2)] <- input$coords[ , c(2,1)]
+    ## Convert all column names to lower case
+    colnames(input$coords) <- tolower(colnames(input$coords))
+    ## Create list of lon/lat column heading names
+    lonlist <- list("lon", "longitude", "x")
+    latlist <- list("lat", "latitude", "y")
+    ## Test first column name against list
+    if (is.element(colnames(input$coords)[1], lonlist)) {
+      reverse_column = FALSE
+    }  else if (is.element(colnames(input$coords)[1], latlist)) {
+      reverse_column = TRUE
+    }   else {
+      stop("Argument first column name not recognised")
+    }
+    ## Test second column name against list
+    if (is.element(colnames(input$coords)[2], latlist)) {
+      reverse_column = FALSE
+    }  else if (is.element(colnames(input$coords)[2], lonlist)) {
+      reverse_column = TRUE
+    }  else {
+      stop("Argument second column name not recognised")
+    }
+    
+    if (reverse_column) {
+      input$coords[, c(1, 2)] <- input$coords[, c(2, 1)]
     }
       
 

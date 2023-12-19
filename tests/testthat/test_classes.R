@@ -30,6 +30,22 @@ test_that("Contructors fails with invalid non-numeric matrix",{
   
 })
 
+
+
+test_that("Constructor accounts for different column names" , {
+  columnheading_names <-
+    data.frame(longitude =  c(31, 55), Latitude = c(-24, 37))
+  columnheading_names <- new("gGraph", coords = columnheading_names)
+  new_columnheading_names <-
+    data.frame(lon = c(31, 55), lat =  c(-24, 37))
+  new_columnheading_names <-
+    new("gGraph", coords = new_columnheading_names)
+  expect_identical(columnheading_names,
+                   new_columnheading_names,
+                   "Argument column names not listed")
+  
+})
+
 test_that("Constructor checks column headings" , {
   column_heading <- data.frame(lat = c(-24, 37), lon =  c(31,55)) 
   #Create Ggraph with lat/lon headings
@@ -40,4 +56,3 @@ test_that("Constructor checks column headings" , {
   expect_identical(correct_heading, swapped_heading,
                   "Argument column names are not recognised")
 })
-  
