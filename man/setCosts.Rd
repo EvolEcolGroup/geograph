@@ -68,7 +68,6 @@ x <- setCosts(x, attr.name = "habitat")
 plot(x, edges = TRUE)
 title("costs defined by habitat (land/land=1, other=100)")
 
-
 }
 \seealso{
 \code{\link{dropDeadEdges}}, to get rid of edge whose cost is below
