@@ -108,6 +108,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
     }
   }
 
+
   ## search attr in data ##
   if (attr[1] == "all") {
     selAttr <- 1:ncol(layer)
@@ -120,6 +121,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
       return(NULL) # return NULL if attr not found, not generate an error
     }
   }
+
 
   # create an sf point object from the coordinates
   locations_st <- x %>% as.data.frame %>% 
@@ -134,7 +136,9 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
   points_assignment[points_within$x,"polygon"]<-points_within$polygon
 
   dat <- layer %>% sf::st_drop_geometry()
+  # @TOFIX the line below will fail if layerId is all NAs (i.e. no points were assigned to a polygon)
   res <- dat[points_assignment$polygon, selAttr, drop = FALSE]
+
   row.names(res) <- rownames(x)
 
   return(res)
