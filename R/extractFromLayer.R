@@ -40,7 +40,7 @@
 #' - \code{gData}: a \linkS4class{gData} object with new data associated to
 #' locations (\code{@data} slot). New information is merge to older information
 #' according to the type of data being stored. \cr
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso \code{\link{findLand}}, to find which locations are on land.
 #' @keywords utilities methods
 #' @name extractFromLayer

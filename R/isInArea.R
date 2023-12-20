@@ -34,7 +34,7 @@
 #'
 #' - \code{character}: a vector of characters corresponding to the names of the
 #' nodes falling within the area.\cr
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @keywords utilities methods
 #' @export
 #' @examples

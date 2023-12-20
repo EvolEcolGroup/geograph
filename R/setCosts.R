@@ -34,7 +34,7 @@
 #' @param \dots additional parameters to be passed to \code{FUN}.
 #' @return A \linkS4class{gGraph} object with the newly defined costs used as
 #' weightings of edges.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso \code{\link{dropDeadEdges}}, to get rid of edge whose cost is below
 #' a given threshold. \code{\link{geo.add.edges}} to add edges to a
 #' \linkS4class{gGraph} object.

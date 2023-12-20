@@ -123,9 +123,6 @@ plot(worldgraph.10k[!inSea], bg.col = "darkgreen", col = "purple", edges = TRUE)
 \item \code{\link{isInArea}}, to retain a set of visible data.\cr
 }
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{hplot}
 \keyword{methods}
 \keyword{spatial}

@@ -63,7 +63,7 @@ setMethod("getGraph", "gData", function(x, ...) {
 #' @param \dots other arguments passed to other methods (currently unused).
 #' @return A data.frame with the requested nodes attributes. Nodes are
 #' displayed in rows, variables in columns.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso Most other accessors are documented in \linkS4class{gGraph} and
 #' \linkS4class{gData} manpages.\cr
 #' @keywords utilities methods
@@ -221,7 +221,7 @@ setMethod("getNodes", "gData", function(x, ...) {
 #'
 #' - \code{matId}: a matrix with two columns giving couples of node indices
 #' forming edges.\cr
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso Most other accessors are documented in \linkS4class{gGraph}
 #' manpage.\cr
 #'
@@ -305,7 +305,7 @@ setMethod("getEdges", "gGraph", function(x, res.type = c("asIs", "matNames", "ma
 #' \code{costs[i]} is the weight of the i-th edge.
 #' @param \dots other arguments passed to other methods (currently unused).
 #' @return A \linkS4class{gGraph} object with newly added or removed edges.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso \code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} to
 #' interactively add or remove edges in a \linkS4class{gGraph} object. \cr
 #'
@@ -400,7 +400,7 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
 #'
 #' - \code{vector}: a vector of weights; this output matches matrix outputs of
 #' \code{\link{getEdges}}.\cr
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso Most other accessors are documented in \linkS4class{gGraph}
 #' manpage.\cr
 #' @keywords utilities methods
@@ -517,7 +517,7 @@ setMethod("getData", "gData", function(x, ...) {
 #' with different colors. See details.
 #' @param \dots other arguments passed to other methods.
 #' @return A vector of characters being valid colors.\cr
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @keywords utilities methods
 #' @export
 #' @examples

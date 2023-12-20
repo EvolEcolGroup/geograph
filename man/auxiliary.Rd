@@ -61,8 +61,5 @@ segments between locations distant by more than 90 degrees of longitude.\cr
 hasCosts(worldgraph.10k)
 
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

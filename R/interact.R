@@ -28,7 +28,7 @@ NULL
 #' a character string can be provided, corresponding to one of the following
 #' datasets: 'rawgraph.10k', rawgraph.40k'.
 #' @return A \linkS4class{gGraph} object with newly added or removed edges.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso \code{\link{setEdges}} to non-interactively add or remove edges in
 #' a \linkS4class{gGraph} object.
 #' @keywords utilities
@@ -276,7 +276,7 @@ geo.remove.edges <- function(x, mode = c("points", "area")) {
 #' reference when re-adding edges. If a character string is provided, it must
 #' match one of the following dataset: 'rawgraph.10k', 'rawgraph.40k'.
 #' @return A \linkS4class{gGraph} object with modified node attributes.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @keywords utilities
 #' @examples
 #' \dontrun{

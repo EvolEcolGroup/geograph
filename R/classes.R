@@ -47,7 +47,7 @@ NULL
 #'
 #' Note that none of these is mandatory: \code{new("gGraph")} would work, and
 #' create an empty \code{gGraph} object.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso Related classes are:\cr % - \code{\linkS4class{graphNEL}}
 #' (graph package): slot \code{@graph} in \code{gGraph}.\cr
 #' @keywords classes spatial graphs
@@ -139,7 +139,7 @@ setClass(
 #' an empty \code{gGraph} object. Also note that a finer matching of locations
 #' against the nodes of a \code{gGraph} object can be achieved after creating
 #' the object, for instance using the \code{closestNode} method.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso Related class:\cr - \code{\linkS4class{gGraph}}\cr
 #' @examples
 #'

@@ -27,7 +27,7 @@
 #'
 #' - \code{gData}: a \linkS4class{gData} object including all the nodes of the
 #' buffers.\cr
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @keywords utilities methods
 #' @name buffer
 #' @examples

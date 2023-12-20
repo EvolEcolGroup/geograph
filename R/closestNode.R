@@ -38,7 +38,7 @@
 #' If \code{x} is a \linkS4class{gData} object: a \linkS4class{gData} object
 #' with matching nodes stored in the \code{@nodes.id} slot. Note that previous
 #' content of \code{@nodes.id} will be erased.\cr
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso \code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} to
 #' interactively add or remove edges in a \linkS4class{gGraph} object.
 #' @keywords utilities methods

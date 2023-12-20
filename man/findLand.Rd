@@ -77,8 +77,5 @@ plot(obj)
 \code{\link{extractFromLayer}}, to retrieve any information from a
 GIS shapefile.
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}
