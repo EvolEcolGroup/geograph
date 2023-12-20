@@ -57,7 +57,7 @@
 #' \code{reset=TRUE} will prevent points to be redrawn.
 #' @param \dots further arguments passed to the generic methods (plot, points,
 #' and segments, respectively).
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso - Different functions to explore these plots:\cr
 #' \code{\link{geo.zoomin}}, \code{\link{geo.zoomout}},
 #' \code{\link{geo.slide}}, \code{\link{geo.back}}.\cr
@@ -563,7 +563,7 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
 #' when replotting (TRUE, default), or not (FALSE). In any case,
 #' \code{reset=TRUE} will prevent points to be redrawn.
 #' @param \dots further arguments passed to \code{points}.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso - Different functions to explore these plots:\cr
 #' \code{\link{geo.zoomin}}, \code{\link{geo.zoomout}},
 #' \code{\link{geo.slide}}, \code{\link{geo.back}}, \code{\link{geo.bookmark}},

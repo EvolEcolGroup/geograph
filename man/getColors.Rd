@@ -58,8 +58,5 @@ head(getNodes(worldgraph.10k))
 head(getColors(worldgraph.10k, res.type = "vector", attr.name = "habitat"))
 
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

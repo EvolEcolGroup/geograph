@@ -59,8 +59,5 @@ See \code{\link{setEdges}} to add/remove edges, or
 \code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} for
 interactive versions.
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

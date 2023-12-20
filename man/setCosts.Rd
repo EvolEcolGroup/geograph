@@ -74,7 +74,4 @@ title("costs defined by habitat (land/land=1, other=100)")
 a given threshold. \code{\link{geo.add.edges}} to add edges to a
 \linkS4class{gGraph} object.
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{utilities}

@@ -21,7 +21,7 @@
 #' @param lon.range,lat.range vectors of length two giving the range covered by
 #' the grid, in longitude and latitude, respectively.
 #' @return A \linkS4class{gGraph} object.
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @keywords utilities methods
 #' @export
 #' @examples

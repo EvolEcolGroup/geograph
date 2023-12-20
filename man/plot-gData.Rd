@@ -118,9 +118,6 @@ points(obj, col.nodes = "yellow", cex = 4)
 \code{\link{geo.goto}}.\cr
 }
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{hplot}
 \keyword{methods}
 \keyword{spatial}

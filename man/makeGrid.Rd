@@ -55,8 +55,5 @@ newGraph@meta$colors <- data.frame(
 plot(newGraph, reset = TRUE, edge = TRUE)
 
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

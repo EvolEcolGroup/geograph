@@ -60,8 +60,5 @@ if (require(fields)) {
 The \code{\link{getCosts}} accessor, returning costs of the edges
 of a \linkS4class{gGraph} object in different ways.\cr
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

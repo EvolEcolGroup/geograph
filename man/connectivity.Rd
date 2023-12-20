@@ -92,8 +92,5 @@ connectivityPlot(rawgraph.10k)
 connectivityPlot(worldgraph.10k)
 
 }
-\author{
-Thibaut Jombart (\email{t.jombart@imperial.ac.uk})
-}
 \keyword{methods}
 \keyword{utilities}

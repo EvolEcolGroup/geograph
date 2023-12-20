@@ -3,7 +3,7 @@
 
   startup.txt <- paste("\n   /// geoGraph ", pkg.version, " is loaded ////////////",
     "\n\n   > overview: '?geoGraph'",
-    "\n   > tutorials/doc/questions: https://github.com/thibautjombart/geograph' \n",
+    "\n   > tutorials/doc/questions: https://github.com/EvolEcolGroup/geograph' \n",
     sep = ""
   )
 

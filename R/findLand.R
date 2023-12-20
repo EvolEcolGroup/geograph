@@ -28,7 +28,7 @@
 #' - \code{gGraph}: a \linkS4class{gGraph} object with a new node attribute,
 #' possibly added to previously existing node attributes (\code{@nodes.attr}
 #' slot).\cr
-#' @author Thibaut Jombart (\email{t.jombart@@imperial.ac.uk})
+
 #' @seealso \code{\link{extractFromLayer}}, to retrieve any information from a
 #' GIS shapefile.
 #' @keywords utilities methods
