@@ -26,8 +26,6 @@ Imports:
     fields,
     RBGL,
     rnaturalearth,
-    rnaturalearthdata,
-    sp,
     sf,
     magrittr
 Suggests: 

@@ -466,10 +466,6 @@ geo.zoomin(c(110, 130, -27, -12))
 geo.bookmark("australia")
 ```
 
-
-
-
-
 ### Changing local properties of a `gGraph`
 
 A second approach to changing a `gGraph` is to refine the graph by hand, adding or removing
@@ -500,9 +496,6 @@ reference can be added to the current `gGraph`.
 For graphs based on 10k or 40k grids, the raw graphs provided in `geoGraph` should be used,
 (`rawgraph.10k`, `rawgraph.40k`), since they are fully connected.
 
-
-
-
 In addition to changing grid connectivity, we may also want to modify the attributes of specific nodes.
 This is again done interactively, using the function `geo.change.attr`.
 For instance, here, we define a new value `shalowwater` (plotted in light blue) for the attribute `habitat`,
@@ -525,12 +518,6 @@ plot(newGraph, edge = TRUE)
 Again, note that the changes made to the graph have to be save in an object (using `<-`) to be
 effective.
 
-
-
-
-
-
-
 ## Extracting information from GIS shapefiles
 
 An important feature of *geoGraph* is serving as an interface between *geographic information
@@ -538,17 +525,15 @@ system* (GIS) layers and geographic data.
 As currently implemented, *geoGraph* can extract information from shapefiles with the Arc GIS
 (http://www.esri.com/software/arcgis/index.html) format, using the function `extractFromLayer`.
 Here, we illustrate this procedure using the shapefile `world-countries.shp` provided with the
-package. *geoGraph* still relies on `SpatialPolygonDataFrame` objects from the `sp` package.
-A move to `sf` objects is planned, but for the moment we have to use `sf::st_read()` to read
-a GIS shapefile into an `sf` object, and then cast it to a `SpatialPolygonDataFrame` with 
-`sf::as_Spatial()`:
+package. We use `sf::st_read()` to read
+a GIS shapefile into an `sf` object:
 ```{r }
 library(sf)
 world.countries <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
-world.countries <- sf::as_Spatial(world.countries)
 class(world.countries)
 summary(world.countries)
 ```
+
 The summary of `world.countries` shows the data (attributes) stored in the layer.
 Let us assume that we are interested in retrieving continent and country information for the
 `worldgraph.10k` object.
@@ -558,6 +543,7 @@ summary(getNodesAttr(worldgraph.10k))
 newGraph <- extractFromLayer(worldgraph.10k, layer = world.countries, attr = c("CONTINENT", "NAME"))
 summary(getNodesAttr(newGraph))
 ```
+
 The new object `newGraph` is a `gGraph` which now includes, for each node of the grid, the
 corresponding continent and country retrieved from the GIS layer.
 We can use the newly acquired information for plotting `newGraph`, by defining new color rules:
@@ -570,10 +556,9 @@ tail(colMat)
 plot(newGraph, col.rules = colMat, reset = TRUE)
 ```
 
- This information could in turn be used to define costs for travelling on the grid.
+This information could in turn be used to define costs for travelling on the grid.
 For instance, one could import habitat descriptors from a GIS, use these values to formulate a
 habitat model, and derive costs for dispersal on the grid.
-
 
 As soon as a GIS layer has been extracted to a `gGraph`, this information becomes also available for
 any `gData` interfaced with this object.
@@ -586,12 +571,6 @@ cities <- closestNode(cities, attr.name = "habitat", attr.value = "land")
 getData(cities)
 getNodesAttr(cities)
 ```
-
-
-
-
-
-
 
 ## Finding least-cost paths
 
@@ -618,7 +597,6 @@ located further away from the geographic origin of the species.
 Here, we verify this relationship for a theoretical origin in Addis abeba, Ethiopia.
 We shall seek all paths through landmasses to the HGDP populations.
 
-
 First, we check that all populations are connected on the grid using `isConnected`:
 ```{r }
 isConnected(hgdp)
@@ -635,7 +613,6 @@ connectivityPlot(worldgraph.10k, edges = TRUE, seed = 1)
 geo.zoomin(c(90, 150, 18, -25))
 title("Different connected components\n in worldgraph.10k")
 ```
-
 
 Since all locations in `hgdp` are connected, we can proceed further.
 We have to set the costs of edges in the `gGraph` grid.
@@ -678,7 +655,6 @@ summary(lm.unif)
 title("Genetic diversity vs geographic distance \n uniform costs ")
 ```
 
-
 Alternatively, we can use costs based on habitat.
 As a toy example, we will consider that coasts are four times more favourable for dispersal than
 the rest of the landmasses.
@@ -710,4 +686,3 @@ title("Genetic diversity vs geographic distance \n habitat costs ")
 
 Of course, the distinction between coasts and inner landmasses is a somewhat poor description of habitat.
 In practice, complex habitat models can be used as simply.
-

@@ -88,9 +88,6 @@
 #' \code{\link{worldgraph.10k}}: coverage using about 10,000 nodes\cr -
 #' \code{\link{worldgraph.40k}}: coverage using about 40,000 nodes\cr
 #'
-#' Other datasets are:\cr - \code{\link{worldshape}}: shapefile containing
-#' world countries.\cr
-#'
 #' To cite geoGraph, please use the reference given by
 #' \code{citation("geoGraph")}.
 #'

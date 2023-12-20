@@ -103,7 +103,7 @@ NULL
 ## plot for gGraph
 ###################
 #' @export
-#' @import sp
+#' @import sf
 setMethod("plot", signature(x = "gGraph", y = "missing"), function(x, y, shape = "world", psize = NULL, pch = 19, col = NULL,
                                                                    edges = FALSE, reset = FALSE, bg.col = "gray", border.col = "dark gray",
                                                                    lwd = 1, useCosts = NULL, maxLwd = 3, col.rules = NULL, ...) {
@@ -191,16 +191,21 @@ setMethod("plot", signature(x = "gGraph", y = "missing"), function(x, y, shape =
 
   ## handle shape
   if (!is.null(shape) && is.character(shape) && shape == "world") {
-    shape <- worldshape
+    shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
 
-  if (!is.null(shape)) { ## plot with background ##
-    if (!inherits(shape, "SpatialPolygonsDataFrame")) {
-      stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
+  ## TODO if the shape is null, we should throw an error!!!
+  if (!is.null(shape)) {
+    if (!inherits(shape, "sf")) {
+      if (inherits(shape, "SpatialPolygonsDataFrame")){
+        shape <- sf::st_as_sf(shape)
+      } else {
+        stop("shape must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
+      }
     }
 
     ## plot background
-    plot(shape, col = bg.col, border = border.col, xlim = xlim, ylim = ylim)
+    plot(sf::st_geometry(shape), col = bg.col, border = border.col, xlim = xlim, ylim = ylim)
 
     ## subset of points in area
     toKeep <- isInArea(x, reg = "current", res.type = "character")

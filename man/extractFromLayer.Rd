@@ -32,16 +32,14 @@ latitudes of locations.}
 \item{\dots}{further arguments to be passed to other methds. Currently not
 used.}
 
-\item{layer}{a shapefile of the class \code{SpatialPolygonsDataFrame} (see
-\code{readShapePoly} in maptools package to import such data from a GIS
+\item{layer}{a shapefile of the class \code{\link{sf}} (see
+\code{\link[sf:st_read]{sf::st_read()}} to import a GIS
 shapefile). Alternatively, a character string indicating one shapefile
-released with geoGraph; currently, only 'world' is available (see
-\code{?data(worldshape)}).}
+released with geoGraph; currently, only 'world' is available.}
 
 \item{attr}{a character vector giving names of the variables to be extracted
 from the layer. If 'all', all available variables are extracted. In case of
-problem, available names are displayed with the error message. Available
-data are also stored in \code{layer@data}.}
+problem, available names are displayed with the error message.}
 }
 \value{
 The output depends on the nature of the input:\cr - \code{matrix,

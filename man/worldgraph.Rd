@@ -7,7 +7,6 @@
 \alias{rawgraph.40k}
 \alias{worldgraph.10k}
 \alias{worldgraph.40k}
-\alias{worldshape}
 \title{Worldwide geographic graphs}
 \format{
 \code{worldgraph.10k} and \code{worldgraph.40k} are
@@ -18,7 +17,7 @@ plotting vertices (second column) to different values of habitat (first
 column).} }
 }
 \source{
-Graph reconstructed by Andrea Manica.
+Graph constructed by Andrea Manica.
 }
 \description{
 The datasets 'rawgraph.10k', 'rawgraph.40k', 'worldgraph.10k', and
@@ -32,8 +31,6 @@ references.\cr
 'worldgraph's are 'rawgraph's that have been modified manually to rectify
 connectivity between edges at some places. The most noticeable change is that
 all edges involving sea vertices have been removed.\cr
-
-'worldshape' is a shapefile of countries of the world (snapshot from 1994).
 }
 \examples{
 

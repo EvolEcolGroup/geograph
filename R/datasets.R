@@ -70,12 +70,8 @@ NULL
 #' connectivity between edges at some places. The most noticeable change is that
 #' all edges involving sea vertices have been removed.\cr
 #'
-#' 'worldshape' is a shapefile of countries of the world (snapshot from 1994).
-#'
-#'
 #' @name worldgraph
 #' @aliases worldgraph rawgraph.10k rawgraph.40k worldgraph.10k worldgraph.40k
-#' worldshape
 #' @docType data
 #' @format \code{worldgraph.10k} and \code{worldgraph.40k} are
 #' \linkS4class{gGraph} objects with the following specificities: \describe{
@@ -87,7 +83,7 @@ NULL
 #' Ringler, T. D.; Heikes, R. P.; Jones, P. & Baumgardner, J. Climate Modeling
 #' with Spherical Geodesic Grids \emph{Computing in science & engineering},
 #' 2002, \bold{4}: 32-41.
-#' @source Graph reconstructed by Andrea Manica.
+#' @source Graph constructed by Andrea Manica.
 #' @keywords datasets
 #' @examples
 #'
