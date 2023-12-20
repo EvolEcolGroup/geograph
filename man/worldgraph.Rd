@@ -11,8 +11,8 @@
 \format{
 \code{worldgraph.10k} and \code{worldgraph.40k} are
 \linkS4class{gGraph} objects with the following specificities: \describe{
-\item{@nodes.attr\$habitat}{habitat corresponding to each vertice; currently
-'land' or 'sea'.} \item{@meta\$color}{a matrix assigning a color for
+\item{@nodes.attr$habitat}{habitat corresponding to each vertex; currently
+'land' or 'sea'.} \item{@meta$color}{a matrix assigning a color for
 plotting vertices (second column) to different values of habitat (first
 column).} }
 }

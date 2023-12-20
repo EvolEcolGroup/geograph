@@ -597,7 +597,7 @@ plot(hgdp, reset = TRUE)
 pink: coasts).
 Population genetics predicts that genetic diversity within populations should decay as populations are
 located further away from the geographic origin of the species.
-Here, we verify this relationship for a theoretical origin in Addis abeba, Ethiopia.
+Here, we verify this relationship for a theoretical origin in Addis Ababa, Ethiopia.
 We shall seek all paths through landmasses to the HGDP populations.
 
 First, we check that all populations are connected on the grid using `isConnected`:
@@ -626,7 +626,7 @@ costs (using `setCosts`).
 
 We shall first illustrate the strictly uniform costs.
 After setting a `gGraph` with uniform costs, we use `dijkstraFrom` to find the shortest
-paths between Addis abeba and the populations of `hgdp`:
+paths between Addis Ababa and the populations of `hgdp`:
 ```{r }
 myGraph <- dropCosts(worldgraph.40k)
 hgdp@gGraph.name <- "myGraph"
@@ -641,7 +641,7 @@ addis <- as.vector(addis)
 plot(myGraph, col = NA, reset = TRUE)
 plot(paths)
 points(addis[1], addis[2], pch = "x", cex = 2)
-text(addis[1] + 35, addis[2], "Addis abeba", cex = .8, font = 2)
+text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
 points(hgdp, col.node = "black")
 ```
 
@@ -672,7 +672,7 @@ paths.2 <- dijkstraFrom(hgdp, ori)
 plot(newGraph, col = NA, reset = TRUE)
 plot(paths.2)
 points(addis[1], addis[2], pch = "x", cex = 2)
-text(addis[1] + 35, addis[2], "Addis abeba", cex = .8, font = 2)
+text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
 points(hgdp, col.node = "black")
 ```
 

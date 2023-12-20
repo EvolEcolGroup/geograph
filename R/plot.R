@@ -23,10 +23,10 @@
 #' points,gGraph-method points.gGraph plotEdges
 #' @docType methods
 #' @param x a \linkS4class{gGraph} object.
-#' @param shape a shapefile used as background to the object. Must be of the
-#' class \code{SpatialPolygonsDataFrame} (see \code{readShapePoly} in maptools
-#' package to import such data from a GIS shapefile). Alternatively, a
-#' character string indicating one shapefile released with geoGraph.
+#' @param shape a shapefile of the class [`sf`] (see
+#' [sf::st_read()] to import a GIS
+#' shapefile). Alternatively, a character string indicating one shapefile
+#' released with geoGraph; currently, only 'world' is available.
 #' @param psize a numeric giving the size of points.
 #' @param pch a numeric or a character indicating the type of point.
 #' @param col a character string indicating the color to be used.
@@ -64,6 +64,7 @@
 #'
 #' - \code{\link{isInArea}}, to retain a set of visible data.\cr
 #' @keywords methods hplot spatial
+#' @importFrom rnaturalearth ne_countries
 #' @examples
 #'
 #'

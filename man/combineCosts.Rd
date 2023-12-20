@@ -21,12 +21,12 @@ the product or a custom function (defined in \code{FUN}) of the costs of its nod
 \item{\dots}{additional parameters to be passed to \code{FUN}.}
 }
 \value{
-A \linkS4class{gGraph} object with the newly defined costs, basedd on the combination of the
+A \linkS4class{gGraph} object with the newly defined costs, based on the combination of the
 two gGraph objects, used as weightings of edges.
 }
 \description{
 The function \code{combineCosts} combines the edge costs of two
-\linkS4class{gGraph} objects. The first object is used as a temlate to generate
+\linkS4class{gGraph} objects. The first object is used as a template to generate
 the objects with the combined costs. Two two \linkS4class{gGraph} objects must
 have the same edges.
 }

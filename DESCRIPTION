@@ -8,7 +8,7 @@ Authors@R: c(
 Maintainer: Andrea Manica <am315@cam.ac.uk>
 Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
 License: GPL (>=2)
-Language: en-GB
+Language: en-US
 URL: https://github.com/EvolEcolGroup/geograph,
     https://evolecolgroup.github.io/geograph/
 BugReports: https://github.com/EvolEcolGroup/geograph/issues

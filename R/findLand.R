@@ -76,15 +76,12 @@ setGeneric("findLand", function(x, ...) {
 #' @rdname findLand
 #' @export
 setMethod("findLand", "matrix", function(x, shape = "world", ...) {
-  ## This functions automatically assigns to land all points overlapping the country polygons
-  #    if(!require(maptools)) stop("maptools package is required.")
 
   ## Load default shapefile ##
   if (is.character(shape) && shape[1] == "world") {
-    # use rnaturalearth instead of the inbuilt dataset
+    # use rnaturalearth 
     shape <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
     sf::sf_use_s2(FALSE)
-    #shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
 
 
