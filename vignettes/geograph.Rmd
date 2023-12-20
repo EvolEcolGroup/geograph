@@ -524,12 +524,15 @@ An important feature of *geoGraph* is serving as an interface between *geographi
 system* (GIS) layers and geographic data.
 As currently implemented, *geoGraph* can extract information from shapefiles with the Arc GIS
 (http://www.esri.com/software/arcgis/index.html) format, using the function `extractFromLayer`.
-Here, we illustrate this procedure using the shapefile `world-countries.shp` provided with the
-package. We use `sf::st_read()` to read
-a GIS shapefile into an `sf` object:
+Here, we illustrate this procedure using the `ne_countries` datasets from `rnaturalearth`, but
+it is possible also to load custom GIS shapefilew with `sf::st_read()`. Note that we
+turn off spherical trigonometry functions, as the naturalearth dataset is not compatible
+with that functionality.
 ```{r }
 library(sf)
-world.countries <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
+world.countries <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
+sf::sf_use_s2(FALSE)
+
 class(world.countries)
 summary(world.countries)
 ```
@@ -540,7 +543,7 @@ Let us assume that we are interested in retrieving continent and country informa
 Note that `extractFromLayer` can extract information to other types of objects than `gGraph` (see `?extractFromLayer`)
 ```{r }
 summary(getNodesAttr(worldgraph.10k))
-newGraph <- extractFromLayer(worldgraph.10k, layer = world.countries, attr = c("CONTINENT", "NAME"))
+newGraph <- extractFromLayer(worldgraph.10k, layer = world.countries, attr = c("continent", "name"))
 summary(getNodesAttr(newGraph))
 ```
 
@@ -548,9 +551,9 @@ The new object `newGraph` is a `gGraph` which now includes, for each node of the
 corresponding continent and country retrieved from the GIS layer.
 We can use the newly acquired information for plotting `newGraph`, by defining new color rules:
 ```{r fig=TRUE}
-temp <- unique(getNodesAttr(newGraph)$"NAME")
+temp <- unique(getNodesAttr(newGraph)$"name")
 col <- c("transparent", rainbow(length(temp) - 1))
-colMat <- data.frame(NAME = temp, color = col)
+colMat <- data.frame(name = temp, color = col)
 head(colMat)
 tail(colMat)
 plot(newGraph, col.rules = colMat, reset = TRUE)

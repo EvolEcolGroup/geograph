@@ -82,9 +82,9 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
   ## Load default shapefile ##
   if (is.character(shape) && shape[1] == "world") {
     # use rnaturalearth instead of the inbuilt dataset
-    # shape <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
-    # sf::sf_use_s2(FALSE)
-    shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
+    shape <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
+    sf::sf_use_s2(FALSE)
+    #shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
 
 

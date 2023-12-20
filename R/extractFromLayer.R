@@ -49,13 +49,13 @@
 #'
 #' ## retrieve continent info for all nodes
 #' ## (might take a few seconds)
-#' x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "CONTINENT")
+#' x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "continent")
 #' x
-#' table(getNodesAttr(x, attr.name = "CONTINENT"))
+#' table(getNodesAttr(x, attr.name = "continent"))
 #'
 #'
 #' ## subset Africa
-#' temp <- getNodesAttr(x, attr.name = "CONTINENT") == "Africa"
+#' temp <- getNodesAttr(x, attr.name = "continent") == "Africa"
 #' temp[is.na(temp)] <- FALSE
 #' x <- x[temp]
 #' plot(x, reset = TRUE)
@@ -86,9 +86,9 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
   ## Load default shapefile ##
   if (is.character(layer) && layer[1] == "world") {
     # use rnaturalearth instead of the inbuilt dataset
-    # layer <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
-    # sf::sf_use_s2(FALSE)
-    layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
+    layer <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
+    sf::sf_use_s2(FALSE)
+    #layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
 
   ## TODO if the layer is null, we should throw an error!!!

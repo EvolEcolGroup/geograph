@@ -191,7 +191,9 @@ setMethod("plot", signature(x = "gGraph", y = "missing"), function(x, y, shape =
 
   ## handle shape
   if (!is.null(shape) && is.character(shape) && shape == "world") {
-    shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
+    #shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
+    shape <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
+    sf::sf_use_s2(FALSE)
   }
 
   ## TODO if the shape is null, we should throw an error!!!

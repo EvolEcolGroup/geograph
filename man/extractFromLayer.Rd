@@ -71,13 +71,13 @@ plot(worldgraph.10k, reset = TRUE)
 
 ## retrieve continent info for all nodes
 ## (might take a few seconds)
-x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "CONTINENT")
+x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "continent")
 x
-table(getNodesAttr(x, attr.name = "CONTINENT"))
+table(getNodesAttr(x, attr.name = "continent"))
 
 
 ## subset Africa
-temp <- getNodesAttr(x, attr.name = "CONTINENT") == "Africa"
+temp <- getNodesAttr(x, attr.name = "continent") == "Africa"
 temp[is.na(temp)] <- FALSE
 x <- x[temp]
 plot(x, reset = TRUE)

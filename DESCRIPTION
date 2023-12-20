@@ -23,15 +23,16 @@ Depends:
   methods,
   graph
 Imports:
-    fields,
-    RBGL,
-    rnaturalearth,
-    sf,
-    magrittr
+ fields,
+ RBGL,
+ rnaturalearth,
+ sf,
+ magrittr
 Suggests: 
   testthat, 
   knitr, 
-  rmarkdown
+  rmarkdown,
+  rnaturalearthdata
 RoxygenNote: 7.2.3
 Collate: 
     'classes.R'
