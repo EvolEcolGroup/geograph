@@ -71,15 +71,9 @@ input formats.
 
 plot(worldgraph.10k, reset = TRUE)
 
-
-## see what info is available
-names(worldshape@data)
-unique(worldshape@data$CONTINENT)
-
-
 ## retrieve continent info for all nodes
 ## (might take a few seconds)
-x <- extractFromLayer(worldgraph.10k, layer = worldshape, attr = "CONTINENT")
+x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "CONTINENT")
 x
 table(getNodesAttr(x, attr.name = "CONTINENT"))
 

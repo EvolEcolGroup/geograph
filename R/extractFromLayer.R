@@ -49,15 +49,9 @@
 #'
 #' plot(worldgraph.10k, reset = TRUE)
 #'
-#'
-#' ## see what info is available
-#' names(worldshape@data)
-#' unique(worldshape@data$CONTINENT)
-#'
-#'
 #' ## retrieve continent info for all nodes
 #' ## (might take a few seconds)
-#' x <- extractFromLayer(worldgraph.10k, layer = worldshape, attr = "CONTINENT")
+#' x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "CONTINENT")
 #' x
 #' table(getNodesAttr(x, attr.name = "CONTINENT"))
 #'
@@ -90,67 +84,61 @@ setGeneric("extractFromLayer", function(x, ...) {
 #' @rdname extractFromLayer
 #' @export
 setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all", ...) {
+  
+  
   ## This functions automatically assigns to land all points overlapping the country polygons
   # if(!require(maptools)) stop("maptools package is required.")
 
   ## Load default shapefile ##
   if (is.character(layer) && layer[1] == "world") {
-    layer <- worldshape
+    # use rnaturalearth instead of the inbuilt dataset
+    # layer <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
+    # sf::sf_use_s2(FALSE)
+    layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
 
   ## TODO if the layer is null, we should throw an error!!!
   if (!is.null(layer)) {
-    if (!inherits(layer, "SpatialPolygonsDataFrame")) {
-      stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
+    if (!inherits(layer, "sf")) {
+      if (inherits(layer, "SpatialPolygonsDataFrame")){
+        layer <- sf::st_as_sf(layer)
+      } else {
+        stop("Layer must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
+      }
     }
   }
 
+
   ## search attr in data ##
   if (attr[1] == "all") {
-    selAttr <- 1:ncol(layer@data)
+    selAttr <- 1:ncol(layer)
   } else {
-    selAttr <- match(attr, colnames(layer@data)) # selected attributes
+    selAttr <- match(attr, colnames(layer)) # selected attributes
     if (any(is.na(selAttr))) { # attribute not found in layer@data
       cat("\nSome requested attribute (attr) not found in the layer.\n")
       cat("\nAvailable data are:\n")
-      print(utils::head(layer@data))
+      print(utils::head(layer))
       return(NULL) # return NULL if attr not found, not generate an error
     }
   }
 
-  ## variables and initialization ##
-  long <- unlist(x[, 1]) # unlist needed when nrow==1
-  lat <- unlist(x[, 2])
-  n.poly.list <- length(layer@polygons) # number of lists of Polygons obj.
-  res <- NULL
-  dat <- layer@data
-  layerId <- rep(NA, length(long)) # stores the id of matching polygon for each location
 
+  # create an sf point object from the coordinates
+  locations_st <- x %>% as.data.frame %>% 
+    sf::st_as_sf(coords=c(1,2)) %>%
+    sf::st_set_crs(sf::st_crs(layer))
+  # now find points in polygons
+  points_within <- sf::st_intersects(layer, locations_st)
+  points_within <- data.frame(x = unlist(points_within), 
+                              polygon = rep(seq_along(lengths(points_within)), lengths(points_within)))
+  points_assignment <- data.frame(x=seq(1, nrow(x)), polygon = NA)
+  # add missing points for which we have no information
+  points_assignment[points_within$x,"polygon"]<-points_within$polygon
 
-  ## main computations ##
+  dat <- layer %>% sf::st_drop_geometry()
+  # @TOFIX the line below will fail if layerId is all NAs (i.e. no points were assigned to a polygon)
+  res <- dat[points_assignment$polygon, selAttr, drop = FALSE]
 
-  ## browsing elements of @polygons
-  ## each is a list with a @Polygons slot
-  for (i in 1:n.poly.list) {
-    this.poly.list <- layer@polygons[[i]]
-    n.polys <- length(this.poly.list@Polygons)
-    points.in.this.poly <- rep(0, length(long))
-
-    ## browsing elements of @Polygons
-    for (j in 1:n.polys) { ##
-      this.poly <- this.poly.list@Polygons[[j]]
-      points.in.this.poly <- points.in.this.poly +
-        sp::point.in.polygon(long, lat, this.poly@coords[, 1], this.poly@coords[, 2])
-
-      points.in.this.poly <- as.logical(points.in.this.poly)
-
-      if (any(points.in.this.poly)) {
-        layerId[points.in.this.poly] <- this.poly.list@ID
-      }
-    } # end for j
-  } # end for i
-
-  res <- dat[layerId, selAttr, drop = FALSE]
   row.names(res) <- rownames(x)
 
   return(res)
@@ -237,4 +225,4 @@ setMethod("extractFromLayer", "gData", function(x, layer = "world", attr = "all"
   }
 
   return(x)
-}) # end findLand
+})

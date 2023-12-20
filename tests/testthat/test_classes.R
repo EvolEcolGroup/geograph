@@ -1,10 +1,70 @@
-library("geoGraph")
-context("Test classes")
 
 test_that("Empty constructors work", {
-  skip_on_cran()
   x <- new("gGraph")
+  expect_true(inherits(x,"gGraph"))
   y <- new("gData")
-  expect_is(x, "gGraph")
-  expect_is(y, "gData")
+  expect_true(inherits(y,"gData"))
 })
+
+test_that("Contructors fails with invalid coordinates",{
+  NACoords <- data.frame(long = c(-24, NA), lat =  c(31,55))
+  #Create gGraph with NA's
+  expect_error(new("gGraph", coords = NACoords),
+               "Argument coords includes NAs")
+
+})
+
+test_that("Contructors fails with invalid matrix dimensions",{
+  extra_coords <- data.frame(long = c(-24, 37), lat =  c(31,55), x = c(31,31))
+  #Create gGraph with three columns
+  expect_error(new("gGraph", coords = extra_coords),
+               "Argument coords must include")
+
+})
+
+test_that("Contructors fails with invalid non-numeric matrix",{
+  non_num_coords <- data.frame(long = c("lon1", 37), lat =  c(31,55))
+  #Create gGraph with non numeric elements
+  expect_error(new("gGraph", coords = non_num_coords),
+               "Argument coords has to be numeric")
+  
+})
+
+
+
+test_that("Constructor accounts for different column names" , {
+  columnheading_names <-
+    data.frame(longitude =  c(31, 55), Latitude = c(-24, 37))
+  columnheading_names <- new("gGraph", coords = columnheading_names)
+  new_columnheading_names <-
+    data.frame(lon = c(31, 55), lat =  c(-24, 37))
+  new_columnheading_names <-
+    new("gGraph", coords = new_columnheading_names)
+  expect_identical(columnheading_names,
+                   new_columnheading_names)
+  
+})
+
+test_that("Constructor reverses coord column order" , {
+  column_heading <- data.frame(lat = c(-24, 37), lon =  c(31,55)) 
+  #Create Ggraph with lat/lon headings
+  correct_heading <- new("gGraph", coords = column_heading)
+  column_heading <- data.frame(lon =  c(31,55), lat = c(-24, 37))
+  #Create Ggraph with lon/lat headings
+  swapped_heading <- new("gGraph", coords = column_heading)
+  expect_identical(correct_heading, swapped_heading)
+})
+
+test_that("we give message when columns are not recognised",{
+  column_heading <- data.frame(lon=  c(31,55), lat = c(-24, 37))
+  #Create Ggraph with lat/lon headings
+  correct_heading <- new("gGraph", coords = column_heading)
+  column_heading <- data.frame(blah=  c(31,55), lat = c(-24, 37))  
+  #Create Ggraph with lon/lat headings
+  expect_message(unrecognised_heading <- new("gGraph", coords = column_heading),
+                 "The coordinate column names are not part of the standardised list")
+  expect_identical(correct_heading, unrecognised_heading)
+}
+          
+          
+          )

@@ -281,15 +281,43 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
 
   ## handle @coords ##
   if (!is.null(input$coords)) {
-    if (is.list(input$coords) && length(input$coords) == 2) {
+
+
+    if (is.list(input$coords)) {
       input$coords <- as.data.frame(input$coords)
     }
 
     if (is.data.frame(input$coords)) {
       input$coords <- as.matrix(input$coords)
     }
-
-    if (nrow(input$coords) > 0 && !is.numeric(input$coords)) stop("Argument coords has to be numeric.")
+    
+    if (ncol(input$coords)!=2){
+      stop("Argument coords must include only two columns (longitude and latitude).")
+    }
+    
+    if (nrow(input$coords) > 0 && !is.numeric(input$coords)) {
+      stop("Argument coords has to be numeric.")
+      }
+    
+    ## NAs in coords
+    if (any(is.na(input$coords))) {
+      stop("Argument coords includes NAs")
+    }
+    
+    ## Convert all column names to lower case
+    colnames(input$coords) <- tolower(colnames(input$coords))
+    ## Create list of lon/lat column heading names
+    lonlist <- list("lon", "long", "longitude", "x")
+    latlist <- list("lat", "latitude", "y")
+    ## Test if the column order is inverted
+    if (is.element(colnames(input$coords)[1], latlist) & 
+        is.element(colnames(input$coords)[2], lonlist)) {
+      input$coords[, c(1, 2)] <- input$coords[, c(2, 1)]
+    } else if  (!(is.element(colnames(input$coords)[1], lonlist) & 
+                  is.element(colnames(input$coords)[2], latlist))){
+      message("The coordinate column names are not part of the standardised list;\n",
+      "we will use the order they were given in, make sure it corresponds to x and y!")
+    } # if neither of the if catches it, then the names are part of the lists and in the correct order
 
     ## names of the matrix
     colnames(input$coords) <- c("lon", "lat")

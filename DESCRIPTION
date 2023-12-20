@@ -1,7 +1,7 @@
 Package: geoGraph
 Type: Package
 Title: Walking through the geographic space using graphs
-Version: 1.1.1.9001
+Version: 1.1.1.9002
 Authors@R: c(
     person("Thibaut", "Jombart", role = "aut"),
     person("Andrea", "Manica", email = "am315@cam.ac.uk", role = c("aut", "cre")))
@@ -23,14 +23,17 @@ Depends:
   methods,
   graph
 Imports:
-  fields,
-  RBGL,
-  sp
+    fields,
+    RBGL,
+    rnaturalearth,
+    rnaturalearthdata,
+    sp,
+    sf,
+    magrittr
 Suggests: 
   testthat, 
   knitr, 
-  rmarkdown,
-  sf
+  rmarkdown
 RoxygenNote: 7.2.3
 Collate: 
     'classes.R'
@@ -55,5 +58,6 @@ Collate:
     'rebuild.R'
     'setCosts.R'
     'setDistCosts.R'
+    'utils-pipe.R'
     'zoom.R'
     'zzz.R'
