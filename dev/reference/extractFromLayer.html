@@ -14,7 +14,7 @@ from the layer and assigned to that node."><meta name="robots" content="noindex"
     
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,18 +97,16 @@ used.</p></dd>
 
 
 <dt>layer</dt>
-<dd><p>a shapefile of the class <code>SpatialPolygonsDataFrame</code> (see
-<code>readShapePoly</code> in maptools package to import such data from a GIS
+<dd><p>a shapefile of the class <code>sf</code> (see
+<code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read()</a></code> to import a GIS
 shapefile). Alternatively, a character string indicating one shapefile
-released with geoGraph; currently, only 'world' is available (see
-<code>?data(worldshape)</code>).</p></dd>
+released with geoGraph; currently, only 'world' is available.</p></dd>
 
 
 <dt>attr</dt>
 <dd><p>a character vector giving names of the variables to be extracted
 from the layer. If 'all', all available variables are extracted. In case of
-problem, available names are displayed with the error message. Available
-data are also stored in <code>layer@data</code>.</p></dd>
+problem, available names are displayed with the error message.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -146,13 +144,13 @@ input formats.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## retrieve continent info for all nodes</span></span></span>
 <span class="r-in"><span><span class="co">## (might take a few seconds)</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">extractFromLayer</span><span class="op">(</span><span class="va">worldgraph.10k</span>, layer <span class="op">=</span> <span class="st">"world"</span>, attr <span class="op">=</span> <span class="st">"CONTINENT"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">extractFromLayer</span><span class="op">(</span><span class="va">worldgraph.10k</span>, layer <span class="op">=</span> <span class="st">"world"</span>, attr <span class="op">=</span> <span class="st">"continent"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">x</span>, attr.name <span class="op">=</span> <span class="st">"CONTINENT"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">x</span>, attr.name <span class="op">=</span> <span class="st">"continent"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## subset Africa</span></span></span>
-<span class="r-in"><span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">x</span>, attr.name <span class="op">=</span> <span class="st">"CONTINENT"</span><span class="op">)</span> <span class="op">==</span> <span class="st">"Africa"</span></span></span>
+<span class="r-in"><span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">x</span>, attr.name <span class="op">=</span> <span class="st">"continent"</span><span class="op">)</span> <span class="op">==</span> <span class="st">"Africa"</span></span></span>
 <span class="r-in"><span><span class="va">temp</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="va">temp</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>

@@ -16,7 +16,7 @@ the output are also available."><meta name="robots" content="noindex"><!-- mathj
     
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -128,7 +128,7 @@ produced. See value.</p></dd>
 
 
 <dt>buffer</dt>
-<dd><p>a numeric value giving a buffer adding extra space aroung the
+<dd><p>a numeric value giving a buffer adding extra space around the
 area, as a proportion of current area's dimensions.</p></dd>
 
 </dl></div>
@@ -174,17 +174,17 @@ nodes falling within the area.<br></p></li>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu">isInArea</span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10242</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu">isInArea</span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 614</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu">isInArea</span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># which nodes are TRUE ?</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  707 1027 1028 1347 1348 1667 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  707 1027 1028 1347 1348 1667 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  707  965 1027 1028 1029 1285 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  707  965 1027 1028 1029 1285 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">isInArea</span><span class="op">(</span><span class="va">worldgraph.10k</span>, res.type <span class="op">=</span> <span class="st">"integer"</span><span class="op">)</span><span class="op">)</span> <span class="co"># node indices</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  707 1027 1028 1347 1348 1667 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  707 1027 1028 1347 1348 1667 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  707  965 1027 1028 1029 1285 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  707  965 1027 1028 1029 1285 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">isInArea</span><span class="op">(</span><span class="va">worldgraph.10k</span>, res.type <span class="op">=</span> <span class="st">"character"</span><span class="op">)</span><span class="op">)</span> <span class="co"># node names</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "707"  "1027" "1028" "1347" "1348" "1667"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "707"  "965"  "1027" "1028" "1029" "1285"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## use isInArea to have a subset of visible nodes</span></span></span>

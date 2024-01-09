@@ -18,7 +18,7 @@ points."><meta name="robots" content="noindex"><!-- mathjax --><script src="http
     
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,10 +75,10 @@ be called directly, or via arguments passed to <code>plot</code> and
 
 
 <dt>shape</dt>
-<dd><p>a shapefile used as background to the object. Must be of the
-class <code>SpatialPolygonsDataFrame</code> (see <code>readShapePoly</code> in maptools
-package to import such data from a GIS shapefile). Alternatively, a
-character string indicating one shapefile released with geoGraph.</p></dd>
+<dd><p>a shapefile of the class <code>sf</code> (see
+<code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read()</a></code> to import a GIS
+shapefile). Alternatively, a character string indicating one shapefile
+released with geoGraph; currently, only 'world' is available.</p></dd>
 
 
 <dt>psize</dt>

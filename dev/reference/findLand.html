@@ -14,7 +14,7 @@ being 'on land' is in fact being inside a polygon of the shapefile."><meta name=
     
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,11 +89,10 @@ used.</p></dd>
 
 
 <dt>shape</dt>
-<dd><p>a shapefile of the class <code>SpatialPolygonsDataFrame</code> (see
-<code>readShapePoly</code> in maptools package to import such data from a GIS
+<dd><p>a shapefile of the class <code>sf</code> (see
+<code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read()</a></code> to import a GIS
 shapefile). Alternatively, a character string indicating one shapefile
-released with geoGraph; currently, only 'world' is available (see
-<code>?data(worldshape)</code>).</p></dd>
+released with geoGraph; currently, only 'world' is available.</p></dd>
 
 
 <dt>attr.name</dt>
@@ -136,10 +135,10 @@ GIS shapefile.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> === gGraph object ===</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @coords: spatial coordinates of 1000 nodes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           lon      lat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    7.932395 -24.1375</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -127.355546 -28.7720</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  139.956395  51.4531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          lon      lat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  145.85200 71.85052</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -149.72229 48.59359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   42.65663 24.43283</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @nodes.attr: 0 nodes attributes</span>
@@ -152,18 +151,21 @@ GIS shapefile.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of Nodes = 1000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of Edges = 0 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="findLand-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## find which points are on land</span></span></span>
 <span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu">findLand</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> although coordinates are longitude/latitude, st_intersects assumes that they</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> are planar</span>
 <span class="r-in"><span><span class="va">obj</span> <span class="co"># note: new node attribute</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> === gGraph object ===</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @coords: spatial coordinates of 1000 nodes</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           lon      lat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    7.932395 -24.1375</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -127.355546 -28.7720</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  139.956395  51.4531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          lon      lat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  145.85200 71.85052</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -149.72229 48.59359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   42.65663 24.43283</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @nodes.attr: 1 nodes attributes</span>
@@ -186,11 +188,11 @@ GIS shapefile.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   habitat color</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    land green</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2     sea  blue</span>
-<span class="r-in"><span><span class="va">obj</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">color</span> <span class="op">&lt;-</span> <span class="va">temp</span></span></span>
+<span class="r-in"><span><span class="va">obj</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="va">temp</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## plot object with new colors</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="findLand-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="findLand-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

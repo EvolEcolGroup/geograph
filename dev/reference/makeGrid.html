@@ -16,7 +16,7 @@ curvature of the surface of the earth can be neglected."><meta name="robots" con
     
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9002</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9003</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -118,6 +118,8 @@ the grid, in longitude and latitude, respectively.</p></dd>
 <span class="r-in"><span><span class="co">## make a new gGraph</span></span></span>
 <span class="r-in"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu">makeGrid</span><span class="op">(</span><span class="fl">1e3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="findLand.html">findLand</a></span><span class="op">(</span><span class="va">newGraph</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> although coordinates are longitude/latitude, st_intersects assumes that they</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> are planar</span>
 <span class="r-in"><span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span></span></span>
