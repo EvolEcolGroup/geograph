@@ -13,10 +13,10 @@
 \arguments{
 \item{x}{a \linkS4class{gGraph} object.}
 
-\item{shape}{a shapefile used as background to the object. Must be of the
-class \code{SpatialPolygonsDataFrame} (see \code{readShapePoly} in maptools
-package to import such data from a GIS shapefile). Alternatively, a
-character string indicating one shapefile released with geoGraph.}
+\item{shape}{a shapefile of the class \code{\link{sf}} (see
+\code{\link[sf:st_read]{sf::st_read()}} to import a GIS
+shapefile). Alternatively, a character string indicating one shapefile
+released with geoGraph; currently, only 'world' is available.}
 
 \item{psize}{a numeric giving the size of points.}
 

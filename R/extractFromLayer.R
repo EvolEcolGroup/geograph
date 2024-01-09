@@ -18,15 +18,13 @@
 #' two columns giving longitudes and latitudes of locations being considered.
 #' For list, input must have two components being vectors giving longitudes and
 #' latitudes of locations.
-#' @param layer a shapefile of the class \code{SpatialPolygonsDataFrame} (see
-#' \code{readShapePoly} in maptools package to import such data from a GIS
+#' @param layer a shapefile of the class [`sf`] (see
+#' [sf::st_read()] to import a GIS
 #' shapefile). Alternatively, a character string indicating one shapefile
-#' released with geoGraph; currently, only 'world' is available (see
-#' \code{?data(worldshape)}).
+#' released with geoGraph; currently, only 'world' is available.
 #' @param attr a character vector giving names of the variables to be extracted
 #' from the layer. If 'all', all available variables are extracted. In case of
-#' problem, available names are displayed with the error message. Available
-#' data are also stored in \code{layer@data}.
+#' problem, available names are displayed with the error message.
 #' @param \dots further arguments to be passed to other methds. Currently not
 #' used.
 #' @return The output depends on the nature of the input:\cr - \code{matrix,
@@ -51,13 +49,13 @@
 #'
 #' ## retrieve continent info for all nodes
 #' ## (might take a few seconds)
-#' x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "CONTINENT")
+#' x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "continent")
 #' x
-#' table(getNodesAttr(x, attr.name = "CONTINENT"))
+#' table(getNodesAttr(x, attr.name = "continent"))
 #'
 #'
 #' ## subset Africa
-#' temp <- getNodesAttr(x, attr.name = "CONTINENT") == "Africa"
+#' temp <- getNodesAttr(x, attr.name = "continent") == "Africa"
 #' temp[is.na(temp)] <- FALSE
 #' x <- x[temp]
 #' plot(x, reset = TRUE)
@@ -84,17 +82,13 @@ setGeneric("extractFromLayer", function(x, ...) {
 #' @rdname extractFromLayer
 #' @export
 setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all", ...) {
-  
-  
-  ## This functions automatically assigns to land all points overlapping the country polygons
-  # if(!require(maptools)) stop("maptools package is required.")
 
   ## Load default shapefile ##
   if (is.character(layer) && layer[1] == "world") {
     # use rnaturalearth instead of the inbuilt dataset
-    # layer <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
-    # sf::sf_use_s2(FALSE)
-    layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
+    layer <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
+    sf::sf_use_s2(FALSE)
+    #layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
 
   ## TODO if the layer is null, we should throw an error!!!

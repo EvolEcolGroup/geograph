@@ -12,7 +12,7 @@
 #' @aliases buffer buffer-methods buffer,gGraph-method buffer,gData-method
 #' @param x a valid \linkS4class{gGraph} or \linkS4class{gData} object.
 #' @param \dots further arguments passed to specific methods.
-#' @param nodes a character vector identifying the nodes aournd which buffers
+#' @param nodes a character vector identifying the nodes around which buffers
 #' should be computed.
 #' @param d the radius of the buffer, in km.
 #' @param res.type the type of result that should be returned (see section

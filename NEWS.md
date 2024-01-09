@@ -1,6 +1,7 @@
 # geoGraph (development version)
 
-* 
+* remove all use of deprecated packages (`sp` and `maptools`), and move to
+  `sf` objects
 
 # geoGraph v1.1
 
