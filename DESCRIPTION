@@ -1,14 +1,14 @@
 Package: geoGraph
 Type: Package
 Title: Walking through the geographic space using graphs
-Version: 1.1.1.9002
+Version: 1.1.1.9003
 Authors@R: c(
     person("Thibaut", "Jombart", role = "aut"),
     person("Andrea", "Manica", email = "am315@cam.ac.uk", role = c("aut", "cre")))
 Maintainer: Andrea Manica <am315@cam.ac.uk>
 Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
 License: GPL (>=2)
-Language: en-GB
+Language: en-US
 URL: https://github.com/EvolEcolGroup/geograph,
     https://evolecolgroup.github.io/geograph/
 BugReports: https://github.com/EvolEcolGroup/geograph/issues
@@ -23,17 +23,16 @@ Depends:
   methods,
   graph
 Imports:
-    fields,
-    RBGL,
-    rnaturalearth,
-    rnaturalearthdata,
-    sp,
-    sf,
-    magrittr
+ fields,
+ RBGL,
+ rnaturalearth,
+ sf,
+ magrittr
 Suggests: 
   testthat, 
   knitr, 
-  rmarkdown
+  rmarkdown,
+  rnaturalearthdata
 RoxygenNote: 7.2.3
 Collate: 
     'classes.R'

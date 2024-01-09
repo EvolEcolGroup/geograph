@@ -364,7 +364,7 @@ plot.gPath <- function(x, col = "rainbow", lwd = 3, ...) {
     N <- length(vecNodes)
     if (N < 2) {
       return()
-    } # escape if a path is a single vertice
+    } # escape if a path is a single vertex
     from <- vecNodes[1:(N - 1)]
     to <- vecNodes[2:N]
     ## segments(xy[from,1], xy[from,2], xy[to,1], xy[to,2], col=col, lwd=lwd, ...)

@@ -24,11 +24,10 @@ latitudes of locations being considered.}
 \item{\dots}{further arguments to be passed to other methods. Currently not
 used.}
 
-\item{shape}{a shapefile of the class \code{SpatialPolygonsDataFrame} (see
-\code{readShapePoly} in maptools package to import such data from a GIS
+\item{shape}{a shapefile of the class \code{\link{sf}} (see
+\code{\link[sf:st_read]{sf::st_read()}} to import a GIS
 shapefile). Alternatively, a character string indicating one shapefile
-released with geoGraph; currently, only 'world' is available (see
-\code{?data(worldshape)}).}
+released with geoGraph; currently, only 'world' is available.}
 
 \item{attr.name}{a character string giving the name of the node attribute in
 which the output is to be stored.}
@@ -67,7 +66,7 @@ obj # note: new node attribute
 ## define rules for colors
 temp <- data.frame(habitat = c("land", "sea"), color = c("green", "blue"))
 temp
-obj@meta$color <- temp
+obj@meta$colors <- temp
 
 ## plot object with new colors
 plot(obj)

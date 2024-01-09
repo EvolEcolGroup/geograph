@@ -5,7 +5,7 @@
 <!-- badges: end -->
 
 `geoGraph` aims at implementing graph approaches for geographic data.
-In `geoGraph`, a given geographic area is modelled by a fine regular grid, where each vertice
+In `geoGraph`, a given geographic area is modelled by a fine regular grid, where each vertex
 has a set of spatial coordinates and a set of attributes, which can be for instance habitat
 descriptors, or the presence/abundance of a given species.
 'Travelling' within the geographic area can then be easily modelled as moving between connected vertices.

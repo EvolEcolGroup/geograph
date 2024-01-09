@@ -13,11 +13,10 @@
 #' @param x a matrix, a data.frame, or a valid \linkS4class{gGraph} object. For
 #' matrix and data.frame, input must have two columns giving longitudes and
 #' latitudes of locations being considered.
-#' @param shape a shapefile of the class \code{SpatialPolygonsDataFrame} (see
-#' \code{readShapePoly} in maptools package to import such data from a GIS
+#' @param shape a shapefile of the class [`sf`] (see
+#' [sf::st_read()] to import a GIS
 #' shapefile). Alternatively, a character string indicating one shapefile
-#' released with geoGraph; currently, only 'world' is available (see
-#' \code{?data(worldshape)}).
+#' released with geoGraph; currently, only 'world' is available.
 #' @param \dots further arguments to be passed to other methods. Currently not
 #' used.
 #' @param attr.name a character string giving the name of the node attribute in
@@ -49,7 +48,7 @@
 #' ## define rules for colors
 #' temp <- data.frame(habitat = c("land", "sea"), color = c("green", "blue"))
 #' temp
-#' obj@meta$color <- temp
+#' obj@meta$colors <- temp
 #'
 #' ## plot object with new colors
 #' plot(obj)
@@ -77,43 +76,42 @@ setGeneric("findLand", function(x, ...) {
 #' @rdname findLand
 #' @export
 setMethod("findLand", "matrix", function(x, shape = "world", ...) {
-  ## This functions automatically assigns to land all points overlapping the country polygons
-  #    if(!require(maptools)) stop("maptools package is required.")
 
-  ## Load country shapefile
+  ## Load default shapefile ##
   if (is.character(shape) && shape[1] == "world") {
-    shape <- worldshape
+    # use rnaturalearth 
+    shape <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
+    sf::sf_use_s2(FALSE)
   }
 
-  if (!is.null(shape)) { # with background
-    if (!inherits(shape, "SpatialPolygonsDataFrame")) {
-      stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
+
+  ## TODO if the shape is null, we should throw an error!!!
+  if (!is.null(shape)) {
+    if (!inherits(shape, "sf")) {
+      if (inherits(shape, "SpatialPolygonsDataFrame")){
+        shape <- sf::st_as_sf(shape)
+      } else {
+        stop("shape must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
+      }
     }
   }
-
+  
+  
   if (any(is.na(x))) {
     stop("Matrix contains NA values.")
   }
-  
-  long <- x[, 1]
-  lat <- x[, 2]
-  n.country <- length(shape@polygons)
-
-  ## create land vector to score land
-  land <- rep(0, length(lat))
-
-  for (i in 1:n.country) {
-    this.country <- shape@polygons[i][[1]]
-    n.polys <- length(this.country@Polygons)
-
-    for (p in 1:n.polys) {
-      this.poly <- this.country@Polygons[p][[1]]
-      land <- land + point.in.polygon(long, lat, this.poly@coords[, 1], this.poly@coords[, 2])
-    }
-  }
-  land[land > 1] <- 1
-  land[land == 0] <- "sea"
-  land[land == 1] <- "land"
+ 
+  # create an sf point object from the coordinates
+  locations_st <- x %>% as.data.frame %>% 
+    sf::st_as_sf(coords=c(1,2)) %>%
+    sf::st_set_crs(sf::st_crs(shape))
+  # now find points in polygons
+  points_within <- sf::st_intersects(shape, locations_st)
+  points_within <- data.frame(x = unlist(points_within), 
+                              polygon = rep(seq_along(lengths(points_within)), lengths(points_within)))
+ 
+  land<-rep("sea",nrow(x))
+  land[points_within$x]<-"land"
 
   return(factor(land))
 })

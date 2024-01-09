@@ -28,7 +28,7 @@ test_that("co-ordinate format",{
   obj <- findLand(obj) 
   
   #check for factor output
-  expect_is(obj,"factor")
+  expect_true(inherits(obj,"factor"))
   #check for correct output
   expect_equal(obj,factor(c('sea','land')))
   
