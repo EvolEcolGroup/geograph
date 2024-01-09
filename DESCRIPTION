@@ -29,10 +29,11 @@ Imports:
  sf,
  magrittr
 Suggests: 
-  testthat, 
-  knitr, 
-  rmarkdown,
-  rnaturalearthdata
+    testthat,
+    knitr,
+    rmarkdown,
+    rnaturalearthdata,
+    spelling
 RoxygenNote: 7.2.3
 Collate: 
     'classes.R'

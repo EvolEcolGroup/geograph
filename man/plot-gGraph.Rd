@@ -80,8 +80,8 @@ information are stored in a particular environment (.geoGraphEnv), which is
 created when loading \code{geoGraph}. Users should not have to interact
 directly with objects in this environment.\cr
 
-The resulting plotting behaviour is that when plotting a \code{gGraph}
-object, last plotting parameters are re-used. To override this behaviour,
+The resulting plotting behavior is that when plotting a \code{gGraph}
+object, last plotting parameters are re-used. To override this behavior,
 specify \code{reset=TRUE} as argument to \code{plot}.
 }
 \examples{
