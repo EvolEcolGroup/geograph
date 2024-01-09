@@ -1,3 +1,5 @@
+# nocov start
+
 #' @importFrom graphics  identify locator segments
 NULL
 
@@ -420,3 +422,5 @@ geo.change.attr <- function(x, mode = c("points", "area"), attr.name, attr.value
 
   return(res)
 } # end geo.change.attr
+
+# nocov end
