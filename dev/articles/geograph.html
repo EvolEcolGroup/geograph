@@ -76,7 +76,7 @@
                         <h4 data-toc-skip class="author">Thibaut Jombart
 and Andrea Manica</h4>
             
-            <h4 data-toc-skip class="date">2024-01-09</h4>
+            <h4 data-toc-skip class="date">2024-01-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/HEAD/vignettes/geograph.Rmd" class="external-link"><code>vignettes/geograph.Rmd</code></a></small>
       <div class="d-none name"><code>geograph.Rmd</code></div>
@@ -290,19 +290,11 @@ set of locations.</p>
 <div class="section level2">
 <h2 id="using-geograph">Using <em>geoGraph</em><a class="anchor" aria-label="anchor" href="#using-geograph"></a>
 </h2>
-<p>An overview of the material implemented in the package is summarized
-the package’s manpage, accessible via:</p>
+<p>In the this vignette, we go through various tasks that can be achieve
+using <em>geoGraph</em>. A short overview of the functionalities of the
+package is summarized the package’s manpage, accessible via:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">?</span><span class="va">geoGraph</span></span></code></pre></div>
-<p>The html version of this manpage may be preferred to browse more
-easily the content of <em>geoGraph</em>; it is accessible by typing:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="st">"geoGraph"</span>, package <span class="op">=</span> <span class="st">"geoGraph"</span>, html <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>To revert help back to text mode, simply type:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>htmlhelp <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>In the following, we go through various tasks that can be achieve
-using <em>geoGraph</em>.</p>
 <div class="section level3">
 <h3 id="importing-geographic-data">Importing geographic data<a class="anchor" aria-label="anchor" href="#importing-geographic-data"></a>
 </h3>
@@ -319,7 +311,7 @@ working with a crude grid (10,000 nodes), locations need not be exact.
 We enter the longitudes and latitudes (in this order, that is, xy
 coordinates) of these cities in decimal degrees, as well as approximate
 population sizes:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Bordeaux</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">45</span><span class="op">)</span></span>
 <span><span class="va">London</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">51</span><span class="op">)</span></span>
 <span><span class="va">Malaga</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">37</span><span class="op">)</span></span>
@@ -336,7 +328,7 @@ population sizes:</p>
 <span><span class="co">## Zagreb    16  46 1.2e+06</span></span></code></pre>
 <p>We load a <code>gGraph</code> object which contains the grid that
 will support the data:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">worldgraph.10k</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## === gGraph object ===</span></span>
@@ -362,7 +354,7 @@ will support the data:</p>
 <span><span class="co">## A graphNEL graph with undirected edges</span></span>
 <span><span class="co">## Number of Nodes = 10242 </span></span>
 <span><span class="co">## Number of Edges = 6954</span></span></code></pre>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
 <p><img src="geograph_files/figure-html/wg10plot-1.png" width="768"></p>
@@ -372,7 +364,7 @@ habitat type, either ‘sea’ (blue) or ‘land’ (green). We are going to
 interface the cities data with this grid; to do so, we create a
 <code>gData</code> object using <code>new</code> (see
 <code><a href="../reference/gData-class.html">?gData</a></code> object):</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/new.html" class="external-link">new</a></span><span class="op">(</span><span class="st">"gData"</span>, coords <span class="op">=</span> <span class="va">cities.dat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, data <span class="op">=</span> <span class="va">cities.dat</span><span class="op">[</span>, <span class="fl">3</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>, gGraph.name <span class="op">=</span> <span class="st">"worldgraph.10k"</span><span class="op">)</span></span>
 <span><span class="va">cities</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -398,7 +390,7 @@ interface the cities data with this grid; to do so, we create a
 <span><span class="co">## ...</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Associated gGraph: worldgraph.10k</span></span></code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, type <span class="op">=</span> <span class="st">"both"</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/citiesplot-1.png" width="700"></p>
@@ -410,7 +402,7 @@ node attribute values using <code>closestNode</code>; for instance, here
 we constrain matching nodes to have an <code>habitat</code> value
 (defined as node attribute in <code>worldgraph.10k</code>) equalling
 <code>land</code> (green points):</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/closestNode.html">closestNode</a></span><span class="op">(</span><span class="va">cities</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, attr.value <span class="op">=</span> <span class="st">"land"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, type <span class="op">=</span> <span class="st">"both"</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
@@ -419,18 +411,18 @@ we constrain matching nodes to have an <code>habitat</code> value
 <code>land' node of the grid (again, better accuracy will be gained on 40k or finer grids - we use 10k for illustrative purposes only). Content of</code>cities<code>can be accessed via various accessors (see</code>?gData`).
 For instance, we can retrieve original locations, assigned nodes, and
 stored data using:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      lon lat</span></span>
 <span><span class="co">## 5775  -1  45</span></span>
 <span><span class="co">## 6413   0  51</span></span>
 <span><span class="co">## 4815  -4  37</span></span>
 <span><span class="co">## 7699  16  46</span></span></code></pre>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gGraph-class.html">getNodes</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   5774   6413   4815   7699 </span></span>
 <span><span class="co">## "5775" "6413" "4815" "7699"</span></span></code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##              pop</span></span>
 <span><span class="co">## Bordeaux 1.0e+06</span></span>
@@ -439,7 +431,7 @@ stored data using:</p>
 <span><span class="co">## Zagreb   1.2e+06</span></span></code></pre>
 <p>We can also get the coordinates of the matching nodes (, red circle
 on previous figure) using:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span>, original <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             lon   lat</span></span>
 <span><span class="co">## 5775  1.002e-05 43.73</span></span>
@@ -449,7 +441,7 @@ on previous figure) using:</p>
 <p>More interestingly, we can now retrieve all the geographic
 information contained in the underlying grid (, <code>gGraph</code>
 object) as node attributes:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      habitat</span></span>
 <span><span class="co">## 5775    land</span></span>
@@ -487,7 +479,7 @@ attributes and the color scheme specified in <code>meta$colors</code>.
 Alternatively, the color of the nodes can be specified via the
 <code>col</code> argument in <code>plot</code>/<code>points</code>.</p>
 <p>Here is an example using <code>worldgraph.10k</code>:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">worldgraph.10k</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span></span></code></pre></div>
 <pre><code><span><span class="co">##            habitat       color</span></span>
 <span><span class="co">## 1              sea        blue</span></span>
@@ -496,7 +488,7 @@ Alternatively, the color of the nodes can be specified via the
 <span><span class="co">## 4       landbridge light green</span></span>
 <span><span class="co">## 5 oceanic crossing  light blue</span></span>
 <span><span class="co">## 6  deselected land   lightgray</span></span></code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   habitat</span></span>
 <span><span class="co">## 1     sea</span></span>
@@ -505,12 +497,12 @@ Alternatively, the color of the nodes can be specified via the
 <span><span class="co">## 4     sea</span></span>
 <span><span class="co">## 5     sea</span></span>
 <span><span class="co">## 6     sea</span></span></code></pre>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## habitat</span></span>
 <span><span class="co">## deselected land            land             sea </span></span>
 <span><span class="co">##             290            2632            7320</span></span></code></pre>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">worldgraph.10k</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Default plotting of worldgraph.10k"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/wg10kdefplot-1.png" width="768"></p>
@@ -521,10 +513,10 @@ may want to disable <code>cairo</code> under linux: this graphical
 device yields better graphics than <code>Xlib</code>, but at the expense
 of increase computational time. To switch to <code>Xlib</code>,
 type:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/x11.html" class="external-link">X11.options</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Xlib"</span><span class="op">)</span></span></code></pre></div>
 <p>and to revert to <code>cairo</code>, type:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/x11.html" class="external-link">X11.options</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"cairo"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level4">
@@ -547,15 +539,15 @@ a square area with similar position and centre, and zoom to this area
 between distant areas repeatedly.</p>
 <p>Here are some examples based on the previous plotting of
 <code>worldgraph.10k</code>: Zooming in:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.zoomin</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/zoomin-1.png" width="700"></p>
 <p>Zooming out:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.zoomout</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/zoomout-1.png" width="700"></p>
 <p>Sliding to the east:</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.slide</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/geoslide-1.png" width="700"></p>
 <p>One important thing which makes plotting <code>gGraph</code> objects
@@ -568,12 +560,12 @@ the argument <code>reset=TRUE</code> when calling upon
 <code>plot</code>. Technically, this ‘plotting memory’ is implemented by
 storing plotting information in an environment defined as the hidden
 environment <code>geoGraph:::.geoGraphEnv</code>:</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span>env <span class="op">=</span> <span class="fu">geoGraph</span><span class="fu">:::</span><span class="va">.geoGraphEnv</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "bookmarks"       "last.plot"       "last.plot.param" "last.points"    </span></span>
 <span><span class="co">## [5] "psize"           "sticky.points"   "usr"             "zoom.log"</span></span></code></pre>
 <p>You can inspect individual variables within this environment:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="st">"last.plot.param"</span>, envir <span class="op">=</span> <span class="fu">geoGraph</span><span class="fu">:::</span><span class="va">.geoGraphEnv</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $psize</span></span>
 <span><span class="co">## [1] 0.5</span></span>
@@ -592,7 +584,7 @@ manipulations.</p>
 <p><code>gData</code> objects are by default plotted overlaying the
 corresponding <code>gGraph</code>. For instance, using the
 <code>cities</code> example from above:</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/citiesPlot2-1.png" width="700"></p>
@@ -606,16 +598,19 @@ spatial coordinates from the data. This is achieved by
 seeked, or FALSE for coordinates of the nodes on the grid. We can use
 this to represent, for instance, the population sizes for the different
 cities:</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">transp</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">col</span>, <span class="va">alpha</span> <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/col2rgb.html" class="external-link">col2rgb</a></span><span class="op">(</span><span class="va">col</span><span class="op">)</span>, <span class="fl">2</span>, <span class="kw">function</span><span class="op">(</span><span class="va">c</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="va">c</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="fl">255</span>, <span class="va">c</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">/</span> <span class="fl">255</span>, <span class="va">c</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">/</span> <span class="fl">255</span>, <span class="va">alpha</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/col2rgb.html" class="external-link">col2rgb</a></span><span class="op">(</span><span class="va">col</span><span class="op">)</span>, <span class="fl">2</span>, </span>
+<span>               <span class="kw">function</span><span class="op">(</span><span class="va">c</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/rgb.html" class="external-link">rgb</a></span><span class="op">(</span><span class="va">c</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">/</span> <span class="fl">255</span>, <span class="va">c</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">/</span> <span class="fl">255</span>, <span class="va">c</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">/</span> <span class="fl">255</span>, <span class="va">alpha</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>xpd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span> <span class="op">+</span> <span class="op">-</span><span class="fl">.5</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/symbols.html" class="external-link">symbols</a></span><span class="op">(</span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, circ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, inch <span class="op">=</span> <span class="fl">.2</span>, bg <span class="op">=</span> <span class="fu">transp</span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/symbols.html" class="external-link">symbols</a></span><span class="op">(</span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, </span>
+<span>        circ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, inch <span class="op">=</span> <span class="fl">.2</span>, </span>
+<span>        bg <span class="op">=</span> <span class="fu">transp</span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/cities_plot-1.png" width="700"></p>
 </div>
 </div>
@@ -642,13 +637,13 @@ dispersal, we have to define a graph which connects only nodes
 overlaying the sea. We load the <code>gGraph</code> object
 <code>rawgraph.10k</code>, and zoom in to a smaller area (Madagascar) to
 illustrate changes in connectivity:</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.zoomin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">35</span>, <span class="fl">54</span>, <span class="op">-</span><span class="fl">26</span>, <span class="op">-</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">rawgraph.10k</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/plot_edges-1.png" width="700"></p>
 <p>We shall set a bookmark for this area, in case we would want to get
 back to this place later on:</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.bookmark</a></span><span class="op">(</span><span class="st">"madagascar"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Bookmark ' madagascar  'saved.</span></span></code></pre>
@@ -658,7 +653,7 @@ habitat, with land being given large costs and ii) remove all edges with
 large costs.</p>
 <p>Costs of a given node attribute (here,
 <code>habitat') are indicated in the</code>meta$costs` slot:</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rawgraph.10k</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span></span></code></pre></div>
 <pre><code><span><span class="co">##            habitat cost</span></span>
 <span><span class="co">## 1              sea  100</span></span>
@@ -667,7 +662,7 @@ large costs.</p>
 <span><span class="co">## 4       landbridge    5</span></span>
 <span><span class="co">## 5 oceanic crossing   20</span></span>
 <span><span class="co">## 6  deselected land  100</span></span></code></pre>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="va">rawgraph.10k</span></span>
 <span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
 <span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
@@ -683,10 +678,10 @@ large costs.</p>
 change is not yet effective on edges between nodes. We use
 <code>setCosts</code> to set the cost of an edge to the average of the
 costs of its nodes:</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">newGraph</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">newGraph</span>, edge <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="geograph_files/figure-html/unnamed-chunk-23-1.png" width="768"></p>
+<p><img src="geograph_files/figure-html/unnamed-chunk-21-1.png" width="768"></p>
 <p>On this new graph, we represent the edges with a width inversely
 proportional to the associated cost; that is, bold lines for easy
 travelling and light edges/dotted lines for more costly mouvement. This
@@ -695,18 +690,18 @@ we can tell <em>geoGraph</em> to remove all edges associated to too
 strong a cost, as defined by a given threshold (using
 <code>dropDeadEdges</code>). Here, only sea-sea connections shall be
 retained, that is, edges with cost 1.</p>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dropDeadEdges.html">dropDeadEdges</a></span><span class="op">(</span><span class="va">newGraph</span>, thres <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">newGraph</span>, edge <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="geograph_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="geograph_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <p>Here we are: <code>newGraph</code> only contains connections in the
 sea. Note that, although we restrained the plotting area to Madagascar,
 this change is effective everywhere. For instance, travelling to the
 nort-west Australian coasts:</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.zoomin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">110</span>, <span class="fl">130</span>, <span class="op">-</span><span class="fl">27</span>, <span class="op">-</span><span class="fl">12</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/bookmark-1.png" width="700"></p>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.bookmark</a></span><span class="op">(</span><span class="st">"australia"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Bookmark ' australia  'saved.</span></span></code></pre>
@@ -727,7 +722,7 @@ rectangular area in which edges are added or removed. See
 instance, we can remove a few odd connections in the previous graph,
 near the Australian coasts (note that we have to save the changes using
 <code>&lt;-</code>):</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.goto</a></span><span class="op">(</span><span class="st">"australia"</span><span class="op">)</span></span>
 <span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.add.edges.html">geo.remove.edges</a></span><span class="op">(</span><span class="va">newGraph</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
@@ -746,12 +741,13 @@ using the function <code>geo.change.attr</code>. For instance, here, we
 define a new value <code>shalowwater</code> (plotted in light blue) for
 the attribute <code>habitat</code>, selecting affected nodes using the
 ‘area’ mode first, and refining the changes using the ‘point’ mode:</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">newGraph</span>, edge <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.change.attr.html">geo.change.attr</a></span><span class="op">(</span><span class="va">newGraph</span>, mode <span class="op">=</span> <span class="st">"area"</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, attr.value <span class="op">=</span> <span class="st">"shallowwater"</span>, newCol <span class="op">=</span> <span class="st">"deepskyblue"</span><span class="op">)</span></span>
-<span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.change.attr.html">geo.change.attr</a></span><span class="op">(</span><span class="va">temp</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, attr.value <span class="op">=</span> <span class="st">"shallowwater"</span>, newCol <span class="op">=</span> <span class="st">"deepskyblue"</span><span class="op">)</span></span>
-<span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="va">temp</span></span></code></pre></div>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.change.attr.html">geo.change.attr</a></span><span class="op">(</span><span class="va">newGraph</span>, mode <span class="op">=</span> <span class="st">"area"</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, </span>
+<span>                        attr.value <span class="op">=</span> <span class="st">"shallowwater"</span>, newCol <span class="op">=</span> <span class="st">"deepskyblue"</span><span class="op">)</span></span>
+<span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.change.attr.html">geo.change.attr</a></span><span class="op">(</span><span class="va">newGraph</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, </span>
+<span>                        attr.value <span class="op">=</span> <span class="st">"shallowwater"</span>, newCol <span class="op">=</span> <span class="st">"deepskyblue"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span></span></code></pre></div>
 <pre><code><span><span class="co">##            habitat       color</span></span>
 <span><span class="co">## 1              sea        blue</span></span>
@@ -761,9 +757,9 @@ the attribute <code>habitat</code>, selecting affected nodes using the
 <span><span class="co">## 5 oceanic crossing  light blue</span></span>
 <span><span class="co">## 6  deselected land   lightgray</span></span>
 <span><span class="co">## 7     shallowwater deepskyblue</span></span></code></pre>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">newGraph</span>, edge <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="geograph_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<p><img src="geograph_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
 <p>Again, note that the changes made to the graph have to be save in an
 object (using <code>&lt;-</code>) to be effective.</p>
 </div>
@@ -773,171 +769,58 @@ object (using <code>&lt;-</code>) to be effective.</p>
 </h3>
 <p>An important feature of <em>geoGraph</em> is serving as an interface
 between <em>geographic information system</em> (GIS) layers and
-geographic data. As currently implemented, <em>geoGraph</em> can extract
-information from shapefiles with the Arc GIS (<a href="http://www.esri.com/software/arcgis/index.html" class="external-link uri">http://www.esri.com/software/arcgis/index.html</a>) format,
-using the function <code>extractFromLayer</code>. Here, we illustrate
-this procedure using the <code>ne_countries</code> datasets from
-<code>rnaturalearth</code>, but it is possible also to load custom GIS
-shapefilew with <code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read()</a></code>. Note that we turn off
-spherical trigonometry functions, as the naturalearth dataset is not
-compatible with that functionality.</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+geographic data. For this purpose, we use the function
+<code>extractFromLayer</code>. <em>geoGraph</em> uses <code>sf</code>
+objects to represent geographic objects such as points and polygons. By
+default, <em>geoGraph</em> uses the package <em>naturalearth</em> to
+provide continent and country outlines, but it is possible also to load
+custom GIS shapefiles with <code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read()</a></code>.</p>
+<p>We start by loading country oultines for the whole world. Note that
+we turn off spherical trigonometry functions with
+<code>sf::sf_use_s2(FALSE)</code>, as the <code>naturalearth</code>
+dataset is not compatible with that functionality.</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is FALSE</span></span></code></pre>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">world.countries</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>scale<span class="op">=</span><span class="st">"medium"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span></span>
-<span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">world.countries</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "sf"         "data.frame"</span></span></code></pre>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">world.countries</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##    scalerank     featurecla          labelrank     sovereignt       </span></span>
-<span><span class="co">##  Min.   :1.00   Length:241         Min.   :2.00   Length:241        </span></span>
-<span><span class="co">##  1st Qu.:1.00   Class :character   1st Qu.:3.00   Class :character  </span></span>
-<span><span class="co">##  Median :1.00   Mode  :character   Median :4.00   Mode  :character  </span></span>
-<span><span class="co">##  Mean   :1.45                      Mean   :4.15                     </span></span>
-<span><span class="co">##  3rd Qu.:1.00                      3rd Qu.:6.00                     </span></span>
-<span><span class="co">##  Max.   :6.00                      Max.   :7.00                     </span></span>
-<span><span class="co">##                                                                     </span></span>
-<span><span class="co">##     sov_a3             adm0_dif         level       type          </span></span>
-<span><span class="co">##  Length:241         Min.   :0.000   Min.   :2   Length:241        </span></span>
-<span><span class="co">##  Class :character   1st Qu.:0.000   1st Qu.:2   Class :character  </span></span>
-<span><span class="co">##  Mode  :character   Median :0.000   Median :2   Mode  :character  </span></span>
-<span><span class="co">##                     Mean   :0.207   Mean   :2                     </span></span>
-<span><span class="co">##                     3rd Qu.:0.000   3rd Qu.:2                     </span></span>
-<span><span class="co">##                     Max.   :1.000   Max.   :2                     </span></span>
-<span><span class="co">##                                                                   </span></span>
-<span><span class="co">##     admin             adm0_a3             geou_dif   geounit         </span></span>
-<span><span class="co">##  Length:241         Length:241         Min.   :0   Length:241        </span></span>
-<span><span class="co">##  Class :character   Class :character   1st Qu.:0   Class :character  </span></span>
-<span><span class="co">##  Mode  :character   Mode  :character   Median :0   Mode  :character  </span></span>
-<span><span class="co">##                                        Mean   :0                     </span></span>
-<span><span class="co">##                                        3rd Qu.:0                     </span></span>
-<span><span class="co">##                                        Max.   :0                     </span></span>
-<span><span class="co">##                                                                      </span></span>
-<span><span class="co">##     gu_a3               su_dif         subunit             su_a3          </span></span>
-<span><span class="co">##  Length:241         Min.   :0.0000   Length:241         Length:241        </span></span>
-<span><span class="co">##  Class :character   1st Qu.:0.0000   Class :character   Class :character  </span></span>
-<span><span class="co">##  Mode  :character   Median :0.0000   Mode  :character   Mode  :character  </span></span>
-<span><span class="co">##                     Mean   :0.0083                                        </span></span>
-<span><span class="co">##                     3rd Qu.:0.0000                                        </span></span>
-<span><span class="co">##                     Max.   :1.0000                                        </span></span>
-<span><span class="co">##                                                                           </span></span>
-<span><span class="co">##     brk_diff          name            name_long            brk_a3         </span></span>
-<span><span class="co">##  Min.   :0.0000   Length:241         Length:241         Length:241        </span></span>
-<span><span class="co">##  1st Qu.:0.0000   Class :character   Class :character   Class :character  </span></span>
-<span><span class="co">##  Median :0.0000   Mode  :character   Mode  :character   Mode  :character  </span></span>
-<span><span class="co">##  Mean   :0.0332                                                           </span></span>
-<span><span class="co">##  3rd Qu.:0.0000                                                           </span></span>
-<span><span class="co">##  Max.   :1.0000                                                           </span></span>
-<span><span class="co">##                                                                           </span></span>
-<span><span class="co">##    brk_name          brk_group            abbrev             postal         </span></span>
-<span><span class="co">##  Length:241         Length:241         Length:241         Length:241        </span></span>
-<span><span class="co">##  Class :character   Class :character   Class :character   Class :character  </span></span>
-<span><span class="co">##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##   formal_en          formal_fr          note_adm0           note_brk        </span></span>
-<span><span class="co">##  Length:241         Length:241         Length:241         Length:241        </span></span>
-<span><span class="co">##  Class :character   Class :character   Class :character   Class :character  </span></span>
-<span><span class="co">##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##   name_sort           name_alt           mapcolor7      mapcolor8   </span></span>
-<span><span class="co">##  Length:241         Length:241         Min.   :1.00   Min.   :1.00  </span></span>
-<span><span class="co">##  Class :character   Class :character   1st Qu.:2.00   1st Qu.:2.00  </span></span>
-<span><span class="co">##  Mode  :character   Mode  :character   Median :3.00   Median :4.00  </span></span>
-<span><span class="co">##                                        Mean   :3.35   Mean   :3.62  </span></span>
-<span><span class="co">##                                        3rd Qu.:5.00   3rd Qu.:5.00  </span></span>
-<span><span class="co">##                                        Max.   :7.00   Max.   :8.00  </span></span>
-<span><span class="co">##                                                                     </span></span>
-<span><span class="co">##    mapcolor9      mapcolor13      pop_est           gdp_md_est      </span></span>
-<span><span class="co">##  Min.   :1.00   Min.   : 1.0   Min.   :3.00e+01   Min.   :       0  </span></span>
-<span><span class="co">##  1st Qu.:2.00   1st Qu.: 3.0   1st Qu.:2.92e+05   1st Qu.:    2725  </span></span>
-<span><span class="co">##  Median :4.00   Median : 6.0   Median :4.61e+06   Median :   20445  </span></span>
-<span><span class="co">##  Mean   :3.86   Mean   : 6.3   Mean   :2.85e+07   Mean   :  295541  </span></span>
-<span><span class="co">##  3rd Qu.:6.00   3rd Qu.: 9.0   3rd Qu.:1.64e+07   3rd Qu.:  116050  </span></span>
-<span><span class="co">##  Max.   :9.00   Max.   :13.0   Max.   :1.34e+09   Max.   :15094000  </span></span>
-<span><span class="co">##                 NA's   :2      NA's   :3          NA's   :3         </span></span>
-<span><span class="co">##     pop_year      lastcensus      gdp_year      economy         </span></span>
-<span><span class="co">##  Min.   :   0   Min.   :1970   Min.   :   0   Length:241        </span></span>
-<span><span class="co">##  1st Qu.:   0   1st Qu.:2002   1st Qu.:   0   Class :character  </span></span>
-<span><span class="co">##  Median :   0   Median :2008   Median :   0   Mode  :character  </span></span>
-<span><span class="co">##  Mean   : 574   Mean   :2006   Mean   : 752                     </span></span>
-<span><span class="co">##  3rd Qu.:1004   3rd Qu.:2010   3rd Qu.:2002                     </span></span>
-<span><span class="co">##  Max.   :2010   Max.   :2012   Max.   :2011                     </span></span>
-<span><span class="co">##  NA's   :234    NA's   :33     NA's   :233                      </span></span>
-<span><span class="co">##   income_grp          wikipedia     fips_10             iso_a2         </span></span>
-<span><span class="co">##  Length:241         Min.   :0     Length:241         Length:241        </span></span>
-<span><span class="co">##  Class :character   1st Qu.:0     Class :character   Class :character  </span></span>
-<span><span class="co">##  Mode  :character   Median :0     Mode  :character   Mode  :character  </span></span>
-<span><span class="co">##                     Mean   :0                                          </span></span>
-<span><span class="co">##                     3rd Qu.:0                                          </span></span>
-<span><span class="co">##                     Max.   :0                                          </span></span>
-<span><span class="co">##                     NA's   :237                                        </span></span>
-<span><span class="co">##     iso_a3             iso_n3             un_a3              wb_a2          </span></span>
-<span><span class="co">##  Length:241         Length:241         Length:241         Length:241        </span></span>
-<span><span class="co">##  Class :character   Class :character   Class :character   Class :character  </span></span>
-<span><span class="co">##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##                                                                             </span></span>
-<span><span class="co">##     wb_a3               woe_id     adm0_a3_is         adm0_a3_us       </span></span>
-<span><span class="co">##  Length:241         Min.   : NA   Length:241         Length:241        </span></span>
-<span><span class="co">##  Class :character   1st Qu.: NA   Class :character   Class :character  </span></span>
-<span><span class="co">##  Mode  :character   Median : NA   Mode  :character   Mode  :character  </span></span>
-<span><span class="co">##                     Mean   :NaN                                        </span></span>
-<span><span class="co">##                     3rd Qu.: NA                                        </span></span>
-<span><span class="co">##                     Max.   : NA                                        </span></span>
-<span><span class="co">##                     NA's   :241                                        </span></span>
-<span><span class="co">##    adm0_a3_un    adm0_a3_wb   continent          region_un        </span></span>
-<span><span class="co">##  Min.   : NA   Min.   : NA   Length:241         Length:241        </span></span>
-<span><span class="co">##  1st Qu.: NA   1st Qu.: NA   Class :character   Class :character  </span></span>
-<span><span class="co">##  Median : NA   Median : NA   Mode  :character   Mode  :character  </span></span>
-<span><span class="co">##  Mean   :NaN   Mean   :NaN                                        </span></span>
-<span><span class="co">##  3rd Qu.: NA   3rd Qu.: NA                                        </span></span>
-<span><span class="co">##  Max.   : NA   Max.   : NA                                        </span></span>
-<span><span class="co">##  NA's   :241   NA's   :241                                        </span></span>
-<span><span class="co">##   subregion          region_wb            name_len        long_len   </span></span>
-<span><span class="co">##  Length:241         Length:241         Min.   : 4.00   Min.   : 4.0  </span></span>
-<span><span class="co">##  Class :character   Class :character   1st Qu.: 6.00   1st Qu.: 6.0  </span></span>
-<span><span class="co">##  Mode  :character   Mode  :character   Median : 8.00   Median : 8.0  </span></span>
-<span><span class="co">##                                        Mean   : 8.91   Mean   :10.1  </span></span>
-<span><span class="co">##                                        3rd Qu.:10.00   3rd Qu.:11.0  </span></span>
-<span><span class="co">##                                        Max.   :25.00   Max.   :40.0  </span></span>
-<span><span class="co">##                                                                      </span></span>
-<span><span class="co">##    abbrev_len         tiny         homepart           geometry  </span></span>
-<span><span class="co">##  Min.   : 3.00   Min.   :2.00   Min.   :1    MULTIPOLYGON :241  </span></span>
-<span><span class="co">##  1st Qu.: 4.00   1st Qu.:2.00   1st Qu.:1    epsg:NA      :  0  </span></span>
-<span><span class="co">##  Median : 5.00   Median :3.00   Median :1    +proj=long...:  0  </span></span>
-<span><span class="co">##  Mean   : 5.08   Mean   :3.31   Mean   :1                       </span></span>
-<span><span class="co">##  3rd Qu.: 6.00   3rd Qu.:4.00   3rd Qu.:1                       </span></span>
-<span><span class="co">##  Max.   :13.00   Max.   :6.00   Max.   :1                       </span></span>
-<span><span class="co">##                  NA's   :186    NA's   :41</span></span></code></pre>
-<p>The summary of <code>world.countries</code> shows the data
-(attributes) stored in the layer. Let us assume that we are interested
-in retrieving continent and country information for the
-<code>worldgraph.10k</code> object. Note that
-<code>extractFromLayer</code> can extract information to other types of
-objects than <code>gGraph</code> (see
-<code><a href="../reference/extractFromLayer.html">?extractFromLayer</a></code>)</p>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">world.countries</span> <span class="op">&lt;-</span> <span class="fu">rnaturalearth</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>scale<span class="op">=</span><span class="st">"medium"</span>, </span>
+<span>                                               returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span></span></code></pre></div>
+<p>We can quickly see what fields are available:</p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">world.countries</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##  [1] "scalerank"  "featurecla" "labelrank"  "sovereignt" "sov_a3"    </span></span>
+<span><span class="co">##  [6] "adm0_dif"   "level"      "type"       "admin"      "adm0_a3"   </span></span>
+<span><span class="co">## [11] "geou_dif"   "geounit"    "gu_a3"      "su_dif"     "subunit"   </span></span>
+<span><span class="co">## [16] "su_a3"      "brk_diff"   "name"       "name_long"  "brk_a3"    </span></span>
+<span><span class="co">## [21] "brk_name"   "brk_group"  "abbrev"     "postal"     "formal_en" </span></span>
+<span><span class="co">## [26] "formal_fr"  "note_adm0"  "note_brk"   "name_sort"  "name_alt"  </span></span>
+<span><span class="co">## [31] "mapcolor7"  "mapcolor8"  "mapcolor9"  "mapcolor13" "pop_est"   </span></span>
+<span><span class="co">## [36] "gdp_md_est" "pop_year"   "lastcensus" "gdp_year"   "economy"   </span></span>
+<span><span class="co">## [41] "income_grp" "wikipedia"  "fips_10"    "iso_a2"     "iso_a3"    </span></span>
+<span><span class="co">## [46] "iso_n3"     "un_a3"      "wb_a2"      "wb_a3"      "woe_id"    </span></span>
+<span><span class="co">## [51] "adm0_a3_is" "adm0_a3_us" "adm0_a3_un" "adm0_a3_wb" "continent" </span></span>
+<span><span class="co">## [56] "region_un"  "subregion"  "region_wb"  "name_len"   "long_len"  </span></span>
+<span><span class="co">## [61] "abbrev_len" "tiny"       "homepart"   "geometry"</span></span></code></pre>
+<p>A more through summary could be obtained with
+<code>summar(world.countries)</code>, which shows the data (attributes)
+stored in the layer.</p>
+<p>Currently we only have information about habitat (land vs sea) in our
+<code>worldgraph.10k</code> object:</p>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             habitat    </span></span>
 <span><span class="co">##  deselected land: 290  </span></span>
 <span><span class="co">##  land           :2632  </span></span>
 <span><span class="co">##  sea            :7320</span></span></code></pre>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extractFromLayer.html">extractFromLayer</a></span><span class="op">(</span><span class="va">worldgraph.10k</span>, layer <span class="op">=</span> <span class="va">world.countries</span>, attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"continent"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Let us assume that we are interested in add continent and country
+information to the <code>worldgraph.10k</code> object.</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extractFromLayer.html">extractFromLayer</a></span><span class="op">(</span><span class="va">worldgraph.10k</span>, layer <span class="op">=</span> <span class="va">world.countries</span>, </span>
+<span>                             attr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"continent"</span>, <span class="st">"name"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## although coordinates are longitude/latitude, st_intersects assumes that they</span></span>
 <span><span class="co">## are planar</span></span></code></pre>
-<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">newGraph</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             habitat      continent             name          </span></span>
 <span><span class="co">##  deselected land: 290   Length:10242       Length:10242      </span></span>
@@ -945,10 +828,13 @@ objects than <code>gGraph</code> (see
 <span><span class="co">##  sea            :7320   Mode  :character   Mode  :character</span></span></code></pre>
 <p>The new object <code>newGraph</code> is a <code>gGraph</code> which
 now includes, for each node of the grid, the corresponding continent and
-country retrieved from the GIS layer. We can use the newly acquired
-information for plotting <code>newGraph</code>, by defining new color
-rules:</p>
-<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+country retrieved from the GIS layer. Note that
+<code>extractFromLayer</code> can extract information to other types of
+objects than <code>gGraph</code> (see
+<code><a href="../reference/extractFromLayer.html">?extractFromLayer</a></code>)</p>
+<p>We can use the newly acquired information for plotting
+<code>newGraph</code>, by defining new color rules:</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">newGraph</span><span class="op">)</span><span class="op">$</span><span class="st">"name"</span><span class="op">)</span></span>
 <span><span class="va">col</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"transparent"</span>, <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">rainbow</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">colMat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">temp</span>, color <span class="op">=</span> <span class="va">col</span><span class="op">)</span></span>
@@ -960,7 +846,7 @@ rules:</p>
 <span><span class="co">## 4        Yemen     #FF1500</span></span>
 <span><span class="co">## 5      Somalia     #FF2000</span></span>
 <span><span class="co">## 6        China     #FF2A00</span></span></code></pre>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">colMat</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##           name   color</span></span>
 <span><span class="co">## 141     Latvia #FF003F</span></span>
@@ -969,7 +855,7 @@ rules:</p>
 <span><span class="co">## 144   Djibouti #FF0020</span></span>
 <span><span class="co">## 145 Somaliland #FF0015</span></span>
 <span><span class="co">## 146     Jordan #FF000B</span></span></code></pre>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">newGraph</span>, col.rules <span class="op">=</span> <span class="va">colMat</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 <p>This information could in turn be used to define costs for travelling
@@ -982,14 +868,14 @@ interfaced with this object. For instance, we can re-use the
 <code>cities</code> example defined in a previous section, and interface
 it with <code>newGraph</code> to retrieve continent and country
 information for the cities of the dataset:</p>
-<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities.dat</span></span></code></pre></div>
 <pre><code><span><span class="co">##          lon lat     pop</span></span>
 <span><span class="co">## Bordeaux  -1  45 1.0e+06</span></span>
 <span><span class="co">## London     0  51 1.3e+07</span></span>
 <span><span class="co">## Malaga    -4  37 5.0e+05</span></span>
 <span><span class="co">## Zagreb    16  46 1.2e+06</span></span></code></pre>
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/new.html" class="external-link">new</a></span><span class="op">(</span><span class="st">"gData"</span>, coords <span class="op">=</span> <span class="va">cities.dat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, data <span class="op">=</span> <span class="va">cities.dat</span><span class="op">[</span>, <span class="fl">3</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>, gGraph.name <span class="op">=</span> <span class="st">"newGraph"</span><span class="op">)</span></span>
 <span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/closestNode.html">closestNode</a></span><span class="op">(</span><span class="va">cities</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, attr.value <span class="op">=</span> <span class="st">"land"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
@@ -998,7 +884,7 @@ information for the cities of the dataset:</p>
 <span><span class="co">## London   1.3e+07</span></span>
 <span><span class="co">## Malaga   5.0e+05</span></span>
 <span><span class="co">## Zagreb   1.2e+06</span></span></code></pre>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      habitat continent           name</span></span>
 <span><span class="co">## 5775    land    Europe         France</span></span>
@@ -1021,7 +907,7 @@ grid to all locations of the <code>gData</code>, while
 locations of the <code>gData</code>. Below, we detail the example of the
 documentation of these functions, which uses the famous dataset of
 native Human populations, HGDP:</p>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hgdp</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## === gData object ===</span></span>
@@ -1046,7 +932,7 @@ native Human populations, HGDP:</p>
 <span><span class="co">## ...</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Associated gGraph: worldgraph.40k</span></span></code></pre>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hgdp</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/unnamed-chunk-34-1.png" width="768"></p>
 <p>Populations of the dataset are shown by red circles, while the
@@ -1059,7 +945,7 @@ in Addis Ababa, Ethiopia. We shall seek all paths through landmasses to
 the HGDP populations.</p>
 <p>First, we check that all populations are connected on the grid using
 <code>isConnected</code>:</p>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/graph/man/graph-class.html" class="external-link">isConnected</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>Note that in practice, we may often want to assess graphically the
@@ -1069,10 +955,10 @@ the <code>gData</code> are connected. This can be done using
 <code>gGraph</code> and <code>gData</code>, and represents different
 connected components using different colors. For instance, for
 <code>worldgraph.10k</code>:</p>
-<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/connectivity.html">connectivityPlot</a></span><span class="op">(</span><span class="va">worldgraph.10k</span>, edges <span class="op">=</span> <span class="cn">TRUE</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/connectivityPlot-1.png" width="768"></p>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.zoomin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">90</span>, <span class="fl">150</span>, <span class="fl">18</span>, <span class="op">-</span><span class="fl">25</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Different connected components\n in worldgraph.10k"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
@@ -1086,7 +972,7 @@ attribute-driven costs (using <code>setCosts</code>).</p>
 <code>gGraph</code> with uniform costs, we use <code>dijkstraFrom</code>
 to find the shortest paths between Addis Ababa and the populations of
 <code>hgdp</code>:</p>
-<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gGraph-class.html">dropCosts</a></span><span class="op">(</span><span class="va">worldgraph.40k</span><span class="op">)</span></span>
 <span><span class="va">hgdp</span><span class="op">@</span><span class="va">gGraph.name</span> <span class="op">&lt;-</span> <span class="st">"myGraph"</span></span>
 <span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://www.math.uzh.ch/pages/spam/reference/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">38</span>, <span class="fl">9</span><span class="op">)</span></span>
@@ -1096,7 +982,7 @@ to find the shortest paths between Addis Ababa and the populations of
 <p>The object <code>paths</code> contains the identified paths, which
 are stored as a list with class <code>gPath</code> (see
 <code><a href="../reference/dijkstra-methods.html">?gPath</a></code>). Paths can be plotted easily:</p>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">addis</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></span>
@@ -1109,7 +995,7 @@ several paths overlap in several places. We can extract the distances
 from the
 <code>origin' using</code>gPath2dist<code>, and then examine the relationship between genetic diversity within populations (stored in</code>hgdp`)
 and the distance from the origin:</p>
-<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">div</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span><span class="op">$</span><span class="st">"Genetic.Div"</span></span>
 <span><span class="va">dgeo.unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstra-methods.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths</span>, res.type <span class="op">=</span> <span class="st">"vector"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.unif</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
@@ -1134,14 +1020,14 @@ and the distance from the origin:</p>
 <span><span class="co">## Residual standard error: 0.0185 on 50 degrees of freedom</span></span>
 <span><span class="co">## Multiple R-squared:  0.833,  Adjusted R-squared:  0.83 </span></span>
 <span><span class="co">## F-statistic:  250 on 1 and 50 DF,  p-value: &lt;2e-16</span></span></code></pre>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Genetic diversity vs geographic distance \n uniform costs "</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
 <p>Alternatively, we can use costs based on habitat. As a toy example,
 we will consider that coasts are four times more favourable for
 dispersal than the rest of the landmasses. We define these new costs,
 and then compute and plot the corresponding shortest paths:</p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span><span class="op">[</span><span class="fl">7</span>, <span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"coast"</span>, <span class="fl">0.25</span><span class="op">)</span></span>
 <span><span class="va">myGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span></span></code></pre></div>
 <pre><code><span><span class="co">##            habitat cost</span></span>
@@ -1152,10 +1038,10 @@ and then compute and plot the corresponding shortest paths:</p>
 <span><span class="co">## 5 oceanic crossing   20</span></span>
 <span><span class="co">## 6  deselected land  100</span></span>
 <span><span class="co">## 7            coast 0.25</span></span></code></pre>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">myGraph</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span><span class="op">)</span></span>
 <span><span class="va">paths.2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstra-methods.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">newGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paths.2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">addis</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">addis</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, pch <span class="op">=</span> <span class="st">"x"</span>, cex <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
@@ -1164,7 +1050,7 @@ and then compute and plot the corresponding shortest paths:</p>
 <p><img src="geograph_files/figure-html/unnamed-chunk-41-1.png" width="768"></p>
 <p>The new paths are slightly different from the previous ones. We can
 examine the new relationship with genetic distance:</p>
-<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dgeo.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstra-methods.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths.2</span>, res.type <span class="op">=</span> <span class="st">"vector"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.hab</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
 <span><span class="va">lm.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.hab</span><span class="op">)</span></span>
@@ -1188,7 +1074,7 @@ examine the new relationship with genetic distance:</p>
 <span><span class="co">## Residual standard error: 0.0265 on 50 degrees of freedom</span></span>
 <span><span class="co">## Multiple R-squared:  0.657,  Adjusted R-squared:  0.651 </span></span>
 <span><span class="co">## F-statistic: 95.9 on 1 and 50 DF,  p-value: 3.21e-13</span></span></code></pre>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Genetic diversity vs geographic distance \n habitat costs "</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
 <p>Of course, the distinction between coasts and inner landmasses is a
