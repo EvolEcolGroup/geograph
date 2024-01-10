@@ -167,23 +167,14 @@ objects from a set of locations.
 
 # Using *geoGraph*
 
-An overview of the material implemented in the package is summarized the
+In the this vignette, we go through various tasks that can be achieve using
+*geoGraph*. A short overview of the functionalities of the package is summarized the
 package's manpage, accessible via:
 
 ```{r eval=FALSE}
 ?geoGraph
 ```
-The html version of this manpage may be preferred to browse more easily the content
-of *geoGraph*; it is accessible by typing:
-```{r eval=FALSE}
-help("geoGraph", package = "geoGraph", html = TRUE)
-```
-To revert help back to text mode, simply type:
-```{r eval=FALSE}
-options(htmlhelp = FALSE)
-```
 
-In the following, we go through various tasks that can be achieve using *geoGraph*.
 
 ## Importing geographic data
 
@@ -387,14 +378,17 @@ are seeked, or FALSE for coordinates of the nodes on the grid.
 We can use this to represent, for instance, the population sizes for the different cities:
 ```{r cities_plot, fig=TRUE}
 transp <- function(col, alpha = .5) {
-  res <- apply(col2rgb(col), 2, function(c) rgb(c[1] / 255, c[2] / 255, c[3] / 255, alpha))
+  res <- apply(col2rgb(col), 2, 
+               function(c) rgb(c[1] / 255, c[2] / 255, c[3] / 255, alpha))
   return(res)
 }
 
 plot(cities, reset = TRUE)
 par(xpd = TRUE)
 text(getCoords(cities) + -.5, rownames(getData(cities)))
-symbols(getCoords(cities)[, 1], getCoords(cities)[, 2], circ = sqrt(unlist(getData(cities))), inch = .2, bg = transp("red"), add = TRUE)
+symbols(getCoords(cities)[, 1], getCoords(cities)[, 2], 
+        circ = sqrt(unlist(getData(cities))), inch = .2, 
+        bg = transp("red"), add = TRUE)
 ```
 
 ## Editing `gGraphs`
@@ -502,9 +496,10 @@ For instance, here, we define a new value `shalowwater` (plotted in light blue) 
 selecting affected nodes using the 'area' mode first, and refining the changes using the 'point' mode:
 ```{r eval=FALSE}
 plot(newGraph, edge = TRUE)
-temp <- geo.change.attr(newGraph, mode = "area", attr.name = "habitat", attr.value = "shallowwater", newCol = "deepskyblue")
-temp <- geo.change.attr(temp, attr.name = "habitat", attr.value = "shallowwater", newCol = "deepskyblue")
-newGraph <- temp
+newGraph <- geo.change.attr(newGraph, mode = "area", attr.name = "habitat", 
+                        attr.value = "shallowwater", newCol = "deepskyblue")
+newGraph <- geo.change.attr(newGraph, attr.name = "habitat", 
+                        attr.value = "shallowwater", newCol = "deepskyblue")
 ```
 ```{r echo=FALSE}
 newGraph <- readRDS("Robjects/newGraph2.RDS")
@@ -521,34 +516,46 @@ effective.
 ## Extracting information from GIS shapefiles
 
 An important feature of *geoGraph* is serving as an interface between *geographic information
-system* (GIS) layers and geographic data.
-As currently implemented, *geoGraph* can extract information from shapefiles with the Arc GIS
-(http://www.esri.com/software/arcgis/index.html) format, using the function `extractFromLayer`.
-Here, we illustrate this procedure using the `ne_countries` datasets from `rnaturalearth`, but
-it is possible also to load custom GIS shapefilew with `sf::st_read()`. Note that we
-turn off spherical trigonometry functions, as the naturalearth dataset is not compatible
+system* (GIS) layers and geographic data. For this purpose, we use the function `extractFromLayer`.
+*geoGraph* uses `sf` objects to
+represent geographic objects such as points and polygons. By default, *geoGraph*
+uses the package *naturalearth* to provide continent and country outlines, but
+it is possible also to load custom GIS shapefiles with `sf::st_read()`.
+
+We start by loading country oultines for the whole world. Note that we
+turn off spherical trigonometry functions with `sf::sf_use_s2(FALSE)`, as the
+`naturalearth` dataset is not compatible
 with that functionality.
 ```{r }
 library(sf)
-world.countries <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
 sf::sf_use_s2(FALSE)
-
-class(world.countries)
-summary(world.countries)
+world.countries <- rnaturalearth::ne_countries(scale="medium", 
+                                               returnclass = "sf")
 ```
 
-The summary of `world.countries` shows the data (attributes) stored in the layer.
-Let us assume that we are interested in retrieving continent and country information for the
-`worldgraph.10k` object.
-Note that `extractFromLayer` can extract information to other types of objects than `gGraph` (see `?extractFromLayer`)
-```{r }
+We can quickly see what fields are available:
+```{r}
+names(world.countries)
+```
+
+A more through summary could be obtained with `summar(world.countries)`, which shows the data (attributes) stored in the layer.
+
+Currently we only have information about habitat (land vs sea) in our `worldgraph.10k` object:
+```{r}
 summary(getNodesAttr(worldgraph.10k))
-newGraph <- extractFromLayer(worldgraph.10k, layer = world.countries, attr = c("continent", "name"))
+```
+
+Let us assume that we are interested in add continent and country information to the
+`worldgraph.10k` object.
+```{r }
+newGraph <- extractFromLayer(worldgraph.10k, layer = world.countries, 
+                             attr = c("continent", "name"))
 summary(getNodesAttr(newGraph))
 ```
 
 The new object `newGraph` is a `gGraph` which now includes, for each node of the grid, the
-corresponding continent and country retrieved from the GIS layer.
+corresponding continent and country retrieved from the GIS layer. Note that `extractFromLayer` can extract information to other types of objects than `gGraph` (see `?extractFromLayer`)
+
 We can use the newly acquired information for plotting `newGraph`, by defining new color rules:
 ```{r fig=TRUE}
 temp <- unique(getNodesAttr(newGraph)$"name")
