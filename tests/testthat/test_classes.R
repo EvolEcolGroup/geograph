@@ -55,7 +55,7 @@ test_that("Constructor reverses coord column order" , {
   expect_identical(correct_heading, swapped_heading)
 })
 
-test_that("we give message when columns are not recognised",{
+test_that("we give message when columns are not recognized",{
   column_heading <- data.frame(lon=  c(31,55), lat = c(-24, 37))
   #Create Ggraph with lat/lon headings
   correct_heading <- new("gGraph", coords = column_heading)

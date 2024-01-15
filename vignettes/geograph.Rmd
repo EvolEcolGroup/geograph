@@ -19,10 +19,10 @@ options(digits = 4)
 
 This document describes the *geoGraph* package for the R software.
 *geoGraph* aims at implementing graph approaches for geographic data.
-In *geoGraph*, a given geographic area is modelled by a fine regular grid, where each vertice
+In *geoGraph*, a given geographic area is modeled by a fine regular grid, where each vertex
 has a set of spatial coordinates and a set of attributes, which can be for instance habitat
 descriptors, or the presence/abundance of a given species.
-'Travelling' within the geographic area can then be easily modelled as moving between connected vertices.
+'traveling' within the geographic area can then be easily modeled as moving between connected vertices.
 The cost of moving from one vertex to another can be defined according to attribute values, which
 allows for instance to define friction routes based on habitat.
 
@@ -98,20 +98,20 @@ new("gGraph")
 
 The documentation `?gGraph` explains the basics about the object's content.  In
 a nutshell, these objects are spatial grids with nodes and segments connecting
-neighbouring nodes, and additional informations on the nodes or on the graph
+neighboring nodes, and additional informations on the nodes or on the graph
 itself.  `coords` is a matrix of longitudes and latitudes of the nodes.
 `nodes.attr` is a data.frame storing attributes of the nodes, such as habitat
 descriptors; each row corresponds to a node of the grid, while each column
-corresponds to a variable.  `meta` is a list containing miscellanous
-informations about the graph itself.  There is no contraint applying to the
+corresponds to a variable.  `meta` is a list containing miscellaneous
+informations about the graph itself.  There is no constraint applying to the
 components of the list, but some typical components such as `$costs` or
-`$colors` will be recognised by certain functions.  For instance, you can
+`$colors` will be recognized by certain functions.  For instance, you can
 specify plotting rules for representing a given node attribute by a given color
 by defining a component `$colors`.  Similarly, you can associate costs to a
 given node attribute by defining a component `$costs`.  An example of this can
 be found in already existing `gGraph` objects.  For instance, `worldgraph.10k`
 is a graph of the world with approximately 10,000 nodes, and only on-land
-connectivity (\textit{i.e.` no travelling on the seas).  ```{r } worldgraph.10k
+connectivity (\textit{i.e.` no traveling on the seas).  ```{r } worldgraph.10k
 worldgraph.10k@meta ``` Lastly, the `graph` component is a `graphNEL` object,
 which is the standard class for graphs in the *graph* and *RBGL* packages.  This
 object contains all information on the connections between nodes, and the
@@ -136,7 +136,7 @@ constructor (`new(...)`), but this topic is not documented in this vignette.
 
 `gData` are essentially sets of locations that are interfaced with a `gGraph` object.
 During this operation, each location is assigned to the closest node on the grid of the
-`gGraph`, then allowing for travelling between locations using the grid.
+`gGraph`, then allowing for traveling between locations using the grid.
 Then, it is for instance possible to find the shortest path between two locations through various
 types of habitats.
 
@@ -180,7 +180,7 @@ package's manpage, accessible via:
 
 GeoGraphic data consist of a set of locations, possibly accompanied by
 additional information.  For instance, one may want to study the migrations
-amongst a set of biological populations with known geographic coordinates.  In
+among a set of biological populations with known geographic coordinates.  In
 *geoGraph*, geographic data are stored in `gData` objects.  These objects match
 locations to the closest nodes on a grid (a `gGraph` object), and store
 additional data if needed.
@@ -225,7 +225,7 @@ plotEdges(worldgraph.10k)
 As we can see, an issue occured for Bordeaux, which has been assigned to a node in the sea (in blue).
 Locations can be re-assigned to nodes with restrictions for some node attribute values using
 `closestNode`; for instance, here we constrain matching nodes to have an `habitat` value
-(defined as node attribute in `worldgraph.10k`) equalling `land` (green points):
+(defined as node attribute in `worldgraph.10k`) equaling `land` (green points):
 ```{r closeNode, fig=TRUE}
 cities <- closestNode(cities, attr.name = "habitat", attr.value = "land")
 plot(cities, type = "both", reset = TRUE)
@@ -307,7 +307,7 @@ For this, we can use the interactive functions `geo.zoomin`, `geo.zoomout`, `geo
 The zoom and slide functions require to left-click on the graphics to zoom in, zoom out, or slide to
 adjacent areas; in all cases, a right click ends the function.
 Also note that `geo.zoomin` can accept an argument specifying a rectangular region, which will
-be adapted by the function to fit best a square area with similar position and centre, and zoom to
+be adapted by the function to fit best a square area with similar position and center, and zoom to
 this area (see `?geo.zoomin`).
 `geo.bookmark` and `geo.goto` respectively set and go to a bookmark, *i.e.* a tagged area.
 This is most useful when one has to switch between distant areas repeatedly.
@@ -442,8 +442,8 @@ plot(newGraph, edge = TRUE)
 ```
 
 On this new graph, we represent the edges with a width inversely proportional to the associated
-cost; that is, bold lines for easy travelling and light edges/dotted lines for more costly mouvement.
-This is not enough yet, since travelling on land is still possible.
+cost; that is, bold lines for easy traveling and light edges/dotted lines for more costly movement.
+This is not enough yet, since traveling on land is still possible.
 However, we can tell *geoGraph* to remove all edges associated to too strong a cost, as defined
 by a given threshold (using `dropDeadEdges`).
 Here, only sea-sea connections shall be retained, that is, edges with cost 1.
@@ -454,7 +454,7 @@ plot(newGraph, edge = TRUE)
 
 Here we are: `newGraph` only contains connections in the sea.
 Note that, although we restrained the plotting area to Madagascar, this change is effective everywhere.
-For instance, travelling to the nort-west Australian coasts:
+For instance, traveling to the north-west Australian coasts:
 ```{r bookmark, fig=TRUE}
 geo.zoomin(c(110, 130, -27, -12))
 geo.bookmark("australia")
@@ -519,7 +519,7 @@ An important feature of *geoGraph* is serving as an interface between *geographi
 system* (GIS) layers and geographic data. For this purpose, we use the function `extractFromLayer`.
 *geoGraph* uses `sf` objects to
 represent geographic objects such as points and polygons. By default, *geoGraph*
-uses the package *naturalearth* to provide continent and country outlines, but
+uses the package *rnaturalearth* to provide continent and country outlines, but
 it is possible also to load custom GIS shapefiles with `sf::st_read()`.
 
 We start by loading country oultines for the whole world. Note that we
@@ -566,7 +566,7 @@ tail(colMat)
 plot(newGraph, col.rules = colMat, reset = TRUE)
 ```
 
-This information could in turn be used to define costs for travelling on the grid.
+This information could in turn be used to define costs for traveling on the grid.
 For instance, one could import habitat descriptors from a GIS, use these values to formulate a
 habitat model, and derive costs for dispersal on the grid.
 
@@ -666,7 +666,7 @@ title("Genetic diversity vs geographic distance \n uniform costs ")
 ```
 
 Alternatively, we can use costs based on habitat.
-As a toy example, we will consider that coasts are four times more favourable for dispersal than
+As a toy example, we will consider that coasts are four times more favorable for dispersal than
 the rest of the landmasses.
 We define these new costs, and then compute and plot the corresponding shortest paths:
 ```{r }

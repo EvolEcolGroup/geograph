@@ -39,7 +39,7 @@ borders.}
 \item{lwd}{a numeric indicating the width of line (used for edges).}
 
 \item{useCosts}{a logical indicating if edge width should be inversely
-proportionnal to edge cost (TRUE) or not (FALSE).}
+proportional to edge cost (TRUE) or not (FALSE).}
 
 \item{maxLwd}{a numeric indicating the maximum edge width (corresponding to
 the maximum weight).}

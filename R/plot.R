@@ -40,7 +40,7 @@
 #' borders.
 #' @param lwd a numeric indicating the width of line (used for edges).
 #' @param useCosts a logical indicating if edge width should be inversely
-#' proportionnal to edge cost (TRUE) or not (FALSE).
+#' proportional to edge cost (TRUE) or not (FALSE).
 #' @param maxLwd a numeric indicating the maximum edge width (corresponding to
 #' the maximum weight).
 #' @param col.rules a data.frame with two named columns, the first one giving

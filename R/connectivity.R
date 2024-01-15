@@ -21,7 +21,7 @@
 #' a \linkS4class{gData} object with different colors.\cr
 #'
 #' In \code{connectivityPlot}, isolated nodes (i.e. belonging to no connected
-#' set of size > 1) are plotted in light grey.
+#' set of size > 1) are plotted in light gray.
 #'
 #' @aliases areNeighbours areConnected isConnected,gData-method isReachable
 #' connectivityPlot connectivityPlot-methods connectivityPlot,gGraph-method

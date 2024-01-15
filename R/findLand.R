@@ -1,7 +1,7 @@
 #' Find which nodes are on land
 #'
 #' The generic function \code{findLand} uses information from a GIS shapefile
-#' to define which nodes are on land, and which are not. Strickly speaking,
+#' to define which nodes are on land, and which are not. Strictly speaking,
 #' being 'on land' is in fact being inside a polygon of the shapefile.
 #'
 #' Nodes can be specified either as a matrix of geographic coordinates, or as a
