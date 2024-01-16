@@ -222,7 +222,7 @@ plotEdges(worldgraph.10k)
 
  This figure illustrates the matching of original locations (black crosses) to nodes of the grid
 (red circles).
-As we can see, an issue occured for Bordeaux, which has been assigned to a node in the sea (in blue).
+As we can see, an issue occurred for Bordeaux, which has been assigned to a node in the sea (in blue).
 Locations can be re-assigned to nodes with restrictions for some node attribute values using
 `closestNode`; for instance, here we constrain matching nodes to have an `habitat` value
 (defined as node attribute in `worldgraph.10k`) equaling `land` (green points):
@@ -374,7 +374,7 @@ plotting area to the geographic extent of the dataset.
 To plot additional information, it can be useful to extract the spatial coordinates from the data.
 This is achieved by `getCoords`.
 This method takes an extra argument `original`, which is TRUE if original spatial coordinates
-are seeked, or FALSE for coordinates of the nodes on the grid.
+are sought, or FALSE for coordinates of the nodes on the grid.
 We can use this to represent, for instance, the population sizes for the different cities:
 ```{r cities_plot, fig=TRUE}
 transp <- function(col, alpha = .5) {
@@ -522,7 +522,7 @@ represent geographic objects such as points and polygons. By default, *geoGraph*
 uses the package *rnaturalearth* to provide continent and country outlines, but
 it is possible also to load custom GIS shapefiles with `sf::st_read()`.
 
-We start by loading country oultines for the whole world. Note that we
+We start by loading country outlines for the whole world. Note that we
 turn off spherical trigonometry functions with `sf::sf_use_s2(FALSE)`, as the
 `naturalearth` dataset is not compatible
 with that functionality.
