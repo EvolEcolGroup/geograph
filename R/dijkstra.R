@@ -163,7 +163,10 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
 #' @rdname dijkstra-methods
 #' @export
 setMethod("dijkstraBetween", "gData", function(x) {
-  ## temp <- function(x){ # for debugging
+  #@TODO this function is an almost identical copy of the method for gGraph
+  # we could simply extract the nodes from the gData object, and pass them
+  # to the method for gGraph
+  # The node ids are found in the @nodes.id of the gData object
 
   ## some checks ##
   if (!require(RBGL)) stop("RBGL is required.")
