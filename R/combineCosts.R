@@ -12,7 +12,7 @@
 #' Also note that 'costs' defined in \code{geoGraph} are equivalent to
 #' 'weights' as defined in \code{graph} and \code{RBGL} packages.
 #'
-#' @param x1 The firt gGraph (which will be used as a template to build the combined gGraph)
+#' @param x1 The first gGraph (which will be used as a template to build the combined gGraph)
 #' @param x2 The second gGraph from which costs will be combined
 #' @param method a character string indicating which method should be used to
 #' combined edge cost from the two gGraph. Currently available options are 'sum',

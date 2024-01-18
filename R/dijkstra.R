@@ -18,7 +18,7 @@
 #' that if the \code{gPath} does not contain pairwise information, a warning
 #' will be issued, but the resulting output will likely be meaningless.\cr
 #'
-#' In 'dijkstraBetween', paths are seeked all possible pairs of nodes between
+#' In 'dijkstraBetween', paths are sought all possible pairs of nodes between
 #' 'from' and 'to'.
 #'
 #' @name dijkstra-methods

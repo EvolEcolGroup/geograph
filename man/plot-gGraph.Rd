@@ -39,14 +39,14 @@ borders.}
 \item{lwd}{a numeric indicating the width of line (used for edges).}
 
 \item{useCosts}{a logical indicating if edge width should be inversely
-proportionnal to edge cost (TRUE) or not (FALSE).}
+proportional to edge cost (TRUE) or not (FALSE).}
 
 \item{maxLwd}{a numeric indicating the maximum edge width (corresponding to
 the maximum weight).}
 
 \item{col.rules}{a data.frame with two named columns, the first one giving
 values of a node attribute, and the second one stating colors to be used for
-each value. If not provided, this is seeked from the \code{@meta\$color}
+each value. If not provided, this is sought from the \code{@meta\$color}
 slot of the object.}
 
 \item{sticky.points}{a logical indicating if added points should be kept

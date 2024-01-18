@@ -29,7 +29,7 @@ two columns giving longitudes and latitudes of locations being considered.
 For list, input must have two components being vectors giving longitudes and
 latitudes of locations.}
 
-\item{\dots}{further arguments to be passed to other methds. Currently not
+\item{\dots}{further arguments to be passed to other methods. Currently not
 used.}
 
 \item{layer}{a shapefile of the class \code{\link{sf}} (see

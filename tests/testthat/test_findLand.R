@@ -34,7 +34,7 @@ test_that("co-ordinate format",{
   
   #Create co-ordinates matrix with NA
   NA_matrix <- matrix(c(-24, NA, 37, 55), nrow=2,ncol=2, byrow=TRUE)
-  #NA entries are recognised and produce error in plot 
+  #NA entries are recognized and produce error in plot 
   expect_true(is.na(NA_matrix[1,2]))
   expect_error(plotEdges(NA_matrix))
   

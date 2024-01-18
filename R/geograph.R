@@ -83,7 +83,7 @@
 #' since they provide the spatial models used in later operations.
 #'
 #' Two main datasets are proposed, each being a \linkS4class{gGraph} resulting
-#' from the spliting of the earth into cells of (almost perfectly) equal
+#' from the splitting of the earth into cells of (almost perfectly) equal
 #' sizes. Two different resolutions are provided:\cr -
 #' \code{\link{worldgraph.10k}}: coverage using about 10,000 nodes\cr -
 #' \code{\link{worldgraph.40k}}: coverage using about 40,000 nodes\cr

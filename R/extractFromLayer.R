@@ -25,7 +25,7 @@
 #' @param attr a character vector giving names of the variables to be extracted
 #' from the layer. If 'all', all available variables are extracted. In case of
 #' problem, available names are displayed with the error message.
-#' @param \dots further arguments to be passed to other methds. Currently not
+#' @param \dots further arguments to be passed to other methods. Currently not
 #' used.
 #' @return The output depends on the nature of the input:\cr - \code{matrix,
 #' data.frame, list}: a data.frame with one row per location, and as many

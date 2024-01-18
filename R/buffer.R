@@ -178,12 +178,12 @@ setMethod("buffer", "gData", function(x, d, res.type = c("nodes", "gData", "gGra
 
 
   ## CALL UPON gGraph METHOD ##
-  if (res.type == "gGraph") { # if result seeked is gGraph
+  if (res.type == "gGraph") { # if result sought is gGraph
     res <- buffer(myGraph, myNodes, d, res.type = "gGraph")
     return(res)
   }
 
-  # if result seeked is nodes or gData
+  # if result sought is nodes or gData
   temp <- buffer(myGraph, myNodes, d, res.type = "nodes")
   if (res.type == "nodes") {
     return(temp)
