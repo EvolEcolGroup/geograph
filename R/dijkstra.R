@@ -163,54 +163,58 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
 #' @rdname dijkstra-methods
 #' @export
 setMethod("dijkstraBetween", "gData", function(x) {
-  #@TODO this function is an almost identical copy of the method for gGraph
-  # we could simply extract the nodes from the gData object, and pass them
-  # to the method for gGraph
-  # The node ids are found in the @nodes.id of the gData object
+  # we transform the gData object to gGraph, extracting the nodes from the gData object.
+  # The node ids are found in the @nodes.id of the gData object: in this case we
+  # can call  getNodes(). 
+  # Then simply pass the new gGraph object to the method for gGraph.
 
   ## some checks ##
   if (!require(RBGL)) stop("RBGL is required.")
   if (!is.gData(x)) stop("x is not a valid gData object")
   if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
   if (length(x@nodes.id) == 0) stop("No assigned nodes (x@nodes.id is empty).")
-  if (!isConnected(x)) stop("Not all locations are connected by the graph.")
+  # if (!isConnected(x)) stop("Not all locations are connected by the graph.")
 
   ## build the wrapper ##
+  # @TODO check labels to keep
   myGraph <- get(x@gGraph.name, envir = .GlobalEnv)
-  coords <- getCoords(myGraph) # store xy coords for later
-  myGraph <- getGraph(myGraph) # don't do this before getCoords
-
-  ## build indices of all pairwise combinations ##
-  pairIdStart <- integer()
-  pairIdStop <- integer()
-
-  for (i in 1:(length(getNodes(x)) + 1)) {
-    j <- i
-    while ((j <- j + 1) < length(getNodes(x)) + 1) {
-      pairIdStart <- c(pairIdStart, i)
-      pairIdStop <- c(pairIdStop, j)
-    }
-  }
-
-  ## wrap ##
-  ## ! sp.between does not return duplicated paths
-  res <- RBGL::sp.between(myGraph, start = x@nodes.id[pairIdStart], finish = x@nodes.id[pairIdStop])
-
-
-  ## handle duplicated paths ##
-  if (length(res) < length(pairIdStart)) { # res should have length = pairIdStart
-    fromTo <- paste(x@nodes.id[pairIdStart], x@nodes.id[pairIdStop], sep = ":") # all different paths
-    res <- res[fromTo]
-  }
-
-
-  ## make it a class "gPath" (output + xy coords) ##
-  allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
-  ## res$xy <- getCoords(x)[allNodes,]
-  attr(res, "xy") <- coords[allNodes, ]
-  class(res) <- "gPath"
-
-  return(res)
+  myNodes <- getNodes(x)
+  dijkstraBetween(myGraph,from=myNodes, to=myNodes)
+  # 
+  # coords <- getCoords(myGraph) # store xy coords for later
+  # myGraph <- getGraph(myGraph) # don't do this before getCoords
+  # 
+  # ## build indices of all pairwise combinations ##
+  # pairIdStart <- integer()
+  # pairIdStop <- integer()
+  # 
+  # for (i in 1:(length(getNodes(x)) + 1)) {
+  #   j <- i
+  #   while ((j <- j + 1) < length(getNodes(x)) + 1) {
+  #     pairIdStart <- c(pairIdStart, i)
+  #     pairIdStop <- c(pairIdStop, j)
+  #   }
+  # }
+  # 
+  # ## wrap ##
+  # ## ! sp.between does not return duplicated paths
+  # res <- RBGL::sp.between(myGraph, start = x@nodes.id[pairIdStart], finish = x@nodes.id[pairIdStop])
+  # 
+  # 
+  # ## handle duplicated paths ##
+  # if (length(res) < length(pairIdStart)) { # res should have length = pairIdStart
+  #   fromTo <- paste(x@nodes.id[pairIdStart], x@nodes.id[pairIdStop], sep = ":") # all different paths
+  #   res <- res[fromTo]
+  # }
+  # 
+  # 
+  # ## make it a class "gPath" (output + xy coords) ##
+  # allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
+  # ## res$xy <- getCoords(x)[allNodes,]
+  # attr(res, "xy") <- coords[allNodes, ]
+  # class(res) <- "gPath"
+  # 
+  # return(res)
 }) # end dijkstraBetween for gData
 
 
