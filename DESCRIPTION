@@ -34,7 +34,7 @@ Suggests:
     rmarkdown,
     rnaturalearthdata,
     spelling
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 Collate: 
     'classes.R'
     'accessors.R'
@@ -47,6 +47,7 @@ Collate:
     'datasets.R'
     'dijkstra.R'
     'dropDead.R'
+    'dropUnconnected.R'
     'extractFromLayer.R'
     'findLand.R'
     'geograph.R'
