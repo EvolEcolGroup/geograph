@@ -3,7 +3,7 @@
 #' This function removes all nodes that are not part of the largest connected set.
 #' 
 #' @param x a [gGraph] object
-#' @value a [gGraph] object with only the nodes from the largest set remaining
+#' @returns a [gGraph] object with only the nodes from the largest set remaining
 #' @examples
 #' max_set <- keepMaxConnectedSet(worldgraph.40k)
 #' plot(max_set)
