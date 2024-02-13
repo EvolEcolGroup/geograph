@@ -5,7 +5,7 @@
 #' @param x a [gGraph] object
 #' @returns a [gGraph] object with only the nodes from the largest set remaining
 #' @examples
-#' max_set <- keepMaxConnectedSet(worldgraph.40k)
+#' max_set <- keepMaxConnectedSet(worldgraph.10k)
 #' plot(max_set)
 #'
 #' @export

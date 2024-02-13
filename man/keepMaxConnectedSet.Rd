@@ -16,7 +16,7 @@ a \link{gGraph} object with only the nodes from the largest set remaining
 This function removes all nodes that are not part of the largest connected set.
 }
 \examples{
-max_set <- keepMaxConnectedSet(worldgraph.40k)
+max_set <- keepMaxConnectedSet(worldgraph.10k)
 plot(max_set)
 
 }

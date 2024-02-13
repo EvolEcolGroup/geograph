@@ -162,6 +162,25 @@ setMethod("isConnected", "gData", function(object, ...) {
 }) # end isConnected for gData
 
 
+## the GENERIC of this method is given in package 'graph'
+#' @rdname connectivity
+#' @export
+setMethod("isConnected", "gGraph", function(object, ...) {
+  ## checks ##
+  if (!is.gGraph(object)) stop("'object' is not a valid gData object.")
+  
+  ## set args for areConnected ##
+  myNodes <- getNodes(object)
+  ## wrapper ##
+  res <- areConnected(object, myNodes)
+  
+  ## return res ##
+  return(res)
+}) # end isConnected for gGraph
+
+
+
+
 
 
 
