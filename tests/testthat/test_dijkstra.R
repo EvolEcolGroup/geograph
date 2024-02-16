@@ -40,4 +40,26 @@ testthat::test_that("DijkstraFrom works on a connected graph",{
   
 })
 
+testthat::test_that("DijkstraFrom works on a gData object", {
+  
+  #Create a subset of hgdp data 
+  hgdp_sub <- hgdp[c(1,2,3,4)]
+  
+  #Choose an origin node 
+  start <- "24988"
+  
+  myPath <- dijkstraFrom(hgdp_sub, start)
+  
+  #Check that myPath has the expected pairs of nodes 
+  testthat::expect_equal(names(myPath), c("24988:26898", "24988:11652", "24988:22532", "24988:23709"))
+  #Bear in mind that so far this doesn't check the full structure of resulting gPath
+  #gPath is not a formal defined class in classes.R @TODO ?
+  
+  #Check how dijkstra.sp (used in gData method for dijkstrafrom) 
+  #differs from sp.between (used in gGraph method for dijkstraFrom)
+  
+  
+})
+
+
 
