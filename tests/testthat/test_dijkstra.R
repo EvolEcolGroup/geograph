@@ -21,3 +21,23 @@ test_that("dijkstra_between computes distances correctly",
             graph_dist_matrix <- gPath2dist(graph_between)
             expect_true(identical(dist_matrix, graph_dist_matrix))
           })
+
+
+
+#-this second test currently fails, problem with dijkstraFrom gGraph method?
+
+testthat::test_that("DijkstraFrom works on a connected graph",{
+  
+  max_set <- keepMaxConnectedSet(worldgraph.10k)
+  isConnected(max_set)
+  
+  #Choose a start point within the graph space
+  coords_max_set <- getCoords(max_set)
+  head(coords_max_set)
+  #node 67 
+  origin <- "67"
+  dijkstraFrom(max_set,origin)
+  
+})
+
+
