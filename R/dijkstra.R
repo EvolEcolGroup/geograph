@@ -256,21 +256,24 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
   if (!all(start %in% getNodes(x))) stop("Starting node is not in x.")
 
   ## check connectivity ##
-  if (!areConnected(x, getNodes(myGraph))) stop("Not all nodes are connected by the graph.")
-
+  if (!areConnected(x, getNodes(x))) stop("Not all nodes are connected by the graph.")
+  
   ## build the wrapper ##
   myGraph <- getGraph(x)
   ##  if(is.character(costs) && costs=="default"){
   ##         costs <- unlist(edgeWeights(myGraph))
+  endNodes <- getNodes(x)[!getNodes(x) %in% start] 
   ##     }
-
+browser()
   ## wrap ##
-  res <- RBGL::dijkstra.sp(myGraph, start = start)
+  #res <- RBGL::dijkstra.sp(myGraph, start = start)
+  res <- RBGL::sp.between(myGraph, start = start, 
+                          finish = endNodes)
 
   ## sp.between uses unique(x@nodes.id) ##
   ## eventually have to duplicate paths ##
   temp <- gsub(".*:", "", names(res))
-  res <- res[match(getNodes(x), temp)]
+  res <- res[match(endNodes, temp)]
 
 
   ## make it a class "gPath" (output + xy coords) ##
