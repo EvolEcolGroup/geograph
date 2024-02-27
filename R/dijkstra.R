@@ -264,7 +264,7 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
   ##         costs <- unlist(edgeWeights(myGraph))
   endNodes <- getNodes(x)[!getNodes(x) %in% start] 
   ##     }
-browser()
+#browser()
   ## wrap ##
   #res <- RBGL::dijkstra.sp(myGraph, start = start)
   res <- RBGL::sp.between(myGraph, start = start, 
