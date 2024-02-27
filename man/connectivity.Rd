@@ -10,6 +10,7 @@
 \alias{connectivityPlot-methods}
 \alias{connectivityPlot,gGraph-method}
 \alias{connectivityPlot,gData-method}
+\alias{isConnected,gGraph-method}
 \title{Check connectivity of a gGraph object}
 \usage{
 areNeighbours(V1, V2, graph)
@@ -17,6 +18,8 @@ areNeighbours(V1, V2, graph)
 areConnected(x, nodes)
 
 \S4method{isConnected}{gData}(object, ...)
+
+\S4method{isConnected}{gGraph}(object, ...)
 
 isReachable(x, loc)
 

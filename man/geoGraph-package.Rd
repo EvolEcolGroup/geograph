@@ -114,5 +114,23 @@ plot(x, edges = TRUE)
 title("after droping edges with null weight")
 
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/EvolEcolGroup/geograph}
+  \item \url{https://evolecolgroup.github.io/geograph/}
+  \item Report bugs at \url{https://github.com/EvolEcolGroup/geograph/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Andrea Manica \email{am315@cam.ac.uk}
+
+Authors:
+\itemize{
+  \item Thibaut Jombart
+}
+
+}
 \keyword{manip}
 \keyword{spatial}

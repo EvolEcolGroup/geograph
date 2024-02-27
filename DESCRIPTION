@@ -34,11 +34,10 @@ Suggests:
     rmarkdown,
     rnaturalearthdata,
     spelling
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 Collate: 
     'classes.R'
     'accessors.R'
-    'auxil.R'
     'basicMethods.R'
     'buffer.R'
     'closestNode.R'
@@ -49,10 +48,13 @@ Collate:
     'dropDead.R'
     'extractFromLayer.R'
     'findLand.R'
+    'geo.segments.R'
     'geograph.R'
     'globals.R'
+    'hasCosts.R'
     'interact.R'
     'isInArea.R'
+    'keepMaxConnected.R'
     'makeGrid.R'
     'plot.R'
     'rebuild.R'
