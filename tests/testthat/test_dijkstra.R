@@ -23,9 +23,6 @@ test_that("dijkstra_between computes distances correctly",
           })
 
 
-
-#-this second test currently fails, problem with dijkstraFrom gGraph method?
-
 testthat::test_that("DijkstraFrom works on a connected graph",{
   
   max_set <- keepMaxConnectedSet(worldgraph.10k)
@@ -36,7 +33,14 @@ testthat::test_that("DijkstraFrom works on a connected graph",{
   head(coords_max_set)
   #node 67 
   origin <- "67"
-  dijkstraFrom(max_set,origin)
+  foo<-dijkstraFrom(max_set,origin)
+  
+  #Check output is a gPath
+  testthat::expect_true(inherits(foo,"gPath"))
+  
+  #Check resulting gPath 'foo' has the same number of rows as coords_max_set 
+  #(-1 as no path is calculated from origin to origin)
+  testthat::expect_equal(length(names(foo)),nrow(coords_max_set)-1)
   
 })
 
@@ -50,14 +54,11 @@ testthat::test_that("DijkstraFrom works on a gData object", {
   
   myPath <- dijkstraFrom(hgdp_sub, start)
   
+  #Check output is a gPath
+  testthat::expect_true(inherits(myPath,"gPath"))
+  
   #Check that myPath has the expected pairs of nodes 
   testthat::expect_equal(names(myPath), c("24988:26898", "24988:11652", "24988:22532", "24988:23709"))
-  #Bear in mind that so far this doesn't check the full structure of resulting gPath
-  #gPath is not a formal defined class in classes.R @TODO ?
-  
-  #Check how dijkstra.sp (used in gData method for dijkstrafrom) 
-  #differs from sp.between (used in gGraph method for dijkstraFrom)
-  
   
 })
 
