@@ -76,7 +76,7 @@
                         <h4 data-toc-skip class="author">Thibaut Jombart
 and Andrea Manica</h4>
             
-            <h4 data-toc-skip class="date">2024-01-18</h4>
+            <h4 data-toc-skip class="date">2024-02-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/HEAD/vignettes/geograph.Rmd" class="external-link"><code>vignettes/geograph.Rmd</code></a></small>
       <div class="d-none name"><code>geograph.Rmd</code></div>
@@ -789,19 +789,40 @@ dataset is not compatible with that functionality.</p>
 <p>We can quickly see what fields are available:</p>
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">world.countries</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##  [1] "scalerank"  "featurecla" "labelrank"  "sovereignt" "sov_a3"    </span></span>
-<span><span class="co">##  [6] "adm0_dif"   "level"      "type"       "admin"      "adm0_a3"   </span></span>
-<span><span class="co">## [11] "geou_dif"   "geounit"    "gu_a3"      "su_dif"     "subunit"   </span></span>
-<span><span class="co">## [16] "su_a3"      "brk_diff"   "name"       "name_long"  "brk_a3"    </span></span>
-<span><span class="co">## [21] "brk_name"   "brk_group"  "abbrev"     "postal"     "formal_en" </span></span>
-<span><span class="co">## [26] "formal_fr"  "note_adm0"  "note_brk"   "name_sort"  "name_alt"  </span></span>
-<span><span class="co">## [31] "mapcolor7"  "mapcolor8"  "mapcolor9"  "mapcolor13" "pop_est"   </span></span>
-<span><span class="co">## [36] "gdp_md_est" "pop_year"   "lastcensus" "gdp_year"   "economy"   </span></span>
-<span><span class="co">## [41] "income_grp" "wikipedia"  "fips_10"    "iso_a2"     "iso_a3"    </span></span>
-<span><span class="co">## [46] "iso_n3"     "un_a3"      "wb_a2"      "wb_a3"      "woe_id"    </span></span>
-<span><span class="co">## [51] "adm0_a3_is" "adm0_a3_us" "adm0_a3_un" "adm0_a3_wb" "continent" </span></span>
-<span><span class="co">## [56] "region_un"  "subregion"  "region_wb"  "name_len"   "long_len"  </span></span>
-<span><span class="co">## [61] "abbrev_len" "tiny"       "homepart"   "geometry"</span></span></code></pre>
+<pre><code><span><span class="co">##   [1] "featurecla" "scalerank"  "labelrank"  "sovereignt" "sov_a3"    </span></span>
+<span><span class="co">##   [6] "adm0_dif"   "level"      "type"       "tlc"        "admin"     </span></span>
+<span><span class="co">##  [11] "adm0_a3"    "geou_dif"   "geounit"    "gu_a3"      "su_dif"    </span></span>
+<span><span class="co">##  [16] "subunit"    "su_a3"      "brk_diff"   "name"       "name_long" </span></span>
+<span><span class="co">##  [21] "brk_a3"     "brk_name"   "brk_group"  "abbrev"     "postal"    </span></span>
+<span><span class="co">##  [26] "formal_en"  "formal_fr"  "name_ciawf" "note_adm0"  "note_brk"  </span></span>
+<span><span class="co">##  [31] "name_sort"  "name_alt"   "mapcolor7"  "mapcolor8"  "mapcolor9" </span></span>
+<span><span class="co">##  [36] "mapcolor13" "pop_est"    "pop_rank"   "pop_year"   "gdp_md"    </span></span>
+<span><span class="co">##  [41] "gdp_year"   "economy"    "income_grp" "fips_10"    "iso_a2"    </span></span>
+<span><span class="co">##  [46] "iso_a2_eh"  "iso_a3"     "iso_a3_eh"  "iso_n3"     "iso_n3_eh" </span></span>
+<span><span class="co">##  [51] "un_a3"      "wb_a2"      "wb_a3"      "woe_id"     "woe_id_eh" </span></span>
+<span><span class="co">##  [56] "woe_note"   "adm0_iso"   "adm0_diff"  "adm0_tlc"   "adm0_a3_us"</span></span>
+<span><span class="co">##  [61] "adm0_a3_fr" "adm0_a3_ru" "adm0_a3_es" "adm0_a3_cn" "adm0_a3_tw"</span></span>
+<span><span class="co">##  [66] "adm0_a3_in" "adm0_a3_np" "adm0_a3_pk" "adm0_a3_de" "adm0_a3_gb"</span></span>
+<span><span class="co">##  [71] "adm0_a3_br" "adm0_a3_il" "adm0_a3_ps" "adm0_a3_sa" "adm0_a3_eg"</span></span>
+<span><span class="co">##  [76] "adm0_a3_ma" "adm0_a3_pt" "adm0_a3_ar" "adm0_a3_jp" "adm0_a3_ko"</span></span>
+<span><span class="co">##  [81] "adm0_a3_vn" "adm0_a3_tr" "adm0_a3_id" "adm0_a3_pl" "adm0_a3_gr"</span></span>
+<span><span class="co">##  [86] "adm0_a3_it" "adm0_a3_nl" "adm0_a3_se" "adm0_a3_bd" "adm0_a3_ua"</span></span>
+<span><span class="co">##  [91] "adm0_a3_un" "adm0_a3_wb" "continent"  "region_un"  "subregion" </span></span>
+<span><span class="co">##  [96] "region_wb"  "name_len"   "long_len"   "abbrev_len" "tiny"      </span></span>
+<span><span class="co">## [101] "homepart"   "min_zoom"   "min_label"  "max_label"  "label_x"   </span></span>
+<span><span class="co">## [106] "label_y"    "ne_id"      "wikidataid" "name_ar"    "name_bn"   </span></span>
+<span><span class="co">## [111] "name_de"    "name_en"    "name_es"    "name_fa"    "name_fr"   </span></span>
+<span><span class="co">## [116] "name_el"    "name_he"    "name_hi"    "name_hu"    "name_id"   </span></span>
+<span><span class="co">## [121] "name_it"    "name_ja"    "name_ko"    "name_nl"    "name_pl"   </span></span>
+<span><span class="co">## [126] "name_pt"    "name_ru"    "name_sv"    "name_tr"    "name_uk"   </span></span>
+<span><span class="co">## [131] "name_ur"    "name_vi"    "name_zh"    "name_zht"   "fclass_iso"</span></span>
+<span><span class="co">## [136] "tlc_diff"   "fclass_tlc" "fclass_us"  "fclass_fr"  "fclass_ru" </span></span>
+<span><span class="co">## [141] "fclass_es"  "fclass_cn"  "fclass_tw"  "fclass_in"  "fclass_np" </span></span>
+<span><span class="co">## [146] "fclass_pk"  "fclass_de"  "fclass_gb"  "fclass_br"  "fclass_il" </span></span>
+<span><span class="co">## [151] "fclass_ps"  "fclass_sa"  "fclass_eg"  "fclass_ma"  "fclass_pt" </span></span>
+<span><span class="co">## [156] "fclass_ar"  "fclass_jp"  "fclass_ko"  "fclass_vn"  "fclass_tr" </span></span>
+<span><span class="co">## [161] "fclass_id"  "fclass_pl"  "fclass_gr"  "fclass_it"  "fclass_nl" </span></span>
+<span><span class="co">## [166] "fclass_se"  "fclass_bd"  "fclass_ua"  "geometry"</span></span></code></pre>
 <p>A more through summary could be obtained with
 <code>summar(world.countries)</code>, which shows the data (attributes)
 stored in the layer.</p>
