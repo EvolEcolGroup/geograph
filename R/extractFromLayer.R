@@ -155,7 +155,20 @@ setMethod("extractFromLayer", "data.frame", function(x, layer = "world", attr = 
 
 
 
-
+################
+## for numeric vector (of long/lat)
+################
+#' @rdname extractFromLayer
+#' @export
+setMethod("extractFromLayer","numeric",function(x, layer = "world", attr = "all", ...) {
+   if(isTRUE(length(x) %% 2 == 0)){
+     x <- matrix(x, ncol = 2, byrow = TRUE)
+     return(extractFromLayer(x, layer = layer, attr = attr, ...))
+   } else {
+     stop ("Vector must have even number of longitude and latitude entries")
+   }
+  
+})
 
 
 ################
