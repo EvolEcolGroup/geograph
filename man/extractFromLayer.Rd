@@ -8,6 +8,7 @@
 \alias{extractFromLayer,list-method}
 \alias{extractFromLayer,gGraph-method}
 \alias{extractFromLayer,gData-method}
+\alias{extractFromLayer,numeric-method}
 \title{Retrieves node attributes from a layer}
 \usage{
 extractFromLayer(x, ...)
@@ -15,6 +16,8 @@ extractFromLayer(x, ...)
 \S4method{extractFromLayer}{matrix}(x, layer = "world", attr = "all", ...)
 
 \S4method{extractFromLayer}{data.frame}(x, layer = "world", attr = "all", ...)
+
+\S4method{extractFromLayer}{numeric}(x, layer = "world", attr = "all", ...)
 
 \S4method{extractFromLayer}{list}(x, layer = "world", attr = "all", ...)
 

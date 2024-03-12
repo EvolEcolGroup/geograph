@@ -9,7 +9,7 @@ Malaga
 RBGL
 RBGL's
 Ringler
-attr
+antimeridian
 closestNode
 codecov
 coords
@@ -23,7 +23,6 @@ gPath
 geo
 geoGraphEnv
 georeferenced
-goto
 graphNEL
 hgdp
 img
@@ -35,7 +34,6 @@ nb
 rawgraph
 rawgraph's
 rawgraphs
-replot
 replotting
 rnaturalearth
 roxygen

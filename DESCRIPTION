@@ -1,6 +1,6 @@
 Package: geoGraph
 Type: Package
-Title: Walking through the geographic space using graphs
+Title: Walking Through the Geographic Space Using Graphs
 Version: 1.1.1.9003
 Authors@R: c(
     person("Thibaut", "Jombart", role = "aut"),
@@ -34,7 +34,7 @@ Suggests:
     rmarkdown,
     rnaturalearthdata,
     spelling
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.1
 Collate: 
     'classes.R'
     'accessors.R'
@@ -49,7 +49,7 @@ Collate:
     'extractFromLayer.R'
     'findLand.R'
     'geo.segments.R'
-    'geograph.R'
+    'geograph-package.R'
     'globals.R'
     'hasCosts.R'
     'interact.R'
