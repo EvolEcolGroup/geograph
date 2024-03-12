@@ -15,9 +15,10 @@ test_that("extractFromLayer assigns points correctly",
 test_that("extractFromLayer works on a gData object",{
   
   res <- extractFromLayer(hgdp_sub, layer = "world", attr = "continent")
+  expect_true(inherits(res,"gData"))
   
   # we expect continents to be "AMERICA", "EUROPE", "CENTRAL_SOUTH_ASIA",  "AFRICA" 
-  expect_identical(as.character(res$continent), c("South America","Europe","Asia","Africa"))
+  expect_identical(as.character(res@data$continent), c("South America","Europe","Asia","Africa"))
 
 })
 
