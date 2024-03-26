@@ -329,7 +329,6 @@ setMethod("dijkstraFrom", "gData", function(x, start) {
   ## res$xy <- getCoords(x)[allNodes,]
   attr(res, "xy") <- coords[allNodes, ]
   class(res) <- "gPath"
-
   return(res)
 }) # end dijkstraFrom for gData
 
@@ -443,3 +442,22 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vec
 
   return(res)
 } # end gPath2dist
+
+
+
+###########################################
+#' @export
+
+print.gPath <- function(x, ...){
+  if (length(list(...))){
+    stop ("additional parameters were passed through ... when none should be given")
+  }
+  ## printing
+  cat("\n=== gPath object ===\n")
+  cat("\n number of paths:", length(x), "\n")
+  cat("\n available paths (id_origin:id_destination: ")
+  print(c(utils::head(names(x)),"...\n"))
+  cat("each path, accessible with [[]] has elements 'length', 'path_detail' and 'length_detail\n")
+  cat("x and y coordinates of all nodes are stored as an attribute 'xy'")
+  cat("see ?gPath for details")
+}
