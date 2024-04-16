@@ -167,7 +167,7 @@ setMethod("isConnected", "gData", function(object, ...) {
 #' @export
 setMethod("isConnected", "gGraph", function(object, ...) {
   ## checks ##
-  if (!is.gGraph(object)) stop("'object' is not a valid gData object.")
+  if (!is.gGraph(object)) stop("'object' is not a valid gGraph object.")
   
   ## set args for areConnected ##
   myNodes <- getNodes(object)
@@ -193,7 +193,7 @@ setMethod("isConnected", "gGraph", function(object, ...) {
 isReachable <- function(x, loc) { # x is a gData object
   ## checks ##
   if (!is.gData(x)) stop("x is not a valid gData object.")
-  if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
+
   mygGraph <- get(x@gGraph.name, envir = .GlobalEnv)
 
 

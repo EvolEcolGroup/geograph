@@ -225,16 +225,20 @@ setClass(
   x <- object
   Ncoords <- nrow(x@coords)
   Nnodes <- length(x@nodes.id)
-
-  ## dim matching
-  if (Ncoords != Nnodes) {
-    cat("\n Number of coordinates and of nodes do not match.")
-    return(FALSE)
+  
+  if(x@gGraph.name == "" ){
+    stop("x is not associated with a gGraph object.")
   }
 
   ## gGraph object
   if (!exists(x@gGraph.name, envir = .GlobalEnv)) {
     warning(paste("The gGraph object", x@gGraph.name, "is missing."))
+  }
+  
+  ## dim matching
+  if (Ncoords != Nnodes) {
+    cat("\n Number of coordinates and of nodes do not match.")
+    return(FALSE)
   }
 
   return(TRUE)
