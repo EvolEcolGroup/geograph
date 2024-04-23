@@ -1,9 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   geograph: geograph.html
-last_built: 2024-03-26T14:00Z
+last_built: 2024-04-23T13:01Z
 urls:
   reference: https://evolecolgroup.github.io/geograph/reference
   article: https://evolecolgroup.github.io/geograph/articles
