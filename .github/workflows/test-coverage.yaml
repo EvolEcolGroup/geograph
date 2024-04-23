@@ -29,6 +29,8 @@ jobs:
       - name: Test coverage
         run: |
           covr::codecov(
+            covr.exclude_start = rex::rex("#", any_spaces, "nocov", any_spaces, "start"),
+            covr.exclude_end = rex::rex("#", any_spaces, "nocov", any_spaces, "end"),
             type = "all",
             quiet = FALSE,
             clean = FALSE,
