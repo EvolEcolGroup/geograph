@@ -1,108 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/404.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/articles/geograph.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/index.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/auxiliary.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/buffer.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/closestNode.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/combineCosts.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/connectivity.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/dijkstra-methods.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/dropDeadEdges.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/extractFromLayer.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/findLand.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/gData-class.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/gGraph-class.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/geo.add.edges.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/geo.change.attr.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/geoGraph-package.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/getColors.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/getCosts.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/getEdges.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/getNodesAttr.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/hgdp.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/isInArea.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/makeGrid.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/plot-gData.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/plot-gGraph.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/setCosts.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/setDistCosts.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/setEdges.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/worldgraph.html</loc>
-  </url>
-  <url>
-    <loc>https://evolecolgroup.github.io/geograph/reference/zoom.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://evolecolgroup.github.io/geograph/404.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/articles/geograph.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/articles/index.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/authors.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/index.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/news/index.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/auxiliary.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/buffer.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/closestNode.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/combineCosts.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/connectivity.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/dijkstra-methods.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/dropDeadEdges.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/extractFromLayer.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/findLand.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/gData-class.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/gGraph-class.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/geo.add.edges.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/geo.change.attr.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/geoGraph-package.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/getColors.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/getCosts.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/getEdges.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/getNodesAttr.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/hgdp.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/index.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/isInArea.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/makeGrid.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/plot-gData.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/plot-gGraph.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/setCosts.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/setDistCosts.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/setEdges.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/worldgraph.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/reference/zoom.html</loc></url>
 </urlset>
+
