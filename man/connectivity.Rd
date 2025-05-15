@@ -34,7 +34,7 @@ connectivityPlot(x, ...)
 
 \item{V2}{a vector of node names}
 
-\item{graph}{a valid \linkS4class{graphNEL} object.}
+\item{graph}{a valid \code{\link[graph:graphNEL-class]{graph::graphNEL}} object.}
 
 \item{x}{a valid \linkS4class{gGraph} object.}
 
