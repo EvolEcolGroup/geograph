@@ -1,6 +1,6 @@
 #' Create a new gGraph object 
 #' 
-#' The generic function \code{createNewGraph} creates a new graph using a custom discrete global grid of 
+#' The function \code{createNewGraph} creates a new graph using a custom discrete global grid of 
 #' any resolution and creates a new gGraph object of it.\cr
 #'
 #' @param geo_mask a tibble or a data.frame. Input must have
@@ -27,42 +27,62 @@
 
 createNewGraph <- function(geo_mask, spacing, attr, method, ...){
   
+  stopifnot(
+    is.data.frame(geo_mask),
+    all(c("lon", "lat", attr) %in% names(geo_mask)),
+    method %in% c("any", "majority", "all"),
+    is.numeric(spacing),
+    spacing > 0
+  )
+  
   # construct the discrete global grid with the given spacing
-  dggs <- dgconstruct(spacing=spacing, metric=TRUE, resround='down') 
+  dggs <- dggridR::dgconstruct(spacing=spacing, metric=TRUE, resround='down') 
   
   # get the corresponding grid cells for each point (lat-long pair)
-  geo_mask$cell <- dgGEO_to_SEQNUM(dggs,geo_mask$lon,geo_mask$lat)$seqnum
+  geo_mask$cell <- dggridR::dgGEO_to_SEQNUM(dggs, geo_mask$lon, geo_mask$lat)$seqnum
   
-  # add variable "land_cell" if any land is in the cell
-  geo_mask <- geo_mask %>% 
-    group_by(cell) %>%
-    mutate(landcell = ifelse(sum(land) > 0, 1, 0)) %>%
-    slice(1) %>%
-    ungroup()
+  # aggregate the attribute values for each cell based on the chosen method
+  geo_mask <- geo_mask %>%
+    dplyr::group_by(cell) %>%
+    dplyr::mutate(
+      value = dplyr::case_when(
+        method == "any"      ~ as.integer(any(.data[[attr]] > 0)),
+        method == "majority" ~ as.integer(mean(.data[[attr]] > 0, na.rm = TRUE) > 0.5),
+        method == "all"      ~ as.integer(all(.data[[attr]] > 0))
+      )
+    ) %>%
+    dplyr::slice(1) %>%
+    dplyr::ungroup()
+  
   
   # get boundary coordinates for cells
-  grid <- dgcellstogrid(dggs,geo_mask$cell)
+  grid <- dggridR::dgcellstogrid(dggs, geo_mask$cell)
   
-  # merge the boundery coordinates with the nodes data
+  # merge the boundary coordinates with the nodes data
   grid <- merge(grid, geo_mask, by.x="seqnum", by.y="cell")
   
   # wrap the grid at the dateline
-  wrapped_grid = st_wrap_dateline(grid, options = c("WRAPDATELINE=YES","DATELINEOFFSET=180"), 
+  wrapped_grid = sf::st_wrap_dateline(grid, options = c("WRAPDATELINE=YES","DATELINEOFFSET=180"), 
                                   quiet = TRUE)
   
   # Converting SEQNUM to GEO gives the center coordinates of the cells
-  cellcenters   <- dgSEQNUM_to_GEO(dggs,geo_mask$cell)
+  cellcenters   <- dggridR::dgSEQNUM_to_GEO(dggs, geo_mask$cell)
   cellcenters_df <- data.frame(lon = cellcenters$lon, lat = cellcenters$lat)
   wrapped_grid$cellcenters <- st_as_sf(cellcenters_df, coords = c("lon", "lat"), crs = 4326)
-  wrapped_grid <- wrapped_grid %>% select(seqnum, lon, lat, geometry, landcell, cellcenters)
+  wrapped_grid <- wrapped_grid %>% select(seqnum, lon, lat, geometry, all_of(attr), cellcenters)
   
   # make sure we have an sf object
   wrapped_grid_sf <- st_as_sf(wrapped_grid)
   
+  nodes_attr <- wrapped_grid_sf |>
+    sf::st_drop_geometry() |>
+    dplyr::select(seqnum, all_of(attr))
+  
   # get the neighbors list of all cells
   coords <- st_coordinates(st_centroid(wrapped_grid_sf))
+  
   #important to use a distance just above the grid diamteer km to get all neighbors
-  nb <- spdep::dnearneigh(coords, 0, spacing*1.1, longlat = TRUE)  #TODO change to sf
+  nb <- spdep::dnearneigh(coords, 0, (spacing*1.5), longlat = TRUE)  #TODO change to sf
   neighbors_list <- unclass(nb)
   
   # add cell IDs as characters (unlike the 'seqnum' which are numeric)
@@ -85,18 +105,20 @@ createNewGraph <- function(geo_mask, spacing, attr, method, ...){
   
   # create gGraph object
   coords <- wrapped_grid$cellcenters %>%
-    st_coordinates() %>%
+    sf::st_coordinates() %>%
     as.data.frame()
   
   names(coords) <- c("lon", "lat")
   
-  land_ggraph <- new(
+  new_ggraph <- new(
     "gGraph",
-    graphNEL = land_graphnel,
+    graphNEL = g,
     coords = coords,
-    nodes.attr = land_new,
+    nodes.attr = nodes_attr,
     meta = list(costs = NULL, colors = NULL),
-    neighbours = land_neighbours
+    neighbours = neighbors_list
   )
-  return(land_ggraph)
+  
+  return(new_ggraph)
+  
 }
