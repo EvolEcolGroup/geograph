@@ -1,124 +1,100 @@
-#' Create a new gGraph object 
-#' 
-#' The function \code{createNewGraph} creates a new graph using a custom discrete global grid of 
-#' any resolution and creates a new gGraph object of it.\cr
+#' Create a new gGraph object from a custom discrete global grid
 #'
-#' @param geo_mask a tibble or a data.frame. Input must have
-#' two columns giving longitudes and latitudes of locations being considered.
-#' @param spacing a numeric value giving the desired spacing (in km) of the discrete
-#' global grid to be constructed. dggs will then find the closest possible
-#' resolution available.
-#' @param attr a character vector giving names of the variables to be extracted
-#' from the layer. 
-#' @param method a character string indicating which method should be used to
-#' compute the nodes value from the \code{attr}. Currently available options are 'any',
-#' 'majority' and 'all', where the node is associated to the \code{attr} if either any,
-#' the majority or all points in the cell are of the \code{attr}.
-#' @param \dots further arguments to be passed to other methods. Currently not
-#' used.
-#' @return A \linkS4class{gGraph} object of the provided discrete global grid,
-#' with nodes attributes corresponding to the variables requested in
-#' \code{attr} stored in the (\code{@nodes.attr} slot).\cr
-#' 
-
-###############
-## createNewGraph
-###############
-
-createNewGraph <- function(geo_mask, spacing, attr, method, ...){
+#' @description
+#' \code{createNewGraph} constructs a new \linkS4class{gGraph} object based on a
+#' discrete global grid system (DGGS) with a user-defined spatial resolution.
+#' The graph is restricted to a geographic bounding box defined by the user.
+#'
+#' @param geo_box A geographic bounding box. With either a named numeric vector 
+#' with \code{xmin}, \code{xmax}, \code{ymin}, \code{ymax} or an object of class 
+#' \code{bbox} or \code{sf}. Coordinates must be in longitude/latitude (EPSG:4326).
+#' @param spacing A positive numeric value giving the desired spacing (in km)
+#' of the discrete global grid. The closest available DGGS resolution is used.
+#' @param \dots Further arguments (currently unused).
+#' @return A \linkS4class{gGraph} object representing the DGGS restricted to the
+#' specified geographic region. The \code{@nodes.attr} slot is empty.
+#'
+#' @export
+createNewGraph <- function(geo_box, spacing, ...) {
   
-  stopifnot(
-    is.data.frame(geo_mask),
-    all(c("lon", "lat", attr) %in% names(geo_mask)),
-    method %in% c("any", "majority", "all"),
-    is.numeric(spacing),
-    spacing > 0
+  if (!is.numeric(spacing) ||
+      length(spacing) != 1 ||
+      is.na(spacing) ||
+      spacing <= 0) {
+    stop("`spacing` must be a single positive numeric value (in km).")
+  }
+  
+  # get the boundaries of the region in the format we need
+  if (inherits(geo_box, "sf")) {
+    bbox <- sf::st_bbox(geo_box)
+  } else if (inherits(geo_box, "bbox")) { #@TODO look if we need to convert crs! 
+    bbox <- geo_box
+  } else if (is.numeric(geo_box) && all(c("xmin","xmax","ymin","ymax") %in% names(geo_box))) {
+    bbox <- sf::st_bbox(geo_box, crs = 4326)
+  } else {
+    stop("geo_box must be a bbox, sf object, or named numeric vector.")
+  }
+  
+  #construct the gird (for the whole world) using the specified spacing
+  dggs <- dggridR::dgconstruct(
+    spacing = spacing,
+    metric = TRUE,
+    resround = "down"
   )
   
-  # construct the discrete global grid with the given spacing
-  dggs <- dggridR::dgconstruct(spacing=spacing, metric=TRUE, resround='down') 
+  grid_sf <- dgrectgrid(
+    dggs,
+    minlon = bbox["xmin"],
+    maxlon = bbox["xmax"],
+    minlat = bbox["ymin"],
+    maxlat = bbox["ymax"],
+    cellsize = 0.1
+  )
   
-  # get the corresponding grid cells for each point (lat-long pair)
-  geo_mask$cell <- dggridR::dgGEO_to_SEQNUM(dggs, geo_mask$lon, geo_mask$lat)$seqnum
+  # get the coords argument from the centers of the grid cells
+  centers <- dggridR::dgSEQNUM_to_GEO(dggs, grid_sf$seqnum)
   
-  # aggregate the attribute values for each cell based on the chosen method
-  geo_mask <- geo_mask %>%
-    dplyr::group_by(cell) %>%
-    dplyr::mutate(
-      value = dplyr::case_when(
-        method == "any"      ~ as.integer(any(.data[[attr]] > 0)),
-        method == "majority" ~ as.integer(mean(.data[[attr]] > 0, na.rm = TRUE) > 0.5),
-        method == "all"      ~ as.integer(all(.data[[attr]] > 0))
-      )
-    ) %>%
-    dplyr::slice(1) %>%
-    dplyr::ungroup()
+  coords <- data.frame(
+    lon = centers$lon,
+    lat = centers$lat
+  )
   
+  # get the neighbours using spdep
+  xy <- as.matrix(coords)
+  nb <- spdep::dnearneigh( #@TODO switch to sf at some point here 
+    xy,
+    d1 = 0,
+    d2 = spacing * 1.1,
+    longlat = TRUE
+  )
   
-  # get boundary coordinates for cells
-  grid <- dggridR::dgcellstogrid(dggs, geo_mask$cell)
+  neighbours <- unclass(nb)
   
-  # merge the boundary coordinates with the nodes data
-  grid <- merge(grid, geo_mask, by.x="seqnum", by.y="cell")
+  # build graphNEL object
+  node_ids <- as.character(seq_len(nrow(coords)))
   
-  # wrap the grid at the dateline
-  wrapped_grid = sf::st_wrap_dateline(grid, options = c("WRAPDATELINE=YES","DATELINEOFFSET=180"), 
-                                  quiet = TRUE)
-  
-  # Converting SEQNUM to GEO gives the center coordinates of the cells
-  cellcenters   <- dggridR::dgSEQNUM_to_GEO(dggs, geo_mask$cell)
-  cellcenters_df <- data.frame(lon = cellcenters$lon, lat = cellcenters$lat)
-  wrapped_grid$cellcenters <- st_as_sf(cellcenters_df, coords = c("lon", "lat"), crs = 4326)
-  wrapped_grid <- wrapped_grid %>% select(seqnum, lon, lat, geometry, all_of(attr), cellcenters)
-  
-  # make sure we have an sf object
-  wrapped_grid_sf <- st_as_sf(wrapped_grid)
-  
-  nodes_attr <- wrapped_grid_sf |>
-    sf::st_drop_geometry() |>
-    dplyr::select(seqnum, all_of(attr))
-  
-  # get the neighbors list of all cells
-  coords <- st_coordinates(st_centroid(wrapped_grid_sf))
-  
-  #important to use a distance just above the grid diamteer km to get all neighbors
-  nb <- spdep::dnearneigh(coords, 0, (spacing*1.5), longlat = TRUE)  #TODO change to sf
-  neighbors_list <- unclass(nb)
-  
-  # add cell IDs as characters (unlike the 'seqnum' which are numeric)
-  wrapped_grid_sf <- wrapped_grid_sf %>%
-    mutate(cell_id = as.character(seq_len(nrow(.))))
-  
-  # create edge list for graphNEL 
-  edgeL <- lapply(seq_along(neighbors_list), function(i) {
-    list(edges = as.character(wrapped_grid_sf$cell_id[neighbors_list[[i]]]))
+  edgeL <- lapply(seq_along(neighbours), function(i) {
+    list(edges = node_ids[neighbours[[i]]])
   })
+  names(edgeL) <- node_ids
   
-  # set names of edgeL to cell IDs
-  names(edgeL) <- wrapped_grid_sf$cell_id
+  gNEL <- new(
+    "graphNEL",
+    nodes = node_ids,
+    edgeL = edgeL,
+    edgemode = "undirected"
+  )
   
-  # create graphNEL object
-  g <- new("graphNEL",
-           nodes = wrapped_grid_sf$cell_id,
-           edgeL = edgeL,
-           edgemode = "undirected")
-  
-  # create gGraph object
-  coords <- wrapped_grid$cellcenters %>%
-    sf::st_coordinates() %>%
-    as.data.frame()
-  
-  names(coords) <- c("lon", "lat")
+  #create the gGraph object
   
   new_ggraph <- new(
     "gGraph",
-    graphNEL = g,
+    graphNEL = gNEL,
     coords = coords,
-    nodes.attr = nodes_attr,
+    nodes.attr = data.frame(row.names = node_ids),
     meta = list(costs = NULL, colors = NULL),
-    neighbours = neighbors_list
+    neighbours = neighbours
   )
   
   return(new_ggraph)
-  
 }
