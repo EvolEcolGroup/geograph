@@ -38,6 +38,7 @@ RoxygenNote: 7.3.2
 Collate: 
     'classes.R'
     'accessors.R'
+    'assignRasterPoints.R'
     'basicMethods.R'
     'buffer.R'
     'closestNode.R'
