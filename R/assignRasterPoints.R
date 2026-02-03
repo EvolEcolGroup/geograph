@@ -62,9 +62,16 @@ assignRasterPoints <- function(graph, raster, layer_name = "raster_points") {
     sf::st_drop_geometry() %>%
     dplyr::group_by(node_id) %>%
     tidyr::nest()
+    
+  all_nodes <- tibble::tibble(
+    node_id = seq_len(nrow(nodes_sf))
+  )
+  
+  atribute_full <- all_nodes %>%
+    dplyr::left_join(atribute, by = "node_id")
   
   # Store in graph node attribute
-  graph@nodes.attr[[layer_name]] <- atribute$data
+  graph@nodes.attr[[layer_name]] <- atribute_full$data
   
   return(graph)
 }
