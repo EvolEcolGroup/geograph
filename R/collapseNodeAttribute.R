@@ -11,8 +11,6 @@
 #' @param fun A function or a character string specifying how to collapse values.
 #'   Built-in options include \code{"min"}, \code{"max"}, \code{"mean"},
 #'   \code{"median"}, \code{"sd"}, \code{"any"}, and \code{"all"}.
-#' @param value_col Name of the column containing values to be collapsed.
-#'   Defaults to \code{"value"}.
 #' @param na.rm Logical; whether to remove \code{NA} values before collapsing.
 #'   Defaults to \code{TRUE}.
 #' @param replace Logical; if \code{TRUE} (default), replaces the original
@@ -42,6 +40,7 @@ collapseNodeAttribute <- function(graph,
     stop(sprintf("Node attribute '%s' not found.", attribute))
   }
   
+  # Get the node attribute and check the structure
   x <- graph@nodes.attr[[attribute]]
   
   if (!is.list(x)) {
@@ -68,7 +67,7 @@ collapseNodeAttribute <- function(graph,
     stop("`fun` must be a function or a supported character string.")
   }
   
-  # Determine return type once
+  # Determine return type once (logical or numeric)
   test_val <- fun(c(1, 2), na.rm = TRUE)
   FUN.VALUE <- if (is.logical(test_val)) logical(1) else numeric(1)
   
@@ -92,6 +91,7 @@ collapseNodeAttribute <- function(graph,
     fun(vals, na.rm = na.rm, ...)
   }
   
+  # now collapse all nodes (node by node)
   collapsed <- vapply(
     x,
     .collapse_one_node,
@@ -101,6 +101,7 @@ collapseNodeAttribute <- function(graph,
     ...
   )
   
+  # return either modified graph or collapsed vector
   if (replace) {
     graph@nodes.attr[[attribute]] <- collapsed
     return(graph)
