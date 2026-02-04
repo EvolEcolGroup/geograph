@@ -42,6 +42,7 @@ Collate:
     'basicMethods.R'
     'buffer.R'
     'closestNode.R'
+    'collapseNodeAttribute.R'
     'combineCosts.R'
     'connectivity.R'
     'createNewGraph.R'
