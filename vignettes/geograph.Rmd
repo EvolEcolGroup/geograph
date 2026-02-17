@@ -459,6 +459,56 @@ For instance, traveling to the north-west Australian coasts:
 geo.zoomin(c(110, 130, -27, -12))
 geo.bookmark("australia")
 ```
+### Combining costs
+
+If we want to condition connectivity on more than just one variable, we may want to combine cost from different gGrpahs into a single metric. For this example, instead of looking at water cells, we focus on land cells and we want the connectivity between the cells to be based on the productivity of the land, which is given in the gGraph object 'productivity_graph' and on temperature, given in the gGraph 'temperatureGraph'. For now we will just set a random cost to `meanProd` and `temp`. 
+
+
+```{r}
+exp.cost <- 
+  exp.cost <- function(x1, x2, cost.coeff) {
+  exp(-abs(x1 - x2) * cost.coeff)
+  }
+
+# create a set of node costs for mean productivity
+worldgraph.10k@nodes.attr$meanProd <- runif(n = 10242)
+productivity_graph <-
+  setCosts(
+    worldgraph.10k,
+    node.values = worldgraph.10k@nodes.attr$meanProd,
+    method = "function",
+    FUN = exp.cost,
+    cost.coeff = 0.5
+  )
+
+# now also for temperature
+worldgraph.10k@nodes.attr$temp <- runif(n = 10242)
+temperature_graph <-
+  setCosts(
+    worldgraph.10k,
+    node.values = worldgraph.10k@nodes.attr$temp,
+    method = "function",
+    FUN = exp.cost,
+    cost.coeff = 0.5
+  )
+
+# plot them side by side
+par(mfrow = c(1, 2))
+plot(productivity_graph, edge = TRUE)
+title("Productivity graph")
+plot(temperature_graph, edge = TRUE)
+title("Temperature graph")
+```
+
+Now we want a combined cost that both captures the temperature as well as the mean productivity for our subsequent analysis (@TODO make a more intuitive example here, eg combining temperature and precipitation). For this we can use the `combineCosts` function, which allows to combine costs from two different graphs using a specified method (sum, product, or a custom function). Here we will use the sum method to combine the costs from the productivity and temperature graphs.
+
+```{r}
+combine_costs_graph <- combineCosts(temperature_graph, productivity_graph, method = "sum")
+
+plot(combine_costs_graph, edge = TRUE)
+title("Combined costs graph")
+```
+
 
 ### Changing local properties of a `gGraph`
 
