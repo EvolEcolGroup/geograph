@@ -82,7 +82,7 @@ setGeneric("extractFromLayer", function(x, ...) {
 #' @rdname extractFromLayer
 #' @export
 setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all", ...) {
-
+  
   ## Load default shapefile ##
   if (is.character(layer) && layer[1] == "world") {
     # use rnaturalearth instead of the inbuilt dataset
@@ -90,7 +90,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
     sf::sf_use_s2(FALSE)
     #layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
-
+  sf::sf_use_s2(FALSE)
   ## TODO if the layer is null, we should throw an error!!!
   if (!is.null(layer)) {
     if (!inherits(layer, "sf")) {
@@ -101,11 +101,12 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
       }
     }
   }
-
-
+  
+  
   ## search attr in data ##
   if (attr[1] == "all") {
-    selAttr <- 1:ncol(layer)
+    #selAttr <- 1:ncol(layer)
+    selAttr <- 1:ncol(layer)-1
   } else {
     selAttr <- match(attr, colnames(layer)) # selected attributes
     if (any(is.na(selAttr))) { # attribute not found in layer@data
@@ -115,8 +116,8 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
       return(NULL) # return NULL if attr not found, not generate an error
     }
   }
-
-
+  
+  
   # create an sf point object from the coordinates
   locations_st <- x %>% as.data.frame %>% 
     sf::st_as_sf(coords=c(1,2)) %>%
@@ -128,13 +129,13 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
   points_assignment <- data.frame(x=seq(1, nrow(x)), polygon = NA)
   # add missing points for which we have no information
   points_assignment[points_within$x,"polygon"]<-points_within$polygon
-
+  
   dat <- layer %>% sf::st_drop_geometry()
   # @TOFIX the line below will fail if layerId is all NAs (i.e. no points were assigned to a polygon)
   res <- dat[points_assignment$polygon, selAttr, drop = FALSE]
-
+  
   row.names(res) <- rownames(x)
-
+  
   return(res)
 }) # end extractFromLayer for matrices
 
@@ -161,12 +162,12 @@ setMethod("extractFromLayer", "data.frame", function(x, layer = "world", attr = 
 #' @rdname extractFromLayer
 #' @export
 setMethod("extractFromLayer","numeric",function(x, layer = "world", attr = "all", ...) {
-   if(isTRUE(length(x) %% 2 == 0)){
-     x <- matrix(x, ncol = 2, byrow = TRUE)
-     return(extractFromLayer(x, layer = layer, attr = attr, ...))
-   } else {
-     stop ("Vector must have even number of longitude and latitude entries")
-   }
+  if(isTRUE(length(x) %% 2 == 0)){
+    x <- matrix(x, ncol = 2, byrow = TRUE)
+    return(extractFromLayer(x, layer = layer, attr = attr, ...))
+  } else {
+    stop ("Vector must have even number of longitude and latitude entries")
+  }
   
 })
 
@@ -194,15 +195,15 @@ setMethod("extractFromLayer", "list", function(x, layer = "world", attr = "all",
 setMethod("extractFromLayer", "gGraph", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
   res <- extractFromLayer(x = coords, layer = layer, attr = attr, ...)
-
+  
   if (nrow(x@nodes.attr) > 1) {
     x@nodes.attr <- cbind.data.frame(x@nodes.attr, res)
   } else {
     x@nodes.attr <- res
   }
-
+  
   return(x)
-}) # end findLand
+}) # end extractFromLayer
 
 
 
@@ -217,7 +218,7 @@ setMethod("extractFromLayer", "gGraph", function(x, layer = "world", attr = "all
 setMethod("extractFromLayer", "gData", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
   res <- extractFromLayer(x = coords, layer = layer, attr = attr, ...)
-
+  
   if (is.null(x@data)) {
     x@data <- res
   } else if (length(nrow(x@data)) > 0 && nrow(x@data) > 1) { # if data are non-empty data.frame
@@ -230,6 +231,6 @@ setMethod("extractFromLayer", "gData", function(x, layer = "world", attr = "all"
     warning("x@data has been transformed into a list to include layer data.")
     x@data <- list(x@data, layerInfo = res)
   }
-
+  
   return(x)
 })
