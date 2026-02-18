@@ -18,7 +18,7 @@
 #' two columns giving longitudes and latitudes of locations being considered.
 #' For list, input must have two components being vectors giving longitudes and
 #' latitudes of locations.
-#' @param layer a shapefile of the class [`sf`] (see
+#' @param layer a shapefile of the class `sf` (see
 #' [sf::st_read()] to import a GIS
 #' shapefile). Alternatively, a character string indicating one shapefile
 #' released with geoGraph; currently, only 'world' is available.

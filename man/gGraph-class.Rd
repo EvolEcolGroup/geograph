@@ -44,7 +44,7 @@ columns are different variables associated to the nodes.}
 \item{\code{meta}}{list, most likely containing named data.frames (see
 Slots).}
 
-\item{\code{graph}}{an object of the class \linkS4class{graphNEL},
+\item{\code{graph}}{an object of the class \code{\link[graph:graphNEL-class]{graph::graphNEL}},
 from the \code{graph} package (see \code{class?graphNEL}), describing
 connectivity among nodes.
 
@@ -94,7 +94,7 @@ title("after droping edges with null weight")
 
 }
 \seealso{
-Related classes are:\cr \% - \code{\linkS4class{graphNEL}}
+Related classes are:\cr \% - \code{[`graph::graphNEL`]}
 (graph package): slot \code{@graph} in \code{gGraph}.\cr
 }
 \keyword{classes}

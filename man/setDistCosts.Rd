@@ -29,8 +29,8 @@ the \code{fields} package.
 }
 \details{
 The notion of 'costs' in the context of \linkS4class{gGraph} objects is
-identical to the concept of 'weights' in \linkS4class{graph} (and thus
-\linkS4class{graphNEL}) objects. The larger it is for an edge, the less
+identical to the concept of 'weights' in in the library \code{graph} (and thus
+\code{\link[graph:graphNEL-class]{graph::graphNEL}}) objects. The larger it is for an edge, the less
 connectivity there is between the couple of concerned nodes.
 }
 \section{Functions}{

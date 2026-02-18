@@ -41,14 +41,14 @@ NULL
 #' columns are different variables associated to the nodes.
 #' @slot meta list, most likely containing named data.frames (see
 #' Slots).
-#' @slot graph an object of the class \linkS4class{graphNEL},
+#' @slot graph an object of the class [`graph::graphNEL`],
 #' from the \code{graph} package (see \code{class?graphNEL}), describing
 #' connectivity among nodes.
 #'
 #' Note that none of these is mandatory: \code{new("gGraph")} would work, and
 #' create an empty \code{gGraph} object.
 
-#' @seealso Related classes are:\cr % - \code{\linkS4class{graphNEL}}
+#' @seealso Related classes are:\cr % - \code{[`graph::graphNEL`]}
 #' (graph package): slot \code{@graph} in \code{gGraph}.\cr
 #' @keywords classes spatial graphs
 #' @exportClass gGraph
