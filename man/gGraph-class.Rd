@@ -94,8 +94,8 @@ title("after droping edges with null weight")
 
 }
 \seealso{
-Related classes are:\cr \% - \code{[`graph::graphNEL`]}
-(graph package): slot \code{@graph} in \code{gGraph}.\cr
+Related classes are: \code{\link[graph:graphNEL-class]{graph::graphNEL}}: slot \code{@graph}
+in \code{gGraph}.\cr
 }
 \keyword{classes}
 \keyword{graphs}
