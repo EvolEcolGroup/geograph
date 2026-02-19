@@ -1,4 +1,4 @@
-#' areal diffusion model (toy function)
+#' area diffusion model (toy function)
 #' 
 #' This function identifies all nodes that are reachable from a given
 #' origin node within a specified maximum diffusion distance, where

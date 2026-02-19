@@ -34,11 +34,11 @@ Suggests:
     rmarkdown,
     rnaturalearthdata,
     spelling
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Collate: 
     'classes.R'
     'accessors.R'
-    'arealDiffusion.R'
+    'areaDiffusion.R'
     'assignRasterPoints.R'
     'basicMethods.R'
     'buffer.R'
