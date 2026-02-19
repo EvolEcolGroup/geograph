@@ -1,7 +1,5 @@
 #' Create a new gGraph object from a custom discrete global grid
 #'
-#'@TODO need to check for date line wrapping 
-#'
 #' @description
 #' \code{createNewGraph} constructs a new \linkS4class{gGraph} object based on a
 #' discrete global grid system (DGGS) with a user-defined spatial resolution.
@@ -56,7 +54,7 @@ createNewGraph <- function(geo_box, spacing, ...) {
     maxlon = bbox["xmax"],
     minlat = bbox["ymin"],
     maxlat = bbox["ymax"],
-    cellsize = cell_size / (111 * 3) #need to find a way to make this dependent on the spacing
+    cellsize = cell_size / (111 * 3) #@TODO need to find a way to make this dependent on the spacing
   )
   
   # get the coords argument from the centers of the grid cells
@@ -72,7 +70,7 @@ createNewGraph <- function(geo_box, spacing, ...) {
   nb <- spdep::dnearneigh( #@TODO switch to sf at some point here 
     xy,
     d1 = 0,
-    d2 = cell_size * 1.5,
+    d2 = cell_size * 1.5, #@TODO make this more robust
     longlat = TRUE
   )
   
