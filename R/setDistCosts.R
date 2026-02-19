@@ -7,7 +7,7 @@
 #' the \code{fields} package.
 #'
 #' The notion of 'costs' in the context of \linkS4class{gGraph} objects is
-#' identical to the concept of 'weights' in in the library `graph` (and thus
+#' identical to the concept of 'weights' in the library `graph` (and thus
 #' [`graph::graphNEL`]) objects. The larger it is for an edge, the less
 #' connectivity there is between the couple of concerned nodes.
 #'
