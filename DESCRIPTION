@@ -38,7 +38,6 @@ RoxygenNote: 7.3.3
 Collate: 
     'classes.R'
     'accessors.R'
-    'areaDiffusion.R'
     'assignRasterPoints.R'
     'basicMethods.R'
     'buffer.R'
@@ -60,6 +59,7 @@ Collate:
     'isInArea.R'
     'keepMaxConnected.R'
     'makeGrid.R'
+    'nodeBuffer.R'
     'plot.R'
     'rebuild.R'
     'setCosts.R'
