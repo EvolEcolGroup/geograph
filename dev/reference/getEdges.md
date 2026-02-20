@@ -40,7 +40,9 @@ The output depends on the value of the argument `res.type`:
 
 - `asIs`: output is a named list of nodes, each slot containing nodes
   forming an edge with one given node. This format is that of the
-  `edges` accessor for graphNEL objects.  
+  `edges` accessor for
+  [`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html)
+  objects.  
 
 - `matNames`: a matrix with two columns giving couples of node names
   forming edges.  

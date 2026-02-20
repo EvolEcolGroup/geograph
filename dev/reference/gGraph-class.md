@@ -32,8 +32,10 @@ taken from the row names of `@coords` slot).
 
 - `graph`:
 
-  an object of the class graphNEL, from the `graph` package (see
-  `class?graphNEL`), describing connectivity among nodes.
+  an object of the class
+  [`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html),
+  from the `graph` package (see `class?graphNEL`), describing
+  connectivity among nodes.
 
   Note that none of these is mandatory: `new("gGraph")` would work, and
   create an empty `gGraph` object.
@@ -45,8 +47,9 @@ taken from the row names of `@coords` slot).
 
 ## See also
 
-Related classes are:  
-% - `graphNEL` (graph package): slot `@graph` in `gGraph`.  
+Related classes are:
+[`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html):
+slot `@graph` in `gGraph`.  
 
 ## Examples
 

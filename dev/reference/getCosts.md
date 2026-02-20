@@ -53,7 +53,9 @@ The output depends on the value of the argument `res.type`:
 
 - `asIs`: output is a named list of weights, each slot containing
   weights associated to the edges stemming from one given node. This
-  format is that of the `weights` accessor for graphNEL objects.  
+  format is that of the `weights` accessor for
+  [`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html)
+  objects.  
 
 - `vector`: a vector of weights; this output matches matrix outputs of
   [`getEdges`](https://evolecolgroup.github.io/geograph/dev/reference/getEdges.md).  
@@ -65,9 +67,11 @@ attribute.
 
 The notion of 'costs' in the context of
 [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-objects is identical to the concept of 'weights' in graph (and thus
-graphNEL) objects. The larger it is for an edge, the less connectivity
-there is between the couple of concerned nodes.
+objects is identical to the concept of 'weights' in the library `graph`
+(and thus
+[`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html))
+objects. The larger it is for an edge, the less connectivity there is
+between the couple of concerned nodes.
 
 ## Functions
 

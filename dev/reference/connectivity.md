@@ -39,7 +39,9 @@ connectivityPlot(x, col.gGraph = 0, ..., seed = NULL)
 
 - graph:
 
-  a valid graphNEL object.
+  a valid
+  [`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html)
+  object.
 
 - x:
 
@@ -94,7 +96,9 @@ connectivityPlot(x, col.gGraph = 0, ..., seed = NULL)
 ## Details
 
 - `areNeighbours`: tests connectivity between couples of nodes on an
-  object inheriting `graph` class (like a graphNEL object).  
+  object inheriting `graph` class (like a
+  [`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html)
+  object).  
 
 - `areConnected`: tests if a set of nodes form a connected set on a
   [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)

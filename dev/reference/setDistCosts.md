@@ -41,9 +41,11 @@ removed from the object.
 
 The notion of 'costs' in the context of
 [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-objects is identical to the concept of 'weights' in graph (and thus
-graphNEL) objects. The larger it is for an edge, the less connectivity
-there is between the couple of concerned nodes.
+objects is identical to the concept of 'weights' in the library `graph`
+(and thus
+[`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html))
+objects. The larger it is for an edge, the less connectivity there is
+between the couple of concerned nodes.
 
 ## Functions
 

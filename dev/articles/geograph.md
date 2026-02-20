@@ -744,7 +744,7 @@ geo.bookmark("australia")
 #### Combining costs
 
 If we want to condition connectivity on more than just one variable, we
-may want to combine cost from different gGrpahs into a single metric.
+may want to combine cost from different gGraphs into a single metric.
 For this example, instead of looking at water cells, we focus on land
 cells and we want the connectivity between the cells to be based on the
 productivity of the land, which is given in the gGraph object
@@ -792,8 +792,8 @@ title("Temperature graph")
 
 Now we want a combined cost that both captures the temperature as well
 as the mean productivity for our subsequent analysis (@TODO make a more
-intuitive example here, eg combining temperature and precipitation). For
-this we can use the `combineCosts` function, which allows to combine
+intuitive example here, e.g. combining temperature and precipitation).
+For this we can use the `combineCosts` function, which allows to combine
 costs from two different graphs using a specified method (sum, product,
 or a custom function). Here we will use the sum method to combine the
 costs from the productivity and temperature graphs.
