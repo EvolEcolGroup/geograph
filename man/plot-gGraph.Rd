@@ -13,10 +13,10 @@
 \arguments{
 \item{x}{a \linkS4class{gGraph} object.}
 
-\item{shape}{a shapefile used as background to the object. Must be of the
-class \code{SpatialPolygonsDataFrame} (see \code{readShapePoly} in maptools
-package to import such data from a GIS shapefile). Alternatively, a
-character string indicating one shapefile released with geoGraph.}
+\item{shape}{a shapefile of the class \code{sf} (see
+\code{\link[sf:st_read]{sf::st_read()}} to import a GIS
+shapefile). Alternatively, a character string indicating one shapefile
+released with geoGraph; currently, only 'world' is available.}
 
 \item{psize}{a numeric giving the size of points.}
 
@@ -39,14 +39,14 @@ borders.}
 \item{lwd}{a numeric indicating the width of line (used for edges).}
 
 \item{useCosts}{a logical indicating if edge width should be inversely
-proportionnal to edge cost (TRUE) or not (FALSE).}
+proportional to edge cost (TRUE) or not (FALSE).}
 
 \item{maxLwd}{a numeric indicating the maximum edge width (corresponding to
 the maximum weight).}
 
 \item{col.rules}{a data.frame with two named columns, the first one giving
 values of a node attribute, and the second one stating colors to be used for
-each value. If not provided, this is seeked from the \code{@meta\$color}
+each value. If not provided, this is sought from the \code{@meta\$color}
 slot of the object.}
 
 \item{sticky.points}{a logical indicating if added points should be kept
@@ -80,8 +80,8 @@ information are stored in a particular environment (.geoGraphEnv), which is
 created when loading \code{geoGraph}. Users should not have to interact
 directly with objects in this environment.\cr
 
-The resulting plotting behaviour is that when plotting a \code{gGraph}
-object, last plotting parameters are re-used. To override this behaviour,
+The resulting plotting behavior is that when plotting a \code{gGraph}
+object, last plotting parameters are re-used. To override this behavior,
 specify \code{reset=TRUE} as argument to \code{plot}.
 }
 \examples{

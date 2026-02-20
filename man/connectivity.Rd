@@ -10,6 +10,7 @@
 \alias{connectivityPlot-methods}
 \alias{connectivityPlot,gGraph-method}
 \alias{connectivityPlot,gData-method}
+\alias{isConnected,gGraph-method}
 \title{Check connectivity of a gGraph object}
 \usage{
 areNeighbours(V1, V2, graph)
@@ -17,6 +18,8 @@ areNeighbours(V1, V2, graph)
 areConnected(x, nodes)
 
 \S4method{isConnected}{gData}(object, ...)
+
+\S4method{isConnected}{gGraph}(object, ...)
 
 isReachable(x, loc)
 
@@ -31,7 +34,7 @@ connectivityPlot(x, ...)
 
 \item{V2}{a vector of node names}
 
-\item{graph}{a valid \linkS4class{graphNEL} object.}
+\item{graph}{a valid \code{\link[graph:graphNEL-class]{graph::graphNEL}} object.}
 
 \item{x}{a valid \linkS4class{gGraph} object.}
 
@@ -70,7 +73,7 @@ The functions \code{areNeighbours}, \code{areConnected} and the method
 \details{
 \itemize{
 \item \code{areNeighbours}: tests connectivity between couples of nodes on an
-object inheriting \code{graph} class (like a \linkS4class{graphNEL}
+object inheriting \code{graph} class (like a \code{\link[graph:graphNEL-class]{graph::graphNEL}}
 object).\cr
 \item \code{areConnected}: tests if a set of nodes form a connected set on a
 \linkS4class{gGraph} object.\cr
@@ -84,7 +87,7 @@ a \linkS4class{gData} object with different colors.\cr
 }
 
 In \code{connectivityPlot}, isolated nodes (i.e. belonging to no connected
-set of size > 1) are plotted in light grey.
+set of size > 1) are plotted in light gray.
 }
 \examples{
 

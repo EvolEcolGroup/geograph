@@ -12,7 +12,7 @@
 #' @aliases buffer buffer-methods buffer,gGraph-method buffer,gData-method
 #' @param x a valid \linkS4class{gGraph} or \linkS4class{gData} object.
 #' @param \dots further arguments passed to specific methods.
-#' @param nodes a character vector identifying the nodes aournd which buffers
+#' @param nodes a character vector identifying the nodes around which buffers
 #' should be computed.
 #' @param d the radius of the buffer, in km.
 #' @param res.type the type of result that should be returned (see section
@@ -178,12 +178,12 @@ setMethod("buffer", "gData", function(x, d, res.type = c("nodes", "gData", "gGra
 
 
   ## CALL UPON gGraph METHOD ##
-  if (res.type == "gGraph") { # if result seeked is gGraph
+  if (res.type == "gGraph") { # if result sought is gGraph
     res <- buffer(myGraph, myNodes, d, res.type = "gGraph")
     return(res)
   }
 
-  # if result seeked is nodes or gData
+  # if result sought is nodes or gData
   temp <- buffer(myGraph, myNodes, d, res.type = "nodes")
   if (res.type == "nodes") {
     return(temp)

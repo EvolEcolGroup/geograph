@@ -36,7 +36,7 @@ The output depends on the value of the argument \code{res.type}:\cr
 \itemize{
 \item \code{asIs}: output is a named list of weights, each slot containing
 weights associated to the edges stemming from one given node. This format is
-that of the \code{weights} accessor for \linkS4class{graphNEL} objects.\cr
+that of the \code{weights} accessor for \code{\link[graph:graphNEL-class]{graph::graphNEL}} objects.\cr
 \item \code{vector}: a vector of weights; this output matches matrix outputs of
 \code{\link{getEdges}}.\cr
 }
@@ -51,8 +51,8 @@ are designed to match possible outputs of \code{\link{getEdges}} function.
 attribute.
 
 The notion of 'costs' in the context of \linkS4class{gGraph} objects is
-identical to the concept of 'weights' in \linkS4class{graph} (and thus
-\linkS4class{graphNEL}) objects. The larger it is for an edge, the less
+identical to the concept of 'weights' in the library \code{graph} (and thus
+\code{\link[graph:graphNEL-class]{graph::graphNEL}}) objects. The larger it is for an edge, the less
 connectivity there is between the couple of concerned nodes.
 }
 \section{Functions}{

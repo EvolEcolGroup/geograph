@@ -4,7 +4,7 @@
 #' \code{isConnected} test connectivity in different ways.\cr
 #'
 #' - \code{areNeighbours}: tests connectivity between couples of nodes on an
-#' object inheriting \code{graph} class (like a \linkS4class{graphNEL}
+#' object inheriting \code{graph} class (like a [`graph::graphNEL`]
 #' object).\cr
 #'
 #' - \code{areConnected}: tests if a set of nodes form a connected set on a
@@ -21,14 +21,14 @@
 #' a \linkS4class{gData} object with different colors.\cr
 #'
 #' In \code{connectivityPlot}, isolated nodes (i.e. belonging to no connected
-#' set of size > 1) are plotted in light grey.
+#' set of size > 1) are plotted in light gray.
 #'
 #' @aliases areNeighbours areConnected isConnected,gData-method isReachable
 #' connectivityPlot connectivityPlot-methods connectivityPlot,gGraph-method
 #' connectivityPlot,gData-method
 #' @param V1 a vector of node names
 #' @param V2 a vector of node names
-#' @param graph a valid \linkS4class{graphNEL} object.
+#' @param graph a valid [`graph::graphNEL`] object.
 #' @param x a valid \linkS4class{gGraph} object.
 #' @param nodes a vector of node names
 #' @param object a valid \linkS4class{gData} object.
@@ -50,7 +50,7 @@
 #'
 #' - \code{isConnected}: a single logical value, being TRUE if nodes of the
 #' object form a connected set.\cr
-
+#' @include classes.R
 #' @keywords utilities methods
 #' @name connectivity
 #' @examples
@@ -162,6 +162,25 @@ setMethod("isConnected", "gData", function(object, ...) {
 }) # end isConnected for gData
 
 
+## the GENERIC of this method is given in package 'graph'
+#' @rdname connectivity
+#' @export
+setMethod("isConnected", "gGraph", function(object, ...) {
+  ## checks ##
+  if (!is.gGraph(object)) stop("'object' is not a valid gGraph object.")
+  
+  ## set args for areConnected ##
+  myNodes <- getNodes(object)
+  ## wrapper ##
+  res <- areConnected(object, myNodes)
+  
+  ## return res ##
+  return(res)
+}) # end isConnected for gGraph
+
+
+
+
 
 
 
@@ -174,7 +193,7 @@ setMethod("isConnected", "gData", function(object, ...) {
 isReachable <- function(x, loc) { # x is a gData object
   ## checks ##
   if (!is.gData(x)) stop("x is not a valid gData object.")
-  if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
+
   mygGraph <- get(x@gGraph.name, envir = .GlobalEnv)
 
 

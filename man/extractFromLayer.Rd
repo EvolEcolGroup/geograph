@@ -8,6 +8,7 @@
 \alias{extractFromLayer,list-method}
 \alias{extractFromLayer,gGraph-method}
 \alias{extractFromLayer,gData-method}
+\alias{extractFromLayer,numeric-method}
 \title{Retrieves node attributes from a layer}
 \usage{
 extractFromLayer(x, ...)
@@ -15,6 +16,8 @@ extractFromLayer(x, ...)
 \S4method{extractFromLayer}{matrix}(x, layer = "world", attr = "all", ...)
 
 \S4method{extractFromLayer}{data.frame}(x, layer = "world", attr = "all", ...)
+
+\S4method{extractFromLayer}{numeric}(x, layer = "world", attr = "all", ...)
 
 \S4method{extractFromLayer}{list}(x, layer = "world", attr = "all", ...)
 
@@ -29,19 +32,17 @@ two columns giving longitudes and latitudes of locations being considered.
 For list, input must have two components being vectors giving longitudes and
 latitudes of locations.}
 
-\item{\dots}{further arguments to be passed to other methds. Currently not
+\item{\dots}{further arguments to be passed to other methods. Currently not
 used.}
 
-\item{layer}{a shapefile of the class \code{SpatialPolygonsDataFrame} (see
-\code{readShapePoly} in maptools package to import such data from a GIS
+\item{layer}{a shapefile of the class \code{sf} (see
+\code{\link[sf:st_read]{sf::st_read()}} to import a GIS
 shapefile). Alternatively, a character string indicating one shapefile
-released with geoGraph; currently, only 'world' is available (see
-\code{?data(worldshape)}).}
+released with geoGraph; currently, only 'world' is available.}
 
 \item{attr}{a character vector giving names of the variables to be extracted
 from the layer. If 'all', all available variables are extracted. In case of
-problem, available names are displayed with the error message. Available
-data are also stored in \code{layer@data}.}
+problem, available names are displayed with the error message.}
 }
 \value{
 The output depends on the nature of the input:\cr - \code{matrix,
@@ -71,21 +72,15 @@ input formats.
 
 plot(worldgraph.10k, reset = TRUE)
 
-
-## see what info is available
-names(worldshape@data)
-unique(worldshape@data$CONTINENT)
-
-
 ## retrieve continent info for all nodes
 ## (might take a few seconds)
-x <- extractFromLayer(worldgraph.10k, layer = worldshape, attr = "CONTINENT")
+x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "continent")
 x
-table(getNodesAttr(x, attr.name = "CONTINENT"))
+table(getNodesAttr(x, attr.name = "continent"))
 
 
 ## subset Africa
-temp <- getNodesAttr(x, attr.name = "CONTINENT") == "Africa"
+temp <- getNodesAttr(x, attr.name = "continent") == "Africa"
 temp[is.na(temp)] <- FALSE
 x <- x[temp]
 plot(x, reset = TRUE)

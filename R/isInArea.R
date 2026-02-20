@@ -23,7 +23,7 @@
 #' so \code{locator(1)} is a valid value for \code{reg}.
 #' @param res.type a character string indicating what kind of output should be
 #' produced. See value.
-#' @param buffer a numeric value giving a buffer adding extra space aroung the
+#' @param buffer a numeric value giving a buffer adding extra space around the
 #' area, as a proportion of current area's dimensions.
 #' @return The output depends on the value of the argument \code{res.type}:\cr
 #' - \code{logical}: a vector of logicals having one value for each node of the

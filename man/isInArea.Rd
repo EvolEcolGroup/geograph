@@ -56,7 +56,7 @@ so \code{locator(1)} is a valid value for \code{reg}.}
 \item{res.type}{a character string indicating what kind of output should be
 produced. See value.}
 
-\item{buffer}{a numeric value giving a buffer adding extra space aroung the
+\item{buffer}{a numeric value giving a buffer adding extra space around the
 area, as a proportion of current area's dimensions.}
 }
 \value{

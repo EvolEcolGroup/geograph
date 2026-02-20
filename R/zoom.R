@@ -92,7 +92,7 @@ NULL
 
 
 
-
+# nocov start
 
 ##############
 ## geo.zoomin
@@ -331,7 +331,7 @@ geo.slide <- function() {
 
 
 
-
+# nocov end
 
 
 ############

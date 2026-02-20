@@ -1,5 +1,4 @@
 library("geoGraph")
-context("test cost setting")
 
 test_that("arbitrary function to set costs", {
   data("worldgraph.40k")

@@ -14,8 +14,8 @@
 #' created when loading \code{geoGraph}. Users should not have to interact
 #' directly with objects in this environment.\cr
 #'
-#' The resulting plotting behaviour is that when plotting a \code{gGraph}
-#' object, last plotting parameters are re-used. To override this behaviour,
+#' The resulting plotting behavior is that when plotting a \code{gGraph}
+#' object, last plotting parameters are re-used. To override this behavior,
 #' specify \code{reset=TRUE} as argument to \code{plot}.
 #'
 #' @name plot-gGraph
@@ -23,10 +23,10 @@
 #' points,gGraph-method points.gGraph plotEdges
 #' @docType methods
 #' @param x a \linkS4class{gGraph} object.
-#' @param shape a shapefile used as background to the object. Must be of the
-#' class \code{SpatialPolygonsDataFrame} (see \code{readShapePoly} in maptools
-#' package to import such data from a GIS shapefile). Alternatively, a
-#' character string indicating one shapefile released with geoGraph.
+#' @param shape a shapefile of the class `sf` (see
+#' [sf::st_read()] to import a GIS
+#' shapefile). Alternatively, a character string indicating one shapefile
+#' released with geoGraph; currently, only 'world' is available.
 #' @param psize a numeric giving the size of points.
 #' @param pch a numeric or a character indicating the type of point.
 #' @param col a character string indicating the color to be used.
@@ -40,12 +40,12 @@
 #' borders.
 #' @param lwd a numeric indicating the width of line (used for edges).
 #' @param useCosts a logical indicating if edge width should be inversely
-#' proportionnal to edge cost (TRUE) or not (FALSE).
+#' proportional to edge cost (TRUE) or not (FALSE).
 #' @param maxLwd a numeric indicating the maximum edge width (corresponding to
 #' the maximum weight).
 #' @param col.rules a data.frame with two named columns, the first one giving
 #' values of a node attribute, and the second one stating colors to be used for
-#' each value. If not provided, this is seeked from the \code{@meta\$color}
+#' each value. If not provided, this is sought from the \code{@meta\$color}
 #' slot of the object.
 #' @param sticky.points a logical indicating if added points should be kept
 #' when replotting (TRUE), or not (FALSE). In any case, \code{reset=TRUE} will
@@ -64,6 +64,7 @@
 #'
 #' - \code{\link{isInArea}}, to retain a set of visible data.\cr
 #' @keywords methods hplot spatial
+#' @importFrom rnaturalearth ne_countries
 #' @examples
 #'
 #'
@@ -103,7 +104,7 @@ NULL
 ## plot for gGraph
 ###################
 #' @export
-#' @import sp
+#' @import sf
 setMethod("plot", signature(x = "gGraph", y = "missing"), function(x, y, shape = "world", psize = NULL, pch = 19, col = NULL,
                                                                    edges = FALSE, reset = FALSE, bg.col = "gray", border.col = "dark gray",
                                                                    lwd = 1, useCosts = NULL, maxLwd = 3, col.rules = NULL, ...) {
@@ -191,16 +192,23 @@ setMethod("plot", signature(x = "gGraph", y = "missing"), function(x, y, shape =
 
   ## handle shape
   if (!is.null(shape) && is.character(shape) && shape == "world") {
-    shape <- worldshape
+    #shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
+    shape <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
+    sf::sf_use_s2(FALSE)
   }
 
-  if (!is.null(shape)) { ## plot with background ##
-    if (!inherits(shape, "SpatialPolygonsDataFrame")) {
-      stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
+  ## TODO if the shape is null, we should throw an error!!!
+  if (!is.null(shape)) {
+    if (!inherits(shape, "sf")) {
+      if (inherits(shape, "SpatialPolygonsDataFrame")){
+        shape <- sf::st_as_sf(shape)
+      } else {
+        stop("shape must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
+      }
     }
 
     ## plot background
-    plot(shape, col = bg.col, border = border.col, xlim = xlim, ylim = ylim)
+    plot(sf::st_geometry(shape), col = bg.col, border = border.col, xlim = xlim, ylim = ylim)
 
     ## subset of points in area
     toKeep <- isInArea(x, reg = "current", res.type = "character")

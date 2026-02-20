@@ -14,7 +14,7 @@
 \arguments{
 \item{x}{a valid \linkS4class{gGraph} or \linkS4class{gData} object.}
 
-\item{nodes}{a character vector identifying the nodes aournd which buffers
+\item{nodes}{a character vector identifying the nodes around which buffers
 should be computed.}
 
 \item{d}{the radius of the buffer, in km.}
