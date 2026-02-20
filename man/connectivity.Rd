@@ -34,7 +34,7 @@ connectivityPlot(x, ...)
 
 \item{V2}{a vector of node names}
 
-\item{graph}{a valid \linkS4class{graphNEL} object.}
+\item{graph}{a valid \code{\link[graph:graphNEL-class]{graph::graphNEL}} object.}
 
 \item{x}{a valid \linkS4class{gGraph} object.}
 
@@ -73,7 +73,7 @@ The functions \code{areNeighbours}, \code{areConnected} and the method
 \details{
 \itemize{
 \item \code{areNeighbours}: tests connectivity between couples of nodes on an
-object inheriting \code{graph} class (like a \linkS4class{graphNEL}
+object inheriting \code{graph} class (like a \code{\link[graph:graphNEL-class]{graph::graphNEL}}
 object).\cr
 \item \code{areConnected}: tests if a set of nodes form a connected set on a
 \linkS4class{gGraph} object.\cr

@@ -34,7 +34,7 @@ Suggests:
     rmarkdown,
     rnaturalearthdata,
     spelling
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3
 Collate: 
     'classes.R'
     'accessors.R'

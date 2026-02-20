@@ -1,11 +1,9 @@
 # geoGraph
 
 <!-- badges: start -->
-[![R-CMD-check
-main](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/main?label=main&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
-[![R-CMD-check
-dev](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/dev?label=dev&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/EvolEcolGroup/geograph/branch/dev/graph/badge.svg?token=NflUsWlnQR)](https://app.codecov.io/gh/EvolEcolGroup/geograph)
+[![R-CMD-check main](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/main?label=main&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check dev](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/dev?label=dev&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/EvolEcolGroup/geograph/graph/badge.svg)](https://app.codecov.io/gh/EvolEcolGroup/geograph)
 <!-- badges: end -->
 
 `geoGraph` aims at implementing graph approaches for geographic data.

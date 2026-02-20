@@ -23,7 +23,7 @@
 #' points,gGraph-method points.gGraph plotEdges
 #' @docType methods
 #' @param x a \linkS4class{gGraph} object.
-#' @param shape a shapefile of the class [`sf`] (see
+#' @param shape a shapefile of the class `sf` (see
 #' [sf::st_read()] to import a GIS
 #' shapefile). Alternatively, a character string indicating one shapefile
 #' released with geoGraph; currently, only 'world' is available.

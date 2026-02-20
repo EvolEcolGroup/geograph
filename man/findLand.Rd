@@ -24,7 +24,7 @@ latitudes of locations being considered.}
 \item{\dots}{further arguments to be passed to other methods. Currently not
 used.}
 
-\item{shape}{a shapefile of the class \code{\link{sf}} (see
+\item{shape}{a shapefile of the class \code{sf} (see
 \code{\link[sf:st_read]{sf::st_read()}} to import a GIS
 shapefile). Alternatively, a character string indicating one shapefile
 released with geoGraph; currently, only 'world' is available.}

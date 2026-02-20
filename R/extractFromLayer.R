@@ -18,7 +18,7 @@
 #' two columns giving longitudes and latitudes of locations being considered.
 #' For list, input must have two components being vectors giving longitudes and
 #' latitudes of locations.
-#' @param layer a shapefile of the class [`sf`] (see
+#' @param layer a shapefile of the class `sf` (see
 #' [sf::st_read()] to import a GIS
 #' shapefile). Alternatively, a character string indicating one shapefile
 #' released with geoGraph; currently, only 'world' is available.
@@ -82,15 +82,19 @@ setGeneric("extractFromLayer", function(x, ...) {
 #' @rdname extractFromLayer
 #' @export
 setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all", ...) {
+  # is s2 in use?
+  s2_in_use <- sf::sf_use_s2()
+  # switch it off
+  sf::sf_use_s2(FALSE)
+  on.exit(sf::sf_use_s2(s2_in_use)) # restore previous s2 setting on exit
+
 
   ## Load default shapefile ##
   if (is.character(layer) && layer[1] == "world") {
     # use rnaturalearth instead of the inbuilt dataset
     layer <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
-    sf::sf_use_s2(FALSE)
     #layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
-
   ## TODO if the layer is null, we should throw an error!!!
   if (!is.null(layer)) {
     if (!inherits(layer, "sf")) {
@@ -105,7 +109,9 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
 
   ## search attr in data ##
   if (attr[1] == "all") {
-    selAttr <- 1:ncol(layer)
+    #selAttr <- 1:ncol(layer)
+    # select all columns but the last one (which is the geometry column)
+    selAttr <- seq_len(ncol(layer)-1)
   } else {
     selAttr <- match(attr, colnames(layer)) # selected attributes
     if (any(is.na(selAttr))) { # attribute not found in layer@data
@@ -118,12 +124,12 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
 
 
   # create an sf point object from the coordinates
-  locations_st <- x %>% as.data.frame %>% 
+  locations_st <- x %>% as.data.frame %>%
     sf::st_as_sf(coords=c(1,2)) %>%
     sf::st_set_crs(sf::st_crs(layer))
   # now find points in polygons
   points_within <- sf::st_intersects(layer, locations_st)
-  points_within <- data.frame(x = unlist(points_within), 
+  points_within <- data.frame(x = unlist(points_within),
                               polygon = rep(seq_along(lengths(points_within)), lengths(points_within)))
   points_assignment <- data.frame(x=seq(1, nrow(x)), polygon = NA)
   # add missing points for which we have no information
@@ -161,13 +167,13 @@ setMethod("extractFromLayer", "data.frame", function(x, layer = "world", attr = 
 #' @rdname extractFromLayer
 #' @export
 setMethod("extractFromLayer","numeric",function(x, layer = "world", attr = "all", ...) {
-   if(isTRUE(length(x) %% 2 == 0)){
-     x <- matrix(x, ncol = 2, byrow = TRUE)
-     return(extractFromLayer(x, layer = layer, attr = attr, ...))
-   } else {
-     stop ("Vector must have even number of longitude and latitude entries")
-   }
-  
+  if(isTRUE(length(x) %% 2 == 0)){
+    x <- matrix(x, ncol = 2, byrow = TRUE)
+    return(extractFromLayer(x, layer = layer, attr = attr, ...))
+  } else {
+    stop ("Vector must have even number of longitude and latitude entries")
+  }
+
 })
 
 
@@ -202,7 +208,7 @@ setMethod("extractFromLayer", "gGraph", function(x, layer = "world", attr = "all
   }
 
   return(x)
-}) # end findLand
+}) # end extractFromLayer
 
 
 
