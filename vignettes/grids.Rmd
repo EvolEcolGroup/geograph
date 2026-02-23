@@ -228,3 +228,32 @@ full_graph <- setCosts(full_graph, method = "mean", attr.name = "habitat")
 plot(full_graph, reset = TRUE)
 plotEdges(full_graph)
 ```
+
+### Visualizing connectivity in the topographic grid
+
+Now that we have our topographic grid with different habitat classifications and associated costs, we can use the `nodeBuffer` function to visualize connectivity in the grid. This function simulates the spread of a species or feature from a specified origin point across the graph, taking into account the costs of moving through different habitat types. In this example, we set the origin to be Zurich (with coordinates x = 8.5417, y = 47.3769) and specify a maximum distance of 50 units for the diffusion process. We then create a color matrix to visualize the diffusion area, where cells that are part of the diffusion area are colored blue and all other cells are transparent. Doing this for each step allows us then to create an animation of the diffusion process across the topographic grid, showing how the species or feature spreads over time while navigating through different habitat types and their associated costs.
+
+```{r}
+# we set the origin to be rome
+origin <- list(x = 8.5417, y = 47.3769)
+
+graph_dif <- nodeBuffer(
+  graph = full_graph,
+  origin = origin,
+  max_distance = 15
+)
+
+temp <- c(TRUE, FALSE)
+
+# initialize all as transparent
+colMat <- data.frame(
+  diffusion_area = temp,
+  color = "transparent",
+  stringsAsFactors = FALSE
+)
+
+# set color for diffusion area
+colMat$color[colMat$diffusion_area == TRUE] <- "blue"
+```
+
+![](figs/node_buffer.gif)
