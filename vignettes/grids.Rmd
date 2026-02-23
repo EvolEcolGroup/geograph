@@ -26,7 +26,7 @@ library(tidyverse)
 
 ### Getting the elevation data
 
-In the first step, we define the area of interest using a bounding box and then use the `get_elev_raster` function from the `elevatr` package to retrieve topographical and bathymetry data for that area. The resulting data is then converted to a `SpatRaster` object using the `rast` function from the `terra` package. 
+In the first step, we define the area of interest using a bounding box and then use the `get_elev_raster` function from the `elevatr` package to retrieve topographical and bathymetry data for that area. The resulting data is then converted to a `SpatRaster` object using the `rast` function from the `terra` package.
 
 ```{r getting topographic data}
 # define the area of interest (Europe)
@@ -54,7 +54,7 @@ plot(spatr)
 
 #### Makeing a land mask
 
-Using this `SpatRaster` we can create a land mask by using the `make_land_mask` function from the `pastclim` package. This function identifies land and ocean areas based on the simple logic of moving the ocean up and down given the current relief profile for the time of choice. In this case, we use the present time (0 years before present) to create a land mask for our area of interest. 
+Using this `SpatRaster` we can create a land mask by using the `make_land_mask` function from the `pastclim` package. This function identifies land and ocean areas based on the simple logic of moving the ocean up and down given the current relief profile for the time of choice. In this case, we use the present time (0 years before present) to create a land mask for our area of interest.
 
 ```{r making land mask}
 # make land mask (everything above 0m is land)
@@ -62,7 +62,6 @@ land_mask <- pastclim::make_land_mask(spatr, time_bp = 0) #using the present tim
 land_mask[is.na(land_mask)] <- 0 # set NAs to 0 (ocean)
 plot(land_mask)
 ```
-
 
 ### Creating the graph object
 
@@ -75,8 +74,8 @@ plotEdges(ggraph)
 ```
 
 ### Addiing the land/water mask to the graph
-We then use the `assignRasterPoints` function to add the land/water mask to the graph. This function takes the graph object and the land mask raster as inputs and assigns the land/water values to the corresponding cells in the graph. In this example we classify each cell with land points in it as land by defining the 'fun' parameter in collapseNodeAttribute as 'max', which means that if there is at least one land point in the cell, the cell will be classified as land.
-We can then visualize the resulting graph with the land/water mask by plotting the graph and coloring the nodes based on the land/water values.
+
+We then use the `assignRasterPoints` function to add the land/water mask to the graph. This function takes the graph object and the land mask raster as inputs and assigns the land/water values to the corresponding cells in the graph. In this example we classify each cell with land points in it as land by defining the 'fun' parameter in collapseNodeAttribute as 'max', which means that if there is at least one land point in the cell, the cell will be classified as land. We can then visualize the resulting graph with the land/water mask by plotting the graph and coloring the nodes based on the land/water values.
 
 ```{r}
 water_graph <- geoGraph::assignRasterPoints(
@@ -110,7 +109,6 @@ water_land_graph@meta$colors <- colors
 plot(water_land_graph, reset = TRUE)
 ```
 
-
 ### Assigning elevation data to graph nodes
 
 In the next step we can then use the `assignRasterPoints` function again to add elevation data to the nodes of the graph. In this case we need to chose how to incorporate the elevation data into the graph, since each node will have multiple raster points associated with it. So before using the collapseNodeAttribute function to get a single elevation value for each node, we can first have a look at the standard deviation of the elevation values for each node, which gives us an idea of the variability of elevation within each cell. This can be useful for identifying rugged areas, which typically have high variability in elevation and a higher cost of traveling through associated. For this we set the 'fun' parameter in the collapseNodeAttribute function to 'sd', which calculates the standard deviation of the elevation values for each node. We can then visualize the distribution of the standard deviation of elevation values for land cells by plotting a density plot.
@@ -143,7 +141,7 @@ plot(density(log(sd_ele), na.rm = TRUE), main = "Density of SD Elevation for Lan
 
 ```
 
-### Reclassify the nodes into 'rugged' and 'very rugged' 
+### Reclassify the nodes into 'rugged' and 'very rugged'
 
 Looking at the distribution of the standard deviation of elevation values for land cells, we can see that there are some cells with very high variability in elevation, which likely correspond to mountainous areas. We can then reclassify the nodes into 'rugged' and 'very rugged' based on an elevation threshold. Here we pick arbitrary thresholds for the standard deviation of elevation values to classify cells as 'rugged' and 'very rugged'. Cells with a standard deviation of elevation greater than 100 are classified as 'rugged', while those with a standard deviation greater than 150 are classified as 'very rugged'. We can then update the habitat attribute in the graph accordingly and visualize the resulting graph with the new habitat classifications.
 
@@ -214,8 +212,7 @@ plot(full_graph, reset = TRUE)
 
 ### Setting costs for the different habitat types
 
-Finally, we can set the costs for moving through different habitat types based on their classification. Note that the cost here is arbitrary and can be adjusted based on the specific context of the analysis and the species or features being studied. Costs are inversely related to the ease of movement through a cell, so higher costs indicate more difficult terrain.
-For example, we can assign a cost of 10 for moving through sea cells, a cost of 1 for moving through land cells, a cost of 3 for moving through rugged cells, a cost of 10 for moving through very rugged cells, and a cost of 1 for moving through coastal cells. We can then use the `setCosts` function to assign these costs to the graph based on the habitat classification.
+Finally, we can set the costs for moving through different habitat types based on their classification. Note that the cost here is arbitrary and can be adjusted based on the specific context of the analysis and the species or features being studied. Costs are inversely related to the ease of movement through a cell, so higher costs indicate more difficult terrain. For example, we can assign a cost of 10 for moving through sea cells, a cost of 1 for moving through land cells, a cost of 3 for moving through rugged cells, a cost of 10 for moving through very rugged cells, and a cost of 1 for moving through coastal cells. We can then use the `setCosts` function to assign these costs to the graph based on the habitat classification.
 
 ```{r setting costs}
 
@@ -231,4 +228,3 @@ full_graph <- setCosts(full_graph, method = "mean", attr.name = "habitat")
 plot(full_graph, reset = TRUE)
 plotEdges(full_graph)
 ```
-
