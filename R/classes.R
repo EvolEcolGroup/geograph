@@ -41,15 +41,15 @@ NULL
 #' columns are different variables associated to the nodes.
 #' @slot meta list, most likely containing named data.frames (see
 #' Slots).
-#' @slot graph an object of the class \linkS4class{graphNEL},
+#' @slot graph an object of the class [`graph::graphNEL`],
 #' from the \code{graph} package (see \code{class?graphNEL}), describing
 #' connectivity among nodes.
 #'
 #' Note that none of these is mandatory: \code{new("gGraph")} would work, and
 #' create an empty \code{gGraph} object.
 
-#' @seealso Related classes are:\cr % - \code{\linkS4class{graphNEL}}
-#' (graph package): slot \code{@graph} in \code{gGraph}.\cr
+#' @seealso Related classes are: [`graph::graphNEL`]: slot \code{@graph}
+#' in \code{gGraph}.\cr
 #' @keywords classes spatial graphs
 #' @exportClass gGraph
 #' @examples
@@ -225,7 +225,7 @@ setClass(
   x <- object
   Ncoords <- nrow(x@coords)
   Nnodes <- length(x@nodes.id)
-  
+
   if(x@gGraph.name == "" ){
     stop("x is not associated with a gGraph object.")
   }
@@ -234,7 +234,7 @@ setClass(
   if (!exists(x@gGraph.name, envir = .GlobalEnv)) {
     warning(paste("The gGraph object", x@gGraph.name, "is missing."))
   }
-  
+
   ## dim matching
   if (Ncoords != Nnodes) {
     cat("\n Number of coordinates and of nodes do not match.")
@@ -294,30 +294,30 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
     if (is.data.frame(input$coords)) {
       input$coords <- as.matrix(input$coords)
     }
-    
+
     if (ncol(input$coords)!=2){
       stop("Argument coords must include only two columns (longitude and latitude).")
     }
-    
+
     if (nrow(input$coords) > 0 && !is.numeric(input$coords)) {
       stop("Argument coords has to be numeric.")
       }
-    
+
     ## NAs in coords
     if (any(is.na(input$coords))) {
       stop("Argument coords includes NAs")
     }
-    
+
     ## Convert all column names to lower case
     colnames(input$coords) <- tolower(colnames(input$coords))
     ## Create list of lon/lat column heading names
     lonlist <- list("lon", "long", "longitude", "x")
     latlist <- list("lat", "latitude", "y")
     ## Test if the column order is inverted
-    if (is.element(colnames(input$coords)[1], latlist) & 
+    if (is.element(colnames(input$coords)[1], latlist) &
         is.element(colnames(input$coords)[2], lonlist)) {
       input$coords[, c(1, 2)] <- input$coords[, c(2, 1)]
-    } else if  (!(is.element(colnames(input$coords)[1], lonlist) & 
+    } else if  (!(is.element(colnames(input$coords)[1], lonlist) &
                   is.element(colnames(input$coords)[2], latlist))){
       message("The coordinate column names are not part of the standardised list;\n",
       "we will use the order they were given in, make sure it corresponds to x and y!")

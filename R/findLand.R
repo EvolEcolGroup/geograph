@@ -13,7 +13,7 @@
 #' @param x a matrix, a data.frame, or a valid \linkS4class{gGraph} object. For
 #' matrix and data.frame, input must have two columns giving longitudes and
 #' latitudes of locations being considered.
-#' @param shape a shapefile of the class [`sf`] (see
+#' @param shape a shapefile of the class `sf` (see
 #' [sf::st_read()] to import a GIS
 #' shapefile). Alternatively, a character string indicating one shapefile
 #' released with geoGraph; currently, only 'world' is available.

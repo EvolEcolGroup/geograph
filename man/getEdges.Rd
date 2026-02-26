@@ -26,7 +26,7 @@ The output depends on the value of the argument \code{res.type}:\cr
 \itemize{
 \item \code{asIs}: output is a named list of nodes, each slot containing nodes
 forming an edge with one given node. This format is that of the \code{edges}
-accessor for \linkS4class{graphNEL} objects.\cr
+accessor for \code{\link[graph:graphNEL-class]{graph::graphNEL}} objects.\cr
 \item \code{matNames}: a matrix with two columns giving couples of node names
 forming edges.\cr
 \item \code{matId}: a matrix with two columns giving couples of node indices

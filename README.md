@@ -1,11 +1,9 @@
 # geoGraph
 
 <!-- badges: start -->
-[![R-CMD-check
-main](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/main?label=main&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
-[![R-CMD-check
-dev](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/dev?label=dev&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/EvolEcolGroup/geograph/branch/dev/graph/badge.svg?token=NflUsWlnQR)](https://app.codecov.io/gh/EvolEcolGroup/geograph)
+[![R-CMD-check main](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/main?label=main&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check dev](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/dev?label=dev&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/EvolEcolGroup/geograph/graph/badge.svg)](https://app.codecov.io/gh/EvolEcolGroup/geograph)
 <!-- badges: end -->
 
 `geoGraph` aims at implementing graph approaches for geographic data.
@@ -22,7 +20,6 @@ In particular, RBGL is an interface between R and the comprehensive *Boost Graph
 which provides fast and efficient implementations of a wide range of graph algorithms.
 Once we have defined frictions for an entire geographic area, we can easily, for instance, find the least
 costs path from one location to another, or find the most parsimonious way of connecting a set of locations.
-
 
 Interfacing spatial data and graphs can be a complicated task.
 The purpose of `geoGraph` is to provide tools to achieve and simplify this 'preliminary' step.
