@@ -746,3 +746,5 @@ title("Genetic diversity vs geographic distance \n habitat costs ")
 
 Of course, the distinction between coasts and inner landmasses is a somewhat poor description of habitat.
 In practice, complex habitat models can be used as simply.
+
+NOTE: Here we can explain and illustrate the `combineCosts` function and how we can use it to combine different types of costs.
