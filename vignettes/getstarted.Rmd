@@ -1,0 +1,11 @@
+---
+title: "get started"
+author: "Dominik Jud"
+date: "2026-02-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
