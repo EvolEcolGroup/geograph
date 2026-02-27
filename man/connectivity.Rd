@@ -2,7 +2,6 @@
 % Please edit documentation in R/connectivity.R
 \name{connectivity}
 \alias{connectivity}
-\alias{areNeighbours}
 \alias{areConnected}
 \alias{isConnected,gData-method}
 \alias{isReachable}
@@ -13,8 +12,6 @@
 \alias{isConnected,gGraph-method}
 \title{Check connectivity of a gGraph object}
 \usage{
-areNeighbours(V1, V2, graph)
-
 areConnected(x, nodes)
 
 \S4method{isConnected}{gData}(object, ...)
@@ -30,12 +27,6 @@ connectivityPlot(x, ...)
 \S4method{connectivityPlot}{gData}(x, col.gGraph = 0, ..., seed = NULL)
 }
 \arguments{
-\item{V1}{a vector of node names}
-
-\item{V2}{a vector of node names}
-
-\item{graph}{a valid \code{\link[graph:graphNEL-class]{graph::graphNEL}} object.}
-
 \item{x}{a valid \linkS4class{gGraph} object.}
 
 \item{nodes}{a vector of node names}
@@ -55,6 +46,12 @@ default, meaning colors are randomized each time a plot is drawn.}
 \item{col.gGraph}{a character string or a number indicating the color of the
 nodes to be used when plotting the \linkS4class{gGraph} object. Defaults to
 '0', meaning that nodes are invisible.}
+
+\item{V1}{a vector of node names}
+
+\item{V2}{a vector of node names}
+
+\item{graph}{a valid \code{\link[graph:graphNEL-class]{graph::graphNEL}} object.}
 }
 \value{
 \itemize{
@@ -72,9 +69,6 @@ The functions \code{areNeighbours}, \code{areConnected} and the method
 }
 \details{
 \itemize{
-\item \code{areNeighbours}: tests connectivity between couples of nodes on an
-object inheriting \code{graph} class (like a \code{\link[graph:graphNEL-class]{graph::graphNEL}}
-object).\cr
 \item \code{areConnected}: tests if a set of nodes form a connected set on a
 \linkS4class{gGraph} object.\cr
 \item \code{isConnected}: tests if the nodes of a \linkS4class{gData} object

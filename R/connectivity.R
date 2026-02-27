@@ -3,9 +3,7 @@
 #' The functions \code{areNeighbours}, \code{areConnected} and the method
 #' \code{isConnected} test connectivity in different ways.\cr
 #'
-#' - \code{areNeighbours}: tests connectivity between couples of nodes on an
-#' object inheriting \code{graph} class (like a [`graph::graphNEL`]
-#' object).\cr
+
 #'
 #' - \code{areConnected}: tests if a set of nodes form a connected set on a
 #' \linkS4class{gGraph} object.\cr
@@ -23,7 +21,7 @@
 #' In \code{connectivityPlot}, isolated nodes (i.e. belonging to no connected
 #' set of size > 1) are plotted in light gray.
 #'
-#' @aliases areNeighbours areConnected isConnected,gData-method isReachable
+#' @aliases areConnected isConnected,gData-method isReachable
 #' connectivityPlot connectivityPlot-methods connectivityPlot,gGraph-method
 #' connectivityPlot,gData-method
 #' @param V1 a vector of node names
@@ -60,31 +58,6 @@
 #'
 NULL
 
-
-
-
-#################
-## areNeighbours
-#################
-#' @rdname connectivity
-#' @export
-
-areNeighbours <- function(V1, V2, graph) {
-  V1 <- as.character(V1)
-  V2 <- as.character(V2)
-  if (length(V1) != length(V2)) stop("V1 and V2 have different lengths.")
-
-  edg <- edges(graph)
-
-  ## function testing if two nodes are directly connected
-  f1 <- function(A, B) {
-    return(any(edg[[A]] == B))
-  }
-
-  res <- mapply(function(x, y) f1(x, y), V1, V2)
-
-  return(res)
-} # end areNeighbours
 
 
 
@@ -168,12 +141,12 @@ setMethod("isConnected", "gData", function(object, ...) {
 setMethod("isConnected", "gGraph", function(object, ...) {
   ## checks ##
   if (!is.gGraph(object)) stop("'object' is not a valid gGraph object.")
-  
+
   ## set args for areConnected ##
   myNodes <- getNodes(object)
   ## wrapper ##
   res <- areConnected(object, myNodes)
-  
+
   ## return res ##
   return(res)
 }) # end isConnected for gGraph

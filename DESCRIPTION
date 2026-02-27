@@ -38,6 +38,7 @@ RoxygenNote: 7.3.3
 Collate: 
     'classes.R'
     'accessors.R'
+    'areNeighbours.R'
     'basicMethods.R'
     'buffer.R'
     'closestNode.R'
