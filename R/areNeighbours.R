@@ -24,7 +24,9 @@ areNeighbours <- function(V1, V2, graph) {
   # check that the two vectors are character vectors of the same length
   V1 <- as.character(V1)
   V2 <- as.character(V2)
-  if (length(V1) != length(V2)) stop("V1 and V2 have different lengths.")
+  if (length(V1) != length(V2)) {
+    stop("V1 and V2 have different lengths.")
+  }
   # check that graph is a valid gGraph or graphNEL object
   if (inherits(graph, "gGraph")) {
     graph <- getGraph(graph) # extract graphNEL object from gGraph object
@@ -45,7 +47,4 @@ areNeighbours <- function(V1, V2, graph) {
   names(res) <- paste(V1, V2, sep = "->")
 
   return(res)
-} # end areNeighbours
-
-
-
+}
