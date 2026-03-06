@@ -24,9 +24,6 @@
 #' @aliases areConnected isConnected,gData-method isReachable
 #' connectivityPlot connectivityPlot-methods connectivityPlot,gGraph-method
 #' connectivityPlot,gData-method
-#' @param V1 a vector of node names
-#' @param V2 a vector of node names
-#' @param graph a valid [`graph::graphNEL`] object.
 #' @param x a valid \linkS4class{gGraph} object.
 #' @param nodes a vector of node names
 #' @param object a valid \linkS4class{gData} object.

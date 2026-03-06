@@ -11,7 +11,8 @@ areNeighbours(V1, V2, graph)
 
 \item{V2}{A vector of node names of the same length as \code{V1}.}
 
-\item{graph}{An object of class \code{graphNEL}.}
+\item{graph}{An object of class \link{gGraph} or \code{\link[graph:graphNEL-class]{graph::graphNEL}} (usually
+in the \verb{@graph} slot of a \link{gGraph} object.}
 }
 \value{
 a vector of logical, having one value for
@@ -21,3 +22,13 @@ each pair of nodes.
 Tests connectivity between pairs of nodes. This function
 tests if two nodes are directly connected with an edge (i.e. if they are neighbours).
 }
+\examples{
+# create a small square graph
+test_graph <- makeGrid(25, lon.range = c(1,5), lat.range = c(1,5))
+# get the coordinates of the first 10 nodes
+getCoords(test_graph)[1:10, ]
+# test that the function correctly identifies neighbours
+# 1 and 2 are neighbours, but 1 and 9 are not
+areNeighbours(V1 = c("1","1"), V2 = c("2","9"), graph = test_graph)
+}
+\concept{connectivity_functions}

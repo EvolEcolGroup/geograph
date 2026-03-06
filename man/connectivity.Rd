@@ -46,12 +46,6 @@ default, meaning colors are randomized each time a plot is drawn.}
 \item{col.gGraph}{a character string or a number indicating the color of the
 nodes to be used when plotting the \linkS4class{gGraph} object. Defaults to
 '0', meaning that nodes are invisible.}
-
-\item{V1}{a vector of node names}
-
-\item{V2}{a vector of node names}
-
-\item{graph}{a valid \code{\link[graph:graphNEL-class]{graph::graphNEL}} object.}
 }
 \value{
 \itemize{
