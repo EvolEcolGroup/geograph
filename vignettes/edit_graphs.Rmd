@@ -1,0 +1,23 @@
+---
+title: "Edit graphs in geoGraph"
+author: "Thibaut Jombart, Dominik Jud […] and Andrea Manica"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Edit graphs}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(fig.width = 7, fig.height = 6)
+options(digits = 4)
+```
+
+*Edit graphs in geoGraph*
+=================================================
+
+In this vignette, we show how to edit graphs in geoGraph.
+
+show how to zoom in/out, change connevitivity, change costs etc
+
