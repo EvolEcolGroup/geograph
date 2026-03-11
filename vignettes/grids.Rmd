@@ -68,7 +68,7 @@ plot(land_mask)
 Next, we create a new graph object using the `createNewGraph` function from the `geoGraph` package. We specify the geographic bounding box for for our area of interest and set the spacing between nodes in the graph. The resulting graph object represents a grid over the area of interest with cells of the about 60km spacing, and we can visualize the graph structure using the `plot` and `plotEdges` functions.
 
 ```{r creating graph object}
-ggraph <- geoGraph::createNewGraph(geo_box = aoi_bound, spacing = 30)
+ggraph <- createNewGraph(geo_box = aoi_bound, spacing = 30)
 plot(ggraph, reset = TRUE)
 plotEdges(ggraph)
 ```
@@ -78,14 +78,14 @@ plotEdges(ggraph)
 We then use the `assignRasterPoints` function to add the land/water mask to the graph. This function takes the graph object and the land mask raster as inputs and assigns the land/water values to the corresponding cells in the graph. In this example we classify each cell with land points in it as land by defining the 'fun' parameter in collapseNodeAttribute as 'max', which means that if there is at least one land point in the cell, the cell will be classified as land. We can then visualize the resulting graph with the land/water mask by plotting the graph and coloring the nodes based on the land/water values.
 
 ```{r}
-water_graph <- geoGraph::assignRasterPoints(
+water_graph <- assignRasterPoints(
   graph = ggraph,
   raster = land_mask,
   layer_name = "water"
 )
 
 # now we collapse the water attribute to get a land/sea classification for each node
-water_land_graph <- geoGraph::collapseNodeAttribute(
+water_land_graph <- collapseNodeAttribute(
   graph = water_graph,
   attribute = "water",
   fun = max,
@@ -114,14 +114,14 @@ plot(water_land_graph, reset = TRUE)
 In the next step we can then use the `assignRasterPoints` function again to add elevation data to the nodes of the graph. In this case we need to chose how to incorporate the elevation data into the graph, since each node will have multiple raster points associated with it. So before using the collapseNodeAttribute function to get a single elevation value for each node, we can first have a look at the standard deviation of the elevation values for each node, which gives us an idea of the variability of elevation within each cell. This can be useful for identifying rugged areas, which typically have high variability in elevation and a higher cost of traveling through associated. For this we set the 'fun' parameter in the collapseNodeAttribute function to 'sd', which calculates the standard deviation of the elevation values for each node. We can then visualize the distribution of the standard deviation of elevation values for land cells by plotting a density plot.
 
 ```{r assigning elevation data}
-elevation_graph <- geoGraph::assignRasterPoints(
+elevation_graph <- assignRasterPoints(
   graph = water_land_graph,
   raster = spatr,
   layer_name = "elevation"
 )
 
 # now we collapse the elevation attribute to get the sd of the elevation for each node
-elevation_graph <- geoGraph::collapseNodeAttribute(
+elevation_graph <- collapseNodeAttribute(
   graph = elevation_graph,
   attribute = "elevation",
   fun = sd,
@@ -151,7 +151,7 @@ rugged_threshold <- 150
 very_rugged_threshold <- 400
 
 ## now we identify rugged and very rugged cells as those with sd_elevation > threshold
-habitat_new <- dplyr::case_when(
+habitat_new <- case_when(
   is.na(sd_ele) ~ "sea",
   sd_ele > very_rugged_threshold ~ "very_rugged",
   sd_ele > rugged_threshold ~ "rugged",
@@ -220,7 +220,7 @@ Finally, we can set the costs for moving through different habitat types based o
 costs <- data.frame(
   habitat = factor(c("sea", "land", "rugged", "very_rugged", "coast"),
                    c("sea", "land", "rugged", "very_rugged", "coast")),
-  cost = c(10, 1, 3, 10, 1)
+  cost = c(2, 1, 1.5, 1.2, 1)
 )
 
 full_graph@meta$costs <- costs
@@ -232,9 +232,7 @@ plotEdges(full_graph)
 ### Combining costs
 
 In many ecological applications, connectivity across landscapes depends on multiple environmental constraints rather than a single variable. In the previous sections we constructed terrain-based costs that capture differences in movement through sea, land, rugged, and very rugged areas. However, climatic factors can also influence movement and dispersal.
-To illustrate how multiple environmental layers can be incorporated into a connectivity model, we now add two additional environmental gradients: `temperature`, which increases toward the south and `precipitation`, which increases toward the west.
-These gradients mimic large-scale climatic patterns and allow us to demonstrate how terrain and climate can jointly shape connectivity across a landscape.
-
+To illustrate how multiple environmental layers can be incorporated into a connectivity model, we now add an additional environmental gradients: `temperature`, which in this example is a random variable that we assign to the nodes of the graph. The movement cost between two nodes can then be defined as a function of the difference in temperature between the two nodes, with a cost that increases as the temperature difference increases. The `setCosts` function is then used to apply this cost function to the graph based on the temperature values assigned to each node.
 
 ```{r}
 exp.cost <- 
@@ -242,50 +240,36 @@ exp.cost <-
   exp(-abs(x1 - x2) * cost.coeff)
   }
 
-# create a set of node costs for mean productivity
-worldgraph.10k@nodes.attr$meanProd <- runif(n = 10242)
-productivity_graph <-
-  setCosts(
-    worldgraph.10k,
-    node.values = worldgraph.10k@nodes.attr$meanProd,
-    method = "function",
-    FUN = exp.cost,
-    cost.coeff = 0.5
-  )
-
-# now also for temperature
-worldgraph.10k@nodes.attr$temp <- runif(n = 10242)
+# create a set of node costs for temperature
+land_graph <- dropDeadEdges(full_graph, thres =1.9)
+land_graph@nodes.attr$temp <- runif(n = 8720)
 temperature_graph <-
   setCosts(
-    worldgraph.10k,
-    node.values = worldgraph.10k@nodes.attr$temp,
+    land_graph,
+    node.values = land_graph@nodes.attr$temp,
     method = "function",
     FUN = exp.cost,
-    cost.coeff = 0.5
+    cost.coeff = 1
   )
 
-# plot them side by side
-par(mfrow = c(1, 2))
-plot(productivity_graph, edge = TRUE)
-title("Productivity graph")
 plot(temperature_graph, edge = TRUE)
-title("Temperature graph")
+plotEdges(temperature_graph)
 ```
 
-Now we want a combined cost that both captures the temperature as well as the mean productivity for our subsequent analysis (@TODO make a more intuitive example here, e.g. combining temperature and precipitation). For this we can use the `combineCosts` function, which allows to combine costs from two different graphs using a specified method (sum, product, or a custom function). Here we will use the sum method to combine the costs from the productivity and temperature graphs.
+Now we want a combined cost that both captures the temperature as well as the terrain. For this we can use the `combineCosts` function, which allows to combine costs from two different graphs using a specified method (sum, product, or a custom function). Here we will use the `prod` method to combine the costs from the `temperature_graph` and the `land_graph`, which multiplies the costs from both graphs to create a new cost that reflects both the temperature and terrain constraints on movement.
 
 ```{r}
-combine_costs_graph <- combineCosts(temperature_graph, productivity_graph, method = "sum")
+combine_costs_graph <- combineCosts(temperature_graph, land_graph, method = "prod")
 
 plot(combine_costs_graph, edge = TRUE)
+plotEdges(combine_costs_graph)
 title("Combined costs graph")
 ```
 
 
 ## Extracting information from GIS shapefiles
 
-An important feature of *geoGraph* is serving as an interface between *geographic information
-system* (GIS) layers and geographic data. For this purpose, we use the function `extractFromLayer`.
+In the previous sections, we extracted environmental information from raster layers and assigned it to graph nodes using `assignRasterPoints.` Another way *geoGraph* can serve as an interface between geographic information system (GIS) layers and geographic data is the function `extractFromLayer`.
 *geoGraph* uses `sf` objects to
 represent geographic objects such as points and polygons. By default, *geoGraph*
 uses the package *rnaturalearth* to provide continent and country outlines, but
@@ -302,20 +286,8 @@ world.countries <- rnaturalearth::ne_countries(scale="medium",
                                                returnclass = "sf")
 ```
 
-We can quickly see what fields are available:
-```{r}
-names(world.countries)
-```
-
-A more through summary could be obtained with `summar(world.countries)`, which shows the data (attributes) stored in the layer.
-
-Currently we only have information about habitat (land vs sea) in our `worldgraph.10k` object:
-```{r}
-summary(getNodesAttr(full_graph))
-```
-
 Let us assume that we are interested in add continent and country information to the
-`worldgraph.10k` object.
+`full_graph` object.
 ```{r }
 newGraph <- extractFromLayer(full_graph, layer = world.countries, 
                              attr = c("continent", "name"))
@@ -336,8 +308,7 @@ plot(newGraph, col.rules = colMat, reset = TRUE)
 ```
 
 This information could in turn be used to define costs for traveling on the grid.
-For instance, one could import habitat descriptors from a GIS, use these values to formulate a
-habitat model, and derive costs for dispersal on the grid.
+For instance, one could import habitat descriptors from a GIS, use these values to formulate a habitat model, and derive costs for dispersal on the grid.
 
 
 ### Visualizing connectivity in the topographic grid
