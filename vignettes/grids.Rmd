@@ -65,10 +65,10 @@ plot(land_mask)
 
 ### Creating the graph object
 
-Next, we create a new graph object using the `createNewGraph` function from the `geoGraph` package. We specify the geographic bounding box for for our area of interest and set the spacing between nodes in the graph. The resulting graph object represents a grid over the area of interest with cells of the about 60km spacing, and we can visualize the graph structure using the `plot` and `plotEdges` functions.
+Next, we create a new graph object using the `createNewGraph` function from the `geoGraph` package. We specify the geographic bounding box for for our area of interest and set the spacing between nodes in the graph. The resulting graph object represents a grid over the area of interest with cells of the about 16km spacing, and we can visualize the graph structure using the `plot` and `plotEdges` functions.
 
 ```{r creating graph object}
-ggraph <- createNewGraph(geo_box = aoi_bound, spacing = 30)
+ggraph <- createNewGraph(geo_box = aoi_bound, spacing = 20)
 plot(ggraph, reset = TRUE)
 plotEdges(ggraph)
 ```
@@ -88,7 +88,7 @@ water_graph <- assignRasterPoints(
 water_land_graph <- collapseNodeAttribute(
   graph = water_graph,
   attribute = "water",
-  fun = max,
+  fun = min,
   na.rm = TRUE
 )
 
@@ -242,7 +242,7 @@ exp.cost <-
 
 # create a set of node costs for temperature
 land_graph <- dropDeadEdges(full_graph, thres =1.9)
-land_graph@nodes.attr$temp <- runif(n = 8720)
+land_graph@nodes.attr$temp <- runif(n = 25821)
 temperature_graph <-
   setCosts(
     land_graph,
@@ -317,25 +317,25 @@ Now that we have our topographic grid with different habitat classifications and
 
 ```{r}
 # we set the origin to be rome
-origin <- list(x = 8.5417, y = 47.3769)
-
-graph_dif <- nodeBuffer(
-  graph = full_graph,
-  origin = origin,
-  max_distance = 15
-)
-
-temp <- c(TRUE, FALSE)
-
-# initialize all as transparent
-colMat <- data.frame(
-  diffusion_area = temp,
-  color = "transparent",
-  stringsAsFactors = FALSE
-)
-
-# set color for diffusion area
-colMat$color[colMat$diffusion_area == TRUE] <- "blue"
+#origin <- list(x = 8.5417, y = 47.3769)
+#
+#graph_dif <- nodeBuffer(
+#  graph = full_graph,
+#  origin = origin,
+#  max_distance = 15
+#)
+#
+#temp <- c(TRUE, FALSE)
+#
+## initialize all as transparent
+#colMat <- data.frame(
+#  diffusion_area = temp,
+#  color = "transparent",
+#  stringsAsFactors = FALSE
+#)
+#
+## set color for diffusion area
+#colMat$color[colMat$diffusion_area == TRUE] <- "blue"
 ```
 
 ![](figs/node_buffer.gif)
