@@ -25,6 +25,8 @@ library(tidyverse)
 *Edit graphs in geoGraph*
 =================================================
 
+This vignette will cover the main functions for visualizing and manually editing `gGraph` objects. It also touches on the way `geoGraph` keeps track of the plotting area, and how to navigate within it.
+
 ## Visualizing data
 
 An essential aspect of spatial analysis lies in visualizing the data.
