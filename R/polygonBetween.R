@@ -52,8 +52,8 @@ polygonBetween <- function(g, layer, poly_i, poly_j, outline = TRUE) {
   node_ids  <- geoGraph::getNodes(g)
   
   # extract nodes belonging to each polygon
-  nodes_i <- node_ids[node_attr == poly_i]
-  nodes_j <- node_ids[node_attr == poly_j]
+  nodes_i <- node_ids[node_attr %in% poly_i]
+  nodes_j <- node_ids[node_attr %in% poly_j]
   
   if (length(nodes_i) == 0 || length(nodes_j) == 0) {
     stop("One or both polygons contain no nodes.")
