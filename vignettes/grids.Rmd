@@ -390,8 +390,8 @@ For instance, one could import habitat descriptors from a GIS, use these values 
 ### Look at connectivity between two polygons
 
 ```{r}
-test <- polygonBetween(newGraph, layer="name", "Czechia", "Portugal", outline = TRUE)
-plot(newGraph, reset = TRUE)
+test <- polygonBetween(newGraph, layer="name", "Andorra", "Portugal", outline = FALSE)
+plot(newGraph, col = NA, reset = TRUE)
 plot(test)
 ```
 
