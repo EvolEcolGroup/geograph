@@ -19,7 +19,7 @@ library(geoGraph) #graph analysis
 library(elevatr) #for elevation data
 library(sf)
 library(terra)
-library(tidyverse)
+library(dplyr)
 ```
 
 *Edit graphs in geoGraph*
@@ -147,7 +147,6 @@ cities.dat$pop <- c(250000, 3500000, 2000000, 50000)
 cities.dat
 
 cities <- new("gData", coords = cities.dat[, 1:2], data = cities.dat[, 3, drop = FALSE], gGraph.name = "worldgraph.10k")
-cities
 plot(cities, type = "both", reset = TRUE)
 text(getCoords(cities), rownames(getData(cities)))
 ```
