@@ -387,4 +387,12 @@ plot(newGraph, col.rules = colMat, reset = TRUE)
 This information could in turn be used to define costs for traveling on the grid.
 For instance, one could import habitat descriptors from a GIS, use these values to formulate a habitat model, and derive costs for dispersal on the grid.
 
+### Look at connectivity between two polygons
+
+```{r}
+test <- polygonBetween(newGraph, layer="name", "Czechia", "Portugal", outline = TRUE)
+plot(newGraph, reset = TRUE)
+plot(test)
+```
+
 
