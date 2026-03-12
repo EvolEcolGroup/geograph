@@ -12,9 +12,11 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ```
 
-# Creating a custom topographic grid
+*Making a custom topographic grid in geoGraph*
+=================================================
 
-In this script we walk through the steps to obtain a topographic grid of central africa us. We first use the 'makeNewGraph' function to create a new gGraph object, then we use the 'assignRasterPoints' function to add elevation as well as habitat data to the graph, and finally we visualize the resulting topographic grid by assigning different habitat types based on the habitat and elevation ranges within a cell using the 'collapseRasterAttributes' function.
+This vignette illustrates how to create custom graphs in *geoGraph* using discrete global grids. This is especially useful when working over larger areas of the world, where a rectangular grid would introduce messy distortions. Using the `dggridR` package, we can create a custom hexagonal grids that provides a more accurate representation of the Earth's surface. We will then use this grid to create a `gGraph` object in *geoGraph* and assign environmental information to the nodes of the graph. This allows us to create a cost surface for connectivity analysis that takes into account both land/water classification and elevation variability.
+
 
 ```{r loading libraries, include=FALSE}
 library(geoGraph) #graph analysis
@@ -75,7 +77,7 @@ plotEdges(ggraph)
 
 ### Addiing the land/water mask to the graph
 
-We then use the `assignRasterPoints` function to add the land/water mask to the graph. This function takes the graph object and the land mask raster as inputs and assigns the land/water values to the corresponding cells in the graph. In this example we classify each cell with land points in it as land by defining the 'fun' parameter in collapseNodeAttribute as 'max', which means that if there is at least one land point in the cell, the cell will be classified as land. We can then visualize the resulting graph with the land/water mask by plotting the graph and coloring the nodes based on the land/water values.
+We then use the `assignRasterPoints` function to add the land/water mask to the graph. This function takes the graph object and the land mask raster as inputs and assigns the land/water values to the corresponding cells in the graph. In this example we classify each cell with land points in it as land by defining the 'fun' parameter in collapseNodeAttribute as 'min', which means that if there is at least one water point in the cell, the cell will be classified as water. We can then visualize the resulting graph with the land/water mask by plotting the graph and coloring the nodes based on the land/water values.
 
 ```{r}
 water_graph <- assignRasterPoints(
@@ -107,6 +109,30 @@ colors <- data.frame(habitat =  c("sea", "land"),
 water_land_graph@meta$colors <- colors
 
 plot(water_land_graph, reset = TRUE)
+```
+#### Setting costs for the different habitat types
+
+Finally, we can set the costs for moving through different habitat types based on their classification. Note that the cost here is arbitrary and can be adjusted based on the specific context of the analysis and the species or features being studied. Costs are inversely related to the ease of movement through a cell, so higher costs indicate more difficult terrain. For example, we can assign a cost of 10 for moving through sea cells and a cost of 1 for moving through land cells. If we now look at the least cost path between two cities (Madrid and Naples) using the `dijkstraBetween` function, we can see that the path tends to avoid sea cells and prefers to move through land cells.
+
+```{r least cost path}
+#set the costs for sea cells to 10 and land cells to 1
+sea_cost <- 10
+land_cost <- 1
+water_land_graph@meta$costs <- data.frame(habitat = c("sea", "land"),
+                                            cost = c(sea_cost, land_cost))
+
+water_land_graph <- setCosts(water_land_graph, method = "mean", attr.name = "habitat")
+
+
+point1 <- c(-3.7038, 40.4168) # Madrid
+point2 <- c(14.2681, 40.8522) # Naples
+cities.dat <- rbind.data.frame(point1, point2)
+colnames(cities.dat) <- c("lon", "lat")
+row.names(cities.dat) <- c("Madrid", "Naples")
+cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "water_land_graph")
+path <- dijkstraBetween(cities)
+plot(water_land_graph, reset = TRUE)
+plot(path, col = "red", lwd = 2)
 ```
 
 ### Assigning elevation data to graph nodes
@@ -148,7 +174,7 @@ Looking at the distribution of the standard deviation of elevation values for la
 ```{r reclassifying nodes}
 # set a threshold for rugged cells
 rugged_threshold <- 150
-very_rugged_threshold <- 400
+very_rugged_threshold <- 300
 
 ## now we identify rugged and very rugged cells as those with sd_elevation > threshold
 habitat_new <- case_when(
@@ -170,6 +196,28 @@ colors <- data.frame(habitat =  c("sea", "land", "rugged", "very_rugged"),
 elevation_graph@meta$colors <- colors
 
 plot(elevation_graph, reset = TRUE)
+```
+
+Now if we now set the cost for rugged and very rugged cells to be higher than for land cells, we can see that the least cost paths between different land areas tend to avoid not only sea cells but also rugged and very rugged cells. This can be shown in the same toy example as above.
+
+```{r least cost path with ruggedness}
+# set the costs for sea cells to 10, land cells to 1, rugged cells to 3 and very rugged cells to 10
+sea_cost <- 10
+land_cost <- 1
+rugged_cost <- 3
+very_rugged_cost <- 10
+elevation_graph@meta$costs <- data.frame(habitat = c("sea", "land", "rugged", "very_rugged"),
+                                            cost = c(sea_cost, land_cost, rugged_cost, very_rugged_cost))
+elevation_graph <- setCosts(elevation_graph, method = "mean", attr.name = "habitat")
+point1 <- c(-3.7038, 40.4168) # Madrid
+point2 <- c(14.2681, 40.8522) # Naples
+cities.dat <- rbind.data.frame(point1, point2)
+colnames(cities.dat) <- c("lon", "lat")
+row.names(cities.dat) <- c("Madrid", "Naples")
+cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "elevation_graph")
+path <- dijkstraBetween(cities)
+plot(elevation_graph, reset = TRUE)
+plot(path, col = "red", lwd = 2)
 ```
 
 ### Adding coastal cells
@@ -210,21 +258,47 @@ full_graph@meta$colors <- colors
 plot(full_graph, reset = TRUE)
 ```
 
-### Setting costs for the different habitat types
+Now if we set the cost for coastal cells to be the same as for land cells, we can see that the least cost paths between different land areas tend to prefer crossing coastal cells over crossing rugged areas. 
 
-Finally, we can set the costs for moving through different habitat types based on their classification. Note that the cost here is arbitrary and can be adjusted based on the specific context of the analysis and the species or features being studied. Costs are inversely related to the ease of movement through a cell, so higher costs indicate more difficult terrain. For example, we can assign a cost of 10 for moving through sea cells, a cost of 1 for moving through land cells, a cost of 3 for moving through rugged cells, a cost of 10 for moving through very rugged cells, and a cost of 1 for moving through coastal cells. We can then use the `setCosts` function to assign these costs to the graph based on the habitat classification.
+```{r least cost path with coastal cells}
+# set the costs for sea cells to 10, land cells to 1, rugged cells to 3, very rugged cells to 10 and coastal cells to 1
+sea_cost <- 10
+land_cost <- 1
+rugged_cost <- 3
+very_rugged_cost <- 10
+coastal_cost <- 1
+full_graph@meta$costs <- data.frame(habitat = c("sea", "land", "rugged", "very_rugged", "coast"),
+                                            cost = c(sea_cost, land_cost, rugged_cost, very_rugged_cost, coastal_cost))
+full_graph <- setCosts(full_graph, method = "mean", attr.name = "habitat")
+
+point1 <- c(-3.7038, 40.4168) # Madrid
+point2 <- c(14.2681, 40.8522) # Naples
+cities.dat <- rbind.data.frame(point1, point2)
+colnames(cities.dat) <- c("lon", "lat")
+row.names(cities.dat) <- c("Madrid", "Naples")
+cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "full_graph")
+path <- dijkstraBetween(cities)
+plot(full_graph, reset = TRUE)
+plot(path, col = "red", lwd = 2)
+```
+
+### Using different methods to calculate costs
+
+So far the costs for moving through different habitat types were defined by the mean of the costs associated with the different habitat types. However, the `setCosts` function allows to use different methods to calculate the costs for each edge based on the node attributes. For example, instead of using the mean, we could use the product of the two nodes. This can be done by changing the 'method' parameter in the `setCosts` function. 
 
 ```{r setting costs}
+exp.cost <- 
+  exp.cost <- function(x1, x2, cost.coeff) {
+  exp(-abs(x1 - x2) * cost.coeff)
+  }
 
-# create a dataframe with the costs and colors associated with each habitat type
-costs <- data.frame(
-  habitat = factor(c("sea", "land", "rugged", "very_rugged", "coast"),
-                   c("sea", "land", "rugged", "very_rugged", "coast")),
-  cost = c(2, 1, 1.5, 1.2, 1)
-)
+full_graph <- setCosts(full_graph, 
+                       method = "fun", 
+                       attr.name = "habitat", 
+                       method = "function",
+                       FUN = exp.cost,
+                       cost.coeff = 0.5)
 
-full_graph@meta$costs <- costs
-full_graph <- setCosts(full_graph, method = "mean", attr.name = "habitat")
 plot(full_graph, reset = TRUE)
 plotEdges(full_graph)
 ```
@@ -241,7 +315,7 @@ exp.cost <-
   }
 
 # create a set of node costs for temperature
-land_graph <- dropDeadEdges(full_graph, thres =1.9)
+land_graph <- dropDeadEdges(full_graph, thres =5)
 land_graph@nodes.attr$temp <- runif(n = 25821)
 temperature_graph <-
   setCosts(
@@ -311,31 +385,3 @@ This information could in turn be used to define costs for traveling on the grid
 For instance, one could import habitat descriptors from a GIS, use these values to formulate a habitat model, and derive costs for dispersal on the grid.
 
 
-### Visualizing connectivity in the topographic grid
-
-Now that we have our topographic grid with different habitat classifications and associated costs, we can use the `nodeBuffer` function to visualize connectivity in the grid. This function simulates the spread of a species or feature from a specified origin point across the graph, taking into account the costs of moving through different habitat types. In this example, we set the origin to be Zurich (with coordinates x = 8.5417, y = 47.3769) and specify a maximum distance of 50 units for the diffusion process. We then create a color matrix to visualize the diffusion area, where cells that are part of the diffusion area are colored blue and all other cells are transparent. Doing this for each step allows us then to create an animation of the diffusion process across the topographic grid, showing how the species or feature spreads over time while navigating through different habitat types and their associated costs.
-
-```{r}
-# we set the origin to be rome
-#origin <- list(x = 8.5417, y = 47.3769)
-#
-#graph_dif <- nodeBuffer(
-#  graph = full_graph,
-#  origin = origin,
-#  max_distance = 15
-#)
-#
-#temp <- c(TRUE, FALSE)
-#
-## initialize all as transparent
-#colMat <- data.frame(
-#  diffusion_area = temp,
-#  color = "transparent",
-#  stringsAsFactors = FALSE
-#)
-#
-## set color for diffusion area
-#colMat$color[colMat$diffusion_area == TRUE] <- "blue"
-```
-
-![](figs/node_buffer.gif)
