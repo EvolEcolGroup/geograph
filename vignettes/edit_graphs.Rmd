@@ -22,7 +22,7 @@ library(terra)
 library(dplyr)
 ```
 
-*Edit graphs in geoGraph*
+Manually editing grapgs in *geoGraph*
 =================================================
 
 This vignette will cover the main functions for visualizing and manually editing `gGraph` objects. It also touches on the way `geoGraph` keeps track of the plotting area, and how to navigate within it.

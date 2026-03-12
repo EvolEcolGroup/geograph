@@ -1,5 +1,5 @@
 ---
-title: "grids"
+title: "Making custom grids in geoGraph"
 author: "Dominik Jud"
 date: "2026-02-20"
 output: html_document
@@ -12,7 +12,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ```
 
-*Making a custom topographic grid in geoGraph*
+Using discrete global grids in *geoGraph*
 =================================================
 
 This vignette illustrates how to create custom graphs in *geoGraph* using discrete global grids. This is especially useful when working over larger areas of the world, where a rectangular grid would introduce messy distortions. Using the `dggridR` package, we can create a custom hexagonal grids that provides a more accurate representation of the Earth's surface. We will then use this grid to create a `gGraph` object in *geoGraph* and assign environmental information to the nodes of the graph. This allows us to create a cost surface for connectivity analysis that takes into account both land/water classification and elevation variability.
