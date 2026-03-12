@@ -284,20 +284,19 @@ plot(path, col = "red", lwd = 2)
 
 ### Using different methods to calculate costs
 
-So far the costs for moving through different habitat types were defined by the mean of the costs associated with the different habitat types. However, the `setCosts` function allows to use different methods to calculate the costs for each edge based on the node attributes. For example, instead of using the mean, we could use the product of the two nodes. This can be done by changing the 'method' parameter in the `setCosts` function. 
+So far the costs for moving through different habitat types were defined by the mean of the costs associated with the different habitat types. However, the `setCosts` function allows to use different methods to calculate the costs for each edge based on the node attributes. For example, instead of using the mean, we could specify a custom function that takes the maximum cost of the two nodes connected by an edge, which would mean that the cost of moving through an edge is determined by the more difficult habitat type of the two nodes. This can be done by defining a custom function `max.cost` and then using it in the `setCosts` function with the method set to "function". The resulting graph will have costs for each edge that reflect the maximum cost of the two nodes it connects.
 
 ```{r setting costs}
-exp.cost <- 
-  exp.cost <- function(x1, x2, cost.coeff) {
-  exp(-abs(x1 - x2) * cost.coeff)
-  }
+max.cost <- function(x1, x2) {
+  pmax(x1, x2)
+}
 
-full_graph <- setCosts(full_graph, 
-                       method = "fun", 
-                       attr.name = "habitat", 
-                       method = "function",
-                       FUN = exp.cost,
-                       cost.coeff = 0.5)
+full_graph <- setCosts(
+  full_graph,
+  attr.name = "habitat",
+  method = "function",
+  FUN = max.cost
+)
 
 plot(full_graph, reset = TRUE)
 plotEdges(full_graph)
@@ -306,7 +305,7 @@ plotEdges(full_graph)
 ### Combining costs
 
 In many ecological applications, connectivity across landscapes depends on multiple environmental constraints rather than a single variable. In the previous sections we constructed terrain-based costs that capture differences in movement through sea, land, rugged, and very rugged areas. However, climatic factors can also influence movement and dispersal.
-To illustrate how multiple environmental layers can be incorporated into a connectivity model, we now add an additional environmental gradients: `temperature`, which in this example is a random variable that we assign to the nodes of the graph. The movement cost between two nodes can then be defined as a function of the difference in temperature between the two nodes, with a cost that increases as the temperature difference increases. The `setCosts` function is then used to apply this cost function to the graph based on the temperature values assigned to each node.
+To illustrate how multiple environmental layers can be incorporated into a connectivity model, we now add an additional environmental gradient: `temperature`, which in this example is a random variable that we assign to the nodes of the graph. The movement cost between two nodes can then be defined as a function of the difference in temperature between the two nodes, with a cost that increases as the temperature difference increases. The `setCosts` function is then used to apply this cost function to the graph based on the temperature values assigned to each node.
 
 ```{r}
 exp.cost <- 
@@ -315,7 +314,7 @@ exp.cost <-
   }
 
 # create a set of node costs for temperature
-land_graph <- dropDeadEdges(full_graph, thres =5)
+land_graph <- dropDeadEdges(full_graph, thres =9)
 land_graph@nodes.attr$temp <- runif(n = 25821)
 temperature_graph <-
   setCosts(
