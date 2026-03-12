@@ -2,12 +2,12 @@
 #'
 #' @description
 #' \code{polygonBetween} computes least-cost path distances between all nodes 
-#' belonging to two polygons in a \code{gData} graph using \code{dijkstraBetween}. 
+#' belonging to two polygons in a \code{gData} or or \code{gGraph} using \code{dijkstraBetween}. 
 #' The polygons are specified via a node attribute layer. Optionally, only outline
 #' nodes (nodes with at least one neighbor outside the polygon) are used to
 #' reduce computation time.
 #'
-#' @param g A \code{gData} object with edge costs already defined.
+#' @param g A \code{gData} or \code{gGraph} object with edge costs already defined.
 #' @param layer Character. Name of the node attribute layer containing polygon
 #'   membership.
 #' @param poly_i Character. Name of the first polygon.
@@ -41,6 +41,11 @@
 
 
 polygonBetween <- function(g, layer, poly_i, poly_j, outline = TRUE) {
+  
+  #check if g is a gGraph or gData object
+  if (!inherits(g, "gGraph") && !inherits(g, "gData")) {
+    stop("Input g must be a gGraph or gData object.")
+  }
   
   # get node attributes
   node_attr <- geoGraph::getNodesAttr(g)[[layer]]
@@ -85,9 +90,5 @@ polygonBetween <- function(g, layer, poly_i, poly_j, outline = TRUE) {
   
   # compute least-cost paths
   paths <- geoGraph::dijkstraBetween(g, from = nodes_i, to = nodes_j)
-  
-  # convert to distance vector
-  dist_vec <- unname(geoGraph::gPath2dist(paths, res.type = "vec"))
-  
-  return(dist_vec)
+  return(paths)
 }
