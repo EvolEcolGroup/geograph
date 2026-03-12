@@ -334,4 +334,95 @@ plot(cities, reset = TRUE)
 plot(cities.paths)
 ```
 
+### Example application using the hdgp dataset
+
+Here we show an application of the above-described methods to a real dataset, the Human Genome Diversity Panel (HGDP) dataset, which contains genetic diversity information for 52 human populations worldwide (see `?hgdp` for more information on this dataset).
+
+```{r fig=TRUE, fig.width = 8}
+hgdp
+plot(hgdp, reset = TRUE)
+```
+
+Populations of the dataset are shown by red circles, while the underlying grid
+(`worldgraph.40k`) is represented with colors depending on habitat (blue: sea; green: land;
+pink: coasts).
+Population genetics predicts that genetic diversity within populations should decay as populations are
+located further away from the geographic origin of the species.
+Here, we verify this relationship for a theoretical origin in Addis Ababa, Ethiopia.
+We shall seek all paths through landmasses to the HGDP populations.
+
+First, we check again that all populations are connected on the grid using `isConnected`:
+```{r }
+isConnected(hgdp)
+```
+
+Since all locations in `hgdp` are connected, we can proceed further.
+We have to set the costs of edges in the `gGraph` grid.
+To do so, we can choose between i) strictly uniform costs (using `dropCosts`) ii)
+distance-based costs -- roughly uniform -- (using `setDistCosts`) or iii) attribute-driven
+costs (using `setCosts`).
+
+We shall first illustrate the strictly uniform costs.
+After setting a `gGraph` with uniform costs, we use `dijkstraFrom` to find the shortest
+paths between Addis Ababa and the populations of `hgdp`:
+```{r }
+myGraph <- dropCosts(worldgraph.40k)
+hgdp@gGraph.name <- "myGraph"
+addis <- cbind(38, 9)
+ori <- closestNode(myGraph, addis)
+paths <- dijkstraFrom(hgdp, ori)
+```
+The object `paths` contains the identified paths, which are stored as a list with class `gPath` (see `?gPath`).
+Paths can be plotted easily:
+```{r fig=TRUE, fig.width = 8}
+addis <- as.vector(addis)
+plot(myGraph, col = NA, reset = TRUE)
+plot(paths)
+points(addis[1], addis[2], pch = "x", cex = 2)
+text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
+points(hgdp, col.node = "black")
+```
+
+In this graph, each path is plotted with a different color, but several paths overlap in several places.
+We can extract the distances from the `origin' using `gPath2dist`, and then examine the
+relationship between genetic diversity within populations (stored in `hgdp`) and the distance from the origin:
+```{r fig=TRUE}
+div <- getData(hgdp)$"Genetic.Div"
+dgeo.unif <- gPath2dist(paths, res.type = "vector")
+plot(div ~ dgeo.unif, xlab = "GeoGraphic distance (arbitrary units)", ylab = "Genetic diversity")
+lm.unif <- lm(div ~ dgeo.unif)
+abline(lm.unif, col = "red")
+summary(lm.unif)
+title("Genetic diversity vs geographic distance \n uniform costs ")
+```
+
+Alternatively, we can use costs based on habitat.
+As a toy example, we will consider that coasts are four times more favorable for dispersal than
+the rest of the landmasses.
+We define these new costs, and then compute and plot the corresponding shortest paths:
+```{r }
+myGraph@meta$costs[7, ] <- c("coast", 0.25)
+myGraph@meta$costs
+myGraph <- setCosts(myGraph, attr.name = "habitat")
+paths.2 <- dijkstraFrom(hgdp, ori)
+```
+```{r fig=TRUE, fig.width = 8}
+plot(newGraph, col = NA, reset = TRUE)
+plot(paths.2)
+points(addis[1], addis[2], pch = "x", cex = 2)
+text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
+points(hgdp, col.node = "black")
+```
+
+The new paths are slightly different from the previous ones.
+We can examine the new relationship with genetic distance:
+```{r fig=TRUE}
+dgeo.hab <- gPath2dist(paths.2, res.type = "vector")
+plot(div ~ dgeo.hab, xlab = "GeoGraphic distance (arbitrary units)", ylab = "Genetic diversity")
+lm.hab <- lm(div ~ dgeo.hab)
+abline(lm.hab, col = "red")
+summary(lm.hab)
+title("Genetic diversity vs geographic distance \n habitat costs ")
+```
+
 Now of course depending on the application, we may want to use different grid resolutions, and/or more complex habitat information to define costs of traveling through different habitats. (@TODO here we can maybe also do deeper into the costs idea etc). This is illustrated in the vignettes 'make graphs' and 'edid graphs' (see `vignette()` for more information on available vignettes).
