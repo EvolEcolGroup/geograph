@@ -2,8 +2,11 @@
 title: "Making custom grids in geoGraph"
 author: "Dominik Jud"
 date: "2026-02-20"
-output: html_document
-self_contained: true
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Making custom grids in geoGraph}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -110,6 +113,7 @@ water_land_graph@meta$colors <- colors
 
 plot(water_land_graph, reset = TRUE)
 ```
+
 #### Setting costs for the different habitat types
 
 Finally, we can set the costs for moving through different habitat types based on their classification. Note that the cost here is arbitrary and can be adjusted based on the specific context of the analysis and the species or features being studied. Costs are inversely related to the ease of movement through a cell, so higher costs indicate more difficult terrain. For example, we can assign a cost of 10 for moving through sea cells and a cost of 1 for moving through land cells. If we now look at the least cost path between two cities (Madrid and Naples) using the `dijkstraBetween` function, we can see that the path tends to avoid sea cells and prefers to move through land cells.

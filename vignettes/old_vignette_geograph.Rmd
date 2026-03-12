@@ -1,5 +1,5 @@
 ---
-title: "An introduction to geoGraph"
+title: "geoGraph_old"
 author: "Thibaut Jombart and Andrea Manica"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
