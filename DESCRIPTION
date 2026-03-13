@@ -38,6 +38,7 @@ RoxygenNote: 7.3.3
 Collate: 
     'classes.R'
     'accessors.R'
+    'areConnected.R'
     'areNeighbours.R'
     'basicMethods.R'
     'buffer.R'
@@ -54,6 +55,7 @@ Collate:
     'globals.R'
     'hasCosts.R'
     'interact.R'
+    'isConnected.R'
     'isInArea.R'
     'keepMaxConnected.R'
     'makeGrid.R'

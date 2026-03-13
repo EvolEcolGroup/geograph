@@ -3,11 +3,6 @@
 #' The functions \code{areNeighbours}, \code{areConnected} and the method
 #' \code{isConnected} test connectivity in different ways.\cr
 #'
-
-#'
-#' - \code{areConnected}: tests if a set of nodes form a connected set on a
-#' \linkS4class{gGraph} object.\cr
-#'
 #' - \code{isConnected}: tests if the nodes of a \linkS4class{gData} object
 #' form a connected set. Note that this is a method for \linkS4class{gData},
 #' the generic being defined in the \code{graph} package.\cr
@@ -21,12 +16,10 @@
 #' In \code{connectivityPlot}, isolated nodes (i.e. belonging to no connected
 #' set of size > 1) are plotted in light gray.
 #'
-#' @aliases areConnected isConnected,gData-method isReachable
+#' @aliases isReachable
 #' connectivityPlot connectivityPlot-methods connectivityPlot,gGraph-method
 #' connectivityPlot,gData-method
 #' @param x a valid \linkS4class{gGraph} object.
-#' @param nodes a vector of node names
-#' @param object a valid \linkS4class{gData} object.
 #' @param \dots other arguments passed to other methods.
 #' @param loc location, specified as a list of two components giving
 #' respectively the longitude and the latitude. Alternatively, it can be a
@@ -61,92 +54,7 @@ NULL
 
 
 
-################
-## areConnected
-################
-#' @rdname connectivity
-#' @export
-areConnected <- function(x, nodes) { # x is a gGraph
-  ## some checks ##
-  ## if(!require(RBGL)) stop("RBGL package is required.") not needed
-  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
-  if (!all(nodes %in% getNodes(x))) stop("Some specified nodes were not found in the gGraph object.")
-  nodes <- unique(nodes)
 
-
-  ## This is now pointless, function is already fast ##
-  ##   ## first check that all our nodes are part of an edge ##
-  ##     temp <- unique(as.vector(getEdges(x, res.type="matName")))
-  ##     nodes.in.edges <- nodes %in% temp
-  ##     if(!all(nodes.in.edges)) return(FALSE) # not a connected set if some nodes aren't connected at all
-
-
-  ## get connected sets ##
-  ## !! use RBGL::connectedComp from RBGL rather than connComp from graph
-  ## 100 times faster
-  connected.sets <- RBGL::connectedComp(getGraph(x))
-
-  ## just keep sets > 1 node
-  temp <- sapply(connected.sets, length)
-  reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
-  temp <- temp[reOrd]
-  if (min(temp) == 1) {
-    connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
-  }
-
-  names(connected.sets) <- paste("set", 1:length(connected.sets))
-
-  res <- sapply(connected.sets, function(e) all(nodes %in% e))
-  res <- any(res)
-
-  return(res)
-} # end areConnected
-
-
-
-
-
-
-#########################
-## isConnected for gData
-#########################
-## the GENERIC of this method is given in package 'graph'
-#' @rdname connectivity
-#' @export
-setMethod("isConnected", "gData", function(object, ...) {
-  ## checks ##
-  x <- object
-  if (!is.gData(x)) stop("'object' is not a valid gData object.")
-  if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
-
-
-  ## set args for areConnected ##
-  myGraph <- get(x@gGraph.name, envir = .GlobalEnv)
-  myNodes <- getNodes(x)
-
-  ## wrapper ##
-  res <- areConnected(myGraph, myNodes)
-
-  ## return res ##
-  return(res)
-}) # end isConnected for gData
-
-
-## the GENERIC of this method is given in package 'graph'
-#' @rdname connectivity
-#' @export
-setMethod("isConnected", "gGraph", function(object, ...) {
-  ## checks ##
-  if (!is.gGraph(object)) stop("'object' is not a valid gGraph object.")
-
-  ## set args for areConnected ##
-  myNodes <- getNodes(object)
-  ## wrapper ##
-  res <- areConnected(object, myNodes)
-
-  ## return res ##
-  return(res)
-}) # end isConnected for gGraph
 
 
 

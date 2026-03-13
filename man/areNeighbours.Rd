@@ -31,4 +31,9 @@ getCoords(test_graph)[1:10, ]
 # 1 and 2 are neighbours, but 1 and 9 are not
 areNeighbours(V1 = c("1","1"), V2 = c("2","9"), graph = test_graph)
 }
+\seealso{
+Other connectivity_functions: 
+\code{\link{areConnected}()},
+\code{\link{isConnected,gData-method}}
+}
 \concept{connectivity_functions}
