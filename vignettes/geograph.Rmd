@@ -114,7 +114,7 @@ is a graph of the world with approximately 10,000 nodes, and only on-land
 connectivity *i.e. no traveling on the seas*.  
 
 ```{r } 
-worldgraph.10k@meta 
+worldgraph.10k@meta
 ``` 
 
 Lastly, the `graph` component is a `graphNEL` object,
@@ -202,7 +202,7 @@ Timbuktu <- c(-3, 16)
 
 cities.dat <- rbind.data.frame(Bordeaux, Berlin, Baku, Timbuktu)
 colnames(cities.dat) <- c("lon", "lat")
-row.names(cities.dat) <- c("Bordeaux","Berlin", "Baku", "Timbuktu")
+row.names(cities.dat) <- c("Bordeaux", "Berlin", "Baku", "Timbuktu")
 cities.dat$pop <- c(250000, 3500000, 2000000, 50000)
 cities.dat
 ```
@@ -277,7 +277,7 @@ This can be done using `connectivityPlot`, which has methods for both `gGraph` a
 `gData`, and represents different connected components using different colors.
 For instance, for `worldgraph.10k`:
 ```{r connectivityPlot, fig.width = 8}
-connectivityPlot(worldgraph.10k, edges = TRUE, seed = 1, reset= TRUE)
+connectivityPlot(worldgraph.10k, edges = TRUE, seed = 1, reset = TRUE)
 ```
 
 ```{r fig=TRUE}

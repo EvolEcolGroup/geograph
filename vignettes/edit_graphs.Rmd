@@ -15,8 +15,8 @@ options(digits = 4)
 ```
 
 ```{r loading libraries, include=FALSE}
-library(geoGraph) #graph analysis
-library(elevatr) #for elevation data
+library(geoGraph) # graph analysis
+library(elevatr) # for elevation data
 library(sf)
 library(terra)
 library(dplyr)
@@ -142,7 +142,7 @@ Timbuktu <- c(-3, 16)
 
 cities.dat <- rbind.data.frame(Bordeaux, Berlin, Baku, Timbuktu)
 colnames(cities.dat) <- c("lon", "lat")
-row.names(cities.dat) <- c("Bordeaux","Berlin", "Baku", "Timbuktu")
+row.names(cities.dat) <- c("Bordeaux", "Berlin", "Baku", "Timbuktu")
 cities.dat$pop <- c(250000, 3500000, 2000000, 50000)
 cities.dat
 
@@ -162,17 +162,20 @@ are sought, or FALSE for coordinates of the nodes on the grid.
 We can use this to represent, for instance, the population sizes for the different cities:
 ```{r cities_plot, fig=TRUE}
 transp <- function(col, alpha = .5) {
-  res <- apply(col2rgb(col), 2, 
-               function(c) rgb(c[1] / 255, c[2] / 255, c[3] / 255, alpha))
+  res <- apply(
+    col2rgb(col), 2,
+    function(c) rgb(c[1] / 255, c[2] / 255, c[3] / 255, alpha)
+  )
   return(res)
 }
 
 plot(cities, reset = TRUE)
 par(xpd = TRUE)
 text(getCoords(cities) + -.5, rownames(getData(cities)))
-symbols(getCoords(cities)[, 1], getCoords(cities)[, 2], 
-        circ = sqrt(unlist(getData(cities))), inch = .2, 
-        bg = transp("red"), add = TRUE)
+symbols(getCoords(cities)[, 1], getCoords(cities)[, 2],
+  circ = sqrt(unlist(getData(cities))), inch = .2,
+  bg = transp("red"), add = TRUE
+)
 ```
 
 ## Editing `gGraphs`
@@ -264,7 +267,7 @@ newGraph <- geo.remove.edges(newGraph)
 
 ```{r eval=TRUE, echo=FALSE}
 newGraph <- readRDS("Robjects/newGraph.RDS")
-#load("Robjects/newGraph.RData")
+# load("Robjects/newGraph.RData")
 ```
 ![img](figs/georemove.png)
 
@@ -280,14 +283,18 @@ For instance, here, we define a new value `shalowwater` (plotted in light blue) 
 selecting affected nodes using the 'area' mode first, and refining the changes using the 'point' mode:
 ```{r eval=FALSE}
 plot(newGraph, edge = TRUE)
-newGraph <- geo.change.attr(newGraph, mode = "area", attr.name = "habitat", 
-                        attr.value = "shallowwater", newCol = "deepskyblue")
-newGraph <- geo.change.attr(newGraph, attr.name = "habitat", 
-                        attr.value = "shallowwater", newCol = "deepskyblue")
+newGraph <- geo.change.attr(newGraph,
+  mode = "area", attr.name = "habitat",
+  attr.value = "shallowwater", newCol = "deepskyblue"
+)
+newGraph <- geo.change.attr(newGraph,
+  attr.name = "habitat",
+  attr.value = "shallowwater", newCol = "deepskyblue"
+)
 ```
 ```{r echo=FALSE}
 newGraph <- readRDS("Robjects/newGraph2.RDS")
-#load("Robjects/newGraph2.RData")
+# load("Robjects/newGraph2.RData")
 ```
 ```{r fig=TRUE}
 newGraph@meta$colors

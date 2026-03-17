@@ -11,8 +11,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
-
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
 Using discrete global grids in *geoGraph*
@@ -22,8 +21,8 @@ This vignette illustrates how to create custom graphs in *geoGraph* using discre
 
 
 ```{r loading libraries, include=FALSE}
-library(geoGraph) #graph analysis
-library(elevatr) #for elevation data
+library(geoGraph) # graph analysis
+library(elevatr) # for elevation data
 library(sf)
 library(terra)
 library(tidyverse)
@@ -37,10 +36,10 @@ In the first step, we define the area of interest using a bounding box and then 
 # define the area of interest (Europe)
 area_of_interest <- st_as_sfc(
   st_bbox(c(
-    xmin = -25,   
-    xmax = 25,    
-    ymin = 34,    
-    ymax = 50     
+    xmin = -25,
+    xmax = 25,
+    ymin = 34,
+    ymax = 50
   ), crs = 4326)
 )
 
@@ -53,7 +52,7 @@ elevation_data <- elevatr::get_elev_raster(
 )
 
 # convert to SpatRaster
-spatr <- rast(elevation_data)   
+spatr <- rast(elevation_data)
 plot(spatr)
 ```
 
@@ -63,7 +62,7 @@ Using this `SpatRaster` we can create a land mask by using the `make_land_mask` 
 
 ```{r making land mask}
 # make land mask (everything above 0m is land)
-land_mask <- pastclim::make_land_mask(spatr, time_bp = 0) #using the present time
+land_mask <- pastclim::make_land_mask(spatr, time_bp = 0) # using the present time
 land_mask[is.na(land_mask)] <- 0 # set NAs to 0 (ocean)
 plot(land_mask)
 ```
@@ -99,14 +98,17 @@ water_land_graph <- collapseNodeAttribute(
 
 # add this to the habitat attribute
 habitat <- factor(water_land_graph@nodes.attr$water,
-                  levels = c(0, 1),
-                  labels = c("sea", "land"))
+  levels = c(0, 1),
+  labels = c("sea", "land")
+)
 
 # reclassify the nodes in the gGraph object accordingly in the metadata
 water_land_graph@nodes.attr$habitat <- habitat
 
-colors <- data.frame(habitat =  c("sea", "land"),
-                     cost = c("blue", "green"))
+colors <- data.frame(
+  habitat = c("sea", "land"),
+  cost = c("blue", "green")
+)
 
 # change colors associated with the land meta info
 water_land_graph@meta$colors <- colors
@@ -119,11 +121,13 @@ plot(water_land_graph, reset = TRUE)
 Finally, we can set the costs for moving through different habitat types based on their classification. Note that the cost here is arbitrary and can be adjusted based on the specific context of the analysis and the species or features being studied. Costs are inversely related to the ease of movement through a cell, so higher costs indicate more difficult terrain. For example, we can assign a cost of 10 for moving through sea cells and a cost of 1 for moving through land cells. If we now look at the least cost path between two cities (Madrid and Naples) using the `dijkstraBetween` function, we can see that the path tends to avoid sea cells and prefers to move through land cells.
 
 ```{r least cost path}
-#set the costs for sea cells to 10 and land cells to 1
+# set the costs for sea cells to 10 and land cells to 1
 sea_cost <- 10
 land_cost <- 1
-water_land_graph@meta$costs <- data.frame(habitat = c("sea", "land"),
-                                            cost = c(sea_cost, land_cost))
+water_land_graph@meta$costs <- data.frame(
+  habitat = c("sea", "land"),
+  cost = c(sea_cost, land_cost)
+)
 
 water_land_graph <- setCosts(water_land_graph, method = "mean", attr.name = "habitat")
 
@@ -166,9 +170,10 @@ sd_ele <- elevation_graph@nodes.attr %>%
   pull(elevation)
 
 # plot the density
-plot(density(log(sd_ele), na.rm = TRUE), main = "Density of SD Elevation for Land Cells",
-     xlab = "SD Elevation (m)", ylab = "Density")
-
+plot(density(log(sd_ele), na.rm = TRUE),
+  main = "Density of SD Elevation for Land Cells",
+  xlab = "SD Elevation (m)", ylab = "Density"
+)
 ```
 
 ### Reclassify the nodes into 'rugged' and 'very rugged'
@@ -193,8 +198,10 @@ habitat_new <- case_when(
 elevation_graph@nodes.attr$habitat <- habitat_new
 
 
-colors <- data.frame(habitat =  c("sea", "land", "rugged", "very_rugged"),
-                     cost = c("blue", "green", "orange", "brown"))
+colors <- data.frame(
+  habitat = c("sea", "land", "rugged", "very_rugged"),
+  cost = c("blue", "green", "orange", "brown")
+)
 
 # change colors associated with the land meta info
 elevation_graph@meta$colors <- colors
@@ -210,8 +217,10 @@ sea_cost <- 10
 land_cost <- 1
 rugged_cost <- 3
 very_rugged_cost <- 10
-elevation_graph@meta$costs <- data.frame(habitat = c("sea", "land", "rugged", "very_rugged"),
-                                            cost = c(sea_cost, land_cost, rugged_cost, very_rugged_cost))
+elevation_graph@meta$costs <- data.frame(
+  habitat = c("sea", "land", "rugged", "very_rugged"),
+  cost = c(sea_cost, land_cost, rugged_cost, very_rugged_cost)
+)
 elevation_graph <- setCosts(elevation_graph, method = "mean", attr.name = "habitat")
 point1 <- c(-3.7038, 40.4168) # Madrid
 point2 <- c(14.2681, 40.8522) # Naples
@@ -235,8 +244,8 @@ node_attr <- elevation_graph@nodes.attr
 
 # get all nodes adjacent to land or mountain cells and reclassify them as "coast"
 for (i_node in 1:nrow(node_attr)) {
-  if (node_attr$habitat[i_node] == "sea") { 
-    neighbour_indices <- neigh_list[[i_node]]$edges  # check structure!
+  if (node_attr$habitat[i_node] == "sea") {
+    neighbour_indices <- neigh_list[[i_node]]$edges # check structure!
     neighbour_land_values <- node_attr$habitat[neighbour_indices]
     if (any(neighbour_land_values %in% c("land", "rugged", "very_rugged"))) {
       # at least one land or mountain neighbour
@@ -247,15 +256,17 @@ for (i_node in 1:nrow(node_attr)) {
 
 new_attribute <- node_attr
 
-#create the full_graph 
+# create the full_graph
 full_graph <- elevation_graph
 
 # set the new node attributes
 full_graph@nodes.attr <- new_attribute
 
 
-colors <- data.frame(habitat =  c("sea", "land", "rugged", "very_rugged", "coast"),
-                     cost = c("blue", "green", "orange", "brown", "lightblue"))
+colors <- data.frame(
+  habitat = c("sea", "land", "rugged", "very_rugged", "coast"),
+  cost = c("blue", "green", "orange", "brown", "lightblue")
+)
 
 # change the costs and colors associated with the land meta info
 full_graph@meta$colors <- colors
@@ -271,8 +282,10 @@ land_cost <- 1
 rugged_cost <- 3
 very_rugged_cost <- 10
 coastal_cost <- 1
-full_graph@meta$costs <- data.frame(habitat = c("sea", "land", "rugged", "very_rugged", "coast"),
-                                            cost = c(sea_cost, land_cost, rugged_cost, very_rugged_cost, coastal_cost))
+full_graph@meta$costs <- data.frame(
+  habitat = c("sea", "land", "rugged", "very_rugged", "coast"),
+  cost = c(sea_cost, land_cost, rugged_cost, very_rugged_cost, coastal_cost)
+)
 full_graph <- setCosts(full_graph, method = "mean", attr.name = "habitat")
 
 point1 <- c(-3.7038, 40.4168) # Madrid
@@ -312,13 +325,13 @@ In many ecological applications, connectivity across landscapes depends on multi
 To illustrate how multiple environmental layers can be incorporated into a connectivity model, we now add an additional environmental gradient: `temperature`, which in this example is a random variable that we assign to the nodes of the graph. The movement cost between two nodes can then be defined as a function of the difference in temperature between the two nodes, with a cost that increases as the temperature difference increases. The `setCosts` function is then used to apply this cost function to the graph based on the temperature values assigned to each node.
 
 ```{r}
-exp.cost <- 
+exp.cost <-
   exp.cost <- function(x1, x2, cost.coeff) {
-  exp(-abs(x1 - x2) * cost.coeff)
+    exp(-abs(x1 - x2) * cost.coeff)
   }
 
 # create a set of node costs for temperature
-land_graph <- dropDeadEdges(full_graph, thres =9)
+land_graph <- dropDeadEdges(full_graph, thres = 9)
 land_graph@nodes.attr$temp <- runif(n = 25821)
 temperature_graph <-
   setCosts(
@@ -359,15 +372,19 @@ with that functionality.
 ```{r }
 library(sf)
 sf::sf_use_s2(FALSE)
-world.countries <- rnaturalearth::ne_countries(scale="medium", 
-                                               returnclass = "sf")
+world.countries <- rnaturalearth::ne_countries(
+  scale = "medium",
+  returnclass = "sf"
+)
 ```
 
 Let us assume that we are interested in add continent and country information to the
 `full_graph` object.
 ```{r }
-newGraph <- extractFromLayer(full_graph, layer = world.countries, 
-                             attr = c("continent", "name"))
+newGraph <- extractFromLayer(full_graph,
+  layer = world.countries,
+  attr = c("continent", "name")
+)
 summary(getNodesAttr(newGraph))
 ```
 
@@ -390,7 +407,7 @@ For instance, one could import habitat descriptors from a GIS, use these values 
 ### Look at connectivity between two polygons
 
 ```{r}
-test <- polygonBetween(newGraph, layer="name", "Andorra", "Portugal", outline = FALSE)
+test <- polygonBetween(newGraph, layer = "name", "Andorra", "Portugal", outline = FALSE)
 plot(newGraph, col = NA, reset = TRUE)
 plot(test)
 ```

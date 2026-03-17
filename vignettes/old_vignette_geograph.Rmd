@@ -378,17 +378,20 @@ are sought, or FALSE for coordinates of the nodes on the grid.
 We can use this to represent, for instance, the population sizes for the different cities:
 ```{r cities_plot, fig=TRUE}
 transp <- function(col, alpha = .5) {
-  res <- apply(col2rgb(col), 2, 
-               function(c) rgb(c[1] / 255, c[2] / 255, c[3] / 255, alpha))
+  res <- apply(
+    col2rgb(col), 2,
+    function(c) rgb(c[1] / 255, c[2] / 255, c[3] / 255, alpha)
+  )
   return(res)
 }
 
 plot(cities, reset = TRUE)
 par(xpd = TRUE)
 text(getCoords(cities) + -.5, rownames(getData(cities)))
-symbols(getCoords(cities)[, 1], getCoords(cities)[, 2], 
-        circ = sqrt(unlist(getData(cities))), inch = .2, 
-        bg = transp("red"), add = TRUE)
+symbols(getCoords(cities)[, 1], getCoords(cities)[, 2],
+  circ = sqrt(unlist(getData(cities))), inch = .2,
+  bg = transp("red"), add = TRUE
+)
 ```
 
 ## Editing `gGraphs`
@@ -465,9 +468,9 @@ If we want to condition connectivity on more than just one variable, we may want
 
 
 ```{r}
-exp.cost <- 
+exp.cost <-
   exp.cost <- function(x1, x2, cost.coeff) {
-  exp(-abs(x1 - x2) * cost.coeff)
+    exp(-abs(x1 - x2) * cost.coeff)
   }
 
 # create a set of node costs for mean productivity
@@ -530,7 +533,7 @@ newGraph <- geo.remove.edges(newGraph)
 
 ```{r eval=TRUE, echo=FALSE}
 newGraph <- readRDS("Robjects/newGraph.RDS")
-#load("Robjects/newGraph.RData")
+# load("Robjects/newGraph.RData")
 ```
 ![img](figs/georemove.png)
 
@@ -546,14 +549,18 @@ For instance, here, we define a new value `shalowwater` (plotted in light blue) 
 selecting affected nodes using the 'area' mode first, and refining the changes using the 'point' mode:
 ```{r eval=FALSE}
 plot(newGraph, edge = TRUE)
-newGraph <- geo.change.attr(newGraph, mode = "area", attr.name = "habitat", 
-                        attr.value = "shallowwater", newCol = "deepskyblue")
-newGraph <- geo.change.attr(newGraph, attr.name = "habitat", 
-                        attr.value = "shallowwater", newCol = "deepskyblue")
+newGraph <- geo.change.attr(newGraph,
+  mode = "area", attr.name = "habitat",
+  attr.value = "shallowwater", newCol = "deepskyblue"
+)
+newGraph <- geo.change.attr(newGraph,
+  attr.name = "habitat",
+  attr.value = "shallowwater", newCol = "deepskyblue"
+)
 ```
 ```{r echo=FALSE}
 newGraph <- readRDS("Robjects/newGraph2.RDS")
-#load("Robjects/newGraph2.RData")
+# load("Robjects/newGraph2.RData")
 ```
 ```{r fig=TRUE}
 newGraph@meta$colors
@@ -579,8 +586,10 @@ with that functionality.
 ```{r }
 library(sf)
 sf::sf_use_s2(FALSE)
-world.countries <- rnaturalearth::ne_countries(scale="medium", 
-                                               returnclass = "sf")
+world.countries <- rnaturalearth::ne_countries(
+  scale = "medium",
+  returnclass = "sf"
+)
 ```
 
 We can quickly see what fields are available:
@@ -598,8 +607,10 @@ summary(getNodesAttr(worldgraph.10k))
 Let us assume that we are interested in add continent and country information to the
 `worldgraph.10k` object.
 ```{r }
-newGraph <- extractFromLayer(worldgraph.10k, layer = world.countries, 
-                             attr = c("continent", "name"))
+newGraph <- extractFromLayer(worldgraph.10k,
+  layer = world.countries,
+  attr = c("continent", "name")
+)
 summary(getNodesAttr(newGraph))
 ```
 
