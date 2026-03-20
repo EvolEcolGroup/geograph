@@ -7,8 +7,6 @@
 #' form a connected set. Note that this is a method for \linkS4class{gData},
 #' the generic being defined in the \code{graph} package.\cr
 #'
-#' - \code{isReachable}: tests if one location (actually, the closest node to
-#' it) is reachable from the set of nodes of a \linkS4class{gData} object.\cr
 #'
 #' - \code{connectivityPlot}: plots connected sets of a \linkS4class{gGraph} or
 #' a \linkS4class{gData} object with different colors.\cr
@@ -16,14 +14,11 @@
 #' In \code{connectivityPlot}, isolated nodes (i.e. belonging to no connected
 #' set of size > 1) are plotted in light gray.
 #'
-#' @aliases isReachable
+#' @aliases
 #' connectivityPlot connectivityPlot-methods connectivityPlot,gGraph-method
 #' connectivityPlot,gData-method
 #' @param x a valid \linkS4class{gGraph} object.
 #' @param \dots other arguments passed to other methods.
-#' @param loc location, specified as a list of two components giving
-#' respectively the longitude and the latitude. Alternatively, it can be a
-#' matrix-like object with one row and two columns.
 #' @param seed an optional integer giving the seed to be used when randomizing
 #' colors. One given seed will always give the same set of colors. NULL by
 #' default, meaning colors are randomized each time a plot is drawn.
@@ -60,59 +55,6 @@ NULL
 
 
 
-
-
-
-#################
-## isReachable
-#################
-#' @rdname connectivity
-#' @export
-isReachable <- function(x, loc) { # x is a gData object
-  ## checks ##
-  if (!is.gData(x)) stop("x is not a valid gData object.")
-
-  mygGraph <- get(x@gGraph.name, envir = .GlobalEnv)
-
-
-  ## get connected sets ##
-  connected.sets <- RBGL::connectedComp(getGraph(x))
-
-
-  ## just keep sets > 1 node
-  temp <- sapply(connected.sets, length)
-  reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
-  temp <- temp[reOrd]
-  if (min(temp) == 1) {
-    connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
-  }
-
-  names(connected.sets) <- paste("set", 1:length(connected.sets))
-
-
-  ## check which set contains refNode ##
-  refNode <- closestNode(mygGraph, loc)
-  temp <- sapply(connected.sets, function(e) refNode %in% e)
-  if (!any(temp)) {
-    warning("The reference node is not connected to any node.")
-    return(FALSE)
-  }
-  refSet <- connected.sets[[which(temp)]]
-
-  ## check reachability for each node ##
-  myNodes <- getNodes(x)
-
-  f1 <- function(oneNode) { # finds the set in which a node is
-    temp <- sapply(connected.sets, function(e) oneNode %in% refSet)
-    return(any(temp))
-  }
-
-  res <- sapply(myNodes, f1)
-  names(res) <- myNodes
-
-  ## return res ##
-  return(res)
-} # end isReachable
 
 
 

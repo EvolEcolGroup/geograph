@@ -2,15 +2,12 @@
 % Please edit documentation in R/connectivity.R
 \name{connectivity}
 \alias{connectivity}
-\alias{isReachable}
 \alias{connectivityPlot}
 \alias{connectivityPlot-methods}
 \alias{connectivityPlot,gGraph-method}
 \alias{connectivityPlot,gData-method}
 \title{Check connectivity of a gGraph object}
 \usage{
-isReachable(x, loc)
-
 connectivityPlot(x, ...)
 
 \S4method{connectivityPlot}{gGraph}(x, ..., seed = NULL)
@@ -19,10 +16,6 @@ connectivityPlot(x, ...)
 }
 \arguments{
 \item{x}{a valid \linkS4class{gGraph} object.}
-
-\item{loc}{location, specified as a list of two components giving
-respectively the longitude and the latitude. Alternatively, it can be a
-matrix-like object with one row and two columns.}
 
 \item{\dots}{other arguments passed to other methods.}
 
@@ -53,8 +46,6 @@ The functions \code{areNeighbours}, \code{areConnected} and the method
 \item \code{isConnected}: tests if the nodes of a \linkS4class{gData} object
 form a connected set. Note that this is a method for \linkS4class{gData},
 the generic being defined in the \code{graph} package.\cr
-\item \code{isReachable}: tests if one location (actually, the closest node to
-it) is reachable from the set of nodes of a \linkS4class{gData} object.\cr
 \item \code{connectivityPlot}: plots connected sets of a \linkS4class{gGraph} or
 a \linkS4class{gData} object with different colors.\cr
 }

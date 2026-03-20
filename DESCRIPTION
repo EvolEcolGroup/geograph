@@ -57,6 +57,7 @@ Collate:
     'interact.R'
     'isConnected.R'
     'isInArea.R'
+    'isReachable.R'
     'keepMaxConnected.R'
     'makeGrid.R'
     'plot.R'
