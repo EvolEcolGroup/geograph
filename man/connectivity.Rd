@@ -2,25 +2,13 @@
 % Please edit documentation in R/connectivity.R
 \name{connectivity}
 \alias{connectivity}
-\alias{areNeighbours}
-\alias{areConnected}
-\alias{isConnected,gData-method}
 \alias{isReachable}
 \alias{connectivityPlot}
 \alias{connectivityPlot-methods}
 \alias{connectivityPlot,gGraph-method}
 \alias{connectivityPlot,gData-method}
-\alias{isConnected,gGraph-method}
 \title{Check connectivity of a gGraph object}
 \usage{
-areNeighbours(V1, V2, graph)
-
-areConnected(x, nodes)
-
-\S4method{isConnected}{gData}(object, ...)
-
-\S4method{isConnected}{gGraph}(object, ...)
-
 isReachable(x, loc)
 
 connectivityPlot(x, ...)
@@ -30,23 +18,13 @@ connectivityPlot(x, ...)
 \S4method{connectivityPlot}{gData}(x, col.gGraph = 0, ..., seed = NULL)
 }
 \arguments{
-\item{V1}{a vector of node names}
-
-\item{V2}{a vector of node names}
-
-\item{graph}{a valid \code{\link[graph:graphNEL-class]{graph::graphNEL}} object.}
-
 \item{x}{a valid \linkS4class{gGraph} object.}
-
-\item{nodes}{a vector of node names}
-
-\item{object}{a valid \linkS4class{gData} object.}
-
-\item{\dots}{other arguments passed to other methods.}
 
 \item{loc}{location, specified as a list of two components giving
 respectively the longitude and the latitude. Alternatively, it can be a
 matrix-like object with one row and two columns.}
+
+\item{\dots}{other arguments passed to other methods.}
 
 \item{seed}{an optional integer giving the seed to be used when randomizing
 colors. One given seed will always give the same set of colors. NULL by
@@ -72,11 +50,6 @@ The functions \code{areNeighbours}, \code{areConnected} and the method
 }
 \details{
 \itemize{
-\item \code{areNeighbours}: tests connectivity between couples of nodes on an
-object inheriting \code{graph} class (like a \code{\link[graph:graphNEL-class]{graph::graphNEL}}
-object).\cr
-\item \code{areConnected}: tests if a set of nodes form a connected set on a
-\linkS4class{gGraph} object.\cr
 \item \code{isConnected}: tests if the nodes of a \linkS4class{gData} object
 form a connected set. Note that this is a method for \linkS4class{gData},
 the generic being defined in the \code{graph} package.\cr
