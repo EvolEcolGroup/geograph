@@ -6,16 +6,6 @@ The functions `areNeighbours`, `areConnected` and the method
 ## Usage
 
 ``` r
-areNeighbours(V1, V2, graph)
-
-areConnected(x, nodes)
-
-# S4 method for class 'gData'
-isConnected(object, ...)
-
-# S4 method for class 'gGraph'
-isConnected(object, ...)
-
 isReachable(x, loc)
 
 connectivityPlot(x, ...)
@@ -29,45 +19,21 @@ connectivityPlot(x, col.gGraph = 0, ..., seed = NULL)
 
 ## Arguments
 
-- V1:
-
-  a vector of node names
-
-- V2:
-
-  a vector of node names
-
-- graph:
-
-  a valid
-  [`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html)
-  object.
-
 - x:
 
   a valid
   [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
   object.
 
-- nodes:
-
-  a vector of node names
-
-- object:
-
-  a valid
-  [gData](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
-  object.
-
-- ...:
-
-  other arguments passed to other methods.
-
 - loc:
 
   location, specified as a list of two components giving respectively
   the longitude and the latitude. Alternatively, it can be a matrix-like
   object with one row and two columns.
+
+- ...:
+
+  other arguments passed to other methods.
 
 - seed:
 
@@ -94,15 +60,6 @@ connectivityPlot(x, col.gGraph = 0, ..., seed = NULL)
   object form a connected set.  
 
 ## Details
-
-- `areNeighbours`: tests connectivity between couples of nodes on an
-  object inheriting `graph` class (like a
-  [`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html)
-  object).  
-
-- `areConnected`: tests if a set of nodes form a connected set on a
-  [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-  object.  
 
 - `isConnected`: tests if the nodes of a
   [gData](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)

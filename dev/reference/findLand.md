@@ -80,10 +80,10 @@ obj # note: no node attribute
 #> === gGraph object ===
 #> 
 #> @coords: spatial coordinates of 1000 nodes
-#>         lon       lat
-#> 1 -85.92936 -80.17813
-#> 2 -79.89893 -20.17944
-#> 3  80.75184 -80.00657
+#>         lon      lat
+#> 1  35.70424 25.41490
+#> 2 113.53237 63.96240
+#> 3  18.78418 76.08098
 #> ...
 #> 
 #> @nodes.attr: 0 nodes attributes
@@ -107,17 +107,17 @@ obj # note: new node attribute
 #> === gGraph object ===
 #> 
 #> @coords: spatial coordinates of 1000 nodes
-#>         lon       lat
-#> 1 -85.92936 -80.17813
-#> 2 -79.89893 -20.17944
-#> 3  80.75184 -80.00657
+#>         lon      lat
+#> 1  35.70424 25.41490
+#> 2 113.53237 63.96240
+#> 3  18.78418 76.08098
 #> ...
 #> 
 #> @nodes.attr: 1 nodes attributes
 #>   habitat
-#> 1    land
-#> 2     sea
-#> 3    land
+#> 1     sea
+#> 2    land
+#> 3     sea
 #> ...
 #> 
 #> @meta: list of meta information with 0 items

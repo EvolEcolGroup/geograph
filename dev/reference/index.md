@@ -2,6 +2,10 @@
 
 ## All functions
 
+- [`areConnected()`](https://evolecolgroup.github.io/geograph/dev/reference/areConnected.md)
+  : Test if a set of nodes form a connected set
+- [`areNeighbours()`](https://evolecolgroup.github.io/geograph/dev/reference/areNeighbours.md)
+  : Tests connectivity between pairs of nodes
 - [`geo.segments()`](https://evolecolgroup.github.io/geograph/dev/reference/auxiliary.md)
   [`hasCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/auxiliary.md)
   : Plot segments correctly when crossing the antimeridian
@@ -12,11 +16,7 @@
   : Find the closest node to a given location
 - [`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md)
   : Combine the costs of two gGraph objects
-- [`areNeighbours()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
-  [`areConnected()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
-  [`isConnected(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
-  [`isConnected(`*`<gGraph>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
-  [`isReachable()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
+- [`isReachable()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
   [`connectivityPlot()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
   : Check connectivity of a gGraph object
 - [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
@@ -78,6 +78,9 @@
 - [`hgdp`](https://evolecolgroup.github.io/geograph/dev/reference/hgdp.md)
   [`hgdpPlus`](https://evolecolgroup.github.io/geograph/dev/reference/hgdp.md)
   : Human genome diversity panel - georeferenced data
+- [`isConnected(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/isConnected.md)
+  [`isConnected(`*`<gGraph>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/isConnected.md)
+  : Test if a set of nodes form a connected set
 - [`isInArea()`](https://evolecolgroup.github.io/geograph/dev/reference/isInArea.md)
   : Find which nodes fall in a given area
 - [`keepMaxConnectedSet()`](https://evolecolgroup.github.io/geograph/dev/reference/keepMaxConnectedSet.md)
