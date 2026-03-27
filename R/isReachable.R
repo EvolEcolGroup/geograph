@@ -11,12 +11,13 @@
 #' [gData] object, and names corresponding to node names. 
 #' @export
 #' @examples
-#' # Select African populations Mandenka, Yoruba, and Biaka
-#' hgdp_sub <- hgdp[c(29,30,31),]
+#' # Select African populations Mandenka, Yoruba, and San
+#' hgdp.sub <- hgdp[getData(hgdp)$Population %in% 
+#' c("Mandenka", "Yoruba", "San")]
 #' # Get a location that is reachable 
-#' location <- getCoords(hgdp[32,])
+#' location <- getCoords(hgdp[getData(hgdp)$Population == "BantuKenya"])
 #' # Check these are reachable
-#' isReachable(x = hgdp_sub, loc = location)
+#' isReachable(x = hgdp.sub, loc = location)
 #' @family connectivity_functions
 
 isReachable <- function(x, loc) { # x is a gData object
