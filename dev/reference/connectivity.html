@@ -46,9 +46,7 @@ isConnected test connectivity in different ways."><meta name="robots" content="n
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">isReachable</span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">connectivityPlot</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">connectivityPlot</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S4 method for class 'gGraph'</span></span>
 <span><span class="fu">connectivityPlot</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, seed <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
@@ -63,12 +61,6 @@ isConnected test connectivity in different ways."><meta name="robots" content="n
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>a valid <a href="gGraph-class.html">gGraph</a> object.</p></dd>
-
-
-<dt id="arg-loc">loc<a class="anchor" aria-label="anchor" href="#arg-loc"></a></dt>
-<dd><p>location, specified as a list of two components giving
-respectively the longitude and the latitude. Alternatively, it can be a
-matrix-like object with one row and two columns.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -103,8 +95,6 @@ object form a connected set.<br></p></li>
 <ul><li><p><code>isConnected</code>: tests if the nodes of a <a href="gData-class.html">gData</a> object
 form a connected set. Note that this is a method for <a href="gData-class.html">gData</a>,
 the generic being defined in the <code>graph</code> package.<br></p></li>
-<li><p><code>isReachable</code>: tests if one location (actually, the closest node to
-it) is reachable from the set of nodes of a <a href="gData-class.html">gData</a> object.<br></p></li>
 <li><p><code>connectivityPlot</code>: plots connected sets of a <a href="gGraph-class.html">gGraph</a> or
 a <a href="gData-class.html">gData</a> object with different colors.<br></p></li>
 </ul><p>In <code>connectivityPlot</code>, isolated nodes (i.e. belonging to no connected

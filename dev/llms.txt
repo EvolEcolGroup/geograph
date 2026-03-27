@@ -58,8 +58,7 @@ the overview article of its website.
   : Find the closest node to a given location
 - [`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md)
   : Combine the costs of two gGraph objects
-- [`isReachable()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
-  [`connectivityPlot()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
+- [`connectivityPlot()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
   : Check connectivity of a gGraph object
 - [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
@@ -125,6 +124,8 @@ the overview article of its website.
   : Test if a set of nodes form a connected set
 - [`isInArea()`](https://evolecolgroup.github.io/geograph/dev/reference/isInArea.md)
   : Find which nodes fall in a given area
+- [`isReachable()`](https://evolecolgroup.github.io/geograph/dev/reference/isReachable.md)
+  : Tests if location reachable from nodes
 - [`keepMaxConnectedSet()`](https://evolecolgroup.github.io/geograph/dev/reference/keepMaxConnectedSet.md)
   : Keep only the largest connected set
 - [`makeGrid()`](https://evolecolgroup.github.io/geograph/dev/reference/makeGrid.md)

@@ -37,7 +37,8 @@ a vector of logical, having one value for each pair of nodes.
 
 Other connectivity_functions:
 [`areConnected()`](https://evolecolgroup.github.io/geograph/dev/reference/areConnected.md),
-[`isConnected,gData-method`](https://evolecolgroup.github.io/geograph/dev/reference/isConnected.md)
+[`isConnected,gData-method`](https://evolecolgroup.github.io/geograph/dev/reference/isConnected.md),
+[`isReachable()`](https://evolecolgroup.github.io/geograph/dev/reference/isReachable.md)
 
 ## Examples
 

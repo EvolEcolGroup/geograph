@@ -39,11 +39,16 @@ objects, whereas `areConnected()` is only a method for
 [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
 objects.
 
+This is an implementation of the
+[graph::isConnected](https://rdrr.io/pkg/graph/man/graph-class.html)
+function for data classes in `geoGraph`.
+
 ## See also
 
 Other connectivity_functions:
 [`areNeighbours()`](https://evolecolgroup.github.io/geograph/dev/reference/areNeighbours.md),
-[`isConnected,gData-method`](https://evolecolgroup.github.io/geograph/dev/reference/isConnected.md)
+[`isConnected,gData-method`](https://evolecolgroup.github.io/geograph/dev/reference/isConnected.md),
+[`isReachable()`](https://evolecolgroup.github.io/geograph/dev/reference/isReachable.md)
 
 ## Examples
 

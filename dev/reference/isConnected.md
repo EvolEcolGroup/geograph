@@ -55,7 +55,8 @@ if you want to test if a specific subset of nodes form a connected set.
 
 Other connectivity_functions:
 [`areConnected()`](https://evolecolgroup.github.io/geograph/dev/reference/areConnected.md),
-[`areNeighbours()`](https://evolecolgroup.github.io/geograph/dev/reference/areNeighbours.md)
+[`areNeighbours()`](https://evolecolgroup.github.io/geograph/dev/reference/areNeighbours.md),
+[`isReachable()`](https://evolecolgroup.github.io/geograph/dev/reference/isReachable.md)
 
 ## Examples
 

@@ -6,8 +6,6 @@ The functions `areNeighbours`, `areConnected` and the method
 ## Usage
 
 ``` r
-isReachable(x, loc)
-
 connectivityPlot(x, ...)
 
 # S4 method for class 'gGraph'
@@ -24,12 +22,6 @@ connectivityPlot(x, col.gGraph = 0, ..., seed = NULL)
   a valid
   [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
   object.
-
-- loc:
-
-  location, specified as a list of two components giving respectively
-  the longitude and the latitude. Alternatively, it can be a matrix-like
-  object with one row and two columns.
 
 - ...:
 
@@ -66,11 +58,6 @@ connectivityPlot(x, col.gGraph = 0, ..., seed = NULL)
   object form a connected set. Note that this is a method for
   [gData](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md),
   the generic being defined in the `graph` package.  
-
-- `isReachable`: tests if one location (actually, the closest node to
-  it) is reachable from the set of nodes of a
-  [gData](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
-  object.  
 
 - `connectivityPlot`: plots connected sets of a
   [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
