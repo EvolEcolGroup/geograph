@@ -2,6 +2,7 @@
 % Please edit documentation in R/isConnected.R
 \name{isConnected,gData-method}
 \alias{isConnected,gData-method}
+\alias{isConnected}
 \alias{isConnected,gGraph-method}
 \title{Test if a set of nodes form a connected set}
 \usage{
