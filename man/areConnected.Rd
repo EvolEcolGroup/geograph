@@ -26,6 +26,9 @@ whereas \code{\link[=isConnected]{isConnected()}} tests if all nodes in the obje
 connected set. Note that \code{\link[=isConnected]{isConnected()}} is a method for both
 \link{gGraph} and \link{gData} objects, whereas \code{\link[=areConnected]{areConnected()}} is
 only a method for \link{gGraph} objects.
+
+This is an implementation of the \link[graph:graph-class]{graph::isConnected} function for
+data classes in \code{geoGraph}.
 }
 \examples{
 # create a small square graph
@@ -40,6 +43,7 @@ areNeighbours(V1= "1", V2 = "10", graph = test_graph)
 \seealso{
 Other connectivity_functions: 
 \code{\link{areNeighbours}()},
-\code{\link{isConnected,gData-method}}
+\code{\link{isConnected,gData-method}},
+\code{\link{isReachable}()}
 }
 \concept{connectivity_functions}

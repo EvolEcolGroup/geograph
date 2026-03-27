@@ -34,6 +34,7 @@ areNeighbours(V1 = c("1","1"), V2 = c("2","9"), graph = test_graph)
 \seealso{
 Other connectivity_functions: 
 \code{\link{areConnected}()},
-\code{\link{isConnected,gData-method}}
+\code{\link{isConnected,gData-method}},
+\code{\link{isReachable}()}
 }
 \concept{connectivity_functions}
