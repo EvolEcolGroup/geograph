@@ -16,7 +16,6 @@ options(digits = 4)
 
 ```{r loading libraries, include=FALSE}
 library(geoGraph) # graph analysis
-library(elevatr) # for elevation data
 library(sf)
 library(terra)
 library(dplyr)
@@ -151,7 +150,7 @@ plot(cities, type = "both", reset = TRUE)
 text(getCoords(cities), rownames(getData(cities)))
 ```
 
- Note the argument `reset=TRUE`, which tells the plotting function to adapt the
+Note the argument `reset=TRUE`, which tells the plotting function to adapt the
 plotting area to the geographic extent of the dataset.
 
 
@@ -185,14 +184,13 @@ While available `gGraph` objects provide a basis to work with (see `?worldgraph.
 one may want to adapt a graph to a specific case.
 For instance, connectivity should be defined according to biological knowledge of the organism under study.
 `gGraph` can be modified in different ways: by changing the connectivity, the costs of
-edges, or the attribute values.
+edges, or the attribute values. We already saw in the vignette 'get started' how to manually add a connection between two nodes, and we will see here how to change the global connectivity and edge costs.
 
 ### Changing the global connectivity of a `gGraph`
 
 There are two main ways of changing the connectivity of a `gGraph`, which match two different objectives.
 The first approach is to perform global and systematic changes of the connectivity of the graph.
-Typically, one will want to remove all connections over a given type of landscape, which is
-uncrossable by the organism under study.
+Typically, one will want to remove all connections over a given type of landscape, which is impossible to cross by the organism under study.
 Let's assume we are interested in saltwater fishes.
 To model fish dispersal, we have to define a graph which connects only nodes overlaying the sea.
 We load the `gGraph` object `rawgraph.10k`, and zoom in to a smaller area (Madagascar) to illustrate
@@ -253,7 +251,7 @@ A second approach to changing a `gGraph` is to refine the graph by hand, adding 
 locally some connections, or altering the attributes of some nodes.
 This can be necessary to connect components such as islands to the main landmasses, or to correct
 erroneous data.
-Adding and removing edges from the grid of a `gGraph` can be achieved by `geo.add.edges`
+As seen in the vignette 'get started', adding and removing edges from the grid of a `gGraph` can be achieved by `geo.add.edges`
 and `geo.remove.edges`, respectively.
 These functions are interactive, and require the user to select individual nodes or a rectangular
 area in which edges are added or removed.
