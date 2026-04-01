@@ -7,7 +7,7 @@
 polygonBetween(g, layer, poly_i, poly_j, outline = TRUE)
 }
 \arguments{
-\item{g}{A \code{gData} object with edge costs already defined.}
+\item{g}{\code{\link{gData}} or \code{\link{gGraph}} object with edge costs already defined.}
 
 \item{layer}{Character. Name of the node attribute layer containing polygon
 membership.}
@@ -25,27 +25,31 @@ A numeric vector containing the least-cost distances between nodes
 of the two polygons.
 }
 \description{
-\code{polygonBetween} computes least-cost path distances between all nodes
-belonging to two polygons in a \code{gData} graph using \code{dijkstraBetween}.
+This function computes least-cost path distances between all nodes
+belonging to two polygons in a \code{\link{gData}} or \code{\link{gGraph}} using \code{dijkstraBetween.}
 The polygons are specified via a node attribute layer. Optionally, only outline
 nodes (nodes with at least one neighbor outside the polygon) are used to
 reduce computation time.
 }
 \details{
 The function extracts all nodes belonging to the two specified polygons and
-computes least-cost paths between them using \code{dijkstraBetween}.
+computes least-cost paths between them using \code{dijkstraBetween.}
 If \code{outline = TRUE}, the computation is restricted to outline nodes of
 each polygon, which can substantially reduce runtime for large polygons.
 }
 \examples{
-\dontrun{
-dist_vec <- polygonBetween(
-  g = polyGraph_full,
-  layer = "lang",
-  poly_i = "Malay",
-  poly_j = "Tagalog",
-  outline = TRUE
+sf::sf_use_s2(FALSE)
+world.countries <- rnaturalearth::ne_countries(
+  scale = "medium",
+  returnclass = "sf"
 )
-}
+newGraph <- extractFromLayer(rawgraph.10k,
+                             layer = world.countries,
+                             attr = c("continent", "name")
+)
+test <- polygonBetween(newGraph, layer = "name", "Spain", "Germany", outline = TRUE)
+plot(newGraph, col = NA, reset = TRUE)
+plot(test, col = "red")
+
 
 }

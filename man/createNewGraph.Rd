@@ -2,7 +2,7 @@
 % Please edit documentation in R/createNewGraph.R
 \name{createNewGraph}
 \alias{createNewGraph}
-\title{Create a new gGraph object from a custom discrete global grid}
+\title{Make a new gGraph object from a custom discrete global grid}
 \usage{
 createNewGraph(geo_box, spacing, ...)
 }
@@ -14,14 +14,26 @@ with \code{xmin}, \code{xmax}, \code{ymin}, \code{ymax} or an object of class
 \item{spacing}{A positive numeric value giving the desired spacing (in km)
 of the discrete global grid. The closest available DGGS resolution is used.}
 
-\item{\dots}{Further arguments (currently unused).}
+\item{...}{Additional arguments passed to other methods (currently not used).}
 }
 \value{
-A \linkS4class{gGraph} object representing the DGGS restricted to the
-specified geographic region. The \code{@nodes.attr} slot is empty.
+A \code{\link{gGraph}} object representing the DGGS restricted to the
+specified geographic region. The \verb{@nodes.attr} slot is empty.
 }
 \description{
-\code{createNewGraph} constructs a new \linkS4class{gGraph} object based on a
+This function constructs a new \code{\link{gGraph}} object based on a
 discrete global grid system (DGGS) with a user-defined spatial resolution.
 The graph is restricted to a geographic bounding box defined by the user.
+}
+\details{
+The function constructs a discrete global grid using the \code{dggridR} package,
+then identifies neighboring grid cells using the \code{spdep} package, and finally builds a
+\code{\link{gGraph}} object with the resulting graph structure and node coordinates.
+}
+\examples{
+' # Define a geographic bounding box (e.g., for a region in Europe)
+geo_box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+#' # Create a gGraph with a spacing of 1000 km
+ggraph <- createNewGraph(geo_box, spacing = 1000)
+plot(ggraph, edge = TRUE)
 }

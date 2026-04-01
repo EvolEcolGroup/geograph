@@ -16,7 +16,6 @@
 #' then identifies neighboring grid cells using the `spdep` package, and finally builds a
 #' [`gGraph`] object with the resulting graph structure and node coordinates.
 #' @examples
-#' #' # Example usage:
 #' ' # Define a geographic bounding box (e.g., for a region in Europe)
 #' geo_box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 #' #' # Create a gGraph with a spacing of 1000 km
