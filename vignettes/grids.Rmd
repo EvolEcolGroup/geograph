@@ -45,7 +45,7 @@ area_of_interest <- st_as_sfc(
 
 aoi_bound <- st_sf(geometry = area_of_interest)
 
-elevation_data <- elevatr::get_elev_raster(
+elevation_data <- get_elev_raster(
   locations = aoi_bound,
   z = 4,
   clip = "locations"
@@ -62,8 +62,8 @@ Using this `SpatRaster` we can create a land mask by using the `make_land_mask` 
 
 ```{r making land mask}
 # make land mask (everything above 0m is land)
-land_mask <- pastclim::make_land_mask(spatr, time_bp = 0) # using the present time
-land_mask[is.na(land_mask)] <- 0 # set NAs to 0 (ocean)
+land_mask <- make_land_mask(spatr, time_bp = 0) # using the present time
+land_mask[is.na(land_mask)] <- 0 
 plot(land_mask)
 ```
 
@@ -103,7 +103,7 @@ habitat <- factor(water_land_graph@nodes.attr$water,
 )
 
 # reclassify the nodes in the gGraph object accordingly in the metadata
-water_land_graph@nodes.attr$habitat <- habitat
+water_land_graph@nodes.attr$habitat <- habitat #TODO can we use a setAttribute here?
 
 colors <- data.frame(
   habitat = c("sea", "land"),
@@ -163,7 +163,7 @@ elevation_graph <- collapseNodeAttribute(
 )
 
 # have a look at the distribution of sd_elevation values for land cells
-sd_ele <- elevation_graph@nodes.attr %>%
+sd_ele <- getNodesAttr(elevation_graph)%>%
   mutate(
     elevation = ifelse(habitat == "land", elevation, NA_real_)
   ) %>%
@@ -240,7 +240,7 @@ Now in a last step we can add a 'coast' category to the habitat classification f
 ```{r adding coastal cells}
 # get the neighbor list from the graph
 neigh_list <- elevation_graph@graph@edgeL
-node_attr <- elevation_graph@nodes.attr
+node_attr <- getNodesAttr(elevation_graph)
 
 # get all nodes adjacent to land or mountain cells and reclassify them as "coast"
 for (i_node in 1:nrow(node_attr)) {
@@ -371,7 +371,7 @@ turn off spherical trigonometry functions with `sf::sf_use_s2(FALSE)`, as the
 with that functionality.
 ```{r }
 library(sf)
-sf::sf_use_s2(FALSE)
+sf_use_s2(FALSE)
 world.countries <- rnaturalearth::ne_countries(
   scale = "medium",
   returnclass = "sf"
