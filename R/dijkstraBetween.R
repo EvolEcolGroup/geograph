@@ -34,7 +34,7 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
   if (!all(from %in% getNodes(x))) stop("Some starting nodes are not in x.")
   if (!all(to %in% getNodes(x))) stop("Some ending nodes are not in x.")
-
+  
   ## check connectivity ##
   if (!areConnected(x, unique(c(from, to)))) stop("Not all nodes are connected by the graph.")
 
@@ -68,7 +68,7 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
 
 
   ## handle duplicated paths ##
-  if (length(res) < maxLength) { # res should have length = laxLength
+  if (length(res) < (maxLength*(maxLength-1))/2) { # res should have all possible combinations
     fromTo <- paste(from[pairIdStart], to[pairIdStop], sep = ":") # all different paths
     res <- res[fromTo]
   }
