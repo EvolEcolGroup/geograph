@@ -21,7 +21,7 @@
 #' @examples
 #' \dontrun{
 #' graph <- assignRasterPoints(rawgraph.40k, elevation_raster)
-#' 
+#' }
 #' @export
 assignRasterPoints <- function(graph, raster, layer_name = "raster_points") {
   

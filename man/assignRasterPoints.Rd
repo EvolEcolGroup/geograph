@@ -12,10 +12,10 @@ assignRasterPoints(graph, raster, layer_name = "raster_points")
 \item{raster}{A \code{SpatRaster} object (from \code{terra})}
 
 \item{layer_name}{Character, optional. If provided, stores the raster points in
-\code{graph@nodes.attr[[layer_name]]} instead of \code{raster_points}.}
+\code{graph@nodes.attr[[layer_name]]} instead of \code{raster_points.}}
 }
 \value{
-A \linkS4class{gGraph} object with a new node attribute containing
+A \code{\link{gGraph}} object with a new node attribute containing
 the raster points assigned to each node.
 }
 \description{
@@ -34,10 +34,5 @@ to create custom attributes like "mountain" or "land".
 \examples{
 \dontrun{
 graph <- assignRasterPoints(rawgraph.40k, elevation_raster)
-# Now each node has a list-column raster_points with all assigned raster points
-# You can compute node-level attributes, e.g.:
-node_sd <- sapply(graph@nodes.attr$raster_points, function(df) sd(df$elevation))
-graph@nodes.attr$sd_elevation <- node_sd
 }
-
 }
