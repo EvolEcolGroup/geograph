@@ -10,14 +10,6 @@ object.
 ## Usage
 
 ``` r
-dijkstraBetween(x, ...)
-
-# S4 method for class 'gGraph'
-dijkstraBetween(x, from, to)
-
-# S4 method for class 'gData'
-dijkstraBetween(x)
-
 dijkstraFrom(x, ...)
 
 # S4 method for class 'gGraph'
@@ -45,14 +37,6 @@ gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
 - ...:
 
   further arguments passed to the `segments` method.
-
-- from:
-
-  a vector of character strings giving node names.
-
-- to:
-
-  a vector of character strings giving node names.
 
 - start:
 

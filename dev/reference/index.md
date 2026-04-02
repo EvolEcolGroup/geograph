@@ -18,11 +18,12 @@
   : Combine the costs of two gGraph objects
 - [`connectivityPlot()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
   : Check connectivity of a gGraph object
-- [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
-  [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
+- [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   [`plot(`*`<gPath>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   [`gPath2dist()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   : Shortest path using Dijkstra algorithm
+- [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md)
+  : Find the shortest path between nodes in a graph
 - [`dropDeadEdges()`](https://evolecolgroup.github.io/geograph/dev/reference/dropDeadEdges.md)
   : Get rid of some 'dead' edges or nodes
 - [`extractFromLayer()`](https://evolecolgroup.github.io/geograph/dev/reference/extractFromLayer.md)

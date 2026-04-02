@@ -28,10 +28,14 @@ a single logical value, being TRUE if nodes form a connected set.
 
 ## Details
 
-@details This function is very similar to `isConnected()`, but it allows
-the user to specify a subset of nodes to test for connectivity, whereas
-`isConnected()` tests if all nodes in the object form a connected set.
-Note that `isConnected()` is a method for both
+@details This function is very similar to
+[`isConnected()`](https://evolecolgroup.github.io/geograph/dev/reference/isConnected.md),
+but it allows the user to specify a subset of nodes to test for
+connectivity, whereas
+[`isConnected()`](https://evolecolgroup.github.io/geograph/dev/reference/isConnected.md)
+tests if all nodes in the object form a connected set. Note that
+[`isConnected()`](https://evolecolgroup.github.io/geograph/dev/reference/isConnected.md)
+is a method for both
 [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
 and
 [gData](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)

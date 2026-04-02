@@ -61,7 +61,7 @@
                         <h4 data-toc-skip class="author">Thibaut Jombart
 and Andrea Manica</h4>
             
-            <h4 data-toc-skip class="date">2026-03-27</h4>
+            <h4 data-toc-skip class="date">2026-04-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/geograph.Rmd" class="external-link"><code>vignettes/geograph.Rmd</code></a></small>
       <div class="d-none name"><code>geograph.Rmd</code></div>
@@ -1025,7 +1025,7 @@ the HGDP populations.</p>
 <p>First, we check that all populations are connected on the grid using
 <code>isConnected</code>:</p>
 <div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/graph/man/graph-class.html" class="external-link">isConnected</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/isConnected.html">isConnected</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>Note that in practice, we may often want to assess graphically the
 connectivity of the underlying grid, especially if not all locations of
@@ -1060,7 +1060,7 @@ to find the shortest paths between Addis Ababa and the populations of
 <pre><code><span><span class="co">## Loading required package: RBGL</span></span></code></pre>
 <p>The object <code>paths</code> contains the identified paths, which
 are stored as a list with class <code>gPath</code> (see
-<code><a href="../reference/dijkstra-methods.html">?gPath</a></code>). Paths can be plotted easily:</p>
+<code>?gPath</code>). Paths can be plotted easily:</p>
 <div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">addis</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>

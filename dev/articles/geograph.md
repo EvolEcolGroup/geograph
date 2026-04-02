@@ -1182,9 +1182,7 @@ paths <- dijkstraFrom(hgdp, ori)
     ## Loading required package: RBGL
 
 The object `paths` contains the identified paths, which are stored as a
-list with class `gPath` (see
-[`?gPath`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)).
-Paths can be plotted easily:
+list with class `gPath` (see `?gPath`). Paths can be plotted easily:
 
 ``` r
 addis <- as.vector(addis)
