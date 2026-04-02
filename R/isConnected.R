@@ -22,6 +22,7 @@
 #' @export
 #' @importFrom graph isConnected
 #' @rdname isConnected
+#' @aliases isConnected
 setMethod("isConnected", "gData", function(object, ...) {
   ## checks ##
   x <- object

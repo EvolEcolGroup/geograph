@@ -11,7 +11,7 @@
 #'  [gGraph] and [gData] objects, whereas [areConnected()] is
 #'  only a method for [gGraph] objects.
 #'
-#'  This is an implementation of the [graph::isConnected] function for
+#'  This is an implementation of the [graph::isConnected()] function for
 #'  data classes in `geoGraph`.
 #'
 #' @param x a [gGraph] object

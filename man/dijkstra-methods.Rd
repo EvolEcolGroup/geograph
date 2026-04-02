@@ -4,24 +4,12 @@
 \name{dijkstra-methods}
 \alias{dijkstra-methods}
 \alias{dijkstraFrom}
-\alias{dijkstraFrom-methods}
-\alias{dijkstraFrom,gData-method}
 \alias{dijkstraFrom,gGraph-method}
-\alias{dijkstraBetween}
-\alias{dijkstraBetween-methods}
-\alias{dijkstraBetween,gData-method}
-\alias{dijkstraBetween,gGraph-method}
-\alias{gPath2dist}
-\alias{gPath}
+\alias{dijkstraFrom,gData-method}
 \alias{plot.gPath}
+\alias{gPath2dist}
 \title{Shortest path using Dijkstra algorithm}
 \usage{
-dijkstraBetween(x, ...)
-
-\S4method{dijkstraBetween}{gGraph}(x, from, to)
-
-\S4method{dijkstraBetween}{gData}(x)
-
 dijkstraFrom(x, ...)
 
 \S4method{dijkstraFrom}{gGraph}(x, start)
@@ -37,10 +25,6 @@ gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
 plotting method of \code{gPath} objects, a \code{gPath} object.}
 
 \item{\dots}{further arguments passed to the \code{segments} method.}
-
-\item{from}{a vector of character strings giving node names.}
-
-\item{to}{a vector of character strings giving node names.}
 
 \item{start}{a character string naming the 'source' node.}
 

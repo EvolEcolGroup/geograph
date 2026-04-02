@@ -47,6 +47,7 @@ Collate:
     'connectivity.R'
     'datasets.R'
     'dijkstra.R'
+    'dijkstraBetween.R'
     'dropDead.R'
     'extractFromLayer.R'
     'findLand.R'
