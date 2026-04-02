@@ -39,6 +39,7 @@ isConnected(hgdp)
 \seealso{
 Other connectivity_functions: 
 \code{\link{areConnected}()},
-\code{\link{areNeighbours}()}
+\code{\link{areNeighbours}()},
+\code{\link{isReachable}()}
 }
 \concept{connectivity_functions}
