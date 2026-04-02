@@ -4,7 +4,7 @@
 \alias{polygonBetween}
 \title{Least-cost paths between two polygons}
 \usage{
-polygonBetween(g, layer, poly_i, poly_j, outline = TRUE)
+polygonBetween(g, layer, from, to, outline = TRUE)
 }
 \arguments{
 \item{g}{\code{\link{gData}} or \code{\link{gGraph}} object with edge costs already defined.}
@@ -12,9 +12,9 @@ polygonBetween(g, layer, poly_i, poly_j, outline = TRUE)
 \item{layer}{Character. Name of the node attribute layer containing polygon
 membership.}
 
-\item{poly_i}{Character. Name of the first polygon.}
+\item{from}{Character. Name of the first polygon.}
 
-\item{poly_j}{Character. Name of the second polygon.}
+\item{to}{Character. Name of the second polygon.}
 
 \item{outline}{Logical. If \code{TRUE}, only outline nodes of each polygon
 (nodes with at least one neighbor outside the polygon) are used. Defaults
@@ -38,7 +38,6 @@ If \code{outline = TRUE}, the computation is restricted to outline nodes of
 each polygon, which can substantially reduce runtime for large polygons.
 }
 \examples{
-sf::sf_use_s2(FALSE)
 world.countries <- rnaturalearth::ne_countries(
   scale = "medium",
   returnclass = "sf"

@@ -7,7 +7,7 @@
 assignRasterPoints(graph, raster, layer_name = "raster_points")
 }
 \arguments{
-\item{graph}{A \linkS4class{gGraph} object.}
+\item{graph}{A \code{\link{gGraph}} object.}
 
 \item{raster}{A \code{SpatRaster} object (from \code{terra})}
 
@@ -19,7 +19,7 @@ A \linkS4class{gGraph} object with a new node attribute containing
 the raster points assigned to each node.
 }
 \description{
-\code{assignRasterPoints} takes a \linkS4class{gGraph} object and a raster
+This function takes a \code{\link{gGraph}} object and a raster
 \code{SpatRaster}, and assigns each raster cell to the nearest graph node.
 The points are stored in the graph as a node attribute called
 \code{raster_points}, which contains all raster values for that node.
