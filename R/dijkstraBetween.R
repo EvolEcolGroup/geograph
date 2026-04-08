@@ -40,7 +40,6 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
 
   ## build the wrapper ##
   myGraph <- getGraph(x)
-
   ## recycle from and to
   maxLength <- max(length(from), length(to))
   from <- rep(from, length = maxLength)
@@ -61,14 +60,14 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
   } else {
     pairIdStart <- pairIdStop <- 1
   }
-
+  
   ## wrap ##
   ## ! sp.between does not return duplicated paths
   res <- RBGL::sp.between(myGraph, start = from[pairIdStart], finish = to[pairIdStop])
 
 
   ## handle duplicated paths ##
-  if (length(res) < (maxLength*(maxLength-1))/2) { # res should have all possible combinations
+  if (length(res) < length(pairIdStart)) { # res should have all requested combinations
     fromTo <- paste(from[pairIdStart], to[pairIdStop], sep = ":") # all different paths
     res <- res[fromTo]
   }

@@ -65,16 +65,16 @@ testthat::test_that("DijkstraFrom works on a gData object", {
 testthat::test_that("DijkstraBetween can handle two points on the same node in a gData object", {
   
   # get a subset of the hgdp data where two populations are from the same node
-  hgdp.sub <- hgdp[getData(hgdp)$Region == "MIDDLE_EAST"]
-  pop <- getData(hgdp.sub)$Population
+  hgdp_sub <- hgdp[getData(hgdp)$Region == "MIDDLE_EAST"]
+  pop <- getData(hgdp_sub)$Population
   
   # compute the distances between all pairs of populations in this subset
-  m <- dijkstraBetween(hgdp.sub)
-  vec <- geoGraph::gPath2dist(m, res.type = "vec")
+  m <- dijkstraBetween(hgdp_sub)
+  vec <- geoGraph::gPath2dist(m, res.type = "vector")
   dist <- geoGraph::gPath2dist(m)
 
   # check that we get distances for all populations
-  testthat::expect_equal(dim(dist), c(length(pop), length(pop)))
+  testthat::expect_equal(attr(dist, "Size"), length(pop))
   
   # check that the distance between populations from the same node is zero
   testthat::expect_equal(vec["39740:39740"][[1]], 0)
