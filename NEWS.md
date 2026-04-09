@@ -1,5 +1,8 @@
 # geoGraph (development version)
 
+* Fix incorrect handling of duplicate nodes in `dijkstraBetween()`, 
+  ensuring zero-distance paths are properly represented.
+
 * remove all use of deprecated packages (`sp` and `maptools`), and move to
   `sf` objects
 

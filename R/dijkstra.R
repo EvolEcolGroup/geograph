@@ -299,9 +299,10 @@ print.gPath <- function(x, ...){
   ## printing
   cat("\n=== gPath object ===\n")
   cat("\n number of paths:", length(x), "\n")
-  cat("\n available paths (id_origin:id_destination: ")
-  print(c(utils::head(names(x)),"...\n"))
-  cat("each path, accessible with [[]] has elements 'length', 'path_detail' and 'length_detail\n")
-  cat("x and y coordinates of all nodes are stored as an attribute 'xy'")
+  cat("\n available paths (id_origin:id_destination): ")
+  cat(c(utils::head(names(x), n = 3L),
+        ifelse(length(names(x))>3, "...\n", "\n")))
+  cat("\neach path, accessible with [[]] has elements 'length', 'path_detail' and 'length_detail'\n")
+  cat("x and y coordinates of all nodes are stored as an attribute 'xy'; ")
   cat("see ?gPath for details")
 }
