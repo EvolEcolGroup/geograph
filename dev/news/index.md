@@ -2,6 +2,10 @@
 
 ## geoGraph (development version)
 
+- Fix incorrect handling of duplicate nodes in
+  [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md),
+  ensuring zero-distance paths are properly represented.
+
 - remove all use of deprecated packages (`sp` and `maptools`), and move
   to `sf` objects
 
