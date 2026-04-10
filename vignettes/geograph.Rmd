@@ -166,9 +166,8 @@ defined), so that data can be subsetted when subsetting the `gData` object.
 Lastly, the slot `gGraph.name` contains the name of the `gGraph` object to which
 the `gData` has been interfaced.
 
-Contrary to `gGraph` objects, `gData` objects will frequently be constructed by
-the user.  In the next sections, we illustrate how we can build and use `gData`
-objects from a set of locations. (@TODO maybe rephrase this?)
+In the next sections, we illustrate how we can build and use `gData`
+objects from a set of locations. 
 
 # Getting started with *geoGraph*
 
@@ -189,8 +188,7 @@ among a set of biological populations with known geographic coordinates.  In
 locations to the closest nodes on a grid (a `gGraph` object), and store
 additional data if needed.
 
-As a toy example, let us consider three locations: Zurich (Switzerland), Marrakesh (Marocco) and London
-(UK).  Since we will be working with a crude grid (10,000 nodes), locations need not be exact.  
+As a toy example, let us consider four locations: Bordeaux in France, Berlin in Germany, Baku in Azerbaijan, and Timbuktu in Mali. Since we will be working with a crude grid (10,000 nodes), locations need not be exact.  
 We enter the longitudes and latitudes (in this order, that is, xy coordinates) of these cities in
 decimal degrees, as well as approximate population sizes:
 
@@ -211,7 +209,7 @@ We load a `gGraph` object which contains the grid that will support the data:
 plot(worldgraph.10k)
 ```
 
- (we could use `worldgraph.40k` for a better resolution).  In this figure, each
+(we could use `worldgraph.40k` for a better resolution). In this figure, each
 node is represented with a color depending on the habitat type, either 'sea'
 (blue) or 'land' (green).  We are going to interface the cities data with this
 grid; to do so, we create a `gData` object using `new` (see `?gData` object):
@@ -224,7 +222,7 @@ plot(cities, type = "both", reset = TRUE)
 plotEdges(worldgraph.10k)
 ```
 
- This figure illustrates the matching of original locations (black crosses) to nodes of the grid
+This figure illustrates the matching of original locations (black crosses) to nodes of the grid
 (red circles).
 As we can see, an issue occurred for Bordeaux, which has been assigned to a node in the sea (in blue).
 Locations can be re-assigned to nodes with restrictions for some node attribute values using
@@ -236,8 +234,7 @@ plot(cities, type = "both", reset = TRUE)
 plotEdges(worldgraph.10k)
 ```
 
-Now, all cities have been assigned to a `land' node of the grid (again, better accuracy will be
-gained on 40k or finer grids - we use 10k for illustrative purposes only).
+Now, all cities have been assigned to a `land' node of the grid.
 Content of `cities` can be accessed via various accessors (see `?gData`).
 For instance, we can retrieve original locations, assigned nodes, and stored data using:
 ```{r }
@@ -253,7 +250,7 @@ getNodesAttr(cities)
 ```
 In this example, the information stored in `worldgraph.10k` is rather crude: `habitat` only
 distinguishes the land from the sea.
-However, more complex habitat information could be incorporated, for instance from GIS shapefiles (see vignette xxx, @TODO look in what vignette we will look at this).
+However, more complex habitat information could be incorporated, for instance from GIS shapefiles (see vignette 'Makeing custom grids in geoGraph', @TODO look in what vignette we will look at this).
 
 ## Finding least-cost paths
 
@@ -279,12 +276,6 @@ For instance, for `worldgraph.10k`:
 ```{r connectivityPlot, fig.width = 8}
 connectivityPlot(worldgraph.10k, edges = TRUE, seed = 1, reset = TRUE)
 ```
-
-```{r fig=TRUE}
-geo.zoomin(c(90, 150, 18, -25))
-title("Different connected components\n in worldgraph.10k")
-```
-
 Since all locations in `cities` are connected, we can proceed further.
 
 We can now compute least-cost paths between all pairs of cities using `dijkstraBetween`:
@@ -312,7 +303,8 @@ We can change this by adding a connection between the two continents, for instan
 These functions are interactive, and require the user to select individual nodes or a rectangular
 area in which edges are added or removed.
 See `?geo.add.edges` for more information on these functions.
-For instance, we can add the above-mentioned connection between Europe and Africa by selecting the two nodes of the grid closest to the Strait of Gibraltar, and adding a connection between them.
+For instance, we can add the above-mentioned connection between Europe and Africa by selecting the two nodes of the grid closest to the Strait of Gibraltar, and adding a connection between them. For this we just run the 
+'geo.add.edges' function, and then click on the two nodes of the grid that we want to connect (in this case, one node in Europe and one node in Africa). After adding the edge, we can save the new graph as a new object
 (note that we have to save the changes using `<-`):
 
 ```{r eval=FALSE}
@@ -325,7 +317,7 @@ newGraph <- geo.add.edges(newGraph)
 newGraph <- readRDS("Robjects/gibraltar_graph.RDS")
 ```
 
-We can then assign the new graph to the `gGraph.name` slot of `cities` (@TODO should we do it that way??), so that the new graph will be used for path computations.Now when we compute least-cost paths between cities, we can see that the path between Bordeaux and Timbuktu goes through the Strait of Gibraltar instead of the Caucasus mountains:
+We can then assign the new graph to the `gGraph.name` slot of `cities` (@TODO should we do it that way??), so that the new graph will be used for path computations. Now when we compute least-cost paths between cities, we can see that the path between Bordeaux and Timbuktu goes through the Strait of Gibraltar instead of the Caucasus mountains:
 
 ```{r }
 cities@gGraph.name <- "newGraph"
@@ -334,7 +326,7 @@ plot(cities, reset = TRUE)
 plot(cities.paths)
 ```
 
-### Example application using the hdgp dataset
+### Example application using the Human Genome Diversity Panel
 
 Here we show an application of the above-described methods to a real dataset, the Human Genome Diversity Panel (HGDP) dataset, which contains genetic diversity information for 52 human populations worldwide (see `?hgdp` for more information on this dataset).
 
@@ -406,6 +398,7 @@ myGraph@meta$costs
 myGraph <- setCosts(myGraph, attr.name = "habitat")
 paths.2 <- dijkstraFrom(hgdp, ori)
 ```
+
 ```{r fig=TRUE, fig.width = 8}
 plot(newGraph, col = NA, reset = TRUE)
 plot(paths.2)
@@ -425,4 +418,4 @@ summary(lm.hab)
 title("Genetic diversity vs geographic distance \n habitat costs ")
 ```
 
-Now of course depending on the application, we may want to use different grid resolutions, and/or more complex habitat information to define costs of traveling through different habitats. (@TODO here we can maybe also do deeper into the costs idea etc). This is illustrated in the vignettes 'make graphs' and 'edid graphs' (see `vignette()` for more information on available vignettes).
+Now of course depending on the application, we may want to use different grid resolutions, and/or more complex habitat information to define costs of traveling through different habitats. This is illustrated in the vignettes 'Making custom grids' and 'Edit graphs' (see `vignette()` for more information on available vignettes).
