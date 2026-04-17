@@ -27,7 +27,7 @@ connected set. Note that \code{\link[=isConnected]{isConnected()}} is a method f
 \link{gGraph} and \link{gData} objects, whereas \code{\link[=areConnected]{areConnected()}} is
 only a method for \link{gGraph} objects.
 
-This is an implementation of the \link[graph:graph-class]{graph::isConnected} function for
+This is an implementation of the \code{\link[graph:graph-class]{graph::isConnected()}} function for
 data classes in \code{geoGraph}.
 }
 \examples{

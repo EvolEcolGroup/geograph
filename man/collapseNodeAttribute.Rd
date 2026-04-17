@@ -14,14 +14,14 @@ collapseNodeAttribute(
 )
 }
 \arguments{
-\item{graph}{A \linkS4class{gGraph} object.}
+\item{graph}{A \code{\link{gGraph}} object.}
 
 \item{attribute}{Character string giving the name of the node attribute
 to collapse.}
 
 \item{fun}{A function or a character string specifying how to collapse values.
-Built-in options include \code{"min"}, \code{"max"}, \code{"mean"},
-\code{"median"}, \code{"sd"}, \code{"any"}, and \code{"all"}.}
+Built-in options include  \code{min},  \code{max},  \code{mean},
+\code{median},  \code{sd},  \code{any}, and  \code{all}.}
 
 \item{na.rm}{Logical; whether to remove \code{NA} values before collapsing.
 Defaults to \code{TRUE}.}
@@ -33,13 +33,13 @@ the collapsed vector is returned but the graph is left unchanged.}
 \item{...}{Additional arguments passed to \code{fun}.}
 }
 \value{
-If \code{replace = TRUE}, a modified \linkS4class{gGraph} object with the
+If \code{replace = TRUE}, a modified \code{\link{gGraph}} object with the
 collapsed attribute replacing the original one.
 
 If \code{replace = FALSE}, a vector of collapsed values (one per node).
 }
 \description{
-Collapses a list-based node attribute (e.g. raster values assigned to each
-node) into a single scalar value per node. Optionally replaces the original
-attribute to reduce memory usage.
+This function collapses a list-based node attribute
+(e.g. raster values assigned to each node) into a single scalar value per node.
+Optionally replaces the original attribute to reduce memory usage.
 }

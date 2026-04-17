@@ -16,7 +16,7 @@
 #'   c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
 #' hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
 #' plot(hgdp.sub)
-#' #plot(hgdp.path)
+#' plot(hgdp.path)
 #' @family dijkstra_methods
 #' @export
 setGeneric("dijkstraBetween", function(x, ...) {
@@ -34,7 +34,7 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
   if (!all(from %in% getNodes(x))) stop("Some starting nodes are not in x.")
   if (!all(to %in% getNodes(x))) stop("Some ending nodes are not in x.")
-  
+
   ## check connectivity ##
   if (!areConnected(x, unique(c(from, to)))) stop("Not all nodes are connected by the graph.")
 
@@ -60,7 +60,7 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
   } else {
     pairIdStart <- pairIdStop <- 1
   }
-  
+
   ## wrap ##
   ## ! sp.between does not return duplicated paths
   res <- RBGL::sp.between(myGraph, start = from[pairIdStart], finish = to[pairIdStop])

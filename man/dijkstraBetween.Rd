@@ -47,6 +47,10 @@ hgdp.sub <- hgdp[getData(hgdp)$Population \%in\%
   c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
 hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
 plot(hgdp.sub)
-#plot(hgdp.path)
+plot(hgdp.path)
+}
+\seealso{
+Other dijkstra_methods: 
+\code{\link{dijkstraFrom}()}
 }
 \concept{dijkstra_methods}
