@@ -7,6 +7,58 @@ the object on the existing device. `plotEdges` only plots the edges of
 the graph: it can be called directly, or via arguments passed to `plot`
 and `points`.  
 
+## Usage
+
+``` r
+# S4 method for class 'gGraph,missing'
+plot(
+  x,
+  shape = "world",
+  psize = NULL,
+  pch = 19,
+  col = NULL,
+  edges = FALSE,
+  reset = FALSE,
+  bg.col = "gray",
+  border.col = "dark gray",
+  lwd = 1,
+  useCosts = NULL,
+  maxLwd = 3,
+  col.rules = NULL,
+  ...
+)
+
+# S4 method for class 'gGraph'
+points(
+  x,
+  psize = NULL,
+  pch = NULL,
+  col = NULL,
+  edges = FALSE,
+  lwd = 1,
+  useCosts = NULL,
+  maxLwd = 3,
+  col.rules = NULL,
+  sticky.points = FALSE,
+  ...
+)
+
+plotEdges(
+  x,
+  useCosts = NULL,
+  col = "black",
+  lwd = 1,
+  lty = 1,
+  pch = NULL,
+  psize = NULL,
+  pcol = NULL,
+  maxLwd = 3,
+  col.rules = NULL,
+  sticky.edges = FALSE,
+  ...
+)
+```
+
 ## Arguments
 
 - x:
@@ -74,6 +126,11 @@ and `points`.
   value. If not provided, this is sought from the `@meta\$color` slot of
   the object.
 
+- ...:
+
+  further arguments passed to the generic methods (plot, points, and
+  segments, respectively).
+
 - sticky.points:
 
   a logical indicating if added points should be kept when replotting
@@ -93,11 +150,6 @@ and `points`.
   a logical indicating whether added edges should be kept when
   replotting (TRUE), or not (FALSE, default). In any case, `reset=TRUE`
   will prevent points to be redrawn.
-
-- ...:
-
-  further arguments passed to the generic methods (plot, points, and
-  segments, respectively).
 
 ## Details
 

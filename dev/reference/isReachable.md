@@ -41,12 +41,13 @@ Other connectivity_functions:
 ## Examples
 
 ``` r
-# Select African populations Mandenka, Yoruba, and Biaka
-hgdp_sub <- hgdp[c(29,30,31),]
+# Select African populations Mandenka, Yoruba, and San
+hgdp.sub <- hgdp[getData(hgdp)$Population %in% 
+c("Mandenka", "Yoruba", "San")]
 # Get a location that is reachable 
-location <- getCoords(hgdp[32,])
+location <- getCoords(hgdp[getData(hgdp)$Population == "BantuKenya"])
 # Check these are reachable
-isReachable(x = hgdp_sub, loc = location)
-#> 15411 20543 26955 
+isReachable(x = hgdp.sub, loc = location)
+#>  6433 15411 13518 
 #>  TRUE  TRUE  TRUE 
 ```

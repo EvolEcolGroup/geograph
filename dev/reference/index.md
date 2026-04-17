@@ -6,6 +6,8 @@
   : Test if a set of nodes form a connected set
 - [`areNeighbours()`](https://evolecolgroup.github.io/geograph/dev/reference/areNeighbours.md)
   : Tests connectivity between pairs of nodes
+- [`assignRasterPoints()`](https://evolecolgroup.github.io/geograph/dev/reference/assignRasterPoints.md)
+  : Assign raster points to graph nodes
 - [`geo.segments()`](https://evolecolgroup.github.io/geograph/dev/reference/auxiliary.md)
   [`hasCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/auxiliary.md)
   : Plot segments correctly when crossing the antimeridian
@@ -14,10 +16,14 @@
   : Compute buffers around locations for gGraph and gData objects
 - [`closestNode()`](https://evolecolgroup.github.io/geograph/dev/reference/closestNode.md)
   : Find the closest node to a given location
+- [`collapseNodeAttribute()`](https://evolecolgroup.github.io/geograph/dev/reference/collapseNodeAttribute.md)
+  : Collapse a list-based node attribute into a scalar node attribute
 - [`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md)
   : Combine the costs of two gGraph objects
 - [`connectivityPlot()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
   : Check connectivity of a gGraph object
+- [`createNewGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/createNewGraph.md)
+  : Make a new gGraph object from a custom discrete global grid
 - [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   [`plot(`*`<gPath>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   [`gPath2dist()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
@@ -89,17 +95,17 @@
   : Keep only the largest connected set
 - [`makeGrid()`](https://evolecolgroup.github.io/geograph/dev/reference/makeGrid.md)
   : Build a regular grid gGraph
+- [`nodeBuffer()`](https://evolecolgroup.github.io/geograph/dev/reference/nodeBuffer.md)
+  : node buffer
 - [`plot(`*`<gData>`*`,`*`<missing>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.md)
   [`points(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.md)
   : Plot a gData object.
-- [`plot-gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
-  [`plot,gGraph-method`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
-  [`plot,gGraph,missing-method`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
-  [`plot.gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
-  [`points,gGraph-method`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
-  [`points.gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
-  [`plotEdges`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
+- [`plot(`*`<gGraph>`*`,`*`<missing>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
+  [`points(`*`<gGraph>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
+  [`plotEdges()`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
   : Plot a gGraph object.
+- [`polygonBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/polygonBetween.md)
+  : Least-cost paths between two polygons
 - [`setCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md)
   : Set friction in a gGraph object
 - [`setDistCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.md)

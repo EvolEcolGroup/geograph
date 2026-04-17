@@ -44,7 +44,7 @@ objects, whereas `areConnected()` is only a method for
 objects.
 
 This is an implementation of the
-[graph::isConnected](https://rdrr.io/pkg/graph/man/graph-class.html)
+[`graph::isConnected()`](https://rdrr.io/pkg/graph/man/graph-class.html)
 function for data classes in `geoGraph`.
 
 ## See also
