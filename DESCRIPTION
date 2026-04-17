@@ -28,12 +28,13 @@ Imports:
  rnaturalearth,
  sf,
  magrittr
-Suggests: 
-    testthat,
+Suggests:
+    elevatr,
     knitr,
     rmarkdown,
     rnaturalearthdata,
-    spelling
+    spelling,
+    testthat
 RoxygenNote: 7.3.3
 Collate: 
     'classes.R'
@@ -65,9 +66,9 @@ Collate:
     'keepMaxConnected.R'
     'makeGrid.R'
     'nodeBuffer.R'
-    'plot.R'
+    'plot_gData.R'
+    'plot_gGraph.R'
     'polygonBetween.R'
-    'rebuild.R'
     'setCosts.R'
     'setDistCosts.R'
     'utils-pipe.R'
