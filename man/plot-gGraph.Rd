@@ -14,7 +14,6 @@
 \usage{
 \S4method{plot}{gGraph,missing}(
   x,
-  y,
   shape = "world",
   psize = NULL,
   pch = 19,

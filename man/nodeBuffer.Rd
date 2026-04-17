@@ -15,14 +15,11 @@ vector / list / data.frame of length 2 giving longitude and latitude.}
 \item{max_distance}{Numeric. Maximum cumulative cost the feature is
 assumed to be able to diffuse.}
 
-\item{map_distances}{Logical. If \code{TRUE}, return the Grpah object with new
+\item{map_distances}{Logical. If \code{TRUE}, return the Graph object with new
 a node attribute called 'difusion_area' indicating the diffusion area
 with TRUE for all nodes reachable in order to map it on the gGraph object.
 If \code{FALSE} (default), return only the vector of node IDs within
 the diffusion area.}
-
-\item{weight_attr}{Character. Name of the edge attribute containing
-movement costs. Defaults to \code{"weight"}.}
 }
 \value{
 If \code{map_distances = FALSE}, a character vector of node IDs

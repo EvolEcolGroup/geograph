@@ -23,17 +23,25 @@ Depends:
   methods,
   graph
 Imports:
+ dplyr,
  fields,
  RBGL,
  rnaturalearth,
  sf,
- magrittr
+ magrittr,
+ dggridR,
+ spdep,
+ tibble,
+ tidyr
 Suggests:
     elevatr,
+    progress,
     knitr,
     rmarkdown,
     rnaturalearthdata,
     spelling,
+    terra,
+    pastclim,
     testthat
 RoxygenNote: 7.3.3
 Collate: 

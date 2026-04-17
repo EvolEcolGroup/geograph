@@ -31,9 +31,9 @@ then identifies neighboring grid cells using the \code{spdep} package, and final
 \code{\link{gGraph}} object with the resulting graph structure and node coordinates.
 }
 \examples{
-' # Define a geographic bounding box (e.g., for a region in Europe)
+# Define a geographic bounding box (e.g., for a region in Europe)
 geo_box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-#' # Create a gGraph with a spacing of 1000 km
-ggraph <- createNewGraph(geo_box, spacing = 1000)
+# Create a gGraph with a spacing of 1000 km
+ggraph <- createNewGraph(geo_box = geo_box, spacing = 1000)
 plot(ggraph, edge = TRUE)
 }

@@ -98,19 +98,11 @@
 #' @export
 #' @import sf
 #' @aliases plot_gGraph
-setMethod("plot", signature(x = "gGraph", y = "missing"), function(x, y, shape = "world", psize = NULL, pch = 19, col = NULL,
-                                                                   edges = FALSE, reset = FALSE, bg.col = "gray", border.col = "dark gray",
-                                                                   lwd = 1, useCosts = NULL, maxLwd = 3, col.rules = NULL, ...) {
-  ## some checks
-  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
-
-  ## create the .geoGraphEnv if it does not exist
-  # if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-  #     assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
-  #     warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
-  # }
-
-  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
+setMethod("plot", signature(x = "gGraph", y = "missing"),
+          function(x, shape = "world", psize = NULL, pch = 19,
+                   col = NULL,edges = FALSE, reset = FALSE, bg.col = "gray",
+                   border.col = "dark gray", lwd = 1, useCosts = NULL,
+                   maxLwd = 3, col.rules = NULL, ...) {
   env <- .geoGraphEnv
 
   coords <- getCoords(x)
