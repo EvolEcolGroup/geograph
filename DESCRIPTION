@@ -23,17 +23,26 @@ Depends:
   methods,
   graph
 Imports:
+ dplyr,
  fields,
  RBGL,
  rnaturalearth,
  sf,
- magrittr
-Suggests: 
-    testthat,
+ magrittr,
+ dggridR,
+ spdep,
+ tibble,
+ tidyr
+Suggests:
+    elevatr,
+    progress,
     knitr,
     rmarkdown,
     rnaturalearthdata,
-    spelling
+    spelling,
+    terra,
+    pastclim,
+    testthat
 RoxygenNote: 7.3.3
 Collate: 
     'classes.R'
@@ -65,9 +74,9 @@ Collate:
     'keepMaxConnected.R'
     'makeGrid.R'
     'nodeBuffer.R'
-    'plot.R'
+    'plot_gData.R'
+    'plot_gGraph.R'
     'polygonBetween.R'
-    'rebuild.R'
     'setCosts.R'
     'setDistCosts.R'
     'utils-pipe.R'

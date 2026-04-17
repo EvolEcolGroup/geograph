@@ -1,8 +1,3 @@
-###############
-## setCosts
-###############
-
-
 #' Set friction in a gGraph object
 #'
 #' The function \code{setCosts} define costs for the edges of a

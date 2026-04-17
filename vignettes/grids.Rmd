@@ -25,7 +25,7 @@ library(geoGraph) # graph analysis
 library(elevatr) # for elevation data
 library(sf)
 library(terra)
-library(tidyverse)
+library(dplyr)
 library(pastclim) # for making land mask
 ```
 
