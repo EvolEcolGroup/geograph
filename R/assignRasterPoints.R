@@ -24,10 +24,9 @@
 #' }
 #' @export
 assignRasterPoints <- function(graph, raster, layer_name = "raster_points") {
-
   if (!inherits(graph, "gGraph")) stop("graph must be a gGraph object")
 
-  #TODO check that raster and graph cover similar areas?
+  # TODO check that raster and graph cover similar areas?
 
   # Convert raster to data.frame
   raster.df <- as.data.frame(raster, xy = TRUE)
@@ -42,7 +41,7 @@ assignRasterPoints <- function(graph, raster, layer_name = "raster_points") {
   nodes.sf <- sf::st_as_sf(node.coords, coords = c("lon", "lat"), crs = 4326)
 
   # Disable s2 for nearest neighbor
-  sf::sf_use_s2(FALSE) #@TODO is this necessary?
+  sf::sf_use_s2(FALSE) # @TODO is this necessary?
 
   # Find nearest node for each raster point
   raster.sf$node.id <- sf::st_nearest_feature(

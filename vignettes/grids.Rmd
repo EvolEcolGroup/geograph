@@ -64,7 +64,7 @@ Using this `SpatRaster` we can create a land mask by using the `make_land_mask` 
 ```{r making land mask}
 # make land mask (everything above 0m is land)
 land_mask <- make_land_mask(spatr, time_bp = 0) # using the present time
-land_mask[is.na(land_mask)] <- 0 
+land_mask[is.na(land_mask)] <- 0
 plot(land_mask)
 ```
 
@@ -104,7 +104,7 @@ habitat <- factor(water_land_graph@nodes.attr$water,
 )
 
 # reclassify the nodes in the gGraph object accordingly in the metadata
-water_land_graph@nodes.attr$habitat <- habitat #TODO can we use a setAttribute here?
+water_land_graph@nodes.attr$habitat <- habitat # TODO can we use a setAttribute here?
 
 colors <- data.frame(
   habitat = c("sea", "land"),
@@ -164,7 +164,7 @@ elevation_graph <- collapseNodeAttribute(
 )
 
 # have a look at the distribution of sd_elevation values for land cells
-sd_ele <- getNodesAttr(elevation_graph)%>%
+sd_ele <- getNodesAttr(elevation_graph) %>%
   mutate(
     elevation = ifelse(habitat == "land", elevation, NA_real_)
   ) %>%

@@ -52,7 +52,6 @@ setGeneric("setDistCosts", function(x, ...) {
 #' @export
 #' @describeIn setDistCosts Method for gGraph object
 setMethod("setDistCosts", "gGraph", function(x, ...) {
-
   ## get edges and coords ##
   E <- getEdges(x, res.type = "matNames")
 

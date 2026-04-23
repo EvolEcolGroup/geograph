@@ -20,13 +20,13 @@
 #' @family connectivity_functions
 #' @examples
 #' # create a small square graph
-#' test_graph <- makeGrid(25, lon.range = c(1,5), lat.range = c(1,5))
+#' test_graph <- makeGrid(25, lon.range = c(1, 5), lat.range = c(1, 5))
 #' # test that the function correctly identifies connected sets
 #' # 1, 9, and 10 are connected
 #' areConnected(test_graph, nodes = c("1", "9", "10"))
 #' # even though they are not neighbours
-#' areNeighbours(V1= "1", V2 = "9", graph = test_graph)
-#' areNeighbours(V1= "1", V2 = "10", graph = test_graph)
+#' areNeighbours(V1 = "1", V2 = "9", graph = test_graph)
+#' areNeighbours(V1 = "1", V2 = "10", graph = test_graph)
 #' @export
 areConnected <- function(x, nodes) { # x is a gGraph
   ## some checks ##
@@ -55,5 +55,3 @@ areConnected <- function(x, nodes) { # x is a gGraph
 
   return(res)
 }
-
-

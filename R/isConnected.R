@@ -57,4 +57,3 @@ setMethod("isConnected", "gGraph", function(object, ...) {
   ## return res ##
   return(res)
 }) # end isConnected for gGraph
-

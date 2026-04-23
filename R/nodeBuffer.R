@@ -30,10 +30,9 @@
 #
 #' @export
 nodeBuffer <- function(graph,
-                           origin,
-                           max_distance,
-                           map_distances = TRUE) {
-
+                       origin,
+                       max_distance,
+                       map_distances = TRUE) {
   ## checks
   if (!is.gGraph(graph)) {
     stop("`graph` must be a valid gGraph object.")
@@ -44,14 +43,11 @@ nodeBuffer <- function(graph,
 
 
   if (is.character(origin)) {
-
     if (!origin %in% getNodes(graph)) {
       stop("`origin` is not a node in `graph`.")
     }
     origin_node <- origin
-
   } else {
-
     ## assume spatial input → closest node
     origin_node <- closestNode(graph, loc = origin)
 
@@ -60,29 +56,29 @@ nodeBuffer <- function(graph,
     }
 
 
-  ## compute least-cost paths from origin
-  paths <- dijkstraFrom(graph, start = origin_node)
+    ## compute least-cost paths from origin
+    paths <- dijkstraFrom(graph, start = origin_node)
 
-  ## extract distances (named vector)
-  dists <- gPath2dist(paths, res.type = "vector")
+    ## extract distances (named vector)
+    dists <- gPath2dist(paths, res.type = "vector")
 
-  ## associate distances with destination nodes
-  dest_nodes <- sub(".*:", "", names(dists))
-  names(dists) <- dest_nodes
+    ## associate distances with destination nodes
+    dest_nodes <- sub(".*:", "", names(dists))
+    names(dists) <- dest_nodes
 
-  ## identify diffusion area
-  in_area <- names(dists)[dists <= max_distance]
+    ## identify diffusion area
+    in_area <- names(dists)[dists <= max_distance]
 
-  if (!map_distances) {
-    return(in_area)
-  }
+    if (!map_distances) {
+      return(in_area)
+    }
 
-  ## map back onto graph as node attribute
-  diffusion_flag <- getNodes(graph) %in% in_area
-  names(diffusion_flag) <- getNodes(graph)
+    ## map back onto graph as node attribute
+    diffusion_flag <- getNodes(graph) %in% in_area
+    names(diffusion_flag) <- getNodes(graph)
 
-  graph@nodes.attr$diffusion_area <- diffusion_flag
+    graph@nodes.attr$diffusion_area <- diffusion_flag
 
-  return(graph)
+    return(graph)
   }
 }

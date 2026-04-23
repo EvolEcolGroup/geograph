@@ -21,10 +21,6 @@ NULL
 ## })
 
 
-
-
-
-
 ############
 ## [ gGraph
 ############
@@ -119,10 +115,6 @@ setMethod("[", "gGraph", function(x, i, j, ..., drop = TRUE) {
 })
 
 
-
-
-
-
 ###########
 ## [ gData
 ###########
@@ -173,10 +165,6 @@ setMethod("[", "gData", function(x, i, j, ..., drop = FALSE) {
 })
 
 
-
-
-
-
 ################
 ## SHOW METHODS
 ################
@@ -204,10 +192,6 @@ setMethod("[", "gData", function(x, i, j, ..., drop = FALSE) {
 ##     }
 
 ## }) # end show gGraphHistory
-
-
-
-
 
 
 ###############
@@ -238,10 +222,6 @@ setMethod("show", "gGraph", function(object) {
   ## print(x@history[1:min(nDisp,length(x@history@cmd))])
   ## if(length(x@history@cmd) > nDisp) cat("\n...\n")
 }) # end show gGraph
-
-
-
-
 
 
 ###############

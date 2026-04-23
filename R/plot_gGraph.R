@@ -98,108 +98,73 @@
 #' @export
 #' @import sf
 #' @aliases plot_gGraph
-setMethod("plot", signature(x = "gGraph", y = "missing"),
-          function(x, shape = "world", psize = NULL, pch = 19,
-                   col = NULL,edges = FALSE, reset = FALSE, bg.col = "gray",
-                   border.col = "dark gray", lwd = 1, useCosts = NULL,
-                   maxLwd = 3, col.rules = NULL, ...) {
-  env <- .geoGraphEnv
+setMethod(
+  "plot", signature(x = "gGraph", y = "missing"),
+  function(x, shape = "world", psize = NULL, pch = 19,
+           col = NULL, edges = FALSE, reset = FALSE, bg.col = "gray",
+           border.col = "dark gray", lwd = 1, useCosts = NULL,
+           maxLwd = 3, col.rules = NULL, ...) {
+    env <- .geoGraphEnv
 
-  coords <- getCoords(x)
+    coords <- getCoords(x)
 
 
-  ## store original parameters to be passed to last.plot.param ##
-  pch.ori <- pch
-  col.ori <- col
+    ## store original parameters to be passed to last.plot.param ##
+    pch.ori <- pch
+    col.ori <- col
 
-  ## handle reset ##
-  if (reset) {
-    assign("sticky.points", FALSE, envir = .geoGraphEnv)
-    assign("last.points", expression(), envir = .geoGraphEnv)
-  }
+    ## handle reset ##
+    if (reset) {
+      assign("sticky.points", FALSE, envir = .geoGraphEnv)
+      assign("last.points", expression(), envir = .geoGraphEnv)
+    }
 
-  ## handle xlim and ylim
-  if ((!exists("zoom.log", envir = .geoGraphEnv)) | reset) { # if xlim absent or if reset
-    temp <- c(range(coords[, 1]), range(coords[, 2]))
-    .zoomlog.up(temp)
-  }
+    ## handle xlim and ylim
+    if ((!exists("zoom.log", envir = .geoGraphEnv)) | reset) { # if xlim absent or if reset
+      temp <- c(range(coords[, 1]), range(coords[, 2]))
+      .zoomlog.up(temp)
+    }
 
-  zoomlog <- get("zoom.log", envir = .geoGraphEnv)
-  zoomlog <- zoomlog[1, ]
+    zoomlog <- get("zoom.log", envir = .geoGraphEnv)
+    zoomlog <- zoomlog[1, ]
 
-  xlim <- zoomlog[1:2]
-  ylim <- zoomlog[3:4]
+    xlim <- zoomlog[1:2]
+    ylim <- zoomlog[3:4]
 
-  ## handle zoom and psize
-  if (is.null(psize)) {
-    psize <- get("psize", envir = .geoGraphEnv)
-  }
+    ## handle zoom and psize
+    if (is.null(psize)) {
+      psize <- get("psize", envir = .geoGraphEnv)
+    }
 
-  ## handle color from attribute
-  useAttrCol <- FALSE
-  if (is.null(col.rules)) {
-    if (!is.null(x@meta$colors)) {
-      col.rules <- x@meta$colors
+    ## handle color from attribute
+    useAttrCol <- FALSE
+    if (is.null(col.rules)) {
+      if (!is.null(x@meta$colors)) {
+        col.rules <- x@meta$colors
+        useAttrCol <- TRUE
+      }
+    } else {
       useAttrCol <- TRUE
     }
-  } else {
-    useAttrCol <- TRUE
-  }
 
-  if (!is.null(col)) { # col overrides rules
-    useAttrCol <- FALSE
-  }
-
-
-  toKeep <- isInArea(x, res.type = "integer")
-  coords <- coords[toKeep, ]
-
-
-  ## store previous last.points in envir (is erased by plotEdges)
-  if (exists("last.points", envir = .geoGraphEnv)) {
-    last.points <- get("last.points", envir = .geoGraphEnv)
-  } else {
-    last.points <- expression()
-  }
-
-
-  ## handle colors
-  if (useAttrCol) {
-    col <- getColors(x, nodes = toKeep, attr.name = colnames(col.rules)[1], col.rules = col.rules)
-  } else if (is.null(col.ori)) {
-    col <- "red"
-  } else {
-    col <- rep(col.ori, length = length(getNodes(x)))
-    names(col) <- getNodes(x)
-    col <- col[toKeep]
-  }
-
-
-  ## handle shape
-  if (!is.null(shape) && is.character(shape) && shape == "world") {
-    #shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
-    shape <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
-    sf::sf_use_s2(FALSE)
-  }
-
-  ## TODO if the shape is null, we should throw an error!!!
-  if (!is.null(shape)) {
-    if (!inherits(shape, "sf")) {
-      if (inherits(shape, "SpatialPolygonsDataFrame")){
-        shape <- sf::st_as_sf(shape)
-      } else {
-        stop("shape must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
-      }
+    if (!is.null(col)) { # col overrides rules
+      useAttrCol <- FALSE
     }
 
-    ## plot background
-    plot(sf::st_geometry(shape), col = bg.col, border = border.col, xlim = xlim, ylim = ylim)
 
-    ## subset of points in area
-    toKeep <- isInArea(x, reg = "current", res.type = "character")
-    coords <- getCoords(x)[toKeep, ]
+    toKeep <- isInArea(x, res.type = "integer")
+    coords <- coords[toKeep, ]
 
-    ## define colors for these points
+
+    ## store previous last.points in envir (is erased by plotEdges)
+    if (exists("last.points", envir = .geoGraphEnv)) {
+      last.points <- get("last.points", envir = .geoGraphEnv)
+    } else {
+      last.points <- expression()
+    }
+
+
+    ## handle colors
     if (useAttrCol) {
       col <- getColors(x, nodes = toKeep, attr.name = colnames(col.rules)[1], col.rules = col.rules)
     } else if (is.null(col.ori)) {
@@ -211,54 +176,87 @@ setMethod("plot", signature(x = "gGraph", y = "missing"),
     }
 
 
-    if (edges) {
-      ## plotEdges(x, replot=FALSE, lwd=lwd, useCosts=useCosts, maxLwd=maxLwd)
-      plotEdges(x, lwd = lwd, useCosts = useCosts, maxLwd = maxLwd)
+    ## handle shape
+    if (!is.null(shape) && is.character(shape) && shape == "world") {
+      # shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
+      shape <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+      sf::sf_use_s2(FALSE)
     }
-    points(coords, cex = psize, pch = pch, col = col, ...)
-  } else { ## plot only points ##
-    plot(coords,
-      xlab = "longitude", ylab = "latitude", xlim = xlim, ylim = ylim,
-      cex = psize, pch = pch, col = col, ...
-    )
-    if (edges) {
-      ##       plotEdges(x, replot=TRUE, psize=psize, pch=pch, pcol=col, lwd=lwd,
-      ##            useCosts=useCosts, maxLwd=maxLwd)
-      plotEdges(x,
-        psize = psize, pch = pch, pcol = col, lwd = lwd,
-        useCosts = useCosts, maxLwd = maxLwd
+
+    ## TODO if the shape is null, we should throw an error!!!
+    if (!is.null(shape)) {
+      if (!inherits(shape, "sf")) {
+        if (inherits(shape, "SpatialPolygonsDataFrame")) {
+          shape <- sf::st_as_sf(shape)
+        } else {
+          stop("shape must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
+        }
+      }
+
+      ## plot background
+      plot(sf::st_geometry(shape), col = bg.col, border = border.col, xlim = xlim, ylim = ylim)
+
+      ## subset of points in area
+      toKeep <- isInArea(x, reg = "current", res.type = "character")
+      coords <- getCoords(x)[toKeep, ]
+
+      ## define colors for these points
+      if (useAttrCol) {
+        col <- getColors(x, nodes = toKeep, attr.name = colnames(col.rules)[1], col.rules = col.rules)
+      } else if (is.null(col.ori)) {
+        col <- "red"
+      } else {
+        col <- rep(col.ori, length = length(getNodes(x)))
+        names(col) <- getNodes(x)
+        col <- col[toKeep]
+      }
+
+
+      if (edges) {
+        ## plotEdges(x, replot=FALSE, lwd=lwd, useCosts=useCosts, maxLwd=maxLwd)
+        plotEdges(x, lwd = lwd, useCosts = useCosts, maxLwd = maxLwd)
+      }
+      points(coords, cex = psize, pch = pch, col = col, ...)
+    } else { ## plot only points ##
+      plot(coords,
+        xlab = "longitude", ylab = "latitude", xlim = xlim, ylim = ylim,
+        cex = psize, pch = pch, col = col, ...
       )
+      if (edges) {
+        ##       plotEdges(x, replot=TRUE, psize=psize, pch=pch, pcol=col, lwd=lwd,
+        ##            useCosts=useCosts, maxLwd=maxLwd)
+        plotEdges(x,
+          psize = psize, pch = pch, pcol = col, lwd = lwd,
+          useCosts = useCosts, maxLwd = maxLwd
+        )
+      }
     }
+
+
+    ## misc assignements in our dedicated environment
+    assign("usr", graphics::par("usr"), envir = .geoGraphEnv)
+
+    curCall <- sys.call(-1)
+    assign("last.plot", curCall, envir = .geoGraphEnv)
+    temp <- get("last.plot.param", envir = .geoGraphEnv)
+    temp$psize <- psize
+    temp$pch <- pch.ori
+    temp$col <- col.ori
+    assign("last.plot.param", temp, envir = .geoGraphEnv)
+
+    ## must re-assign the last call to points in envir.
+    assign("last.points", last.points, envir = .geoGraphEnv)
+
+    ## add previously added points if needed ##
+    sticky.points <- get("sticky.points", envir = .geoGraphEnv)
+    if (sticky.points) {
+      temp <- get("last.points", envir = .geoGraphEnv) # this may be a list of calls
+      invisible(lapply(temp, eval))
+    }
+
+    return(invisible())
   }
-
-
-  ## misc assignements in our dedicated environment
-  assign("usr", graphics::par("usr"), envir = .geoGraphEnv)
-
-  curCall <- sys.call(-1)
-  assign("last.plot", curCall, envir = .geoGraphEnv)
-  temp <- get("last.plot.param", envir = .geoGraphEnv)
-  temp$psize <- psize
-  temp$pch <- pch.ori
-  temp$col <- col.ori
-  assign("last.plot.param", temp, envir = .geoGraphEnv)
-
-  ## must re-assign the last call to points in envir.
-  assign("last.points", last.points, envir = .geoGraphEnv)
-
-  ## add previously added points if needed ##
-  sticky.points <- get("sticky.points", envir = .geoGraphEnv)
-  if (sticky.points) {
-    temp <- get("last.points", envir = .geoGraphEnv) # this may be a list of calls
-    invisible(lapply(temp, eval))
-  }
-
-  return(invisible())
-}) # end plot method
-
-
-
-
+) # end plot method
 
 
 #####################
@@ -377,10 +375,6 @@ setMethod("points", signature("gGraph"), function(x, psize = NULL, pch = NULL, c
 
   return(invisible())
 }) # end points method gGraph
-
-
-
-
 
 
 ############

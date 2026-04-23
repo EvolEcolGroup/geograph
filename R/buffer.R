@@ -74,9 +74,6 @@ setGeneric("buffer", function(x, ...) {
 })
 
 
-
-
-
 ################
 ## gGraph method
 ################
@@ -154,11 +151,6 @@ setMethod("buffer", "gGraph", function(x, nodes, d, res.type = c("nodes", "gGrap
   x@meta$buf.colors <- data.frame(buffer = c(TRUE, FALSE), color = c("orange", "lightgrey"))
   return(x)
 }) # end buffer for gGraph
-
-
-
-
-
 
 
 ################

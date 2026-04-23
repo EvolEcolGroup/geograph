@@ -25,26 +25,25 @@
 #'
 
 createNewGraph <- function(geo_box, spacing, ...) {
-
   if (!is.numeric(spacing) ||
-      length(spacing) != 1 ||
-      is.na(spacing) ||
-      spacing <= 0) {
+    length(spacing) != 1 ||
+    is.na(spacing) ||
+    spacing <= 0) {
     stop("`spacing` must be a single positive numeric value (in km).")
   }
 
   # get the boundaries of the region in the format we need
   if (inherits(geo_box, "sf")) {
     bbox <- sf::st_bbox(geo_box)
-  } else if (inherits(geo_box, "bbox")) { #TODO look if we need to convert crs!
+  } else if (inherits(geo_box, "bbox")) { # TODO look if we need to convert crs!
     bbox <- geo_box
-  } else if (is.numeric(geo_box) && all(c("xmin","xmax","ymin","ymax") %in% names(geo_box))) {
+  } else if (is.numeric(geo_box) && all(c("xmin", "xmax", "ymin", "ymax") %in% names(geo_box))) {
     bbox <- sf::st_bbox(geo_box, crs = 4326)
   } else {
     stop("geo_box must be a bbox, sf object, or named numeric vector.")
   }
 
-  #construct the gird (for the whole world) using the specified spacing
+  # construct the gird (for the whole world) using the specified spacing
   dggs <- dggridR::dgconstruct(
     spacing = spacing,
     metric = TRUE,
@@ -63,7 +62,7 @@ createNewGraph <- function(geo_box, spacing, ...) {
     maxlon = bbox["xmax"],
     minlat = bbox["ymin"],
     maxlat = bbox["ymax"],
-    cellsize = cell.size / (111 * 3) #TODO need to find a way to make this dependent on the spacing
+    cellsize = cell.size / (111 * 3) # TODO need to find a way to make this dependent on the spacing
   )
 
   # get the coords argument from the centers of the grid cells
@@ -76,10 +75,10 @@ createNewGraph <- function(geo_box, spacing, ...) {
 
   # get the neighbours using spdep
   xy <- as.matrix(coords)
-  nb <- spdep::dnearneigh( #TODO switch to sf at some point here
+  nb <- spdep::dnearneigh( # TODO switch to sf at some point here
     xy,
     d1 = 0,
-    d2 = cell.size * 1.5, #TODO make this more robust
+    d2 = cell.size * 1.5, # TODO make this more robust
     longlat = TRUE
   )
 
@@ -100,7 +99,7 @@ createNewGraph <- function(geo_box, spacing, ...) {
     edgemode = "undirected"
   )
 
-  #create the gGraph object
+  # create the gGraph object
 
   new_ggraph <- new(
     "gGraph",

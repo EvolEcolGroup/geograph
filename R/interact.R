@@ -145,10 +145,6 @@ geo.add.edges <- function(x, mode = c("points", "area", "all"), refObj = "rawgra
 } # end geo.add.edges
 
 
-
-
-
-
 ####################
 ## geo.remove.edges
 ####################
@@ -236,10 +232,6 @@ geo.remove.edges <- function(x, mode = c("points", "area")) {
 
   return(res)
 } # end geo.remove.edges
-
-
-
-
 
 
 ###################

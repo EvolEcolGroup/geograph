@@ -84,10 +84,6 @@ setGeneric("dijkstraFrom", function(x, ...) {
 })
 
 
-
-
-
-
 #####################
 ## method for gGraph
 #####################
@@ -108,11 +104,13 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
   ##         costs <- unlist(edgeWeights(myGraph))
   endNodes <- getNodes(x)[!getNodes(x) %in% start]
   ##     }
-#browser()
+  # browser()
   ## wrap ##
-  #res <- RBGL::dijkstra.sp(myGraph, start = start)
-  res <- RBGL::sp.between(myGraph, start = start,
-                          finish = endNodes)
+  # res <- RBGL::dijkstra.sp(myGraph, start = start)
+  res <- RBGL::sp.between(myGraph,
+    start = start,
+    finish = endNodes
+  )
 
   ## sp.between uses unique(x@nodes.id) ##
   ## eventually have to duplicate paths ##
@@ -128,10 +126,6 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
 
   return(res)
 }) # end dijkstraFrom for gGraph
-
-
-
-
 
 
 ####################
@@ -177,17 +171,8 @@ setMethod("dijkstraFrom", "gData", function(x, start) {
 }) # end dijkstraFrom for gData
 
 
-
-
-
-
-
 ######################################
 ######################################
-
-
-
-
 
 
 #################
@@ -230,14 +215,6 @@ plot.gPath <- function(x, col = "rainbow", lwd = 3, ...) {
 
   return(invisible())
 } # end plot.gPath
-
-
-
-
-
-
-
-
 
 
 ######################################
@@ -288,20 +265,21 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vec
 } # end gPath2dist
 
 
-
 ###########################################
 #' @export
 
-print.gPath <- function(x, ...){
-  if (length(list(...))){
-    stop ("additional parameters were passed through ... when none should be given")
+print.gPath <- function(x, ...) {
+  if (length(list(...))) {
+    stop("additional parameters were passed through ... when none should be given")
   }
   ## printing
   cat("\n=== gPath object ===\n")
   cat("\n number of paths:", length(x), "\n")
   cat("\n available paths (id_origin:id_destination): ")
-  cat(c(utils::head(names(x), n = 3L),
-        ifelse(length(names(x))>3, "...\n", "\n")))
+  cat(c(
+    utils::head(names(x), n = 3L),
+    ifelse(length(names(x)) > 3, "...\n", "\n")
+  ))
   cat("\neach path, accessible with [[]] has elements 'length', 'path_detail' and 'length_detail'\n")
   cat("x and y coordinates of all nodes are stored as an attribute 'xy'; ")
   cat("see ?gPath for details")
