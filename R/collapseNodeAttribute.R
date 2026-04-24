@@ -65,7 +65,7 @@ collapseNodeAttribute <- function(graph,
   }
 
   # Determine return type once (logical or numeric)
-  test.val <- fun(c(1, 2), na.rm = TRUE)
+  test.val  <- fun(c(TRUE, FALSE), na.rm = TRUE)
   fun.value <- if (is.logical(test.val)) logical(1) else numeric(1)
 
   # Collapse one node safely
