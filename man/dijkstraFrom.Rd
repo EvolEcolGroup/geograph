@@ -4,7 +4,7 @@
 \alias{dijkstraFrom}
 \title{Find the minimum cost path}
 \usage{
-dijkstraFrom(x, ...)
+dijkstraFrom(x, start)
 }
 \arguments{
 \item{x}{A \code{\link{gGraph}} or \code{\link{gData}} object.}

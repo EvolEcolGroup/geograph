@@ -22,9 +22,9 @@
 #'
 #' @family dijkstra_methods
 #' @export
-setGeneric("dijkstraFrom", function(x, ...) {
+setGeneric("dijkstraFrom", function(x, start) {
   standardGeneric("dijkstraFrom")
-})
+},  signature = c("x"))
 
 
 #####################
@@ -34,7 +34,6 @@ setGeneric("dijkstraFrom", function(x, ...) {
 #' @export
 setMethod("dijkstraFrom", "gGraph", function(x, start) {
   ## some checks ##
-  if (!require(RBGL)) stop("RBGL is required.")
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
   if (!all(start %in% getNodes(x))) stop("Starting node is not in x.")
 
@@ -76,7 +75,6 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
 #' @export
 setMethod("dijkstraFrom", "gData", function(x, start) {
   ## some checks ##
-  if (!require(RBGL)) stop("RBGL is required.")
   if (!is.gData(x)) stop("x is not a valid gData object")
   if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
   if (length(x@nodes.id) == 0) stop("No assigned nodes (x@nodes.id is empty).")
