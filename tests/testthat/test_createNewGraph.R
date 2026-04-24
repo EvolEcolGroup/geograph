@@ -82,72 +82,98 @@ test_that("createNewGraph returns a gGraph from an sf input", {
 })
 
 
-#test_that("createNewGraph@coords has correct structure", {
-#  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-#  result <- createNewGraph(geo.box, spacing = 1000)
-#
-#  coords <- result@coords
-#  expect_true(nrow(coords) > 0)
-#  expect_true(all(is.numeric(coords$lon)))
-#  expect_true(all(is.numeric(coords$lat)))
-#})
-
-
-# test_that("createNewGraph@coords are within the supplied bounding box", {
-#   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-#   result <- createNewGraph(geo.box, spacing = 1000)
-# 
-#   coords <- result@coords
-#   # allow a small margin since grid cell centres can sit on the boundary
-#   expect_true(all(coords$lon >= geo.box["xmin"] - 1e-6))
-#   expect_true(all(coords$lon <= geo.box["xmax"] + 1e-6))
-#   expect_true(all(coords$lat >= geo.box["ymin"] - 1e-6))
-#   expect_true(all(coords$lat <= geo.box["ymax"] + 1e-6))
-# })
-
-
-#test_that("createNewGraph@graphNEL node count matches coords rows", {
-#  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-#  result <- createNewGraph(geo.box, spacing = 1000)
-#
-#  n_coords <- nrow(result@coords)
-#  n_nodes <- length(graph::nodes(result@graphNEL))
-#  expect_equal(n_nodes, n_coords)
-#})
-
-
-#test_that("createNewGraph@neighbours length matches node count", {
-#  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-#  result <- createNewGraph(geo.box, spacing = 1000)
-#
-#  expect_equal(length(result@neighbours), nrow(result@coords))
-#})
-
-
 test_that("createNewGraph produces more nodes with smaller spacing", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-
+  
   result_coarse <- createNewGraph(geo.box, spacing = 2000)
   result_fine <- createNewGraph(geo.box, spacing = 500)
-
+  
   expect_gt(nrow(result_fine@coords), nrow(result_coarse@coords))
 })
 
 
-#test_that("createNewGraph edges in graphNEL match neighbours slot", {
-#  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-#  result <- createNewGraph(geo.box, spacing = 1000)
-#
-#  node_ids <- graph::nodes(result@graphNEL)
-#  edge_list <- graph::edges(result@graphNEL)
-#  neighbours <- result@neighbours
-#
-#  for (i in seq_along(neighbours)) {
-#    node <- node_ids[i]
-#    expected_nb <- sort(node_ids[neighbours[[i]]])
-#    actual_nb <- sort(edge_list[[node]])
-#    expect_equal(actual_nb, expected_nb,
-#      info = paste("Mismatch at node index", i)
-#    )
-#  }
-#})
+test_that("createNewGraph@coords lon and lat values are within spacing margin of bbox", {
+  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+  spacing <- 1000
+  result  <- createNewGraph(geo.box, spacing = spacing)
+  
+  # convert spacing from km to degrees (approximate: 1 degree ~ 111 km)
+  margin <- (spacing / 111) * 1.5
+  
+  expect_true(all(result@coords[, "lon"] >= geo.box["xmin"] - margin))
+  expect_true(all(result@coords[, "lon"] <= geo.box["xmax"] + margin))
+  expect_true(all(result@coords[, "lat"] >= geo.box["ymin"] - margin))
+  expect_true(all(result@coords[, "lat"] <= geo.box["ymax"] + margin))
+})
+
+test_that("createNewGraph@nodes.attr is an empty data.frame with correct row names", {
+  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+  result  <- createNewGraph(geo.box, spacing = 1000)
+  
+  expect_s3_class(result@nodes.attr, "data.frame")
+  expect_equal(ncol(result@nodes.attr), 0L)
+  expect_equal(rownames(result@nodes.attr), as.character(seq_len(nrow(result@coords))))
+})
+
+test_that("createNewGraph@meta has costs and colors both NULL", {
+  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+  result  <- createNewGraph(geo.box, spacing = 1000)
+  
+  expect_null(result@meta$costs)
+  expect_null(result@meta$colors)
+})
+
+test_that("the central node has 6 neighbours", {
+  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+  spacing <- 1000
+  result <- createNewGraph(geo.box, spacing = spacing)
+  
+  # Find the central node (closest to the center of the bbox)
+  center_lon <- (geo.box["xmin"] + geo.box["xmax"]) / 2
+  center_lat <- (geo.box["ymin"] + geo.box["ymax"]) / 2
+  
+  distances <- sqrt((result@coords[, "lon"] - center_lon)^2 + 
+                    (result@coords[, "lat"] - center_lat)^2)
+  
+  central_node_index <- which.min(distances)
+  
+  # Get the neighbors of the central node
+  neighbors <- result@graph@edgeL[[central_node_index]]
+  
+  expect_equal(length(neighbors$edges), 6)
+})
+
+test_that("no node has no neighbours", {
+  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+  spacing <- 100
+  result <- createNewGraph(geo.box, spacing = spacing)
+  
+  for (i in seq_along(result@graph@edgeL)) {
+    neighbors <- result@graph@edgeL[[i]]
+    expect_gt(length(neighbors$edges), 0)
+  }
+})
+
+test_that("no node has has more than 6 neighbours", {
+  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+  spacing <- 100
+  result <- createNewGraph(geo.box, spacing = spacing)
+  
+  for (i in seq_along(result@graph@edgeL)) {
+    neighbors <- result@graph@edgeL[[i]]
+    expect_lte(length(neighbors$edges), 6)
+  }
+})
+
+test_that("createNewGraph neighbour relationships are symmetric", {
+  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+  result  <- createNewGraph(geo.box, spacing = 1000)
+  
+  neighbours <- result@graph@edgeL
+  for (i in seq_along(neighbours)) {
+    for (neighbor in neighbours[[i]]$edges) {
+      expect_true(i %in% neighbours[[neighbor]]$edges)
+    }
+  }
+})
+
