@@ -4,15 +4,15 @@
 \alias{assignRasterPoints}
 \title{Assign raster points to graph nodes}
 \usage{
-assignRasterPoints(graph, raster, layer_name = "raster_points")
+assignRasterPoints(graph, raster, layer.name = "raster_points")
 }
 \arguments{
 \item{graph}{A \code{\link{gGraph}} object.}
 
 \item{raster}{A \code{SpatRaster} object (from \code{terra})}
 
-\item{layer_name}{Character, optional. If provided, stores the raster points in
-\code{graph@nodes.attr[[layer_name]]} instead of \code{raster_points.}}
+\item{layer.name}{Character, optional. If provided, stores the raster points in
+\code{graph@nodes.attr[[layer.name]]} instead of \code{raster_points.}}
 }
 \value{
 A \code{\link{gGraph}} object with a new node attribute containing

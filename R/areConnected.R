@@ -48,8 +48,8 @@ areConnected <- function(x, nodes) { # x is a gGraph
     connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
   }
 
-  names(connected.sets) <- paste("set", 1:length(connected.sets))
-
+  names(connected.sets) <- paste("set", seq_along(connected.sets))
+  
   res <- sapply(connected.sets, function(e) all(nodes %in% e))
   res <- any(res)
 

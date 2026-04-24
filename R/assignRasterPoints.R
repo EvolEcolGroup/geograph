@@ -8,8 +8,8 @@
 #'
 #' @param graph A [`gGraph`] object.
 #' @param raster A `SpatRaster` object (from `terra`)
-#' @param layer_name Character, optional. If provided, stores the raster points in
-#'   `graph@nodes.attr[[layer_name]]` instead of `raster_points.`
+#' @param layer.name Character, optional. If provided, stores the raster points in
+#'   `graph@nodes.attr[[layer.name]]` instead of `raster_points.`
 #' @return A [`gGraph`] object with a new node attribute containing
 #'   the raster points assigned to each node.
 #'
@@ -23,7 +23,7 @@
 #' graph <- assignRasterPoints(rawgraph.40k, elevation_raster)
 #' }
 #' @export
-assignRasterPoints <- function(graph, raster, layer_name = "raster_points") {
+assignRasterPoints <- function(graph, raster, layer.name = "raster_points") {
   if (!inherits(graph, "gGraph")) stop("graph must be a gGraph object")
 
   # TODO check that raster and graph cover similar areas?
@@ -50,20 +50,20 @@ assignRasterPoints <- function(graph, raster, layer_name = "raster_points") {
   )
 
   # create the attribute object as a list-column
-  attribute <- raster.sf %>%
-    sf::st_drop_geometry() %>%
-    dplyr::group_by(.data$node.id) %>%
+  attribute <- raster.sf |>
+    sf::st_drop_geometry() |>
+    dplyr::group_by(.data$node.id) |>
     tidyr::nest()
 
   all.nodes <- tibble::tibble(
     node.id = seq_len(nrow(nodes.sf))
   )
 
-  attribute.full <- all.nodes %>%
+  attribute.full <- all.nodes |>
     dplyr::left_join(attribute, by = "node.id")
 
   # Store in graph node attribute
-  graph@nodes.attr[[layer_name]] <- attribute.full$data
+  graph@nodes.attr[[layer.name]] <- attribute.full$data
 
   return(graph)
 }

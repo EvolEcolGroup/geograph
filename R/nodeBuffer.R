@@ -12,18 +12,18 @@
 #' @param graph An \code{igraph} object representing the spatial graph.
 #' @param origin Either a character string naming a node, or a numeric
 #'   vector / list / data.frame of length 2 giving longitude and latitude.
-#' @param max_distance Numeric. Maximum cumulative cost the feature is
+#' @param max.distance Numeric. Maximum cumulative cost the feature is
 #'   assumed to be able to diffuse.
-#' @param map_distances Logical. If \code{TRUE}, return the Graph object with new
+#' @param map.distances Logical. If \code{TRUE}, return the Graph object with new
 #'   a node attribute called 'difusion_area' indicating the diffusion area
 #'   with TRUE for all nodes reachable in order to map it on the gGraph object.
 #'   If \code{FALSE} (default), return only the vector of node IDs within
 #'   the diffusion area.
 #' @return
-#' If \code{map_distances = FALSE}, a character vector of node IDs
-#' reachable within \code{max_distance}.
+#' If \code{map.distances = FALSE}, a character vector of node IDs
+#' reachable within \code{max.distance}.
 #'
-#' If \code{map_distances = TRUE}, the input \code{gGraph} object with
+#' If \code{map.distances = TRUE}, the input \code{gGraph} object with
 #' an added logical node attribute \code{diffusion_area}.
 #'
 #' @seealso \code{\link{dijkstraFrom}}, \code{\link{gPath2dist}}
@@ -31,8 +31,8 @@
 #' @export
 nodeBuffer <- function(graph,
                        origin,
-                       max_distance,
-                       map_distances = TRUE) {
+                       max.distance,
+                       map.distances = TRUE) {
   ## checks
   if (!is.gGraph(graph)) {
     stop("`graph` must be a valid gGraph object.")
@@ -46,38 +46,38 @@ nodeBuffer <- function(graph,
     if (!origin %in% getNodes(graph)) {
       stop("`origin` is not a node in `graph`.")
     }
-    origin_node <- origin
+    origin.node <- origin
   } else {
     ## assume spatial input → closest node
-    origin_node <- closestNode(graph, loc = origin)
+    origin.node <- closestNode(graph, loc = origin)
 
-    if (length(origin_node) != 1) {
+    if (length(origin.node) != 1) {
       stop("Could not resolve a unique origin node from `origin`.")
     }
 
 
     ## compute least-cost paths from origin
-    paths <- dijkstraFrom(graph, start = origin_node)
+    paths <- dijkstraFrom(graph, start = origin.node)
 
     ## extract distances (named vector)
     dists <- gPath2dist(paths, res.type = "vector")
 
     ## associate distances with destination nodes
-    dest_nodes <- sub(".*:", "", names(dists))
-    names(dists) <- dest_nodes
+    dest.nodes <- sub(".*:", "", names(dists))
+    names(dists) <- dest.nodes
 
     ## identify diffusion area
-    in_area <- names(dists)[dists <= max_distance]
+    in.area <- names(dists)[dists <= max.distance]
 
-    if (!map_distances) {
-      return(in_area)
+    if (!map.distances) {
+      return(in.area)
     }
 
     ## map back onto graph as node attribute
-    diffusion_flag <- getNodes(graph) %in% in_area
-    names(diffusion_flag) <- getNodes(graph)
+    diffusion.flag <- getNodes(graph) %in% in.area
+    names(diffusion.flag) <- getNodes(graph)
 
-    graph@nodes.attr$diffusion_area <- diffusion_flag
+    graph@nodes.attr$diffusion_area <- diffusion.flag
 
     return(graph)
   }

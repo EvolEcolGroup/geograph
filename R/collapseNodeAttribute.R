@@ -66,7 +66,7 @@ collapseNodeAttribute <- function(graph,
 
   # Determine return type once (logical or numeric)
   test.val <- fun(c(1, 2), na.rm = TRUE)
-  FUN.VALUE <- if (is.logical(test.val)) logical(1) else numeric(1)
+  fun.value <- if (is.logical(test.val)) logical(1) else numeric(1)
 
   # Collapse one node safely
   collapseOneNode <- function(df, fun, na.rm, ...) {
@@ -91,7 +91,7 @@ collapseNodeAttribute <- function(graph,
   collapsed <- vapply(
     x,
     collapseOneNode,
-    FUN.VALUE = FUN.VALUE,
+    FUN.VALUE = fun.value,
     fun = fun,
     na.rm = na.rm,
     ...

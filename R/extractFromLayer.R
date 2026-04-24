@@ -102,7 +102,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
   ## search attr in data ##
   if (attr[1] == "all") {
     # selAttr <- 1:ncol(layer)
-    selAttr <- 1:ncol(layer) - 1
+    selAttr <- seq_len(ncol(layer)) - 1
   } else {
     selAttr <- match(attr, colnames(layer)) # selected attributes
     if (any(is.na(selAttr))) { # attribute not found in layer@data
@@ -115,23 +115,23 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
 
 
   # create an sf point object from the coordinates
-  locations_st <- x %>%
-    as.data.frame() %>%
-    sf::st_as_sf(coords = c(1, 2)) %>%
+  locations.st <- x|>
+    as.data.frame()|>
+    sf::st_as_sf(coords = c(1, 2))|>
     sf::st_set_crs(sf::st_crs(layer))
   # now find points in polygons
-  points_within <- sf::st_intersects(layer, locations_st)
-  points_within <- data.frame(
-    x = unlist(points_within),
-    polygon = rep(seq_along(lengths(points_within)), lengths(points_within))
+  points.within <- sf::st_intersects(layer, locations.st)
+  points.within <- data.frame(
+    x = unlist(points.within),
+    polygon = rep(seq_along(lengths(points.within)), lengths(points.within))
   )
-  points_assignment <- data.frame(x = seq(1, nrow(x)), polygon = NA)
+  points.assignment <- data.frame(x = seq(1, nrow(x)), polygon = NA)
   # add missing points for which we have no information
-  points_assignment[points_within$x, "polygon"] <- points_within$polygon
+  points.assignment[points.within$x, "polygon"] <- points.within$polygon
 
-  dat <- layer %>% sf::st_drop_geometry()
+  dat <- layer|> sf::st_drop_geometry()
   # @TOFIX the line below will fail if layerId is all NAs (i.e. no points were assigned to a polygon)
-  res <- dat[points_assignment$polygon, selAttr, drop = FALSE]
+  res <- dat[points.assignment$polygon, selAttr, drop = FALSE]
 
   row.names(res) <- rownames(x)
 

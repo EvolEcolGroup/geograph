@@ -23,9 +23,9 @@ it) is reachable from the set of nodes of a \link{gData} object.
 }
 \examples{
 # Select African populations Mandenka, Yoruba, and San
-hgdp.sub <- hgdp[getData(hgdp)$Population \%in\% 
-c("Mandenka", "Yoruba", "San")]
-# Get a location that is reachable 
+hgdp.sub <- hgdp[getData(hgdp)$Population \%in\%
+  c("Mandenka", "Yoruba", "San")]
+# Get a location that is reachable
 location <- getCoords(hgdp[getData(hgdp)$Population == "BantuKenya"])
 # Check these are reachable
 isReachable(x = hgdp.sub, loc = location)
