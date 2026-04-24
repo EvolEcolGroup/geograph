@@ -1,7 +1,7 @@
 #' @title Collapse a list-based node attribute into a scalar node attribute
 #'
-#' @description This function collapses a list-based node attribute 
-#' (e.g. raster values assigned to each node) into a single scalar value per node. 
+#' @description This function collapses a list-based node attribute
+#' (e.g. raster values assigned to each node) into a single scalar value per node.
 #' Optionally replaces the original attribute to reduce memory usage.
 #'
 #' @param graph A [`gGraph`] object.
@@ -30,66 +30,66 @@ collapseNodeAttribute <- function(graph,
                                   na.rm = TRUE,
                                   replace = TRUE,
                                   ...) {
-  
+
   if (!inherits(graph, "gGraph")) {
     stop("`graph` must be a gGraph object.")
   }
-  
+
   if (!attribute %in% names(graph@nodes.attr)) {
     stop(sprintf("Node attribute '%s' not found.", attribute))
   }
-  
+
   # Get the node attribute and check the structure
   x <- graph@nodes.attr[[attribute]]
-  
+
   if (!is.list(x)) {
     stop("Selected node attribute must be a list (nested tibble structure).")
   }
-  
+
   # Resolve built-in functions
   if (is.character(fun)) {
     fun <- match.arg(fun)
-    
+
     fun <- switch(
       fun,
       min    = min,
       max    = max,
       mean   = mean,
-      median = median,
+      median = stats::median,
       sd     = stats::sd,
       any    = any,
       all    = all
     )
   }
-  
+
   if (!is.function(fun)) {
     stop("`fun` must be a function or a supported character string.")
   }
-  
+
   # Determine return type once (logical or numeric)
   test.val <- fun(c(1, 2), na.rm = TRUE)
   FUN.VALUE <- if (is.logical(test.val)) logical(1) else numeric(1)
-  
+
   # Collapse one node safely
   collapseOneNode <- function(df, fun, na.rm, ...) {
-    
+
     if (is.null(df) || length(df) == 0 || nrow(df) == 0) {
       return(NA)
     }
-    
+
     if (ncol(df) == 1) {
       vals <- df[[1]]
     } else {
       stop("Node data has multiple columns; cannot infer value column.")
     }
-    
+
     if (length(vals) == 0 || all(is.na(vals))) {
       return(NA)
     }
-    
+
     fun(vals, na.rm = na.rm, ...)
   }
-  
+
   # now collapse all nodes (node by node)
   collapsed <- vapply(
     x,
@@ -99,7 +99,7 @@ collapseNodeAttribute <- function(graph,
     na.rm = na.rm,
     ...
   )
-  
+
   # return either modified graph or collapsed vector
   if (replace) {
     graph@nodes.attr[[attribute]] <- collapsed

@@ -46,19 +46,12 @@ setGeneric("setDistCosts", function(x, ...) {
   standardGeneric("setDistCosts")
 })
 
-
-
-
-
 #################
 ## gGraph method
 #################
 #' @export
 #' @describeIn setDistCosts Method for gGraph object
 setMethod("setDistCosts", "gGraph", function(x, ...) {
-  ## some checks ##
-  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
-
 
   ## get edges and coords ##
   E <- getEdges(x, res.type = "matNames")
