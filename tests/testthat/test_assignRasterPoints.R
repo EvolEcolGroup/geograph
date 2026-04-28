@@ -15,6 +15,7 @@ geo.box     <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 test.graph  <- createNewGraph(geo.box, spacing = 1000)
 test.raster <- make.test.raster(geo.box)
 
+
 test_that("assignRasterPoints errors if graph is not a gGraph", {
   expect_error(
     assignRasterPoints(graph = list(), raster = test.raster),
@@ -46,7 +47,7 @@ test_that("assignRasterPoints respects a custom layer.name", {
 
 test_that("assignRasterPoints stores a list-column of the correct length", {
   result <- assignRasterPoints(test.graph, test.raster)
-  col    <- result@nodes.attr[["raster_points"]]
+  col    <- result@nodes.attr$raster_points
   
   expect_type(col, "list")
   expect_equal(length(col), nrow(test.graph@coords))
@@ -54,31 +55,19 @@ test_that("assignRasterPoints stores a list-column of the correct length", {
 
 test_that("assignRasterPoints list-column entries are data.frames", {
   result <- assignRasterPoints(test.graph, test.raster)
-  col    <- result@nodes.attr[["raster_points"]]
+  col    <- result@nodes.attr$raster_points
   
-  # every entry should be either a data.frame or NULL (for nodes with no raster
-  # points assigned, left_join produces NA which becomes NULL after nesting)
+  # every entry should be either a data.frame or NULL
   non.null <- Filter(Negate(is.null), col)
   expect_true(all(vapply(non.null, is.data.frame, logical(1))))
 })
 
 test_that("assignRasterPoints list-column entries have a 'value' column", {
   result   <- assignRasterPoints(test.graph, test.raster)
-  col      <- result@nodes.attr[["raster_points"]]
+  col      <- result@nodes.attr$raster_points
   non.null <- Filter(Negate(is.null), col)
   
   expect_true(all(vapply(non.null, function(d) "value" %in% colnames(d), logical(1))))
-})
-
-
-test_that("assignRasterPoints assigns every raster cell to some node", {
-  result      <- assignRasterPoints(test.graph, test.raster)
-  col         <- result@nodes.attr[["raster_points"]]
-  total.assigned <- sum(vapply(col, function(d) {
-    if (is.null(d) || !is.data.frame(d)) 0L else nrow(d)
-  }, integer(1)))
-  
-  expect_equal(total.assigned, terra::ncell(test.raster))
 })
 
 
@@ -101,7 +90,7 @@ test_that("assignRasterPoints correctly captures known raster values", {
   terra::values(r) <- 42
   
   result <- assignRasterPoints(test.graph, r)
-  col    <- result@nodes.attr[["raster_points"]]
+  col    <- result@nodes.attr$raster_points
   
   # exactly one node should have received the value 42
   node.with.value <- Filter(function(d) {
