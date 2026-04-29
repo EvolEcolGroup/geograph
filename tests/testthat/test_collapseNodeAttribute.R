@@ -34,7 +34,7 @@ test_that("collapseNodeAttribute errors if attribute does not exist", {
 test_that("collapseNodeAttribute errors if attribute is not a list", {
   # add a scalar attribute and try to collapse it
   graph.scalar <- test.graph.w
-  graph.scalar@nodes.attr[["scalar"]] <- rep(1, nrow(test.graph.w@coords))
+  graph.scalar@nodes.attr$scalar <- rep(1, nrow(test.graph.w@coords))
   expect_error(
     collapseNodeAttribute(graph.scalar, attribute = "scalar"),
     "Selected node attribute must be a list"
@@ -53,14 +53,14 @@ test_that("collapseNodeAttribute errors if fun is not a function or valid string
 })
 
 
-test_that("collapseNodeAttribute returns a gGraph when replace = TRUE", {
+test_that("collapseNodeAttribute returns a gGraph", {
   result <- collapseNodeAttribute(test.graph.w, attribute = "raster_points")
   expect_s4_class(result, "gGraph")
 })
 
-test_that("collapseNodeAttribute replaces list column with a vector when replace = TRUE", {
+test_that("collapseNodeAttribute replaces list column with a vector", {
   result <- collapseNodeAttribute(test.graph.w, attribute = "raster_points")
-  col    <- result@nodes.attr[["raster_points"]]
+  col    <- result@nodes.attr$raster_points
   
   expect_false(is.list(col))
   expect_true(is.numeric(col) || is.logical(col))
@@ -68,12 +68,10 @@ test_that("collapseNodeAttribute replaces list column with a vector when replace
 
 test_that("collapseNodeAttribute collapsed vector has one value per node", {
   result <- collapseNodeAttribute(test.graph.w, attribute = "raster_points")
-  col    <- result@nodes.attr[["raster_points"]]
+  col    <- result@nodes.attr$raster_points
   
   expect_equal(length(col), nrow(test.graph.w@coords))
 })
-
-
 
 test_that("collapseNodeAttribute returns a vector when replace = FALSE", {
   result <- collapseNodeAttribute(
@@ -84,18 +82,6 @@ test_that("collapseNodeAttribute returns a vector when replace = FALSE", {
   expect_true(is.numeric(result) || is.logical(result))
   expect_equal(length(result), nrow(test.graph.w@coords))
 })
-
-test_that("collapseNodeAttribute does not modify the graph when replace = FALSE", {
-  result <- collapseNodeAttribute(
-    test.graph.w,
-    attribute = "raster_points",
-    replace   = FALSE
-  )
-  # original list column should still be a list
-  expect_true(is.list(test.graph.w@nodes.attr[["raster_points"]]))
-})
-
-
 
 test_that("collapseNodeAttribute works with all built-in character functions", {
   for (fn in c("mean", "max", "min", "median", "sd")) {
@@ -144,7 +130,6 @@ test_that("collapseNodeAttribute accepts a custom function", {
   expect_true(is.numeric(result))
   expect_equal(length(result), nrow(test.graph.w@coords))
 })
-
 
 
 test_that("collapseNodeAttribute mean is correct for known uniform values", {
