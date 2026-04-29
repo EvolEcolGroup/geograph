@@ -55,30 +55,28 @@ nodeBuffer <- function(graph,
       stop("Could not resolve a unique origin node from `origin`.")
     }
 
-
-    ## compute least-cost paths from origin
-    paths <- dijkstraFrom(graph, start = origin.node)
-
-    ## extract distances (named vector)
-    dists <- gPath2dist(paths, res.type = "vector")
-
-    ## associate distances with destination nodes
-    dest.nodes <- sub(".*:", "", names(dists))
-    names(dists) <- dest.nodes
-
-    ## identify diffusion area
-    in.area <- names(dists)[dists <= max.distance]
-
-    if (!map.distances) {
-      return(in.area)
-    }
-
-    ## map back onto graph as node attribute
-    diffusion.flag <- getNodes(graph) %in% in.area
-    names(diffusion.flag) <- getNodes(graph)
-
-    graph@nodes.attr$diffusion_area <- diffusion.flag
-
-    return(graph)
   }
+  
+  ## compute least-cost paths from origin
+  paths <- dijkstraFrom(graph, start = origin.node)
+  
+  ## extract distances (named vector)
+  dists <- gPath2dist(paths, res.type = "vector")
+  
+  ## associate distances with destination nodes
+  dest.nodes <- sub(".*:", "", names(dists))
+  names(dists) <- dest.nodes
+  
+  ## identify diffusion area
+  in.area <- names(dists)[dists <= max.distance]
+  if (!map.distances) {
+    return(in.area)
+  }
+  
+  ## map back onto graph as node attribute
+  diffusion.flag <- getNodes(graph) %in% in.area
+  names(diffusion.flag) <- getNodes(graph)
+  graph@nodes.attr$diffusion_area <- diffusion.flag
+  
+  return(graph)
 }
