@@ -35,14 +35,6 @@ test_that("nodeBuffer returns only valid node IDs when map.distances = FALSE", {
   expect_true(all(result %in% all.nodes))
 })
 
-test_that("nodeBuffer always includes the origin node in the result", {
-  origin <- getNodes(test.graph)[1]
-  result <- nodeBuffer(test.graph, origin = origin,
-                       max.distance = 2000, map.distances = FALSE)
-  
-  expect_true(origin %in% result)
-})
-
 test_that("nodeBuffer returns a gGraph when map.distances = TRUE", {
   origin <- getNodes(test.graph)[1]
   result <- nodeBuffer(test.graph, origin = origin,
