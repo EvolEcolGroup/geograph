@@ -16,7 +16,7 @@
 #'   c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
 #' hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
 #' plot(hgdp.sub)
-#' # plot(hgdp.path)
+#' plot(hgdp.path)
 #' @family dijkstra_methods
 #' @export
 setGeneric("dijkstraBetween", function(x, ...) {

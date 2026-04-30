@@ -61,6 +61,7 @@ Collate:
     'datasets.R'
     'dijkstra.R'
     'dijkstraBetween.R'
+    'dijkstraFrom.R'
     'dropDead.R'
     'extractFromLayer.R'
     'findLand.R'
