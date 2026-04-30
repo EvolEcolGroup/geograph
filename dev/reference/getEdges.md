@@ -71,6 +71,7 @@ for interactive versions.
 ## Examples
 
 ``` r
+
 example(gGraph)
 #> 
 #> gGraph> ## create an empty object

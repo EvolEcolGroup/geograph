@@ -54,6 +54,7 @@ slot `@graph` in `gGraph`.
 ## Examples
 
 ``` r
+
 ## create an empty object
 new("gGraph")
 #> 

@@ -70,6 +70,7 @@ location they surround.
 ## Examples
 
 ``` r
+
 #### gGraph example ####
 ## zoom in to an area
 plot(worldgraph.10k, reset = TRUE)

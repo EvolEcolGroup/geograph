@@ -57,6 +57,7 @@ object.
 ## Examples
 
 ``` r
+
 plot(worldgraph.10k, reset = TRUE)
 
 

@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Thibaut Jombart
 and Andrea Manica</h4>
             
-            <h4 data-toc-skip class="date">2026-04-17</h4>
+            <h4 data-toc-skip class="date">2026-04-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/old_vignette_geograph.Rmd" class="external-link"><code>vignettes/old_vignette_geograph.Rmd</code></a></small>
       <div class="d-none name"><code>old_vignette_geograph.Rmd</code></div>
@@ -905,20 +905,20 @@ information to the <code>worldgraph.10k</code> object.</p>
 <span><span class="co">## are planar</span></span></code></pre>
 <div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">newGraph</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##             habitat        meanProd             temp         </span></span>
-<span><span class="co">##  deselected land: 290   Min.   :0.000104   Min.   :2.56e-05  </span></span>
-<span><span class="co">##  land           :2632   1st Qu.:0.254580   1st Qu.:2.49e-01  </span></span>
-<span><span class="co">##  sea            :7320   Median :0.501156   Median :4.93e-01  </span></span>
-<span><span class="co">##                         Mean   :0.502640   Mean   :4.99e-01  </span></span>
-<span><span class="co">##                         3rd Qu.:0.750988   3rd Qu.:7.49e-01  </span></span>
-<span><span class="co">##                         Max.   :0.999873   Max.   :1.00e+00  </span></span>
-<span><span class="co">##   continent             name          </span></span>
-<span><span class="co">##  Length:10242       Length:10242      </span></span>
-<span><span class="co">##  Class :character   Class :character  </span></span>
-<span><span class="co">##  Mode  :character   Mode  :character  </span></span>
-<span><span class="co">##                                       </span></span>
-<span><span class="co">##                                       </span></span>
-<span><span class="co">## </span></span></code></pre>
+<pre><code><span><span class="co">##             habitat        meanProd             temp              continent    </span></span>
+<span><span class="co">##  deselected land: 290   Min.   :0.000104   Min.   :2.56e-05   Length   :10242  </span></span>
+<span><span class="co">##  land           :2632   1st Qu.:0.254580   1st Qu.:2.49e-01   N.unique :    7  </span></span>
+<span><span class="co">##  sea            :7320   Median :0.501156   Median :4.93e-01   N.blank  :    0  </span></span>
+<span><span class="co">##                         Mean   :0.502640   Mean   :4.99e-01   Min.nchar:    4  </span></span>
+<span><span class="co">##                         3rd Qu.:0.750988   3rd Qu.:7.49e-01   Max.nchar:   13  </span></span>
+<span><span class="co">##                         Max.   :0.999873   Max.   :1.00e+00   NAs      : 7302  </span></span>
+<span><span class="co">##         name      </span></span>
+<span><span class="co">##  Length   :10242  </span></span>
+<span><span class="co">##  N.unique :  145  </span></span>
+<span><span class="co">##  N.blank  :    0  </span></span>
+<span><span class="co">##  Min.nchar:    4  </span></span>
+<span><span class="co">##  Max.nchar:   24  </span></span>
+<span><span class="co">##  NAs      : 7302</span></span></code></pre>
 <p>The new object <code>newGraph</code> is a <code>gGraph</code> which
 now includes, for each node of the grid, the corresponding continent and
 country retrieved from the GIS layer. Note that
@@ -1070,12 +1070,11 @@ to find the shortest paths between Addis Ababa and the populations of
 <span><span class="va">hgdp</span><span class="op">@</span><span class="va">gGraph.name</span> <span class="op">&lt;-</span> <span class="st">"myGraph"</span></span>
 <span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spam/man/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">38</span>, <span class="fl">9</span><span class="op">)</span></span>
 <span><span class="va">ori</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/closestNode.html">closestNode</a></span><span class="op">(</span><span class="va">myGraph</span>, <span class="va">addis</span><span class="op">)</span></span>
-<span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstra-methods.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Loading required package: RBGL</span></span></code></pre>
+<span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraFrom.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span></span></code></pre></div>
 <p>The object <code>paths</code> contains the identified paths, which
 are stored as a list with class <code>gPath</code> (see
 <code>?gPath</code>). Paths can be plotted easily:</p>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">addis</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></span>
@@ -1088,7 +1087,7 @@ several paths overlap in several places. We can extract the distances
 from the
 <code>origin' using</code>gPath2dist<code>, and then examine the relationship between genetic diversity within populations (stored in</code>hgdp`)
 and the distance from the origin:</p>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">div</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span><span class="op">$</span><span class="st">"Genetic.Div"</span></span>
 <span><span class="va">dgeo.unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstra-methods.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths</span>, res.type <span class="op">=</span> <span class="st">"vector"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.unif</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
@@ -1113,14 +1112,14 @@ and the distance from the origin:</p>
 <span><span class="co">## Residual standard error: 0.0185 on 50 degrees of freedom</span></span>
 <span><span class="co">## Multiple R-squared:  0.833,  Adjusted R-squared:  0.83 </span></span>
 <span><span class="co">## F-statistic:  250 on 1 and 50 DF,  p-value: &lt;2e-16</span></span></code></pre>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Genetic diversity vs geographic distance \n uniform costs "</span><span class="op">)</span></span></code></pre></div>
 <p><img src="old_vignette_geograph_files/figure-html/unnamed-chunk-41-1.png" class="r-plt" alt="" width="700"></p>
 <p>Alternatively, we can use costs based on habitat. As a toy example,
 we will consider that coasts are four times more favorable for dispersal
 than the rest of the landmasses. We define these new costs, and then
 compute and plot the corresponding shortest paths:</p>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span><span class="op">[</span><span class="fl">7</span>, <span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"coast"</span>, <span class="fl">0.25</span><span class="op">)</span></span>
 <span><span class="va">myGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span></span></code></pre></div>
 <pre><code><span><span class="co">##            habitat cost</span></span>
@@ -1131,10 +1130,10 @@ compute and plot the corresponding shortest paths:</p>
 <span><span class="co">## 5 oceanic crossing   20</span></span>
 <span><span class="co">## 6  deselected land  100</span></span>
 <span><span class="co">## 7            coast 0.25</span></span></code></pre>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">myGraph</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span><span class="op">)</span></span>
-<span><span class="va">paths.2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstra-methods.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<span><span class="va">paths.2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraFrom.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">newGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paths.2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">addis</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">addis</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, pch <span class="op">=</span> <span class="st">"x"</span>, cex <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
@@ -1143,7 +1142,7 @@ compute and plot the corresponding shortest paths:</p>
 <p><img src="old_vignette_geograph_files/figure-html/unnamed-chunk-43-1.png" class="r-plt" alt="" width="768"></p>
 <p>The new paths are slightly different from the previous ones. We can
 examine the new relationship with genetic distance:</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dgeo.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstra-methods.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths.2</span>, res.type <span class="op">=</span> <span class="st">"vector"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.hab</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
 <span><span class="va">lm.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.hab</span><span class="op">)</span></span>
@@ -1167,7 +1166,7 @@ examine the new relationship with genetic distance:</p>
 <span><span class="co">## Residual standard error: 0.0265 on 50 degrees of freedom</span></span>
 <span><span class="co">## Multiple R-squared:  0.657,  Adjusted R-squared:  0.651 </span></span>
 <span><span class="co">## F-statistic: 95.9 on 1 and 50 DF,  p-value: 3.21e-13</span></span></code></pre>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Genetic diversity vs geographic distance \n habitat costs "</span><span class="op">)</span></span></code></pre></div>
 <p><img src="old_vignette_geograph_files/figure-html/unnamed-chunk-44-1.png" class="r-plt" alt="" width="700"></p>
 <p>Of course, the distinction between coasts and inner landmasses is a

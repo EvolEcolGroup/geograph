@@ -71,6 +71,7 @@ set of size \> 1) are plotted in light gray.
 ## Examples
 
 ``` r
+
 connectivityPlot(rawgraph.10k)
 
 connectivityPlot(worldgraph.10k)

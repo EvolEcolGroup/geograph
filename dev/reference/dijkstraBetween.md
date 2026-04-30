@@ -54,6 +54,11 @@ are duplicated paths.
 
 - `dijkstraBetween(gData)`: Method for gData
 
+## See also
+
+Other dijkstra_methods:
+[`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraFrom.md)
+
 ## Examples
 
 ``` r
@@ -63,6 +68,5 @@ hgdp.sub <- hgdp[getData(hgdp)$Population %in%
 hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
 #> Loading required package: RBGL
 plot(hgdp.sub)
-
-#plot(hgdp.path)
+plot(hgdp.path)
 ```

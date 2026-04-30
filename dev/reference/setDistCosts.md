@@ -62,6 +62,7 @@ object in different ways.
 ## Examples
 
 ``` r
+
 if (require(fields)) {
   ## load data
   plot(rawgraph.10k, reset = TRUE)

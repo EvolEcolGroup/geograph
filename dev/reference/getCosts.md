@@ -90,6 +90,7 @@ manpage.
 ## Examples
 
 ``` r
+
 head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
 #>      Vi   Vj    
 #> [1,] "67" "9955"

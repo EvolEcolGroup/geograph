@@ -38,6 +38,7 @@ Authors *Journal*, YEAR, **nb**: pp-pp.
 ## Examples
 
 ``` r
+
 ## check object
 hgdp
 #> 

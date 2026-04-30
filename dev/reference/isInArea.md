@@ -105,6 +105,7 @@ The output depends on the value of the argument `res.type`:
 ## Examples
 
 ``` r
+
 plot(worldgraph.10k, reset = TRUE)
 
 

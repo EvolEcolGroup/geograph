@@ -81,6 +81,7 @@ of the provided arguments (for speed purposes).
 ## Examples
 
 ``` r
+
 hasCosts(worldgraph.10k)
 #> [1] FALSE
 ```

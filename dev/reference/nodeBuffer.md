@@ -51,5 +51,5 @@ cost does not exceed the specified threshold.
 
 ## See also
 
-[`dijkstraFrom`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md),
+[`dijkstraFrom`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraFrom.md),
 [`gPath2dist`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)

@@ -72,6 +72,7 @@ to retrieve any information from a GIS shapefile.
 
 ``` r
 
+
 ## create a new gGraph with random coordinates
 myCoords <- data.frame(long = runif(1000, -180, 180), lat = runif(1000, -90, 90))
 obj <- new("gGraph", coords = myCoords)
@@ -80,10 +81,10 @@ obj # note: no node attribute
 #> === gGraph object ===
 #> 
 #> @coords: spatial coordinates of 1000 nodes
-#>         lon      lat
-#> 1  35.70424 25.41490
-#> 2 113.53237 63.96240
-#> 3  18.78418 76.08098
+#>         lon       lat
+#> 1 -79.89893 -20.17944
+#> 2  80.75184 -80.00657
+#> 3 -40.24089 -80.89911
 #> ...
 #> 
 #> @nodes.attr: 0 nodes attributes
@@ -107,10 +108,10 @@ obj # note: new node attribute
 #> === gGraph object ===
 #> 
 #> @coords: spatial coordinates of 1000 nodes
-#>         lon      lat
-#> 1  35.70424 25.41490
-#> 2 113.53237 63.96240
-#> 3  18.78418 76.08098
+#>         lon       lat
+#> 1 -79.89893 -20.17944
+#> 2  80.75184 -80.00657
+#> 3 -40.24089 -80.89911
 #> ...
 #> 
 #> @nodes.attr: 1 nodes attributes

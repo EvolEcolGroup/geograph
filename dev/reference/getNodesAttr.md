@@ -66,6 +66,7 @@ manpages.
 ## Examples
 
 ``` r
+
 ## gGraph method
 head(getNodesAttr(worldgraph.40k))
 #>   habitat

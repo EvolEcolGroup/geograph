@@ -40,7 +40,7 @@ and gData object."><meta name="robots" content="noindex"></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Shortest path using Dijkstra algorithm</h1>
-      <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/R/dijkstra.R" class="external-link"><code>R/dijkstra.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/R/dijkstra.R" class="external-link"><code>R/dijkstra.R</code></a>, <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/R/dijkstraFrom.R" class="external-link"><code>R/dijkstraFrom.R</code></a></small>
       <div class="d-none name"><code>dijkstra-methods.Rd</code></div>
     </div>
 
@@ -52,18 +52,16 @@ and <a href="gData-class.html">gData</a> object.<br></p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dijkstraFrom</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S4 method for class 'gGraph'</span></span>
-<span><span class="fu">dijkstraFrom</span><span class="op">(</span><span class="va">x</span>, <span class="va">start</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S4 method for class 'gData'</span></span>
-<span><span class="fu">dijkstraFrom</span><span class="op">(</span><span class="va">x</span>, <span class="va">start</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for class 'gPath'</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'gPath'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, col <span class="op">=</span> <span class="st">"rainbow"</span>, lwd <span class="op">=</span> <span class="fl">3</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">gPath2dist</span><span class="op">(</span><span class="va">m</span>, diag <span class="op">=</span> <span class="cn">FALSE</span>, upper <span class="op">=</span> <span class="cn">FALSE</span>, res.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dist"</span>, <span class="st">"vector"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">gPath2dist</span><span class="op">(</span><span class="va">m</span>, diag <span class="op">=</span> <span class="cn">FALSE</span>, upper <span class="op">=</span> <span class="cn">FALSE</span>, res.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dist"</span>, <span class="st">"vector"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'gGraph'</span></span>
+<span><span class="fu"><a href="dijkstraFrom.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">start</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'gData'</span></span>
+<span><span class="fu"><a href="dijkstraFrom.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">start</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -75,14 +73,6 @@ and <a href="gData-class.html">gData</a> object.<br></p>
 plotting method of <code>gPath</code> objects, a <code>gPath</code> object.</p></dd>
 
 
-<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>further arguments passed to the <code>segments</code> method.</p></dd>
-
-
-<dt id="arg-start">start<a class="anchor" aria-label="anchor" href="#arg-start"></a></dt>
-<dd><p>a character string naming the 'source' node.</p></dd>
-
-
 <dt id="arg-col">col<a class="anchor" aria-label="anchor" href="#arg-col"></a></dt>
 <dd><p>a character string indicating a color or a palette of colors to
 be used for plotting edges.</p></dd>
@@ -90,6 +80,10 @@ be used for plotting edges.</p></dd>
 
 <dt id="arg-lwd">lwd<a class="anchor" aria-label="anchor" href="#arg-lwd"></a></dt>
 <dd><p>a numeric value indicating the width of edges.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>further arguments passed to the <code>segments</code> method.</p></dd>
 
 
 <dt id="arg-m">m<a class="anchor" aria-label="anchor" href="#arg-m"></a></dt>
@@ -106,6 +100,10 @@ be used for plotting edges.</p></dd>
 returned: a <code>dist</code> object ('dist'), or a vector of distances
 ('vector'). Note that 'dist' should only be required for pairwise data, as
 output by dijkstraBetween (as opposed to dijkstraFrom).</p></dd>
+
+
+<dt id="arg-start">start<a class="anchor" aria-label="anchor" href="#arg-start"></a></dt>
+<dd><p>a character string naming the 'source' node.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -148,7 +146,7 @@ will be issued, but the resulting output will likely be meaningless.<br></p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">ori.coord</span><span class="op">)</span>, pch <span class="op">=</span> <span class="st">"x"</span>, col <span class="op">=</span> <span class="st">"black"</span>, cex <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="co"># an 'x' shows the putative origin</span></span></span>
 <span class="r-in"><span><span class="va">ori</span> <span class="op">&lt;-</span> <span class="fu"><a href="closestNode.html">closestNode</a></span><span class="op">(</span><span class="va">world</span>, <span class="va">ori.coord</span><span class="op">)</span> <span class="co"># assign it the closest node</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">myPath</span> <span class="op">&lt;-</span> <span class="fu">dijkstraFrom</span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span> <span class="co"># compute shortest path</span></span></span>
+<span class="r-in"><span><span class="va">myPath</span> <span class="op">&lt;-</span> <span class="fu"><a href="dijkstraFrom.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span> <span class="co"># compute shortest path</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## plotting</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">world</span>, pch <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="co"># plot the world</span></span></span>

@@ -41,12 +41,14 @@ avoid errors due to installing attached packages.
 *devtools* is also needed to install *geoGraph*:
 
 ``` r
+
 install.packages("devtools")
 ```
 
 Then, to install *geoGraph*, simply type:
 
 ``` r
+
 library(devtools)
 install_github("EvolEcolGroup/geograph")
 ```
@@ -54,6 +56,7 @@ install_github("EvolEcolGroup/geograph")
 Once installed, the package can be loaded using:
 
 ``` r
+
 library("geoGraph")
 ```
 
@@ -61,6 +64,7 @@ If you have an error regarding missing packages, you may need to install
 manually the packages *graph* and *RBGL* from *Bioconductor*:
 
 ``` r
+
 install.packages("BiocManager")
 BiocManager::install(c("graph", "RBGL"))
 ```
@@ -86,6 +90,7 @@ locations.
 The definition of the formal class `gGraph` can be obtained using:
 
 ``` r
+
 getClass("gGraph")
 ```
 
@@ -99,6 +104,7 @@ getClass("gGraph")
 and a new empty object can be obtained using the constructor:
 
 ``` r
+
 new("gGraph")
 ```
 
@@ -139,6 +145,7 @@ with approximately 10,000 nodes, and only on-land connectivity *i.e. no
 traveling on the seas*.
 
 ``` r
+
 worldgraph.10k@meta
 ```
 
@@ -196,6 +203,7 @@ Like for `gGraph`, the content of the formal class `gData` can be
 obtained using:
 
 ``` r
+
 getClass("gData")
 ```
 
@@ -209,6 +217,7 @@ getClass("gData")
 and a new empty object can be obtained using the constructor:
 
 ``` r
+
 new("gData")
 ```
 
@@ -251,6 +260,7 @@ using *geoGraph*. A short overview of the functionality of the package
 is summarized the package’s manpage, accessible via:
 
 ``` r
+
 ?geoGraph
 ```
 
@@ -272,6 +282,7 @@ coordinates) of these cities in decimal degrees, as well as approximate
 population sizes:
 
 ``` r
+
 Bordeaux <- c(-1, 45)
 Berlin <- c(13, 52)
 Baku <- c(44, 40)
@@ -294,6 +305,7 @@ We load a `gGraph` object which contains the grid that will support the
 data:
 
 ``` r
+
 plot(worldgraph.10k)
 ```
 
@@ -310,6 +322,7 @@ cities data with this grid; to do so, we create a `gData` object using
 object):
 
 ``` r
+
 cities <- new("gData", coords = cities.dat[, 1:2], data = cities.dat[, 3, drop = FALSE], gGraph.name = "worldgraph.10k")
 cities
 ```
@@ -339,6 +352,7 @@ cities
     ## Associated gGraph: worldgraph.10k
 
 ``` r
+
 plot(cities, type = "both", reset = TRUE)
 plotEdges(worldgraph.10k)
 ```
@@ -354,6 +368,7 @@ constrain matching nodes to have an `habitat` value (defined as node
 attribute in `worldgraph.10k`) equaling `land` (green points):
 
 ``` r
+
 cities <- closestNode(cities, attr.name = "habitat", attr.value = "land")
 plot(cities, type = "both", reset = TRUE)
 plotEdges(worldgraph.10k)
@@ -367,6 +382,7 @@ For instance, we can retrieve original locations, assigned nodes, and
 stored data using:
 
 ``` r
+
 getCoords(cities)
 ```
 
@@ -377,6 +393,7 @@ getCoords(cities)
     ## 3221  -3  16
 
 ``` r
+
 getNodes(cities)
 ```
 
@@ -384,6 +401,7 @@ getNodes(cities)
     ## "5775" "7696" "2629" "3221"
 
 ``` r
+
 getData(cities)
 ```
 
@@ -397,6 +415,7 @@ More interestingly, we can now retrieve all the geographic information
 contained in the underlying grid (, `gGraph` object) as node attributes:
 
 ``` r
+
 getNodesAttr(cities)
 ```
 
@@ -428,6 +447,7 @@ First, we check that all populations are connected on the grid using
 `isConnected`:
 
 ``` r
+
 isConnected(cities)
 ```
 
@@ -442,6 +462,7 @@ This can be done using `connectivityPlot`, which has methods for both
 using different colors. For instance, for `worldgraph.10k`:
 
 ``` r
+
 connectivityPlot(worldgraph.10k, edges = TRUE, seed = 1, reset = TRUE)
 ```
 
@@ -452,12 +473,14 @@ We can now compute least-cost paths between all pairs of cities using
 `dijkstraBetween`:
 
 ``` r
+
 cities.paths <- dijkstraBetween(cities)
 ```
 
     ## Loading required package: RBGL
 
 ``` r
+
 cities.paths
 ```
 
@@ -472,6 +495,7 @@ cities.paths
     ## x and y coordinates of all nodes are stored as an attribute 'xy'; see ?gPath for details
 
 ``` r
+
 plot(cities, reset = TRUE)
 plot(cities.paths)
 ```
@@ -495,6 +519,7 @@ to land connectivity. We can visually check this by zooming in on the
 area of interest and plotting the edges of the grid:
 
 ``` r
+
 geo.zoomin(c(-10, 2, 32, 40))
 plotEdges(worldgraph.10k)
 ```
@@ -502,6 +527,7 @@ plotEdges(worldgraph.10k)
 ![](geograph_files/figure-html/unnamed-chunk-14-1.png)
 
 ``` r
+
 geo.bookmark("gibraltar")
 ```
 
@@ -526,6 +552,7 @@ adding the edge, we can save the new graph as a new object (note that we
 have to save the changes using `<-`):
 
 ``` r
+
 newGraph <- worldgraph.10k
 plot(newGraph)
 newGraph <- geo.add.edges(newGraph)
@@ -542,6 +569,7 @@ cities, we can see that the path between Bordeaux and Timbuktu goes
 through the Strait of Gibraltar instead of the Caucasus mountains:
 
 ``` r
+
 cities@gGraph.name <- "newGraph"
 cities.paths <- dijkstraBetween(cities)
 plot(cities, reset = TRUE)
@@ -559,6 +587,7 @@ genetic diversity information for 52 human populations worldwide (see
 for more information on this dataset).
 
 ``` r
+
 hgdp
 ```
 
@@ -587,6 +616,7 @@ hgdp
     ## Associated gGraph: worldgraph.40k
 
 ``` r
+
 plot(hgdp, reset = TRUE)
 ```
 
@@ -605,6 +635,7 @@ First, we check again that all populations are connected on the grid
 using `isConnected`:
 
 ``` r
+
 isConnected(hgdp)
 ```
 
@@ -621,6 +652,7 @@ We shall first illustrate the strictly uniform costs. After setting a
 paths between Addis Ababa and the populations of `hgdp`:
 
 ``` r
+
 myGraph <- dropCosts(worldgraph.40k)
 hgdp@gGraph.name <- "myGraph"
 addis <- cbind(38, 9)
@@ -632,6 +664,7 @@ The object `paths` contains the identified paths, which are stored as a
 list with class `gPath` (see `?gPath`). Paths can be plotted easily:
 
 ``` r
+
 addis <- as.vector(addis)
 plot(myGraph, col = NA, reset = TRUE)
 plot(paths)
@@ -648,6 +681,7 @@ paths overlap in several places. We can extract the distances from the
 and the distance from the origin:
 
 ``` r
+
 div <- getData(hgdp)$"Genetic.Div"
 dgeo.unif <- gPath2dist(paths, res.type = "vector")
 plot(div ~ dgeo.unif, xlab = "GeoGraphic distance (arbitrary units)", ylab = "Genetic diversity")
@@ -676,6 +710,7 @@ summary(lm.unif)
     ## F-statistic:  250 on 1 and 50 DF,  p-value: <2e-16
 
 ``` r
+
 title("Genetic diversity vs geographic distance \n uniform costs ")
 ```
 
@@ -687,6 +722,7 @@ than the rest of the landmasses. We define these new costs, and then
 compute and plot the corresponding shortest paths:
 
 ``` r
+
 myGraph@meta$costs[7, ] <- c("coast", 0.25)
 myGraph@meta$costs
 ```
@@ -701,11 +737,13 @@ myGraph@meta$costs
     ## 7            coast 0.25
 
 ``` r
+
 myGraph <- setCosts(myGraph, attr.name = "habitat")
 paths.2 <- dijkstraFrom(hgdp, ori)
 ```
 
 ``` r
+
 plot(newGraph, col = NA, reset = TRUE)
 plot(paths.2)
 points(addis[1], addis[2], pch = "x", cex = 2)
@@ -719,6 +757,7 @@ The new paths are slightly different from the previous ones. We can
 examine the new relationship with genetic distance:
 
 ``` r
+
 dgeo.hab <- gPath2dist(paths.2, res.type = "vector")
 plot(div ~ dgeo.hab, xlab = "GeoGraphic distance (arbitrary units)", ylab = "Genetic diversity")
 lm.hab <- lm(div ~ dgeo.hab)
@@ -746,6 +785,7 @@ summary(lm.hab)
     ## F-statistic: 95.9 on 1 and 50 DF,  p-value: 3.21e-13
 
 ``` r
+
 title("Genetic diversity vs geographic distance \n habitat costs ")
 ```
 

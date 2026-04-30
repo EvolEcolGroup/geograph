@@ -180,6 +180,7 @@ last plotting parameters are re-used. To override this behavior, specify
 
 ``` r
 
+
 ## just the background
 plot(worldgraph.10k, reset = TRUE, type = "n")
 

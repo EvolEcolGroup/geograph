@@ -22,6 +22,7 @@ resulting data is then converted to a `SpatRaster` object using the
 `rast` function from the `terra` package.
 
 ``` r
+
 # define the area of interest (Europe)
 area_of_interest <- st_as_sfc(
   st_bbox(c(
@@ -57,6 +58,7 @@ choice. In this case, we use the present time (0 years before present)
 to create a land mask for our area of interest.
 
 ``` r
+
 # make land mask (everything above 0m is land)
 land_mask <- make_land_mask(spatr, time_bp = 0) # using the present time
 land_mask[is.na(land_mask)] <- 0 
@@ -75,12 +77,14 @@ with cells of the about 16km spacing, and we can visualize the graph
 structure using the `plot` and `plotEdges` functions.
 
 ``` r
+
 ggraph <- createNewGraph(geo_box = aoi_bound, spacing = 20)
 ```
 
     ## Resolution: 11, Area (km^2): 287.933536398634, Spacing (km): 16.758963498128, CLS (km): 19.147021538141
 
 ``` r
+
 plot(ggraph, reset = TRUE)
 plotEdges(ggraph)
 ```
@@ -101,6 +105,7 @@ plotting the graph and coloring the nodes based on the land/water
 values.
 
 ``` r
+
 water_graph <- assignRasterPoints(
   graph = ggraph,
   raster = land_mask,
@@ -151,6 +156,7 @@ the least cost path between two cities (Madrid and Naples) using the
 cells and prefers to move through land cells.
 
 ``` r
+
 # set the costs for sea cells to 10 and land cells to 1
 sea_cost <- 10
 land_cost <- 1
@@ -193,6 +199,7 @@ node. We can then visualize the distribution of the standard deviation
 of elevation values for land cells by plotting a density plot.
 
 ``` r
+
 elevation_graph <- assignRasterPoints(
   graph = water_land_graph,
   raster = spatr,
@@ -238,6 +245,7 @@ update the habitat attribute in the graph accordingly and visualize the
 resulting graph with the new habitat classifications.
 
 ``` r
+
 # set a threshold for rugged cells
 rugged_threshold <- 150
 very_rugged_threshold <- 300
@@ -275,6 +283,7 @@ and very rugged cells. This can be shown in the same toy example as
 above.
 
 ``` r
+
 # set the costs for sea cells to 10, land cells to 1, rugged cells to 3 and very rugged cells to 10
 sea_cost <- 10
 land_cost <- 1
@@ -308,6 +317,7 @@ can then visualize the resulting graph with the new habitat
 classifications, including the coastal cells.
 
 ``` r
+
 # get the neighbor list from the graph
 neigh_list <- elevation_graph@graph@edgeL
 node_attr <- getNodesAttr(elevation_graph)
@@ -350,6 +360,7 @@ cells, we can see that the least cost paths between different land areas
 tend to prefer crossing coastal cells over crossing rugged areas.
 
 ``` r
+
 # set the costs for sea cells to 10, land cells to 1, rugged cells to 3, very rugged cells to 10 and coastal cells to 1
 sea_cost <- 10
 land_cost <- 1
@@ -391,6 +402,7 @@ graph will have costs for each edge that reflect the maximum cost of the
 two nodes it connects.
 
 ``` r
+
 max.cost <- function(x1, x2) {
   pmax(x1, x2)
 }
@@ -426,6 +438,7 @@ to apply this cost function to the graph based on the temperature values
 assigned to each node.
 
 ``` r
+
 exp.cost <-
   exp.cost <- function(x1, x2, cost.coeff) {
     exp(-abs(x1 - x2) * cost.coeff)
@@ -459,6 +472,7 @@ new cost that reflects both the temperature and terrain constraints on
 movement.
 
 ``` r
+
 combine_costs_graph <- combineCosts(temperature_graph, land_graph, method = "prod")
 
 plot(combine_costs_graph, edge = TRUE)
@@ -485,6 +499,7 @@ turn off spherical trigonometry functions with `sf::sf_use_s2(FALSE)`,
 as the `naturalearth` dataset is not compatible with that functionality.
 
 ``` r
+
 library(sf)
 sf_use_s2(FALSE)
 world.countries <- rnaturalearth::ne_countries(
@@ -497,6 +512,7 @@ Let us assume that we are interested in add continent and country
 information to the `full_graph` object.
 
 ``` r
+
 newGraph <- extractFromLayer(full_graph,
   layer = world.countries,
   attr = c("continent", "name")
@@ -504,21 +520,21 @@ newGraph <- extractFromLayer(full_graph,
 summary(getNodesAttr(newGraph))
 ```
 
-    ##      water          habitat            elevation        continent        
-    ##  Min.   :0.0000   Length:25821       Min.   :   0.00   Length:25821      
-    ##  1st Qu.:0.0000   Class :character   1st Qu.:  31.60   Class :character  
-    ##  Median :0.0000   Mode  :character   Median :  78.48   Mode  :character  
-    ##  Mean   :0.3725                      Mean   : 115.07                     
-    ##  3rd Qu.:1.0000                      3rd Qu.: 154.74                     
-    ##  Max.   :1.0000                      Max.   :1298.22                     
-    ##  NA's   :45                          NA's   :83                          
-    ##      name          
-    ##  Length:25821      
-    ##  Class :character  
-    ##  Mode  :character  
-    ##                    
-    ##                    
-    ##                    
+    ##      water             habitat        elevation           continent    
+    ##  Min.   :0.0000   Length   :25821   Min.   :   0.00   Length   :25821  
+    ##  1st Qu.:0.0000   N.unique :    5   1st Qu.:  31.60   N.unique :    2  
+    ##  Median :0.0000   N.blank  :    0   Median :  78.48   N.blank  :    0  
+    ##  Mean   :0.3725   Min.nchar:    3   Mean   : 115.07   Min.nchar:    6  
+    ##  3rd Qu.:1.0000   Max.nchar:   11   3rd Qu.: 154.74   Max.nchar:    6  
+    ##  Max.   :1.0000                     Max.   :1298.22   NAs      :15694  
+    ##  NAs    :45                         NAs    :83                         
+    ##         name      
+    ##  Length   :25821  
+    ##  N.unique :   32  
+    ##  N.blank  :    0  
+    ##  Min.nchar:    5  
+    ##  Max.nchar:   16  
+    ##  NAs      :15694  
     ## 
 
 The new object `newGraph` is a `gGraph` which now includes, for each
@@ -531,6 +547,7 @@ We can use the newly acquired information for plotting `newGraph`, by
 defining new color rules:
 
 ``` r
+
 temp <- unique(getNodesAttr(newGraph)$"name")
 col <- c("transparent", rainbow(length(temp) - 1))
 colMat <- data.frame(name = temp, color = col)
@@ -546,6 +563,7 @@ head(colMat)
     ## 6  Morocco     #FFBF00
 
 ``` r
+
 tail(colMat)
 ```
 
@@ -558,6 +576,7 @@ tail(colMat)
     ## 33         Ukraine #FF0030
 
 ``` r
+
 plot(newGraph, col.rules = colMat, reset = TRUE)
 ```
 
@@ -571,6 +590,7 @@ dispersal on the grid.
 #### Look at connectivity between two polygons
 
 ``` r
+
 test <- polygonBetween(newGraph, layer = "name", "Andorra", "Portugal", outline = FALSE)
 plot(newGraph, col = NA, reset = TRUE)
 plot(test)

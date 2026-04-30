@@ -51,6 +51,7 @@ object.
 ## Examples
 
 ``` r
+
 ## zoom in to a smaller area
 plot(worldgraph.10k)
 

@@ -10,18 +10,16 @@ object.
 ## Usage
 
 ``` r
-dijkstraFrom(x, ...)
+# S3 method for class 'gPath'
+plot(x, col = "rainbow", lwd = 3, ...)
+
+gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
 
 # S4 method for class 'gGraph'
 dijkstraFrom(x, start)
 
 # S4 method for class 'gData'
 dijkstraFrom(x, start)
-
-# S3 method for class 'gPath'
-plot(x, col = "rainbow", lwd = 3, ...)
-
-gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
 ```
 
 ## Arguments
@@ -34,14 +32,6 @@ gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
   [gData](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
   object. For plotting method of `gPath` objects, a `gPath` object.
 
-- ...:
-
-  further arguments passed to the `segments` method.
-
-- start:
-
-  a character string naming the 'source' node.
-
 - col:
 
   a character string indicating a color or a palette of colors to be
@@ -50,6 +40,10 @@ gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
 - lwd:
 
   a numeric value indicating the width of edges.
+
+- ...:
+
+  further arguments passed to the `segments` method.
 
 - m:
 
@@ -65,6 +59,10 @@ gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
   a `dist` object ('dist'), or a vector of distances ('vector'). Note
   that 'dist' should only be required for pairwise data, as output by
   dijkstraBetween (as opposed to dijkstraFrom).
+
+- start:
+
+  a character string naming the 'source' node.
 
 ## Value
 

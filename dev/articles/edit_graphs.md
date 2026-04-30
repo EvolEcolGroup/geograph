@@ -31,6 +31,7 @@ the nodes can be specified via the `col` argument in `plot`/`points`.
 Here is an example using `worldgraph.10k`:
 
 ``` r
+
 worldgraph.10k@meta$colors
 ```
 
@@ -43,6 +44,7 @@ worldgraph.10k@meta$colors
     ## 6  deselected land   lightgray
 
 ``` r
+
 head(getNodesAttr(worldgraph.10k))
 ```
 
@@ -55,6 +57,7 @@ head(getNodesAttr(worldgraph.10k))
     ## 6     sea
 
 ``` r
+
 table(getNodesAttr(worldgraph.10k))
 ```
 
@@ -63,12 +66,14 @@ table(getNodesAttr(worldgraph.10k))
     ##             290            2632            7320
 
 ``` r
+
 plot(worldgraph.10k, reset = TRUE)
 ```
 
     ## Spherical geometry (s2) switched off
 
 ``` r
+
 title("Default plotting of worldgraph.10k")
 ```
 
@@ -82,12 +87,14 @@ graphics than `Xlib`, but at the expense of increase computational time.
 To switch to `Xlib`, type:
 
 ``` r
+
 X11.options(type = "Xlib")
 ```
 
 and to revert to `cairo`, type:
 
 ``` r
+
 X11.options(type = "cairo")
 ```
 
@@ -112,6 +119,7 @@ Here are some examples based on the previous plotting of
 `worldgraph.10k`: Zooming in:
 
 ``` r
+
 geo.zoomin()
 ```
 
@@ -120,6 +128,7 @@ geo.zoomin()
 Zooming out:
 
 ``` r
+
 geo.zoomout()
 ```
 
@@ -128,6 +137,7 @@ geo.zoomout()
 Sliding to the east:
 
 ``` r
+
 geo.slide()
 ```
 
@@ -144,6 +154,7 @@ plotting information in an environment defined as the hidden environment
 `geoGraph:::.geoGraphEnv`:
 
 ``` r
+
 ls(env = geoGraph:::.geoGraphEnv)
 ```
 
@@ -153,6 +164,7 @@ ls(env = geoGraph:::.geoGraphEnv)
 You can inspect individual variables within this environment:
 
 ``` r
+
 get("last.plot.param", envir = geoGraph:::.geoGraphEnv)
 ```
 
@@ -174,6 +186,7 @@ and undo possible wrong manipulations.
 ‘get started’:
 
 ``` r
+
 Bordeaux <- c(-1, 45)
 Berlin <- c(13, 52)
 Baku <- c(44, 40)
@@ -193,6 +206,7 @@ cities.dat
     ## Timbuktu  -3  16   50000
 
 ``` r
+
 cities <- new("gData", coords = cities.dat[, 1:2], data = cities.dat[, 3, drop = FALSE], gGraph.name = "worldgraph.10k")
 plot(cities, type = "both", reset = TRUE)
 text(getCoords(cities), rownames(getData(cities)))
@@ -211,6 +225,7 @@ grid. We can use this to represent, for instance, the population sizes
 for the different cities:
 
 ``` r
+
 transp <- function(col, alpha = .5) {
   res <- apply(
     col2rgb(col), 2,
@@ -256,6 +271,7 @@ overlaying the sea. We load the `gGraph` object `rawgraph.10k`, and zoom
 in to a smaller area (Madagascar) to illustrate changes in connectivity:
 
 ``` r
+
 geo.zoomin(c(35, 54, -26, -10))
 plotEdges(rawgraph.10k)
 ```
@@ -266,6 +282,7 @@ We shall set a bookmark for this area, in case we would want to get back
 to this place later on:
 
 ``` r
+
 geo.bookmark("madagascar")
 ```
 
@@ -281,6 +298,7 @@ Costs of a given node attribute (here,
 `habitat') are indicated in the`meta\$costs\` slot:
 
 ``` r
+
 rawgraph.10k@meta$costs
 ```
 
@@ -293,6 +311,7 @@ rawgraph.10k@meta$costs
     ## 6  deselected land  100
 
 ``` r
+
 newGraph <- rawgraph.10k
 newGraph@meta$costs[2:6, 2] <- 100
 newGraph@meta$costs[1, 2] <- 1
@@ -312,6 +331,7 @@ change is not yet effective on edges between nodes. We use `setCosts` to
 set the cost of an edge to the average of the costs of its nodes:
 
 ``` r
+
 newGraph <- setCosts(newGraph, attr.name = "habitat")
 plot(newGraph, edge = TRUE)
 ```
@@ -327,6 +347,7 @@ as defined by a given threshold (using `dropDeadEdges`). Here, only
 sea-sea connections shall be retained, that is, edges with cost 1.
 
 ``` r
+
 newGraph <- dropDeadEdges(newGraph, thres = 1.1)
 plot(newGraph, edge = TRUE)
 ```
@@ -339,12 +360,14 @@ effective everywhere. For instance, traveling to the north-west
 Australian coasts:
 
 ``` r
+
 geo.zoomin(c(110, 130, -27, -12))
 ```
 
 ![](edit_graphs_files/figure-html/bookmark-1.png)
 
 ``` r
+
 geo.bookmark("australia")
 ```
 
@@ -368,6 +391,7 @@ few odd connections in the previous graph, near the Australian coasts
 (note that we have to save the changes using `<-`):
 
 ``` r
+
 geo.goto("australia")
 newGraph <- geo.remove.edges(newGraph)
 ```
@@ -391,6 +415,7 @@ new value `shalowwater` (plotted in light blue) for the attribute
 refining the changes using the ‘point’ mode:
 
 ``` r
+
 plot(newGraph, edge = TRUE)
 newGraph <- geo.change.attr(newGraph,
   mode = "area", attr.name = "habitat",
@@ -403,6 +428,7 @@ newGraph <- geo.change.attr(newGraph,
 ```
 
 ``` r
+
 newGraph@meta$colors
 ```
 
@@ -416,6 +442,7 @@ newGraph@meta$colors
     ## 7     shallowwater deepskyblue
 
 ``` r
+
 plot(newGraph, edge = TRUE)
 ```
 

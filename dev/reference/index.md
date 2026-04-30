@@ -24,12 +24,15 @@
   : Check connectivity of a gGraph object
 - [`createNewGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/createNewGraph.md)
   : Make a new gGraph object from a custom discrete global grid
-- [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
-  [`plot(`*`<gPath>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
+- [`plot(`*`<gPath>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   [`gPath2dist()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
+  [`dijkstraFrom(`*`<gGraph>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
+  [`dijkstraFrom(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   : Shortest path using Dijkstra algorithm
 - [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md)
   : Find the shortest path between nodes in a graph
+- [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraFrom.md)
+  : Find the minimum cost path
 - [`dropDeadEdges()`](https://evolecolgroup.github.io/geograph/dev/reference/dropDeadEdges.md)
   : Get rid of some 'dead' edges or nodes
 - [`extractFromLayer()`](https://evolecolgroup.github.io/geograph/dev/reference/extractFromLayer.md)

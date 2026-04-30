@@ -60,6 +60,7 @@ Related class:
 ## Examples
 
 ``` r
+
 hgdp
 #> 
 #> === gData object ===

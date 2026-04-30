@@ -84,6 +84,7 @@ object.
 ## Examples
 
 ``` r
+
 plot(rawgraph.10k, reset = TRUE)
 
 

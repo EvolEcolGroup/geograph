@@ -45,6 +45,7 @@ J. Climate Modeling with Spherical Geodesic Grids *Computing in science
 
 ``` r
 
+
 worldgraph.10k
 #> 
 #> === gGraph object ===

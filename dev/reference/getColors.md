@@ -64,6 +64,7 @@ See example section to know how this slot should be designed.
 ## Examples
 
 ``` r
+
 worldgraph.10k # there is a node attribute 'habitat'
 #> 
 #> === gGraph object ===

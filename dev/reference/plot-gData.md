@@ -122,6 +122,7 @@ loosing the `gData` plot.
 
 ``` r
 
+
 myLoc <- list(x = c(3, -8, 11, 28), y = c(50, 57, 71, 67)) # some locations
 obj <- new("gData", coords = myLoc) # new gData object
 obj
