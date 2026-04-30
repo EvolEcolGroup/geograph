@@ -9,12 +9,12 @@ defined by the user.
 ## Usage
 
 ``` r
-createNewGraph(geo_box, spacing, ...)
+createNewGraph(geo.box, spacing, ...)
 ```
 
 ## Arguments
 
-- geo_box:
+- geo.box:
 
   A geographic bounding box. With either a named numeric vector with
   `xmin`, `xmax`, `ymin`, `ymax` or an object of class `bbox` or `sf`.
@@ -48,9 +48,9 @@ object with the resulting graph structure and node coordinates.
 
 ``` r
 # Define a geographic bounding box (e.g., for a region in Europe)
-geo_box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 # Create a gGraph with a spacing of 1000 km
-ggraph <- createNewGraph(geo_box = geo_box, spacing = 1000)
+ggraph <- createNewGraph(geo.box = geo.box, spacing = 1000)
 #> Resolution: 4, Area (km^2): 629710.644103813, Spacing (km): 783.739159045648, CLS (km): 895.60184164835
 plot(ggraph, edge = TRUE)
 ```

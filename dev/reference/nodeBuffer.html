@@ -55,7 +55,7 @@ edges (e.g. topographic cost).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nodeBuffer</span><span class="op">(</span><span class="va">graph</span>, <span class="va">origin</span>, <span class="va">max_distance</span>, map_distances <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nodeBuffer</span><span class="op">(</span><span class="va">graph</span>, <span class="va">origin</span>, <span class="va">max.distance</span>, map.distances <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -71,12 +71,12 @@ edges (e.g. topographic cost).</p>
 vector / list / data.frame of length 2 giving longitude and latitude.</p></dd>
 
 
-<dt id="arg-max-distance">max_distance<a class="anchor" aria-label="anchor" href="#arg-max-distance"></a></dt>
+<dt id="arg-max-distance">max.distance<a class="anchor" aria-label="anchor" href="#arg-max-distance"></a></dt>
 <dd><p>Numeric. Maximum cumulative cost the feature is
 assumed to be able to diffuse.</p></dd>
 
 
-<dt id="arg-map-distances">map_distances<a class="anchor" aria-label="anchor" href="#arg-map-distances"></a></dt>
+<dt id="arg-map-distances">map.distances<a class="anchor" aria-label="anchor" href="#arg-map-distances"></a></dt>
 <dd><p>Logical. If <code>TRUE</code>, return the Graph object with new
 a node attribute called 'difusion_area' indicating the diffusion area
 with TRUE for all nodes reachable in order to map it on the gGraph object.
@@ -86,9 +86,9 @@ the diffusion area.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>If <code>map_distances = FALSE</code>, a character vector of node IDs
-reachable within <code>max_distance</code>.</p>
-<p>If <code>map_distances = TRUE</code>, the input <code>gGraph</code> object with
+    <p>If <code>map.distances = FALSE</code>, a character vector of node IDs
+reachable within <code>max.distance</code>.</p>
+<p>If <code>map.distances = TRUE</code>, the input <code>gGraph</code> object with
 an added logical node attribute <code>diffusion_area</code>.</p>
     </div>
     <div class="section level2">

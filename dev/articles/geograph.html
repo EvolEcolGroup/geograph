@@ -77,8 +77,12 @@ Jombart, Dominik Jud […] and Andrea Manica</h4>
 <em>geoGraph</em>: using spherical grids to walk through the
 geographic space<a class="anchor" aria-label="anchor" href="#geograph-using-spherical-grids-to-walk-through-the-geographic-space"></a>
 </h2>
-<p>This document describes the <em>geoGraph</em> package for the R
-software. <em>geoGraph</em> aims at implementing graph approaches for
+<p>In the this vignette, we go through the basic tasks that can be
+achieve using <em>geoGraph</em>. A short overview of the functionality
+of the package is summarized the package’s manpage, accessible via:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">?</span><span class="va">geoGraph</span></span></code></pre></div>
+<p><em>geoGraph</em> aims at implementing graph approaches for
 geographic data. In <em>geoGraph</em>, a given geographic area is
 modeled by a fine regular grid, where each vertex has a set of spatial
 coordinates and a set of attributes, which can be for instance habitat
@@ -114,19 +118,19 @@ basic features of graph algorithms.</p>
 <p>All the following instructions should be entered from a new R session
 to avoid errors due to installing attached packages.</p>
 <p><em>devtools</em> is also needed to install <em>geoGraph</em>:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span></code></pre></div>
 <p>Then, to install <em>geoGraph</em>, simply type:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
 <span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EvolEcolGroup/geograph"</span><span class="op">)</span></span></code></pre></div>
 <p>Once installed, the package can be loaded using:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/EvolEcolGroup/geograph" class="external-link">"geoGraph"</a></span><span class="op">)</span></span></code></pre></div>
 <p>If you have an error regarding missing packages, you may need to
 install manually the packages <em>graph</em> and <em>RBGL</em> from
 <em>Bioconductor</em>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
 <span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu">install</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"graph"</span>, <span class="st">"RBGL"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>And then attempt to reinstall <em>geoGraph</em> from GitHub.</p>
@@ -151,7 +155,7 @@ locations.</p>
 </h4>
 <p>The definition of the formal class <code>gGraph</code> can be
 obtained using:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"gGraph"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "gGraph" [package "geoGraph"]</span></span>
 <span><span class="co">## </span></span>
@@ -160,7 +164,7 @@ obtained using:</p>
 <span><span class="co">## Name:      coords nodes.attr       meta      graph</span></span>
 <span><span class="co">## Class:     matrix data.frame       list   graphNEL</span></span></code></pre>
 <p>and a new empty object can be obtained using the constructor:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/new.html" class="external-link">new</a></span><span class="op">(</span><span class="st">"gGraph"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## === gGraph object ===</span></span>
@@ -196,7 +200,7 @@ costs to a given node attribute by defining a component
 <code>gGraph</code> objects. For instance, <code>worldgraph.10k</code>
 is a graph of the world with approximately 10,000 nodes, and only
 on-land connectivity <em>i.e. no traveling on the seas</em>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">worldgraph.10k</span><span class="op">@</span><span class="va">meta</span></span></code></pre></div>
 <pre><code><span><span class="co">## $colors</span></span>
 <span><span class="co">##            habitat       color</span></span>
@@ -242,15 +246,15 @@ to the other vignett.)</p>
 <div class="section level4">
 <h4 id="gdata-objects">gData objects<a class="anchor" aria-label="anchor" href="#gdata-objects"></a>
 </h4>
-<p><code>gData</code> are essentially sets of locations that are
-interfaced with a <code>gGraph</code> object. During this operation,
-each location is assigned to the closest node on the grid of the
-<code>gGraph</code>, then allowing for traveling between locations using
-the grid. Then, it is for instance possible to find the shortest path
-between two locations through various types of habitats.</p>
+<p><code>gData</code> objects store sets of locations interfaced with a
+<code>gGraph</code> object. When creating a <code>gData</code>, each
+location is matched to its closest node on the gGraph grid, which makes
+it possible to model travel between locations along the grid — for
+instance, to find the shortest path between two sites through different
+habitat types. object.</p>
 <p>Like for <code>gGraph</code>, the content of the formal class
 <code>gData</code> can be obtained using:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"gData"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "gData" [package "geoGraph"]</span></span>
 <span><span class="co">## </span></span>
@@ -259,7 +263,7 @@ between two locations through various types of habitats.</p>
 <span><span class="co">## Name:       coords    nodes.id        data gGraph.name</span></span>
 <span><span class="co">## Class:      matrix   character         ANY   character</span></span></code></pre>
 <p>and a new empty object can be obtained using the constructor:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/new.html" class="external-link">new</a></span><span class="op">(</span><span class="st">"gData"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## === gData object ===</span></span>
@@ -296,11 +300,6 @@ contains the name of the <code>gGraph</code> object to which the
 <div class="section level2">
 <h2 id="getting-started-with-geograph">Getting started with <em>geoGraph</em><a class="anchor" aria-label="anchor" href="#getting-started-with-geograph"></a>
 </h2>
-<p>In the this vignette, we go through the basic tasks that can be
-achieve using <em>geoGraph</em>. A short overview of the functionality
-of the package is summarized the package’s manpage, accessible via:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">?</span><span class="va">geoGraph</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="importing-geographic-data">Importing geographic data<a class="anchor" aria-label="anchor" href="#importing-geographic-data"></a>
 </h3>
@@ -389,10 +388,10 @@ we constrain matching nodes to have an <code>habitat</code> value
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, type <span class="op">=</span> <span class="st">"both"</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/closeNode-1.png" class="r-plt" alt="" width="672"></p>
-<p>Now, all cities have been assigned to a
-<code>land' node of the grid. Content of</code>cities<code>can be accessed via various accessors (see</code>?gData`).
-For instance, we can retrieve original locations, assigned nodes, and
-stored data using:</p>
+<p>Now, all cities have been assigned to a <code>land</code> node of the
+grid. Content of <code>cities</code> can be accessed via various
+accessors (see <code><a href="../reference/gData-class.html">?gData</a></code>). For instance, we can retrieve
+original locations, assigned nodes, and stored data using:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      lon lat</span></span>
@@ -448,13 +447,10 @@ pairs of cities in our example.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/isConnected.html">isConnected</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
-<p>Note that in practice, we may often want to assess graphically the
-connectivity of the underlying grid, especially if not all locations of
-the <code>gData</code> are connected.</p>
-<p>This can be done using <code>connectivityPlot</code>, which has
-methods for both <code>gGraph</code> and <code>gData</code>, and
-represents different connected components using different colors. For
-instance, for <code>worldgraph.10k</code>:</p>
+<p>If not all locations are connected, <code>connectivityPlot</code> can
+help diagnose the problem by displaying connected components in
+different colors, and is available for both <code>gGraph</code> and
+<code>gData</code> objects. For instance:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/connectivity.html">connectivityPlot</a></span><span class="op">(</span><span class="va">worldgraph.10k</span>, edges <span class="op">=</span> <span class="cn">TRUE</span>, seed <span class="op">=</span> <span class="fl">1</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/connectivityPlot-1.png" class="r-plt" alt="" width="768">
@@ -502,7 +498,7 @@ grid:</p>
 <span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geograph_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="672"></p>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.bookmark</a></span><span class="op">(</span><span class="st">"gibraltar"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.bookmark</a></span><span class="op">(</span><span class="st">"gibraltar"</span><span class="op">)</span> <span class="co"># TODO explain this</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Bookmark ' gibraltar  'saved.</span></span></code></pre>
 <p>We can change this by adding a connection between the two continents,
@@ -618,9 +614,9 @@ are stored as a list with class <code>gPath</code> (see
 <p><img src="geograph_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="768"></p>
 <p>In this graph, each path is plotted with a different color, but
 several paths overlap in several places. We can extract the distances
-from the
-<code>origin' using</code>gPath2dist<code>, and then examine the relationship between genetic diversity within populations (stored in</code>hgdp`)
-and the distance from the origin:</p>
+from the <code>origin</code> using <code>gPath2dist</code>, and then
+examine the relationship between genetic diversity within populations
+(stored in <code>hgdp</code>) and the distance from the origin:</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">div</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span><span class="op">$</span><span class="st">"Genetic.Div"</span></span>
 <span><span class="va">dgeo.unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstra-methods.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths</span>, res.type <span class="op">=</span> <span class="st">"vector"</span><span class="op">)</span></span>

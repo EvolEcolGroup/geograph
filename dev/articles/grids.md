@@ -24,7 +24,7 @@ resulting data is then converted to a `SpatRaster` object using the
 ``` r
 
 # define the area of interest (Europe)
-area_of_interest <- st_as_sfc(
+area.of.interest <- st_as_sfc(
   st_bbox(c(
     xmin = -25,
     xmax = 25,
@@ -33,16 +33,16 @@ area_of_interest <- st_as_sfc(
   ), crs = 4326)
 )
 
-aoi_bound <- st_sf(geometry = area_of_interest)
+aoi.bound <- st_sf(geometry = area.of.interest)
 
-elevation_data <- get_elev_raster(
-  locations = aoi_bound,
+elevation.data <- get_elev_raster(
+  locations = aoi.bound,
   z = 4,
   clip = "locations"
 )
 
 # convert to SpatRaster
-spatr <- rast(elevation_data)
+spatr <- rast(elevation.data)
 plot(spatr)
 ```
 
@@ -60,9 +60,9 @@ to create a land mask for our area of interest.
 ``` r
 
 # make land mask (everything above 0m is land)
-land_mask <- make_land_mask(spatr, time_bp = 0) # using the present time
-land_mask[is.na(land_mask)] <- 0 
-plot(land_mask)
+land.mask <- make_land_mask(spatr, time_bp = 0) # using the present time
+land.mask[is.na(land.mask)] <- 0
+plot(land.mask)
 ```
 
 ![](grids_files/figure-html/making%20land%20mask-1.png)
@@ -78,15 +78,15 @@ structure using the `plot` and `plotEdges` functions.
 
 ``` r
 
-ggraph <- createNewGraph(geo_box = aoi_bound, spacing = 20)
+gGraph <- createNewGraph(geo.box = aoi.bound, spacing = 20)
 ```
 
     ## Resolution: 11, Area (km^2): 287.933536398634, Spacing (km): 16.758963498128, CLS (km): 19.147021538141
 
 ``` r
 
-plot(ggraph, reset = TRUE)
-plotEdges(ggraph)
+plot(gGraph, reset = TRUE)
+plotEdges(gGraph)
 ```
 
 ![](grids_files/figure-html/creating%20graph%20object-1.png)
@@ -106,28 +106,28 @@ values.
 
 ``` r
 
-water_graph <- assignRasterPoints(
-  graph = ggraph,
-  raster = land_mask,
-  layer_name = "water"
+waterGraph <- assignRasterPoints(
+  graph = gGraph,
+  raster = land.mask,
+  layer.name = "water"
 )
 
 # now we collapse the water attribute to get a land/sea classification for each node
-water_land_graph <- collapseNodeAttribute(
-  graph = water_graph,
+waterLandGraph <- collapseNodeAttribute(
+  graph = waterGraph,
   attribute = "water",
   fun = min,
   na.rm = TRUE
 )
 
 # add this to the habitat attribute
-habitat <- factor(water_land_graph@nodes.attr$water,
+habitat <- factor(waterLandGraph@nodes.attr$water,
   levels = c(0, 1),
   labels = c("sea", "land")
 )
 
 # reclassify the nodes in the gGraph object accordingly in the metadata
-water_land_graph@nodes.attr$habitat <- habitat #TODO can we use a setAttribute here?
+waterLandGraph@nodes.attr$habitat <- habitat # TODO can we use a setAttribute here?
 
 colors <- data.frame(
   habitat = c("sea", "land"),
@@ -135,9 +135,9 @@ colors <- data.frame(
 )
 
 # change colors associated with the land meta info
-water_land_graph@meta$colors <- colors
+waterLandGraph@meta$colors <- colors
 
-plot(water_land_graph, reset = TRUE)
+plot(waterLandGraph, reset = TRUE)
 ```
 
 ![](grids_files/figure-html/unnamed-chunk-1-1.png)
@@ -158,14 +158,14 @@ cells and prefers to move through land cells.
 ``` r
 
 # set the costs for sea cells to 10 and land cells to 1
-sea_cost <- 10
-land_cost <- 1
-water_land_graph@meta$costs <- data.frame(
+sea.cost <- 10
+land.cost <- 1
+waterLandGraph@meta$costs <- data.frame(
   habitat = c("sea", "land"),
-  cost = c(sea_cost, land_cost)
+  cost = c(sea.cost, land.cost)
 )
 
-water_land_graph <- setCosts(water_land_graph, method = "mean", attr.name = "habitat")
+waterLandGraph <- setCosts(waterLandGraph, method = "mean", attr.name = "habitat")
 
 
 point1 <- c(-3.7038, 40.4168) # Madrid
@@ -173,9 +173,9 @@ point2 <- c(14.2681, 40.8522) # Naples
 cities.dat <- rbind.data.frame(point1, point2)
 colnames(cities.dat) <- c("lon", "lat")
 row.names(cities.dat) <- c("Madrid", "Naples")
-cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "water_land_graph")
+cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "waterLandGraph")
 path <- dijkstraBetween(cities)
-plot(water_land_graph, reset = TRUE)
+plot(waterLandGraph, reset = TRUE)
 plot(path, col = "red", lwd = 2)
 ```
 
@@ -200,29 +200,29 @@ of elevation values for land cells by plotting a density plot.
 
 ``` r
 
-elevation_graph <- assignRasterPoints(
-  graph = water_land_graph,
+elevationGraph <- assignRasterPoints(
+  graph = waterLandGraph,
   raster = spatr,
-  layer_name = "elevation"
+  layer.name = "elevation"
 )
 
 # now we collapse the elevation attribute to get the sd of the elevation for each node
-elevation_graph <- collapseNodeAttribute(
-  graph = elevation_graph,
+elevationGraph <- collapseNodeAttribute(
+  graph = elevationGraph,
   attribute = "elevation",
   fun = sd,
   na.rm = TRUE
 )
 
-# have a look at the distribution of sd_elevation values for land cells
-sd_ele <- getNodesAttr(elevation_graph)%>%
+# have a look at the distribution of sd.elevation values for land cells
+sd.ele <- getNodesAttr(elevationGraph) |>
   mutate(
     elevation = ifelse(habitat == "land", elevation, NA_real_)
-  ) %>%
+  ) |>
   pull(elevation)
 
 # plot the density
-plot(density(log(sd_ele), na.rm = TRUE),
+plot(density(log(sd.ele), na.rm = TRUE),
   main = "Density of SD Elevation for Land Cells",
   xlab = "SD Elevation (m)", ylab = "Density"
 )
@@ -247,20 +247,20 @@ resulting graph with the new habitat classifications.
 ``` r
 
 # set a threshold for rugged cells
-rugged_threshold <- 150
-very_rugged_threshold <- 300
+rugged.threshold <- 150
+very.rugged.threshold <- 300
 
-## now we identify rugged and very rugged cells as those with sd_elevation > threshold
-habitat_new <- case_when(
-  is.na(sd_ele) ~ "sea",
-  sd_ele > very_rugged_threshold ~ "very_rugged",
-  sd_ele > rugged_threshold ~ "rugged",
+## now we identify rugged and very rugged cells as those with sd.elevation > threshold
+habitat.new <- case_when(
+  is.na(sd.ele) ~ "sea",
+  sd.ele > very.rugged.threshold ~ "very_rugged",
+  sd.ele > rugged.threshold ~ "rugged",
   TRUE ~ "land"
 )
 
 # update the habitat attribute in the graph
 # reclassify the nodes in the gGraph object accordingly in the metadata
-elevation_graph@nodes.attr$habitat <- habitat_new
+elevationGraph@nodes.attr$habitat <- habitat.new
 
 
 colors <- data.frame(
@@ -269,9 +269,9 @@ colors <- data.frame(
 )
 
 # change colors associated with the land meta info
-elevation_graph@meta$colors <- colors
+elevationGraph@meta$colors <- colors
 
-plot(elevation_graph, reset = TRUE)
+plot(elevationGraph, reset = TRUE)
 ```
 
 ![](grids_files/figure-html/reclassifying%20nodes-1.png)
@@ -285,23 +285,23 @@ above.
 ``` r
 
 # set the costs for sea cells to 10, land cells to 1, rugged cells to 3 and very rugged cells to 10
-sea_cost <- 10
-land_cost <- 1
-rugged_cost <- 3
-very_rugged_cost <- 10
-elevation_graph@meta$costs <- data.frame(
+sea.cost <- 10
+land.cost <- 1
+rugged.cost <- 3
+very.rugged.cost <- 10
+elevationGraph@meta$costs <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged"),
-  cost = c(sea_cost, land_cost, rugged_cost, very_rugged_cost)
+  cost = c(sea.cost, land.cost, rugged.cost, very.rugged.cost)
 )
-elevation_graph <- setCosts(elevation_graph, method = "mean", attr.name = "habitat")
+elevationGraph <- setCosts(elevationGraph, method = "mean", attr.name = "habitat")
 point1 <- c(-3.7038, 40.4168) # Madrid
 point2 <- c(14.2681, 40.8522) # Naples
 cities.dat <- rbind.data.frame(point1, point2)
 colnames(cities.dat) <- c("lon", "lat")
 row.names(cities.dat) <- c("Madrid", "Naples")
-cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "elevation_graph")
+cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "elevationGraph")
 path <- dijkstraBetween(cities)
-plot(elevation_graph, reset = TRUE)
+plot(elevationGraph, reset = TRUE)
 plot(path, col = "red", lwd = 2)
 ```
 
@@ -319,28 +319,28 @@ classifications, including the coastal cells.
 ``` r
 
 # get the neighbor list from the graph
-neigh_list <- elevation_graph@graph@edgeL
-node_attr <- getNodesAttr(elevation_graph)
+neigh.list <- elevationGraph@graph@edgeL
+node.attr <- getNodesAttr(elevationGraph)
 
 # get all nodes adjacent to land or mountain cells and reclassify them as "coast"
-for (i_node in 1:nrow(node_attr)) {
-  if (node_attr$habitat[i_node] == "sea") {
-    neighbour_indices <- neigh_list[[i_node]]$edges # check structure!
-    neighbour_land_values <- node_attr$habitat[neighbour_indices]
-    if (any(neighbour_land_values %in% c("land", "rugged", "very_rugged"))) {
+for (i_node in seq_len(nrow(node.attr))) {
+  if (node.attr$habitat[i_node] == "sea") {
+    neighbour.indices <- neigh.list[[i_node]]$edges # check structure!
+    neighbour.land.values <- node.attr$habitat[neighbour.indices]
+    if (any(neighbour.land.values %in% c("land", "rugged", "very_rugged"))) {
       # at least one land or mountain neighbour
-      node_attr$habitat[i_node] <- "coast"
+      node.attr$habitat[i_node] <- "coast"
     }
   }
 }
 
-new_attribute <- node_attr
+new.attribute <- node.attr
 
-# create the full_graph
-full_graph <- elevation_graph
+# create the fullGraph
+fullGraph <- elevationGraph
 
 # set the new node attributes
-full_graph@nodes.attr <- new_attribute
+fullGraph@nodes.attr <- new.attribute
 
 
 colors <- data.frame(
@@ -349,8 +349,8 @@ colors <- data.frame(
 )
 
 # change the costs and colors associated with the land meta info
-full_graph@meta$colors <- colors
-plot(full_graph, reset = TRUE)
+fullGraph@meta$colors <- colors
+plot(fullGraph, reset = TRUE)
 ```
 
 ![](grids_files/figure-html/adding%20coastal%20cells-1.png)
@@ -362,25 +362,25 @@ tend to prefer crossing coastal cells over crossing rugged areas.
 ``` r
 
 # set the costs for sea cells to 10, land cells to 1, rugged cells to 3, very rugged cells to 10 and coastal cells to 1
-sea_cost <- 10
-land_cost <- 1
-rugged_cost <- 3
-very_rugged_cost <- 10
-coastal_cost <- 1
-full_graph@meta$costs <- data.frame(
+sea.cost <- 10
+land.cost <- 1
+rugged.cost <- 3
+very.rugged.cost <- 10
+coastal.cost <- 1
+fullGraph@meta$costs <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged", "coast"),
-  cost = c(sea_cost, land_cost, rugged_cost, very_rugged_cost, coastal_cost)
+  cost = c(sea.cost, land.cost, rugged.cost, very.rugged.cost, coastal.cost)
 )
-full_graph <- setCosts(full_graph, method = "mean", attr.name = "habitat")
+fullGraph <- setCosts(fullGraph, method = "mean", attr.name = "habitat")
 
 point1 <- c(-3.7038, 40.4168) # Madrid
 point2 <- c(14.2681, 40.8522) # Naples
 cities.dat <- rbind.data.frame(point1, point2)
 colnames(cities.dat) <- c("lon", "lat")
 row.names(cities.dat) <- c("Madrid", "Naples")
-cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "full_graph")
+cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "fullGraph")
 path <- dijkstraBetween(cities)
-plot(full_graph, reset = TRUE)
+plot(fullGraph, reset = TRUE)
 plot(path, col = "red", lwd = 2)
 ```
 
@@ -407,15 +407,15 @@ max.cost <- function(x1, x2) {
   pmax(x1, x2)
 }
 
-full_graph <- setCosts(
-  full_graph,
+fullGraph <- setCosts(
+  fullGraph,
   attr.name = "habitat",
   method = "function",
   FUN = max.cost
 )
 
-plot(full_graph, reset = TRUE)
-plotEdges(full_graph)
+plot(fullGraph, reset = TRUE)
+plotEdges(fullGraph)
 ```
 
 ![](grids_files/figure-html/setting%20costs-1.png)
@@ -445,19 +445,19 @@ exp.cost <-
   }
 
 # create a set of node costs for temperature
-land_graph <- dropDeadEdges(full_graph, thres = 9)
-land_graph@nodes.attr$temp <- runif(n = 25821)
-temperature_graph <-
+landGraph <- dropDeadEdges(fullGraph, thres = 9)
+landGraph@nodes.attr$temp <- runif(n = 25821)
+temperatureGraph <-
   setCosts(
-    land_graph,
-    node.values = land_graph@nodes.attr$temp,
+    landGraph,
+    node.values = landGraph@nodes.attr$temp,
     method = "function",
     FUN = exp.cost,
     cost.coeff = 1
   )
 
-plot(temperature_graph, edge = TRUE)
-plotEdges(temperature_graph)
+plot(temperatureGraph, edge = TRUE)
+plotEdges(temperatureGraph)
 ```
 
 ![](grids_files/figure-html/unnamed-chunk-2-1.png)
@@ -466,17 +466,17 @@ Now we want a combined cost that both captures the temperature as well
 as the terrain. For this we can use the `combineCosts` function, which
 allows to combine costs from two different graphs using a specified
 method (sum, product, or a custom function). Here we will use the `prod`
-method to combine the costs from the `temperature_graph` and the
-`land_graph`, which multiplies the costs from both graphs to create a
-new cost that reflects both the temperature and terrain constraints on
+method to combine the costs from the `temperatureGraph` and the
+`landGraph`, which multiplies the costs from both graphs to create a new
+cost that reflects both the temperature and terrain constraints on
 movement.
 
 ``` r
 
-combine_costs_graph <- combineCosts(temperature_graph, land_graph, method = "prod")
+combineCostsGraph <- combineCosts(temperatureGraph, landGraph, method = "prod")
 
-plot(combine_costs_graph, edge = TRUE)
-plotEdges(combine_costs_graph)
+plot(combineCostsGraph, edge = TRUE)
+plotEdges(combineCostsGraph)
 title("Combined costs graph")
 ```
 
@@ -509,11 +509,11 @@ world.countries <- rnaturalearth::ne_countries(
 ```
 
 Let us assume that we are interested in add continent and country
-information to the `full_graph` object.
+information to the `fullGraph` object.
 
 ``` r
 
-newGraph <- extractFromLayer(full_graph,
+newGraph <- extractFromLayer(fullGraph,
   layer = world.countries,
   attr = c("continent", "name")
 )

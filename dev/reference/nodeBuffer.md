@@ -8,7 +8,7 @@ topographic cost).
 ## Usage
 
 ``` r
-nodeBuffer(graph, origin, max_distance, map_distances = TRUE)
+nodeBuffer(graph, origin, max.distance, map.distances = TRUE)
 ```
 
 ## Arguments
@@ -22,12 +22,12 @@ nodeBuffer(graph, origin, max_distance, map_distances = TRUE)
   Either a character string naming a node, or a numeric vector / list /
   data.frame of length 2 giving longitude and latitude.
 
-- max_distance:
+- max.distance:
 
   Numeric. Maximum cumulative cost the feature is assumed to be able to
   diffuse.
 
-- map_distances:
+- map.distances:
 
   Logical. If `TRUE`, return the Graph object with new a node attribute
   called 'difusion_area' indicating the diffusion area with TRUE for all
@@ -37,10 +37,10 @@ nodeBuffer(graph, origin, max_distance, map_distances = TRUE)
 
 ## Value
 
-If `map_distances = FALSE`, a character vector of node IDs reachable
-within `max_distance`.
+If `map.distances = FALSE`, a character vector of node IDs reachable
+within `max.distance`.
 
-If `map_distances = TRUE`, the input `gGraph` object with an added
+If `map.distances = TRUE`, the input `gGraph` object with an added
 logical node attribute `diffusion_area`.
 
 ## Details

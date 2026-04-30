@@ -11,7 +11,7 @@ attributes.
 ## Usage
 
 ``` r
-assignRasterPoints(graph, raster, layer_name = "raster_points")
+assignRasterPoints(graph, raster, layer.name = "raster_points")
 ```
 
 ## Arguments
@@ -26,10 +26,10 @@ assignRasterPoints(graph, raster, layer_name = "raster_points")
 
   A `SpatRaster` object (from `terra`)
 
-- layer_name:
+- layer.name:
 
   Character, optional. If provided, stores the raster points in
-  `graph@nodes.attr[[layer_name]]` instead of `raster_points.`
+  `graph@nodes.attr[[layer.name]]` instead of `raster_points.`
 
 ## Value
 

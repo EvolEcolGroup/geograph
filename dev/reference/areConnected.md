@@ -58,16 +58,16 @@ Other connectivity_functions:
 
 ``` r
 # create a small square graph
-test_graph <- makeGrid(25, lon.range = c(1,5), lat.range = c(1,5))
+test_graph <- makeGrid(25, lon.range = c(1, 5), lat.range = c(1, 5))
 # test that the function correctly identifies connected sets
 # 1, 9, and 10 are connected
 areConnected(test_graph, nodes = c("1", "9", "10"))
 #> [1] TRUE
 # even though they are not neighbours
-areNeighbours(V1= "1", V2 = "9", graph = test_graph)
+areNeighbours(V1 = "1", V2 = "9", graph = test_graph)
 #>  1->9 
 #> FALSE 
-areNeighbours(V1= "1", V2 = "10", graph = test_graph)
+areNeighbours(V1 = "1", V2 = "10", graph = test_graph)
 #> 1->10 
 #> FALSE 
 ```

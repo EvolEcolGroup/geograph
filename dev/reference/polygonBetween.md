@@ -62,14 +62,13 @@ world.countries <- rnaturalearth::ne_countries(
   returnclass = "sf"
 )
 newGraph <- extractFromLayer(rawgraph.10k,
-                             layer = world.countries,
-                             attr = c("continent", "name")
+  layer = world.countries,
+  attr = c("continent", "name")
 )
 #> although coordinates are longitude/latitude, st_intersects assumes that they
 #> are planar
 test <- polygonBetween(newGraph, layer = "name", "Spain", "Germany", outline = TRUE)
 plot(newGraph, col = NA, reset = TRUE)
 plot(test, col = "red")
-
 
 ```

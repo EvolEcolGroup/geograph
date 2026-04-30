@@ -2,7 +2,15 @@
 
 ## *geoGraph*: using spherical grids to walk through the geographic space
 
-This document describes the *geoGraph* package for the R software.
+In the this vignette, we go through the basic tasks that can be achieve
+using *geoGraph*. A short overview of the functionality of the package
+is summarized the package’s manpage, accessible via:
+
+``` r
+
+?geoGraph
+```
+
 *geoGraph* aims at implementing graph approaches for geographic data. In
 *geoGraph*, a given geographic area is modeled by a fine regular grid,
 where each vertex has a set of spatial coordinates and a set of
@@ -192,12 +200,11 @@ the other vignett.)
 
 #### gData objects
 
-`gData` are essentially sets of locations that are interfaced with a
-`gGraph` object. During this operation, each location is assigned to the
-closest node on the grid of the `gGraph`, then allowing for traveling
-between locations using the grid. Then, it is for instance possible to
-find the shortest path between two locations through various types of
-habitats.
+`gData` objects store sets of locations interfaced with a `gGraph`
+object. When creating a `gData`, each location is matched to its closest
+node on the gGraph grid, which makes it possible to model travel between
+locations along the grid — for instance, to find the shortest path
+between two sites through different habitat types. object.
 
 Like for `gGraph`, the content of the formal class `gData` can be
 obtained using:
@@ -254,15 +261,6 @@ In the next sections, we illustrate how we can build and use `gData`
 objects from a set of locations.
 
 ## Getting started with *geoGraph*
-
-In the this vignette, we go through the basic tasks that can be achieve
-using *geoGraph*. A short overview of the functionality of the package
-is summarized the package’s manpage, accessible via:
-
-``` r
-
-?geoGraph
-```
 
 ### Importing geographic data
 
@@ -376,8 +374,9 @@ plotEdges(worldgraph.10k)
 
 ![](geograph_files/figure-html/closeNode-1.png)
 
-Now, all cities have been assigned to a
-`land' node of the grid. Content of`cities`can be accessed via various accessors (see`?gData\`).
+Now, all cities have been assigned to a `land` node of the grid. Content
+of `cities` can be accessed via various accessors (see
+[`?gData`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)).
 For instance, we can retrieve original locations, assigned nodes, and
 stored data using:
 
@@ -453,13 +452,9 @@ isConnected(cities)
 
     ## [1] TRUE
 
-Note that in practice, we may often want to assess graphically the
-connectivity of the underlying grid, especially if not all locations of
-the `gData` are connected.
-
-This can be done using `connectivityPlot`, which has methods for both
-`gGraph` and `gData`, and represents different connected components
-using different colors. For instance, for `worldgraph.10k`:
+If not all locations are connected, `connectivityPlot` can help diagnose
+the problem by displaying connected components in different colors, and
+is available for both `gGraph` and `gData` objects. For instance:
 
 ``` r
 
@@ -528,7 +523,7 @@ plotEdges(worldgraph.10k)
 
 ``` r
 
-geo.bookmark("gibraltar")
+geo.bookmark("gibraltar") # TODO explain this
 ```
 
     ## 
@@ -677,8 +672,9 @@ points(hgdp, col.node = "black")
 
 In this graph, each path is plotted with a different color, but several
 paths overlap in several places. We can extract the distances from the
-`origin' using`gPath2dist`, and then examine the relationship between genetic diversity within populations (stored in`hgdp\`)
-and the distance from the origin:
+`origin` using `gPath2dist`, and then examine the relationship between
+genetic diversity within populations (stored in `hgdp`) and the distance
+from the origin:
 
 ``` r
 
