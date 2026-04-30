@@ -71,7 +71,6 @@ setGeneric("connectivityPlot", function(x, ...) {
 })
 
 
-
 ##################
 ## gGraph method
 ##################
@@ -144,10 +143,6 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
 
   return(invisible(col))
 }) # end connectivityPlot gGraph
-
-
-
-
 
 
 #################

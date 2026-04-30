@@ -82,10 +82,6 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
 }) # end dijkstraBetween for gGraph
 
 
-
-
-
-
 #####################
 ## method for gData
 #####################
@@ -107,6 +103,5 @@ setMethod("dijkstraBetween", "gData", function(x) {
   # @TODO check labels to keep
   myGraph <- get(x@gGraph.name, envir = .GlobalEnv)
   myNodes <- getNodes(x)
-  dijkstraBetween(myGraph,from=myNodes, to=myNodes)
+  dijkstraBetween(myGraph, from = myNodes, to = myNodes)
 }) # end dijkstraBetween for gData
-

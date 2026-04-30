@@ -4,10 +4,10 @@
 \alias{createNewGraph}
 \title{Make a new gGraph object from a custom discrete global grid}
 \usage{
-createNewGraph(geo_box, spacing, ...)
+createNewGraph(geo.box, spacing, ...)
 }
 \arguments{
-\item{geo_box}{A geographic bounding box. With either a named numeric vector
+\item{geo.box}{A geographic bounding box. With either a named numeric vector
 with \code{xmin}, \code{xmax}, \code{ymin}, \code{ymax} or an object of class
 \code{bbox} or \code{sf}. Coordinates must be in longitude/latitude (EPSG:4326).}
 
@@ -32,8 +32,8 @@ then identifies neighboring grid cells using the \code{spdep} package, and final
 }
 \examples{
 # Define a geographic bounding box (e.g., for a region in Europe)
-geo_box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 # Create a gGraph with a spacing of 1000 km
-ggraph <- createNewGraph(geo_box = geo_box, spacing = 1000)
+ggraph <- createNewGraph(geo.box = geo.box, spacing = 1000)
 plot(ggraph, edge = TRUE)
 }

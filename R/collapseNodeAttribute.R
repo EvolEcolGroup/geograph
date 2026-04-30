@@ -30,7 +30,6 @@ collapseNodeAttribute <- function(graph,
                                   na.rm = TRUE,
                                   replace = TRUE,
                                   ...) {
-
   if (!inherits(graph, "gGraph")) {
     stop("`graph` must be a gGraph object.")
   }
@@ -50,8 +49,7 @@ collapseNodeAttribute <- function(graph,
   if (is.character(fun)) {
     fun <- match.arg(fun)
 
-    fun <- switch(
-      fun,
+    fun <- switch(fun,
       min    = min,
       max    = max,
       mean   = mean,
@@ -67,12 +65,11 @@ collapseNodeAttribute <- function(graph,
   }
 
   # Determine return type once (logical or numeric)
-  test.val <- fun(c(1, 2), na.rm = TRUE)
-  FUN.VALUE <- if (is.logical(test.val)) logical(1) else numeric(1)
+  test.val  <- fun(c(TRUE, FALSE), na.rm = TRUE)
+  fun.value <- if (is.logical(test.val)) logical(1) else numeric(1)
 
   # Collapse one node safely
   collapseOneNode <- function(df, fun, na.rm, ...) {
-
     if (is.null(df) || length(df) == 0 || nrow(df) == 0) {
       return(NA)
     }
@@ -94,7 +91,7 @@ collapseNodeAttribute <- function(graph,
   collapsed <- vapply(
     x,
     collapseOneNode,
-    FUN.VALUE = FUN.VALUE,
+    FUN.VALUE = fun.value,
     fun = fun,
     na.rm = na.rm,
     ...

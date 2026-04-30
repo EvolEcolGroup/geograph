@@ -171,9 +171,6 @@ setClass(
 )
 
 
-
-
-
 ####################
 ## VALIDITY METHODS
 ####################
@@ -218,15 +215,13 @@ setClass(
 } # end .gGprah.valid
 
 
-
-
 #' @export
 .gData.valid <- function(object) {
   x <- object
   Ncoords <- nrow(x@coords)
   Nnodes <- length(x@nodes.id)
 
-  if(x@gGraph.name == "" ){
+  if (x@gGraph.name == "") {
     stop("x is not associated with a gGraph object.")
   }
 
@@ -243,9 +238,6 @@ setClass(
 
   return(TRUE)
 } # end .gData.valid
-
-
-
 
 
 #' @export
@@ -267,10 +259,6 @@ is.gData <- function(x) {
 }
 
 
-
-
-
-
 ################
 ## CONSTRUCTORS
 ################
@@ -285,8 +273,6 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
 
   ## handle @coords ##
   if (!is.null(input$coords)) {
-
-
     if (is.list(input$coords)) {
       input$coords <- as.data.frame(input$coords)
     }
@@ -295,13 +281,13 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
       input$coords <- as.matrix(input$coords)
     }
 
-    if (ncol(input$coords)!=2){
+    if (ncol(input$coords) != 2) {
       stop("Argument coords must include only two columns (longitude and latitude).")
     }
 
     if (nrow(input$coords) > 0 && !is.numeric(input$coords)) {
       stop("Argument coords has to be numeric.")
-      }
+    }
 
     ## NAs in coords
     if (any(is.na(input$coords))) {
@@ -315,12 +301,14 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
     latlist <- list("lat", "latitude", "y")
     ## Test if the column order is inverted
     if (is.element(colnames(input$coords)[1], latlist) &
-        is.element(colnames(input$coords)[2], lonlist)) {
+      is.element(colnames(input$coords)[2], lonlist)) {
       input$coords[, c(1, 2)] <- input$coords[, c(2, 1)]
-    } else if  (!(is.element(colnames(input$coords)[1], lonlist) &
-                  is.element(colnames(input$coords)[2], latlist))){
-      message("The coordinate column names are not part of the standardised list;\n",
-      "we will use the order they were given in, make sure it corresponds to x and y!")
+    } else if (!(is.element(colnames(input$coords)[1], lonlist) &
+      is.element(colnames(input$coords)[2], latlist))) {
+      message(
+        "The coordinate column names are not part of the standardised list;\n",
+        "we will use the order they were given in, make sure it corresponds to x and y!"
+      )
     } # if neither of the if catches it, then the names are part of the lists and in the correct order
 
     ## names of the matrix
@@ -365,10 +353,6 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
   ## return object
   return(x)
 }) # end gGraph constructor
-
-
-
-
 
 
 ##########

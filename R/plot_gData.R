@@ -72,90 +72,92 @@
 #' points(obj, col.nodes = "orange", cex = 3)
 #' points(obj, col.nodes = "yellow", cex = 4)
 #'
-setMethod("plot", signature(x = "gData", y = "missing"),
-          function(x, type = c("nodes", "original", "both"),
-                   pch.ori = 4, pch.nodes = 1,
-                   col.ori = "black", col.nodes = "red",
-                   col.gGraph = NULL,
-                   reset = FALSE, sticky.points = TRUE, ...) {
-# TODO check if we need y = missing , or can we remove it (same for plotting for gGraph)
+setMethod(
+  "plot", signature(x = "gData", y = "missing"),
+  function(x, type = c("nodes", "original", "both"),
+           pch.ori = 4, pch.nodes = 1,
+           col.ori = "black", col.nodes = "red",
+           col.gGraph = NULL,
+           reset = FALSE, sticky.points = TRUE, ...) {
+    # TODO check if we need y = missing , or can we remove it (same for plotting for gGraph)
 
 
-            ## some checks
-            if (!is.gData(x)) stop("x is not a valid gData object")
-            type <- match.arg(type)
+    ## some checks
+    if (!is.gData(x)) stop("x is not a valid gData object")
+    type <- match.arg(type)
 
-            ## get the environment
-            #    env <- get(".geoGraphEnv", envir=.GlobalEnv)
-            env <- .geoGraphEnv
+    ## get the environment
+    #    env <- get(".geoGraphEnv", envir=.GlobalEnv)
+    env <- .geoGraphEnv
 
-            if (!exists(x@gGraph.name, envir = .GlobalEnv)) { # if the gGraph is missing, stop
-              stop(paste("The gGraph object", x@gGraph.name, "is missing."))
-            }
+    if (!exists(x@gGraph.name, envir = .GlobalEnv)) { # if the gGraph is missing, stop
+      stop(paste("The gGraph object", x@gGraph.name, "is missing."))
+    }
 
-            myGraph <- get(x@gGraph.name, envir = .GlobalEnv) # get the gGraph object
+    myGraph <- get(x@gGraph.name, envir = .GlobalEnv) # get the gGraph object
 
-            if ((type %in% c("nodes", "both")) & (length(x@nodes.id) == 0)) { # no nodes assigned
-              stop("Locations are not assigned to nodes (x@nodes.id is empty).")
-            }
-
-
-            ## cleaning if required ##
-            if (reset) {
-              assign("sticky.points", FALSE, envir = .geoGraphEnv) # remove possible sticky points
-              assign("last.points", expression(), envir = .geoGraphEnv) # remove possible sticky points
-            }
-
-            ## define visible area if reset ##
-            if ((!exists("zoom.log", envir = .geoGraphEnv)) | reset) {
-              loc <- getCoords(x)
-              coords.nodes <- getCoords(myGraph)[x@nodes.id, , drop = FALSE]
-              temp <- rbind(loc, coords.nodes)
-              myRegion <- as.vector(apply(temp, 2, range)) # return xmin, xmax, ymin, ymax
-              .zoomlog.up(myRegion) # define new window limits
-            }
-
-            zoomlog <- get("zoom.log", envir = .geoGraphEnv)
-            zoomlog <- zoomlog[1, ]
-
-            xlim <- zoomlog[1:2]
-            ylim <- zoomlog[3:4]
+    if ((type %in% c("nodes", "both")) & (length(x@nodes.id) == 0)) { # no nodes assigned
+      stop("Locations are not assigned to nodes (x@nodes.id is empty).")
+    }
 
 
-            ## plot the gGraph object ##
-            plot(myGraph, col = col.gGraph)
+    ## cleaning if required ##
+    if (reset) {
+      assign("sticky.points", FALSE, envir = .geoGraphEnv) # remove possible sticky points
+      assign("last.points", expression(), envir = .geoGraphEnv) # remove possible sticky points
+    }
+
+    ## define visible area if reset ##
+    if ((!exists("zoom.log", envir = .geoGraphEnv)) | reset) {
+      loc <- getCoords(x)
+      coords.nodes <- getCoords(myGraph)[x@nodes.id, , drop = FALSE]
+      temp <- rbind(loc, coords.nodes)
+      myRegion <- as.vector(apply(temp, 2, range)) # return xmin, xmax, ymin, ymax
+      .zoomlog.up(myRegion) # define new window limits
+    }
+
+    zoomlog <- get("zoom.log", envir = .geoGraphEnv)
+    zoomlog <- zoomlog[1, ]
+
+    xlim <- zoomlog[1:2]
+    ylim <- zoomlog[3:4]
 
 
-            ## call to points ##
-            ## store previous last.points in envir (is erased by points)
-            if (exists("last.points", envir = .geoGraphEnv)) {
-              last.points <- get("last.points", envir = .geoGraphEnv)
-            } else {
-              last.points <- expression()
-            }
-
-            points(x,
-                   type = type,
-                   pch.ori = pch.ori, pch.nodes = pch.nodes, col.ori = col.ori,
-                   col.nodes = col.nodes, sticky.points = sticky.points, ...
-            )
+    ## plot the gGraph object ##
+    plot(myGraph, col = col.gGraph)
 
 
-            ## some assignments
-            curCall <- sys.call(-1)
-            assign("last.plot", curCall, envir = .geoGraphEnv)
-            ## must re-assign the last call to points in envir.
-            assign("last.points", last.points, envir = .geoGraphEnv)
+    ## call to points ##
+    ## store previous last.points in envir (is erased by points)
+    if (exists("last.points", envir = .geoGraphEnv)) {
+      last.points <- get("last.points", envir = .geoGraphEnv)
+    } else {
+      last.points <- expression()
+    }
 
-            ## add previously added points if needed ##
-            sticky.points <- get("sticky.points", envir = .geoGraphEnv)
-            if (sticky.points) {
-              temp <- get("last.points", envir = .geoGraphEnv) # this may be a list of calls
-              invisible(lapply(temp, eval))
-            }
+    points(x,
+      type = type,
+      pch.ori = pch.ori, pch.nodes = pch.nodes, col.ori = col.ori,
+      col.nodes = col.nodes, sticky.points = sticky.points, ...
+    )
 
-            return(invisible())
-          }) # end plot method
+
+    ## some assignments
+    curCall <- sys.call(-1)
+    assign("last.plot", curCall, envir = .geoGraphEnv)
+    ## must re-assign the last call to points in envir.
+    assign("last.points", last.points, envir = .geoGraphEnv)
+
+    ## add previously added points if needed ##
+    sticky.points <- get("sticky.points", envir = .geoGraphEnv)
+    if (sticky.points) {
+      temp <- get("last.points", envir = .geoGraphEnv) # this may be a list of calls
+      invisible(lapply(temp, eval))
+    }
+
+    return(invisible())
+  }
+) # end plot method
 
 
 #####################

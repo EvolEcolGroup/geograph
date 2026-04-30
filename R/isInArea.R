@@ -66,8 +66,6 @@ setGeneric("isInArea", function(x, ...) {
 })
 
 
-
-
 ################
 ## method for matrix
 ################
@@ -127,10 +125,6 @@ setMethod("isInArea", "matrix", function(x, reg = "current", res.type = c("logic
 }) # end isInArea for matrix
 
 
-
-
-
-
 ################
 ## method for data.frame
 ################
@@ -143,10 +137,6 @@ setMethod("isInArea", "data.frame", function(x, reg = "current", res.type = c("l
   res <- isInArea(x = x, reg = reg, res.type = res.type, buffer = buffer)
   return(res)
 }) # end isInArea for data.frame
-
-
-
-
 
 
 ################
@@ -162,10 +152,6 @@ setMethod("isInArea", "gGraph", function(x, reg = "current", res.type = c("logic
   res <- isInArea(x = coords, reg = reg, res.type = res.type, buffer = buffer)
   return(res)
 }) # end isInArea for gGraph
-
-
-
-
 
 
 ################

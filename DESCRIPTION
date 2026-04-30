@@ -42,7 +42,8 @@ Suggests:
     spelling,
     terra,
     pastclim,
-    testthat
+    testthat,
+    lintr
 RoxygenNote: 7.3.3
 Collate: 
     'classes.R'

@@ -59,10 +59,6 @@ dropDeadEdges <- function(x, thres) { # x is a gGraph object
 } # end dropDeadEdges
 
 
-
-
-
-
 #################
 ## dropDeadNodes
 #################

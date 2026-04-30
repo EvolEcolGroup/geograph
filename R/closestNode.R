@@ -80,10 +80,6 @@ setGeneric("closestNode", function(x, ...) {
 })
 
 
-
-
-
-
 ###############
 ## closestNode for gGraph
 ###############
@@ -151,10 +147,6 @@ setMethod("closestNode", "gGraph", function(x, loc, zoneSize = 5, attr.name = NU
 
   return(res)
 }) # end closestNode for gGraph
-
-
-
-
 
 
 ###############

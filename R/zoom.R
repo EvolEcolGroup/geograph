@@ -91,7 +91,6 @@ NULL
 }
 
 
-
 # nocov start
 
 ##############
@@ -181,9 +180,6 @@ geo.zoomin <- function(reg = NULL) { # reg should be a list as returned by locat
 } # end geo.zoomin
 
 
-
-
-
 ###############
 ## geo.zoomout
 ###############
@@ -251,9 +247,6 @@ geo.zoomout <- function() {
 } # end geo.zoomout
 
 
-
-
-
 ############
 ## geo.back
 ############
@@ -287,9 +280,6 @@ geo.back <- function() {
 
   return(invisible())
 } # end geo.back
-
-
-
 
 
 #############
@@ -330,7 +320,6 @@ geo.slide <- function() {
 } # end geo.slide
 
 
-
 # nocov end
 
 
@@ -368,9 +357,6 @@ geo.bookmark <- function(name = NULL) {
 
   return(invisible())
 } # end geo.bookmark
-
-
-
 
 
 ############

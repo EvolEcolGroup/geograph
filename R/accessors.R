@@ -16,9 +16,6 @@ NULL
 ## })
 
 
-
-
-
 ##############
 ## getGraph
 ##############
@@ -38,8 +35,6 @@ setMethod("getGraph", "gData", function(x, ...) {
   res <- getGraph(get(x@gGraph.name, envir = .GlobalEnv))
   return(res)
 })
-
-
 
 
 ################
@@ -114,15 +109,12 @@ setMethod("getNodesAttr", "gData", function(x, attr.name = NULL, ...) {
 })
 
 
-
-
 #############
 ## getDates
 #############
 ## setGeneric("getDates", function(x, ...) {
 ##     standardGeneric("getDates")
 ## })
-
 
 
 ## setMethod("getDates", "gGraphHistory", function(x, ...) {
@@ -132,13 +124,10 @@ setMethod("getNodesAttr", "gData", function(x, attr.name = NULL, ...) {
 ## })
 
 
-
 ## setMethod("getDates", "gGraph", function(x, ...) {
 ##     res <- getDates(getHistory(x))
 ##     return(res)
 ## })
-
-
 
 
 #############
@@ -169,7 +158,6 @@ setMethod("getCoords", "gData", function(x, original = TRUE, ...) {
 })
 
 
-
 #############
 ## getNodes
 #############
@@ -191,8 +179,6 @@ setMethod("getNodes", "gData", function(x, ...) {
   res <- x@nodes.id
   return(res)
 })
-
-
 
 
 #############
@@ -279,9 +265,6 @@ setMethod("getEdges", "gGraph", function(x, res.type = c("asIs", "matNames", "ma
 })
 
 
-
-
-
 #############
 ## setEdges
 #############
@@ -365,10 +348,6 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
 }) # end setEdges
 
 
-
-
-
-
 #' Get costs associated to edges of a gGraph object
 #'
 #' The function \code{getCosts} returns the costs associated to the edges of a
@@ -442,9 +421,6 @@ setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector"), uniq
 })
 
 
-
-
-
 ###############
 ## dropCosts
 ###############
@@ -464,8 +440,6 @@ setMethod("dropCosts", "gGraph", function(x) {
 })
 
 
-
-
 #############
 ## getData
 #############
@@ -480,11 +454,6 @@ setMethod("getData", "gData", function(x, ...) {
   res <- x@data
   return(res)
 })
-
-
-
-
-
 
 
 #############
@@ -578,12 +547,6 @@ setMethod("getColors", "gGraph", function(x, nodes = "all", attr.name, col.rules
   names(col) <- getNodes(x)[toKeep]
   return(col)
 }) # end getColors for gGraph
-
-
-
-
-
-
 
 
 #################

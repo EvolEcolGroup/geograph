@@ -4,7 +4,7 @@
 \alias{nodeBuffer}
 \title{node buffer}
 \usage{
-nodeBuffer(graph, origin, max_distance, map_distances = TRUE)
+nodeBuffer(graph, origin, max.distance, map.distances = TRUE)
 }
 \arguments{
 \item{graph}{An \code{igraph} object representing the spatial graph.}
@@ -12,20 +12,20 @@ nodeBuffer(graph, origin, max_distance, map_distances = TRUE)
 \item{origin}{Either a character string naming a node, or a numeric
 vector / list / data.frame of length 2 giving longitude and latitude.}
 
-\item{max_distance}{Numeric. Maximum cumulative cost the feature is
+\item{max.distance}{Numeric. Maximum cumulative cost the feature is
 assumed to be able to diffuse.}
 
-\item{map_distances}{Logical. If \code{TRUE}, return the Graph object with new
+\item{map.distances}{Logical. If \code{TRUE}, return the Graph object with new
 a node attribute called 'difusion_area' indicating the diffusion area
 with TRUE for all nodes reachable in order to map it on the gGraph object.
 If \code{FALSE} (default), return only the vector of node IDs within
 the diffusion area.}
 }
 \value{
-If \code{map_distances = FALSE}, a character vector of node IDs
-reachable within \code{max_distance}.
+If \code{map.distances = FALSE}, a character vector of node IDs
+reachable within \code{max.distance}.
 
-If \code{map_distances = TRUE}, the input \code{gGraph} object with
+If \code{map.distances = TRUE}, the input \code{gGraph} object with
 an added logical node attribute \code{diffusion_area}.
 }
 \description{

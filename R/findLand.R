@@ -66,21 +66,16 @@ setGeneric("findLand", function(x, ...) {
 })
 
 
-
-
-
-
 ################
 ## for matrices (of long/lat)
 ################
 #' @rdname findLand
 #' @export
 setMethod("findLand", "matrix", function(x, shape = "world", ...) {
-
   ## Load default shapefile ##
   if (is.character(shape) && shape[1] == "world") {
-    # use rnaturalearth 
-    shape <- rnaturalearth::ne_countries(scale="medium", returnclass = "sf")
+    # use rnaturalearth
+    shape <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
     sf::sf_use_s2(FALSE)
   }
 
@@ -88,34 +83,36 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
   ## TODO if the shape is null, we should throw an error!!!
   if (!is.null(shape)) {
     if (!inherits(shape, "sf")) {
-      if (inherits(shape, "SpatialPolygonsDataFrame")){
+      if (inherits(shape, "SpatialPolygonsDataFrame")) {
         shape <- sf::st_as_sf(shape)
       } else {
         stop("shape must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
       }
     }
   }
-  
-  
+
+
   if (any(is.na(x))) {
     stop("Matrix contains NA values.")
   }
- 
+
   # create an sf point object from the coordinates
-  locations_st <- x %>% as.data.frame %>% 
-    sf::st_as_sf(coords=c(1,2)) %>%
+  locations_st <- x %>%
+    as.data.frame() %>%
+    sf::st_as_sf(coords = c(1, 2)) %>%
     sf::st_set_crs(sf::st_crs(shape))
   # now find points in polygons
   points_within <- sf::st_intersects(shape, locations_st)
-  points_within <- data.frame(x = unlist(points_within), 
-                              polygon = rep(seq_along(lengths(points_within)), lengths(points_within)))
- 
-  land<-rep("sea",nrow(x))
-  land[points_within$x]<-"land"
+  points_within <- data.frame(
+    x = unlist(points_within),
+    polygon = rep(seq_along(lengths(points_within)), lengths(points_within))
+  )
+
+  land <- rep("sea", nrow(x))
+  land[points_within$x] <- "land"
 
   return(factor(land))
 })
-
 
 
 ################
@@ -127,10 +124,6 @@ setMethod("findLand", "data.frame", function(x, shape = "world", ...) {
   x <- as.matrix(x)
   return(findLand(x, shape = shape, ...))
 }) # end findLand
-
-
-
-
 
 
 ##############
