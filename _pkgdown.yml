@@ -4,3 +4,102 @@ template:
 development:
   mode: auto
 
+reference:
+  - title: "Graph construction"
+    desc: "Functions for creating and modifying `gGraph` objects."
+    contents:
+      - createNewGraph
+      - makeGrid
+      - assignRasterPoints
+      - collapseNodeAttribute
+      - extractFromLayer
+
+  - title: "Graph structure"
+    desc: "Functions for accessing and modifying the structure of a `gGraph` object."
+    contents:
+      - getNodes
+      - getCoords
+      - getEdges
+      - setEdges
+      - getNodesAttr
+      - geo.change.attr
+      - getColors
+      
+  - title: "Costs"
+    desc: "Functions adjusting the costs of a `gGraph` object."
+    contents:
+      - getCosts
+      - setCosts
+      - setDistCosts
+      - getNodeCosts
+      - combineCosts
+      - dropCosts
+      - hasCosts
+      
+  - title: "Graph editing (manually)"
+    desc: "Functions for assigning and summarising raster data on graph nodes."
+    contents:
+      - dropDeadNodes
+      - dropDeadEdges
+      - keepMaxConnectedSet
+
+  - title: "Graph editing (interactive)"
+    desc: "Functions for interactively adding and removing edges."
+    contents:
+      - geo.add.edges
+      - geo.remove.edges
+
+  - title: "Spatial queries"
+    desc: "Functions for finding nodes and querying spatial relationships."
+    contents:
+      - closestNode
+      - isInArea
+      - findLand
+      - areNeighbours
+      - areConnected
+      - isConnected
+      - isReachable
+
+  - title: "Shortest paths"
+    desc: "Functions for computing shortest paths and distances."
+    contents:
+      - dijkstraFrom
+      - dijkstraBetween
+      - gPath2dist
+      - polygonBetween
+      - buffer
+      - nodeBuffer
+
+  - title: "Plotting"
+    desc: "Functions for visualising `gGraph` and `gData` objects."
+    contents:
+      - "plot,gGraph-method"
+      - "plot,gData-method"
+      - "points,gGraph-method"
+      - plotEdges
+      - connectivityPlot
+      - geo.segments
+      - geo.zoomin
+      - geo.zoomout
+      - geo.goto
+      - geo.slide
+      - geo.bookmark
+      - geo.back
+
+  - title: "gData"
+    desc: "Functions for working with `gData` objects."
+    contents:
+      - getData
+      - is.gData
+
+  - title: "Validation"
+    desc: "Functions for checking object validity."
+    contents:
+      - is.gGraph
+      - is.gData
+      
+  - title: "Example data"
+    desc: "Datasets included in the package."
+    contents:
+      - hgdp
+      - worldgraph
