@@ -114,53 +114,6 @@ plot.gPath <- function(x, col = "rainbow", lwd = 3, ...) {
 } # end plot.gPath
 
 
-######################################
-######################################
-
-##
-## CONVERSION gPath -> distance
-##
-
-#' @rdname dijkstra-methods
-#' @export
-gPath2dist <- function(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector")) {
-  ## find the size of the dist object ##
-  x <- m
-  res.type <- match.arg(res.type)
-  L <- length(x)
-  x.names <- sub(":.*", "", names(x))
-  i <- 1
-  while (x.names[i] == x.names[i + 1] && i < L) {
-    i <- i + 1
-  }
-
-  resSize <- i + 1
-
-  ## check size consistency
-  if (L != (resSize * (resSize - 1) * 0.5)) {
-    if (res.type == "dist") {
-      warning("Length of x does not match a number of pairwise comparisons.")
-    }
-  }
-
-
-  ## GET DISTANCES ##
-  resDist <- sapply(x, function(e) sum(e$length_detail[[1]], na.rm = TRUE))
-
-
-  ## BUILD RESULT ##
-  ## type == dist
-  if (res.type == "dist") {
-    res <- stats::dist(1:resSize)
-    res[] <- resDist
-  } else {
-    ## type == vector (no change)
-    res <- resDist
-  }
-
-  return(res)
-} # end gPath2dist
-
 
 ###########################################
 #' @export
