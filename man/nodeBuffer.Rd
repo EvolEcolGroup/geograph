@@ -39,6 +39,23 @@ Internally, the function computes single-source shortest paths
 (Dijkstra algorithm) from the origin node and returns all nodes
 whose minimum path cost does not exceed the specified threshold.
 }
+\examples{
+# create a small graph over Europe
+geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+ggraph <- createNewGraph(geo.box, spacing = 1000)
+# set uniform edge costs (required before running nodeBuffer)
+ggraph <- setCosts(ggraph, node.values = rep(10, length(getNodes(ggraph))))
+
+# get all nodes reachable within a cost of 3000 from node "1"
+reachable <- nodeBuffer(ggraph, origin = "1",
+                       max.distance = 15, map.distances = FALSE)
+# same but mapped back onto the graph as a node attribute
+ggraph <- nodeBuffer(ggraph, origin = "1",
+                    max.distance = 15, map.distances = TRUE)
+# use a spatial origin instead of a node ID
+ggraph <- nodeBuffer(ggraph, origin = data.frame(lon = 10, lat = 47),
+                    max.distance = 15, map.distances = TRUE)
+}
 \seealso{
 \code{\link{dijkstraFrom}}, \code{\link{gPath2dist}}
 }
