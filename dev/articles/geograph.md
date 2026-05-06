@@ -1,4 +1,4 @@
-# Get Started with geoGraph
+# geoGraph
 
 ## *geoGraph*: using spherical grids to walk through the geographic space
 
