@@ -6,3 +6,5 @@ misc/*
 geograph.Rproj
 .Rhistory
 docs
+.DS_Store
+**/.DS_Store
