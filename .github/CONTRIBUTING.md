@@ -68,7 +68,7 @@ functional change in the code. Unit tests are also essential when fixing bugs, s
 that you can both demonstrate that the fix work, and prevent future changes
 from undoing your work. For unit testing, we use `testthat`; you will find tests under
 `tests`, with a file dedicated to each function, following the convention 
-`test_my_function.R` for naming files. When creating tests, try to make use 
+`test_myFunction.R` for naming files. When creating tests, try to make use 
 built-in datasets, rather than adding data
 files to the package.
 
@@ -87,11 +87,14 @@ reduce test coverage.
 
 ### Code style
 
-New code should follow the tidyverse [style guide](https://style.tidyverse.org). 
-You can use the [styler](https://CRAN.R-project.org/package=styler) package 
-to apply these styles, but please don't restyle code that has nothing to do with your PR.
+Unlike most tidyverse packages, geoGraph uses the following naming conventions:
+- **Functions**: `camelCase` (e.g. `extractFromLayer`)
+- **Variables**: `dotted.case` (e.g. `geo.box`)
 
-Lots of commenting in the code helps mantainability; so, if in doubt, always
+The `.lintr` file in the package root enforces these conventions automatically.
+Run `lintr::lint_package()` to check your code before submitting a PR.
+
+Lots of commenting in the code helps maintainability; so, if in doubt, always
 add an explanation to your new code.
 
 ## Compiling on Mac
@@ -102,7 +105,7 @@ available from this [CRAN page](https://cran.r-project.org/bin/macosx/tools/)
          
 ## Code of Conduct
          
-Please note that the tidyverse project is released with a
+Please note that this project is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this
 project you agree to abide by its terms.
          
