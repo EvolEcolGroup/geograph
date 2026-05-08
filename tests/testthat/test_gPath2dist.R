@@ -42,9 +42,9 @@ test_that("gPath2dist dist and vector return consistent distances", {
   expect_equal(as.vector(result.dist), as.vector(result.vec))
 })
 
-test_that("gPath2dist warns when dijkstraFrom output is used with res.type = 'dist'", {
+test_that("gPath2dist gives an error when dijkstraFrom output is used with res.type = 'dist'", {
   
-  hgdp_sub <- hgdp[c(1, 2, 3, 4)]
+  hgdp_sub <- hgdp[c(1, 2, 3, 4),]
   
   # Choose an origin node
   start <- "24988"
@@ -57,7 +57,7 @@ test_that("gPath2dist warns when dijkstraFrom output is used with res.type = 'di
 })
 
 test_that("gPath2dist works correctly with dijkstraFrom output and res.type = 'vector'", {
-  hgdp_sub <- hgdp[c(1, 2, 3, 4)]
+  hgdp_sub <- hgdp[c(1, 2, 3, 4),]
   
   # Choose an origin node
   start <- "24988"
@@ -67,5 +67,5 @@ test_that("gPath2dist works correctly with dijkstraFrom output and res.type = 'v
   result <- gPath2dist(myPath, res.type = "vector")
   
   expect_true(is.numeric(result))
-  expect_equal(length(result), 4L) # Should have distances to the other 3 nodes
+  expect_equal(length(result), 4L)
 })
