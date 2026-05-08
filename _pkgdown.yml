@@ -24,7 +24,16 @@ reference:
       - getNodesAttr
       - geo.change.attr
       - getColors
-      
+
+  - title: "Connecivity Functions"
+    desc: "Functions for finding nodes and querying spatial relationships."
+    contents:
+      - has_concept("connectivity_functions")
+      - closestNode
+      - isInArea
+      - findLand
+
+
   - title: "Costs"
     desc: "Functions adjusting the costs of a `gGraph` object."
     contents:
@@ -49,22 +58,10 @@ reference:
       - geo.add.edges
       - geo.remove.edges
 
-  - title: "Spatial queries"
-    desc: "Functions for finding nodes and querying spatial relationships."
-    contents:
-      - closestNode
-      - isInArea
-      - findLand
-      - areNeighbours
-      - areConnected
-      - isConnected
-      - isReachable
-
   - title: "Shortest paths"
     desc: "Functions for computing shortest paths and distances."
     contents:
-      - dijkstraFrom
-      - dijkstraBetween
+      - has_concept("dijkstra_methods")
       - gPath2dist
       - polygonBetween
       - buffer
