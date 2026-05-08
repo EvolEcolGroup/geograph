@@ -6,6 +6,10 @@
 #' @param m a \code{gPath} object obtained by [dijkstraBetween()].
 #' @param upper unused parameter added for consistency with [as.dist()].
 #' @param diag unused parameter added for consistency with [as.dist()].
+#' @param res.type a character string indicating what type of result should be
+#' returned: a \code{dist} object ('dist'), or a vector of distances
+#' ('vector'). Note that 'dist' should only be required for pairwise data, as
+#' output by dijkstraBetween (as opposed to dijkstraFrom).
 #' @return [`dist`] object containing the pairwise distances between nodes as
 #' @examples
 #' ## select a few populations from the HGDP dataset

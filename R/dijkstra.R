@@ -13,11 +13,6 @@
 #' All these functions return objects with S3 class "gPath". These objects can
 #' be plotted using \code{plot.gPath}.
 #'
-#' \code{gPath2dist} extracts the pairwise distances from the \code{gPath}
-#' returned by \code{dijkstraBetween} and returns a \code{dist} object. Note
-#' that if the \code{gPath} does not contain pairwise information, a warning
-#' will be issued, but the resulting output will likely be meaningless.\cr
-#'
 #' In 'dijkstraBetween', paths are sought all possible pairs of nodes between
 #' 'from' and 'to'.
 #'
@@ -29,13 +24,6 @@
 #' @param col a character string indicating a color or a palette of colors to
 #' be used for plotting edges.
 #' @param lwd a numeric value indicating the width of edges.
-#' @param m a \code{gPath} object obtained by \code{dijkstraBetween}.
-#' @param diag,upper unused parameters added for consistency with
-#' \code{as.dist}.
-#' @param res.type a character string indicating what type of result should be
-#' returned: a \code{dist} object ('dist'), or a vector of distances
-#' ('vector'). Note that 'dist' should only be required for pairwise data, as
-#' output by dijkstraBetween (as opposed to dijkstraFrom).
 #' @param \dots further arguments passed to the \code{segments} method.
 #' @return A "gPath" object. These are basically the outputs of RBGL's
 #' \code{sp.between} function (see \code{?sp.between}), with a class attribute

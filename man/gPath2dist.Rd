@@ -12,6 +12,11 @@ gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
 \item{diag}{unused parameter added for consistency with \code{\link[=as.dist]{as.dist()}}.}
 
 \item{upper}{unused parameter added for consistency with \code{\link[=as.dist]{as.dist()}}.}
+
+\item{res.type}{a character string indicating what type of result should be
+returned: a \code{dist} object ('dist'), or a vector of distances
+('vector'). Note that 'dist' should only be required for pairwise data, as
+output by dijkstraBetween (as opposed to dijkstraFrom).}
 }
 \value{
 \code{\link{dist}} object containing the pairwise distances between nodes as
@@ -19,6 +24,13 @@ gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
 \description{
 This function extracts the pairwise distances from the \code{gPath}
 returned by \code{\link[=dijkstraBetween]{dijkstraBetween()}} and returns a \code{\link{dist}} object.
+}
+\examples{
+## select a few populations from the HGDP dataset
+hgdp.sub <- hgdp[getData(hgdp)$Population \%in\%
+  c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
+hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
+gPath2dist(hgdp.path) # extract pairwise distances
 }
 \seealso{
 Other dijkstra_methods: 
