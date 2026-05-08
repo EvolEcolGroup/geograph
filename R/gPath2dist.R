@@ -10,7 +10,7 @@
 #' returned: a \code{dist} object ('dist'), or a vector of distances
 #' ('vector'). Note that 'dist' should only be required for pairwise data, as
 #' output by dijkstraBetween (as opposed to dijkstraFrom).
-#' @return [`dist`] object containing the pairwise distances between nodes as
+#' @return [`dist`] object containing the pairwise distances between nodes
 #' @examples
 #' ## select a few populations from the HGDP dataset
 #' hgdp.sub <- hgdp[getData(hgdp)$Population %in%
@@ -48,10 +48,9 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
   resSize <- i + 1
 
   ## check size consistency
-  if (L != (resSize * (resSize - 1) * 0.5)) {
-    if (res.type == "dist") {
-      warning("Length of x does not match a number of pairwise comparisons.")
-    }
+  if (res.type == "dist" && L != (resSize * (resSize - 1L)) %/% 2L) {
+    stop("Length of x does not match a number of pairwise comparisons; ",
+          "cannot construct a 'dist' object. Use res.type = 'vector' instead.")
   }
 
 
