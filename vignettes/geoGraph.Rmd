@@ -85,8 +85,8 @@ computer program.  Two types of objects are used in *geoGraph*: `gGraph`, and
 `gData` objects.  Both objects are defined as formal (S4) classes and often have
 methods for similar generic function (e.g. `getNodes` is defined for both
 objects).  Essentially, `gGraph` objects contain underlying layers of
-informations, including a spatial grid and possibly node attributes, and
-covering the area of interest.  `gData` are sets of locations (like sampled
+information, including a spatial grid and possibly node attributes.
+`gData` are sets of locations (like sampled
 sites, for instance) which have been interfaced to a `gGraph` object, to allow
 further manipulations such as finding paths on the grid between pairs of
 locations.
@@ -141,7 +141,7 @@ and `40k' indicate that the grids consist of roughly 10,000 and 40,000 nodes.
 For illustrative purposes, we will often use the 10k grids, since they are less
 heavy to handle.  For most large-scale applications, the 40k versions should
 provide sufficient resolution.  New `gGraph` can be constructed using the
-constructor (`new(...)`), but this topic is not documented in this vignette. (@TODO here we could hint to the other vignett.)
+constructor (`new(...)`). A more detailed description of how to construct custom `gGraph` is provided in the vignette 'Making custom grids in geoGraph' (see `vignette()` for more information on available vignettes).
 
 ### gData objects
 
@@ -159,7 +159,7 @@ new("gData")
 
 As before, the description of the content of these objects can be found in the
 documentation (`?gData`).  `coords` is a matrix of xy (longitude/latitude)
-coordinates in which each row is a location.  `nodes.id` is vector of characters
+coordinates in which each row is a location.  `nodes.id` is a vector of characters
 giving the name of the vertices matching the locations; this is defined
 automatically when creating a new `gData`, or using the function `closestNode`.
 `data` is a slot storing data associated to the locations; it can be any type of
@@ -204,8 +204,7 @@ We load a `gGraph` object which contains the grid that will support the data:
 plot(worldgraph.10k)
 ```
 
-(we could use `worldgraph.40k` for a better resolution). In this figure, each
-node is represented with a color depending on the habitat type, either 'sea'
+In this figure, each node is represented with a color depending on the habitat type, either 'sea'
 (blue) or 'land' (green).  We are going to interface the cities data with this
 grid; to do so, we create a `gData` object using `new` (see `?gData` object):
 
@@ -245,7 +244,6 @@ getNodesAttr(cities)
 ```
 In this example, the information stored in `worldgraph.10k` is rather crude: `habitat` only
 distinguishes the land from the sea.
-However, more complex habitat information could be incorporated, for instance from GIS shapefiles (see vignette 'Makeing custom grids in geoGraph', @TODO look in what vignette we will look at this).
 
 ## Finding least-cost paths
 
@@ -357,7 +355,7 @@ addis <- cbind(38, 9)
 ori <- closestNode(myGraph, addis)
 paths <- dijkstraFrom(hgdp, ori)
 ```
-The object `paths` contains the identified paths, which are stored as a list with class `gPath` (see `?gPath`).
+The object `paths` contains the identified paths, which are stored as a list with class `gPath` (see `?gPath`). @TODO currently refers to the grid version of gPath
 Paths can be plotted easily:
 ```{r fig=TRUE, fig.width = 8}
 addis <- as.vector(addis)
@@ -411,4 +409,5 @@ summary(lm.hab)
 title("Genetic diversity vs geographic distance \n habitat costs ")
 ```
 
-Now of course depending on the application, we may want to use different grid resolutions, and/or more complex habitat information to define costs of traveling through different habitats. This is illustrated in the vignettes 'Making custom grids' and 'Edit graphs' (see `vignette()` for more information on available vignettes).
+Now of course depending on the application, we may want to use different grid resolutions, and/or more complex habitat information to define costs of traveling through different habitats. This information could for example be incorporated from GIS shapefiles or raster data. Further we maybe also want to eddid and customize the gGraph in more detail. This is illustrated in the vignettes 'Making custom grids' and 'Edit graphs' (see `vignette()` for more information on available vignettes). 
+
