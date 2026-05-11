@@ -2,22 +2,19 @@
 % Please edit documentation in R/setNodesAttr.R
 \name{setNodesAttr}
 \alias{setNodesAttr}
-\alias{setNodesAttr,gGraph-method}
 \title{Set node attributes in a gGraph object}
 \usage{
-setNodesAttr(x, ...)
-
-\S4method{setNodesAttr}{gGraph}(x, attr.name, values, ...)
+setNodesAttr(x, attr.name, values, ...)
 }
 \arguments{
 \item{x}{a valid \code{\link{gGraph}} object.}
-
-\item{\dots}{additional arguments passed to other methods (currently unused).}
 
 \item{attr.name}{a character string giving the name of the attribute
 to set.}
 
 \item{values}{a vector of values, one per node.}
+
+\item{\dots}{additional arguments passed to other methods (currently unused).}
 }
 \value{
 A \code{\link{gGraph}} object with the new node attribute added or replaced.
@@ -26,11 +23,6 @@ A \code{\link{gGraph}} object with the new node attribute added or replaced.
 The function \code{setNodesAttr} adds or replaces a node attribute
 in a \code{\link{gGraph}} object.
 }
-\section{Functions}{
-\itemize{
-\item \code{setNodesAttr(gGraph)}: Method for gGraph objects
-
-}}
 \examples{
 ### for gGraphs
 node.attr <- getNodesAttr(rawgraph.40k, attr.name = "habitat")

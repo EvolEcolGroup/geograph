@@ -41,14 +41,7 @@
 #' plot(coastGraph, reset = TRUE)
 #' 
 #' @export
-setGeneric("setNodesAttr", function(x, ...) {
-  standardGeneric("setNodesAttr")
-})
-
-
-#' @describeIn setNodesAttr Method for gGraph objects
-#' @export
-setMethod("setNodesAttr", "gGraph", function(x, attr.name, values, ...) {
+setNodesAttr <- function(x, attr.name, values, ...) {
   if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
   if (!is.character(attr.name) || length(attr.name) != 1) {
     stop("`attr.name` must be a single character string.")
@@ -62,4 +55,4 @@ setMethod("setNodesAttr", "gGraph", function(x, attr.name, values, ...) {
   
   x@nodes.attr[[attr.name]] <- values
   return(x)
-})
+}
