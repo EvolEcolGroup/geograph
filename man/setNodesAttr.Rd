@@ -3,17 +3,14 @@
 \name{setNodesAttr}
 \alias{setNodesAttr}
 \alias{setNodesAttr,gGraph-method}
-\alias{setNodesAttr,gData-method}
 \title{Set node attributes in a gGraph object}
 \usage{
 setNodesAttr(x, ...)
 
 \S4method{setNodesAttr}{gGraph}(x, attr.name, values, ...)
-
-\S4method{setNodesAttr}{gData}(x, attr.name, values, ...)
 }
 \arguments{
-\item{x}{a valid \code{\link{gGraph}} or \code{\link{gData}} object.}
+\item{x}{a valid \code{\link{gGraph}} object.}
 
 \item{\dots}{additional arguments passed to other methods (currently unused).}
 
@@ -23,7 +20,7 @@ to set.}
 \item{values}{a vector of values, one per node.}
 }
 \value{
-A \code{\link{gGraph}} or \code{\link{gData}} object with the new node attribute added or replaced.
+A \code{\link{gGraph}} object with the new node attribute added or replaced.
 }
 \description{
 The function \code{setNodesAttr} adds or replaces a node attribute
@@ -33,8 +30,6 @@ in a \code{\link{gGraph}} object.
 \itemize{
 \item \code{setNodesAttr(gGraph)}: Method for gGraph objects
 
-\item \code{setNodesAttr(gData)}: Method for gData objects
-
 }}
 \examples{
 ### for gGraphs
@@ -43,35 +38,27 @@ neigh.list <- rawgraph.40k@graph@edgeL
 
 # reclassify sea nodes as "coast" if they have any land neighbors
 levels(node.attr$habitat) <- c(levels(node.attr$habitat), "coast")
-for (i_node in seq_len(nrow(node.attr))) {
-  if (node.attr$habitat[i_node] == "sea") {
-    neighbour.names <- neigh.list[[i_node]]$edges
+for (i.node in seq_len(nrow(node.attr))) {
+  if (node.attr$habitat[i.node] == "sea") {
+    neighbour.names <- neigh.list[[i.node]]$edges
     neighbour.land.values <- node.attr[neighbour.names, "habitat"]
     if (any(neighbour.land.values \%in\% c("land"))) {
-      node.attr$habitat[i_node] <- "coast"
+      node.attr$habitat[i.node] <- "coast"
     }
   }
 }
 
-new.attribute <- node.attr
-
 # create coast graph
-coastGraph <- setNodesAttr(rawgraph.40k, attr.name = "habitat", values = new.attribute$habitat)
+coastGraph <- setNodesAttr(rawgraph.40k, attr.name = "habitat", values = node.attr$habitat)
 
 colors <- data.frame(
   habitat = c("sea", "land", "coast"),
-  cost = c("blue", "green", "lightblue")
+  color = c("blue", "green", "lightblue")
 )
 
 coastGraph@meta$colors <- colors
 
 plot(coastGraph, reset = TRUE)
-
-#### and now for a gData
-
-plot(hgdp)
-hgdp_coast <- setNodesAttr(hgdp, attr.name = "habitat", values = new.attribute$habitat)
-plot(hgdp_coast)
 
 }
 \seealso{
