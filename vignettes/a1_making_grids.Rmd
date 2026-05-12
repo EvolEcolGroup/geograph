@@ -17,120 +17,84 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 Using discrete global grids in *geoGraph*
 =================================================
 
-This vignette illustrates how to create custom graphs in *geoGraph* using discrete global grids. This is especially useful when working over larger areas of the world, where a rectangular grid would introduce messy distortions. Using the `dggridR` package, we can create a custom hexagonal grids that provides a more accurate representation of the Earth's surface. We will then use this grid to create a `gGraph` object in *geoGraph* and assign environmental information to the nodes of the graph. This allows us to create a cost surface for connectivity analysis that takes into account both land/water classification and elevation variability.
-
+This vignette illustrates how to create custom `gGraph` objects in *geoGraph* and how to assign environmental information to the nodes of the graph. 
+The `gGraph`objects can either be constructed using a square grid or using a discrete global grid. The latter is especially useful when working over larger areas of the world, where the square grid would introduce messy distortions. Using the `dggridR` package, we can create a custom hexagonal grids that provides a more accurate representation of the Earth's surface. 
 
 ```{r loading libraries, include=FALSE}
-library(geoGraph) # graph analysis
-library(elevatr) # for elevation data
-library(sf)
+library(geoGraph)
+library(elevatr) 
 library(terra)
 library(dplyr)
-library(pastclim) # for making land mask
+library(sf)
 ```
 
-### Getting the elevation data
 
-In the first step, we define the area of interest using a bounding box and then use the `get_elev_raster` function from the `elevatr` package to retrieve topographical and bathymetry data for that area. The resulting data is then converted to a `SpatRaster` object using the `rast` function from the `terra` package.
+### Creating a custom square grid
 
-```{r getting topographic data}
+We can create a custom square grid using the `makeGrid` function. This function allows us to specify the approximate number of the grid cells and the geographic bounding box for the area of interest (by setting the range for both the lattitude and longitude of the grid) . In this example, we create a grid with about 10'000 cells that covers the area of Great Britain. We can then use the `findLand` function to identify which cells in the grid correspond to land and which correspond to sea, and we can visualize the resulting graph using the `plot` function.
+
+```{r}
+squareGraph <- makeGrid(
+  size      = 10000,
+  lon.range = c(-12, 2),
+  lat.range = c(49, 61)
+)
+squareGraph <- findLand(squareGraph)
+squareGraph@meta$colors <- data.frame(
+  habitat = c("sea", "land"),
+  color = c("blue", "green")
+)
+
+plot(squareGraph, reset = TRUE)
+```
+
+Now as mentioned above, using a square grid is fine for small scale analyses but can introduce distortions when working over larger areas of the world. To avoid this, we can use the `createNewGraph` function to create a hexagonal grid that provides a more accurate representation of the Earth's surface. 
+In `createNewGraph` we need to specify the geographic bounding box for for our area of interest and set the spacing between the center of adjacent cells in kilometers. The function will then determine an appropriate grid resolution based on this spacing. Be aware that using a small spacing will result in a very large graph object, which can be computationally intensive to work with.
+In this example, we create a hexagonal grid with a spacing of about 30km that covers the area of western Europe and parts of Norther Africa.
+
+```{r creating graph object}
 # define the area of interest (Europe)
 area.of.interest <- st_as_sfc(
   st_bbox(c(
-    xmin = -25,
-    xmax = 25,
-    ymin = 34,
+    xmin = -15,
+    xmax = 32,
+    ymin = 30,
     ymax = 50
   ), crs = 4326)
 )
 
 aoi.bound <- st_sf(geometry = area.of.interest)
 
-elevation.data <- get_elev_raster(
-  locations = aoi.bound,
-  z = 4,
-  clip = "locations"
-)
+hexGraph <- createNewGraph(geo.box = aoi.bound, spacing = 30)
 
-# convert to SpatRaster
-spatr <- rast(elevation.data)
-plot(spatr)
-```
-
-#### Makeing a land mask
-
-Using this `SpatRaster` we can create a land mask by using the `make_land_mask` function from the `pastclim` package. This function identifies land and ocean areas based on the simple logic of moving the ocean up and down given the current relief profile for the time of choice. In this case, we use the present time (0 years before present) to create a land mask for our area of interest.
-
-```{r making land mask}
-# make land mask (everything above 0m is land)
-land.mask <- make_land_mask(spatr, time_bp = 0) # using the present time
-land.mask[is.na(land.mask)] <- 0
-plot(land.mask)
-```
-
-### Creating the graph object
-
-Next, we create a new graph object using the `createNewGraph` function from the `geoGraph` package. We specify the geographic bounding box for for our area of interest and set the spacing between nodes in the graph. The resulting graph object represents a grid over the area of interest with cells of the about 16km spacing, and we can visualize the graph structure using the `plot` and `plotEdges` functions.
-
-```{r creating graph object}
-gGraph <- createNewGraph(geo.box = aoi.bound, spacing = 20)
-plot(gGraph, reset = TRUE)
-plotEdges(gGraph)
-```
-
-### Adding the land/water mask to the graph
-
-We then use the `assignRasterPoints` function to add the land/water mask to the graph. This function takes the graph object and the land mask raster as inputs and assigns the land/water values to the corresponding cells in the graph. In this example we classify each cell with land points in it as land by defining the `fun` parameter in `collapseNodeAttribute` as 'min', which means that if there is at least one water point in the cell, the cell will be classified as water. We can then visualize the resulting graph with the land/water mask by plotting the graph and coloring the nodes based on the land/water values.
-
-```{r}
-waterGraph <- assignRasterPoints(
-  graph = gGraph,
-  raster = land.mask,
-  layer.name = "water"
-)
-
-# now we collapse the water attribute to get a land/sea classification for each node
-waterLandGraph <- collapseNodeAttribute(
-  graph = waterGraph,
-  attribute = "water",
-  fun = min,
-  na.rm = TRUE
-)
-
-# add this to the habitat attribute
-habitat <- factor(waterLandGraph@nodes.attr$water,
-  levels = c(0, 1),
-  labels = c("sea", "land")
-)
-
-# reclassify the nodes in the gGraph object accordingly in the metadata
-waterLandGraph@nodes.attr$habitat <- habitat # TODO can we use a setAttribute here?
-
-colors <- data.frame(
+hexGraph <- findLand(hexGraph)
+hexGraph@meta$colors <- data.frame(
   habitat = c("sea", "land"),
-  cost = c("blue", "green")
+  color = c("blue", "green")
 )
 
-# change colors associated with the land meta info
-waterLandGraph@meta$colors <- colors
-
-plot(waterLandGraph, reset = TRUE)
+plot(hexGraph, reset = TRUE)
 ```
 
+We can get more information about the graph object we just created by looking at the summary of the graph, which provides information about the number of nodes and edges in the graph, as well as the already existing attributes.
+
+```{r looking at graph object}
+hexGraph
+```
 #### Setting costs for the different habitat types
 
-Finally, we can set the costs for moving through different habitat types based on their classification. Note that the cost here is arbitrary and can be adjusted based on the specific context of the analysis and the species or features being studied. Costs are inversely related to the ease of movement through a cell, so higher costs indicate more difficult terrain. For example, we can assign a cost of 10 for moving through sea cells and a cost of 1 for moving through land cells. If we now look at the least cost path between two cities (Madrid and Naples) using the `dijkstraBetween` function, we can see that the path tends to avoid sea cells and prefers to move through land cells.
+Now we can also set the costs for moving through different habitat types based on their classification. Note that the cost here is arbitrary and can be adjusted based on the specific context of the analysis and the species or features being studied. Costs are inversely related to the ease of movement through a cell, so higher costs indicate more difficult terrain. For example, we can assign a cost of 10 for moving through sea cells and a cost of 1 for moving through land cells. If we now look at the least cost path between two cities (Madrid and Naples) using the `dijkstraBetween` function, we can see that the path tends to avoid sea cells and prefers to move through land cells.
 
 ```{r least cost path}
 # set the costs for sea cells to 10 and land cells to 1
 sea.cost <- 10
 land.cost <- 1
-waterLandGraph@meta$costs <- data.frame(
+hexGraph@meta$costs <- data.frame(
   habitat = c("sea", "land"),
   cost = c(sea.cost, land.cost)
 )
 
-waterLandGraph <- setCosts(waterLandGraph, method = "mean", attr.name = "habitat")
+hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat")
 
 
 point1 <- c(-3.7038, 40.4168) # Madrid
@@ -138,33 +102,57 @@ point2 <- c(14.2681, 40.8522) # Naples
 cities.dat <- rbind.data.frame(point1, point2)
 colnames(cities.dat) <- c("lon", "lat")
 row.names(cities.dat) <- c("Madrid", "Naples")
-cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "waterLandGraph")
+cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "hexGraph")
 path <- dijkstraBetween(cities)
-plot(waterLandGraph, reset = TRUE)
+plot(hexGraph, reset = TRUE)
 plot(path, col = "red", lwd = 2)
 ```
 
+### Adding the topographical data
+
+The `gGraph` object that we have so far is already great for basic analyses of connectivity across the landscape, but we can also think of more information to add to the graph, such as topographical data. This data often comes in the form of raster layers, which can be assigned to the nodes of the graph. This allows us to incorporate information about the terrain into our connectivity analyses, which can be important for understanding movement patterns and dispersal across landscapes.
+To get the raster data for our example we can use the `get_elev_raster` function from the `elevatr` package. The function takes a spatial object (in this case, the bounding box of our area of interest) and returns a raster layer with elevation values. We can then convert this raster layer into a `SpatRaster` object using the `rast` function from the `terra` package, which allows us to work with it in *geoGraph*.
+
+```{r getting topographic data, eval=FALSE}
+elevation.data <- get_elev_raster(
+  locations = aoi.bound,
+  z = 3,
+  clip = "locations"
+)
+
+# convert to SpatRaster
+spatr <- rast(elevation.data)
+```
+
+```{r, echo=FALSE}
+spatr <- readRDS("Robjects/elevation_europe.rds")
+plot(spatr)
+```
+
+
 ### Assigning elevation data to graph nodes
 
-In the next step we can then use the `assignRasterPoints` function again to add elevation data to the nodes of the graph. In this case we need to chose how to incorporate the elevation data into the graph, since each node will have multiple raster points associated with it. So before using the `collapseNodeAttribute` function to get a single elevation value for each node, we can first have a look at the standard deviation of the elevation values for each node, which gives us an idea of the variability of elevation within each cell. This can be useful for identifying rugged areas, which typically have high variability in elevation and a higher cost of traveling through associated. For this we set the `fun` parameter in the `collapseNodeAttribute` function to `sd`, which calculates the standard deviation of the elevation values for each node. We can then visualize the distribution of the standard deviation of elevation values for land cells by plotting a density plot.
+In the next step we can then use the `assignRasterPoints` function to add the elevation data to the nodes of the graph. In a nutshell the function takes all the raster values that fall within a cell and assigns them to the corresponding node. The resulting graph will have a new node attribute (in this case, "elevation") that contains all the elevation values for each node.
+
+In this case we need to chose how to incorporate the elevation data into the graph, since each node will have multiple raster points associated with it. So before using the `collapseNodeAttribute` function to get a single elevation value for each node, we can first have a look at the standard deviation of the elevation values for each node, which gives us an idea of the variability of elevation within each cell. This can be useful for identifying rugged areas, which typically have high variability in elevation and a higher cost of traveling through associated. For this we set the `fun` parameter in the `collapseNodeAttribute` function to `sd`, which calculates the standard deviation of the elevation values for each node. We can then visualize the distribution of the standard deviation of elevation values for land cells by plotting a density plot.
 
 ```{r assigning elevation data}
-elevationGraph <- assignRasterPoints(
-  graph = waterLandGraph,
+hexGraph <- assignRasterPoints(
+  graph = hexGraph,
   raster = spatr,
   layer.name = "elevation"
 )
 
 # now we collapse the elevation attribute to get the sd of the elevation for each node
-elevationGraph <- collapseNodeAttribute(
-  graph = elevationGraph,
+hexGraph <- collapseNodeAttribute(
+  graph = hexGraph,
   attribute = "elevation",
   fun = sd,
   na.rm = TRUE
 )
 
 # have a look at the distribution of sd.elevation values for land cells
-sd.ele <- getNodesAttr(elevationGraph) |>
+sd.ele <- getNodesAttr(hexGraph) |>
   mutate(
     elevation = ifelse(habitat == "land", elevation, NA_real_)
   ) |>
@@ -179,12 +167,12 @@ plot(density(log(sd.ele), na.rm = TRUE),
 
 ### Reclassify the nodes into 'rugged' and 'very rugged'
 
-Looking at the distribution of the standard deviation of elevation values for land cells, we can see that there are some cells with very high variability in elevation, which likely correspond to mountainous areas. We can then reclassify the nodes into 'rugged' and 'very rugged' based on an elevation threshold. Here we pick arbitrary thresholds for the standard deviation of elevation values to classify cells as 'rugged' and 'very rugged'. Cells with a standard deviation of elevation greater than 100 are classified as 'rugged', while those with a standard deviation greater than 150 are classified as 'very rugged'. We can then update the habitat attribute in the graph accordingly and visualize the resulting graph with the new habitat classifications.
+Looking at the distribution of the standard deviation of elevation values for land cells, we can see that there are some cells with very high variability in elevation, which likely correspond to mountainous areas. We can then reclassify the nodes into 'rugged' and 'very rugged' based on an elevation threshold. Here we pick arbitrary thresholds for the standard deviation of elevation values to classify cells as 'rugged' and 'very rugged'. Cells with a standard deviation of elevation greater than 200 are classified as 'rugged', while those with a standard deviation greater than 400 are classified as 'very rugged'. Remember that these values depend on the size of the grid cells. We can then update the habitat attribute in the graph using the `setNodesAttr` function and visualize the resulting graph with the new habitat classifications.
 
 ```{r reclassifying nodes}
 # set a threshold for rugged cells
-rugged.threshold <- 150
-very.rugged.threshold <- 300
+rugged.threshold <- 200
+very.rugged.threshold <- 400
 
 ## now we identify rugged and very rugged cells as those with sd.elevation > threshold
 habitat.new <- case_when(
@@ -196,18 +184,17 @@ habitat.new <- case_when(
 
 # update the habitat attribute in the graph
 # reclassify the nodes in the gGraph object accordingly in the metadata
-elevationGraph@nodes.attr$habitat <- habitat.new
-
+hexGraph <- setNodesAttr(hexGraph, attr.name = "habitat", values = habitat.new)
 
 colors <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged"),
-  cost = c("blue", "green", "orange", "brown")
+  color = c("blue", "green", "orange", "brown")
 )
 
 # change colors associated with the land meta info
-elevationGraph@meta$colors <- colors
+hexGraph@meta$colors <- colors
 
-plot(elevationGraph, reset = TRUE)
+plot(hexGraph, reset = TRUE)
 ```
 
 Now if we now set the cost for rugged and very rugged cells to be higher than for land cells, we can see that the least cost paths between different land areas tend to avoid not only sea cells but also rugged and very rugged cells. This can be shown in the same toy example as above.
@@ -218,85 +205,69 @@ sea.cost <- 10
 land.cost <- 1
 rugged.cost <- 3
 very.rugged.cost <- 10
-elevationGraph@meta$costs <- data.frame(
+hexGraph@meta$costs <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged"),
   cost = c(sea.cost, land.cost, rugged.cost, very.rugged.cost)
 )
-elevationGraph <- setCosts(elevationGraph, method = "mean", attr.name = "habitat")
-point1 <- c(-3.7038, 40.4168) # Madrid
-point2 <- c(14.2681, 40.8522) # Naples
-cities.dat <- rbind.data.frame(point1, point2)
-colnames(cities.dat) <- c("lon", "lat")
-row.names(cities.dat) <- c("Madrid", "Naples")
-cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "elevationGraph")
+hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat")
+
 path <- dijkstraBetween(cities)
-plot(elevationGraph, reset = TRUE)
+plot(hexGraph, reset = TRUE)
 plot(path, col = "red", lwd = 2)
 ```
 
 ### Adding coastal cells
 
-Now in a last step we can add a 'coast' category to the habitat classification for cells that are adjacent to any land based cells. This is done by checking the neighbors of each sea cell and reclassifying those that have at least one land or mountain neighbor as 'coast'. We can then visualize the resulting graph with the new habitat classifications, including the coastal cells.
+Now lastly one might also want to directly change the habitat classification for certain cells based on their location. For example here we can add a 'coast' category for cells that are adjacent to any land based cells. This is done by checking the neighbors of each 'sea' cell and reclassifying those that have at least one land or mountain neighbor as 'coast'.
 
 ```{r adding coastal cells}
 # get the neighbor list from the graph
-neigh.list <- elevationGraph@graph@edgeL
-node.attr <- getNodesAttr(elevationGraph)
+neigh.list <- hexGraph@graph@edgeL
+node.attr <- getNodesAttr(hexGraph)
 
 # get all nodes adjacent to land or mountain cells and reclassify them as "coast"
-for (i_node in seq_len(nrow(node.attr))) {
-  if (node.attr$habitat[i_node] == "sea") {
-    neighbour.indices <- neigh.list[[i_node]]$edges # check structure!
+for (i.node in seq_len(nrow(node.attr))) {
+  if (node.attr$habitat[i.node] == "sea") {
+    neighbour.indices <- neigh.list[[i.node]]$edges # check structure!
     neighbour.land.values <- node.attr$habitat[neighbour.indices]
     if (any(neighbour.land.values %in% c("land", "rugged", "very_rugged"))) {
       # at least one land or mountain neighbour
-      node.attr$habitat[i_node] <- "coast"
+      node.attr$habitat[i.node] <- "coast"
     }
   }
 }
 
-new.attribute <- node.attr
-
-# create the fullGraph
-fullGraph <- elevationGraph
-
 # set the new node attributes
-fullGraph@nodes.attr <- new.attribute
+hexGraph <- setNodesAttr(hexGraph, attr.name = "habitat", values = node.attr$habitat)
 
 
 colors <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged", "coast"),
-  cost = c("blue", "green", "orange", "brown", "lightblue")
+  color = c("blue", "green", "orange", "brown", "lightblue")
 )
 
 # change the costs and colors associated with the land meta info
-fullGraph@meta$colors <- colors
-plot(fullGraph, reset = TRUE)
+hexGraph@meta$colors <- colors
+plot(hexGraph, reset = TRUE)
 ```
 
 Now if we set the cost for coastal cells to be the same as for land cells, we can see that the least cost paths between different land areas tend to prefer crossing coastal cells over crossing rugged areas. 
 
 ```{r least cost path with coastal cells}
-# set the costs for sea cells to 10, land cells to 1, rugged cells to 3, very rugged cells to 10 and coastal cells to 1
+
 sea.cost <- 10
 land.cost <- 1
 rugged.cost <- 3
 very.rugged.cost <- 10
 coastal.cost <- 1
-fullGraph@meta$costs <- data.frame(
+hexGraph@meta$costs <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged", "coast"),
   cost = c(sea.cost, land.cost, rugged.cost, very.rugged.cost, coastal.cost)
 )
-fullGraph <- setCosts(fullGraph, method = "mean", attr.name = "habitat")
+hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat")
 
-point1 <- c(-3.7038, 40.4168) # Madrid
-point2 <- c(14.2681, 40.8522) # Naples
-cities.dat <- rbind.data.frame(point1, point2)
-colnames(cities.dat) <- c("lon", "lat")
-row.names(cities.dat) <- c("Madrid", "Naples")
-cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "fullGraph")
 path <- dijkstraBetween(cities)
-plot(fullGraph, reset = TRUE)
+plot(hexGraph, reset = TRUE)
 plot(path, col = "red", lwd = 2)
 ```
 
@@ -309,15 +280,15 @@ max.cost <- function(x1, x2) {
   pmax(x1, x2)
 }
 
-fullGraph <- setCosts(
-  fullGraph,
+maxCostGraph <- setCosts(
+  hexGraph,
   attr.name = "habitat",
   method = "function",
   FUN = max.cost
 )
 
-plot(fullGraph, reset = TRUE)
-plotEdges(fullGraph)
+plot(maxCostGraph, reset = TRUE)
+plotEdges(maxCostGraph)
 ```
 
 ### Combining costs
@@ -332,27 +303,27 @@ exp.cost <-
   }
 
 # create a set of node costs for temperature
-landGraph <- dropDeadEdges(fullGraph, thres = 9)
-landGraph@nodes.attr$temp <- runif(n = 25821)
+temperatureGraph <- setNodesAttr(maxCostGraph, attr.name = "temp",
+                                 values = runif(length(getNodes(maxCostGraph))))
 temperatureGraph <-
   setCosts(
-    landGraph,
-    node.values = landGraph@nodes.attr$temp,
+    temperatureGraph,
+    node.values = temperatureGraph@nodes.attr$temp,
     method = "function",
     FUN = exp.cost,
     cost.coeff = 1
   )
 
-plot(temperatureGraph, edge = TRUE)
+plot(temperatureGraph, reset = TRUE)
 plotEdges(temperatureGraph)
 ```
 
-Now we want a combined cost that both captures the temperature as well as the terrain. For this we can use the `combineCosts` function, which allows to combine costs from two different graphs using a specified method (sum, product, or a custom function). Here we will use the `prod` method to combine the costs from the `temperatureGraph` and the `landGraph`, which multiplies the costs from both graphs to create a new cost that reflects both the temperature and terrain constraints on movement.
+Now we want a combined cost that both captures the temperature as well as the terrain. For this we can use the `combineCosts` function, which allows to combine costs from two different graphs using a specified method (sum, product, or a custom function). Here we will use the `prod` method to combine the costs from the `temperatureGraph` and the `hexGraph`, which multiplies the costs from both graphs to create a new cost that reflects both the temperature and terrain constraints on movement.
 
 ```{r}
-combineCostsGraph <- combineCosts(temperatureGraph, landGraph, method = "prod")
+combineCostsGraph <- combineCosts(temperatureGraph, maxCostGraph, method = "prod")
 
-plot(combineCostsGraph, edge = TRUE)
+plot(combineCostsGraph, reset = TRUE)
 plotEdges(combineCostsGraph)
 title("Combined costs graph")
 ```
@@ -360,7 +331,7 @@ title("Combined costs graph")
 
 ## Extracting information from GIS shapefiles
 
-In the previous sections, we extracted environmental information from raster layers and assigned it to graph nodes using `assignRasterPoints.` Another way *geoGraph* can serve as an interface between geographic information system (GIS) layers and geographic data is the function `extractFromLayer`.
+In the previous sections, we extracted environmental information from raster layers and assigned it to the nodes using `assignRasterPoints.` Another way *geoGraph* can serve as an interface between geographic information system (GIS) layers and geographic data is the function `extractFromLayer`.
 *geoGraph* uses `sf` objects to
 represent geographic objects such as points and polygons. By default, *geoGraph*
 uses the package *rnaturalearth* to provide continent and country outlines, but
@@ -379,27 +350,26 @@ world.countries <- rnaturalearth::ne_countries(
 )
 ```
 
-Let us assume that we are interested in add continent and country information to the
-`fullGraph` object.
+Let us assume that we are interested in add continent and country information to our
+`hexGraph` object.
 ```{r }
-newGraph <- extractFromLayer(fullGraph,
+hexGraph <- extractFromLayer(hexGraph,
   layer = world.countries,
   attr = c("continent", "name")
 )
-summary(getNodesAttr(newGraph))
+summary(getNodesAttr(hexGraph))
 ```
 
-The new object `newGraph` is a `gGraph` which now includes, for each node of the grid, the
-corresponding continent and country retrieved from the GIS layer. Note that `extractFromLayer` can extract information to other types of objects than `gGraph` (see `?extractFromLayer`)
+Now for each node in `hexGraph`, the corresponding continent and country is retrieved from the GIS layer. Note that `extractFromLayer` can extract information to other types of objects than `gGraph` (see `?extractFromLayer`)
 
-We can use the newly acquired information for plotting `newGraph`, by defining new color rules:
+We can use the newly acquired information for plotting `hexGraph`, by defining new color rules:
 ```{r fig=TRUE}
-temp <- unique(getNodesAttr(newGraph)$"name")
+temp <- unique(getNodesAttr(hexGraph)$"name")
 col <- c("transparent", rainbow(length(temp) - 1))
 colMat <- data.frame(name = temp, color = col)
 head(colMat)
 tail(colMat)
-plot(newGraph, col.rules = colMat, reset = TRUE)
+plot(hexGraph, col.rules = colMat, reset = TRUE)
 ```
 
 This information could in turn be used to define costs for traveling on the grid.
@@ -408,8 +378,8 @@ For instance, one could import habitat descriptors from a GIS, use these values 
 ### Look at connectivity between two polygons
 
 ```{r}
-test <- polygonBetween(newGraph, layer = "name", "Andorra", "Portugal", outline = FALSE)
-plot(newGraph, col = NA, reset = TRUE)
+test <- polygonBetween(hexGraph, layer = "name", "Switzerland", "Austria", outline = TRUE)
+plot(hexGraph, col = NA, reset = TRUE)
 plot(test)
 ```
 
