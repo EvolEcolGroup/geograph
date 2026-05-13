@@ -2,7 +2,6 @@
 % Please edit documentation in R/accessors.R
 \name{setEdges}
 \alias{setEdges}
-\alias{setEdges-methods}
 \alias{setEdges,gGraph-method}
 \title{Add and remove edges from a gGraph object}
 \usage{
@@ -41,8 +40,8 @@ a data.frame. This low-level function is called by \code{geo.add.edges} and
 
 }}
 \seealso{
-\code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} to
-interactively add or remove edges in a \linkS4class{gGraph} object. \cr
+\code{\link{getEdges}} to retrieve edges.
+\code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} for interactive versions.
 
 \code{\link{getEdges}} to retrieve edges in different formats.
 }

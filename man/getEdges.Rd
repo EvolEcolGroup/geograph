@@ -2,7 +2,6 @@
 % Please edit documentation in R/accessors.R
 \name{getEdges}
 \alias{getEdges}
-\alias{getEdges-methods}
 \alias{getEdges,gGraph-method}
 \title{Get edges from a gGraph object}
 \usage{
@@ -43,21 +42,23 @@ object using different possible outputs.
 
 }}
 \examples{
-
-example(gGraph)
-
-getEdges(x)
-getEdges(x, res.type = "matNames")
-getEdges(x, res.type = "matId")
+head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
+head(getEdges(worldgraph.10k, res.type = "matId",   unique = TRUE))
 
 }
 \seealso{
-Most other accessors are documented in \linkS4class{gGraph}
-manpage.\cr
+\code{\link{setEdges}} to add or remove edges.
+\code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} for interactive versions.
 
-See \code{\link{setEdges}} to add/remove edges, or
-\code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} for
-interactive versions.
+Other accessor_methods: 
+\code{\link{getColors}()},
+\code{\link{getCoords}()},
+\code{\link{getCosts}()},
+\code{\link{getData}()},
+\code{\link{getGraph}()},
+\code{\link{getNodes}()},
+\code{\link{getNodesAttr}()}
 }
+\concept{accessor_methods}
 \keyword{methods}
 \keyword{utilities}

@@ -14,7 +14,7 @@
 #' @name auxiliary
 #' @examples
 #'
-#' hasCosts(worldgraph.10k)
+#' hasCosts(rawgraph.10k)
 #'
 #' @export
 

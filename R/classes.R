@@ -25,10 +25,13 @@ NULL
 #'
 #'
 #' @name gGraph-class
-#' @aliases gGraph gGraph-class [,gGraph-method [,gGraph,ANY,ANY-method
-#' [,gGraph,ANY,ANY,ANY-method getCoords,gGraph-method getGraph,gGraph-method
-#' getNodes,gGraph-method initialize,gGraph-method dropCosts,gGraph-method
-#' dropCosts show,gGraph-method is.gGraph getGraph getCoords getNodes
+#' @aliases gGraph-class gGraph
+#' [,gGraph-method
+#' [,gGraph,ANY,ANY-method
+#' [,gGraph,ANY,ANY,ANY-method
+#' initialize,gGraph-method
+#' show,gGraph-method
+#' is.gGraph
 #' @docType class
 #' @section Objects from the class gGraph: \code{gGraph} objects can be created
 #' by calls to \code{new("gGraph", ...)}, where '...' can be the following
@@ -116,9 +119,9 @@ setClass(
 #'
 #' @name gData-class
 #' @aliases gData gData-class [,gData-method [,gData,ANY,ANY-method
-#' [,gData,ANY,ANY,ANY-method getCoords,gData-method getData-methods
-#' getData,gData-method getData getNodes,gData-method initialize,gData-method
-#' show,gData-method is.gData getGraph,gData-method
+#' [,gData,ANY,ANY,ANY-method
+#' initialize,gData-method
+#' show,gData-method is.gData 
 #' @docType class
 #' @section Objects from the class gData: \code{gData} objects can be created
 #' by calls to \code{new("gData", ...)}, where '...' can be the following

@@ -7,15 +7,9 @@
 \alias{[,gData-method}
 \alias{[,gData,ANY,ANY-method}
 \alias{[,gData,ANY,ANY,ANY-method}
-\alias{getCoords,gData-method}
-\alias{getData-methods}
-\alias{getData,gData-method}
-\alias{getData}
-\alias{getNodes,gData-method}
 \alias{initialize,gData-method}
 \alias{show,gData-method}
 \alias{is.gData}
-\alias{getGraph,gData-method}
 \title{Formal class "gData"}
 \description{
 The class \code{gData} is a formal (S4) class storing georeferenced data,
