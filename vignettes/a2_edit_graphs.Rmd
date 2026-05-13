@@ -15,7 +15,7 @@ options(digits = 4)
 ```
 
 ```{r loading libraries, include=FALSE}
-library(geoGraph) # graph analysis
+library(geoGraph)
 library(sf)
 library(terra)
 library(dplyr)

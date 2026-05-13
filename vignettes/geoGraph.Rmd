@@ -17,7 +17,7 @@ options(digits = 4)
 *geoGraph*: using spherical grids to walk through the geographic space
 =================================================
 
-In the this vignette, we go through the basic tasks that can be achieve using
+In this vignette, we go through the basic tasks that can be achieved using
 *geoGraph*. A short overview of the functionality of the package is summarized the
 package's manpage, accessible via:
 
@@ -238,7 +238,7 @@ getData(cities)
 ```
 
 More interestingly, we can now retrieve all the geographic information contained in the underlying
-grid (\textit{i.e.}, `gGraph` object) as node attributes:
+grid (*i.e.* `gGraph` object) as node attributes:
 ```{r }
 getNodesAttr(cities)
 ```
@@ -384,14 +384,14 @@ As a toy example, we will consider that coasts are four times more favorable for
 the rest of the landmasses.
 We define these new costs, and then compute and plot the corresponding shortest paths:
 ```{r }
-myGraph@meta$costs[7, ] <- c("coast", 0.25)
+myGraph@meta$costs["coast", ] <- c("coast", 0.25)
 myGraph@meta$costs
 myGraph <- setCosts(myGraph, attr.name = "habitat")
 paths.2 <- dijkstraFrom(hgdp, ori)
 ```
 
 ```{r fig=TRUE, fig.width = 8}
-plot(newGraph, col = NA, reset = TRUE)
+plot(myGraph, col = NA, reset = TRUE)
 plot(paths.2)
 points(addis[1], addis[2], pch = "x", cex = 2)
 text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
@@ -409,5 +409,5 @@ summary(lm.hab)
 title("Genetic diversity vs geographic distance \n habitat costs ")
 ```
 
-Now of course depending on the application, we may want to use different grid resolutions, and/or more complex habitat information to define costs of traveling through different habitats. This information could for example be incorporated from GIS shapefiles or raster data. Further we maybe also want to eddid and customize the gGraph in more detail. This is illustrated in the vignettes 'Making custom grids' and 'Edit graphs' (see `vignette()` for more information on available vignettes). 
+Now of course depending on the application, we may want to use different grid resolutions, and/or more complex habitat information to define costs of traveling through different habitats. This information could for example be incorporated from GIS shapefiles or raster data. Further we maybe also want to edit and customize the gGraph in more detail. This is illustrated in the vignettes 'Making custom grids' and 'Edit graphs' (see `vignette()` for more information on available vignettes). 
 

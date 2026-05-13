@@ -12,13 +12,12 @@ vignette: >
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(fig.width = 7, fig.height = 6)
+options(digits = 4)
 ```
 
-Using discrete global grids in *geoGraph*
-=================================================
-
 This vignette illustrates how to create custom `gGraph` objects in *geoGraph* and how to assign environmental information to the nodes of the graph. 
-The `gGraph`objects can either be constructed using a square grid or using a discrete global grid. The latter is especially useful when working over larger areas of the world, where the square grid would introduce messy distortions. Using the `dggridR` package, we can create a custom hexagonal grids that provides a more accurate representation of the Earth's surface. 
+The `gGraph` objects can either be constructed using a square grid or using a discrete global grid. The latter is especially useful when working over larger areas of the world, where the square grid would introduce messy distortions. Using the `dggridR` package, we can create a custom hexagonal grids that provides a more accurate representation of the Earth's surface. 
 
 ```{r loading libraries, include=FALSE}
 library(geoGraph)
@@ -31,7 +30,7 @@ library(sf)
 
 ### Creating a custom square grid
 
-We can create a custom square grid using the `makeGrid` function. This function allows us to specify the approximate number of the grid cells and the geographic bounding box for the area of interest (by setting the range for both the lattitude and longitude of the grid) . In this example, we create a grid with about 10'000 cells that covers the area of Great Britain. We can then use the `findLand` function to identify which cells in the grid correspond to land and which correspond to sea, and we can visualize the resulting graph using the `plot` function.
+We can create a custom square grid using the `makeGrid` function. This function allows us to specify the approximate number of the grid cells and the geographic bounding box for the area of interest (by setting the range for both the latitude and longitude of the grid) . In this example, we create a grid with about 10'000 cells that covers the area of Great Britain. We can then use the `findLand` function to identify which cells in the grid correspond to land and which correspond to sea, and we can visualize the resulting graph using the `plot` function.
 
 ```{r}
 squareGraph <- makeGrid(
@@ -48,9 +47,11 @@ squareGraph@meta$colors <- data.frame(
 plot(squareGraph, reset = TRUE)
 ```
 
+### Creating a custom hexagonal grid
+
 Now as mentioned above, using a square grid is fine for small scale analyses but can introduce distortions when working over larger areas of the world. To avoid this, we can use the `createNewGraph` function to create a hexagonal grid that provides a more accurate representation of the Earth's surface. 
-In `createNewGraph` we need to specify the geographic bounding box for for our area of interest and set the spacing between the center of adjacent cells in kilometers. The function will then determine an appropriate grid resolution based on this spacing. Be aware that using a small spacing will result in a very large graph object, which can be computationally intensive to work with.
-In this example, we create a hexagonal grid with a spacing of about 30km that covers the area of western Europe and parts of Norther Africa.
+In `createNewGraph` we need to specify the geographic bounding box for our area of interest and set the spacing between the center of adjacent cells in kilometers. The function will then determine an appropriate grid resolution based on this spacing. Be aware that using a small spacing will result in a very large graph object, which can be computationally intensive to work with.
+In this example, we create a hexagonal grid with a spacing of about 30km that covers the area of western Europe and parts of Northern Africa.
 
 ```{r creating graph object}
 # define the area of interest (Europe)
@@ -124,7 +125,7 @@ elevation.data <- get_elev_raster(
 spatr <- rast(elevation.data)
 ```
 
-```{r, echo=FALSE}
+```{r, load-elevation, echo=FALSE}
 spatr <- readRDS("Robjects/elevation_europe.rds")
 plot(spatr)
 ```
@@ -134,7 +135,7 @@ plot(spatr)
 
 In the next step we can then use the `assignRasterPoints` function to add the elevation data to the nodes of the graph. In a nutshell the function takes all the raster values that fall within a cell and assigns them to the corresponding node. The resulting graph will have a new node attribute (in this case, "elevation") that contains all the elevation values for each node.
 
-In this case we need to chose how to incorporate the elevation data into the graph, since each node will have multiple raster points associated with it. So before using the `collapseNodeAttribute` function to get a single elevation value for each node, we can first have a look at the standard deviation of the elevation values for each node, which gives us an idea of the variability of elevation within each cell. This can be useful for identifying rugged areas, which typically have high variability in elevation and a higher cost of traveling through associated. For this we set the `fun` parameter in the `collapseNodeAttribute` function to `sd`, which calculates the standard deviation of the elevation values for each node. We can then visualize the distribution of the standard deviation of elevation values for land cells by plotting a density plot.
+In this case we need to choose how to incorporate the elevation data into the graph, since each node will have multiple raster points associated with it. So before using the `collapseNodeAttribute` function to get a single elevation value for each node, we can first have a look at the standard deviation of the elevation values for each node, which gives us an idea of the variability of elevation within each cell. This can be useful for identifying rugged areas, which typically have high variability in elevation and a higher cost of traveling through. For this we set the `fun` parameter in the `collapseNodeAttribute` function to `sd`, which calculates the standard deviation of the elevation values for each node. We can then visualize the distribution of the standard deviation of elevation values for land cells by plotting a density plot.
 
 ```{r assigning elevation data}
 hexGraph <- assignRasterPoints(
@@ -197,7 +198,7 @@ hexGraph@meta$colors <- colors
 plot(hexGraph, reset = TRUE)
 ```
 
-Now if we now set the cost for rugged and very rugged cells to be higher than for land cells, we can see that the least cost paths between different land areas tend to avoid not only sea cells but also rugged and very rugged cells. This can be shown in the same toy example as above.
+If we set the cost for rugged and very rugged cells to be higher than for land cells, we can see that the least cost paths between different land areas tend to avoid not only sea cells but also rugged and very rugged cells. This can be shown in the same toy example as above.
 
 ```{r least cost path with ruggedness}
 # set the costs for sea cells to 10, land cells to 1, rugged cells to 3 and very rugged cells to 10
@@ -228,7 +229,7 @@ node.attr <- getNodesAttr(hexGraph)
 # get all nodes adjacent to land or mountain cells and reclassify them as "coast"
 for (i.node in seq_len(nrow(node.attr))) {
   if (node.attr$habitat[i.node] == "sea") {
-    neighbour.indices <- neigh.list[[i.node]]$edges # check structure!
+    neighbour.indices <- neigh.list[[i.node]]$edges
     neighbour.land.values <- node.attr$habitat[neighbour.indices]
     if (any(neighbour.land.values %in% c("land", "rugged", "very_rugged"))) {
       # at least one land or mountain neighbour
@@ -297,8 +298,7 @@ In many ecological applications, connectivity across landscapes depends on multi
 To illustrate how multiple environmental layers can be incorporated into a connectivity model, we now add an additional environmental gradient: `temperature`, which in this example is a random variable that we assign to the nodes of the graph. The movement cost between two nodes can then be defined as a function of the difference in temperature between the two nodes, with a cost that increases as the temperature difference increases. The `setCosts` function is then used to apply this cost function to the graph based on the temperature values assigned to each node.
 
 ```{r}
-exp.cost <-
-  exp.cost <- function(x1, x2, cost.coeff) {
+exp.cost <- function(x1, x2, cost.coeff) {
     exp(-abs(x1 - x2) * cost.coeff)
   }
 
@@ -308,7 +308,7 @@ temperatureGraph <- setNodesAttr(maxCostGraph, attr.name = "temp",
 temperatureGraph <-
   setCosts(
     temperatureGraph,
-    node.values = temperatureGraph@nodes.attr$temp,
+    node.values = getNodesAttr(temperatureGraph)$temp,
     method = "function",
     FUN = exp.cost,
     cost.coeff = 1
@@ -318,7 +318,7 @@ plot(temperatureGraph, reset = TRUE)
 plotEdges(temperatureGraph)
 ```
 
-Now we want a combined cost that both captures the temperature as well as the terrain. For this we can use the `combineCosts` function, which allows to combine costs from two different graphs using a specified method (sum, product, or a custom function). Here we will use the `prod` method to combine the costs from the `temperatureGraph` and the `hexGraph`, which multiplies the costs from both graphs to create a new cost that reflects both the temperature and terrain constraints on movement.
+Now we want a combined cost that both captures the temperature as well as the terrain. For this we can use the `combineCosts` function, which allows to combine costs from two different graphs using a specified method (sum, product, or a custom function). Here we will use the `prod` method to combine the costs from the `temperatureGraph` and the `maxCostGraph`, which multiplies the costs from both graphs to create a new cost that reflects both the temperature and terrain constraints on movement.
 
 ```{r}
 combineCostsGraph <- combineCosts(temperatureGraph, maxCostGraph, method = "prod")
@@ -350,7 +350,7 @@ world.countries <- rnaturalearth::ne_countries(
 )
 ```
 
-Let us assume that we are interested in add continent and country information to our
+Let us assume that we are interested in adding continent and country information to our
 `hexGraph` object.
 ```{r }
 hexGraph <- extractFromLayer(hexGraph,
