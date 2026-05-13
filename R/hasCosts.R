@@ -11,7 +11,6 @@
 #' @param x a valid \linkS4class{gGraph}.
 #' @return a logical value is returned.
 #' @keywords utilities methods
-#' @name auxiliary
 #' @examples
 #'
 #' hasCosts(rawgraph.10k)
