@@ -10,20 +10,20 @@ reference:
     contents:
       - createNewGraph
       - makeGrid
-      - assignRasterPoints
-      - collapseNodeAttribute
-      - extractFromLayer
 
-  - title: "Graph structure"
-    desc: "Functions for accessing and modifying the structure of a `gGraph` object."
+  - title: "Graph modification"
+    desc: "Functions for creating and modifying `gGraph` objects."
     contents:
-      - getNodes
-      - getCoords
-      - getEdges
+      - assignRasterPoints
+      - extractFromLayer
+      - collapseNodeAttribute
       - setEdges
-      - getNodesAttr
       - setNodesAttr
-      - getColors
+      
+  - title: "Accessors"
+    desc: "Functions for accessing slots of a `gGraph` or `gData` object."
+    contents:
+      - has_concept("accessor_methods")
 
   - title: "Connecivity Functions"
     desc: "Functions for finding nodes and querying spatial relationships."
@@ -32,25 +32,18 @@ reference:
       - closestNode
       - isInArea
       - findLand
-
+      - dropDeadNodes
+      - dropDeadEdges
+      - keepMaxConnectedSet
 
   - title: "Costs"
     desc: "Functions adjusting the costs of a `gGraph` object."
     contents:
-      - getCosts
+      - hasCosts
       - setCosts
       - setDistCosts
-      - getNodeCosts
       - combineCosts
       - dropCosts
-      - hasCosts
-      
-  - title: "Graph editing (manually)"
-    desc: "Functions for assigning and summarising raster data on graph nodes."
-    contents:
-      - dropDeadNodes
-      - dropDeadEdges
-      - keepMaxConnectedSet
 
   - title: "Graph editing (interactive)"
     desc: "Functions for interactively adding and removing edges."
@@ -83,21 +76,15 @@ reference:
       - geo.slide
       - geo.bookmark
       - geo.back
-
-  - title: "gData"
-    desc: "Functions for working with `gData` objects."
-    contents:
-      - getData
-      - is.gData
-
-  - title: "Validation"
-    desc: "Functions for checking object validity."
-    contents:
-      - is.gGraph
-      - is.gData
       
   - title: "Example data"
     desc: "Datasets included in the package."
     contents:
       - hgdp
       - worldgraph
+      
+  - title: "Validation"
+    desc: "Functions for checking object validity."
+    contents:
+      - is.gGraph
+      - is.gData
