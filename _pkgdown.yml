@@ -6,19 +6,26 @@ development:
 
 reference:
   - title: "Graph construction"
-    desc: "Functions for creating and modifying `gGraph` objects."
+    desc: "Functions for creating new custom `gGraph` objects."
     contents:
       - createNewGraph
       - makeGrid
 
   - title: "Graph modification"
-    desc: "Functions for creating and modifying `gGraph` objects."
+    desc: "Functions for modifying `gGraph` objects."
     contents:
       - assignRasterPoints
       - extractFromLayer
       - collapseNodeAttribute
       - setEdges
       - setNodesAttr
+
+  - title: "Graph modification (interactive)"
+    desc: "Functions for interactively modifying gGraph` objects."
+    contents:
+      - geo.add.edges
+      - geo.remove.edges
+      - geo.change.attr
       
   - title: "Accessors"
     desc: "Functions for accessing slots of a `gGraph` or `gData` object."
@@ -44,13 +51,6 @@ reference:
       - setDistCosts
       - combineCosts
       - dropCosts
-
-  - title: "Graph editing (interactive)"
-    desc: "Functions for interactively adding and removing edges."
-    contents:
-      - geo.add.edges
-      - geo.remove.edges
-      - geo.change.attr
 
   - title: "Shortest paths"
     desc: "Functions for computing shortest paths and distances."
