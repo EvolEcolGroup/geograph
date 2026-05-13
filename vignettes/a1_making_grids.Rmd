@@ -28,7 +28,7 @@ library(sf)
 ```
 
 
-### Creating a custom square grid
+## Creating a custom square grid
 
 We can create a custom square grid using the `makeGrid` function. This function allows us to specify the approximate number of the grid cells and the geographic bounding box for the area of interest (by setting the range for both the latitude and longitude of the grid) . In this example, we create a grid with about 10'000 cells that covers the area of Great Britain. We can then use the `findLand` function to identify which cells in the grid correspond to land and which correspond to sea, and we can visualize the resulting graph using the `plot` function.
 
@@ -47,7 +47,7 @@ squareGraph@meta$colors <- data.frame(
 plot(squareGraph, reset = TRUE)
 ```
 
-### Creating a custom hexagonal grid
+## Creating a custom hexagonal grid
 
 Now as mentioned above, using a square grid is fine for small scale analyses but can introduce distortions when working over larger areas of the world. To avoid this, we can use the `createNewGraph` function to create a hexagonal grid that provides a more accurate representation of the Earth's surface. 
 In `createNewGraph` we need to specify the geographic bounding box for our area of interest and set the spacing between the center of adjacent cells in kilometers. The function will then determine an appropriate grid resolution based on this spacing. Be aware that using a small spacing will result in a very large graph object, which can be computationally intensive to work with.
@@ -82,7 +82,7 @@ We can get more information about the graph object we just created by looking at
 ```{r looking at graph object}
 hexGraph
 ```
-#### Setting costs for the different habitat types
+### Setting costs for the different habitat types
 
 Now we can also set the costs for moving through different habitat types based on their classification. Note that the cost here is arbitrary and can be adjusted based on the specific context of the analysis and the species or features being studied. Costs are inversely related to the ease of movement through a cell, so higher costs indicate more difficult terrain. For example, we can assign a cost of 10 for moving through sea cells and a cost of 1 for moving through land cells. If we now look at the least cost path between two cities (Madrid and Naples) using the `dijkstraBetween` function, we can see that the path tends to avoid sea cells and prefers to move through land cells.
 
@@ -109,7 +109,7 @@ plot(hexGraph, reset = TRUE)
 plot(path, col = "red", lwd = 2)
 ```
 
-### Adding the topographical data
+## Adding the topographical data
 
 The `gGraph` object that we have so far is already great for basic analyses of connectivity across the landscape, but we can also think of more information to add to the graph, such as topographical data. This data often comes in the form of raster layers, which can be assigned to the nodes of the graph. This allows us to incorporate information about the terrain into our connectivity analyses, which can be important for understanding movement patterns and dispersal across landscapes.
 To get the raster data for our example we can use the `get_elev_raster` function from the `elevatr` package. The function takes a spatial object (in this case, the bounding box of our area of interest) and returns a raster layer with elevation values. We can then convert this raster layer into a `SpatRaster` object using the `rast` function from the `terra` package, which allows us to work with it in *geoGraph*.
@@ -272,7 +272,51 @@ plot(hexGraph, reset = TRUE)
 plot(path, col = "red", lwd = 2)
 ```
 
-### Using different methods to calculate costs
+## Extracting information from GIS shapefiles
+
+In the previous sections, we extracted environmental information from raster layers and assigned it to the nodes using `assignRasterPoints.` Another way *geoGraph* can serve as an interface between geographic information system (GIS) layers and geographic data is the function `extractFromLayer`.
+*geoGraph* uses `sf` objects to
+represent geographic objects such as points and polygons. By default, *geoGraph*
+uses the package *rnaturalearth* to provide continent and country outlines, but
+it is possible also to load custom GIS shapefiles with `sf::st_read()`. For example, we can load a shapefile of the Sahara desert in Northern Africa and extract information about which nodes in our graph fall within the desert. We can then reclassify those nodes as "desert" and update the habitat attribute accordingly. Finally, we can visualize the resulting graph with the new habitat classification.
+
+```{r, load desert shapefile}
+# load the desert shapefile
+desert <- st_read("shapefiles/desert_polygon.gpkg", quiet = TRUE)
+
+# nodes inside the polygon get "desert" as their type, all others get NA
+hexGraph <- extractFromLayer(hexGraph,
+                             layer = desert,
+                             attr  = "type"
+)
+
+# reclassify habitat: nodes with type "desert" become "desert",
+node.attr  <- getNodesAttr(hexGraph)
+hab.new    <- ifelse(
+  !is.na(node.attr$type) & node.attr$type == "desert",
+  "desert",
+  node.attr$habitat
+)
+
+hexGraph <- setNodesAttr(hexGraph, attr.name = "habitat", values = hab.new)
+
+# update colors and costs to include desert
+hexGraph@meta$colors <- data.frame(
+  habitat = c("sea", "land", "rugged", "very_rugged", "coast", "desert"),
+  color   = c("blue", "green", "orange", "brown", "lightblue", "khaki")
+)
+
+costs <- data.frame(
+  habitat = c("sea", "land", "rugged", "very_rugged", "coast", "desert"),
+  cost    = c(10, 1, 3, 10, 1, 5)
+)
+
+hexGraph@meta$costs <- costs
+hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat")
+plot(hexGraph, reset = TRUE)
+```
+
+## Using different methods to calculate costs
 
 So far the costs for moving through different habitat types were defined by the mean of the costs associated with the different habitat types. However, the `setCosts` function allows to use different methods to calculate the costs for each edge based on the node attributes. For example, instead of using the mean, we could specify a custom function that takes the maximum cost of the two nodes connected by an edge, which would mean that the cost of moving through an edge is determined by the more difficult habitat type of the two nodes. This can be done by defining a custom function `max.cost` and then using it in the `setCosts` function with the method set to "function". The resulting graph will have costs for each edge that reflect the maximum cost of the two nodes it connects.
 
@@ -325,62 +369,6 @@ combineCostsGraph <- combineCosts(temperatureGraph, maxCostGraph, method = "prod
 
 plot(combineCostsGraph, reset = TRUE)
 plotEdges(combineCostsGraph)
-title("Combined costs graph")
-```
-
-
-## Extracting information from GIS shapefiles
-
-In the previous sections, we extracted environmental information from raster layers and assigned it to the nodes using `assignRasterPoints.` Another way *geoGraph* can serve as an interface between geographic information system (GIS) layers and geographic data is the function `extractFromLayer`.
-*geoGraph* uses `sf` objects to
-represent geographic objects such as points and polygons. By default, *geoGraph*
-uses the package *rnaturalearth* to provide continent and country outlines, but
-it is possible also to load custom GIS shapefiles with `sf::st_read()`.
-
-We start by loading country outlines for the whole world. Note that we
-turn off spherical trigonometry functions with `sf::sf_use_s2(FALSE)`, as the
-`naturalearth` dataset is not compatible
-with that functionality.
-```{r }
-library(sf)
-sf_use_s2(FALSE)
-world.countries <- rnaturalearth::ne_countries(
-  scale = "medium",
-  returnclass = "sf"
-)
-```
-
-Let us assume that we are interested in adding continent and country information to our
-`hexGraph` object.
-```{r }
-hexGraph <- extractFromLayer(hexGraph,
-  layer = world.countries,
-  attr = c("continent", "name")
-)
-summary(getNodesAttr(hexGraph))
-```
-
-Now for each node in `hexGraph`, the corresponding continent and country is retrieved from the GIS layer. Note that `extractFromLayer` can extract information to other types of objects than `gGraph` (see `?extractFromLayer`)
-
-We can use the newly acquired information for plotting `hexGraph`, by defining new color rules:
-```{r fig=TRUE}
-temp <- unique(getNodesAttr(hexGraph)$"name")
-col <- c("transparent", rainbow(length(temp) - 1))
-colMat <- data.frame(name = temp, color = col)
-head(colMat)
-tail(colMat)
-plot(hexGraph, col.rules = colMat, reset = TRUE)
-```
-
-This information could in turn be used to define costs for traveling on the grid.
-For instance, one could import habitat descriptors from a GIS, use these values to formulate a habitat model, and derive costs for dispersal on the grid.
-
-### Look at connectivity between two polygons
-
-```{r}
-test <- polygonBetween(hexGraph, layer = "name", "Switzerland", "Austria", outline = TRUE)
-plot(hexGraph, col = NA, reset = TRUE)
-plot(test)
 ```
 
 
