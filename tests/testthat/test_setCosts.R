@@ -24,3 +24,15 @@ test_that("arbitrary function to set costs", {
     exp.cost(sample_meanProd[1], sample_meanProd[2], cost.coeff = my_coeff)
   )
 })
+
+test_that("setCosts errors when some habitat values have no cost rule", {
+  graph.no.cost <- dropCosts(worldgraph.10k)
+  graph.no.cost@meta$costs <- data.frame(
+    habitat = c("sea", "land"),  # missing coast, mountain etc.
+    cost    = c(10, 1)
+  )
+  expect_error(
+    setCosts(graph.no.cost, attr.name = "habitat"),
+    "The following node attribute values have no cost rule defined"
+  )
+})
