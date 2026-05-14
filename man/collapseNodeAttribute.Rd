@@ -44,6 +44,7 @@ This function collapses a list-based node attribute
 Optionally replaces the original attribute to reduce memory usage.
 }
 \examples{
+if (requireNamespace("terra", quietly = TRUE)) {
 # create a small graph over Europe
 geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 ggraph <- createNewGraph(geo.box, spacing = 1000)
@@ -58,4 +59,5 @@ terra::values(r) <- runif(terra::ncell(r))
 ggraph <- assignRasterPoints(ggraph, r, layer.name = "elevation")
 # collapse the elevation attribute to the mean value per node (replaces the list)
 ggraph <- collapseNodeAttribute(ggraph, attribute = "elevation", fun = "mean")
+}
 }
