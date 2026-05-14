@@ -16,18 +16,18 @@
 #' nodes when \code{res.type = "dist"}, or a numeric vector of distances when
 #' \code{res.type = "vector"}.
 #' @examples
-#' ## select a few populations from the HGDP dataset
+#' ## for pairwise distances between multiple nodes you can use res.type = "dist"
+#' # select a few populations from the HGDP dataset
 #' hgdp.sub <- hgdp[getData(hgdp)$Population %in%
-#'   c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
+#'   c("Balochi", "BantuKenya", "Papuan", "Pima")]
 #' hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
-#' gPath2dist(hgdp.path) # extract pairwise distances
+#' gPath2dist(hgdp.path, res = "dist") # extract as dist object
+#' ## for distances from a single origin node to multiple we set res.type = "vector"
+#' #' # choose an origin node
+#' start <- "24988"
+#' hgdp.path <- dijkstraFrom(hgdp.sub, start) # compute shortest path from origin
+#' gPath2dist(hgdp.path, res = "vector") # extract as vector of distances
 #' @family dijkstra_methods
-# Old text which does not make much sense?!?
-# Note
-# that if the \code{gPath} does not contain pairwise information, a warning
-# will be issued, but the resulting output will likely be meaningless.\cr
-
-
 
 #TODO think whether this should be a as.dist method for gPath
 
@@ -65,7 +65,7 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
 
 
   ## GET DISTANCES ##
-  resDist <- sapply(x, function(e) sum(e$length_detail[[1]]))
+  resDist <- sapply(x, function(e) sum(e$length_detail[[1]], na.rm = TRUE))
 
 
   ## BUILD RESULT ##

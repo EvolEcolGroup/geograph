@@ -44,27 +44,27 @@ test_that("gPath2dist dist and vector return consistent distances", {
 
 test_that("gPath2dist gives an error when dijkstraFrom output is used with res.type = 'dist'", {
   
-  hgdp_sub <- hgdp[c(1, 2, 3, 4),]
+  hgdp.sub <- hgdp[c(1, 2, 3, 4),]
   
   # Choose an origin node
   start <- "24988"
   
-  myPath <- dijkstraFrom(hgdp_sub, start)
+  hgdp.path <- dijkstraFrom(hgdp.sub, start)
   
   expect_error(
-    gPath2dist(myPath, res.type = "dist"),
+    gPath2dist(hgdp.path, res.type = "dist"),
     "Length of x does not match a number of pairwise comparisons")
 })
 
 test_that("gPath2dist works correctly with dijkstraFrom output and res.type = 'vector'", {
-  hgdp_sub <- hgdp[c(1, 2, 3, 4),]
+  hgdp.sub <- hgdp[c(1, 2, 3, 4),]
   
   # Choose an origin node
   start <- "24988"
   
-  myPath <- dijkstraFrom(hgdp_sub, start)
+  hgdp.path <- dijkstraFrom(hgdp.sub, start)
   
-  result <- gPath2dist(myPath, res.type = "vector")
+  result <- gPath2dist(hgdp.path, res.type = "vector")
   
   expect_true(is.numeric(result))
   expect_equal(length(result), 4L)

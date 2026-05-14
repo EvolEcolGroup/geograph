@@ -2,12 +2,13 @@
 % Please edit documentation in R/gPath2dist.R
 \name{gPath2dist}
 \alias{gPath2dist}
-\title{Extract pairwise distances from a gPath object}
+\title{Extract distances from a gPath object}
 \usage{
 gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
 }
 \arguments{
-\item{m}{a \code{gPath} object obtained by \code{\link[=dijkstraBetween]{dijkstraBetween()}}.}
+\item{m}{a \code{gPath} object obtained by \code{\link[=dijkstraBetween]{dijkstraBetween()}} or
+\code{\link[=dijkstraFrom]{dijkstraFrom()}}.}
 
 \item{diag}{unused parameter added for consistency with \code{\link[=as.dist]{as.dist()}}.}
 
@@ -19,18 +20,27 @@ returned: a \code{dist} object ('dist'), or a vector of distances
 output by dijkstraBetween (as opposed to dijkstraFrom).}
 }
 \value{
-\code{\link{dist}} object containing the pairwise distances between nodes as
+Either a \code{\link{dist}} object containing pairwise distances between
+nodes when \code{res.type = "dist"}, or a numeric vector of distances when
+\code{res.type = "vector"}.
 }
 \description{
-This function extracts the pairwise distances from the \code{gPath}
-returned by \code{\link[=dijkstraBetween]{dijkstraBetween()}} and returns a \code{\link{dist}} object.
+This function extracts distances from a \code{gPath} object returned by
+\code{\link[=dijkstraBetween]{dijkstraBetween()}} or \code{\link[=dijkstraFrom]{dijkstraFrom()}}. Depending on \code{res.type}, it
+returns either a \code{\link{dist}} object or a numeric vector of distances.
 }
 \examples{
-## select a few populations from the HGDP dataset
+## for pairwise distances between multiple nodes you can use res.type = "dist"
+# select a few populations from the HGDP dataset
 hgdp.sub <- hgdp[getData(hgdp)$Population \%in\%
-  c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
+  c("Balochi", "BantuKenya", "Papuan", "Pima")]
 hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
-gPath2dist(hgdp.path) # extract pairwise distances
+gPath2dist(hgdp.path, res = "dist") # extract as dist object
+## for distances from a single origin node to multiple we set res.type = "vector"
+#' # choose an origin node
+start <- "24988"
+hgdp.path <- dijkstraFrom(hgdp.sub, start) # compute shortest path from origin
+gPath2dist(hgdp.path, res = "vector") # extract as vector of distances
 }
 \seealso{
 Other dijkstra_methods: 
