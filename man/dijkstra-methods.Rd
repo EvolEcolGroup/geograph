@@ -4,14 +4,11 @@
 \name{dijkstra-methods}
 \alias{dijkstra-methods}
 \alias{plot.gPath}
-\alias{gPath2dist}
 \alias{dijkstraFrom,gGraph-method}
 \alias{dijkstraFrom,gData-method}
 \title{Shortest path using Dijkstra algorithm}
 \usage{
 \method{plot}{gPath}(x, col = "rainbow", lwd = 3, ...)
-
-gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
 
 \S4method{dijkstraFrom}{gGraph}(x, start)
 
@@ -27,16 +24,6 @@ be used for plotting edges.}
 \item{lwd}{a numeric value indicating the width of edges.}
 
 \item{\dots}{further arguments passed to the \code{segments} method.}
-
-\item{m}{a \code{gPath} object obtained by \code{dijkstraBetween}.}
-
-\item{diag, upper}{unused parameters added for consistency with
-\code{as.dist}.}
-
-\item{res.type}{a character string indicating what type of result should be
-returned: a \code{dist} object ('dist'), or a vector of distances
-('vector'). Note that 'dist' should only be required for pairwise data, as
-output by dijkstraBetween (as opposed to dijkstraFrom).}
 
 \item{start}{a character string naming the 'source' node.}
 }
@@ -60,11 +47,6 @@ of nodes given two sets of nodes.\cr
 
 All these functions return objects with S3 class "gPath". These objects can
 be plotted using \code{plot.gPath}.
-
-\code{gPath2dist} extracts the pairwise distances from the \code{gPath}
-returned by \code{dijkstraBetween} and returns a \code{dist} object. Note
-that if the \code{gPath} does not contain pairwise information, a warning
-will be issued, but the resulting output will likely be meaningless.\cr
 
 In 'dijkstraBetween', paths are sought all possible pairs of nodes between
 'from' and 'to'.
