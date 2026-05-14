@@ -1,10 +1,10 @@
 ---
-title: "Get Started with geoGraph"
+title: "geoGraph"
 author: "Thibaut Jombart, Dominik Jud […] and Andrea Manica"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Get Started with geoGraph}
+  %\VignetteIndexEntry{geoGraph}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -65,6 +65,7 @@ Collate:
     'dropDead.R'
     'extractFromLayer.R'
     'findLand.R'
+    'gPath2dist.R'
     'geo.segments.R'
     'geograph-package.R'
     'globals.R'

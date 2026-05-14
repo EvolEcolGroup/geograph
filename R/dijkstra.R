@@ -13,11 +13,6 @@
 #' All these functions return objects with S3 class "gPath". These objects can
 #' be plotted using \code{plot.gPath}.
 #'
-#' \code{gPath2dist} extracts the pairwise distances from the \code{gPath}
-#' returned by \code{dijkstraBetween} and returns a \code{dist} object. Note
-#' that if the \code{gPath} does not contain pairwise information, a warning
-#' will be issued, but the resulting output will likely be meaningless.\cr
-#'
 #' In 'dijkstraBetween', paths are sought all possible pairs of nodes between
 #' 'from' and 'to'.
 #'
@@ -29,13 +24,6 @@
 #' @param col a character string indicating a color or a palette of colors to
 #' be used for plotting edges.
 #' @param lwd a numeric value indicating the width of edges.
-#' @param m a \code{gPath} object obtained by \code{dijkstraBetween}.
-#' @param diag,upper unused parameters added for consistency with
-#' \code{as.dist}.
-#' @param res.type a character string indicating what type of result should be
-#' returned: a \code{dist} object ('dist'), or a vector of distances
-#' ('vector'). Note that 'dist' should only be required for pairwise data, as
-#' output by dijkstraBetween (as opposed to dijkstraFrom).
 #' @param \dots further arguments passed to the \code{segments} method.
 #' @return A "gPath" object. These are basically the outputs of RBGL's
 #' \code{sp.between} function (see \code{?sp.between}), with a class attribute
@@ -113,53 +101,6 @@ plot.gPath <- function(x, col = "rainbow", lwd = 3, ...) {
   return(invisible())
 } # end plot.gPath
 
-
-######################################
-######################################
-
-##
-## CONVERSION gPath -> distance
-##
-
-#' @rdname dijkstra-methods
-#' @export
-gPath2dist <- function(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector")) {
-  ## find the size of the dist object ##
-  x <- m
-  res.type <- match.arg(res.type)
-  L <- length(x)
-  x.names <- sub(":.*", "", names(x))
-  i <- 1
-  while (x.names[i] == x.names[i + 1] && i < L) {
-    i <- i + 1
-  }
-
-  resSize <- i + 1
-
-  ## check size consistency
-  if (L != (resSize * (resSize - 1) * 0.5)) {
-    if (res.type == "dist") {
-      warning("Length of x does not match a number of pairwise comparisons.")
-    }
-  }
-
-
-  ## GET DISTANCES ##
-  resDist <- sapply(x, function(e) sum(e$length_detail[[1]], na.rm = TRUE))
-
-
-  ## BUILD RESULT ##
-  ## type == dist
-  if (res.type == "dist") {
-    res <- stats::dist(1:resSize)
-    res[] <- resDist
-  } else {
-    ## type == vector (no change)
-    res <- resDist
-  }
-
-  return(res)
-} # end gPath2dist
 
 
 ###########################################

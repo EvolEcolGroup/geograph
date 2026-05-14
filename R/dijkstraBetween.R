@@ -18,6 +18,7 @@
 #' plot(hgdp.sub)
 #' plot(hgdp.path)
 #' @family dijkstra_methods
+#' @aliases gPath
 #' @export
 setGeneric("dijkstraBetween", function(x, ...) {
   standardGeneric("dijkstraBetween")

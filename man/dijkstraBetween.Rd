@@ -2,6 +2,7 @@
 % Please edit documentation in R/dijkstraBetween.R
 \name{dijkstraBetween}
 \alias{dijkstraBetween}
+\alias{gPath}
 \alias{dijkstraBetween,gGraph-method}
 \alias{dijkstraBetween,gData-method}
 \title{Find the shortest path between nodes in a graph}
@@ -51,6 +52,7 @@ plot(hgdp.path)
 }
 \seealso{
 Other dijkstra_methods: 
-\code{\link{dijkstraFrom}()}
+\code{\link{dijkstraFrom}()},
+\code{\link{gPath2dist}()}
 }
 \concept{dijkstra_methods}
