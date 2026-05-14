@@ -80,15 +80,6 @@ Other accessor_methods:
 \code{\link{getGraph}()},
 \code{\link{getNodes}()},
 \code{\link{getNodesAttr}()}
-
-Other accessor_methods: 
-\code{\link{getColors}()},
-\code{\link{getCoords}()},
-\code{\link{getData}()},
-\code{\link{getEdges}()},
-\code{\link{getGraph}()},
-\code{\link{getNodes}()},
-\code{\link{getNodesAttr}()}
 }
 \concept{accessor_methods}
 \keyword{methods}

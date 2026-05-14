@@ -37,3 +37,31 @@ test_that("setEdges returns a gGraph", {
                       remove = data.frame(from = edge[1], to = edge[2]))
   expect_s4_class(result, "gGraph")
 })
+
+test_that("setEdges errors when both add and remove are specified", {
+  edge    <- getEdges(worldgraph.10k, res.type = "matNames")[1, ]
+  expect_error(
+    setEdges(worldgraph.10k,
+             add = data.frame(from = edge[1], to = edge[2]),
+             remove = data.frame(from = edge[1], to = edge[2])),
+    "Only one of `add` or `remove` can be specified per call."
+  )
+})
+
+test_that("setEdges errors when costs length does not match edges", {
+  edge <- getEdges(worldgraph.10k, res.type = "matNames")[1, ]
+  expect_error(
+    setEdges(worldgraph.10k,
+             add   = data.frame(from = edge[1], to = edge[2]),
+             costs = c(1, 2)),  
+    "`costs` must have length 1 or match the number of edges"
+  )
+})
+
+test_that("setEdges recycles scalar cost to all edges", {
+  edges <- getEdges(worldgraph.10k, res.type = "matNames")[1:2, ]
+  result <- setEdges(worldgraph.10k,
+                     add   = data.frame(from = edges[, 1], to = edges[, 2]),
+                     costs = 5)  
+  expect_s4_class(result, "gGraph")
+})

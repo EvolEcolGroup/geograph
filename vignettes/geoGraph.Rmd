@@ -146,7 +146,6 @@ constructor (`new(...)`). A more detailed description of how to construct custom
 ### gData objects
 
 `gData` objects store sets of locations interfaced with a `gGraph` object. When creating a `gData`, each location is matched to its closest node on the gGraph grid, which makes it possible to model travel between locations along the grid — for instance, to find the shortest path between two sites through different habitat types.
-object.
 
 Like for `gGraph`, the content of the formal class `gData` can be obtained using:
 ```{r }

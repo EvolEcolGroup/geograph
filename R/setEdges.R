@@ -52,6 +52,10 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
     return(x)
   }
   
+  if (!is.null(add) && !is.null(remove)) {
+    stop("Only one of `add` or `remove` can be specified per call.")
+  }
+  
   if (!is.null(add)) { ## add edges ##
     add <- as.data.frame(add)
     if (ncol(add) != 2) stop("add does not have two columns")
@@ -60,6 +64,10 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
     if (!all(unique(c(from, to)) %in% getNodes(x))) stop("unknown specified nodes") # unknown nodes
     if (is.null(costs)) {
       costs <- rep(1, length(from))
+    } else if (length(costs) == 1L) {
+      costs <- rep(costs, length(from))
+    } else if (length(costs) != length(from)) {
+      stop("`costs` must have length 1 or match the number of edges in `add`.")
     }
     
     myGraph <- suppressWarnings(addEdge(from = from, to = to, graph = x@graph, weights = costs))

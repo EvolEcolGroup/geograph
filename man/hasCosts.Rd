@@ -19,7 +19,7 @@ to its edges.
 \details{
 This low-level function is designed to be called  by other procedures of
 \link{geoGraph}. However, it can sometimes be useful by itself. Note that
-unlike other functions in \code{geoGraph}, this functions does not
+unlike other functions in \code{geoGraph}, this function does not
 test for the validity of the provided arguments (for speed purposes).
 }
 \examples{

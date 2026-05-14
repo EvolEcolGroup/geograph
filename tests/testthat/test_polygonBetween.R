@@ -47,7 +47,7 @@ test_that("polygonBetween returns a gPath with outline = FALSE", {
   expect_true(inherits(result, "gPath"))
 })
 
-test_that("polygonBetween returns a gPath with outline = FALSE", {
+test_that("polygonBetween returns a gPath with outline = TRUE", {
   result <- polygonBetween(test.graph, layer = "name",
                            from = "west", to = "east",
                            outline = TRUE)

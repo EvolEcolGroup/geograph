@@ -379,7 +379,6 @@ setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector"), uniq
 #################
 ## getNodeCosts
 #################
-#' @family accessor_methods
 #' @export
 #' @describeIn getCosts Function to get the costs values for nodes
 setGeneric("getNodeCosts", function(x, ...) {

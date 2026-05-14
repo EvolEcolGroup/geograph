@@ -34,11 +34,11 @@
 #' # set uniform edge costs (required before running nodeBuffer)
 #' ggraph <- setCosts(ggraph, node.values = rep(10, length(getNodes(ggraph))))
 #'
-#' # get all nodes reachable within a cost of 3000 from node "1"
-#' reachable <- nodeBuffer(ggraph, origin = "1",
+#' # get all nodes reachable within a cost of 15 from node "1"
+#' reachable <- nodeBuffer(ggraph, origin = getNodes(ggraph)[1],
 #'                        max.distance = 15, map.distances = FALSE)
 #' # same but mapped back onto the graph as a node attribute
-#' ggraph <- nodeBuffer(ggraph, origin = "1",
+#' ggraph <- nodeBuffer(ggraph, origin = getNodes(ggraph)[1],
 #'                     max.distance = 15, map.distances = TRUE)
 #'# use a spatial origin instead of a node ID
 #' ggraph <- nodeBuffer(ggraph, origin = data.frame(lon = 10, lat = 47),

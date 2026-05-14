@@ -43,7 +43,7 @@
 #' @export
 setNodesAttr <- function(x, attr.name, values, ...) {
   if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
-  if (!is.character(attr.name) || length(attr.name) != 1) {
+  if (!is.character(attr.name) || length(attr.name) != 1 || is.na(attr.name) || !nzchar(attr.name)) {
     stop("`attr.name` must be a single character string.")
   }
   if (length(values) != length(getNodes(x))) {
