@@ -19,6 +19,7 @@
 #' to create custom attributes like "mountain" or "land".
 #'
 #' @examples
+#' if (requireNamespace("terra", quietly = TRUE)) {
 #' # create a small graph over Europe
 #' geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 #' ggraph <- createNewGraph(geo.box, spacing = 1000)
@@ -37,6 +38,7 @@
 #'
 #' # use a custom layer name
 #' ggraph <- assignRasterPoints(ggraph, r, layer.name = "elevation")
+#' }
 #' @export
 assignRasterPoints <- function(graph, raster, layer.name = "raster_points") {
   if (!inherits(graph, "gGraph")) stop("graph must be a gGraph object")

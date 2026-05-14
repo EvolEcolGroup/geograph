@@ -24,6 +24,7 @@
 #' If `replace = FALSE`, a vector of collapsed values (one per node).
 #' 
 #' @examples
+#' if (requireNamespace("terra", quietly = TRUE)) {
 #' # create a small graph over Europe
 #' geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 #' ggraph <- createNewGraph(geo.box, spacing = 1000)
@@ -38,6 +39,7 @@
 #' ggraph <- assignRasterPoints(ggraph, r, layer.name = "elevation")
 #' # collapse the elevation attribute to the mean value per node (replaces the list)
 #' ggraph <- collapseNodeAttribute(ggraph, attribute = "elevation", fun = "mean")
+#' }
 #'@export
 collapseNodeAttribute <- function(graph,
                                   attribute,
