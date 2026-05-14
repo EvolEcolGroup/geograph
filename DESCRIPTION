@@ -81,6 +81,7 @@ Collate:
     'polygonBetween.R'
     'setCosts.R'
     'setDistCosts.R'
+    'setEdges.R'
     'setNodesAttr.R'
     'utils-pipe.R'
     'zoom.R'
