@@ -27,13 +27,20 @@ which are essentially geo-referenced graphs with node attributes
 
 ## Installation
 
-You can install the development version of `geoGraph` from
-[GitHub](https://github.com/) with:
+You can install `geoGraph` from [GitHub](https://github.com/) with:
 
 ``` r
 
-install.packages("devtools")
-devtools::install_github("EvolEcolGroup/geograph/")
+install.packages("pak")
+pak::pak("EvolEcolGroup/geograph")
+```
+
+You can install the development version of `geoGraph` with:
+
+``` r
+
+install.packages("pak")
+pak::pak("EvolEcolGroup/geograph@dev")
 ```
 
 ## How the package works
@@ -68,7 +75,6 @@ the overview article of its website.
 - [`createNewGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/createNewGraph.md)
   : Make a new gGraph object from a custom discrete global grid
 - [`plot(`*`<gPath>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
-  [`gPath2dist()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   [`dijkstraFrom(`*`<gGraph>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   [`dijkstraFrom(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   : Shortest path using Dijkstra algorithm
@@ -114,6 +120,8 @@ the overview article of its website.
   [`getCoords`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
   [`getNodes`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
   : Formal class "gGraph"
+- [`gPath2dist()`](https://evolecolgroup.github.io/geograph/dev/reference/gPath2dist.md)
+  : Extract distances from a gPath object
 - [`geo.add.edges()`](https://evolecolgroup.github.io/geograph/dev/reference/geo.add.edges.md)
   : Add and remove edges from a gGraph object
 - [`geo.change.attr()`](https://evolecolgroup.github.io/geograph/dev/reference/geo.change.attr.md)

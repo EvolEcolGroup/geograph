@@ -27,13 +27,20 @@ which are essentially geo-referenced graphs with node attributes
 
 ## Installation
 
-You can install the development version of `geoGraph` from
-[GitHub](https://github.com/) with:
+You can install `geoGraph` from [GitHub](https://github.com/) with:
 
 ``` r
 
-install.packages("devtools")
-devtools::install_github("EvolEcolGroup/geograph/")
+install.packages("pak")
+pak::pak("EvolEcolGroup/geograph")
+```
+
+You can install the development version of `geoGraph` with:
+
+``` r
+
+install.packages("pak")
+pak::pak("EvolEcolGroup/geograph@dev")
 ```
 
 ## How the package works

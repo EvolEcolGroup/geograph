@@ -1256,7 +1256,9 @@ paths <- dijkstraFrom(hgdp, ori)
 ```
 
 The object `paths` contains the identified paths, which are stored as a
-list with class `gPath` (see `?gPath`). Paths can be plotted easily:
+list with class `gPath` (see
+[`?gPath`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md)).
+Paths can be plotted easily:
 
 ``` r
 

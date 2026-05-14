@@ -29,7 +29,8 @@ A gPath object (TODO link with a full description of gPath).
 ## See also
 
 Other dijkstra_methods:
-[`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md)
+[`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md),
+[`gPath2dist()`](https://evolecolgroup.github.io/geograph/dev/reference/gPath2dist.md)
 
 ## Examples
 

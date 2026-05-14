@@ -25,7 +25,6 @@
 - [`createNewGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/createNewGraph.md)
   : Make a new gGraph object from a custom discrete global grid
 - [`plot(`*`<gPath>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
-  [`gPath2dist()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   [`dijkstraFrom(`*`<gGraph>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   [`dijkstraFrom(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
   : Shortest path using Dijkstra algorithm
@@ -71,6 +70,8 @@
   [`getCoords`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
   [`getNodes`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
   : Formal class "gGraph"
+- [`gPath2dist()`](https://evolecolgroup.github.io/geograph/dev/reference/gPath2dist.md)
+  : Extract distances from a gPath object
 - [`geo.add.edges()`](https://evolecolgroup.github.io/geograph/dev/reference/geo.add.edges.md)
   : Add and remove edges from a gGraph object
 - [`geo.change.attr()`](https://evolecolgroup.github.io/geograph/dev/reference/geo.change.attr.md)

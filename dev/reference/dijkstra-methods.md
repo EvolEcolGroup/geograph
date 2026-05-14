@@ -13,8 +13,6 @@ object.
 # S3 method for class 'gPath'
 plot(x, col = "rainbow", lwd = 3, ...)
 
-gPath2dist(m, diag = FALSE, upper = FALSE, res.type = c("dist", "vector"))
-
 # S4 method for class 'gGraph'
 dijkstraFrom(x, start)
 
@@ -45,21 +43,6 @@ dijkstraFrom(x, start)
 
   further arguments passed to the `segments` method.
 
-- m:
-
-  a `gPath` object obtained by `dijkstraBetween`.
-
-- diag, upper:
-
-  unused parameters added for consistency with `as.dist`.
-
-- res.type:
-
-  a character string indicating what type of result should be returned:
-  a `dist` object ('dist'), or a vector of distances ('vector'). Note
-  that 'dist' should only be required for pairwise data, as output by
-  dijkstraBetween (as opposed to dijkstraFrom).
-
 - start:
 
   a character string naming the 'source' node.
@@ -81,11 +64,6 @@ of nodes given two sets of nodes.
 
 All these functions return objects with S3 class "gPath". These objects
 can be plotted using `plot.gPath`.
-
-`gPath2dist` extracts the pairwise distances from the `gPath` returned
-by `dijkstraBetween` and returns a `dist` object. Note that if the
-`gPath` does not contain pairwise information, a warning will be issued,
-but the resulting output will likely be meaningless.  
 
 In 'dijkstraBetween', paths are sought all possible pairs of nodes
 between 'from' and 'to'.
