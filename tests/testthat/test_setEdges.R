@@ -60,8 +60,28 @@ test_that("setEdges errors when costs length does not match edges", {
 
 test_that("setEdges recycles scalar cost to all edges", {
   edges <- getEdges(worldgraph.10k, res.type = "matNames")[1:2, ]
-  result <- setEdges(worldgraph.10k,
+  
+  # remove the edges first so we can add them back with known costs
+  x <- setEdges(worldgraph.10k,
+                remove = data.frame(from = edges[1, 1], to = edges[1, 2]))
+  x <- setEdges(x,
+                remove = data.frame(from = edges[2, 1], to = edges[2, 2]))
+  
+  # add them back with scalar cost = 5
+  result <- setEdges(x,
                      add   = data.frame(from = edges[, 1], to = edges[, 2]),
-                     costs = 5)  
-  expect_s4_class(result, "gGraph")
+                     costs = 5)
+  
+  # verify both edges exist
+  expect_true(areNeighbours(edges[1, 1], edges[1, 2], getGraph(result)))
+  expect_true(areNeighbours(edges[2, 1], edges[2, 2], getGraph(result)))
+  
+  # verify both edges have cost 5
+  all.costs <- getCosts(result, res.type = "vector")
+  
+  edge.1.key <- paste(edges[1, 1], edges[1, 2], sep = ".")
+  edge.2.key <- paste(edges[2, 1], edges[2, 2], sep = ".")
+  
+  expect_equal(unname(all.costs[edge.1.key]), 5)
+  expect_equal(unname(all.costs[edge.2.key]), 5)
 })
