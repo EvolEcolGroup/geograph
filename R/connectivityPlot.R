@@ -16,8 +16,14 @@
 #'   invisibly.
 #' @include classes.R
 #' @examples
-#' connectivityPlot(rawgraph.10k)
-#' connectivityPlot(hgdp, col.gGraph = "lightblue")
+#' # plot connected sets of a gGraph object
+#' connectivityPlot(worldgraph.10k)
+#' 
+#' # get connected sets of a gGraph object
+#' col.gGraph <- connectivityPlot(worldgraph.40k)
+#' 
+#' # plot connected sets of a gData object
+#' connectivityPlot(hgdp, col.gGraph = col.gGraph)
 #' @export
 setGeneric("connectivityPlot", function(x, ...) {
   standardGeneric("connectivityPlot")
@@ -94,8 +100,6 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
 setMethod("connectivityPlot", "gData", function(x, col.gGraph = 0, ..., seed = NULL) {
   ## some checks ##
   if (!is.gData(x)) stop("x is not a valid gData object")
-
-  env <- get(".geoGraphEnv", envir = .GlobalEnv) # env is our target environnement
 
   ## get connected sets ##
   connected.sets <- RBGL::connectedComp(getGraph(x))

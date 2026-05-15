@@ -42,6 +42,12 @@ no connected set of size > 1) are plotted in light gray.
 
 }}
 \examples{
-connectivityPlot(rawgraph.10k)
-connectivityPlot(hgdp, col.gGraph = "lightblue")
+# plot connected sets of a gGraph object
+connectivityPlot(worldgraph.10k)
+
+# get connected sets of a gGraph object
+col.gGraph <- connectivityPlot(worldgraph.40k)
+
+# plot connected sets of a gData object
+connectivityPlot(hgdp, col.gGraph = col.gGraph)
 }
