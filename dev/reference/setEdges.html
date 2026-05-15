@@ -13,7 +13,7 @@ geo.remove.edges."><meta name="robots" content="noindex"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,12 +21,12 @@ geo.remove.edges."><meta name="robots" content="noindex"></head><body>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/geoGraph.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/edit_graphs.html">Edit graphs in geoGraph</a></li>
-    <li><a class="dropdown-item" href="../articles/geograph.html">geoGraph</a></li>
-    <li><a class="dropdown-item" href="../articles/grids.html">Making custom grids in geoGraph</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/a1_making_grids.html">Making custom grids in geoGraph</a></li>
+    <li><a class="dropdown-item" href="../articles/a2_edit_graphs.html">Edit graphs in geoGraph</a></li>
     <li><a class="dropdown-item" href="../articles/old_vignette_geograph.html">geoGraph_old</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -42,7 +42,7 @@ geo.remove.edges."><meta name="robots" content="noindex"></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Add and remove edges from a gGraph object</h1>
-      <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/R/accessors.R" class="external-link"><code>R/accessors.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/R/setEdges.R" class="external-link"><code>R/setEdges.R</code></a></small>
       <div class="d-none name"><code>setEdges.Rd</code></div>
     </div>
 
@@ -101,11 +101,41 @@ and <code>add[i,]</code> if <code>add</code> is a data.frame.</p></dd>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="geo.add.edges.html">geo.add.edges</a></code> and <code><a href="geo.add.edges.html">geo.remove.edges</a></code> to
-interactively add or remove edges in a <a href="gGraph-class.html">gGraph</a> object. <br></p>
-<p><code><a href="getEdges.html">getEdges</a></code> to retrieve edges in different formats.</p></div>
+    <div class="dont-index"><p><code><a href="getEdges.html">getEdges</a></code> to retrieve edges.
+<code><a href="geo.add.edges.html">geo.add.edges</a></code> and <code><a href="geo.add.edges.html">geo.remove.edges</a></code> for interactive versions.</p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># check which nodes are neighbours of node "1"</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="getEdges.html">getEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span>, res.type <span class="op">=</span> <span class="st">"matNames"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Vi   Vj    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "67" "9955"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "67" "387" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "67" "68"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "67" "9953"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "67" "388" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] "68" "388" </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># remove an edge between two neighbouring nodes</span></span></span>
+<span class="r-in"><span><span class="va">node.from</span> <span class="op">&lt;-</span> <span class="st">"1"</span></span></span>
+<span class="r-in"><span><span class="va">node.to</span>   <span class="op">&lt;-</span> <span class="fu"><a href="getEdges.html">getEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span>, res.type <span class="op">=</span> <span class="st">"matNames"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">setEdges</span><span class="op">(</span><span class="va">worldgraph.10k</span>,</span></span>
+<span class="r-in"><span>              remove <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">node.from</span>, to <span class="op">=</span> <span class="va">node.to</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># verify the edge is gone</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="areNeighbours.html">areNeighbours</a></span><span class="op">(</span><span class="va">node.from</span>, <span class="va">node.to</span>, <span class="fu"><a href="getGraph.html">getGraph</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1-&gt;9955 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   FALSE </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># add it back</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">setEdges</span><span class="op">(</span><span class="va">x</span>, add <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>from <span class="op">=</span> <span class="va">node.from</span>, to <span class="op">=</span> <span class="va">node.to</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="areNeighbours.html">areNeighbours</a></span><span class="op">(</span><span class="va">node.from</span>, <span class="va">node.to</span>, <span class="fu"><a href="getGraph.html">getGraph</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1-&gt;9955 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    TRUE </span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

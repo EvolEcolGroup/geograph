@@ -82,9 +82,9 @@ obj # note: no node attribute
 #> 
 #> @coords: spatial coordinates of 1000 nodes
 #>         lon       lat
-#> 1 -79.89893 -20.17944
-#> 2  80.75184 -80.00657
-#> 3 -40.24089 -80.89911
+#> 1 -34.50605 -35.31080
+#> 2 110.02248 -39.15346
+#> 3 120.38047 -24.84320
 #> ...
 #> 
 #> @nodes.attr: 0 nodes attributes
@@ -109,16 +109,16 @@ obj # note: new node attribute
 #> 
 #> @coords: spatial coordinates of 1000 nodes
 #>         lon       lat
-#> 1 -79.89893 -20.17944
-#> 2  80.75184 -80.00657
-#> 3 -40.24089 -80.89911
+#> 1 -34.50605 -35.31080
+#> 2 110.02248 -39.15346
+#> 3 120.38047 -24.84320
 #> ...
 #> 
 #> @nodes.attr: 1 nodes attributes
 #>   habitat
 #> 1     sea
-#> 2    land
-#> 3     sea
+#> 2     sea
+#> 3    land
 #> ...
 #> 
 #> @meta: list of meta information with 0 items

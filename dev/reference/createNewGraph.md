@@ -49,8 +49,8 @@ object with the resulting graph structure and node coordinates.
 ``` r
 # Define a geographic bounding box (e.g., for a region in Europe)
 geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-# Create a gGraph with a spacing of 1000 km
-ggraph <- createNewGraph(geo.box = geo.box, spacing = 1000)
-#> Resolution: 4, Area (km^2): 629710.644103813, Spacing (km): 783.739159045648, CLS (km): 895.60184164835
+# Create a gGraph with a spacing of 300 km
+ggraph <- createNewGraph(geo.box = geo.box, spacing = 300)
+#> Resolution: 6, Area (km^2): 69967.8493448681, Spacing (km): 261.246386348549, CLS (km): 298.479323187169
 plot(ggraph, edge = TRUE)
 ```

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,12 +15,12 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/geoGraph.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/edit_graphs.html">Edit graphs in geoGraph</a></li>
-    <li><a class="dropdown-item" href="../articles/geograph.html">geoGraph</a></li>
-    <li><a class="dropdown-item" href="../articles/grids.html">Making custom grids in geoGraph</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/a1_making_grids.html">Making custom grids in geoGraph</a></li>
+    <li><a class="dropdown-item" href="../articles/a2_edit_graphs.html">Edit graphs in geoGraph</a></li>
     <li><a class="dropdown-item" href="../articles/old_vignette_geograph.html">geoGraph_old</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -39,9 +39,164 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="graph-construction">Graph construction<a class="anchor" aria-label="anchor" href="#graph-construction"></a></h2>
+
+      <div class="section-desc"><p>Functions for creating new custom <code>gGraph</code> objects.</p></div>
+
+      <dl></dl></div><div class="section level2">
 
 
+
+
+      <dl><dt>
+
+          <code><a href="createNewGraph.html">createNewGraph()</a></code>
+
+        </dt>
+        <dd>Make a new gGraph object from a custom discrete global grid</dd>
+
+        <dt>
+
+          <code><a href="makeGrid.html">makeGrid()</a></code>
+
+        </dt>
+        <dd>Build a regular grid gGraph</dd>
+      </dl></div><div class="section level2">
+      <h2 id="graph-modification">Graph modification<a class="anchor" aria-label="anchor" href="#graph-modification"></a></h2>
+
+      <div class="section-desc"><p>Functions for modifying <code>gGraph</code> objects.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="assignRasterPoints.html">assignRasterPoints()</a></code>
+
+        </dt>
+        <dd>Assign raster points to graph nodes</dd>
+
+        <dt>
+
+          <code><a href="extractFromLayer.html">extractFromLayer()</a></code>
+
+        </dt>
+        <dd>Retrieves node attributes from a layer</dd>
+
+        <dt>
+
+          <code><a href="collapseNodeAttribute.html">collapseNodeAttribute()</a></code>
+
+        </dt>
+        <dd>Collapse a list-based node attribute into a scalar node attribute</dd>
+
+        <dt>
+
+          <code><a href="setEdges.html">setEdges()</a></code>
+
+        </dt>
+        <dd>Add and remove edges from a gGraph object</dd>
+
+        <dt>
+
+          <code><a href="setNodesAttr.html">setNodesAttr()</a></code>
+
+        </dt>
+        <dd>Set node attributes in a gGraph object</dd>
+      </dl></div><div class="section level2">
+      <h2 id="graph-modification-interactive-">Graph modification (interactive)<a class="anchor" aria-label="anchor" href="#graph-modification-interactive-"></a></h2>
+
+      <div class="section-desc"><p>Functions for interactively modifying <code>gGraph</code> objects.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="geo.add.edges.html">geo.add.edges()</a></code>
+
+        </dt>
+        <dd>Add and remove edges from a gGraph object</dd>
+
+        <dt>
+
+          <code><a href="geo.change.attr.html">geo.change.attr()</a></code>
+
+        </dt>
+        <dd>Change values of a node attribute</dd>
+      </dl></div><div class="section level2">
+      <h2 id="accessors">Accessors<a class="anchor" aria-label="anchor" href="#accessors"></a></h2>
+
+      <div class="section-desc"><p>Functions for accessing slots of a <code>gGraph</code> or <code>gData</code> object.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="getColors.html">getColors()</a></code>
+
+        </dt>
+        <dd>Get colors associated to nodes of a gGraph object</dd>
+
+        <dt>
+
+          <code><a href="getCoords.html">getCoords()</a></code>
+
+        </dt>
+        <dd>Get coordinates of nodes in a gGraph or gData object</dd>
+
+        <dt>
+
+          <code><a href="getCosts.html">getCosts()</a></code> <code><a href="getCosts.html">getNodeCosts()</a></code>
+
+        </dt>
+        <dd>Get costs associated to edges of a gGraph object</dd>
+
+        <dt>
+
+          <code><a href="getData.html">getData()</a></code>
+
+        </dt>
+        <dd>Get the data component of a gData object</dd>
+
+        <dt>
+
+          <code><a href="getEdges.html">getEdges()</a></code>
+
+        </dt>
+        <dd>Get edges from a gGraph object</dd>
+
+        <dt>
+
+          <code><a href="getGraph.html">getGraph()</a></code>
+
+        </dt>
+        <dd>Get the graph component of a gGraph or gData object</dd>
+
+        <dt>
+
+          <code><a href="getNodes.html">getNodes()</a></code>
+
+        </dt>
+        <dd>Get nodes of a gGraph or gData object</dd>
+
+        <dt>
+
+          <code><a href="getNodesAttr.html">getNodesAttr()</a></code>
+
+        </dt>
+        <dd>Get nodes attributes from gGraph/gData object</dd>
+      </dl></div><div class="section level2">
+      <h2 id="connectivity-functions">Connectivity functions<a class="anchor" aria-label="anchor" href="#connectivity-functions"></a></h2>
+
+      <div class="section-desc"><p>Functions for finding nodes and querying spatial relationships.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -64,24 +219,17 @@
 
         <dt>
 
-          <code><a href="assignRasterPoints.html">assignRasterPoints()</a></code>
+          <code><a href="isConnected.html">isConnected(<i>&lt;gData&gt;</i>)</a></code> <code><a href="isConnected.html">isConnected(<i>&lt;gGraph&gt;</i>)</a></code>
 
         </dt>
-        <dd>Assign raster points to graph nodes</dd>
+        <dd>Test if a set of nodes form a connected set</dd>
 
         <dt>
 
-          <code><a href="auxiliary.html">geo.segments()</a></code> <code><a href="auxiliary.html">hasCosts()</a></code>
+          <code><a href="isReachable.html">isReachable()</a></code>
 
         </dt>
-        <dd>Plot segments correctly when crossing the antimeridian</dd>
-
-        <dt>
-
-          <code><a href="buffer.html">buffer(<i>&lt;gGraph&gt;</i>)</a></code> <code><a href="buffer.html">buffer(<i>&lt;gData&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Compute buffers around locations for gGraph and gData objects</dd>
+        <dd>Tests if location reachable from nodes</dd>
 
         <dt>
 
@@ -92,10 +240,61 @@
 
         <dt>
 
-          <code><a href="collapseNodeAttribute.html">collapseNodeAttribute()</a></code>
+          <code><a href="isInArea.html">isInArea()</a></code>
 
         </dt>
-        <dd>Collapse a list-based node attribute into a scalar node attribute</dd>
+        <dd>Find which nodes fall in a given area</dd>
+
+        <dt>
+
+          <code><a href="findLand.html">findLand()</a></code>
+
+        </dt>
+        <dd>Find which nodes are on land</dd>
+
+        <dt>
+
+          <code><a href="dropDeadEdges.html">dropDeadEdges()</a></code>
+
+        </dt>
+        <dd>Get rid of some 'dead' edges or nodes</dd>
+
+        <dt>
+
+          <code><a href="keepMaxConnectedSet.html">keepMaxConnectedSet()</a></code>
+
+        </dt>
+        <dd>Keep only the largest connected set</dd>
+      </dl></div><div class="section level2">
+      <h2 id="costs">Costs<a class="anchor" aria-label="anchor" href="#costs"></a></h2>
+
+      <div class="section-desc"><p>Functions adjusting the costs of a <code>gGraph</code> object.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="hasCosts.html">hasCosts()</a></code>
+
+        </dt>
+        <dd>Check if a gGraph has costs</dd>
+
+        <dt>
+
+          <code><a href="setCosts.html">setCosts()</a></code>
+
+        </dt>
+        <dd>Set friction in a gGraph object</dd>
+
+        <dt>
+
+          <code><a href="setDistCosts.html">setDistCosts()</a></code>
+
+        </dt>
+        <dd>Set costs associated to edges based on geographic distances</dd>
 
         <dt>
 
@@ -106,19 +305,21 @@
 
         <dt>
 
-          <code><a href="connectivity.html">connectivityPlot()</a></code>
+          <code><a href="dropCosts.html">dropCosts()</a></code>
 
         </dt>
-        <dd>Check connectivity of a gGraph object</dd>
+        <dd>Remove all costs from a gGraph object</dd>
+      </dl></div><div class="section level2">
+      <h2 id="shortest-paths">Shortest paths<a class="anchor" aria-label="anchor" href="#shortest-paths"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>Functions for computing shortest paths and distances.</p></div>
 
-          <code><a href="createNewGraph.html">createNewGraph()</a></code>
+      <dl></dl></div><div class="section level2">
 
-        </dt>
-        <dd>Make a new gGraph object from a custom discrete global grid</dd>
 
-        <dt>
+
+
+      <dl><dt>
 
           <code><a href="dijkstra-methods.html">plot(<i>&lt;gPath&gt;</i>)</a></code> <code><a href="dijkstra-methods.html">dijkstraFrom(<i>&lt;gGraph&gt;</i>)</a></code> <code><a href="dijkstra-methods.html">dijkstraFrom(<i>&lt;gData&gt;</i>)</a></code>
 
@@ -141,150 +342,10 @@
 
         <dt>
 
-          <code><a href="dropDeadEdges.html">dropDeadEdges()</a></code>
-
-        </dt>
-        <dd>Get rid of some 'dead' edges or nodes</dd>
-
-        <dt>
-
-          <code><a href="extractFromLayer.html">extractFromLayer()</a></code>
-
-        </dt>
-        <dd>Retrieves node attributes from a layer</dd>
-
-        <dt>
-
-          <code><a href="findLand.html">findLand()</a></code>
-
-        </dt>
-        <dd>Find which nodes are on land</dd>
-
-        <dt>
-
-          <code><a href="gData-class.html">gData-class</a></code> <code><a href="gData-class.html">gData</a></code> <code><a href="gData-class.html">[,gData-method</a></code> <code><a href="gData-class.html">[,gData,ANY,ANY-method</a></code> <code><a href="gData-class.html">[,gData,ANY,ANY,ANY-method</a></code> <code><a href="gData-class.html">getCoords,gData-method</a></code> <code><a href="gData-class.html">getData-methods</a></code> <code><a href="gData-class.html">getData,gData-method</a></code> <code><a href="gData-class.html">getData</a></code> <code><a href="gData-class.html">getNodes,gData-method</a></code> <code><a href="gData-class.html">initialize,gData-method</a></code> <code><a href="gData-class.html">show,gData-method</a></code> <code><a href="gData-class.html">is.gData</a></code> <code><a href="gData-class.html">getGraph,gData-method</a></code>
-
-        </dt>
-        <dd>Formal class "gData"</dd>
-
-        <dt>
-
-          <code><a href="gGraph-class.html">gGraph-class</a></code> <code><a href="gGraph-class.html">gGraph</a></code> <code><a href="gGraph-class.html">[,gGraph-method</a></code> <code><a href="gGraph-class.html">[,gGraph,ANY,ANY-method</a></code> <code><a href="gGraph-class.html">[,gGraph,ANY,ANY,ANY-method</a></code> <code><a href="gGraph-class.html">getCoords,gGraph-method</a></code> <code><a href="gGraph-class.html">getGraph,gGraph-method</a></code> <code><a href="gGraph-class.html">getNodes,gGraph-method</a></code> <code><a href="gGraph-class.html">initialize,gGraph-method</a></code> <code><a href="gGraph-class.html">dropCosts,gGraph-method</a></code> <code><a href="gGraph-class.html">dropCosts</a></code> <code><a href="gGraph-class.html">show,gGraph-method</a></code> <code><a href="gGraph-class.html">is.gGraph</a></code> <code><a href="gGraph-class.html">getGraph</a></code> <code><a href="gGraph-class.html">getCoords</a></code> <code><a href="gGraph-class.html">getNodes</a></code>
-
-        </dt>
-        <dd>Formal class "gGraph"</dd>
-
-        <dt>
-
           <code><a href="gPath2dist.html">gPath2dist()</a></code>
 
         </dt>
         <dd>Extract distances from a gPath object</dd>
-
-        <dt>
-
-          <code><a href="geo.add.edges.html">geo.add.edges()</a></code>
-
-        </dt>
-        <dd>Add and remove edges from a gGraph object</dd>
-
-        <dt>
-
-          <code><a href="geo.change.attr.html">geo.change.attr()</a></code>
-
-        </dt>
-        <dd>Change values of a node attribute</dd>
-
-        <dt>
-
-          <code><a href="getColors.html">getColors()</a></code>
-
-        </dt>
-        <dd>Get colors associated to edges of a gGraph object</dd>
-
-        <dt>
-
-          <code><a href="getCosts.html">getCosts()</a></code> <code><a href="getCosts.html">getNodeCosts()</a></code>
-
-        </dt>
-        <dd>Get costs associated to edges of a gGraph object</dd>
-
-        <dt>
-
-          <code><a href="getEdges.html">getEdges()</a></code>
-
-        </dt>
-        <dd>Get edges from a gGraph object</dd>
-
-        <dt>
-
-          <code><a href="getNodesAttr.html">getNodesAttr()</a></code>
-
-        </dt>
-        <dd>Get nodes attributes from gGraph/gData object</dd>
-
-        <dt>
-
-          <code><a href="hgdp.html">hgdp</a></code> <code><a href="hgdp.html">hgdpPlus</a></code>
-
-        </dt>
-        <dd>Human genome diversity panel - georeferenced data</dd>
-
-        <dt>
-
-          <code><a href="isConnected.html">isConnected(<i>&lt;gData&gt;</i>)</a></code> <code><a href="isConnected.html">isConnected(<i>&lt;gGraph&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Test if a set of nodes form a connected set</dd>
-
-        <dt>
-
-          <code><a href="isInArea.html">isInArea()</a></code>
-
-        </dt>
-        <dd>Find which nodes fall in a given area</dd>
-
-        <dt>
-
-          <code><a href="isReachable.html">isReachable()</a></code>
-
-        </dt>
-        <dd>Tests if location reachable from nodes</dd>
-
-        <dt>
-
-          <code><a href="keepMaxConnectedSet.html">keepMaxConnectedSet()</a></code>
-
-        </dt>
-        <dd>Keep only the largest connected set</dd>
-
-        <dt>
-
-          <code><a href="makeGrid.html">makeGrid()</a></code>
-
-        </dt>
-        <dd>Build a regular grid gGraph</dd>
-
-        <dt>
-
-          <code><a href="nodeBuffer.html">nodeBuffer()</a></code>
-
-        </dt>
-        <dd>node buffer</dd>
-
-        <dt>
-
-          <code><a href="plot-gData.html">plot(<i>&lt;gData&gt;</i>,<i>&lt;missing&gt;</i>)</a></code> <code><a href="plot-gData.html">points(<i>&lt;gData&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Plot a gData object.</dd>
-
-        <dt>
-
-          <code><a href="plot-gGraph.html">plot(<i>&lt;gGraph&gt;</i>,<i>&lt;missing&gt;</i>)</a></code> <code><a href="plot-gGraph.html">points(<i>&lt;gGraph&gt;</i>)</a></code> <code><a href="plot-gGraph.html">plotEdges()</a></code>
-
-        </dt>
-        <dd>Plot a gGraph object.</dd>
 
         <dt>
 
@@ -295,31 +356,54 @@
 
         <dt>
 
-          <code><a href="setCosts.html">setCosts()</a></code>
+          <code><a href="buffer.html">buffer(<i>&lt;gGraph&gt;</i>)</a></code> <code><a href="buffer.html">buffer(<i>&lt;gData&gt;</i>)</a></code>
 
         </dt>
-        <dd>Set friction in a gGraph object</dd>
+        <dd>Compute buffers around locations for gGraph and gData objects</dd>
 
         <dt>
 
-          <code><a href="setDistCosts.html">setDistCosts()</a></code>
+          <code><a href="nodeBuffer.html">nodeBuffer()</a></code>
 
         </dt>
-        <dd>Set costs associated to edges based on geographic distances</dd>
+        <dd>node buffer</dd>
+      </dl></div><div class="section level2">
+      <h2 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a></h2>
+
+      <div class="section-desc"><p>Functions for visualising <code>gGraph</code> and <code>gData</code> objects.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="plot-gGraph.html">plot(<i>&lt;gGraph&gt;</i>,<i>&lt;missing&gt;</i>)</a></code> <code><a href="plot-gGraph.html">points(<i>&lt;gGraph&gt;</i>)</a></code> <code><a href="plot-gGraph.html">plotEdges()</a></code>
+
+        </dt>
+        <dd>Plot a gGraph object.</dd>
 
         <dt>
 
-          <code><a href="setEdges.html">setEdges()</a></code>
+          <code><a href="plot-gData.html">plot(<i>&lt;gData&gt;</i>,<i>&lt;missing&gt;</i>)</a></code> <code><a href="plot-gData.html">points(<i>&lt;gData&gt;</i>)</a></code>
 
         </dt>
-        <dd>Add and remove edges from a gGraph object</dd>
+        <dd>Plot a gData object.</dd>
 
         <dt>
 
-          <code><a href="worldgraph.html">worldgraph</a></code> <code><a href="worldgraph.html">rawgraph.10k</a></code> <code><a href="worldgraph.html">rawgraph.40k</a></code> <code><a href="worldgraph.html">worldgraph.10k</a></code> <code><a href="worldgraph.html">worldgraph.40k</a></code>
+          <code><a href="connectivity.html">connectivityPlot()</a></code>
 
         </dt>
-        <dd>Worldwide geographic graphs</dd>
+        <dd>Check connectivity of a gGraph object</dd>
+
+        <dt>
+
+          <code><a href="geo.segments.html">geo.segments()</a></code>
+
+        </dt>
+        <dd>Plot segments correctly when crossing the antimeridian</dd>
 
         <dt>
 
@@ -327,8 +411,55 @@
 
         </dt>
         <dd>Navigate in the plot of a gGraph object</dd>
+      </dl></div><div class="section level2">
+      <h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a></h2>
+
+      <div class="section-desc"><p>Datasets included in the package.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="hgdp.html">hgdp</a></code> <code><a href="hgdp.html">hgdpPlus</a></code>
+
+        </dt>
+        <dd>Human genome diversity panel - georeferenced data</dd>
+
+        <dt>
+
+          <code><a href="worldgraph.html">worldgraph</a></code> <code><a href="worldgraph.html">rawgraph.10k</a></code> <code><a href="worldgraph.html">rawgraph.40k</a></code> <code><a href="worldgraph.html">worldgraph.10k</a></code> <code><a href="worldgraph.html">worldgraph.40k</a></code>
+
+        </dt>
+        <dd>Worldwide geographic graphs</dd>
+      </dl></div><div class="section level2">
+      <h2 id="validation">Validation<a class="anchor" aria-label="anchor" href="#validation"></a></h2>
+
+      <div class="section-desc"><p>Functions for checking object validity.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="gGraph-class.html">gGraph-class</a></code> <code><a href="gGraph-class.html">gGraph</a></code> <code><a href="gGraph-class.html">[,gGraph-method</a></code> <code><a href="gGraph-class.html">[,gGraph,ANY,ANY-method</a></code> <code><a href="gGraph-class.html">[,gGraph,ANY,ANY,ANY-method</a></code> <code><a href="gGraph-class.html">initialize,gGraph-method</a></code> <code><a href="gGraph-class.html">show,gGraph-method</a></code> <code><a href="gGraph-class.html">is.gGraph</a></code>
+
+        </dt>
+        <dd>Formal class "gGraph"</dd>
+
+        <dt>
+
+          <code><a href="gData-class.html">gData-class</a></code> <code><a href="gData-class.html">gData</a></code> <code><a href="gData-class.html">[,gData-method</a></code> <code><a href="gData-class.html">[,gData,ANY,ANY-method</a></code> <code><a href="gData-class.html">[,gData,ANY,ANY,ANY-method</a></code> <code><a href="gData-class.html">initialize,gData-method</a></code> <code><a href="gData-class.html">show,gData-method</a></code> <code><a href="gData-class.html">is.gData</a></code>
+
+        </dt>
+        <dd>Formal class "gData"</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

@@ -57,3 +57,27 @@ If `replace = TRUE`, a modified
 object with the collapsed attribute replacing the original one.
 
 If `replace = FALSE`, a vector of collapsed values (one per node).
+
+## Examples
+
+``` r
+if (requireNamespace("terra", quietly = TRUE)) {
+# create a small graph over Europe
+geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+ggraph <- createNewGraph(geo.box, spacing = 1000)
+# create a matching synthetic raster and assign it to the graph
+r <- terra::rast(
+  xmin = geo.box["xmin"], xmax = geo.box["xmax"],
+  ymin = geo.box["ymin"], ymax = geo.box["ymax"],
+  resolution = 5,
+  crs = "EPSG:4326"
+)
+terra::values(r) <- runif(terra::ncell(r))
+ggraph <- assignRasterPoints(ggraph, r, layer.name = "elevation")
+# collapse the elevation attribute to the mean value per node (replaces the list)
+ggraph <- collapseNodeAttribute(ggraph, attribute = "elevation", fun = "mean")
+}
+#> Resolution: 4, Area (km^2): 629710.644103813, Spacing (km): 783.739159045648, CLS (km): 895.60184164835
+#> although coordinates are longitude/latitude, st_nearest_feature assumes that
+#> they are planar
+```

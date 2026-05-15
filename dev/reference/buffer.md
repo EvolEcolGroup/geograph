@@ -74,7 +74,6 @@ location they surround.
 #### gGraph example ####
 ## zoom in to an area
 plot(worldgraph.10k, reset = TRUE)
-#> Spherical geometry (s2) switched off
 
 geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 

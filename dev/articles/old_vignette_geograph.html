@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9006</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,13 +30,13 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../articles/geoGraph.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/edit_graphs.html">Edit graphs in geoGraph</a></li>
-    <li><a class="dropdown-item" href="../articles/geograph.html">geoGraph</a></li>
-    <li><a class="dropdown-item" href="../articles/grids.html">Making custom grids in geoGraph</a></li>
+<li><a class="dropdown-item" href="../articles/a1_making_grids.html">Making custom grids in geoGraph</a></li>
+    <li><a class="dropdown-item" href="../articles/a2_edit_graphs.html">Edit graphs in geoGraph</a></li>
     <li><a class="dropdown-item" href="../articles/old_vignette_geograph.html">geoGraph_old</a></li>
   </ul>
 </li>
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Thibaut Jombart
 and Andrea Manica</h4>
             
-            <h4 data-toc-skip class="date">2026-05-14</h4>
+            <h4 data-toc-skip class="date">2026-05-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/old_vignette_geograph.Rmd" class="external-link"><code>vignettes/old_vignette_geograph.Rmd</code></a></small>
       <div class="d-none name"><code>old_vignette_geograph.Rmd</code></div>
@@ -400,18 +400,18 @@ we constrain matching nodes to have an <code>habitat</code> value
 For instance, we can retrieve original locations, assigned nodes, and
 stored data using:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/getCoords.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      lon lat</span></span>
 <span><span class="co">## 5775  -1  45</span></span>
 <span><span class="co">## 6413   0  51</span></span>
 <span><span class="co">## 4815  -4  37</span></span>
 <span><span class="co">## 7699  16  46</span></span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/gGraph-class.html">getNodes</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/getNodes.html">getNodes</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   5774   6413   4815   7699 </span></span>
 <span><span class="co">## "5775" "6413" "4815" "7699"</span></span></code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/getData.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##              pop</span></span>
 <span><span class="co">## Bordeaux 1.0e+06</span></span>
 <span><span class="co">## London   1.3e+07</span></span>
@@ -420,7 +420,7 @@ stored data using:</p>
 <p>We can also get the coordinates of the matching nodes (, red circle
 on previous figure) using:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span>, original <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/getCoords.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span>, original <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             lon   lat</span></span>
 <span><span class="co">## 5775  1.002e-05 43.73</span></span>
 <span><span class="co">## 6413  1.002e-05 51.38</span></span>
@@ -574,7 +574,7 @@ corresponding <code>gGraph</code>. For instance, using the
 <code>cities</code> example from above:</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="../reference/getCoords.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/getData.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="old_vignette_geograph_files/figure-html/citiesPlot2-1.png" class="r-plt" alt="" width="700"></p>
 <p>Note the argument <code>reset=TRUE</code>, which tells the plotting
 function to adapt the plotting area to the geographic extent of the
@@ -597,9 +597,9 @@ cities:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>xpd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span> <span class="op">+</span> <span class="op">-</span><span class="fl">.5</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/symbols.html" class="external-link">symbols</a></span><span class="op">(</span><span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="../reference/gGraph-class.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>,</span>
-<span>  circ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, inch <span class="op">=</span> <span class="fl">.2</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="../reference/getCoords.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span> <span class="op">+</span> <span class="op">-</span><span class="fl">.5</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="fu"><a href="../reference/getData.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/symbols.html" class="external-link">symbols</a></span><span class="op">(</span><span class="fu"><a href="../reference/getCoords.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="../reference/getCoords.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>,</span>
+<span>  circ <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/getData.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, inch <span class="op">=</span> <span class="fl">.2</span>,</span>
 <span>  bg <span class="op">=</span> <span class="fu">transp</span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="old_vignette_geograph_files/figure-html/cities_plot-1.png" class="r-plt" alt="" width="700"></p>
@@ -971,7 +971,7 @@ information for the cities of the dataset:</p>
 <div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/new.html" class="external-link">new</a></span><span class="op">(</span><span class="st">"gData"</span>, coords <span class="op">=</span> <span class="va">cities.dat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, data <span class="op">=</span> <span class="va">cities.dat</span><span class="op">[</span>, <span class="fl">3</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>, gGraph.name <span class="op">=</span> <span class="st">"newGraph"</span><span class="op">)</span></span>
 <span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/closestNode.html">closestNode</a></span><span class="op">(</span><span class="va">cities</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, attr.value <span class="op">=</span> <span class="st">"land"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/getData.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##              pop</span></span>
 <span><span class="co">## Bordeaux 1.0e+06</span></span>
 <span><span class="co">## London   1.3e+07</span></span>
@@ -1066,7 +1066,7 @@ attribute-driven costs (using <code>setCosts</code>).</p>
 to find the shortest paths between Addis Ababa and the populations of
 <code>hgdp</code>:</p>
 <div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">myGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gGraph-class.html">dropCosts</a></span><span class="op">(</span><span class="va">worldgraph.40k</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">myGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dropCosts.html">dropCosts</a></span><span class="op">(</span><span class="va">worldgraph.40k</span><span class="op">)</span></span>
 <span><span class="va">hgdp</span><span class="op">@</span><span class="va">gGraph.name</span> <span class="op">&lt;-</span> <span class="st">"myGraph"</span></span>
 <span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spam/man/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">38</span>, <span class="fl">9</span><span class="op">)</span></span>
 <span><span class="va">ori</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/closestNode.html">closestNode</a></span><span class="op">(</span><span class="va">myGraph</span>, <span class="va">addis</span><span class="op">)</span></span>
@@ -1088,7 +1088,7 @@ from the
 <code>origin' using</code>gPath2dist<code>, and then examine the relationship between genetic diversity within populations (stored in</code>hgdp`)
 and the distance from the origin:</p>
 <div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">div</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gData-class.html">getData</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span><span class="op">$</span><span class="st">"Genetic.Div"</span></span>
+<code class="sourceCode R"><span><span class="va">div</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getData.html">getData</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span><span class="op">$</span><span class="st">"Genetic.Div"</span></span>
 <span><span class="va">dgeo.unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gPath2dist.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths</span>, res.type <span class="op">=</span> <span class="st">"vector"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.unif</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
 <span><span class="va">lm.unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.unif</span><span class="op">)</span></span>

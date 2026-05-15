@@ -53,3 +53,24 @@ cost does not exceed the specified threshold.
 
 [`dijkstraFrom`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraFrom.md),
 [`gPath2dist`](https://evolecolgroup.github.io/geograph/dev/reference/gPath2dist.md)
+
+## Examples
+
+``` r
+# create a small graph over Europe
+geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+ggraph <- createNewGraph(geo.box, spacing = 1000)
+#> Resolution: 4, Area (km^2): 629710.644103813, Spacing (km): 783.739159045648, CLS (km): 895.60184164835
+# set uniform edge costs (required before running nodeBuffer)
+ggraph <- setCosts(ggraph, node.values = rep(10, length(getNodes(ggraph))))
+
+# get all nodes reachable within a cost of 15 from node "1"
+reachable <- nodeBuffer(ggraph, origin = getNodes(ggraph)[1],
+                       max.distance = 15, map.distances = FALSE)
+# same but mapped back onto the graph as a node attribute
+ggraph <- nodeBuffer(ggraph, origin = getNodes(ggraph)[1],
+                    max.distance = 15, map.distances = TRUE)
+# use a spatial origin instead of a node ID
+ggraph <- nodeBuffer(ggraph, origin = data.frame(lon = 10, lat = 47),
+                    max.distance = 15, map.distances = TRUE)
+```

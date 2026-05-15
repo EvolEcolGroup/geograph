@@ -2,7 +2,7 @@
 
 The function `getNodesAttr` returns the values of a set of variables
 associated to the nodes (i.e. node attributes) of a
-[gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
+[`gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
 or
 [gData](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
 object.
@@ -57,11 +57,18 @@ rows, variables in columns.
 
 ## See also
 
-Most other accessors are documented in
-[gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-and
-[gData](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
-manpages.  
+[`getNodes`](https://evolecolgroup.github.io/geograph/dev/reference/getNodes.md),
+[`getEdges`](https://evolecolgroup.github.io/geograph/dev/reference/getEdges.md),
+[`getCoords`](https://evolecolgroup.github.io/geograph/dev/reference/getCoords.md)
+
+Other accessor_methods:
+[`getColors()`](https://evolecolgroup.github.io/geograph/dev/reference/getColors.md),
+[`getCoords()`](https://evolecolgroup.github.io/geograph/dev/reference/getCoords.md),
+[`getCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/getCosts.md),
+[`getData()`](https://evolecolgroup.github.io/geograph/dev/reference/getData.md),
+[`getEdges()`](https://evolecolgroup.github.io/geograph/dev/reference/getEdges.md),
+[`getGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/getGraph.md),
+[`getNodes()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodes.md)
 
 ## Examples
 

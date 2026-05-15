@@ -1,4 +1,4 @@
-# Get colors associated to edges of a gGraph object
+# Get colors associated to nodes of a gGraph object
 
 The function `getColors` returns the colors associated to the nodes of a
 [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
@@ -60,6 +60,17 @@ See example section to know how this slot should be designed.
 ## Functions
 
 - `getColors(gGraph)`: Method for gGraph objects
+
+## See also
+
+Other accessor_methods:
+[`getCoords()`](https://evolecolgroup.github.io/geograph/dev/reference/getCoords.md),
+[`getCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/getCosts.md),
+[`getData()`](https://evolecolgroup.github.io/geograph/dev/reference/getData.md),
+[`getEdges()`](https://evolecolgroup.github.io/geograph/dev/reference/getEdges.md),
+[`getGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/getGraph.md),
+[`getNodes()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodes.md),
+[`getNodesAttr()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodesAttr.md)
 
 ## Examples
 

@@ -83,9 +83,21 @@ between the couple of concerned nodes.
 
 ## See also
 
-Most other accessors are documented in
-[gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-manpage.  
+[`setCosts`](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md)
+to set edge costs.
+[`dropCosts`](https://evolecolgroup.github.io/geograph/dev/reference/dropCosts.md)
+to remove all costs.
+[`hasCosts`](https://evolecolgroup.github.io/geograph/dev/reference/hasCosts.md)
+to check if a graph has costs defined.
+
+Other accessor_methods:
+[`getColors()`](https://evolecolgroup.github.io/geograph/dev/reference/getColors.md),
+[`getCoords()`](https://evolecolgroup.github.io/geograph/dev/reference/getCoords.md),
+[`getData()`](https://evolecolgroup.github.io/geograph/dev/reference/getData.md),
+[`getEdges()`](https://evolecolgroup.github.io/geograph/dev/reference/getEdges.md),
+[`getGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/getGraph.md),
+[`getNodes()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodes.md),
+[`getNodesAttr()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodesAttr.md)
 
 ## Examples
 
@@ -102,5 +114,4 @@ head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
 head(getCosts(worldgraph.10k, res.type = "vector", unique = TRUE))
 #> 67.9955   67.68 67.9953   68.69 68.9955 69.9957 
 #>       1       1       1       1       1       1 
-
 ```
