@@ -10,7 +10,6 @@
 #' unlike other functions in \code{geoGraph}, this functions does not
 #' test for the validity of the provided arguments (for speed purposes).
 #'
-#' @aliases hasCosts rebuild geo.segments
 #' @param x0,y0 coordinates of points *from* which to draw.
 #' @param x1,y1 coordinates of points *to* which to draw.
 #' @param col a character string or an integer indicating the color of the
@@ -22,7 +21,6 @@
 #' @return NULL.
 #'
 #' @keywords utilities methods
-#' @name auxiliary
 #' @export
 
 geo.segments <- function(x0, y0, x1, y1,

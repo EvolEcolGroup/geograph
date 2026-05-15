@@ -15,10 +15,8 @@ options(digits = 4)
 ```
 
 ```{r loading libraries, include=FALSE}
-library(geoGraph) # graph analysis
+library(geoGraph)
 library(sf)
-library(terra)
-library(dplyr)
 ```
 
 Manually editing graphs in *geoGraph*
@@ -59,7 +57,7 @@ title("Default plotting of worldgraph.10k")
 large number of points and edges.
 On some graphical devices, the resulting plotting can be slow.
 For instance, one may want to disable `cairo` under linux: this graphical device yields better
-graphics than `Xlib`, but at the expense of increase computational time.
+graphics than `Xlib`, but at the expense of increased computational time.
 To switch to `Xlib`, type:
 ```{r eval=FALSE}
 X11.options(type = "Xlib")
@@ -210,12 +208,12 @@ To do so, the easiest approach is to i) define costs for the edges based on habi
 given large costs and ii) remove all edges with large costs.
 
 
-Costs of a given node attribute (here, `habitat') are indicated in the `meta$costs` slot:
+Costs of a given node attribute (here, `habitat`) are indicated in the `meta$costs` slot:
 ```{r }
 rawgraph.10k@meta$costs
 newGraph <- rawgraph.10k
-newGraph@meta$costs[2:6, 2] <- 100
-newGraph@meta$costs[1, 2] <- 1
+newGraph@meta$costs[newGraph@meta$costs[,1] == "sea", 2] <- 1
+newGraph@meta$costs[newGraph@meta$costs[,1] != "sea", 2] <- 100
 newGraph@meta$costs
 ```
 We have just changed the costs associated to habitat type, but this change is not yet effective on
@@ -270,14 +268,14 @@ newGraph <- readRDS("Robjects/newGraph.RDS")
 ![img](figs/georemove.png)
 
  When adding connections within an area or in an entire graph, node addition is based on
-another `gGraph`,*i.e.* only connections existing in another `gGraph` serving as
+another `gGraph`, *i.e.* only connections existing in another `gGraph` serving as
 reference can be added to the current `gGraph`.
 For graphs based on 10k or 40k grids, the raw graphs provided in `geoGraph` should be used,
 (`rawgraph.10k`, `rawgraph.40k`), since they are fully connected.
 
 In addition to changing grid connectivity, we may also want to modify the attributes of specific nodes.
 This is again done interactively, using the function `geo.change.attr`.
-For instance, here, we define a new value `shalowwater` (plotted in light blue) for the attribute `habitat`,
+For instance, here, we define a new value `shallowwater` (plotted in light blue) for the attribute `habitat`,
 selecting affected nodes using the 'area' mode first, and refining the changes using the 'point' mode:
 ```{r eval=FALSE}
 plot(newGraph, edge = TRUE)
@@ -299,5 +297,5 @@ newGraph@meta$colors
 plot(newGraph, edge = TRUE)
 ```
 
-Again, note that the changes made to the graph have to be save in an object (using `<-`) to be
+Again, note that the changes made to the graph have to be saved in an object (using `<-`) to be
 effective.

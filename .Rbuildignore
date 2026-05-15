@@ -10,3 +10,5 @@ data-raw
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^\.lintr$
+^vignettes/geoGraph_old\.Rmd$

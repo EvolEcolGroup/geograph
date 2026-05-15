@@ -43,3 +43,21 @@ This function collapses a list-based node attribute
 (e.g. raster values assigned to each node) into a single scalar value per node.
 Optionally replaces the original attribute to reduce memory usage.
 }
+\examples{
+if (requireNamespace("terra", quietly = TRUE)) {
+# create a small graph over Europe
+geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+ggraph <- createNewGraph(geo.box, spacing = 1000)
+# create a matching synthetic raster and assign it to the graph
+r <- terra::rast(
+  xmin = geo.box["xmin"], xmax = geo.box["xmax"],
+  ymin = geo.box["ymin"], ymax = geo.box["ymax"],
+  resolution = 5,
+  crs = "EPSG:4326"
+)
+terra::values(r) <- runif(terra::ncell(r))
+ggraph <- assignRasterPoints(ggraph, r, layer.name = "elevation")
+# collapse the elevation attribute to the mean value per node (replaces the list)
+ggraph <- collapseNodeAttribute(ggraph, attribute = "elevation", fun = "mean")
+}
+}

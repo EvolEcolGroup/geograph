@@ -4,3 +4,88 @@ template:
 development:
   mode: auto
 
+reference:
+  - title: "Graph construction"
+    desc: "Functions for creating new custom `gGraph` objects."
+    contents:
+      - createNewGraph
+      - makeGrid
+
+  - title: "Graph modification"
+    desc: "Functions for modifying `gGraph` objects."
+    contents:
+      - assignRasterPoints
+      - extractFromLayer
+      - collapseNodeAttribute
+      - setEdges
+      - setNodesAttr
+
+  - title: "Graph modification (interactive)"
+    desc: "Functions for interactively modifying `gGraph` objects."
+    contents:
+      - geo.add.edges
+      - geo.remove.edges
+      - geo.change.attr
+      
+  - title: "Accessors"
+    desc: "Functions for accessing slots of a `gGraph` or `gData` object."
+    contents:
+      - has_concept("accessor_methods")
+
+  - title: "Connectivity functions"
+    desc: "Functions for finding nodes and querying spatial relationships."
+    contents:
+      - has_concept("connectivity_functions")
+      - closestNode
+      - isInArea
+      - findLand
+      - dropDeadNodes
+      - dropDeadEdges
+      - keepMaxConnectedSet
+
+  - title: "Costs"
+    desc: "Functions adjusting the costs of a `gGraph` object."
+    contents:
+      - hasCosts
+      - setCosts
+      - setDistCosts
+      - combineCosts
+      - dropCosts
+
+  - title: "Shortest paths"
+    desc: "Functions for computing shortest paths and distances."
+    contents:
+      - "dijkstra-methods"
+      - has_concept("dijkstra_methods")
+      - gPath2dist
+      - polygonBetween
+      - buffer
+      - nodeBuffer
+
+  - title: "Plotting"
+    desc: "Functions for visualising `gGraph` and `gData` objects."
+    contents:
+      - "plot,gGraph-method"
+      - "plot,gData-method"
+      - "points,gGraph-method"
+      - plotEdges
+      - connectivityPlot
+      - geo.segments
+      - geo.zoomin
+      - geo.zoomout
+      - geo.goto
+      - geo.slide
+      - geo.bookmark
+      - geo.back
+      
+  - title: "Example data"
+    desc: "Datasets included in the package."
+    contents:
+      - hgdp
+      - worldgraph
+      
+  - title: "Validation"
+    desc: "Functions for checking object validity."
+    contents:
+      - is.gGraph
+      - is.gData

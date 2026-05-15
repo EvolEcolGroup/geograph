@@ -19,17 +19,30 @@ NULL
 ##############
 ## getGraph
 ##############
+#' Get the graph component of a gGraph or gData object
+#' 
+#' The function `getGraph` returns the [`graph::graphNEL`] object stored in a [`gGraph`] 
+#' or [`gData`] object.
+#' 
+#' @param x a valid [`gGraph`] or [`gData`] object.
+#' @param ... additional arguments passed to other methods (currently unused).
+#' @return A [`graph::graphNEL`] object.
+#' @seealso [`getNodes`], [`getEdges`], [`getCoords`]
+#' @examples
+#' getGraph(worldgraph.10k)
+#' @family accessor_methods
+#' @export
 setGeneric("getGraph", function(x, ...) {
   standardGeneric("getGraph")
 })
 
-
+#' @describeIn getGraph Method for gGraph objects
 setMethod("getGraph", "gGraph", function(x, ...) {
   res <- x@graph
   return(res)
 })
 
-
+#' @describeIn getGraph Method for gData objects
 setMethod("getGraph", "gData", function(x, ...) {
   if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
   res <- getGraph(get(x@gGraph.name, envir = .GlobalEnv))
@@ -42,8 +55,8 @@ setMethod("getGraph", "gData", function(x, ...) {
 ################
 #' Get nodes attributes from gGraph/gData object
 #'
-#' The function \code{getNodesAttr} returns the values of a set of variables
-#' associated to the nodes (i.e. node attributes) of a \linkS4class{gGraph} or
+#' The function `getNodesAttr` returns the values of a set of variables
+#' associated to the nodes (i.e. node attributes) of a [`gGraph`] or
 #' \linkS4class{gData} object.
 #'
 #'
@@ -59,8 +72,7 @@ setMethod("getGraph", "gData", function(x, ...) {
 #' @return A data.frame with the requested nodes attributes. Nodes are
 #' displayed in rows, variables in columns.
 
-#' @seealso Most other accessors are documented in \linkS4class{gGraph} and
-#' \linkS4class{gData} manpages.\cr
+#' @seealso [`getNodes`], [`getEdges`], [`getCoords`]
 #' @keywords utilities methods
 #' @examples
 #'
@@ -71,6 +83,7 @@ setMethod("getGraph", "gData", function(x, ...) {
 #' ## gData method
 #' getNodesAttr(hgdp)
 #'
+#' @family accessor_methods
 #' @export
 setGeneric("getNodesAttr", function(x, ...) {
   standardGeneric("getNodesAttr")
@@ -133,12 +146,32 @@ setMethod("getNodesAttr", "gData", function(x, attr.name = NULL, ...) {
 #############
 ## getCoords
 #############
+#' Get coordinates of nodes in a gGraph or gData object
+#' 
+#' The function `getCoords` returns the coordinates (longitude and latitude) of 
+#' nodes in a [`gGraph`] or [`gData`] object. 
+#' 
+#' @param x a valid [`gGraph`] or [`gData`] object.
+#' @param ... additional arguments passed to other methods (currently unused).
+#' @return A matrix with two columns, `lon` and `lat`, giving the longitude
+#'   and latitude of each node or location.
+#' @seealso [`getNodes`], [`getGraph`]
+#' @examples
+#' head(getCoords(worldgraph.10k))
+#'
+#' ## for a gData object
+#' getCoords(hgdp)
+#'
+#' ## coordinates of matched grid nodes instead of original locations
+#' getCoords(hgdp, original = FALSE)
+#' 
+#' @family accessor_methods
 #' @export
 setGeneric("getCoords", function(x, ...) {
   standardGeneric("getCoords")
 })
 
-
+#' @describeIn getCoords Method for gGraph objects
 #' @export
 setMethod("getCoords", "gGraph", function(x, ...) {
   res <- x@coords
@@ -146,6 +179,10 @@ setMethod("getCoords", "gGraph", function(x, ...) {
 })
 
 
+#' @describeIn getCoords Method for gData objects
+#' @param original logical. If `TRUE` (default), returns the original location
+#'   coordinates; if `FALSE`, returns the coordinates of the matched nodes on
+#'   the [`gGraph`] grid.
 #' @export
 setMethod("getCoords", "gData", function(x, original = TRUE, ...) {
   if (original) { # original coords
@@ -161,19 +198,32 @@ setMethod("getCoords", "gData", function(x, original = TRUE, ...) {
 #############
 ## getNodes
 #############
+#' Get nodes of a gGraph or gData object
+#' 
+#' The function `getNodes` returns the names of nodes in a [`gGraph`] or [`gData`] object.
+#' 
+#' @param x a valid [`gGraph`] or [`gData`] object.
+#' @param ... additional arguments passed to other methods (currently unused).
+#' @return A character vector of node names.
+#' @seealso [`getGraph`], [`getCoords`], [`getNodesAttr`]
+#' @examples
+#' head(getNodes(worldgraph.10k))
+#' getNodes(hgdp)
+#' 
+#' @family accessor_methods
 #' @export
 setGeneric("getNodes", function(x, ...) {
   standardGeneric("getNodes")
 })
 
-
+#' @describeIn getNodes Method for gGraph objects
 #' @export
 setMethod("getNodes", "gGraph", function(x, ...) {
   res <- rownames(x@coords)
   return(res)
 })
 
-
+#' @describeIn getNodes Method for gData objects
 #' @export
 setMethod("getNodes", "gData", function(x, ...) {
   res <- x@nodes.id
@@ -189,8 +239,6 @@ setMethod("getNodes", "gData", function(x, ...) {
 #' The function \code{getEdges} returns the edges of a \linkS4class{gGraph}
 #' object using different possible outputs.
 #'
-#'
-#' @aliases getEdges getEdges-methods getEdges,gGraph-method
 #' @param x a valid \linkS4class{gGraph}.
 #' @param res.type a character string indicating which kind of output should be
 #' used. See value.
@@ -207,23 +255,15 @@ setMethod("getNodes", "gData", function(x, ...) {
 #'
 #' - \code{matId}: a matrix with two columns giving couples of node indices
 #' forming edges.\cr
-
-#' @seealso Most other accessors are documented in \linkS4class{gGraph}
-#' manpage.\cr
-#'
-#' See \code{\link{setEdges}} to add/remove edges, or
-#' \code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} for
-#' interactive versions.
+#' @seealso [`setEdges`] to add or remove edges.
+#'   [`geo.add.edges`] and [`geo.remove.edges`] for interactive versions.
 #' @keywords utilities methods
-#' @export
 #' @examples
-#'
-#' example(gGraph)
-#'
-#' getEdges(x)
-#' getEdges(x, res.type = "matNames")
-#' getEdges(x, res.type = "matId")
-#'
+#' head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
+#' head(getEdges(worldgraph.10k, res.type = "matId",   unique = TRUE))
+#' 
+#' @family accessor_methods
+#' @export
 setGeneric("getEdges", function(x, ...) {
   standardGeneric("getEdges")
 })
@@ -250,7 +290,7 @@ setMethod("getEdges", "gGraph", function(x, res.type = c("asIs", "matNames", "ma
   if (res.type == "matId") { # return matrix of node numbers
     res <- edgeL(x@graph)
     temp <- sapply(res, function(e) length(e$edges))
-    col1 <- rep(1:length(res), temp)
+    col1 <- rep(seq_along(res), temp)
     col2 <- unlist(res)
     res <- cbind(Vi = col1, Vj = col2)
   }
@@ -265,89 +305,9 @@ setMethod("getEdges", "gGraph", function(x, res.type = c("asIs", "matNames", "ma
 })
 
 
-#############
-## setEdges
-#############
-#' Add and remove edges from a gGraph object
-#'
-#' The function \code{setEdges} allows one to add or remove edges in a
-#' \linkS4class{gGraph} by directly specifying the relevant nodes, as a list or
-#' a data.frame. This low-level function is called by \code{geo.add.edges} and
-#' \code{geo.remove.edges}.
-#'
-#'
-#' @aliases setEdges setEdges-methods setEdges,gGraph-method
-#' @param x a valid \linkS4class{gGraph} object.
-#' @param add a list or a dataframe containing node names of edges to be added.
-#' The first element of the list (or column of the data.frame) gives starting
-#' nodes of edges; the second gives ending nodes. Hence, the nodes of the i-th
-#' edge are \code{add[[1]][i]} and \code{add[[2]][i]} if \code{add} is a list,
-#' and \code{add[i,]} if \code{add} is a data.frame.
-#' @param remove same as \code{add} argument, but edges are removed.
-#' @param costs a numeric vector providing costs of the edges to be added.
-#' \code{costs[i]} is the weight of the i-th edge.
-#' @param \dots other arguments passed to other methods (currently unused).
-#' @return A \linkS4class{gGraph} object with newly added or removed edges.
-
-#' @seealso \code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} to
-#' interactively add or remove edges in a \linkS4class{gGraph} object. \cr
-#'
-#' \code{\link{getEdges}} to retrieve edges in different formats.
-#' @keywords utilities methods
-#' @export
-setGeneric("setEdges", function(x, ...) {
-  standardGeneric("setEdges")
-})
-
-
-#' @export
-#' @describeIn setEdges Method for gGraph object
-setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = NULL, ...) {
-  ## some checks
-  if (is.null(add) & is.null(remove)) {
-    return(x)
-  }
-
-  if (!is.null(add)) { ## add edges ##
-    add <- as.data.frame(add)
-    if (ncol(add) != 2) stop("add does not have two columns")
-    from <- as.character(add[[1]])
-    to <- as.character(add[[2]])
-    if (!all(unique(c(from, to)) %in% getNodes(x))) stop("unknown specified nodes") # unknown nodes
-    if (is.null(costs)) {
-      costs <- rep(1, length(from))
-    }
-
-    myGraph <- suppressWarnings(addEdge(from = from, to = to, graph = x@graph, weights = costs))
-  } else { ## remove edges ##
-    remove <- as.data.frame(remove)
-    if (ncol(remove) != 2) stop("remove does not have two columns")
-    from <- as.character(remove[[1]])
-    to <- as.character(remove[[2]])
-    if (!all(unique(c(from, to)) %in% getNodes(x))) stop("unknown specified nodes") # unknown nodes
-
-    ## avoid attempts to removing non-existing edges
-    temp <- areNeighbours(from, to, x@graph)
-    myGraph <- removeEdge(from = from[temp], to = to[temp], graph = x@graph)
-  }
-
-  ##  subx <- deparse(substitute(x))
-  res <- x
-  res@graph <- myGraph
-
-  ## remember this action
-  curCall <- match.call()
-  ## newHist <- new("gGraphHistory", res@history, cmd=curCall, comments="Modified edges using setEdges.")
-  ## res@history <- newHist
-
-  ## make assignement
-  ## parEnv <- parent.frame()
-  ## assign(subx, res, parEnv)
-
-  return(res)
-}) # end setEdges
-
-
+##############
+## getCosts
+##############
 #' Get costs associated to edges of a gGraph object
 #'
 #' The function \code{getCosts} returns the costs associated to the edges of a
@@ -362,8 +322,6 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
 #' [`graph::graphNEL`]) objects. The larger it is for an edge, the less
 #' connectivity there is between the couple of concerned nodes.
 #'
-#' @aliases getCosts getCosts-methods getCosts,gGraph-method getNodeCosts
-#' getNodeCosts-methods getNodeCosts,gGraph-method
 #' @param x a valid \linkS4class{gGraph}.
 #' @param res.type a character string indicating which kind of output should be
 #' used. See value.
@@ -380,18 +338,16 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
 #' - \code{vector}: a vector of weights; this output matches matrix outputs of
 #' \code{\link{getEdges}}.\cr
 
-#' @seealso Most other accessors are documented in \linkS4class{gGraph}
-#' manpage.\cr
+#' @seealso [`setCosts`] to set edge costs. [`dropCosts`] to remove all costs.
+#'   [`hasCosts`] to check if a graph has costs defined.
 #' @keywords utilities methods
 #' @examples
 #'
 #' head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
 #' head(getCosts(worldgraph.10k, res.type = "vector", unique = TRUE))
 #'
-#'
-##############
-## getCosts
-##############
+#' @family accessor_methods
+#' @export
 setGeneric("getCosts", function(x, ...) {
   standardGeneric("getCosts")
 })
@@ -420,16 +376,65 @@ setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector"), uniq
   return(res)
 })
 
+#################
+## getNodeCosts
+#################
+#' @export
+#' @describeIn getCosts Function to get the costs values for nodes
+setGeneric("getNodeCosts", function(x, ...) {
+  standardGeneric("getNodeCosts")
+})
+
+
+#' @describeIn getCosts Method to get node costs for gGraph object
+#' @export
+setMethod("getNodeCosts", "gGraph", function(x, attr.name, ...) {
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
+  
+  ## assign costs to vertices
+  nodeAttr <- unlist(getNodesAttr(x, attr.name = attr.name))
+  if (!is.null(x@meta$costs)) {
+    if (!any(attr.name %in% colnames(x@meta$costs))) {
+      stop("attr.name is not documented in x@meta$costs.")
+    }
+    nodeCosts <- as.character(nodeAttr)
+    rules <- x@meta$costs
+    for (i in seq_len(nrow(x@meta$costs))) {
+      nodeCosts[nodeCosts == rules[i, attr.name]] <- rules[i, ncol(rules)]
+    }
+    nodeCosts <- as.numeric(nodeCosts)
+  } else {
+    stop("x@meta does not contain a 'costs' component.")
+  }
+  
+  
+  return(nodeCosts)
+}) # end getNodeCosts
+
 
 ###############
 ## dropCosts
 ###############
+#' Remove all costs from a gGraph object
+#' 
+#' The function `dropCosts` removes all edge weights (costs) from a [`gGraph`]
+#' object, returning an unweighted graph.
+#' 
+#' @param x a valid [`gGraph`] object.
+#' @param ... additional arguments passed to other methods (currently unused).
+#' @return A [`gGraph`] object with all edge costs removed.
+#' @seealso [`getCosts`] to retrieve edge costs, [`setCosts`] to set edge costs.
+#' [`hasCosts`] to check if a graph has costs defined.
+#' @examples
+#' hasCosts(rawgraph.10k)  
+#' x <- dropCosts(worldgraph.10k)
+#' hasCosts(x)               
 #' @export
 setGeneric("dropCosts", function(x, ...) {
   standardGeneric("dropCosts")
 })
 
-
+#' @describeIn dropCosts Method for gGraph objects
 #' @export
 setMethod("dropCosts", "gGraph", function(x) {
   myGraph <- getGraph(x)
@@ -443,12 +448,29 @@ setMethod("dropCosts", "gGraph", function(x) {
 #############
 ## getData
 #############
+#' Get the data component of a gData object
+#' 
+#' The function `getData` returns the data stored in the `@data` slot of a
+#' [`gData`] object.
+#' 
+#' @param x a valid [`gData`] object.
+#' @param ... additional arguments passed to other methods (currently unused).
+#' @return The data stored in the `@data` slot of the input object, typically a
+#' data.frame where each row corresponds to a sampled location.
+#' @seealso [`getCoords`] to retrieve coordinates. [`getNodes`] to retrieve
+#'   matched node identifiers. [`getNodesAttr`] to retrieve node attributes
+#'   from the underlying [`gGraph`].
+#' @examples
+#' ## get the data stored in the hgdp dataset
+#' head(getData(hgdp))
+#' 
+#' @family accessor_methods
 #' @export
 setGeneric("getData", function(x, ...) {
   standardGeneric("getData")
 })
 
-
+#' @describeIn getData Method for gData objects
 #' @export
 setMethod("getData", "gData", function(x, ...) {
   res <- x@data
@@ -459,7 +481,7 @@ setMethod("getData", "gData", function(x, ...) {
 #############
 ## getColors
 #############
-#' Get colors associated to edges of a gGraph object
+#' Get colors associated to nodes of a gGraph object
 #'
 #' The function \code{getColors} returns the colors associated to the nodes of
 #' a \linkS4class{gGraph} object, based on a specified node attribute.
@@ -475,7 +497,6 @@ setMethod("getData", "gData", function(x, ...) {
 #'
 #' See example section to know how this slot should be designed.
 #'
-#' @aliases getColors getColors-methods getColors,gGraph-method
 #' @param x a valid \linkS4class{gGraph}.
 #' @param nodes a vector of character strings or of integers identifying nodes
 #' by their name or their index. Can be "all", in which case all nodes are
@@ -496,7 +517,8 @@ setMethod("getData", "gData", function(x, ...) {
 #'
 #' head(getNodes(worldgraph.10k))
 #' head(getColors(worldgraph.10k, res.type = "vector", attr.name = "habitat"))
-#'
+#' @family accessor_methods
+#' @export
 setGeneric("getColors", function(x, ...) {
   standardGeneric("getColors")
 })
@@ -549,37 +571,3 @@ setMethod("getColors", "gGraph", function(x, nodes = "all", attr.name, col.rules
 }) # end getColors for gGraph
 
 
-#################
-## getNodeCosts
-#################
-#' @export
-#' @describeIn getCosts Function to get the costs values for nodes
-setGeneric("getNodeCosts", function(x, ...) {
-  standardGeneric("getNodeCosts")
-})
-
-
-#' @describeIn getCosts Method to get node costs for gGraph object
-#' @export
-setMethod("getNodeCosts", "gGraph", function(x, attr.name, ...) {
-  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
-
-  ## assign costs to vertices
-  nodeAttr <- unlist(getNodesAttr(x, attr.name = attr.name))
-  if (!is.null(x@meta$costs)) {
-    if (!any(attr.name %in% colnames(x@meta$costs))) {
-      stop("attr.name is not documented in x@meta$costs.")
-    }
-    nodeCosts <- as.character(nodeAttr)
-    rules <- x@meta$costs
-    for (i in 1:nrow(x@meta$costs)) {
-      nodeCosts[nodeCosts == rules[i, attr.name]] <- rules[i, ncol(rules)]
-    }
-    nodeCosts <- as.numeric(nodeCosts)
-  } else {
-    stop("x@meta does not contain a 'costs' component.")
-  }
-
-
-  return(nodeCosts)
-}) # end getNodeCosts

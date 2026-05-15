@@ -2,10 +2,8 @@
 % Please edit documentation in R/accessors.R
 \name{getCosts}
 \alias{getCosts}
-\alias{getCosts-methods}
 \alias{getCosts,gGraph-method}
 \alias{getNodeCosts}
-\alias{getNodeCosts-methods}
 \alias{getNodeCosts,gGraph-method}
 \title{Get costs associated to edges of a gGraph object}
 \usage{
@@ -69,11 +67,20 @@ connectivity there is between the couple of concerned nodes.
 head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
 head(getCosts(worldgraph.10k, res.type = "vector", unique = TRUE))
 
-
 }
 \seealso{
-Most other accessors are documented in \linkS4class{gGraph}
-manpage.\cr
+\code{\link{setCosts}} to set edge costs. \code{\link{dropCosts}} to remove all costs.
+\code{\link{hasCosts}} to check if a graph has costs defined.
+
+Other accessor_methods: 
+\code{\link{getColors}()},
+\code{\link{getCoords}()},
+\code{\link{getData}()},
+\code{\link{getEdges}()},
+\code{\link{getGraph}()},
+\code{\link{getNodes}()},
+\code{\link{getNodesAttr}()}
 }
+\concept{accessor_methods}
 \keyword{methods}
 \keyword{utilities}

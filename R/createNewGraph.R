@@ -18,8 +18,8 @@
 #' @examples
 #' # Define a geographic bounding box (e.g., for a region in Europe)
 #' geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-#' # Create a gGraph with a spacing of 1000 km
-#' ggraph <- createNewGraph(geo.box = geo.box, spacing = 1000)
+#' # Create a gGraph with a spacing of 300 km
+#' ggraph <- createNewGraph(geo.box = geo.box, spacing = 300)
 #' plot(ggraph, edge = TRUE)
 #' @export
 #'

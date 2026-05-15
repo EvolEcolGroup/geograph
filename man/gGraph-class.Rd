@@ -7,17 +7,9 @@
 \alias{[,gGraph-method}
 \alias{[,gGraph,ANY,ANY-method}
 \alias{[,gGraph,ANY,ANY,ANY-method}
-\alias{getCoords,gGraph-method}
-\alias{getGraph,gGraph-method}
-\alias{getNodes,gGraph-method}
 \alias{initialize,gGraph-method}
-\alias{dropCosts,gGraph-method}
-\alias{dropCosts}
 \alias{show,gGraph-method}
 \alias{is.gGraph}
-\alias{getGraph}
-\alias{getCoords}
-\alias{getNodes}
 \title{Formal class "gGraph"}
 \description{
 The class \code{gGraph} is a formal (S4) class storing geographic data.\cr

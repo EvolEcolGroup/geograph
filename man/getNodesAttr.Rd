@@ -31,7 +31,7 @@ displayed in rows, variables in columns.
 }
 \description{
 The function \code{getNodesAttr} returns the values of a set of variables
-associated to the nodes (i.e. node attributes) of a \linkS4class{gGraph} or
+associated to the nodes (i.e. node attributes) of a \code{\link{gGraph}} or
 \linkS4class{gData} object.
 }
 \section{Functions}{
@@ -52,8 +52,17 @@ getNodesAttr(hgdp)
 
 }
 \seealso{
-Most other accessors are documented in \linkS4class{gGraph} and
-\linkS4class{gData} manpages.\cr
+\code{\link{getNodes}}, \code{\link{getEdges}}, \code{\link{getCoords}}
+
+Other accessor_methods: 
+\code{\link{getColors}()},
+\code{\link{getCoords}()},
+\code{\link{getCosts}()},
+\code{\link{getData}()},
+\code{\link{getEdges}()},
+\code{\link{getGraph}()},
+\code{\link{getNodes}()}
 }
+\concept{accessor_methods}
 \keyword{methods}
 \keyword{utilities}

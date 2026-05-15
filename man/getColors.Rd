@@ -2,9 +2,8 @@
 % Please edit documentation in R/accessors.R
 \name{getColors}
 \alias{getColors}
-\alias{getColors-methods}
 \alias{getColors,gGraph-method}
-\title{Get colors associated to edges of a gGraph object}
+\title{Get colors associated to nodes of a gGraph object}
 \usage{
 getColors(x, ...)
 
@@ -56,7 +55,17 @@ worldgraph.10k@meta$color
 
 head(getNodes(worldgraph.10k))
 head(getColors(worldgraph.10k, res.type = "vector", attr.name = "habitat"))
-
 }
+\seealso{
+Other accessor_methods: 
+\code{\link{getCoords}()},
+\code{\link{getCosts}()},
+\code{\link{getData}()},
+\code{\link{getEdges}()},
+\code{\link{getGraph}()},
+\code{\link{getNodes}()},
+\code{\link{getNodesAttr}()}
+}
+\concept{accessor_methods}
 \keyword{methods}
 \keyword{utilities}

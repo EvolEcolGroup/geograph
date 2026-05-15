@@ -67,10 +67,21 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, method = c("mean",
         stop("attr.name is not documented in x@meta$costs.")
       }
       nodeCosts <- as.character(nodeAttr)
-      rules <- x@meta$costs
-      for (i in 1:nrow(x@meta$costs)) {
+      rules     <- x@meta$costs
+      
+      known.values <- as.character(rules[, attr.name])
+      unmapped     <- unique(nodeCosts[!nodeCosts %in% known.values])
+      if (length(unmapped) > 0) {
+        stop(sprintf(
+          "The following node attribute values have no cost rule defined: %s. Add them to x@meta$costs before calling setCosts().",
+          paste(unmapped, collapse = ", ")
+        ))
+      }
+      
+      for (i in seq_len(nrow(rules))) {
         nodeCosts[nodeCosts == rules[i, attr.name]] <- rules[i, ncol(rules)]
       }
+      
       nodeCosts <- as.numeric(nodeCosts)
     } else {
       stop("x@meta does not contain a 'costs' component.")
@@ -87,21 +98,21 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, method = c("mean",
 
   ## method == mean ##
   if (method == "mean") {
-    for (i in 1:length(EL)) {
+    for (i in seq_along(EL)) {
       EL[[i]]$weights <- (nodeCosts[i] + nodeCosts[EL[[i]]$edges]) / 2
     }
   }
 
   ## method == product ##
   if (method == "product") {
-    for (i in 1:length(EL)) {
+    for (i in seq_along(EL)) {
       EL[[i]]$weights <- nodeCosts[i] * nodeCosts[EL[[i]]$edges]
     }
   }
 
   ## method == function ##
   if (method == "function") {
-    for (i in 1:length(EL)) {
+    for (i in seq_along(EL)) {
       EL[[i]]$weights <- FUN(nodeCosts[i], nodeCosts[EL[[i]]$edges], ...)
     }
   }
