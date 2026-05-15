@@ -1,70 +1,23 @@
-#' Check connectivity of a gGraph object
+#' Plot connected sets of a gGraph object
 #'
-#' The functions \code{areNeighbours}, \code{areConnected} and the method
-#' \code{isConnected} test connectivity in different ways.\cr
+#' The function `connectivityPlot` plots the connected sets of a [`gGraph`] or
+#' [`gData`] object with different colors. Isolated nodes (i.e. belonging to
+#' no connected set of size > 1) are plotted in light gray.
 #'
-#' - \code{isConnected}: tests if the nodes of a \linkS4class{gData} object
-#' form a connected set. Note that this is a method for \linkS4class{gData},
-#' the generic being defined in the \code{graph} package.\cr
-#'
-#'
-#' - \code{connectivityPlot}: plots connected sets of a \linkS4class{gGraph} or
-#' a \linkS4class{gData} object with different colors.\cr
-#'
-#' In \code{connectivityPlot}, isolated nodes (i.e. belonging to no connected
-#' set of size > 1) are plotted in light gray.
-#'
-#' @aliases
-#' connectivityPlot connectivityPlot-methods connectivityPlot,gGraph-method
-#' connectivityPlot,gData-method
-#' @param x a valid \linkS4class{gGraph} object.
-#' @param \dots other arguments passed to other methods.
-#' @param seed an optional integer giving the seed to be used when randomizing
-#' colors. One given seed will always give the same set of colors. NULL by
-#' default, meaning colors are randomized each time a plot is drawn.
-#' @param col.gGraph a character string or a number indicating the color of the
-#' nodes to be used when plotting the \linkS4class{gGraph} object. Defaults to
-#' '0', meaning that nodes are invisible.
-#' @return - \code{areNeighbours}: a vector of logical, having one value for
-#' each couple of nodes.\cr
-#'
-#' - \code{areConnected}: a single logical value, being TRUE if nodes form a
-#' connected set.\cr
-#'
-#' - \code{isConnected}: a single logical value, being TRUE if nodes of the
-#' object form a connected set.\cr
+#' @param x a valid [`gGraph`] or [`gData`] object.
+#' @param ... other arguments passed to other methods.
+#' @param seed an optional integer giving the seed to be used when randomising
+#'   colors. A given seed will always produce the same set of colors. `NULL`
+#'   by default, meaning colors are randomised each time a plot is drawn.
+#' @param col.gGraph a character string or number indicating the color of the
+#'   [`gGraph`] nodes when plotting a [`gData`] object. Defaults to `0`,
+#'   meaning nodes are invisible.
+#' @return A named character vector of colors, one per node, returned
+#'   invisibly.
 #' @include classes.R
-#' @keywords utilities methods
-#' @name connectivity
 #' @examples
-#'
 #' connectivityPlot(rawgraph.10k)
-#' connectivityPlot(worldgraph.10k)
-#'
-NULL
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#####################
-## connectivityPlot
-#####################
-#' @rdname connectivity
+#' connectivityPlot(hgdp, col.gGraph = "lightblue")
 #' @export
 setGeneric("connectivityPlot", function(x, ...) {
   standardGeneric("connectivityPlot")
@@ -74,21 +27,11 @@ setGeneric("connectivityPlot", function(x, ...) {
 ##################
 ## gGraph method
 ##################
-#' @rdname connectivity
+#' @describeIn connectivityPlot Method for gGraph objects
 #' @export
 setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
   ## some checks ##
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
-
-  ## create the .geoGraphEnv if it does not exist
-  # am315 This should not be necessary, as .geoGraphEnv should always exist
-  # if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-  #     assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
-  #     warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
-  # }
-
-  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
-
 
   ## get connected sets ##
   connected.sets <- RBGL::connectedComp(getGraph(x))
@@ -101,8 +44,7 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
     connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
   }
 
-  names(connected.sets) <- paste("set", 1:length(connected.sets))
-
+  names(connected.sets) <- paste("set", seq_along(connected.sets))
 
   ## define colors ##
   nbSets <- length(connected.sets)
@@ -121,11 +63,10 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
     col[e] <- colSets[i]
   }
 
-
   ## call to plot ##
   plot(x, col = col, ...)
 
-  ## save plot param ## (will be used by plot gGraph
+  ## save plot param ## (will be used by plot gGraph)
   dots <- list(...)
   temp <- get("last.plot.param", envir = .geoGraphEnv)
   if (!is.null(dots$psize)) {
@@ -148,7 +89,7 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
 #################
 ## gData method
 #################
-#' @rdname connectivity
+#' @describeIn connectivityPlot Method for gData objects
 #' @export
 setMethod("connectivityPlot", "gData", function(x, col.gGraph = 0, ..., seed = NULL) {
   ## some checks ##
@@ -167,8 +108,7 @@ setMethod("connectivityPlot", "gData", function(x, col.gGraph = 0, ..., seed = N
     connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
   }
 
-  names(connected.sets) <- paste("set", 1:length(connected.sets))
-
+  names(connected.sets) <- paste("set", seq_along(connected.sets))
 
   ## define colors ##
   nbSets <- length(connected.sets)
@@ -195,10 +135,8 @@ setMethod("connectivityPlot", "gData", function(x, col.gGraph = 0, ..., seed = N
     col[names(col) %in% e] <- colSets[i]
   }
 
-
   ## call to plot ##
   plot(x, col.ori = col, col.nodes = col, col.gGraph = col.gGraph, ...)
-
 
   ## fix last call ##
   curCall <- sys.call(-1)

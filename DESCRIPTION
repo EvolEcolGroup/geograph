@@ -56,7 +56,7 @@ Collate:
     'closestNode.R'
     'collapseNodeAttribute.R'
     'combineCosts.R'
-    'connectivity.R'
+    'connectivityPlot.R'
     'createNewGraph.R'
     'datasets.R'
     'dijkstra.R'
