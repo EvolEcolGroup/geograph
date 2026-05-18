@@ -127,8 +127,8 @@ Functions for visualising `gGraph` and `gData` objects.
 - [`plot(`*`<gData>`*`,`*`<missing>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.md)
   [`points(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.md)
   : Plot a gData object.
-- [`connectivityPlot()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivity.md)
-  : Check connectivity of a gGraph object
+- [`connectivityPlot()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivityPlot.md)
+  : Plot connected sets of a gGraph object
 - [`geo.segments()`](https://evolecolgroup.github.io/geograph/dev/reference/geo.segments.md)
   : Plot segments correctly when crossing the antimeridian
 - [`zoom`](https://evolecolgroup.github.io/geograph/dev/reference/zoom.md)

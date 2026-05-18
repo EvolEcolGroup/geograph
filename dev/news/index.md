@@ -2,6 +2,10 @@
 
 ## geoGraph (development version)
 
+- Updated
+  [`connectivityPlot()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivityPlot.md)
+  ensuring the color assignment matches the connected set
+
 - Fix incorrect handling of duplicate nodes in
   [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md),
   ensuring zero-distance paths are properly represented.
