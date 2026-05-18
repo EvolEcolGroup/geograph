@@ -29,6 +29,12 @@ setGeneric("dijkstraBetween", function(x, ...) {
 setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
   ## some checks ##
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
+  
+  ## check for empty inputs first
+  if (length(from) == 0 || length(to) == 0) {
+    stop("`from` and `to` must be non-empty.")
+  }
+  
   if (!all(from %in% getNodes(x))) stop("Some starting nodes are not in x.")
   if (!all(to %in% getNodes(x))) stop("Some ending nodes are not in x.")
 

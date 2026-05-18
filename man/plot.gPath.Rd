@@ -5,7 +5,7 @@
 \alias{print.gPath}
 \title{Plot a gPath object}
 \usage{
-\method{plot}{gPath}(x, col = "rainbow", lwd = 3, ...)
+\method{plot}{gPath}(x, col = "rainbow", lwd = 3, seed = NULL, ...)
 
 \method{print}{gPath}(x, ...)
 }
@@ -16,6 +16,9 @@
 be used for plotting edges.}
 
 \item{lwd}{a numeric value indicating the width of edges.}
+
+\item{seed}{an optional integer value to set the seed for random color generation
+when \code{col = "rainbow"}.}
 
 \item{...}{further arguments passed to \code{\link{geo.segments}}.}
 }

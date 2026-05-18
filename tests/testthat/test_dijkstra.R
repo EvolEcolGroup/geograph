@@ -75,3 +75,17 @@ testthat::test_that("DijkstraBetween can handle two points on the same node in a
   testthat::expect_equal(vec["39740:39740"][[1]], 0)
   testthat::expect_equal(vec["16798:16798"][[1]], 0)
 })
+
+test_that("dijkstraBetween errors when from is empty", {
+  expect_error(
+    dijkstraBetween(worldgraph.10k, from = character(0), to = "1"),
+    "`from` and `to` must be non-empty."
+  )
+})
+
+test_that("dijkstraBetween errors when to is empty", {
+  expect_error(
+    dijkstraBetween(worldgraph.10k, from = "1", to = character(0)),
+    "`from` and `to` must be non-empty."
+  )
+})

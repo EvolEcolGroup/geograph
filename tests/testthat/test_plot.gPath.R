@@ -4,9 +4,9 @@ test_that("plot.gPath works with custom color and lwd", {
   hgdp.path <- dijkstraBetween(hgdp.sub)
   
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   plot(worldgraph.40k)
   expect_no_error(plot(hgdp.path, col = "blue", lwd = 1))
-  dev.off()
 })
 
 test_that("print.gPath outputs correct number of paths", {

@@ -7,6 +7,8 @@
 #' @param col a character string indicating a color or a palette of colors to
 #' be used for plotting edges.
 #' @param lwd a numeric value indicating the width of edges.
+#' @param seed an optional integer value to set the seed for random color generation 
+#' when `col = "rainbow"`.
 #' @param ... further arguments passed to [`geo.segments`].
 #' @return Returns `NULL` invisibly.
 #' @examples
@@ -27,7 +29,7 @@
 #################
 #' @method plot gPath
 #' @export
-plot.gPath <- function(x, col = "rainbow", lwd = 3, ...) {
+plot.gPath <- function(x, col = "rainbow", lwd = 3, seed = NULL, ...) {
 
   listNodes <- lapply(x, function(e) e$path_detail)
 
@@ -37,6 +39,7 @@ plot.gPath <- function(x, col = "rainbow", lwd = 3, ...) {
 
   ## handle color ##
   if (is.character(col) && col[1] == "rainbow") {
+    if (!is.null(seed)) set.seed(seed)
     col <- sample(grDevices::rainbow(length(x)))
   }
   col <- rep(col, length = Npath)
