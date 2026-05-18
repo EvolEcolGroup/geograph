@@ -15,10 +15,7 @@
 #' hgdp.sub <- hgdp[getData(hgdp)$Population %in%
 #'   c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
 #' hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
-#' plot(hgdp.sub)
-#' plot(hgdp.path)
 #' @family dijkstra_methods
-#' @aliases gPath
 #' @export
 setGeneric("dijkstraBetween", function(x, ...) {
   standardGeneric("dijkstraBetween")
@@ -31,7 +28,6 @@ setGeneric("dijkstraBetween", function(x, ...) {
 #' @describeIn dijkstraBetween Method for gGraph
 setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
   ## some checks ##
-  if (!require(RBGL)) stop("RBGL is required.")
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
   if (!all(from %in% getNodes(x))) stop("Some starting nodes are not in x.")
   if (!all(to %in% getNodes(x))) stop("Some ending nodes are not in x.")
@@ -51,7 +47,7 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
     pairIdStart <- integer()
     pairIdStop <- integer()
 
-    for (i in 1:maxLength) {
+    for (i in seq_len(maxLength)) {
       j <- i
       while ((j <- j + 1) < (maxLength + 1)) {
         pairIdStart <- c(pairIdStart, i)
@@ -95,7 +91,6 @@ setMethod("dijkstraBetween", "gData", function(x) {
   # Then simply pass the new gGraph object to the method for gGraph.
 
   ## some checks ##
-  if (!require(RBGL)) stop("RBGL is required.")
   if (!is.gData(x)) stop("x is not a valid gData object")
   if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
   if (length(x@nodes.id) == 0) stop("No assigned nodes (x@nodes.id is empty).")

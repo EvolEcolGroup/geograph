@@ -1,9 +1,13 @@
 #' @title Find the minimum cost path
-#' @description minimum costs paths to nodes from a given 'source'
-#' node.
+#' @description This function finds the shortest path from a given 'source' node 
+#'    to all other nodes in the graph using Dijkstra's algorithm. 
+#'    It can be applied to both gGraph and gData objects.
 #' @param x A [`gGraph`] or [`gData`] object.
 #' @param start a character string naming the 'source' node.
 #' @return A gPath object (TODO link with a full description of gPath).
+#' @details The function uses the RBGL package to compute the shortest paths. It
+#'   checks for the connectivity of the graph and handles cases where there are
+#'   duplicated paths.
 #' @examples
 #' # Using a gData object:
 #'
@@ -16,7 +20,7 @@
 #'   c("French")]
 #'
 #' # Choose an origin node
-#' french <- french.hgdp@nodes.id
+#' french <- getNodes(french.hgdp)
 #'
 #' my.path <- dijkstraFrom(hgdp.sub, french)
 #'
@@ -30,7 +34,7 @@ setGeneric("dijkstraFrom", function(x, start) {
 #####################
 ## method for gGraph
 #####################
-#' @rdname dijkstra-methods
+#' @describeIn dijkstraFrom method for gGraph
 #' @export
 setMethod("dijkstraFrom", "gGraph", function(x, start) {
   ## some checks ##
@@ -42,13 +46,9 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
 
   ## build the wrapper ##
   myGraph <- getGraph(x)
-  ##  if(is.character(costs) && costs=="default"){
-  ##         costs <- unlist(edgeWeights(myGraph))
+
   endNodes <- getNodes(x)[!getNodes(x) %in% start]
-  ##     }
-  #browser()
-  ## wrap ##
-  #res <- RBGL::dijkstra.sp(myGraph, start = start)
+
   res <- RBGL::sp.between(myGraph, start = start,
                           finish = endNodes)
 
@@ -71,7 +71,7 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
 ####################
 ## method for gData
 ####################
-#' @rdname dijkstra-methods
+#' @describeIn dijkstraFrom method for gData
 #' @export
 setMethod("dijkstraFrom", "gData", function(x, start) {
   ## some checks ##
@@ -85,11 +85,6 @@ setMethod("dijkstraFrom", "gData", function(x, start) {
   myGraph <- get(x@gGraph.name, envir = .GlobalEnv) # myGraph is a gGraph object
   coords <- getCoords(myGraph) # store xy for later
   myGraph <- getGraph(myGraph)
-
-  ##  if(is.character(weights) && weights=="default"){ # no longer used
-  ##         weights <- unlist(edgeWeights(myGraph))
-  ##     }
-
 
   ## wrap ##
   res <- RBGL::sp.between(myGraph, start = start, finish = x@nodes.id)

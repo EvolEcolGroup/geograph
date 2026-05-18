@@ -2,7 +2,6 @@
 % Please edit documentation in R/dijkstraBetween.R
 \name{dijkstraBetween}
 \alias{dijkstraBetween}
-\alias{gPath}
 \alias{dijkstraBetween,gGraph-method}
 \alias{dijkstraBetween,gData-method}
 \title{Find the shortest path between nodes in a graph}
@@ -47,8 +46,6 @@ duplicated paths.
 hgdp.sub <- hgdp[getData(hgdp)$Population \%in\%
   c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
 hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
-plot(hgdp.sub)
-plot(hgdp.path)
 }
 \seealso{
 Other dijkstra_methods: 
