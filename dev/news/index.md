@@ -3,6 +3,10 @@
 ## geoGraph (development version)
 
 - Updated
+  [`plot.gPath()`](https://evolecolgroup.github.io/geograph/dev/reference/plot.gPath.md)
+  and documentation for all dijkstra methods
+
+- Updated
   [`connectivityPlot()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivityPlot.md)
   ensuring the color assignment matches the connected set
 

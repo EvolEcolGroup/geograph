@@ -1,10 +1,18 @@
 # Find the minimum cost path
 
-minimum costs paths to nodes from a given 'source' node.
+This function finds the shortest path from a given 'source' node to all
+other nodes in the graph using Dijkstra's algorithm. It can be applied
+to both gGraph and gData objects.
 
 ## Usage
 
 ``` r
+dijkstraFrom(x, start)
+
+# S4 method for class 'gGraph'
+dijkstraFrom(x, start)
+
+# S4 method for class 'gData'
 dijkstraFrom(x, start)
 ```
 
@@ -26,6 +34,18 @@ dijkstraFrom(x, start)
 
 A gPath object (TODO link with a full description of gPath).
 
+## Details
+
+The function uses the RBGL package to compute the shortest paths. It
+checks for the connectivity of the graph and handles cases where there
+are duplicated paths.
+
+## Functions
+
+- `dijkstraFrom(gGraph)`: method for gGraph
+
+- `dijkstraFrom(gData)`: method for gData
+
 ## See also
 
 Other dijkstra_methods:
@@ -46,7 +66,7 @@ french.hgdp <- hgdp[getData(hgdp)$Population %in%
   c("French")]
 
 # Choose an origin node
-french <- french.hgdp@nodes.id
+french <- getNodes(french.hgdp)
 
 my.path <- dijkstraFrom(hgdp.sub, french)
 ```

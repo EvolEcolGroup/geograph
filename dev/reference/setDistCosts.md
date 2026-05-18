@@ -86,9 +86,6 @@ if (require(fields)) {
 #> suffix '.spam' to the function name, e.g. 'help( chol.spam)'.
 #> 
 #> Attaching package: ‘spam’
-#> The following object is masked from ‘package:RBGL’:
-#> 
-#>     bandwidth
 #> The following objects are masked from ‘package:base’:
 #> 
 #>     backsolve, forwardsolve

@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9007</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9008</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -455,10 +455,8 @@ further.</p>
 <p>We can now compute least-cost paths between all pairs of cities using
 <code>dijkstraBetween</code>:</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cities.paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraBetween.html">dijkstraBetween</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Loading required package: RBGL</span></span></code></pre>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cities.paths</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cities.paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraBetween.html">dijkstraBetween</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span>
+<span><span class="va">cities.paths</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## === gPath object ===</span></span>
 <span><span class="co">## </span></span>
@@ -468,7 +466,7 @@ further.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## each path, accessible with [[]] has elements 'length', 'path_detail' and 'length_detail'</span></span>
 <span><span class="co">## x and y coordinates of all nodes are stored as an attribute 'xy'; see ?gPath for details</span></span></code></pre>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities.paths</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="672"></p>
@@ -489,11 +487,11 @@ connection at the Strait of Gibraltar as the grid is designed to only
 allow for land to land connectivity. We can visually check this by
 zooming in on the area of interest and plotting the edges of the
 grid:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.zoomin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="fl">2</span>, <span class="fl">32</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="672"></p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.bookmark</a></span><span class="op">(</span><span class="st">"gibraltar"</span><span class="op">)</span> <span class="co"># TODO explain this</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Bookmark ' gibraltar  'saved.</span></span></code></pre>
@@ -513,7 +511,7 @@ nodes of the grid that we want to connect (in this case, one node in
 Europe and one node in Africa). After adding the edge, we can save the
 new graph as a new object (note that we have to save the changes using
 <code>&lt;-</code>):</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="va">worldgraph.10k</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">newGraph</span><span class="op">)</span></span>
 <span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.add.edges.html">geo.add.edges</a></span><span class="op">(</span><span class="va">newGraph</span><span class="op">)</span></span></code></pre></div>
@@ -526,7 +524,7 @@ it that way??), so that the new graph will be used for path
 computations. Now when we compute least-cost paths between cities, we
 can see that the path between Bordeaux and Timbuktu goes through the
 Strait of Gibraltar instead of the Caucasus mountains:</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities</span><span class="op">@</span><span class="va">gGraph.name</span> <span class="op">&lt;-</span> <span class="st">"newGraph"</span></span>
 <span><span class="va">cities.paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraBetween.html">dijkstraBetween</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -540,7 +538,7 @@ Strait of Gibraltar instead of the Caucasus mountains:</p>
 dataset, the Human Genome Diversity Panel (HGDP) dataset, which contains
 genetic diversity information for 52 human populations worldwide (see
 <code><a href="../reference/hgdp.html">?hgdp</a></code> for more information on this dataset).</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hgdp</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## === gData object ===</span></span>
@@ -565,7 +563,7 @@ genetic diversity information for 52 human populations worldwide (see
 <span><span class="co">## ...</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Associated gGraph: worldgraph.40k</span></span></code></pre>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hgdp</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" alt="" width="768"></p>
 <p>Populations of the dataset are shown by red circles, while the
@@ -578,7 +576,7 @@ in Addis Ababa, Ethiopia. We shall seek all paths through landmasses to
 the HGDP populations.</p>
 <p>First, we check again that all populations are connected on the grid
 using <code>isConnected</code>:</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/isConnected.html">isConnected</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>Since all locations in <code>hgdp</code> are connected, we can
@@ -591,7 +589,7 @@ attribute-driven costs (using <code>setCosts</code>).</p>
 <code>gGraph</code> with uniform costs, we use <code>dijkstraFrom</code>
 to find the shortest paths between Addis Ababa and the populations of
 <code>hgdp</code>:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dropCosts.html">dropCosts</a></span><span class="op">(</span><span class="va">worldgraph.40k</span><span class="op">)</span></span>
 <span><span class="va">hgdp</span><span class="op">@</span><span class="va">gGraph.name</span> <span class="op">&lt;-</span> <span class="st">"myGraph"</span></span>
 <span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spam/man/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">38</span>, <span class="fl">9</span><span class="op">)</span></span>
@@ -599,9 +597,9 @@ to find the shortest paths between Addis Ababa and the populations of
 <span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraFrom.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span></span></code></pre></div>
 <p>The object <code>paths</code> contains the identified paths, which
 are stored as a list with class <code>gPath</code> (see
-<code><a href="../reference/dijkstraBetween.html">?gPath</a></code>). <span class="citation">@TODO</span> currently
+<code>?gPath</code>). <span class="citation">@TODO</span> currently
 refers to the grid version of gPath Paths can be plotted easily:</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">addis</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></span>
@@ -614,7 +612,7 @@ several paths overlap in several places. We can extract the distances
 from the <code>origin</code> using <code>gPath2dist</code>, and then
 examine the relationship between genetic diversity within populations
 (stored in <code>hgdp</code>) and the distance from the origin:</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">div</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getData.html">getData</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span><span class="op">$</span><span class="st">"Genetic.Div"</span></span>
 <span><span class="va">dgeo.unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gPath2dist.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths</span>, res.type <span class="op">=</span> <span class="st">"vector"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.unif</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
@@ -639,14 +637,14 @@ examine the relationship between genetic diversity within populations
 <span><span class="co">## Residual standard error: 0.0185 on 50 degrees of freedom</span></span>
 <span><span class="co">## Multiple R-squared:  0.833,  Adjusted R-squared:  0.83 </span></span>
 <span><span class="co">## F-statistic:  250 on 1 and 50 DF,  p-value: &lt;2e-16</span></span></code></pre>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Genetic diversity vs geographic distance \n uniform costs "</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" alt="" width="672"></p>
 <p>Alternatively, we can use costs based on habitat. As a toy example,
 we will consider that coasts are four times more favorable for dispersal
 than the rest of the landmasses. We define these new costs, and then
 compute and plot the corresponding shortest paths:</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span><span class="op">[</span><span class="st">"coast"</span>, <span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"coast"</span>, <span class="fl">0.25</span><span class="op">)</span></span>
 <span><span class="va">myGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span></span></code></pre></div>
 <pre><code><span><span class="co">##                habitat cost</span></span>
@@ -658,10 +656,10 @@ compute and plot the corresponding shortest paths:</p>
 <span><span class="co">## 6      deselected land  100</span></span>
 <span><span class="co">## 7                coast 0.33</span></span>
 <span><span class="co">## coast            coast 0.25</span></span></code></pre>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">myGraph</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span><span class="op">)</span></span>
 <span><span class="va">paths.2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraFrom.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paths.2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">addis</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">addis</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, pch <span class="op">=</span> <span class="st">"x"</span>, cex <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
@@ -670,7 +668,7 @@ compute and plot the corresponding shortest paths:</p>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="768"></p>
 <p>The new paths are slightly different from the previous ones. We can
 examine the new relationship with genetic distance:</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dgeo.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gPath2dist.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths.2</span>, res.type <span class="op">=</span> <span class="st">"vector"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.hab</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
 <span><span class="va">lm.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.hab</span><span class="op">)</span></span>
@@ -694,7 +692,7 @@ examine the new relationship with genetic distance:</p>
 <span><span class="co">## Residual standard error: 0.0251 on 50 degrees of freedom</span></span>
 <span><span class="co">## Multiple R-squared:  0.693,  Adjusted R-squared:  0.687 </span></span>
 <span><span class="co">## F-statistic:  113 on 1 and 50 DF,  p-value: 1.94e-14</span></span></code></pre>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Genetic diversity vs geographic distance \n habitat costs "</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" alt="" width="672"></p>
 <p>Now of course depending on the application, we may want to use

@@ -18,7 +18,6 @@
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/connectivityPlot.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/createNewGraph.html</loc></url>
-<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/dijkstraFrom.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/dropCosts.html</loc></url>
@@ -52,6 +51,7 @@
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/pipe.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/plot.gPath.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/polygonBetween.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setCosts.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.html</loc></url>

@@ -468,12 +468,6 @@ We can now compute least-cost paths between all pairs of cities using
 ``` r
 
 cities.paths <- dijkstraBetween(cities)
-```
-
-    ## Loading required package: RBGL
-
-``` r
-
 cities.paths
 ```
 
@@ -654,10 +648,8 @@ paths <- dijkstraFrom(hgdp, ori)
 ```
 
 The object `paths` contains the identified paths, which are stored as a
-list with class `gPath` (see
-[`?gPath`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md)).
-@TODO currently refers to the grid version of gPath Paths can be plotted
-easily:
+list with class `gPath` (see `?gPath`). @TODO currently refers to the
+grid version of gPath Paths can be plotted easily:
 
 ``` r
 

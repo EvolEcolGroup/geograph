@@ -98,10 +98,6 @@ Functions adjusting the costs of a `gGraph` object.
 
 Functions for computing shortest paths and distances.
 
-- [`plot(`*`<gPath>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
-  [`dijkstraFrom(`*`<gGraph>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
-  [`dijkstraFrom(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstra-methods.md)
-  : Shortest path using Dijkstra algorithm
 - [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md)
   : Find the shortest path between nodes in a graph
 - [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraFrom.md)
@@ -127,6 +123,9 @@ Functions for visualising `gGraph` and `gData` objects.
 - [`plot(`*`<gData>`*`,`*`<missing>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.md)
   [`points(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.md)
   : Plot a gData object.
+- [`plot(`*`<gPath>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot.gPath.md)
+  [`print(`*`<gPath>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot.gPath.md)
+  : Plot a gPath object
 - [`connectivityPlot()`](https://evolecolgroup.github.io/geograph/dev/reference/connectivityPlot.md)
   : Plot connected sets of a gGraph object
 - [`geo.segments()`](https://evolecolgroup.github.io/geograph/dev/reference/geo.segments.md)
