@@ -78,7 +78,6 @@ test_that("two nodes of the gData with the same color are actually connected", {
 
 test_that("two nodes of the gData with different colors are not connected", {
   
-  # european capitals (paris and madrid)
   point1 <- c(-3.7038, 40.4168) 
   point2 <-  c(-74.0060, 40.7128) 
   
@@ -100,4 +99,45 @@ test_that("two nodes of the gData with different colors are not connected", {
   node.col2 <- names(non.gray[non.gray == all.colors[2]])[1]
   
   expect_false(areConnected(worldgraph.10k, nodes = c(node.col1, node.col2)))
+})
+
+test_that("connectivityPlot handles graph with all isolated nodes", {
+  # create a gGraph with no edges
+  myGraph <- dropDeadEdges(rawgraph.10k, thres = 0)
+
+  pdf(NULL)
+  result <- connectivityPlot(myGraph)
+  dev.off()
+  
+  expect_true(all(result == "lightgray"))
+})
+
+test_that("connectivityPlot assigns colors correctly to gData with sparse relevant sets", {
+
+  # have a gData where relevant connected sets appear at indices beyond nbRelSets
+  
+  # on set 1 
+  point1 <- c(-3.7038, 40.4168) 
+  point2 <- c(31.2357, 30.0444) 
+  
+  # on set 3 
+  point3 <- c(149.1300, -35.2809) 
+  point4 <- c(115.8605, -32.7157) 
+  
+  # disconnected points
+  point5 <- c(-157.8583, 21.3069) 
+  point6 <- c(-172.1046, -13.7590)
+  
+  cities2.dat <- rbind.data.frame(point1, point2, point3, point4, point5, point6)
+  colnames(cities2.dat) <- c("lon", "lat")
+  row.names(cities2.dat) <- c("1", "2", "3", "4", "5", "6")
+  cities2 <- new("gData", coords = cities2.dat[, 1:2], gGraph.name = "worldgraph.10k")
+  
+  pdf(NULL)
+  result <- connectivityPlot(cities2, seed = 123)
+  dev.off()
+  
+  # check that no nodes colored gray are connected to any other gray nodes
+  gray.nodes <- names(result[result == "lightgray"])
+  expect_false(areConnected(worldgraph.10k, nodes = gray.nodes))
 })

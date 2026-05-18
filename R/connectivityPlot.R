@@ -41,10 +41,10 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
   reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
   temp <- temp[reOrd]
   if (min(temp) == 1) {
-    connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
+    connected.sets <- connected.sets[reOrd][seq_len(which.min(temp) - 1)]
   }
 
-  names(connected.sets) <- paste("set", seq_along(connected.sets))
+  names(connected.sets) <- paste("set", seq_along(connected.sets), recycle0 = TRUE)
 
   ## define colors ##
   nbSets <- length(connected.sets)
@@ -58,7 +58,7 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
   col <- rep("lightgray", length(myNodes))
   names(col) <- myNodes
 
-  for (i in 1:nbSets) {
+  for (i in seq_len(nbSets)) {
     e <- connected.sets[[i]] # 'e' is a vector of connected nodes
     col[e] <- colSets[i]
   }
@@ -106,7 +106,7 @@ setMethod("connectivityPlot", "gData", function(x, ..., seed = NULL) {
     connected.sets <- connected.sets[reOrd][seq_len(which.min(temp) - 1)]
   }
 
-  names(connected.sets) <- paste("set", seq_along(connected.sets))
+  names(connected.sets) <- paste("set", seq_along(connected.sets), recycle0 = TRUE)
 
   ## define colors ##
   nbSets <- length(connected.sets)
@@ -128,9 +128,15 @@ setMethod("connectivityPlot", "gData", function(x, ..., seed = NULL) {
   col <- rep("lightgray", length(myNodes))
   names(col) <- myNodes
 
+  color.idx <- 0
   for (i in seq_len(nbSets)) {
-    e <- connected.sets[[i]] # 'e' is a vector of connected nodes
+    e <- connected.sets[[i]]
     col[names(col) %in% e] <- colSets[i]
+    nodes.in.set <- names(col)[names(col) %in% e]
+    if (length(nodes.in.set) > 0) {
+      color.idx <- color.idx + 1
+      col[nodes.in.set] <- colSets[color.idx]
+      }
   }
 
   ## call to plot ##
