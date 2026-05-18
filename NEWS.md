@@ -1,5 +1,7 @@
 # geoGraph (development version)
 
+* Updated `connectivityPlot()` ensuring the color assignment matches the connected set
+
 * Fix incorrect handling of duplicate nodes in `dijkstraBetween()`, 
   ensuring zero-distance paths are properly represented.
 
