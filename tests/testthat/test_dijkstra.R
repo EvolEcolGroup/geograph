@@ -89,3 +89,38 @@ test_that("dijkstraBetween errors when to is empty", {
     "`from` and `to` must be non-empty."
   )
 })
+
+test_that("dijkstraFrom errors when start node is not in the graph", {
+  max_set <- keepMaxConnectedSet(worldgraph.10k)
+  #find a node that is in the graph but not in the max_set
+  start <- setdiff(getNodes(worldgraph.10k), getNodes(max_set))[1]
+  expect_error(
+    dijkstraFrom(max_set, start),
+    "Starting node is not in x."
+  )
+})
+
+test_that("dijkstraFrom errors when gGraph is not fully connected", {
+  # rawgraph.10k with dead edges dropped will have disconnected nodes
+  disconnected <- dropDeadEdges(rawgraph.10k, thres = 0)
+  expect_error(
+    dijkstraFrom(disconnected, "1"),
+    "Not all nodes are connected by the graph."
+  )
+})
+
+test_that("dijkstraBetween errors when nodes are not connected", {
+  disconnected <- dropDeadEdges(rawgraph.10k, thres = 0)
+  nodes        <- getNodes(disconnected)[1:2]
+  expect_error(
+    dijkstraBetween(disconnected, from = nodes[1], to = nodes[2]),
+    "Not all nodes are connected by the graph."
+  )
+})
+
+test_that("dijkstraBetween works with a single pair of nodes", {
+  nodes  <- getNodes(rawgraph.10k)[1:2]
+  result <- dijkstraBetween(rawgraph.10k, from = nodes[1], to = nodes[2])
+  expect_s3_class(result, "gPath")
+  expect_equal(length(result), 1L)
+})
