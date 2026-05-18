@@ -37,7 +37,7 @@ hgdp.sub <- hgdp[getData(hgdp)$Population \%in\%
 hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
 
 ## plotting
-plot(worldgraph.40k, pch = "") # plot the world
+plot(worldgraph.40k, reset = TRUE, pch = "")
 points(hgdp.sub, lwd = 1) # plot populations
 plot(hgdp.path) # plot the path
 
