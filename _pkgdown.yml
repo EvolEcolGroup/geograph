@@ -55,7 +55,6 @@ reference:
   - title: "Shortest paths"
     desc: "Functions for computing shortest paths and distances."
     contents:
-      - "dijkstra-methods"
       - has_concept("dijkstra_methods")
       - gPath2dist
       - polygonBetween
@@ -68,6 +67,7 @@ reference:
       - "plot,gGraph-method"
       - "plot,gData-method"
       - "points,gGraph-method"
+      - plot.gPath
       - plotEdges
       - connectivityPlot
       - geo.segments

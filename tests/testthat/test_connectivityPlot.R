@@ -1,16 +1,16 @@
 test_that("connectivityPlot result names match graph node names", {
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   result <- connectivityPlot(worldgraph.10k)
-  dev.off()
-  
+
   expect_equal(sort(names(result)), sort(getNodes(worldgraph.10k)))
 })
 
 test_that("connectivityPlot returns invisible named color vector for gGraph", {
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   result <- connectivityPlot(worldgraph.10k)
-  dev.off()
-  
+
   expect_true(is.character(result))
   expect_named(result)
   expect_equal(length(result), length(getNodes(worldgraph.10k)))
@@ -18,9 +18,9 @@ test_that("connectivityPlot returns invisible named color vector for gGraph", {
 
 test_that("connectivityPlot returns invisible named color vector for gData", {
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   result <- connectivityPlot(hgdp)
-  dev.off()
-  
+
   expect_true(is.character(result))
   expect_named(result)
   expect_equal(length(result), length(getNodes(hgdp)))
@@ -28,18 +28,18 @@ test_that("connectivityPlot returns invisible named color vector for gData", {
 
 test_that("connectivityPlot produces different colors with different seeds", {
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   result1 <- connectivityPlot(worldgraph.10k, seed = 1)
   result2 <- connectivityPlot(worldgraph.10k, seed = 99)
-  dev.off()
-  
+
   expect_false(identical(result1, result2))
 })
 
 test_that("two nodes of the gGraph with the same color are actually connected", {
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   result <- connectivityPlot(worldgraph.10k, seed = 42)
-  dev.off()
-  
+
   # pick all nodes sharing the most common non-gray color
   non.gray       <- result[result != "lightgray"]
   most.common    <- names(sort(table(non.gray), decreasing = TRUE))[1]
@@ -50,9 +50,9 @@ test_that("two nodes of the gGraph with the same color are actually connected", 
 
 test_that("two nodes of the gGraph with different colors are not connected", {
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   result <- connectivityPlot(worldgraph.10k, seed = 42)
-  dev.off()
-  
+
   # worldgraph.10k has multiple connected sets so this is always valid
   non.gray   <- result[result != "lightgray"]
   all.colors <- unique(non.gray)
@@ -65,9 +65,9 @@ test_that("two nodes of the gGraph with different colors are not connected", {
 
 test_that("two nodes of the gData with the same color are actually connected", {
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   result <- connectivityPlot(hgdp, seed = 42)
-  dev.off()
-  
+
   # pick all nodes sharing the most common non-gray color
   non.gray       <- result[result != "lightgray"]
   most.common    <- names(sort(table(non.gray), decreasing = TRUE))[1]
@@ -88,9 +88,9 @@ test_that("two nodes of the gData with different colors are not connected", {
   
   
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   result <- connectivityPlot(cities, seed = 42)
-  dev.off()
-  
+
   # worldgraph.10k has multiple connected sets so this is always valid
   non.gray   <- result[result != "lightgray"]
   all.colors <- unique(non.gray)
@@ -106,9 +106,9 @@ test_that("connectivityPlot handles graph with all isolated nodes", {
   myGraph <- dropDeadEdges(rawgraph.10k, thres = 0)
 
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   result <- connectivityPlot(myGraph)
-  dev.off()
-  
+
   expect_true(all(result == "lightgray"))
 })
 
@@ -134,9 +134,9 @@ test_that("connectivityPlot assigns colors correctly to gData with sparse releva
   cities2 <- new("gData", coords = cities2.dat[, 1:2], gGraph.name = "worldgraph.10k")
   
   pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
   result <- connectivityPlot(cities2, seed = 123)
-  dev.off()
-  
+
   # check that no nodes colored gray are connected to any other gray nodes
   gray.nodes <- names(result[result == "lightgray"])
   expect_false(areConnected(worldgraph.10k, nodes = gray.nodes))

@@ -2,9 +2,15 @@
 % Please edit documentation in R/dijkstraFrom.R
 \name{dijkstraFrom}
 \alias{dijkstraFrom}
+\alias{dijkstraFrom,gGraph-method}
+\alias{dijkstraFrom,gData-method}
 \title{Find the minimum cost path}
 \usage{
 dijkstraFrom(x, start)
+
+\S4method{dijkstraFrom}{gGraph}(x, start)
+
+\S4method{dijkstraFrom}{gData}(x, start)
 }
 \arguments{
 \item{x}{A \code{\link{gGraph}} or \code{\link{gData}} object.}
@@ -15,9 +21,22 @@ dijkstraFrom(x, start)
 A gPath object (TODO link with a full description of gPath).
 }
 \description{
-minimum costs paths to nodes from a given 'source'
-node.
+This function finds the shortest path from a given 'source' node
+to all other nodes in the graph using Dijkstra's algorithm.
+It can be applied to both gGraph and gData objects.
 }
+\details{
+The function uses the RBGL package to compute the shortest paths. It
+checks for the connectivity of the graph and handles cases where there are
+duplicated paths.
+}
+\section{Functions}{
+\itemize{
+\item \code{dijkstraFrom(gGraph)}: method for gGraph
+
+\item \code{dijkstraFrom(gData)}: method for gData
+
+}}
 \examples{
 # Using a gData object:
 
@@ -30,7 +49,7 @@ french.hgdp <- hgdp[getData(hgdp)$Population \%in\%
   c("French")]
 
 # Choose an origin node
-french <- french.hgdp@nodes.id
+french <- getNodes(french.hgdp)
 
 my.path <- dijkstraFrom(hgdp.sub, french)
 
