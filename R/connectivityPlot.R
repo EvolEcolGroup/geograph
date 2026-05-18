@@ -9,9 +9,6 @@
 #' @param seed an optional integer giving the seed to be used when randomising
 #'   colors. A given seed will always produce the same set of colors. `NULL`
 #'   by default, meaning colors are randomised each time a plot is drawn.
-#' @param col.gGraph a character string or number indicating the color of the
-#'   [`gGraph`] nodes when plotting a [`gData`] object. Defaults to `0`,
-#'   meaning nodes are invisible.
 #' @return A named character vector of colors, one per node, returned
 #'   invisibly.
 #' @include classes.R
@@ -19,11 +16,8 @@
 #' # plot connected sets of a gGraph object
 #' connectivityPlot(worldgraph.10k)
 #' 
-#' # get connected sets of a gGraph object
-#' col.gGraph <- connectivityPlot(worldgraph.40k)
-#' 
 #' # plot connected sets of a gData object
-#' connectivityPlot(hgdp, col.gGraph = col.gGraph)
+#' connectivityPlot(hgdp)
 #' @export
 setGeneric("connectivityPlot", function(x, ...) {
   standardGeneric("connectivityPlot")
@@ -97,7 +91,7 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
 #################
 #' @describeIn connectivityPlot Method for gData objects
 #' @export
-setMethod("connectivityPlot", "gData", function(x, col.gGraph = 0, ..., seed = NULL) {
+setMethod("connectivityPlot", "gData", function(x, ..., seed = NULL) {
   ## some checks ##
   if (!is.gData(x)) stop("x is not a valid gData object")
 
@@ -109,7 +103,7 @@ setMethod("connectivityPlot", "gData", function(x, col.gGraph = 0, ..., seed = N
   reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
   temp <- temp[reOrd]
   if (min(temp) == 1) {
-    connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
+    connected.sets <- connected.sets[reOrd][seq_len(which.min(temp) - 1)]
   }
 
   names(connected.sets) <- paste("set", seq_along(connected.sets))
@@ -120,7 +114,7 @@ setMethod("connectivityPlot", "gData", function(x, col.gGraph = 0, ..., seed = N
   nbRelSets <- 0
   myNodes <- getNodes(x)
 
-  for (i in 1:nbSets) {
+  for (i in seq_len(nbSets)) {
     if (any(myNodes %in% connected.sets[[i]])) {
       nbRelSets <- nbRelSets + 1
     }
@@ -134,14 +128,20 @@ setMethod("connectivityPlot", "gData", function(x, col.gGraph = 0, ..., seed = N
   col <- rep("lightgray", length(myNodes))
   names(col) <- myNodes
 
-  for (i in 1:nbSets) {
+  for (i in seq_len(nbSets)) {
     e <- connected.sets[[i]] # 'e' is a vector of connected nodes
     col[names(col) %in% e] <- colSets[i]
   }
 
   ## call to plot ##
-  plot(x, col.ori = col, col.nodes = col, col.gGraph = col.gGraph, ...)
-
+  plot(x,
+       col.gGraph = NA,
+       col.nodes  = "black",      
+       pch.nodes  = 21,          
+       bg         = col,
+       type       = "nodes",
+       ...)
+  
   ## fix last call ##
   curCall <- sys.call(-1)
   assign("last.plot", curCall, envir = .geoGraphEnv)

@@ -10,7 +10,7 @@ connectivityPlot(x, ...)
 
 \S4method{connectivityPlot}{gGraph}(x, ..., seed = NULL)
 
-\S4method{connectivityPlot}{gData}(x, col.gGraph = 0, ..., seed = NULL)
+\S4method{connectivityPlot}{gData}(x, ..., seed = NULL)
 }
 \arguments{
 \item{x}{a valid \code{\link{gGraph}} or \code{\link{gData}} object.}
@@ -20,10 +20,6 @@ connectivityPlot(x, ...)
 \item{seed}{an optional integer giving the seed to be used when randomising
 colors. A given seed will always produce the same set of colors. \code{NULL}
 by default, meaning colors are randomised each time a plot is drawn.}
-
-\item{col.gGraph}{a character string or number indicating the color of the
-\code{\link{gGraph}} nodes when plotting a \code{\link{gData}} object. Defaults to \code{0},
-meaning nodes are invisible.}
 }
 \value{
 A named character vector of colors, one per node, returned
@@ -45,9 +41,6 @@ no connected set of size > 1) are plotted in light gray.
 # plot connected sets of a gGraph object
 connectivityPlot(worldgraph.10k)
 
-# get connected sets of a gGraph object
-col.gGraph <- connectivityPlot(worldgraph.40k)
-
 # plot connected sets of a gData object
-connectivityPlot(hgdp, col.gGraph = col.gGraph)
+connectivityPlot(hgdp)
 }
