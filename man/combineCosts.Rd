@@ -39,6 +39,7 @@ Also note that 'costs' defined in \code{geoGraph} are equivalent to
 'weights' as defined in \code{graph} and \code{RBGL} packages.
 }
 \examples{
+ 
 data("worldgraph.40k")
 # new graph with custom cost function
 exp.cost <- function(x1, x2, cost.coeff) {
@@ -57,3 +58,12 @@ new_costs_graph <-
 # combine costs from the original graph with the new costs
 combine_costs_graph <- combineCosts(worldgraph.40k, new_costs_graph, method = "sum")
 }
+\seealso{
+\link{setCosts} to set costs for a single gGraph object
+
+Other cost_functions: 
+\code{\link{hasCosts}()},
+\code{\link{setCosts}()},
+\code{\link{setDistCosts}()}
+}
+\concept{cost_functions}

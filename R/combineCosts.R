@@ -22,8 +22,10 @@
 #' @param \dots additional parameters to be passed to \code{FUN}.
 #' @return A \linkS4class{gGraph} object with the newly defined costs, based on the combination of the
 #' two gGraph objects, used as weightings of edges.
-#' @export
+#' @family cost_functions
+#' @seealso [setCosts] to set costs for a single gGraph object
 #' @examples
+#'  
 #' data("worldgraph.40k")
 #' # new graph with custom cost function
 #' exp.cost <- function(x1, x2, cost.coeff) {
@@ -41,6 +43,7 @@
 #'   )
 #' # combine costs from the original graph with the new costs
 #' combine_costs_graph <- combineCosts(worldgraph.40k, new_costs_graph, method = "sum")
+#' @export
 ###############
 ## combineCosts
 ###############
@@ -49,10 +52,14 @@ combineCosts <- function(x1, x2, method = c("sum", "product", "function"), FUN =
   if (!is.gGraph(x1)) stop("x1 is not a valid gGraph object")
   if (!is.gGraph(x2)) stop("x2 is not a valid gGraph object")
   if (!hasCosts(x1)) stop("x1 is does not have costs; use setCosts to set the costs first")
-  if (!hasCosts(x2)) stop("x1 is does not have costs; use setCosts to set the costs first")
+  if (!hasCosts(x2)) stop("x2 is does not have costs; use setCosts to set the costs first")
   method <- match.arg(method)
-
-  ## get the edges and weights from teh two graphs
+  
+  if (method == "function" && is.null(FUN)) {
+    stop("if method = 'function', FUN needs to be defined.")
+  }
+  
+  ## get the edges and weights from the two graphs
   myGraph1 <- getGraph(x1)
   edgeW1 <- edgeWeights(myGraph1)
   edgeL1 <- edgeL(myGraph1)
@@ -67,7 +74,7 @@ combineCosts <- function(x1, x2, method = c("sum", "product", "function"), FUN =
   }
 
   newEdgeL <- list()
-  for (i in 1:length(edgeL1)) {
+  for (i in seq_along(edgeL1)) {
     newEdgeL[[i]] <- list()
     newEdgeL[[i]]$edges <- edgeL1[[i]]$edges
     if (method == "sum") {

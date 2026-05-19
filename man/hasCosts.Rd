@@ -7,25 +7,35 @@
 hasCosts(x)
 }
 \arguments{
-\item{x}{a valid \linkS4class{gGraph}.}
+\item{x}{a valid \code{\link{gGraph}} object.}
 }
 \value{
-a logical value is returned.
+\code{TRUE} if the graph has heterogeneous edge costs, \code{FALSE} if costs
+are absent or uniform.
 }
 \description{
-This function tests whether a \linkS4class{gGraph} has costs associated
-to its edges.
+This function tests whether a \code{\link{gGraph}} has heterogeneous
+costs associated to its edges.
 }
 \details{
 This low-level function is designed to be called  by other procedures of
-\link{geoGraph}. However, it can sometimes be useful by itself. Note that
-unlike other functions in \code{geoGraph}, this function does not
+\link{geoGraph}. However, it can sometimes be useful by itself. Note that a \code{\link{gGraph}}
+with all costs set uniform will also result in FALSE.
+Unlike other functions in \link{geoGraph}, this function does not
 test for the validity of the provided arguments (for speed purposes).
 }
 \examples{
 
-hasCosts(rawgraph.10k)
+hasCosts(rawgraph.10k)   # TRUE
+hasCosts(worldgraph.10k) # FALSE as not all edges have costs
 
 }
+\seealso{
+Other cost_functions: 
+\code{\link{combineCosts}()},
+\code{\link{setCosts}()},
+\code{\link{setDistCosts}()}
+}
+\concept{cost_functions}
 \keyword{methods}
 \keyword{utilities}

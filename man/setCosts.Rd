@@ -67,11 +67,16 @@ x <- rawgraph.10k[isInArea(rawgraph.10k)]
 x <- setCosts(x, attr.name = "habitat")
 plot(x, edges = TRUE)
 title("costs defined by habitat (land/land=1, other=100)")
-
 }
 \seealso{
 \code{\link{dropDeadEdges}}, to get rid of edge whose cost is below
 a given threshold. \code{\link{geo.add.edges}} to add edges to a
 \linkS4class{gGraph} object.
+
+Other cost_functions: 
+\code{\link{combineCosts}()},
+\code{\link{hasCosts}()},
+\code{\link{setDistCosts}()}
 }
+\concept{cost_functions}
 \keyword{utilities}
