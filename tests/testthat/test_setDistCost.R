@@ -16,15 +16,20 @@ test_that("setDistCosts produces positive finite costs", {
 })
 
 test_that("setDistCosts is symmetric (A->B same cost as B->A)", {
+  
   result <- setDistCosts(rawgraph.10k)
   
-  # get edge matrix with both directions
   E <- getEdges(result, res.type = "matNames")
   
-  # find a pair where both directions appear
-  pair_fwd <- paste(E[1, 1], E[1, 2], sep = "|")
-  pair_rev <- paste(E[1, 2], E[1, 1], sep = "|")
-  
+  # Find a pair where both directions exist
+  edge_pairs <- paste(E[, 1], E[, 2], sep = "|")
+  reverse_pairs <- paste(E[, 2], E[, 1], sep = "|")
+  bidirectional_idx <- which(edge_pairs %in% reverse_pairs)[1]
+
+  pair_fwd <- edge_pairs[bidirectional_idx]
+  pair_rev <- paste(E[bidirectional_idx, 2], E[bidirectional_idx, 1], sep = "|")
+  result <- setDistCosts(rawgraph.10k)
+
   data <- result@graph@edgeData@data
   expect_equal(data[[pair_fwd]]$weight, data[[pair_rev]]$weight)
 })
