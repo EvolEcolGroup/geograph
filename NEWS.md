@@ -1,5 +1,7 @@
 # geoGraph (development version)
 
+* Added comprehensive test coverage for cost functions and updated documentation 
+
 * Updated `plot.gPath()` and documentation for all dijkstra methods
 
 * Updated `connectivityPlot()` ensuring the color assignment matches the connected set

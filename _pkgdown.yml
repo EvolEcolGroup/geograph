@@ -46,10 +46,7 @@ reference:
   - title: "Costs"
     desc: "Functions adjusting the costs of a `gGraph` object."
     contents:
-      - hasCosts
-      - setCosts
-      - setDistCosts
-      - combineCosts
+      - has_concept("cost_functions")
       - dropCosts
 
   - title: "Shortest paths"

@@ -34,7 +34,7 @@
 #' a given threshold. \code{\link{geo.add.edges}} to add edges to a
 #' \linkS4class{gGraph} object.
 #' @keywords utilities
-#' @export
+#' @family cost_functions
 #' @examples
 #'
 #' plot(rawgraph.10k, reset = TRUE)
@@ -50,7 +50,7 @@
 #' x <- setCosts(x, attr.name = "habitat")
 #' plot(x, edges = TRUE)
 #' title("costs defined by habitat (land/land=1, other=100)")
-#'
+#' @export
 setCosts <- function(x, attr.name = NULL, node.values = NULL, method = c("mean", "product", "function"), FUN = NULL, ...) {
   ## some checks + argument handling
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")

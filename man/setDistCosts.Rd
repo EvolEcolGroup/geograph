@@ -39,26 +39,26 @@ connectivity there is between the couple of concerned nodes.
 
 }}
 \examples{
+plot(rawgraph.10k, reset = TRUE)
+geo.zoomin(list(x = c(110, 150), y = c(-10, -40)))
+plotEdges(rawgraph.10k)
 
-if (require(fields)) {
-  ## load data
-  plot(rawgraph.10k, reset = TRUE)
-  geo.zoomin(list(x = c(110, 150), y = c(-10, -40)))
-  plotEdges(rawgraph.10k)
+x <- rawgraph.10k[isInArea(rawgraph.10k)]
+x <- setDistCosts(x)
 
-  ## compute costs
-  x <- rawgraph.10k[isInArea(rawgraph.10k)]
-  x <- setDistCosts(x)
-
-  ## replot edges
-  plotEdges(x) # no big differences can be seen
-  head(getCosts(x))
-}
+plotEdges(x)
+head(getCosts(x))
 
 }
 \seealso{
 The \code{\link{getCosts}} accessor, returning costs of the edges
 of a \linkS4class{gGraph} object in different ways.\cr
+
+Other cost_functions: 
+\code{\link{combineCosts}()},
+\code{\link{hasCosts}()},
+\code{\link{setCosts}()}
 }
+\concept{cost_functions}
 \keyword{methods}
 \keyword{utilities}
