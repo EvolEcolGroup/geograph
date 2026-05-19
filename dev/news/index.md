@@ -2,6 +2,9 @@
 
 ## geoGraph (development version)
 
+- Added comprehensive test coverage for cost functions and updated
+  documentation
+
 - Updated
   [`plot.gPath()`](https://evolecolgroup.github.io/geograph/dev/reference/plot.gPath.md)
   and documentation for all dijkstra methods

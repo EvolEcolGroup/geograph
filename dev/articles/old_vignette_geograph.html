@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@
                         <h4 data-toc-skip class="author">Thibaut Jombart
 and Andrea Manica</h4>
             
-            <h4 data-toc-skip class="date">2026-05-18</h4>
+            <h4 data-toc-skip class="date">2026-05-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/old_vignette_geograph.Rmd" class="external-link"><code>vignettes/old_vignette_geograph.Rmd</code></a></small>
       <div class="d-none name"><code>old_vignette_geograph.Rmd</code></div>
@@ -1068,7 +1068,7 @@ to find the shortest paths between Addis Ababa and the populations of
 <div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dropCosts.html">dropCosts</a></span><span class="op">(</span><span class="va">worldgraph.40k</span><span class="op">)</span></span>
 <span><span class="va">hgdp</span><span class="op">@</span><span class="va">gGraph.name</span> <span class="op">&lt;-</span> <span class="st">"myGraph"</span></span>
-<span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spam/man/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">38</span>, <span class="fl">9</span><span class="op">)</span></span>
+<span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">38</span>, <span class="fl">9</span><span class="op">)</span></span>
 <span><span class="va">ori</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/closestNode.html">closestNode</a></span><span class="op">(</span><span class="va">myGraph</span>, <span class="va">addis</span><span class="op">)</span></span>
 <span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraFrom.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span></span></code></pre></div>
 <p>The object <code>paths</code> contains the identified paths, which

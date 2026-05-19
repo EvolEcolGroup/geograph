@@ -83,14 +83,14 @@ Functions for finding nodes and querying spatial relationships.
 
 Functions adjusting the costs of a `gGraph` object.
 
+- [`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md)
+  : Combine the costs of two gGraph objects
 - [`hasCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/hasCosts.md)
   : Check if a gGraph has costs
 - [`setCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md)
   : Set friction in a gGraph object
 - [`setDistCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.md)
   : Set costs associated to edges based on geographic distances
-- [`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md)
-  : Combine the costs of two gGraph objects
 - [`dropCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/dropCosts.md)
   : Remove all costs from a gGraph object
 

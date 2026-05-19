@@ -57,9 +57,20 @@ connectivity between the two concerned nodes.
 Also note that 'costs' defined in `geoGraph` are equivalent to 'weights'
 as defined in `graph` and `RBGL` packages.
 
+## See also
+
+[setCosts](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md)
+to set costs for a single gGraph object
+
+Other cost_functions:
+[`hasCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/hasCosts.md),
+[`setCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md),
+[`setDistCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.md)
+
 ## Examples
 
 ``` r
+ 
 data("worldgraph.40k")
 # new graph with custom cost function
 exp.cost <- function(x1, x2, cost.coeff) {

@@ -81,6 +81,11 @@ to add edges to a
 [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
 object.
 
+Other cost_functions:
+[`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md),
+[`hasCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/hasCosts.md),
+[`setDistCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.md)
+
 ## Examples
 
 ``` r
@@ -100,5 +105,4 @@ x <- rawgraph.10k[isInArea(rawgraph.10k)]
 x <- setCosts(x, attr.name = "habitat")
 plot(x, edges = TRUE)
 title("costs defined by habitat (land/land=1, other=100)")
-
 ```

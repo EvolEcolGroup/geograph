@@ -59,42 +59,25 @@ accessor, returning costs of the edges of a
 [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
 object in different ways.  
 
+Other cost_functions:
+[`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md),
+[`hasCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/hasCosts.md),
+[`setCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md)
+
 ## Examples
 
 ``` r
+plot(rawgraph.10k, reset = TRUE)
 
-if (require(fields)) {
-  ## load data
-  plot(rawgraph.10k, reset = TRUE)
-  geo.zoomin(list(x = c(110, 150), y = c(-10, -40)))
-  plotEdges(rawgraph.10k)
+geo.zoomin(list(x = c(110, 150), y = c(-10, -40)))
+plotEdges(rawgraph.10k)
 
-  ## compute costs
-  x <- rawgraph.10k[isInArea(rawgraph.10k)]
-  x <- setDistCosts(x)
+x <- rawgraph.10k[isInArea(rawgraph.10k)]
+x <- setDistCosts(x)
 
-  ## replot edges
-  plotEdges(x) # no big differences can be seen
-  head(getCosts(x))
-}
-#> Loading required package: fields
-#> Loading required package: spam
-#> Spam version 2.11-3 (2026-01-05) is loaded.
-#> Type 'help( Spam)' or 'demo( spam)' for a short introduction 
-#> and overview of this package.
-#> Help for individual functions is also obtained by adding the
-#> suffix '.spam' to the function name, e.g. 'help( chol.spam)'.
-#> 
-#> Attaching package: ‘spam’
-#> The following objects are masked from ‘package:base’:
-#> 
-#>     backsolve, forwardsolve
-#> Loading required package: viridisLite
-#> Loading required package: RColorBrewer
-#> 
-#> Try help(fields) to get started.
+plotEdges(x)
 
-
+head(getCosts(x))
 #> $`150`
 #>    10038      151    10037      471 
 #> 153.5122 135.5409 159.0169 159.0779 
