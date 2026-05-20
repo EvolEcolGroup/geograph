@@ -19,4 +19,6 @@ Useful links:
 
 Authors:
 
+- Andrea Manica <am315@cam.ac.uk>
+
 - Thibaut Jombart

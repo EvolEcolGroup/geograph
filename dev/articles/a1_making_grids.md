@@ -228,10 +228,10 @@ hexGraph <- collapseNodeAttribute(
 )
 
 # have a look at the distribution of sd.elevation values for land cells
-sd.ele <- getNodesAttr(hexGraph) |>
+sd.ele <- getNodesAttr(hexGraph) %>%
   mutate(
     elevation = ifelse(habitat == "land", elevation, NA_real_)
-  ) |>
+  ) %>%
   pull(elevation)
 
 # plot the density

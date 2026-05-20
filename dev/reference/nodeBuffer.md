@@ -30,10 +30,10 @@ nodeBuffer(graph, origin, max.distance, map.distances = TRUE)
 - map.distances:
 
   Logical. If `TRUE`, return the Graph object with new a node attribute
-  called 'difusion_area' indicating the diffusion area with TRUE for all
-  nodes reachable in order to map it on the gGraph object. If `FALSE`
-  (default), return only the vector of node IDs within the diffusion
-  area.
+  called 'diffusion_area' indicating the diffusion area with TRUE for
+  all nodes reachable in order to map it on the gGraph object. If
+  `FALSE` (default), return only the vector of node IDs within the
+  diffusion area.
 
 ## Value
 

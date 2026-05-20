@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9009</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -281,10 +281,10 @@ cells by plotting a density plot.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># have a look at the distribution of sd.elevation values for land cells</span></span>
-<span><span class="va">sd.ele</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">hexGraph</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span><span class="va">sd.ele</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">hexGraph</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span></span>
 <span>    elevation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">habitat</span> <span class="op">==</span> <span class="st">"land"</span>, <span class="va">elevation</span>, <span class="cn">NA_real_</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">pull</span><span class="op">(</span><span class="va">elevation</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># plot the density</span></span>

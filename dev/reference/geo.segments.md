@@ -58,3 +58,10 @@ This low-level function is designed to be called by other procedures of
 However, it can sometimes be useful by itself. Note that unlike other
 functions in `geoGraph`, this functions does not test for the validity
 of the provided arguments (for speed purposes).
+
+## Examples
+
+``` r
+plot(worldgraph.10k, reset = TRUE)
+geo.segments(x0 = -170, y0 = 60, x1 = 170, y1 = 55, col = "red", lwd = 2)
+```

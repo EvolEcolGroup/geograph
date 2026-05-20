@@ -84,6 +84,24 @@ or a
 [gData](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
 object. Outputs match the input formats.
 
+## Functions
+
+- `extractFromLayer(matrix)`: Method for matrix input
+
+- `extractFromLayer(data.frame)`: Method for data.frames input
+
+- `extractFromLayer(numeric)`: Method for numeric vector input
+
+- `extractFromLayer(list)`: Method for numeric list input
+
+- `extractFromLayer(gGraph)`: Method for numeric gGraph objects
+
+- `extractFromLayer(gData)`: Method for numeric gData objects
+
+## Note
+
+The gGraph method should be carefully used, output is going to be heavy.
+
 ## See also
 
 [`findLand`](https://evolecolgroup.github.io/geograph/dev/reference/findLand.md),
@@ -92,15 +110,46 @@ to find which locations are on land.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 
 plot(worldgraph.10k, reset = TRUE)
+
 
 ## retrieve continent info for all nodes
 ## (might take a few seconds)
 x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "continent")
+#> although coordinates are longitude/latitude, st_intersects assumes that they
+#> are planar
 x
+#> 
+#> === gGraph object ===
+#> 
+#> @coords: spatial coordinates of 10242 nodes
+#>         lon       lat
+#> 1 -180.0000  90.00000
+#> 2  144.0000 -90.00000
+#> 3  -33.7806  27.18924
+#> ...
+#> 
+#> @nodes.attr: 2 nodes attributes
+#>   habitat continent
+#> 1     sea      <NA>
+#> 2     sea      <NA>
+#> 3     sea      <NA>
+#> ...
+#> 
+#> @meta: list of meta information with 2 items
+#> [1] "$colors" "$costs" 
+#> 
+#> @graph:
+#> A graphNEL graph with undirected edges
+#> Number of Nodes = 10242 
+#> Number of Edges = 6954 
 table(getNodesAttr(x, attr.name = "continent"))
+#> continent
+#>        Africa    Antarctica          Asia        Europe North America 
+#>           603           242           628           455           481 
+#>       Oceania South America 
+#>           170           361 
 
 
 ## subset Africa
@@ -108,5 +157,5 @@ temp <- getNodesAttr(x, attr.name = "continent") == "Africa"
 temp[is.na(temp)] <- FALSE
 x <- x[temp]
 plot(x, reset = TRUE)
-} # }
+
 ```

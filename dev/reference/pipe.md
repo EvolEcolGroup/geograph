@@ -21,3 +21,16 @@ lhs %>% rhs
 ## Value
 
 The result of calling `rhs(lhs)`.
+
+## Examples
+
+``` r
+getNodesAttr(worldgraph.10k) %>% head()
+#>   habitat
+#> 1     sea
+#> 2     sea
+#> 3     sea
+#> 4     sea
+#> 5     sea
+#> 6     sea
+```

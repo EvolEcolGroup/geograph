@@ -2,6 +2,9 @@
 
 ## geoGraph (development version)
 
+- Removed `getHistory` method for gGraph objects and upgraded roxygen2
+  documentation from version 7.3.3 to 8.0.0
+
 - Added comprehensive test coverage for cost functions and updated
   documentation
 

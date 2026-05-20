@@ -11,7 +11,7 @@ from the layer and assigned to that node."><meta name="robots" content="noindex"
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9009</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9010</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,21 +121,66 @@ according to the type of data being stored. <br></p></li>
 input formats.</p>
     </div>
     <div class="section level2">
+    <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
+
+<ul><li><p><code>extractFromLayer(matrix)</code>: Method for matrix input</p></li>
+<li><p><code>extractFromLayer(data.frame)</code>: Method for data.frames input</p></li>
+<li><p><code>extractFromLayer(numeric)</code>: Method for numeric vector input</p></li>
+<li><p><code>extractFromLayer(list)</code>: Method for numeric list input</p></li>
+<li><p><code>extractFromLayer(gGraph)</code>: Method for numeric gGraph objects</p></li>
+<li><p><code>extractFromLayer(gData)</code>: Method for numeric gData objects</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p>The gGraph method should be carefully used, output is going to be heavy.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="findLand.html">findLand</a></code>, to find which locations are on land.</p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">worldgraph.10k</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="extractFromLayer-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## retrieve continent info for all nodes</span></span></span>
 <span class="r-in"><span><span class="co">## (might take a few seconds)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">extractFromLayer</span><span class="op">(</span><span class="va">worldgraph.10k</span>, layer <span class="op">=</span> <span class="st">"world"</span>, attr <span class="op">=</span> <span class="st">"continent"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> although coordinates are longitude/latitude, st_intersects assumes that they</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> are planar</span>
 <span class="r-in"><span><span class="va">x</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> === gGraph object ===</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @coords: spatial coordinates of 10242 nodes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         lon       lat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 -180.0000  90.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  144.0000 -90.00000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  -33.7806  27.18924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @nodes.attr: 2 nodes attributes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   habitat continent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     sea      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     sea      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     sea      &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @meta: list of meta information with 2 items</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "$colors" "$costs" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @graph:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A graphNEL graph with undirected edges</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of Nodes = 10242 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of Edges = 6954 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">x</span>, attr.name <span class="op">=</span> <span class="st">"continent"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> continent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        Africa    Antarctica          Asia        Europe North America </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           603           242           628           455           481 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Oceania South America </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           170           361 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## subset Africa</span></span></span>
@@ -143,7 +188,7 @@ input formats.</p>
 <span class="r-in"><span><span class="va">temp</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">temp</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="va">temp</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-plt img"><img src="extractFromLayer-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

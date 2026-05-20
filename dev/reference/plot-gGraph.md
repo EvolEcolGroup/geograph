@@ -151,6 +151,10 @@ plotEdges(
   replotting (TRUE), or not (FALSE, default). In any case, `reset=TRUE`
   will prevent points to be redrawn.
 
+## Value
+
+NULL.
+
 ## Details
 
 Plotting of a gGraph object stores some parameters in R; see details for
@@ -175,6 +179,10 @@ last plotting parameters are re-used. To override this behavior, specify
 
 - [`isInArea`](https://evolecolgroup.github.io/geograph/dev/reference/isInArea.md),
   to retain a set of visible data.  
+
+Other plotting_methods:
+[`plot-gData`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.md),
+[`plot.gPath()`](https://evolecolgroup.github.io/geograph/dev/reference/plot.gPath.md)
 
 ## Examples
 

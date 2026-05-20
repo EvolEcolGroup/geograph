@@ -44,11 +44,17 @@ print(x, ...)
 
 ## Value
 
-Returns `NULL` invisibly.
+NULL.
 
 ## Functions
 
 - `print(gPath)`: Print a summary of a gPath object
+
+## See also
+
+Other plotting_methods:
+[`plot-gData`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.md),
+[`plot-gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
 
 ## Examples
 

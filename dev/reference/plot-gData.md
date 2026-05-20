@@ -98,6 +98,10 @@ points(
 
   further arguments passed to `points`.
 
+## Value
+
+NULL.
+
 ## Details
 
 When `sticky.points` is set to TRUE, all operations performed on the
@@ -117,6 +121,10 @@ loosing the `gData` plot.
   [`geo.back`](https://evolecolgroup.github.io/geograph/dev/reference/zoom.md),
   [`geo.bookmark`](https://evolecolgroup.github.io/geograph/dev/reference/zoom.md),
   [`geo.goto`](https://evolecolgroup.github.io/geograph/dev/reference/zoom.md).  
+
+Other plotting_methods:
+[`plot-gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md),
+[`plot.gPath()`](https://evolecolgroup.github.io/geograph/dev/reference/plot.gPath.md)
 
 ## Examples
 
