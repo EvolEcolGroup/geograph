@@ -100,9 +100,9 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
 
 
   # create an sf point object from the coordinates
-  locations.st <- x|>
-    as.data.frame()|>
-    sf::st_as_sf(coords = c(1, 2))|>
+  locations.st <- x %>%
+    as.data.frame() %>%
+    sf::st_as_sf(coords = c(1, 2)) %>%
     sf::st_set_crs(sf::st_crs(layer))
   # now find points in polygons
   points.within <- sf::st_intersects(layer, locations.st)
@@ -114,7 +114,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
   # add missing points for which we have no information
   points.assignment[points.within$x, "polygon"] <- points.within$polygon
 
-  dat <- layer|> sf::st_drop_geometry()
+  dat <- layer %>% sf::st_drop_geometry()
   # @TOFIX the line below will fail if layerId is all NAs (i.e. no points were assigned to a polygon)
   res <- dat[points.assignment$polygon, selAttr, drop = FALSE]
 

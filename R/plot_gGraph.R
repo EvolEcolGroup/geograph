@@ -55,7 +55,8 @@
 #' \code{reset=TRUE} will prevent points to be redrawn.
 #' @param \dots further arguments passed to the generic methods (plot, points,
 #' and segments, respectively).
-#' @return Returns `NULL` invisibly.
+#' @return NULL.
+#' @family plotting_methods
 
 
 #' @seealso - Different functions to explore these plots:\cr

@@ -95,9 +95,9 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
   }
 
   # create an sf point object from the coordinates
-  locations_st <- x |>
-    as.data.frame() |>
-    sf::st_as_sf(coords = c(1, 2)) |>
+  locations_st <- x %>%
+    as.data.frame() %>%
+    sf::st_as_sf(coords = c(1, 2)) %>%
     sf::st_set_crs(sf::st_crs(shape))
   # now find points in polygons
   points_within <- sf::st_intersects(shape, locations_st)

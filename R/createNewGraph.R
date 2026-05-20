@@ -52,8 +52,8 @@ createNewGraph <- function(geo.box, spacing, ...) {
 
   resolution <- dggs$res
 
-  cell.size <- dggridR::dggetres(dggs) |>
-    dplyr::filter(.data$res == resolution) |>
+  cell.size <- dggridR::dggetres(dggs) %>%
+    dplyr::filter(.data$res == resolution) %>%
     dplyr::pull(dplyr::all_of("spacing_km"))
 
   grid.sf <- dggridR::dgrectgrid(

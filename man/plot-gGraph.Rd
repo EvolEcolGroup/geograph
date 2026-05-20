@@ -112,7 +112,7 @@ when replotting (TRUE), or not (FALSE, default). In any case,
 \code{reset=TRUE} will prevent points to be redrawn.}
 }
 \value{
-Returns \code{NULL} invisibly.
+NULL.
 }
 \description{
 Various functions to plot a \linkS4class{gGraph} object: \code{plot} opens a
@@ -172,7 +172,12 @@ plot(worldgraph.10k[!inSea], bg.col = "darkgreen", col = "purple", edges = TRUE)
 \code{\link{geo.slide}}, \code{\link{geo.back}}.\cr
 \item \code{\link{isInArea}}, to retain a set of visible data.\cr
 }
+
+Other plotting_methods:
+\code{\link{plot-gData}},
+\code{\link[=plot.gPath]{plot.gPath()}}
 }
+\concept{plotting_methods}
 \keyword{hplot}
 \keyword{methods}
 \keyword{spatial}

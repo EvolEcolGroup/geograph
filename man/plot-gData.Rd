@@ -68,7 +68,7 @@ when replotting (TRUE, default), or not (FALSE). In any case,
 \item{\dots}{further arguments passed to \code{points}.}
 }
 \value{
-Returns \code{NULL} invisibly.
+NULL.
 }
 \description{
 Various functions to plot a \linkS4class{gData} object: \code{plot} opens a
@@ -118,7 +118,12 @@ points(obj, col.nodes = "yellow", cex = 4)
 \code{\link{geo.slide}}, \code{\link{geo.back}}, \code{\link{geo.bookmark}},
 \code{\link{geo.goto}}.\cr
 }
+
+Other plotting_methods:
+\code{\link{plot-gGraph}},
+\code{\link[=plot.gPath]{plot.gPath()}}
 }
+\concept{plotting_methods}
 \keyword{hplot}
 \keyword{methods}
 \keyword{spatial}

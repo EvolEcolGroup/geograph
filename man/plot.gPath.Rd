@@ -23,7 +23,7 @@ when \code{col = "rainbow"}.}
 \item{...}{further arguments passed to \code{\link{geo.segments}}.}
 }
 \value{
-Returns \code{NULL} invisibly.
+NULL.
 }
 \description{
 This method plots a \code{\link{gPath}} object, which is the output of the \code{\link{dijkstraBetween}},
@@ -47,3 +47,9 @@ plot(hgdp.path) # plot the path
 ## printing
 print(hgdp.path)
 }
+\seealso{
+Other plotting_methods:
+\code{\link{plot-gData}},
+\code{\link{plot-gGraph}}
+}
+\concept{plotting_methods}

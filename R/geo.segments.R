@@ -19,7 +19,9 @@
 #' @param \dots further graphical parameters (from 'par') passed to the
 #' \code{segments} function.
 #' @return NULL.
-#'
+#' @examples
+#' plot(worldgraph.10k, reset = TRUE)
+#' geo.segments(x0 = -170, y0 = 60, x1 = 170, y1 = 55, col = "red", lwd = 2)
 #' @keywords utilities methods
 #' @export
 

@@ -15,7 +15,7 @@
 #' @param max.distance Numeric. Maximum cumulative cost the feature is
 #'   assumed to be able to diffuse.
 #' @param map.distances Logical. If \code{TRUE}, return the Graph object with new
-#'   a node attribute called 'difusion_area' indicating the diffusion area
+#'   a node attribute called 'diffusion_area' indicating the diffusion area
 #'   with TRUE for all nodes reachable in order to map it on the gGraph object.
 #'   If \code{FALSE} (default), return only the vector of node IDs within
 #'   the diffusion area.

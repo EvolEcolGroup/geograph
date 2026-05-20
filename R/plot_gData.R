@@ -39,7 +39,8 @@
 #' when replotting (TRUE, default), or not (FALSE). In any case,
 #' \code{reset=TRUE} will prevent points to be redrawn.
 #' @param \dots further arguments passed to \code{points}.
-#' @return Returns `NULL` invisibly.
+#' @return NULL.
+#' @family plotting_methods
 
 
 #' @seealso - Different functions to explore these plots:\cr

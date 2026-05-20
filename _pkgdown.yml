@@ -5,6 +5,7 @@ development:
   mode: auto
 
 reference:
+      
   - title: "Graph construction"
     desc: "Functions for creating new custom `gGraph` objects."
     contents:
@@ -61,10 +62,7 @@ reference:
   - title: "Plotting"
     desc: "Functions for visualising `gGraph` and `gData` objects."
     contents:
-      - "plot,gGraph-method"
-      - "plot,gData-method"
-      - "points,gGraph-method"
-      - plot.gPath
+      - has_concept("plotting_methods")
       - plotEdges
       - connectivityPlot
       - geo.segments
@@ -80,9 +78,9 @@ reference:
     contents:
       - hgdp
       - worldgraph
-      
-  - title: "Validation"
-    desc: "Functions for checking object validity."
+
+  - title: "Classes"
+    desc: "Classes included in the package."
     contents:
-      - is.gGraph
-      - is.gData
+      - gGraph-class
+      - gData-class
