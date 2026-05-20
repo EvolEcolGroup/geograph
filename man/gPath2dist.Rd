@@ -43,8 +43,8 @@ hgdp.path <- dijkstraFrom(hgdp.sub, start) # compute shortest path from origin
 gPath2dist(hgdp.path, res = "vector") # extract as vector of distances
 }
 \seealso{
-Other dijkstra_methods: 
-\code{\link{dijkstraBetween}()},
-\code{\link{dijkstraFrom}()}
+Other dijkstra_methods:
+\code{\link[=dijkstraBetween]{dijkstraBetween()}},
+\code{\link[=dijkstraFrom]{dijkstraFrom()}}
 }
 \concept{dijkstra_methods}

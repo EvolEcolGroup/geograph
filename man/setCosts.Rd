@@ -73,10 +73,10 @@ title("costs defined by habitat (land/land=1, other=100)")
 a given threshold. \code{\link{geo.add.edges}} to add edges to a
 \linkS4class{gGraph} object.
 
-Other cost_functions: 
-\code{\link{combineCosts}()},
-\code{\link{hasCosts}()},
-\code{\link{setDistCosts}()}
+Other cost_functions:
+\code{\link[=combineCosts]{combineCosts()}},
+\code{\link[=hasCosts]{hasCosts()}},
+\code{\link[=setDistCosts]{setDistCosts()}}
 }
 \concept{cost_functions}
 \keyword{utilities}

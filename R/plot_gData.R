@@ -14,9 +14,7 @@
 #' the \code{gData} plot.\cr
 #'
 #' @name plot-gData
-#' @aliases plot,gData-method plot,gData,missing-method plot.gData
-#' points,gData-method points.gData
-#' @docType methods
+#' @aliases plot,gData,missing-method plot.gData plot_gData
 #' @param x a valid \linkS4class{gData} object. The \linkS4class{gData} object
 #' to which it is linked must exist in the global environment.
 #' @param type a character string indicating which information should be
@@ -41,6 +39,9 @@
 #' when replotting (TRUE, default), or not (FALSE). In any case,
 #' \code{reset=TRUE} will prevent points to be redrawn.
 #' @param \dots further arguments passed to \code{points}.
+#' @return NULL.
+#' @family plotting_methods
+
 
 #' @seealso - Different functions to explore these plots:\cr
 #' \code{\link{geo.zoomin}}, \code{\link{geo.zoomout}},
@@ -48,7 +49,6 @@
 #' \code{\link{geo.goto}}.\cr
 #' @keywords methods hplot spatial
 #' @export
-#' @aliases plot_gData
 #' @examples
 #'
 #'
@@ -173,9 +173,6 @@ setMethod("points", signature(x = "gData"), function(x, type = c("nodes", "origi
   if (!is.gData(x)) stop("x is not a valid gData object")
   type <- match.arg(type)
 
-  ## get the environment
-  #   env <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   ## subset data to visible area ##
   coords.ori <- getCoords(x)
   if (type %in% c("nodes", "both")) { # need to get coords of nodes
@@ -192,10 +189,6 @@ setMethod("points", signature(x = "gData"), function(x, type = c("nodes", "origi
     ## toKeep <- isInArea(coords.nodes, reg="usr", res.type="integer") # useless, messy
     ## coords.nodes <- coords.nodes[toKeep, , drop=FALSE]
   }
-
-  ## restrain coords to current area ## # no need for this
-  ## toKeep <- isInArea(coords.ori, reg="current", res.type="integer")
-  ## coords.ori <- coords.ori[toKeep, , drop=FALSE]
 
   ## add points ##
   if (type == "original" | type == "both") { # plot original coordinates

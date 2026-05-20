@@ -2,13 +2,12 @@
 % Please edit documentation in R/extractFromLayer.R
 \name{extractFromLayer}
 \alias{extractFromLayer}
-\alias{extractFromLayer-methods}
 \alias{extractFromLayer,matrix-method}
 \alias{extractFromLayer,data.frame-method}
+\alias{extractFromLayer,numeric-method}
 \alias{extractFromLayer,list-method}
 \alias{extractFromLayer,gGraph-method}
 \alias{extractFromLayer,gData-method}
-\alias{extractFromLayer,numeric-method}
 \title{Retrieves node attributes from a layer}
 \usage{
 extractFromLayer(x, ...)
@@ -67,8 +66,25 @@ Nodes can be specified in different ways, including by providing a
 \linkS4class{gGraph} or a \linkS4class{gData} object. Outputs match the
 input formats.
 }
+\section{Functions}{
+\itemize{
+\item \code{extractFromLayer(matrix)}: Method for matrix input
+
+\item \code{extractFromLayer(data.frame)}: Method for data.frames input
+
+\item \code{extractFromLayer(numeric)}: Method for numeric vector input
+
+\item \code{extractFromLayer(list)}: Method for numeric list input
+
+\item \code{extractFromLayer(gGraph)}: Method for numeric gGraph objects
+
+\item \code{extractFromLayer(gData)}: Method for numeric gData objects
+
+}}
+\note{
+The gGraph method should be carefully used, output is going to be heavy.
+}
 \examples{
-\dontrun{
 
 plot(worldgraph.10k, reset = TRUE)
 
@@ -84,7 +100,6 @@ temp <- getNodesAttr(x, attr.name = "continent") == "Africa"
 temp[is.na(temp)] <- FALSE
 x <- x[temp]
 plot(x, reset = TRUE)
-}
 
 }
 \seealso{

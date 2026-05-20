@@ -17,10 +17,8 @@
 #' The resulting plotting behavior is that when plotting a \code{gGraph}
 #' object, last plotting parameters are re-used. To override this behavior,
 #' specify \code{reset=TRUE} as argument to \code{plot}.
-#'
 #' @name plot-gGraph
-#' @aliases plot,gGraph-method plot,gGraph,missing-method plot.gGraph
-#' points,gGraph-method points.gGraph plotEdges
+#' @aliases plot,gGraph-method plot,gGraph,missing-method plot.gGraph plot_gGraph
 #' @docType methods
 #' @param x a \linkS4class{gGraph} object.
 #' @param shape a shapefile of the class `sf` (see
@@ -57,6 +55,9 @@
 #' \code{reset=TRUE} will prevent points to be redrawn.
 #' @param \dots further arguments passed to the generic methods (plot, points,
 #' and segments, respectively).
+#' @return NULL.
+#' @family plotting_methods
+
 
 #' @seealso - Different functions to explore these plots:\cr
 #' \code{\link{geo.zoomin}}, \code{\link{geo.zoomout}},
@@ -97,7 +98,6 @@
 #'
 #' @export
 #' @import sf
-#' @aliases plot_gGraph
 setMethod(
   "plot", signature(x = "gGraph", y = "missing"),
   function(x, shape = "world", psize = NULL, pch = 19,
@@ -403,15 +403,6 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
     last.points <- expression()
   }
 
-  ## handle plot param # ! discarded: now call last points
-  ## last.plot.param <- get("last.plot.param", envir=.geoGraphEnv)
-  ## if(is.null(psize)) psize <- last.plot.param$psize
-  ## if(is.null(pch)) pch <- last.plot.param$pch
-  ## if(is.null(pcol)) pcol <- last.plot.param$col
-  ## if(is.null(psize)){
-  ##     psize <- get("psize", envir=.geoGraphEnv)
-  ## }
-
   ## retained coords (those within plotting area)
   coords <- getCoords(x)
   toKeep <- isInArea(x, reg = "current", res.type = "integer")
@@ -479,7 +470,6 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
 
 
   ## replot points
-  ## points(keptCoords[,1], keptCoords[,2], pch=pch, cex=psize, col=pcol)
   eval(last.points)
 
 

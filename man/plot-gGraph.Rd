@@ -6,10 +6,9 @@
 \alias{plot,gGraph-method}
 \alias{plot,gGraph,missing-method}
 \alias{plot.gGraph}
-\alias{points,gGraph-method}
-\alias{points.gGraph}
-\alias{plotEdges}
 \alias{plot_gGraph}
+\alias{points,gGraph-method}
+\alias{plotEdges}
 \title{Plot a gGraph object.}
 \usage{
 \S4method{plot}{gGraph,missing}(
@@ -112,6 +111,9 @@ prevent points to be redrawn.}
 when replotting (TRUE), or not (FALSE, default). In any case,
 \code{reset=TRUE} will prevent points to be redrawn.}
 }
+\value{
+NULL.
+}
 \description{
 Various functions to plot a \linkS4class{gGraph} object: \code{plot} opens a
 device and plot the object, while \code{points} plots the object on the
@@ -170,7 +172,12 @@ plot(worldgraph.10k[!inSea], bg.col = "darkgreen", col = "purple", edges = TRUE)
 \code{\link{geo.slide}}, \code{\link{geo.back}}.\cr
 \item \code{\link{isInArea}}, to retain a set of visible data.\cr
 }
+
+Other plotting_methods:
+\code{\link{plot-gData}},
+\code{\link[=plot.gPath]{plot.gPath()}}
 }
+\concept{plotting_methods}
 \keyword{hplot}
 \keyword{methods}
 \keyword{spatial}

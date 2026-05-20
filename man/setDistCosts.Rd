@@ -30,7 +30,7 @@ the \code{fields} package.
 \details{
 The notion of 'costs' in the context of \linkS4class{gGraph} objects is
 identical to the concept of 'weights' in the library \code{graph} (and thus
-\code{\link[graph:graphNEL-class]{graph::graphNEL}}) objects. The larger it is for an edge, the less
+\code{\link[graph:graphNEL]{graph::graphNEL}}) objects. The larger it is for an edge, the less
 connectivity there is between the couple of concerned nodes.
 }
 \section{Functions}{
@@ -54,10 +54,10 @@ head(getCosts(x))
 The \code{\link{getCosts}} accessor, returning costs of the edges
 of a \linkS4class{gGraph} object in different ways.\cr
 
-Other cost_functions: 
-\code{\link{combineCosts}()},
-\code{\link{hasCosts}()},
-\code{\link{setCosts}()}
+Other cost_functions:
+\code{\link[=combineCosts]{combineCosts()}},
+\code{\link[=hasCosts]{hasCosts()}},
+\code{\link[=setCosts]{setCosts()}}
 }
 \concept{cost_functions}
 \keyword{methods}

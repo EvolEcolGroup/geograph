@@ -22,6 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Andrea Manica \email{am315@cam.ac.uk}
   \item Thibaut Jombart
 }
 

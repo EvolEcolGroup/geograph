@@ -2,7 +2,6 @@
 % Please edit documentation in R/accessors.R
 \name{getNodesAttr}
 \alias{getNodesAttr}
-\alias{getNodesAttr-methods}
 \alias{getNodesAttr,gGraph-method}
 \alias{getNodesAttr,gData-method}
 \title{Get nodes attributes from gGraph/gData object}
@@ -54,14 +53,14 @@ getNodesAttr(hgdp)
 \seealso{
 \code{\link{getNodes}}, \code{\link{getEdges}}, \code{\link{getCoords}}
 
-Other accessor_methods: 
-\code{\link{getColors}()},
-\code{\link{getCoords}()},
-\code{\link{getCosts}()},
-\code{\link{getData}()},
-\code{\link{getEdges}()},
-\code{\link{getGraph}()},
-\code{\link{getNodes}()}
+Other accessor_methods:
+\code{\link[=getColors]{getColors()}},
+\code{\link[=getCoords]{getCoords()}},
+\code{\link[=getCosts]{getCosts()}},
+\code{\link[=getData]{getData()}},
+\code{\link[=getEdges]{getEdges()}},
+\code{\link[=getGraph]{getGraph()}},
+\code{\link[=getNodes]{getNodes()}}
 }
 \concept{accessor_methods}
 \keyword{methods}

@@ -8,8 +8,6 @@
 #' \linkS4class{gGraph} object.
 #'
 #'
-#' @aliases findLand findLand-methods findLand,matrix-method
-#' findLand,data.frame-method findLand,gGraph-method
 #' @param x a matrix, a data.frame, or a valid \linkS4class{gGraph} object. For
 #' matrix and data.frame, input must have two columns giving longitudes and
 #' latitudes of locations being considered.

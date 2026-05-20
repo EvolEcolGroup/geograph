@@ -67,16 +67,16 @@ assignRasterPoints <- function(graph, raster, layer.name = "raster_points") {
   )
 
   # create the attribute object as a list-column
-  attribute <- raster.sf |>
-    sf::st_drop_geometry() |>
-    dplyr::group_by(.data$node.id) |>
+  attribute <- raster.sf %>%
+    sf::st_drop_geometry() %>%
+    dplyr::group_by(.data$node.id) %>%
     tidyr::nest()
 
   all.nodes <- tibble::tibble(
     node.id = seq_len(nrow(nodes.sf))
   )
 
-  attribute.full <- all.nodes |>
+  attribute.full <- all.nodes %>%
     dplyr::left_join(attribute, by = "node.id")
 
   # Store in graph node attribute

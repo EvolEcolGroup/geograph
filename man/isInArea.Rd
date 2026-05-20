@@ -2,7 +2,6 @@
 % Please edit documentation in R/isInArea.R
 \name{isInArea}
 \alias{isInArea}
-\alias{isInArea-methods}
 \alias{isInArea,matrix-method}
 \alias{isInArea,data.frame-method}
 \alias{isInArea,gGraph-method}

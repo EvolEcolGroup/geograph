@@ -27,7 +27,7 @@ connected set. Note that \code{\link[=isConnected]{isConnected()}} is a method f
 \link{gGraph} and \link{gData} objects, whereas \code{\link[=areConnected]{areConnected()}} is
 only a method for \link{gGraph} objects.
 
-This is an implementation of the \code{\link[graph:graph-class]{graph::isConnected()}} function for
+This is an implementation of the \code{\link[graph:isConnected]{graph::isConnected()}} function for
 data classes in \code{geoGraph}.
 }
 \examples{
@@ -41,9 +41,9 @@ areNeighbours(V1 = "1", V2 = "9", graph = test_graph)
 areNeighbours(V1 = "1", V2 = "10", graph = test_graph)
 }
 \seealso{
-Other connectivity_functions: 
-\code{\link{areNeighbours}()},
+Other connectivity_functions:
+\code{\link[=areNeighbours]{areNeighbours()}},
 \code{\link{isConnected,gData-method}},
-\code{\link{isReachable}()}
+\code{\link[=isReachable]{isReachable()}}
 }
 \concept{connectivity_functions}

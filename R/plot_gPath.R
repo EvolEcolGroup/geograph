@@ -10,7 +10,8 @@
 #' @param seed an optional integer value to set the seed for random color generation 
 #' when `col = "rainbow"`.
 #' @param ... further arguments passed to [`geo.segments`].
-#' @return Returns `NULL` invisibly.
+#' @return NULL.
+#' @family plotting_methods
 #' @examples
 #' hgdp.sub <- hgdp[getData(hgdp)$Population %in%
 #'   c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]

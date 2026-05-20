@@ -1,7 +1,7 @@
 Package: geoGraph
 Type: Package
 Title: Walking Through the Geographic Space Using Graphs
-Version: 1.1.1.9009
+Version: 1.1.1.9010
 Authors@R: c(
     person("Thibaut", "Jombart", role = "aut"),
     person("Andrea", "Manica", email = "am315@cam.ac.uk", role = c("aut", "cre")))
@@ -44,7 +44,6 @@ Suggests:
     pastclim,
     testthat,
     lintr
-RoxygenNote: 7.3.3
 Collate: 
     'classes.R'
     'accessors.R'
@@ -87,3 +86,4 @@ Collate:
     'utils-pipe.R'
     'zoom.R'
     'zzz.R'
+Config/roxygen2/version: 8.0.0

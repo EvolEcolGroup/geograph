@@ -2,7 +2,6 @@
 % Please edit documentation in R/closestNode.R
 \name{closestNode}
 \alias{closestNode}
-\alias{closestNode-methods}
 \alias{closestNode,gGraph-method}
 \alias{closestNode,gData-method}
 \title{Find the closest node to a given location}

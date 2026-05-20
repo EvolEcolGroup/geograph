@@ -61,9 +61,9 @@ combine_costs_graph <- combineCosts(worldgraph.40k, new_costs_graph, method = "s
 \seealso{
 \link{setCosts} to set costs for a single gGraph object
 
-Other cost_functions: 
-\code{\link{hasCosts}()},
-\code{\link{setCosts}()},
-\code{\link{setDistCosts}()}
+Other cost_functions:
+\code{\link[=hasCosts]{hasCosts()}},
+\code{\link[=setCosts]{setCosts()}},
+\code{\link[=setDistCosts]{setDistCosts()}}
 }
 \concept{cost_functions}

@@ -8,11 +8,6 @@
 #' \linkS4class{gGraph} or a \linkS4class{gData} object. Outputs match the
 #' input formats.
 #'
-#'
-#' @aliases extractFromLayer extractFromLayer-methods
-#' extractFromLayer,matrix-method extractFromLayer,data.frame-method
-#' extractFromLayer,list-method extractFromLayer,gGraph-method
-#' extractFromLayer,gData-method
 #' @param x a matrix, a data.frame, a list, a valid \linkS4class{gGraph}, or a
 #' valid \linkS4class{gData} object. For matrix and data.frame, input must have
 #' two columns giving longitudes and latitudes of locations being considered.
@@ -41,9 +36,7 @@
 
 #' @seealso \code{\link{findLand}}, to find which locations are on land.
 #' @keywords utilities methods
-#' @name extractFromLayer
 #' @examples
-#' \dontrun{
 #'
 #' plot(worldgraph.10k, reset = TRUE)
 #'
@@ -59,15 +52,7 @@
 #' temp[is.na(temp)] <- FALSE
 #' x <- x[temp]
 #' plot(x, reset = TRUE)
-#' }
 #'
-NULL
-
-
-###############
-## extractFromLayer
-###############
-#' @rdname extractFromLayer
 #' @export
 setGeneric("extractFromLayer", function(x, ...) {
   standardGeneric("extractFromLayer")
@@ -77,7 +62,7 @@ setGeneric("extractFromLayer", function(x, ...) {
 ################
 ## for matrices (of long/lat)
 ################
-#' @rdname extractFromLayer
+#' @describeIn extractFromLayer Method for matrix input
 #' @export
 setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all", ...) {
   ## Load default shapefile ##
@@ -115,9 +100,9 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
 
 
   # create an sf point object from the coordinates
-  locations.st <- x|>
-    as.data.frame()|>
-    sf::st_as_sf(coords = c(1, 2))|>
+  locations.st <- x %>%
+    as.data.frame() %>%
+    sf::st_as_sf(coords = c(1, 2)) %>%
     sf::st_set_crs(sf::st_crs(layer))
   # now find points in polygons
   points.within <- sf::st_intersects(layer, locations.st)
@@ -129,7 +114,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
   # add missing points for which we have no information
   points.assignment[points.within$x, "polygon"] <- points.within$polygon
 
-  dat <- layer|> sf::st_drop_geometry()
+  dat <- layer %>% sf::st_drop_geometry()
   # @TOFIX the line below will fail if layerId is all NAs (i.e. no points were assigned to a polygon)
   res <- dat[points.assignment$polygon, selAttr, drop = FALSE]
 
@@ -142,7 +127,7 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
 ################
 ## for data.frames (of long/lat)
 ################
-#' @rdname extractFromLayer
+#' @describeIn extractFromLayer Method for data.frames input
 #' @export
 setMethod("extractFromLayer", "data.frame", function(x, layer = "world", attr = "all", ...) {
   x <- as.matrix(x)
@@ -153,7 +138,7 @@ setMethod("extractFromLayer", "data.frame", function(x, layer = "world", attr = 
 ################
 ## for numeric vector (of long/lat)
 ################
-#' @rdname extractFromLayer
+#' @describeIn extractFromLayer Method for numeric vector input
 #' @export
 setMethod("extractFromLayer", "numeric", function(x, layer = "world", attr = "all", ...) {
   if (isTRUE(length(x) %% 2 == 0)) {
@@ -168,7 +153,7 @@ setMethod("extractFromLayer", "numeric", function(x, layer = "world", attr = "al
 ################
 ## for list (of long/lat)
 ################
-#' @rdname extractFromLayer
+#' @describeIn extractFromLayer Method for numeric list input
 #' @export
 setMethod("extractFromLayer", "list", function(x, layer = "world", attr = "all", ...) {
   x <- data.frame(x)
@@ -179,7 +164,8 @@ setMethod("extractFromLayer", "list", function(x, layer = "world", attr = "all",
 ##############
 ## for gGraph # should be carefully used, output is going to be heavy
 ##############
-#' @rdname extractFromLayer
+#' @describeIn extractFromLayer Method for numeric gGraph objects
+#' @note The gGraph method should be carefully used, output is going to be heavy.
 #' @export
 setMethod("extractFromLayer", "gGraph", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
@@ -198,7 +184,7 @@ setMethod("extractFromLayer", "gGraph", function(x, layer = "world", attr = "all
 ##############
 ## for gData
 ##############
-#' @rdname extractFromLayer
+#' @describeIn extractFromLayer Method for numeric gData objects
 #' @export
 setMethod("extractFromLayer", "gData", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)

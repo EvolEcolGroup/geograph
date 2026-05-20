@@ -25,13 +25,7 @@ NULL
 #'
 #'
 #' @name gGraph-class
-#' @aliases gGraph-class gGraph
-#' [,gGraph-method
-#' [,gGraph,ANY,ANY-method
-#' [,gGraph,ANY,ANY,ANY-method
-#' initialize,gGraph-method
-#' show,gGraph-method
-#' is.gGraph
+#' @aliases gGraph-class gGraph [,gGraph-method [,gGraph,ANY,ANY-method [,gGraph,ANY,ANY,ANY-method initialize,gGraph-method show,gGraph-method
 #' @docType class
 #' @section Objects from the class gGraph: \code{gGraph} objects can be created
 #' by calls to \code{new("gGraph", ...)}, where '...' can be the following
@@ -118,10 +112,7 @@ setClass(
 #'
 #'
 #' @name gData-class
-#' @aliases gData gData-class [,gData-method [,gData,ANY,ANY-method
-#' [,gData,ANY,ANY,ANY-method
-#' initialize,gData-method
-#' show,gData-method is.gData 
+#' @aliases gData gData-class [,gData-method [,gData,ANY,ANY-method [,gData,ANY,ANY,ANY-method initialize,gData-method show,gData-method 
 #' @docType class
 #' @section Objects from the class gData: \code{gData} objects can be created
 #' by calls to \code{new("gData", ...)}, where '...' can be the following
@@ -177,7 +168,7 @@ setClass(
 ####################
 ## VALIDITY METHODS
 ####################
-#' @export
+#' @noRd
 .gGraph.valid <- function(object) {
   x <- object
   N <- nrow(x@coords)
@@ -218,7 +209,7 @@ setClass(
 } # end .gGprah.valid
 
 
-#' @export
+#' @noRd
 .gData.valid <- function(object) {
   x <- object
   Ncoords <- nrow(x@coords)
@@ -243,19 +234,19 @@ setClass(
 } # end .gData.valid
 
 
-#' @export
+#' @noRd
 setValidity("gGraph", .gGraph.valid)
-## setValidity("gGraphHistory", .gGprahHistory.valid)
-#' @export
+
+#' @noRd
 setValidity("gData", .gData.valid)
 
-#' @export
+#' @noRd
 is.gGraph <- function(x) {
   res <- (is(x, "gGraph") & validObject(x))
   return(res)
 }
 
-#' @export
+#' @noRd
 is.gData <- function(x) {
   res <- (is(x, "gData") & validObject(x))
   return(res)

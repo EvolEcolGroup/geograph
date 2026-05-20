@@ -45,5 +45,9 @@ This low-level function is designed to be called  by other procedures of
 unlike other functions in \code{geoGraph}, this functions does not
 test for the validity of the provided arguments (for speed purposes).
 }
+\examples{
+plot(worldgraph.10k, reset = TRUE)
+geo.segments(x0 = -170, y0 = 60, x1 = 170, y1 = 55, col = "red", lwd = 2)
+}
 \keyword{methods}
 \keyword{utilities}

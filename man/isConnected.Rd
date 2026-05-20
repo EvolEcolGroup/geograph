@@ -37,9 +37,9 @@ isConnected(worldgraph.10k)
 isConnected(hgdp)
 }
 \seealso{
-Other connectivity_functions: 
-\code{\link{areConnected}()},
-\code{\link{areNeighbours}()},
-\code{\link{isReachable}()}
+Other connectivity_functions:
+\code{\link[=areConnected]{areConnected()}},
+\code{\link[=areNeighbours]{areNeighbours()}},
+\code{\link[=isReachable]{isReachable()}}
 }
 \concept{connectivity_functions}
