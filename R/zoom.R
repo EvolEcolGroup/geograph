@@ -26,8 +26,7 @@
 #' Whenever clicking is needed, a right-click will stop the function.
 #'
 #'
-#' @aliases geo.zoomin geo.zoomout geo.slide geo.back geo.bookmark geo.goto
-#' .zoomlog.up
+#' @aliases geo.zoomin geo.zoomout geo.slide geo.back geo.bookmark geo.goto .zoomlog.up
 #' @param reg a list of length 2, with its first component being the new x
 #' (longitude) boundaries (a vector of length 2), and its second being new y
 #' (latitude) boundaries (a vector of length 2).

@@ -8,9 +8,6 @@
 #' \linkS4class{gGraph} or a \linkS4class{gData} object. Different format for
 #' the output are also available.
 #'
-#'
-#' @aliases isInArea isInArea-methods isInArea,matrix-method
-#' isInArea,data.frame-method isInArea,gGraph-method isInArea,gData-method
 #' @param x a matrix, a data.frame, a valid \linkS4class{gGraph}, or a valid
 #' \linkS4class{gData} object. For matrix and data.frame, input must have two
 #' columns giving longitudes and latitudes of locations being considered.

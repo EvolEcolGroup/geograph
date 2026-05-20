@@ -2,20 +2,6 @@
 NULL
 
 
-## ##############
-## ## getHistory
-## ##############
-## setGeneric("getHistory", function(x,...) {
-##     standardGeneric("getHistory")
-## })
-
-
-## setMethod("getHistory", "gGraph", function(x, ...) {
-##     res <- x@history
-##     return(res)
-## })
-
-
 ##############
 ## getGraph
 ##############
@@ -60,8 +46,6 @@ setMethod("getGraph", "gData", function(x, ...) {
 #' \linkS4class{gData} object.
 #'
 #'
-#' @aliases getNodesAttr getNodesAttr-methods getNodesAttr,gGraph-method
-#' getNodesAttr,gData-method
 #' @param x a valid \linkS4class{gGraph} or \linkS4class{gData} object.
 #' @param nodes an optional integer, logical, or character string indicating
 #' the subset of nodes to be used. If NULL, all nodes are used.

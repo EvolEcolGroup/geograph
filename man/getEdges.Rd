@@ -25,7 +25,7 @@ The output depends on the value of the argument \code{res.type}:\cr
 \itemize{
 \item \code{asIs}: output is a named list of nodes, each slot containing nodes
 forming an edge with one given node. This format is that of the \code{edges}
-accessor for \code{\link[graph:graphNEL-class]{graph::graphNEL}} objects.\cr
+accessor for \code{\link[graph:graphNEL]{graph::graphNEL}} objects.\cr
 \item \code{matNames}: a matrix with two columns giving couples of node names
 forming edges.\cr
 \item \code{matId}: a matrix with two columns giving couples of node indices
@@ -50,14 +50,14 @@ head(getEdges(worldgraph.10k, res.type = "matId",   unique = TRUE))
 \code{\link{setEdges}} to add or remove edges.
 \code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} for interactive versions.
 
-Other accessor_methods: 
-\code{\link{getColors}()},
-\code{\link{getCoords}()},
-\code{\link{getCosts}()},
-\code{\link{getData}()},
-\code{\link{getGraph}()},
-\code{\link{getNodes}()},
-\code{\link{getNodesAttr}()}
+Other accessor_methods:
+\code{\link[=getColors]{getColors()}},
+\code{\link[=getCoords]{getCoords()}},
+\code{\link[=getCosts]{getCosts()}},
+\code{\link[=getData]{getData()}},
+\code{\link[=getGraph]{getGraph()}},
+\code{\link[=getNodes]{getNodes()}},
+\code{\link[=getNodesAttr]{getNodesAttr()}}
 }
 \concept{accessor_methods}
 \keyword{methods}

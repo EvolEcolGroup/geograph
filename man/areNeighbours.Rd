@@ -11,7 +11,7 @@ areNeighbours(V1, V2, graph)
 
 \item{V2}{A vector of node names of the same length as \code{V1}.}
 
-\item{graph}{An object of class \link{gGraph} or \code{\link[graph:graphNEL-class]{graph::graphNEL}} (usually
+\item{graph}{An object of class \link{gGraph} or \code{\link[graph:graphNEL]{graph::graphNEL}} (usually
 in the \verb{@graph} slot of a \link{gGraph} object.}
 }
 \value{
@@ -32,9 +32,9 @@ getCoords(test_graph)[1:10, ]
 areNeighbours(V1 = c("1", "1"), V2 = c("2", "9"), graph = test_graph)
 }
 \seealso{
-Other connectivity_functions: 
-\code{\link{areConnected}()},
+Other connectivity_functions:
+\code{\link[=areConnected]{areConnected()}},
 \code{\link{isConnected,gData-method}},
-\code{\link{isReachable}()}
+\code{\link[=isReachable]{isReachable()}}
 }
 \concept{connectivity_functions}

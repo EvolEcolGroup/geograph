@@ -48,8 +48,8 @@ hgdp.sub <- hgdp[getData(hgdp)$Population \%in\%
 hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
 }
 \seealso{
-Other dijkstra_methods: 
-\code{\link{dijkstraFrom}()},
-\code{\link{gPath2dist}()}
+Other dijkstra_methods:
+\code{\link[=dijkstraFrom]{dijkstraFrom()}},
+\code{\link[=gPath2dist]{gPath2dist()}}
 }
 \concept{dijkstra_methods}

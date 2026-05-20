@@ -15,8 +15,6 @@
 #' that it is not possible to specify node attributes (\code{attr.names} and
 #' \code{attr.values}) this way.
 #'
-#' @aliases closestNode closestNode-methods closestNode,gGraph-method
-#' closestNode,gData-method
 #' @param x a valid \linkS4class{gGraph} or \linkS4class{gData} object. In the
 #' latter case, the \linkS4class{gGraph} to which the \linkS4class{gData} is
 #' linked has to be in the current environment.

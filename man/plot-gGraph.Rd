@@ -6,10 +6,9 @@
 \alias{plot,gGraph-method}
 \alias{plot,gGraph,missing-method}
 \alias{plot.gGraph}
-\alias{points,gGraph-method}
-\alias{points.gGraph}
-\alias{plotEdges}
 \alias{plot_gGraph}
+\alias{points,gGraph-method}
+\alias{plotEdges}
 \title{Plot a gGraph object.}
 \usage{
 \S4method{plot}{gGraph,missing}(
@@ -111,6 +110,9 @@ prevent points to be redrawn.}
 \item{sticky.edges}{a logical indicating whether added edges should be kept
 when replotting (TRUE), or not (FALSE, default). In any case,
 \code{reset=TRUE} will prevent points to be redrawn.}
+}
+\value{
+Returns \code{NULL} invisibly.
 }
 \description{
 Various functions to plot a \linkS4class{gGraph} object: \code{plot} opens a

@@ -2,7 +2,6 @@
 % Please edit documentation in R/findLand.R
 \name{findLand}
 \alias{findLand}
-\alias{findLand-methods}
 \alias{findLand,matrix-method}
 \alias{findLand,data.frame-method}
 \alias{findLand,gGraph-method}

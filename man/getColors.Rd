@@ -57,14 +57,14 @@ head(getNodes(worldgraph.10k))
 head(getColors(worldgraph.10k, res.type = "vector", attr.name = "habitat"))
 }
 \seealso{
-Other accessor_methods: 
-\code{\link{getCoords}()},
-\code{\link{getCosts}()},
-\code{\link{getData}()},
-\code{\link{getEdges}()},
-\code{\link{getGraph}()},
-\code{\link{getNodes}()},
-\code{\link{getNodesAttr}()}
+Other accessor_methods:
+\code{\link[=getCoords]{getCoords()}},
+\code{\link[=getCosts]{getCosts()}},
+\code{\link[=getData]{getData()}},
+\code{\link[=getEdges]{getEdges()}},
+\code{\link[=getGraph]{getGraph()}},
+\code{\link[=getNodes]{getNodes()}},
+\code{\link[=getNodesAttr]{getNodesAttr()}}
 }
 \concept{accessor_methods}
 \keyword{methods}

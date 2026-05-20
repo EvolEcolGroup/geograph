@@ -18,10 +18,10 @@ getGraph(x, ...)
 \item{...}{additional arguments passed to other methods (currently unused).}
 }
 \value{
-A \code{\link[graph:graphNEL-class]{graph::graphNEL}} object.
+A \code{\link[graph:graphNEL]{graph::graphNEL}} object.
 }
 \description{
-The function \code{getGraph} returns the \code{\link[graph:graphNEL-class]{graph::graphNEL}} object stored in a \code{\link{gGraph}}
+The function \code{getGraph} returns the \code{\link[graph:graphNEL]{graph::graphNEL}} object stored in a \code{\link{gGraph}}
 or \code{\link{gData}} object.
 }
 \section{Functions}{
@@ -37,13 +37,13 @@ getGraph(worldgraph.10k)
 \seealso{
 \code{\link{getNodes}}, \code{\link{getEdges}}, \code{\link{getCoords}}
 
-Other accessor_methods: 
-\code{\link{getColors}()},
-\code{\link{getCoords}()},
-\code{\link{getCosts}()},
-\code{\link{getData}()},
-\code{\link{getEdges}()},
-\code{\link{getNodes}()},
-\code{\link{getNodesAttr}()}
+Other accessor_methods:
+\code{\link[=getColors]{getColors()}},
+\code{\link[=getCoords]{getCoords()}},
+\code{\link[=getCosts]{getCosts()}},
+\code{\link[=getData]{getData()}},
+\code{\link[=getEdges]{getEdges()}},
+\code{\link[=getNodes]{getNodes()}},
+\code{\link[=getNodesAttr]{getNodesAttr()}}
 }
 \concept{accessor_methods}

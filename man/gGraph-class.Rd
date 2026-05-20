@@ -9,7 +9,6 @@
 \alias{[,gGraph,ANY,ANY,ANY-method}
 \alias{initialize,gGraph-method}
 \alias{show,gGraph-method}
-\alias{is.gGraph}
 \title{Formal class "gGraph"}
 \description{
 The class \code{gGraph} is a formal (S4) class storing geographic data.\cr
@@ -36,7 +35,7 @@ columns are different variables associated to the nodes.}
 \item{\code{meta}}{list, most likely containing named data.frames (see
 Slots).}
 
-\item{\code{graph}}{an object of the class \code{\link[graph:graphNEL-class]{graph::graphNEL}},
+\item{\code{graph}}{an object of the class \code{\link[graph:graphNEL]{graph::graphNEL}},
 from the \code{graph} package (see \code{class?graphNEL}), describing
 connectivity among nodes.
 
@@ -86,7 +85,7 @@ title("after droping edges with null weight")
 
 }
 \seealso{
-Related classes are: \code{\link[graph:graphNEL-class]{graph::graphNEL}}: slot \code{@graph}
+Related classes are: \code{\link[graph:graphNEL]{graph::graphNEL}}: slot \code{@graph}
 in \code{gGraph}.\cr
 }
 \keyword{classes}

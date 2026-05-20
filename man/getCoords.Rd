@@ -49,13 +49,13 @@ getCoords(hgdp, original = FALSE)
 \seealso{
 \code{\link{getNodes}}, \code{\link{getGraph}}
 
-Other accessor_methods: 
-\code{\link{getColors}()},
-\code{\link{getCosts}()},
-\code{\link{getData}()},
-\code{\link{getEdges}()},
-\code{\link{getGraph}()},
-\code{\link{getNodes}()},
-\code{\link{getNodesAttr}()}
+Other accessor_methods:
+\code{\link[=getColors]{getColors()}},
+\code{\link[=getCosts]{getCosts()}},
+\code{\link[=getData]{getData()}},
+\code{\link[=getEdges]{getEdges()}},
+\code{\link[=getGraph]{getGraph()}},
+\code{\link[=getNodes]{getNodes()}},
+\code{\link[=getNodesAttr]{getNodesAttr()}}
 }
 \concept{accessor_methods}

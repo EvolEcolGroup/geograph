@@ -8,8 +8,6 @@
 #' \linkS4class{gGraph} object.
 #'
 #'
-#' @aliases findLand findLand-methods findLand,matrix-method
-#' findLand,data.frame-method findLand,gGraph-method
 #' @param x a matrix, a data.frame, or a valid \linkS4class{gGraph} object. For
 #' matrix and data.frame, input must have two columns giving longitudes and
 #' latitudes of locations being considered.
@@ -97,9 +95,9 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
   }
 
   # create an sf point object from the coordinates
-  locations_st <- x %>%
-    as.data.frame() %>%
-    sf::st_as_sf(coords = c(1, 2)) %>%
+  locations_st <- x |>
+    as.data.frame() |>
+    sf::st_as_sf(coords = c(1, 2)) |>
     sf::st_set_crs(sf::st_crs(shape))
   # now find points in polygons
   points_within <- sf::st_intersects(shape, locations_st)

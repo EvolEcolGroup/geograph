@@ -34,7 +34,7 @@ The output depends on the value of the argument \code{res.type}:\cr
 \itemize{
 \item \code{asIs}: output is a named list of weights, each slot containing
 weights associated to the edges stemming from one given node. This format is
-that of the \code{weights} accessor for \code{\link[graph:graphNEL-class]{graph::graphNEL}} objects.\cr
+that of the \code{weights} accessor for \code{\link[graph:graphNEL]{graph::graphNEL}} objects.\cr
 \item \code{vector}: a vector of weights; this output matches matrix outputs of
 \code{\link{getEdges}}.\cr
 }
@@ -50,7 +50,7 @@ attribute.
 
 The notion of 'costs' in the context of \linkS4class{gGraph} objects is
 identical to the concept of 'weights' in the library \code{graph} (and thus
-\code{\link[graph:graphNEL-class]{graph::graphNEL}}) objects. The larger it is for an edge, the less
+\code{\link[graph:graphNEL]{graph::graphNEL}}) objects. The larger it is for an edge, the less
 connectivity there is between the couple of concerned nodes.
 }
 \section{Functions}{
@@ -72,14 +72,14 @@ head(getCosts(worldgraph.10k, res.type = "vector", unique = TRUE))
 \code{\link{setCosts}} to set edge costs. \code{\link{dropCosts}} to remove all costs.
 \code{\link{hasCosts}} to check if a graph has costs defined.
 
-Other accessor_methods: 
-\code{\link{getColors}()},
-\code{\link{getCoords}()},
-\code{\link{getData}()},
-\code{\link{getEdges}()},
-\code{\link{getGraph}()},
-\code{\link{getNodes}()},
-\code{\link{getNodesAttr}()}
+Other accessor_methods:
+\code{\link[=getColors]{getColors()}},
+\code{\link[=getCoords]{getCoords()}},
+\code{\link[=getData]{getData()}},
+\code{\link[=getEdges]{getEdges()}},
+\code{\link[=getGraph]{getGraph()}},
+\code{\link[=getNodes]{getNodes()}},
+\code{\link[=getNodesAttr]{getNodesAttr()}}
 }
 \concept{accessor_methods}
 \keyword{methods}

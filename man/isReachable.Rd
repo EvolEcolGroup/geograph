@@ -31,9 +31,9 @@ location <- getCoords(hgdp[getData(hgdp)$Population == "BantuKenya"])
 isReachable(x = hgdp.sub, loc = location)
 }
 \seealso{
-Other connectivity_functions: 
-\code{\link{areConnected}()},
-\code{\link{areNeighbours}()},
+Other connectivity_functions:
+\code{\link[=areConnected]{areConnected()}},
+\code{\link[=areNeighbours]{areNeighbours()}},
 \code{\link{isConnected,gData-method}}
 }
 \concept{connectivity_functions}
