@@ -73,27 +73,17 @@ setMethod("setGraph", "gData", function(x, graph) {
     }
     x@gGraph.name <- graph
   } else if (is(graph, "gGraph")) {
-    # Check if graph was passed as a symbol or by value
-    if (typeof(substitute(graph)) == "symbol") {
-      # Symbol case: store the name after checking global environment
-      graph.name <- deparse(substitute(graph))
-      if (!exists(graph.name, envir = .GlobalEnv)) {
-        stop("gGraph object must exist in the global environment.")
-      }
-      x@gGraph.name <- graph.name
-    } else {
-      # Passed by value: accept directly without requiring global name
-      # Note: the graph object itself is not stored in gData slots;
-      # this case allows temporary graphs but getGraph may fail later
-      # if the object is not findable via gGraph.name
-      warning("gGraph object passed by value; it should be assigned to .GlobalEnv for getGraph to work.")
-      x@gGraph.name <- ""
+    graph.name <- deparse(substitute(graph))
+    if (!exists(graph.name, envir = .GlobalEnv)) {
+      stop("gGraph object must exist in the global environment.")
     }
+    x@gGraph.name <- graph.name
   } else {
     stop("graph must be either a character string or a gGraph object.")
   }
   return(x)
 })
+
 
 ################
 ## getNodesAttr

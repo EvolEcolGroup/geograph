@@ -36,13 +36,20 @@ used. Note that such grid is only valid for small scales, for cases in which
 curvature of the surface of the earth can be neglected.
 }
 \examples{
-# by defining the the range covered by the grid
+# by defining the range covered by the grid
 squareGraph <- makeGrid(
   size      = 10000,
   lon.range = c(-12, 2),
   lat.range = c(49, 61)
 )
 squareGraph <- findLand(squareGraph)
+squareGraph <- setColors(
+  squareGraph,
+  col.rules = data.frame(
+    habitat = c("sea", "land"),
+    color = c("blue", "green")
+  )
+)
 squareGraph@meta$colors <- data.frame(
   habitat = c("sea", "land"),
   color = c("blue", "green")
@@ -50,13 +57,16 @@ squareGraph@meta$colors <- data.frame(
 
 plot(squareGraph, reset = TRUE)
 
-# iIf no area is specified, currently plotted area is used
+# If no area is specified, currently plotted area is used
 geo.zoomin(c(8, 13, 54, 58))
 newGraph <- makeGrid(1e3)
 newGraph <- findLand(newGraph)
-newGraph@meta$colors <- data.frame(
-  habitat = c("sea", "land"),
-  color = c("blue", "green")
+newGraph <- setColors(
+  newGraph,
+  col.rules = data.frame(
+    habitat = c("sea", "land"),
+    color = c("blue", "green")
+  )
 )
 
 ## plot the new gGraph

@@ -31,6 +31,13 @@
 #'   lat.range = c(49, 61)
 #' )
 #' squareGraph <- findLand(squareGraph)
+#' squareGraph <- setColors(
+#'   squareGraph,
+#'   col.rules = data.frame(
+#'     habitat = c("sea", "land"),
+#'     color = c("blue", "green")
+#'   )
+#' )
 #' squareGraph@meta$colors <- data.frame(
 #'   habitat = c("sea", "land"),
 #'   color = c("blue", "green")
@@ -42,9 +49,12 @@
 #' geo.zoomin(c(8, 13, 54, 58))
 #' newGraph <- makeGrid(1e3)
 #' newGraph <- findLand(newGraph)
-#' newGraph@meta$colors <- data.frame(
-#'   habitat = c("sea", "land"),
-#'   color = c("blue", "green")
+#' newGraph <- setColors(
+#'   newGraph,
+#'   col.rules = data.frame(
+#'     habitat = c("sea", "land"),
+#'     color = c("blue", "green")
+#'   )
 #' )
 #'
 #' ## plot the new gGraph
@@ -54,6 +64,14 @@
 #' 
 makeGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL, lon.range = NULL, lat.range = NULL) {
   ## HANDLE ARGUMENTS ##
+  
+  if (!is.null(n.lon) && (!is.numeric(n.lon) || length(n.lon) != 1 || n.lon < 1 || n.lon %% 1 != 0)) {
+    stop("n.lon must be a positive integer")
+  }
+  if (!is.null(n.lat) && (!is.numeric(n.lat) || length(n.lat) != 1 || n.lat < 1 || n.lat %% 1 != 0)) {
+    stop("n.lat must be a positive integer")
+  }
+  
   if (is.null(n.lon)) {
     if (is.null(size)) stop("Please provide either size or n.lon/n.lat")
     n.lon <- round(sqrt(size))

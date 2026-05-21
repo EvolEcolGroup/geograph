@@ -18,6 +18,21 @@ test_that("setGraph by name and by object give identical results", {
   expect_equal(by.name@gGraph.name, by.object@gGraph.name)
 })
 
+test_that("setGraph accepts string references to global objects", {
+  assign("string_ref_graph", dropCosts(rawgraph.40k), envir = .GlobalEnv)
+  on.exit(rm("string_ref_graph", envir = .GlobalEnv), add = TRUE)
+  
+  result <- setGraph(hgdp, "string_ref_graph")
+  expect_equal(result@gGraph.name, "string_ref_graph")
+})
+
+test_that("setGraph rejects non-existent string references", {
+  expect_error(
+    setGraph(hgdp, "nonexistent_graph"),
+    "not found in global environment"
+  )
+})
+
 ## setColors 
 test_that("setColors errors when col.rules has wrong number of columns", {
   bad.rules <- data.frame(

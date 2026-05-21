@@ -15,10 +15,8 @@ setCosts(
 )
 }
 \arguments{
-\item{x}{a \code{\link{gGraph}} object with at least one node attribute. When
-\code{cost.rules} is not supplied, x must have a \verb{@meta$costs} component;
-alternatively, callers may pass \code{cost.rules} directly to avoid this
-precondition (see \code{worldgraph.10k} for an example of both usage paths).}
+\item{x}{a \code{\link{gGraph}} object with at least one node attribute and a
+\verb{@meta$costs} component (see \code{worldgraph.10k} for an example).}
 
 \item{attr.name}{the name of the node attribute used to compute costs.}
 

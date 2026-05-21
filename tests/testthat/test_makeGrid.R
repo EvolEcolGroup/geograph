@@ -55,3 +55,18 @@ test_that("makeGrid has correct neighbour assignment", {
   expect_true(areNeighbours("1", "6", getGraph(result)))
   expect_false(areNeighbours("1", "3", getGraph(result)))
 })
+
+
+test_that("makeGrid handles one-dimensional grids correctly", {
+  col_grid <- makeGrid(n.lon = 1, n.lat = 5, lon.range = c(1, 2), lat.range = c(1, 5))
+  row_grid <- makeGrid(n.lon = 5, n.lat = 1, lon.range = c(1, 5), lat.range = c(1, 2))
+  col_deg <- sapply(col_grid@graph@edgeL, function(e) length(e$edges))
+  row_deg <- sapply(row_grid@graph@edgeL, function(e) length(e$edges))
+
+  expect_equal(length(getNodes(col_grid)), 5L)
+  expect_equal(length(getNodes(row_grid)), 5L)
+  expect_equal(sum(col_deg == 1), 2L)
+  expect_equal(sum(row_deg == 1), 2L)
+  expect_true(all(col_deg %in% c(1, 2)))
+  expect_true(all(row_deg %in% c(1, 2)))
+})

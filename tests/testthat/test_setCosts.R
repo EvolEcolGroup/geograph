@@ -47,3 +47,50 @@ test_that("setCosts with cost.rules updates meta and sets costs in one call", {
   new.rules <- getCosts(result, res.type = "rules")
   expect_equal(as.numeric(new.rules$cost[new.rules$habitat == "sea"]), 50)
 })
+
+
+test_that("setCosts with cost.rules must have exactly two columns", {
+  cost.rules <- data.frame(
+    habitat = c("sea", "land"),
+    cost = c(100, 1),
+    extra = c(1, 2)
+  )
+  expect_error(
+    setCosts(worldgraph.10k, attr.name = "habitat", cost.rules = cost.rules),
+    "exactly two columns"
+  )
+})
+
+test_that("setCosts with cost.rules second column must be numeric", {
+  cost.rules <- data.frame(
+    habitat = c("sea", "land"),
+    cost = c("high", "low")
+  )
+  expect_error(
+    setCosts(worldgraph.10k, attr.name = "habitat", cost.rules = cost.rules),
+    "cost.rules cost column must be numeric"
+  )
+})
+
+test_that("setCosts with cost.rules must not have NAs in cost column", {
+  cost.rules <- data.frame(
+    habitat = c("sea", "land"),
+    cost = c(100, NA)
+  )
+  expect_error(
+    setCosts(worldgraph.10k, attr.name = "habitat", cost.rules = cost.rules),
+    "cost.rules cost column must not contain NA"
+  )
+})
+
+test_that("setCosts with cost.rules must have unique values in first column", {
+  cost.rules <- data.frame(
+    habitat = c("sea", "sea", "land"),
+    cost = c(100, 1, 1)
+  )
+  expect_error(
+    setCosts(rawgraph.10k, attr.name = "habitat", cost.rules = cost.rules),
+    "must contain unique values"
+  )
+})
+
