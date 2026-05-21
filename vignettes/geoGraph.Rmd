@@ -374,9 +374,9 @@ title("Genetic diversity vs geographic distance \n uniform costs ")
 
 Alternatively, we can use costs based on habitat.
 As a toy example, we will consider that coasts are four times more favorable for dispersal than
-the rest of the landmasses. For this we simple use the `getCosts` function to access the cost rule
-data frame and change the cost associated to coastal cells.
-After defining the new cost rules we set the costs using this dataframe using the `setCosts` function, and then compute and plot the corresponding shortest paths:
+the rest of the landmasses. For this we simply use the `getCosts` function to access the cost-rule
+data frame and change the cost associated with coastal cells.
+After defining the new cost rules, we set costs using this data frame with `setCosts`, and then compute and plot the corresponding shortest paths:
 ```{r }
 cost.rules <- getCosts(myGraph, res.type = "rules")
 cost.rules$cost[cost.rules$habitat == "coast"] <- 0.25
