@@ -24,7 +24,7 @@
 
 #' @keywords utilities methods
 #' @examples
-#' # by defining the the range covered by the grid
+#' # by defining the range covered by the grid
 #' squareGraph <- makeGrid(
 #'   size      = 10000,
 #'   lon.range = c(-12, 2),
@@ -38,7 +38,7 @@
 #' 
 #' plot(squareGraph, reset = TRUE)
 #' 
-#' # iIf no area is specified, currently plotted area is used
+#' # If no area is specified, currently plotted area is used
 #' geo.zoomin(c(8, 13, 54, 58))
 #' newGraph <- makeGrid(1e3)
 #' newGraph <- findLand(newGraph)

@@ -73,11 +73,22 @@ setMethod("setGraph", "gData", function(x, graph) {
     }
     x@gGraph.name <- graph
   } else if (is(graph, "gGraph")) {
-    graph.name <- deparse(substitute(graph))
-    if (!exists(graph.name, envir = .GlobalEnv)) {
-      stop("gGraph object must exist in the global environment.")
+    # Check if graph was passed as a symbol or by value
+    if (typeof(substitute(graph)) == "symbol") {
+      # Symbol case: store the name after checking global environment
+      graph.name <- deparse(substitute(graph))
+      if (!exists(graph.name, envir = .GlobalEnv)) {
+        stop("gGraph object must exist in the global environment.")
+      }
+      x@gGraph.name <- graph.name
+    } else {
+      # Passed by value: accept directly without requiring global name
+      # Note: the graph object itself is not stored in gData slots;
+      # this case allows temporary graphs but getGraph may fail later
+      # if the object is not findable via gGraph.name
+      warning("gGraph object passed by value; it should be assigned to .GlobalEnv for getGraph to work.")
+      x@gGraph.name <- ""
     }
-    x@gGraph.name <- graph.name
   } else {
     stop("graph must be either a character string or a gGraph object.")
   }
@@ -380,23 +391,39 @@ setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector", "rule
     }
     return(x@meta$costs)
   }
-  
-  if (res.type == "asIs") {
-    return(edgeWeights(x@graph))
-  }
-  
+
+  ## retrieve edge weights
+  res <- edgeWeights(x@graph)
+
+  ## convert to vector if requested
   if (res.type == "vector") {
-    res <- edgeWeights(x@graph)
     res <- unlist(res)
   }
-  
+
+  ## apply unique filtering for both asIs and vector
   if (unique) {
-    nodeNames <- names(res)
-    temp      <- strsplit(nodeNames, "[.]")
-    toKeep    <- sapply(temp, function(v) v[1] < v[2])
-    res       <- res[toKeep]
+    if (res.type == "asIs") {
+      # For asIs (list format), we need to filter each element
+      res <- lapply(names(res), function(node) {
+        edges <- res[[node]]
+        if (length(edges) > 0) {
+          # Keep only edges where node name < neighbor name
+          keep <- node < names(edges)
+          edges[keep]
+        } else {
+          edges
+        }
+      })
+      names(res) <- names(edgeWeights(x@graph))
+    } else {
+      # For vector format
+      nodeNames <- names(res)
+      temp      <- strsplit(nodeNames, "[.]")
+      toKeep    <- sapply(temp, function(v) v[1] < v[2])
+      res       <- res[toKeep]
+    }
   }
-  
+
   return(res)
 })
 

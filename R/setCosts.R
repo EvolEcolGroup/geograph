@@ -47,6 +47,25 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
   if (!is.null(cost.rules)) {
     if (!is.data.frame(cost.rules)) stop("cost.rules must be a data.frame.")
     if (ncol(cost.rules) != 2) stop("cost.rules must have exactly two columns.")
+
+    # Validate the second column is numeric with no NAs
+    if (!is.numeric(cost.rules[[2]])) {
+      stop("The second column of cost.rules must be numeric.")
+    }
+    if (any(is.na(cost.rules[[2]]))) {
+      stop("The second column of cost.rules contains NA values.")
+    }
+
+    # Validate first column contains unique node identifiers
+    if (any(duplicated(cost.rules[[1]]))) {
+      stop("The first column of cost.rules must contain unique values.")
+    }
+
+    # Check that values in first column match existing node attribute values
+    # Note: we can't validate against x@nodes$id directly since nodes.attr
+    # uses the attribute name as the column. We'll validate during usage in setCosts.
+    # For now, just ensure uniqueness and type validity.
+
     x@meta$costs <- cost.rules
   }
   
