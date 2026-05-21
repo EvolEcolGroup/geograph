@@ -34,4 +34,12 @@ hasCosts(x)
 \seealso{
 \code{\link{getCosts}} to retrieve edge costs, \code{\link{setCosts}} to set edge costs.
 \code{\link{hasCosts}} to check if a graph has costs defined.
+
+Other cost_functions:
+\code{\link[=combineCosts]{combineCosts()}},
+\code{\link[=getCosts]{getCosts()}},
+\code{\link[=hasCosts]{hasCosts()}},
+\code{\link[=setCosts]{setCosts()}},
+\code{\link[=setDistCosts]{setDistCosts()}}
 }
+\concept{cost_functions}

@@ -1,6 +1,5 @@
 ---
 title: "geoGraph"
-author: "Thibaut Jombart, Dominik Jud […] and Andrea Manica"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -35,7 +34,7 @@ allows for instance to define friction routes based on habitat.
 
 *geoGraph* harnesses the full power of graph algorithms implemented in R by the *graph*
 and *RBGL* (R Boost Graph Library) packages.
-In particular, RBGL is an interface between R and the comprehensive *Boost Graph Library* in C++,
+In particular, *RBGL* is an interface between R and the comprehensive *Boost Graph Library* in C++,
 which provides fast and efficient implementations of a wide range of graph algorithms.
 Once we have defined frictions for an entire geographic area, we can easily, for instance, find the least
 costs path from one location to another, or find the most parsimonious way of connecting a set of locations.
@@ -54,15 +53,10 @@ In this vignette, we show how to install *geoGraph*, construct and handle
 
 All the following instructions should be entered from a new R session to avoid errors due to installing attached packages.
 
-*devtools* is also needed to install *geoGraph*:
+You can install `geoGraph` from [GitHub](https://github.com/) with:
 ```{r eval = FALSE}
-install.packages("devtools")
-```
-
-Then, to install *geoGraph*, simply type:
-```{r eval = FALSE}
-library(devtools)
-install_github("EvolEcolGroup/geograph")
+install.packages("pak")
+pak::pak("EvolEcolGroup/geograph")
 ```
 
 Once installed, the package can be loaded using:
@@ -307,10 +301,10 @@ newGraph <- geo.add.edges(newGraph)
 newGraph <- readRDS("Robjects/gibraltar_graph.RDS")
 ```
 
-We can then assign the new graph to the `gGraph.name` slot of `cities` (@TODO should we do it that way??), so that the new graph will be used for path computations. Now when we compute least-cost paths between cities, we can see that the path between Bordeaux and Timbuktu goes through the Strait of Gibraltar instead of the Caucasus mountains:
+We can then assign the new graph using the `setGraph` function, so that the new graph will be used for path computations. Now when we compute least-cost paths between cities, we can see that the path between Bordeaux and Timbuktu goes through the Strait of Gibraltar instead of the Caucasus mountains:
 
 ```{r }
-cities@gGraph.name <- "newGraph"
+cities <- setGraph(cities, "newGraph")
 cities.paths <- dijkstraBetween(cities)
 plot(cities, reset = TRUE)
 plot(cities.paths)
@@ -349,7 +343,7 @@ After setting a `gGraph` with uniform costs, we use `dijkstraFrom` to find the s
 paths between Addis Ababa and the populations of `hgdp`:
 ```{r }
 myGraph <- dropCosts(worldgraph.40k)
-hgdp@gGraph.name <- "myGraph"
+hgdp <- setGraph(hgdp, "myGraph")
 addis <- cbind(38, 9)
 ori <- closestNode(myGraph, addis)
 paths <- dijkstraFrom(hgdp, ori)
@@ -362,7 +356,7 @@ plot(myGraph, col = NA, reset = TRUE)
 plot(paths)
 points(addis[1], addis[2], pch = "x", cex = 2)
 text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
-points(hgdp, col.node = "black")
+points(hgdp, col.nodes = "black")
 ```
 
 In this graph, each path is plotted with a different color, but several paths overlap in several places.
@@ -380,12 +374,14 @@ title("Genetic diversity vs geographic distance \n uniform costs ")
 
 Alternatively, we can use costs based on habitat.
 As a toy example, we will consider that coasts are four times more favorable for dispersal than
-the rest of the landmasses.
-We define these new costs, and then compute and plot the corresponding shortest paths:
+the rest of the landmasses. For this we simple use the `getCost` function to access the cost rule 
+data fame and change the cost associated to coastal cells.
+After defining the new cost rules we set the costs using this dataframe using the `setCost` function, and then compute and plot the corresponding shortest paths:
 ```{r }
-myGraph@meta$costs["coast", ] <- c("coast", 0.25)
-myGraph@meta$costs
-myGraph <- setCosts(myGraph, attr.name = "habitat")
+cost.rules <- getCosts(myGraph, res.type = "rules")
+cost.rules$cost[cost.rules$habitat == "coast"] <- 0.25
+
+myGraph <- setCosts(myGraph, attr.name = "habitat", cost.rules = cost.rules)
 paths.2 <- dijkstraFrom(hgdp, ori)
 ```
 
@@ -394,7 +390,7 @@ plot(myGraph, col = NA, reset = TRUE)
 plot(paths.2)
 points(addis[1], addis[2], pch = "x", cex = 2)
 text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
-points(hgdp, col.node = "black")
+points(hgdp, col.nodes = "black")
 ```
 
 The new paths are slightly different from the previous ones.

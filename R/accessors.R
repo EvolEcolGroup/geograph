@@ -36,6 +36,54 @@ setMethod("getGraph", "gData", function(x, ...) {
 })
 
 
+##############
+## setGraph
+##############
+#' Set the linked gGraph for a gData object
+#'
+#' The function `setGraph` sets the name of the [`gGraph`] object linked to a
+#' [`gData`] object. It validates that the named object exists in
+#' the global environment and is a valid [`gGraph`].
+#'
+#' @param x a valid [`gData`] object.
+#' @param graph either a character string giving the name of a [`gGraph`]
+#'   object in the global environment, or a [`gGraph`] object itself.
+#' @return A [`gData`] object with the updated linked [`gGraph`].
+#' @seealso [`getGraph`] to retrieve the linked graph. [`gData-class`] for
+#'   the class definition.
+#' @family accessor_methods
+#' @examples
+#' myGraph <- dropCosts(rawgraph.40k)
+#' hgdp2 <- setGraph(hgdp, "myGraph")
+#' getGraph(hgdp2)
+#' @export
+setGeneric("setGraph", function(x, graph) {
+  standardGeneric("setGraph")
+})
+
+#' @describeIn setGraph Method for gData objects
+#' @export
+setMethod("setGraph", "gData", function(x, graph) {
+  if (is.character(graph)) {
+    if (!exists(graph, envir = .GlobalEnv)) {
+      stop(paste("gGraph object", graph, "not found in global environment."))
+    }
+    if (!is.gGraph(get(graph, envir = .GlobalEnv))) {
+      stop(paste(graph, "is not a valid gGraph object."))
+    }
+    x@gGraph.name <- graph
+  } else if (is(graph, "gGraph")) {
+    graph.name <- deparse(substitute(graph))
+    if (!exists(graph.name, envir = .GlobalEnv)) {
+      stop("gGraph object must exist in the global environment.")
+    }
+    x@gGraph.name <- graph.name
+  } else {
+    stop("graph must be either a character string or a gGraph object.")
+  }
+  return(x)
+})
+
 ################
 ## getNodesAttr
 ################
@@ -104,27 +152,6 @@ setMethod("getNodesAttr", "gData", function(x, attr.name = NULL, ...) {
 
   return(res)
 })
-
-
-#############
-## getDates
-#############
-## setGeneric("getDates", function(x, ...) {
-##     standardGeneric("getDates")
-## })
-
-
-## setMethod("getDates", "gGraphHistory", function(x, ...) {
-##     res <- x@dates
-##     res <- as.POSIXct(res)
-##     return(res)
-## })
-
-
-## setMethod("getDates", "gGraph", function(x, ...) {
-##     res <- getDates(getHistory(x))
-##     return(res)
-## })
 
 
 #############
@@ -294,69 +321,82 @@ setMethod("getEdges", "gGraph", function(x, res.type = c("asIs", "matNames", "ma
 ##############
 #' Get costs associated to edges of a gGraph object
 #'
-#' The function \code{getCosts} returns the costs associated to the edges of a
-#' \linkS4class{gGraph} object using different possible outputs. These outputs
-#' are designed to match possible outputs of \code{\link{getEdges}} function.
+#' The function `getCosts` returns the costs associated to the edges of a
+#' [`gGraph`] object in different formats. `getNodeCosts` returns the costs
+#' associated to nodes based on a node attribute and the cost rules stored
+#' in `@meta$costs`.
 #'
-#' \code{getNodeCosts} returns the costs associated to nodes based on one node
-#' attribute.
+#' In `geoGraph`, costs are equivalent to weights in the `graph` package:
+#' the larger the cost of an edge, the lower the connectivity between its
+#' two nodes.
 #'
-#' The notion of 'costs' in the context of \linkS4class{gGraph} objects is
-#' identical to the concept of 'weights' in the library `graph` (and thus
-#' [`graph::graphNEL`]) objects. The larger it is for an edge, the less
-#' connectivity there is between the couple of concerned nodes.
+#' @param x a valid [`gGraph`] object.
+#' @param res.type a character string indicating the output format:
+#'   - `"asIs"`: a named list of weights for each node's edges (default).
+#'   - `"vector"`: a named numeric vector of all edge weights.
+#'   - `"rules"`: the cost rules `data.frame` stored in `x@meta$costs`,
+#'     with one row per node attribute value and a column named `"cost"`.
+#' @param unique logical. If `TRUE`, only unique edge weights are returned.
+#'   Defaults to `FALSE`. Only used when `res.type` is `"asIs"` or
+#'   `"vector"`.
+#' @param attr.name character string. The name of the node attribute used to
+#'   look up costs from `x@meta$costs` (for `getNodeCosts` only).
+#' @param ... other arguments passed to other methods (currently unused).
+#' @return For `getCosts`:
+#'   - `"asIs"`: a named list of edge weights, one element per node.
+#'   - `"vector"`: a named numeric vector of edge weights.
+#'   - `"rules"`: a `data.frame` of cost rules from `x@meta$costs`.
 #'
-#' @param x a valid \linkS4class{gGraph}.
-#' @param res.type a character string indicating which kind of output should be
-#' used. See value.
-#' @param unique a logical indicating whether the costs should be returned for
-#' unique edges (TRUE), or if duplicate edges should be considered as well
-#' (TRUE, default).
-#' @param attr.name the name of the node attribute used to define node costs.
-#' @param \dots other arguments passed to other methods (currently unused).
-#' @return The output depends on the value of the argument \code{res.type}:\cr
-#' - \code{asIs}: output is a named list of weights, each slot containing
-#' weights associated to the edges stemming from one given node. This format is
-#' that of the \code{weights} accessor for [`graph::graphNEL`] objects.\cr
-#'
-#' - \code{vector}: a vector of weights; this output matches matrix outputs of
-#' \code{\link{getEdges}}.\cr
-
-#' @seealso [`setCosts`] to set edge costs. [`dropCosts`] to remove all costs.
-#'   [`hasCosts`] to check if a graph has costs defined.
-#' @keywords utilities methods
+#'   For `getNodeCosts`: a numeric vector of costs, one per node.
+#' @seealso [`setCosts`] to set edge costs. [`dropCosts`] to remove all
+#'   costs. [`hasCosts`] to check if a graph has costs defined.
 #' @examples
-#'
-#' head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
+#' ## get edge costs as a vector
 #' head(getCosts(worldgraph.10k, res.type = "vector", unique = TRUE))
 #'
+#' ## get cost rules
+#' getCosts(worldgraph.10k, res.type = "rules")
+#'
+#' ## get node costs based on habitat attribute
+#' head(getNodeCosts(worldgraph.10k, attr.name = "habitat"))
 #' @family accessor_methods
+#' @family cost_functions
 #' @export
+
 setGeneric("getCosts", function(x, ...) {
   standardGeneric("getCosts")
 })
 
-
 #' @describeIn getCosts Method for gGraph object
 #' @export
-setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector"), unique = FALSE, ...) {
+setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector", "rules"), 
+                                         unique = FALSE, ...) {
   res.type <- match.arg(res.type)
+  
+  ## return cost rules directly if requested
+  if (res.type == "rules") {
+    if (is.null(x@meta$costs)) {
+      stop("No cost rules defined in x (x@meta$costs is NULL).")
+    }
+    return(x@meta$costs)
+  }
+  
   if (res.type == "asIs") {
     return(edgeWeights(x@graph))
   }
-
-  if (res.type == "vector") { # return a matrix of node names
+  
+  if (res.type == "vector") {
     res <- edgeWeights(x@graph)
-    res <- unlist(res) # res is a vector of edge weights named as Ni.Nj
+    res <- unlist(res)
   }
-
+  
   if (unique) {
     nodeNames <- names(res)
-    temp <- strsplit(nodeNames, "[.]")
-    toKeep <- sapply(temp, function(v) v[1] < v[2])
-    res <- res[toKeep]
+    temp      <- strsplit(nodeNames, "[.]")
+    toKeep    <- sapply(temp, function(v) v[1] < v[2])
+    res       <- res[toKeep]
   }
-
+  
   return(res)
 })
 
@@ -409,6 +449,7 @@ setMethod("getNodeCosts", "gGraph", function(x, attr.name, ...) {
 #' @return A [`gGraph`] object with all edge costs removed.
 #' @seealso [`getCosts`] to retrieve edge costs, [`setCosts`] to set edge costs.
 #' [`hasCosts`] to check if a graph has costs defined.
+#' @family cost_functions
 #' @examples
 #' hasCosts(rawgraph.10k)  
 #' x <- dropCosts(worldgraph.10k)
@@ -467,71 +508,83 @@ setMethod("getData", "gData", function(x, ...) {
 #############
 #' Get colors associated to nodes of a gGraph object
 #'
-#' The function \code{getColors} returns the colors associated to the nodes of
-#' a \linkS4class{gGraph} object, based on a specified node attribute.
+#' The function `getColors` returns either the color rules stored in a
+#' [`gGraph`] object (`res.type = "rules"`) or a vector of colors for each
+#' node based on a specified node attribute (`res.type = "colors"`).
 #'
-#' Colors are based on a node attribute, that is, on a column of the
-#' \code{nodes.attr} data.frame. This attribute should have a finite number of
-#' values, and would most likely be a factor. Correspondence between values of
-#' this variable and colors must be provided in the \code{@meta\$color} slot,
-#' or as \code{col.rules} argument. Color rules mus be provided as a two-column
-#' matrix; the first column contains values of a node attribute, and is named
-#' after this attribute; the second must be named "color", and contain valid
-#' colors.
+#' Color rules are stored as a two-column `data.frame` in `x@meta$colors`.
+#' The first column is named after the node attribute and contains its possible
+#' values; the second column is named `"color"` and contains valid R color
+#' strings.
 #'
-#' See example section to know how this slot should be designed.
-#'
-#' @param x a valid \linkS4class{gGraph}.
-#' @param nodes a vector of character strings or of integers identifying nodes
-#' by their name or their index. Can be "all", in which case all nodes are
-#' considered.
-#' @param attr.name a character string indicating the name of node attribute to
-#' be used to define colors.
-#' @param col.rules a matrix giving the rules for plotting attribute values
-#' with different colors. See details.
-#' @param \dots other arguments passed to other methods.
-#' @return A vector of characters being valid colors.\cr
-
-#' @keywords utilities methods
-#' @export
-#' @examples
-#'
-#' worldgraph.10k # there is a node attribute 'habitat'
-#' worldgraph.10k@meta$color
-#'
-#' head(getNodes(worldgraph.10k))
-#' head(getColors(worldgraph.10k, res.type = "vector", attr.name = "habitat"))
+#' @param x a valid [`gGraph`] object.
+#' @param nodes a vector of node names or indices, or `"all"` for all nodes
+#'   (default). Only used when `res.type = "colors"`.
+#' @param attr.name a character string giving the name of the node attribute
+#'   to use for color assignment. Required when `res.type = "colors"`.
+#' @param col.rules a two-column `data.frame` mapping attribute values to
+#'   colors. If `NULL`, uses `x@meta$colors`. Only used when
+#'   `res.type = "colors"`.
+#' @param res.type a character string indicating the output type:
+#'   - `"colors"`: a named character vector of colors, one per node.
+#'   - `"rules"`: the color rules `data.frame` stored in `x@meta$colors`.
+#' @param ... other arguments passed to other methods (currently unused).
+#' @return A named character vector of colors when `res.type = "colors"`, or
+#'   a `data.frame` of color rules when `res.type = "rules"`.
+#' @seealso [`setColors`] to set color rules. [`getNodesAttr`] to retrieve
+#'   node attributes.
 #' @family accessor_methods
+#' @examples
+#' ## get color rules
+#' getColors(worldgraph.10k, res.type = "rules")
+#'
+#' ## get node colors based on habitat attribute
+#' head(getColors(worldgraph.10k, attr.name = "habitat"))
 #' @export
 setGeneric("getColors", function(x, ...) {
   standardGeneric("getColors")
 })
 
-#' @export
 #' @describeIn getColors Method for gGraph objects
-
-setMethod("getColors", "gGraph", function(x, nodes = "all", attr.name, col.rules = NULL, ...) {
+#' @export
+setMethod("getColors", "gGraph", function(x, nodes = "all", attr.name = NULL,
+                                          col.rules = NULL,
+                                          res.type = c("colors", "rules"), ...) {
+  res.type <- match.arg(res.type)
+  
+  ## return rules directly if requested
+  if (res.type == "rules") {
+    if (is.null(x@meta$colors)) {
+      stop("No color rules defined in x (x@meta$colors is NULL).")
+    }
+    return(x@meta$colors)
+  }
+  
+  ## res.type == "colors" from here
+  if (is.null(attr.name)) {
+    stop("attr.name must be provided when res.type = 'colors'.")
+  }
+  
   if (!attr.name %in% colnames(getNodesAttr(x))) {
     stop("Requested attribute not found in x@nodes.attr.")
   }
-
+  
   if (is.null(col.rules)) {
     if (is.null(x@meta$colors)) {
-      stop("No rule for color provided, and none defined in x (x@meta$colors is NULL).")
-    } else {
-      col.rules <- x@meta$colors
+      stop("No color rules provided and none defined in x (x@meta$colors is NULL).")
     }
+    col.rules <- x@meta$colors
   }
-
+  
   if (is.null(ncol(col.rules)) || ncol(col.rules) != 2) {
-    stop("Color rules does not contain two columns.")
+    stop("col.rules must have exactly two columns.")
   }
-
+  
   if (!attr.name %in% colnames(col.rules)) {
     stop(paste("Nothing known about", attr.name, "in color rules."))
   }
-
-  ## handle nodes ##
+  
+  ## handle nodes
   if (length(nodes) == 1 && nodes == "all") {
     toKeep <- TRUE
   } else if (is.numeric(nodes)) {
@@ -541,17 +594,88 @@ setMethod("getColors", "gGraph", function(x, nodes = "all", attr.name, col.rules
   } else {
     stop("Don't know what to do with 'nodes': wrong specification.")
   }
-
-  ## define colors ##
-  criterion <- getNodesAttr(x, nodes = toKeep, attr.name = attr.name) # seek criterion in nodes.attr
-  col <- as.character(unlist(criterion))
-
-  for (i in 1:nrow(col.rules)) {
+  
+  ## define colors
+  criterion <- getNodesAttr(x, nodes = toKeep, attr.name = attr.name)
+  col       <- as.character(unlist(criterion))
+  
+  for (i in seq_len(nrow(col.rules))) {
     col[col == col.rules[i, 1]] <- col.rules[i, 2]
   }
-
+  
   names(col) <- getNodes(x)[toKeep]
   return(col)
-}) # end getColors for gGraph
+})
 
 
+#############
+## setColors
+#############
+#' Set color rules for a gGraph object
+#'
+#' The function `setColors` sets the color rules stored in the `@meta$colors`
+#' slot of a [`gGraph`] object. Color rules control how node attribute values
+#' are mapped to colors when plotting.
+#'
+#' Color rules must be provided as a two-column `data.frame`. The first column
+#' must be named after the node attribute and contain its possible values; the
+#' second column must be named `"color"` and contain valid R color strings.
+#'
+#' @param x a valid [`gGraph`] object.
+#' @param col.rules a two-column `data.frame` mapping attribute values to
+#'   colors.
+#' @return A [`gGraph`] object with the updated color rules.
+#' @seealso [`getColors`] to retrieve colors or color rules.
+#' @family accessor_methods
+#' @examples
+#' ## get current rules
+#' col.rules <- getColors(worldgraph.10k, res.type = "rules")
+#' col.rules
+#'
+#' ## modify a color
+#' col.rules$color[col.rules$habitat == "sea"] <- "lightblue"
+#'
+#' ## set back
+#' x <- setColors(worldgraph.10k, col.rules)
+#' getColors(x, res.type = "rules")
+#' @export
+setColors <- function(x, col.rules) {
+  if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
+  if (!is.data.frame(col.rules)) stop("col.rules must be a data.frame.")
+  if (ncol(col.rules) != 2) stop("col.rules must have exactly two columns.")
+  if (!("color" %in% colnames(col.rules))) stop("col.rules must have a column named 'color'.")
+  
+  ## get the attribute name from the first column
+  attr.name <- colnames(col.rules)[1]
+  
+  ## check that the attribute exists in nodes.attr
+  if (nrow(x@nodes.attr) > 0) {
+    if (!attr.name %in% colnames(x@nodes.attr)) {
+      stop(paste0("Column '", attr.name, "' not found in x@nodes.attr. ",
+                  "The first column of col.rules must match a node attribute name."))
+    }
+    
+    ## check that all node attribute values have a color rule defined
+    node.values   <- unique(as.character(x@nodes.attr[, attr.name]))
+    rule.values   <- as.character(col.rules[, attr.name])
+    unmapped      <- node.values[!node.values %in% rule.values]
+    if (length(unmapped) > 0) {
+      stop(sprintf(
+        "The following node attribute values have no color rule defined: %s.",
+        paste(unmapped, collapse = ", ")
+      ))
+    }
+    
+    ## check that colors are valid R colors
+    valid.colors <- tryCatch(
+      { grDevices::col2rgb(col.rules$color); TRUE },
+      error = function(e) FALSE
+    )
+    if (!valid.colors) {
+      stop("col.rules contains invalid R color values.")
+    }
+  }
+  
+  x@meta$colors <- col.rules
+  return(x)
+}

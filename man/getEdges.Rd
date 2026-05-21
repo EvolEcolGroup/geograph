@@ -57,7 +57,9 @@ Other accessor_methods:
 \code{\link[=getData]{getData()}},
 \code{\link[=getGraph]{getGraph()}},
 \code{\link[=getNodes]{getNodes()}},
-\code{\link[=getNodesAttr]{getNodesAttr()}}
+\code{\link[=getNodesAttr]{getNodesAttr()}},
+\code{\link[=setColors]{setColors()}},
+\code{\link[=setGraph]{setGraph()}}
 }
 \concept{accessor_methods}
 \keyword{methods}

@@ -1,64 +1,55 @@
 #' Set friction in a gGraph object
 #'
-#' The function \code{setCosts} define costs for the edges of a
-#' \linkS4class{gGraph} object according to a node attribute and some rules
-#' defined in the \code{@meta\$costs} slot of the object. Each node has a value
-#' for the chosen attribute, which is associated to a costs (a friction). The
-#' cost of an edge is computed as a function (see argument \code{method}) of
-#' the costs of its nodes.\cr
+#' The function `setCosts` defines costs for the edges of a [`gGraph`] object
+#' according to a node attribute and cost rules defined in `@meta$costs`. Each
+#' node has a value for the chosen attribute which is associated to a cost. The
+#' cost of an edge is computed as a function of the costs of its two nodes.
 #'
-#' Note that costs are inversely proportional to connectivity between edges:
-#' the larger the cost associated to an edge, the lower the connectivity
-#' between the two concerned nodes.\cr
+#' Costs are inversely proportional to connectivity: the larger the cost of an
+#' edge, the lower the connectivity between its two nodes. Costs in `geoGraph`
+#' are equivalent to weights in the `graph` and `RBGL` packages.
 #'
-#' Also note that 'costs' defined in \code{geoGraph} are equivalent to
-#' 'weights' as defined in \code{graph} and \code{RBGL} packages.
-#'
-#'
-#' @param x a \linkS4class{gGraph} object with a least one node attribute, and
-#' a \code{@meta$costs} component (for an example, see worldgraph.10k dataset).
-#' @param attr.name the name of the node attribute used to compute costs (i.e.,
-#' of one column of \code{@nodes.attr}).
-#' @param node.values a numeric vector giving costs associated to the nodes. If
-#' provided, it will be used instead of \code{attr.name}.
-#' @param method a character string indicating which method should be used to
-#' compute edge cost from nodes costs. Currently available options are 'mean',
-#' 'prod' and 'function', where the cost associated to an edge is respectively computed as
-#' the mean, the product or a custom function (defined in \code{FUN}) of the costs of its nodes.
-#' @param FUN a function used to compute the cost between two nodes (needed if \code{method="function"}).
-#' @param \dots additional parameters to be passed to \code{FUN}.
-#' @return A \linkS4class{gGraph} object with the newly defined costs used as
-#' weightings of edges.
-
-#' @seealso \code{\link{dropDeadEdges}}, to get rid of edge whose cost is below
-#' a given threshold. \code{\link{geo.add.edges}} to add edges to a
-#' \linkS4class{gGraph} object.
-#' @keywords utilities
+#' @param x a [`gGraph`] object with at least one node attribute and a
+#'   `@meta$costs` component (see `worldgraph.10k` for an example).
+#' @param attr.name the name of the node attribute used to compute costs.
+#' @param node.values a numeric vector of costs for the nodes. If provided,
+#'   overrides `attr.name`.
+#' @param cost.rules a two-column `data.frame` to update `x@meta$costs`
+#'   before computing edge costs. If `NULL`, existing `x@meta$costs` is used.
+#' @param method how edge costs are computed from node costs: `"mean"`,
+#'   `"product"`, or `"function"` (requires `FUN`).
+#' @param FUN a function to compute edge cost from two node costs. Required
+#'   when `method = "function"`.
+#' @param ... additional arguments passed to `FUN`.
+#' @return A [`gGraph`] object with the newly defined edge costs.
+#' @seealso [`dropDeadEdges`], [`getCosts`], [`hasCosts`]
 #' @family cost_functions
 #' @examples
+#' ## get and modify cost rules then set costs in one call
+#' cost.rules <- getCosts(worldgraph.10k, res.type = "rules")
+#' cost.rules
 #'
-#' plot(rawgraph.10k, reset = TRUE)
+#' ## make sea travel cheaper
+#' cost.rules$cost[cost.rules$habitat == "sea"] <- 50
 #'
-#' ## zooming in
-#' geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
-#' title("Europe")
-#'
-#' ## defining a new object restrained to visible nodes
-#' x <- rawgraph.10k[isInArea(rawgraph.10k)]
-#'
-#' ## define weights for edges
-#' x <- setCosts(x, attr.name = "habitat")
-#' plot(x, edges = TRUE)
-#' title("costs defined by habitat (land/land=1, other=100)")
+#' ## update rules and set costs in one call
+#' x <- setCosts(worldgraph.10k, attr.name = "habitat", cost.rules = cost.rules)
 #' @export
-setCosts <- function(x, attr.name = NULL, node.values = NULL, method = c("mean", "product", "function"), FUN = NULL, ...) {
+setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
+                     method = c("mean", "product", "function"), FUN = NULL, ...) {
   ## some checks + argument handling
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
   method <- match.arg(method)
   if ((method == "function") && (is.null(FUN))) {
     stop("if method='function', FUN needs to be defined.")
   }
-
+  
+  if (!is.null(cost.rules)) {
+    if (!is.data.frame(cost.rules)) stop("cost.rules must be a data.frame.")
+    if (ncol(cost.rules) != 2) stop("cost.rules must have exactly two columns.")
+    x@meta$costs <- cost.rules
+  }
+  
   ## assign costs to vertices
   if (is.null(node.values)) { # costs from a node attribute
     nodeAttr <- unlist(getNodesAttr(x, attr.name = attr.name))
@@ -90,7 +81,6 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, method = c("mean",
     if (!is.numeric(node.values)) stop("Provided 'node.values' not numeric.")
     node.values <- rep(node.values, length = length(getNodes(x))) # recycling node costs
     nodeCosts <- node.values
-    ## might add some more checks here...
   }
 
   ## find costs of edges as a function of terminating vertices

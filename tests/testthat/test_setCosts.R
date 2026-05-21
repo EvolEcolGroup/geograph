@@ -36,3 +36,14 @@ test_that("setCosts errors when some habitat values have no cost rule", {
     "The following node attribute values have no cost rule defined"
   )
 })
+
+test_that("setCosts with cost.rules updates meta and sets costs in one call", {
+  cost.rules <- getCosts(rawgraph.10k, res.type = "rules")
+  cost.rules$cost[cost.rules$habitat == "sea"] <- 50
+  
+  result <- setCosts(rawgraph.10k, attr.name = "habitat", cost.rules = cost.rules)
+  
+  # meta should be updated
+  new.rules <- getCosts(result, res.type = "rules")
+  expect_equal(as.numeric(new.rules$cost[new.rules$habitat == "sea"]), 50)
+})

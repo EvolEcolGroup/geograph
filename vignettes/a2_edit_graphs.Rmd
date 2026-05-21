@@ -1,6 +1,5 @@
 ---
 title: "Edit graphs in geoGraph"
-author: "Thibaut Jombart, Dominik Jud […] and Andrea Manica"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -46,7 +45,7 @@ Alternatively, the color of the nodes can be specified via the `col` argument in
 Here is an example using `worldgraph.10k`:
 
 ```{r wg10kdefplot, fig=TRUE, fig.width=8}
-worldgraph.10k@meta$colors
+getColors(worldgraph.10k, res.type = "rules")
 head(getNodesAttr(worldgraph.10k))
 table(getNodesAttr(worldgraph.10k))
 plot(worldgraph.10k, reset = TRUE)
@@ -208,13 +207,14 @@ To do so, the easiest approach is to i) define costs for the edges based on habi
 given large costs and ii) remove all edges with large costs.
 
 
-Costs of a given node attribute (here, `habitat`) are indicated in the `meta$costs` slot:
+Costs of a given node attribute (here, habitat) can be retrieved using getCosts(x, res.type = 'rules') and modified using setCosts with the cost.rules argument.
 ```{r }
-rawgraph.10k@meta$costs
-newGraph <- rawgraph.10k
-newGraph@meta$costs[newGraph@meta$costs[,1] == "sea", 2] <- 1
-newGraph@meta$costs[newGraph@meta$costs[,1] != "sea", 2] <- 100
-newGraph@meta$costs
+getCosts(rawgraph.10k, res.type = "rules")
+cost.rules <- getCosts(rawgraph.10k, res.type = "rules")
+cost.rules$cost[cost.rules$habitat == "sea"]  <- 1
+cost.rules$cost[cost.rules$habitat != "sea"]  <- 100
+newGraph <- setCosts(rawgraph.10k, attr.name = "habitat", cost.rules = cost.rules)
+getCosts(newGraph, res.type = "rules")
 ```
 We have just changed the costs associated to habitat type, but this change is not yet effective on
 edges between nodes.
@@ -293,7 +293,7 @@ newGraph <- readRDS("Robjects/newGraph2.RDS")
 # load("Robjects/newGraph2.RData")
 ```
 ```{r fig=TRUE}
-newGraph@meta$colors
+getColors(newGraph, res.type = "rules")
 plot(newGraph, edge = TRUE)
 ```
 
