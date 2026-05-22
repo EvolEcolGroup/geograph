@@ -38,6 +38,7 @@ test_that("setCosts errors when some habitat values have no cost rule", {
 })
 
 test_that("setCosts with cost.rules updates meta and sets costs in one call", {
+  baseline <- setCosts(rawgraph.10k, attr.name = "habitat")
   cost.rules <- getCosts(rawgraph.10k, res.type = "rules")
   cost.rules$cost[cost.rules$habitat == "sea"] <- 50
   
@@ -46,6 +47,10 @@ test_that("setCosts with cost.rules updates meta and sets costs in one call", {
   # meta should be updated
   new.rules <- getCosts(result, res.type = "rules")
   expect_equal(as.numeric(new.rules$cost[new.rules$habitat == "sea"]), 50)
+  # edge costs should differ from baseline after changing sea rule
+  baseline_w <- vapply(baseline@graph@edgeData@data, function(e) e$weight, numeric(1))
+  result_w <- vapply(result@graph@edgeData@data, function(e) e$weight, numeric(1))
+  expect_false(isTRUE(all.equal(result_w, baseline_w)))
 })
 
 
@@ -94,3 +99,23 @@ test_that("setCosts with cost.rules must have unique values in first column", {
   )
 })
 
+test_that("setCosts accepts cost.rules with columns in any order", {
+  cost.rules.reversed <- data.frame(
+    cost    = c(100, 1),
+    habitat = c("sea", "land")
+  )
+  cost.rules.normal <- data.frame(
+    habitat = c("sea", "land"),
+    cost    = c(100, 1)
+  )
+  
+  result.reversed <- setCosts(rawgraph.10k, attr.name = "habitat",
+                              cost.rules = cost.rules.reversed)
+  result.normal   <- setCosts(rawgraph.10k, attr.name = "habitat",
+                              cost.rules = cost.rules.normal)
+
+  expect_equal(
+    getCosts(result.reversed, res.type = "vector"),
+    getCosts(result.normal,   res.type = "vector")
+  )
+})

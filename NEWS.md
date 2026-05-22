@@ -1,6 +1,6 @@
 # geoGraph (development version)
 
-* Added `setGraph` and `setColors` as well as updated functionality in `getColor`, `getCosts`, and `setCosts` 
+* Added `setGraph` and `setColors` as well as updated functionality in `getColors`, `getCosts`, and `setCosts` 
 
 * Removed `getHistory` method for gGraph objects and upgraded roxygen2 documentation from version 7.3.3 to 8.0.0
 

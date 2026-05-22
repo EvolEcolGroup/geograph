@@ -55,16 +55,27 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
     if (!is.null(attr.name) && !(attr.name %in% colnames(cost.rules))) {
       stop("cost.rules must include the column named by attr.name.")
     }
-    if (anyDuplicated(cost.rules[[1]]) > 0) {
-      stop("The first column of cost.rules must contain unique values.")
-    }
+    
+    ## identify columns by name, not position
     cost.col <- if ("cost" %in% colnames(cost.rules)) "cost" else colnames(cost.rules)[2]
+    attr.col <- if (!is.null(attr.name) && attr.name %in% colnames(cost.rules)) {
+      attr.name
+    } else {
+      setdiff(colnames(cost.rules), cost.col)[1]
+    }
+    
+    if (anyDuplicated(cost.rules[[attr.col]]) > 0) {
+      stop("The attribute column of cost.rules must contain unique values.")
+    }
     if (!is.numeric(cost.rules[[cost.col]])) {
       stop("cost.rules cost column must be numeric.")
     }
     if (anyNA(cost.rules[[cost.col]])) {
       stop("cost.rules cost column must not contain NA.")
     }
+    
+    ## normalize to canonical column order: attr first, cost second
+    cost.rules   <- cost.rules[, c(attr.col, cost.col), drop = FALSE]
     x@meta$costs <- cost.rules
   }
   
@@ -75,9 +86,11 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
       if (!any(attr.name %in% colnames(x@meta$costs))) {
         stop("attr.name is not documented in x@meta$costs.")
       }
-      nodeCosts    <- as.character(nodeAttr)
-      rules        <- x@meta$costs
-      known.values <- as.character(rules[, attr.name])
+      nodeCosts <- as.character(nodeAttr)
+      rules     <- x@meta$costs
+      cost.col  <- colnames(rules)[2] # safe after normalization
+      
+      known.values <- as.character(rules[[attr.name]])
       unmapped     <- unique(nodeCosts[!nodeCosts %in% known.values])
       if (length(unmapped) > 0) {
         stop(sprintf(
@@ -85,9 +98,12 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
           paste(unmapped, collapse = ", ")
         ))
       }
+      
+      ## use named indexing — safe regardless of column order
       for (i in seq_len(nrow(rules))) {
-        nodeCosts[nodeCosts == rules[i, attr.name]] <- rules[i, ncol(rules)]
+        nodeCosts[nodeCosts == as.character(rules[[attr.name]][i])] <- rules[[cost.col]][i]
       }
+      
       nodeCosts <- as.numeric(nodeCosts)
     } else {
       stop("x@meta does not contain a 'costs' component.")

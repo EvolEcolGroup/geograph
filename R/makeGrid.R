@@ -38,11 +38,6 @@
 #'     color = c("blue", "green")
 #'   )
 #' )
-#' squareGraph@meta$colors <- data.frame(
-#'   habitat = c("sea", "land"),
-#'   color = c("blue", "green")
-#' )
-#' 
 #' plot(squareGraph, reset = TRUE)
 #' 
 #' # If no area is specified, currently plotted area is used
@@ -65,10 +60,12 @@
 makeGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL, lon.range = NULL, lat.range = NULL) {
   ## HANDLE ARGUMENTS ##
   
-  if (!is.null(n.lon) && (!is.numeric(n.lon) || length(n.lon) != 1 || n.lon < 1 || n.lon %% 1 != 0)) {
+  if (!is.null(n.lon) && (!is.numeric(n.lon) || length(n.lon) != 1 || is.na(n.lon) || 
+                          !is.finite(n.lon) || n.lon < 1 || n.lon %% 1 != 0)) {
     stop("n.lon must be a positive integer")
   }
-  if (!is.null(n.lat) && (!is.numeric(n.lat) || length(n.lat) != 1 || n.lat < 1 || n.lat %% 1 != 0)) {
+  if (!is.null(n.lat) && (!is.numeric(n.lat) || length(n.lat) != 1 || is.na(n.lat) || 
+                          !is.finite(n.lat) || n.lat < 1 || n.lat %% 1 != 0)) {
     stop("n.lat must be a positive integer")
   }
   
