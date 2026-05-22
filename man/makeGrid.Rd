@@ -50,11 +50,6 @@ squareGraph <- setColors(
     color = c("blue", "green")
   )
 )
-squareGraph@meta$colors <- data.frame(
-  habitat = c("sea", "land"),
-  color = c("blue", "green")
-)
-
 plot(squareGraph, reset = TRUE)
 
 # If no area is specified, currently plotted area is used

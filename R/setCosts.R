@@ -57,11 +57,16 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
     }
     
     ## identify columns by name, not position
-    cost.col <- if ("cost" %in% colnames(cost.rules)) "cost" else colnames(cost.rules)[2]
-    attr.col <- if (!is.null(attr.name) && attr.name %in% colnames(cost.rules)) {
-      attr.name
+    if (!is.null(attr.name) && attr.name %in% colnames(cost.rules)) {
+      attr.col <- attr.name
+      other.col <- setdiff(colnames(cost.rules), attr.col)
+      if (length(other.col) != 1) {
+        stop("cost.rules must contain exactly one cost column distinct from attr.name.")
+      }
+      cost.col <- other.col
     } else {
-      setdiff(colnames(cost.rules), cost.col)[1]
+      cost.col <- if ("cost" %in% colnames(cost.rules)) "cost" else colnames(cost.rules)[2]
+      attr.col <- setdiff(colnames(cost.rules), cost.col)[1]
     }
     
     if (anyDuplicated(cost.rules[[attr.col]]) > 0) {
