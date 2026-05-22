@@ -17,9 +17,9 @@ connectivityPlot(x, ...)
 
 \item{...}{other arguments passed to other methods.}
 
-\item{seed}{an optional integer giving the seed to be used when randomising
+\item{seed}{an optional integer giving the seed to be used when randomizing
 colors. A given seed will always produce the same set of colors. \code{NULL}
-by default, meaning colors are randomised each time a plot is drawn.}
+by default, meaning colors are randomized each time a plot is drawn.}
 }
 \value{
 A named character vector of colors, one per node, returned

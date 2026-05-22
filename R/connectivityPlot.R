@@ -6,9 +6,9 @@
 #'
 #' @param x a valid [`gGraph`] or [`gData`] object.
 #' @param ... other arguments passed to other methods.
-#' @param seed an optional integer giving the seed to be used when randomising
+#' @param seed an optional integer giving the seed to be used when randomizing
 #'   colors. A given seed will always produce the same set of colors. `NULL`
-#'   by default, meaning colors are randomised each time a plot is drawn.
+#'   by default, meaning colors are randomized each time a plot is drawn.
 #' @return A named character vector of colors, one per node, returned
 #'   invisibly.
 #' @include classes.R
