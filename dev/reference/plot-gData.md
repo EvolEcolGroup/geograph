@@ -144,7 +144,7 @@ obj
 #> 3  11  71
 #> ...
 #> 
-#> @nodes.id: nodes identifiers
+#> @nodes.id: 0 nodes identifiers
 #> character(0)
 #> 
 #> @data: data

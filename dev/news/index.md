@@ -2,6 +2,9 @@
 
 ## geoGraph (development version)
 
+- Added documentation for the `gPath` class and basic subsetting methods
+  for `gGraph` and `gData` objects
+
 - Added `setGraph` and `setColors` as well as updated functionality in
   `getColors`, `getCosts`, and `setCosts`
 

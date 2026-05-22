@@ -1,6 +1,8 @@
 # Plot a gPath object
 
-This method plots a `gPath` object, which is the output of the
+This method plots a
+[`gPath`](https://evolecolgroup.github.io/geograph/dev/reference/gPath-class.md)
+object, which is the output of the
 [`dijkstraBetween`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md),
 [`polygonBetween`](https://evolecolgroup.github.io/geograph/dev/reference/polygonBetween.md)
 and
@@ -21,7 +23,9 @@ print(x, ...)
 
 - x:
 
-  a `gPath` object
+  a
+  [`gPath`](https://evolecolgroup.github.io/geograph/dev/reference/gPath-class.md)
+  object
 
 - col:
 

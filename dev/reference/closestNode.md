@@ -136,7 +136,7 @@ obj
 #> 3  11  71
 #> ...
 #> 
-#> @nodes.id: nodes identifiers
+#> @nodes.id: 0 nodes identifiers
 #> character(0)
 #> 
 #> @data: data
@@ -149,8 +149,7 @@ obj@gGraph.name <- "worldgraph.10k" # this could be done when creating obj
 obj <- closestNode(obj, attr.name = "habitat", attr.value = "land")
 
 ## plot the result (original location -> assigned node)
-plot(obj, method = "both", reset = TRUE)
-#> Warning: "method" is not a graphical parameter
+plot(obj, type = "both", reset = TRUE)
 title("'x'=location, 'o'=assigned node")
 
 

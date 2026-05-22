@@ -35,9 +35,9 @@ connectivityPlot(x, ..., seed = NULL)
 
 - seed:
 
-  an optional integer giving the seed to be used when randomising
+  an optional integer giving the seed to be used when randomizing
   colors. A given seed will always produce the same set of colors.
-  `NULL` by default, meaning colors are randomised each time a plot is
+  `NULL` by default, meaning colors are randomized each time a plot is
   drawn.
 
 ## Value

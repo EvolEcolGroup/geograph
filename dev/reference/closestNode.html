@@ -15,7 +15,7 @@ location."><meta name="robots" content="noindex"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9011</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9012</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -165,7 +165,7 @@ interactively add or remove edges in a <a href="gGraph-class.html">gGraph</a> ob
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3  11  71</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> @nodes.id: nodes identifiers</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> @nodes.id: 0 nodes identifiers</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> character(0)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> @data: data</span>
@@ -178,8 +178,7 @@ interactively add or remove edges in a <a href="gGraph-class.html">gGraph</a> ob
 <span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu">closestNode</span><span class="op">(</span><span class="va">obj</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, attr.value <span class="op">=</span> <span class="st">"land"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## plot the result (original location -&gt; assigned node)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">obj</span>, method <span class="op">=</span> <span class="st">"both"</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>"method" is not a graphical parameter</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">obj</span>, type <span class="op">=</span> <span class="st">"both"</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"'x'=location, 'o'=assigned node"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="closestNode-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>

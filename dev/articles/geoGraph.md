@@ -228,7 +228,7 @@ new("gData")
     ## @coords: spatial coordinates of 0 nodes
     ##      lon lat
     ## 
-    ## @nodes.id: nodes identifiers
+    ## @nodes.id: 0 nodes identifiers
     ## character(0)
     ## 
     ## @data: data
@@ -328,7 +328,7 @@ cities
     ## 3  44  40
     ## ...
     ## 
-    ## @nodes.id: nodes identifiers
+    ## @nodes.id: 4 nodes identifiers
     ##      1      2      3 
     ## "5774" "7696" "2629" 
     ## ...
@@ -581,7 +581,7 @@ hgdp
     ## 3  40  61
     ## ...
     ## 
-    ## @nodes.id: nodes identifiers
+    ## @nodes.id: 52 nodes identifiers
     ##   28179   11012   22532 
     ## "26898" "11652" "22532" 
     ## ...
@@ -641,8 +641,9 @@ paths <- dijkstraFrom(hgdp, ori)
 ```
 
 The object `paths` contains the identified paths, which are stored as a
-list with class `gPath` (see `?gPath`). @TODO currently refers to the
-grid version of gPath Paths can be plotted easily:
+list with class `gPath` (see
+[`?gPath`](https://evolecolgroup.github.io/geograph/dev/reference/gPath-class.md)).
+Paths can be plotted easily:
 
 ``` r
 

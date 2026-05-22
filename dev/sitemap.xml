@@ -25,6 +25,7 @@
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/findLand.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/gData-class.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/gPath-class.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/gPath2dist.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/geo.add.edges.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/geo.change.attr.html</loc></url>
@@ -58,6 +59,8 @@
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setEdges.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setGraph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setNodesAttr.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/subset-gData.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/subset-gGraph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/worldgraph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/zoom.html</loc></url>
 </urlset>

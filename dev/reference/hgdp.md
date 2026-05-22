@@ -51,7 +51,7 @@ hgdp
 #> 3  40  61
 #> ...
 #> 
-#> @nodes.id: nodes identifiers
+#> @nodes.id: 52 nodes identifiers
 #>   28179   11012   22532 
 #> "26898" "11652" "22532" 
 #> ...

@@ -1,5 +1,19 @@
 # Package index
 
+## Classes
+
+Classes included in the package.
+
+- [`gGraph-class`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
+  [`gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
+  : Formal class "gGraph"
+- [`gData-class`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
+  [`gData`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
+  : Formal class "gData"
+- [`gPath-class`](https://evolecolgroup.github.io/geograph/dev/reference/gPath-class.md)
+  [`gPath`](https://evolecolgroup.github.io/geograph/dev/reference/gPath-class.md)
+  : Formal class "gPath"
+
 ## Graph construction
 
 Functions for creating new custom `gGraph` objects.
@@ -161,23 +175,17 @@ Datasets included in the package.
   [`worldgraph.40k`](https://evolecolgroup.github.io/geograph/dev/reference/worldgraph.md)
   : Worldwide geographic graphs
 
-## Classes
+## Basic Methods
 
-Classes included in the package.
+Basic methods to subset and show gGraph and gData objects
 
-- [`gGraph-class`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-  [`gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-  [`[,gGraph-method`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-  [`[,gGraph,ANY,ANY-method`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-  [`[,gGraph,ANY,ANY,ANY-method`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-  [`initialize,gGraph-method`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-  [`show,gGraph-method`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-  : Formal class "gGraph"
-- [`gData-class`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
-  [`gData`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
-  [`[,gData-method`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
-  [`[,gData,ANY,ANY-method`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
-  [`[,gData,ANY,ANY,ANY-method`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
-  [`initialize,gData-method`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
-  [`show,gData-method`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
-  : Formal class "gData"
+- [`subset-gData`](https://evolecolgroup.github.io/geograph/dev/reference/subset-gData.md)
+  [`[,gData-method`](https://evolecolgroup.github.io/geograph/dev/reference/subset-gData.md)
+  [`[,gData,ANY,ANY-method`](https://evolecolgroup.github.io/geograph/dev/reference/subset-gData.md)
+  [`[,gData,ANY,ANY,ANY-method`](https://evolecolgroup.github.io/geograph/dev/reference/subset-gData.md)
+  : Subset a gData object
+- [`subset-gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/subset-gGraph.md)
+  [`[,gGraph-method`](https://evolecolgroup.github.io/geograph/dev/reference/subset-gGraph.md)
+  [`[,gGraph,ANY,ANY-method`](https://evolecolgroup.github.io/geograph/dev/reference/subset-gGraph.md)
+  [`[,gGraph,ANY,ANY,ANY-method`](https://evolecolgroup.github.io/geograph/dev/reference/subset-gGraph.md)
+  : Subset a gGraph object

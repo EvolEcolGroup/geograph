@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9011</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9012</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -266,7 +266,7 @@ habitat types.</p>
 <span><span class="co">## @coords: spatial coordinates of 0 nodes</span></span>
 <span><span class="co">##      lon lat</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## @nodes.id: nodes identifiers</span></span>
+<span><span class="co">## @nodes.id: 0 nodes identifiers</span></span>
 <span><span class="co">## character(0)</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## @data: data</span></span>
@@ -352,7 +352,7 @@ interface the cities data with this grid; to do so, we create a
 <span><span class="co">## 3  44  40</span></span>
 <span><span class="co">## ...</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## @nodes.id: nodes identifiers</span></span>
+<span><span class="co">## @nodes.id: 4 nodes identifiers</span></span>
 <span><span class="co">##      1      2      3 </span></span>
 <span><span class="co">## "5774" "7696" "2629" </span></span>
 <span><span class="co">## ...</span></span>
@@ -544,7 +544,7 @@ genetic diversity information for 52 human populations worldwide (see
 <span><span class="co">## 3  40  61</span></span>
 <span><span class="co">## ...</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## @nodes.id: nodes identifiers</span></span>
+<span><span class="co">## @nodes.id: 52 nodes identifiers</span></span>
 <span><span class="co">##   28179   11012   22532 </span></span>
 <span><span class="co">## "26898" "11652" "22532" </span></span>
 <span><span class="co">## ...</span></span>
@@ -591,8 +591,7 @@ to find the shortest paths between Addis Ababa and the populations of
 <span><span class="va">paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraFrom.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span></span></code></pre></div>
 <p>The object <code>paths</code> contains the identified paths, which
 are stored as a list with class <code>gPath</code> (see
-<code>?gPath</code>). <span class="citation">@TODO</span> currently
-refers to the grid version of gPath Paths can be plotted easily:</p>
+<code><a href="../reference/gPath-class.html">?gPath</a></code>). Paths can be plotted easily:</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">addis</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
