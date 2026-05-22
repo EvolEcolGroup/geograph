@@ -5,6 +5,13 @@ development:
   mode: auto
 
 reference:
+
+  - title: "Classes"
+    desc: "Classes included in the package."
+    contents:
+      - gGraph-class
+      - gData-class
+      - gPath-class
       
   - title: "Graph construction"
     desc: "Functions for creating new custom `gGraph` objects."
@@ -78,9 +85,8 @@ reference:
     contents:
       - hgdp
       - worldgraph
-
-  - title: "Classes"
-    desc: "Classes included in the package."
+      
+  - title: "Basic Methods"
+    desc: "Basic methods to subset and show gGraph and gData objects"
     contents:
-      - gGraph-class
-      - gData-class
+      - has_concept("basic_methods")

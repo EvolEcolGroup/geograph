@@ -4,11 +4,6 @@
 \name{gGraph-class}
 \alias{gGraph-class}
 \alias{gGraph}
-\alias{[,gGraph-method}
-\alias{[,gGraph,ANY,ANY-method}
-\alias{[,gGraph,ANY,ANY,ANY-method}
-\alias{initialize,gGraph-method}
-\alias{show,gGraph-method}
 \title{Formal class "gGraph"}
 \description{
 The class \code{gGraph} is a formal (S4) class storing geographic data.\cr

@@ -4,11 +4,6 @@
 \name{gData-class}
 \alias{gData-class}
 \alias{gData}
-\alias{[,gData-method}
-\alias{[,gData,ANY,ANY-method}
-\alias{[,gData,ANY,ANY,ANY-method}
-\alias{initialize,gData-method}
-\alias{show,gData-method}
 \title{Formal class "gData"}
 \description{
 The class \code{gData} is a formal (S4) class storing georeferenced data,
