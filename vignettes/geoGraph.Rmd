@@ -348,7 +348,7 @@ addis <- cbind(38, 9)
 ori <- closestNode(myGraph, addis)
 paths <- dijkstraFrom(hgdp, ori)
 ```
-The object `paths` contains the identified paths, which are stored as a list with class `gPath` (see `?gPath`). @TODO currently refers to the grid version of gPath
+The object `paths` contains the identified paths, which are stored as a list with class `gPath` (see `?gPath`).
 Paths can be plotted easily:
 ```{r fig=TRUE, fig.width = 8}
 addis <- as.vector(addis)
