@@ -63,6 +63,8 @@ as defined in `graph` and `RBGL` packages.
 to set costs for a single gGraph object
 
 Other cost_functions:
+[`dropCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/dropCosts.md),
+[`getCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/getCosts.md),
 [`hasCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/hasCosts.md),
 [`setCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md),
 [`setDistCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.md)

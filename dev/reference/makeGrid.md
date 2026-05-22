@@ -51,24 +51,39 @@ object.
 ## Examples
 
 ``` r
+# by defining the range covered by the grid
+squareGraph <- makeGrid(
+  size      = 10000,
+  lon.range = c(-12, 2),
+  lat.range = c(49, 61)
+)
+squareGraph <- findLand(squareGraph)
+#> although coordinates are longitude/latitude, st_intersects assumes that they
+#> are planar
+squareGraph <- setColors(
+  squareGraph,
+  col.rules = data.frame(
+    habitat = c("sea", "land"),
+    color = c("blue", "green")
+  )
+)
+plot(squareGraph, reset = TRUE)
 
-## zoom in to a smaller area
-plot(worldgraph.10k)
 
-geo.zoomin(c(-10, 0, 50, 54))
-
-
-
-## make a new gGraph
+# If no area is specified, currently plotted area is used
+geo.zoomin(c(8, 13, 54, 58))
+#> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'plot': object 'squareGraph' not found
 newGraph <- makeGrid(1e3)
 newGraph <- findLand(newGraph)
 #> although coordinates are longitude/latitude, st_intersects assumes that they
 #> are planar
-newGraph@meta$colors <- data.frame(
-  habitat = c("sea", "land"),
-  color = c("blue", "green")
+newGraph <- setColors(
+  newGraph,
+  col.rules = data.frame(
+    habitat = c("sea", "land"),
+    color = c("blue", "green")
+  )
 )
-
 
 ## plot the new gGraph
 plot(newGraph, reset = TRUE, edge = TRUE)

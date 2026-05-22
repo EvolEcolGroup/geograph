@@ -13,7 +13,7 @@ curvature of the surface of the earth can be neglected."><meta name="robots" con
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9010</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,6 @@ curvature of the surface of the earth can be neglected."><meta name="robots" con
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/a1_making_grids.html">Making custom grids in geoGraph</a></li>
     <li><a class="dropdown-item" href="../articles/a2_edit_graphs.html">Edit graphs in geoGraph</a></li>
-    <li><a class="dropdown-item" href="../articles/old_vignette_geograph.html">geoGraph_old</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -96,28 +95,43 @@ the grid, in longitude and latitude, respectively.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## zoom in to a smaller area</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># by defining the range covered by the grid</span></span></span>
+<span class="r-in"><span><span class="va">squareGraph</span> <span class="op">&lt;-</span> <span class="fu">makeGrid</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  size      <span class="op">=</span> <span class="fl">10000</span>,</span></span>
+<span class="r-in"><span>  lon.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">12</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  lat.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">49</span>, <span class="fl">61</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">squareGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="findLand.html">findLand</a></span><span class="op">(</span><span class="va">squareGraph</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> although coordinates are longitude/latitude, st_intersects assumes that they</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> are planar</span>
+<span class="r-in"><span><span class="va">squareGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="setColors.html">setColors</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">squareGraph</span>,</span></span>
+<span class="r-in"><span>  col.rules <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">squareGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="makeGrid-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="fu"><a href="zoom.html">geo.zoomin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="fl">0</span>, <span class="fl">50</span>, <span class="fl">54</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="makeGrid-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## make a new gGraph</span></span></span>
+<span class="r-in"><span><span class="co"># If no area is specified, currently plotted area is used</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="zoom.html">geo.zoomin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fl">13</span>, <span class="fl">54</span>, <span class="fl">58</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'plot': object 'squareGraph' not found</span>
 <span class="r-in"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu">makeGrid</span><span class="op">(</span><span class="fl">1e3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="findLand.html">findLand</a></span><span class="op">(</span><span class="va">newGraph</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> although coordinates are longitude/latitude, st_intersects assumes that they</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> are planar</span>
-<span class="r-in"><span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="setColors.html">setColors</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">newGraph</span>,</span></span>
+<span class="r-in"><span>  col.rules <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## plot the new gGraph</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">newGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span>, edge <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="makeGrid-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="makeGrid-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9010</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,6 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/a1_making_grids.html">Making custom grids in geoGraph</a></li>
     <li><a class="dropdown-item" href="../articles/a2_edit_graphs.html">Edit graphs in geoGraph</a></li>
-    <li><a class="dropdown-item" href="../articles/old_vignette_geograph.html">geoGraph_old</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -61,10 +60,8 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Edit graphs in geoGraph</h1>
-                        <h4 data-toc-skip class="author">Thibaut
-Jombart, Dominik Jud […] and Andrea Manica</h4>
             
-            <h4 data-toc-skip class="date">2026-05-20</h4>
+            <h4 data-toc-skip class="date">2026-05-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/a2_edit_graphs.Rmd" class="external-link"><code>vignettes/a2_edit_graphs.Rmd</code></a></small>
       <div class="d-none name"><code>a2_edit_graphs.Rmd</code></div>
@@ -105,7 +102,7 @@ Alternatively, the color of the nodes can be specified via the
 <code>col</code> argument in <code>plot</code>/<code>points</code>.</p>
 <p>Here is an example using <code>worldgraph.10k</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">worldgraph.10k</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/getColors.html">getColors</a></span><span class="op">(</span><span class="va">worldgraph.10k</span>, res.type <span class="op">=</span> <span class="st">"rules"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##            habitat       color</span></span>
 <span><span class="co">## 1              sea        blue</span></span>
 <span><span class="co">## 2             land       green</span></span>
@@ -300,10 +297,11 @@ back to this place later on:</p>
 so, the easiest approach is to i) define costs for the edges based on
 habitat, with land being given large costs and ii) remove all edges with
 large costs.</p>
-<p>Costs of a given node attribute (here, <code>habitat</code>) are
-indicated in the <code>meta$costs</code> slot:</p>
+<p>Costs of a given node attribute (here, habitat) can be retrieved
+using getCosts(x, res.type = ‘rules’) and modified using setCosts with
+the cost.rules argument.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rawgraph.10k</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/getCosts.html">getCosts</a></span><span class="op">(</span><span class="va">rawgraph.10k</span>, res.type <span class="op">=</span> <span class="st">"rules"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##            habitat cost</span></span>
 <span><span class="co">## 1              sea  100</span></span>
 <span><span class="co">## 2             land    1</span></span>
@@ -312,10 +310,11 @@ indicated in the <code>meta$costs</code> slot:</p>
 <span><span class="co">## 5 oceanic crossing   20</span></span>
 <span><span class="co">## 6  deselected land  100</span></span></code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="va">rawgraph.10k</span></span>
-<span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span><span class="op">[</span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">==</span> <span class="st">"sea"</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span><span class="op">[</span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span> <span class="op">!=</span> <span class="st">"sea"</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
-<span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cost.rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getCosts.html">getCosts</a></span><span class="op">(</span><span class="va">rawgraph.10k</span>, res.type <span class="op">=</span> <span class="st">"rules"</span><span class="op">)</span></span>
+<span><span class="va">cost.rules</span><span class="op">$</span><span class="va">cost</span><span class="op">[</span><span class="va">cost.rules</span><span class="op">$</span><span class="va">habitat</span> <span class="op">==</span> <span class="st">"sea"</span><span class="op">]</span>  <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">cost.rules</span><span class="op">$</span><span class="va">cost</span><span class="op">[</span><span class="va">cost.rules</span><span class="op">$</span><span class="va">habitat</span> <span class="op">!=</span> <span class="st">"sea"</span><span class="op">]</span>  <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">rawgraph.10k</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, cost.rules <span class="op">=</span> <span class="va">cost.rules</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/getCosts.html">getCosts</a></span><span class="op">(</span><span class="va">newGraph</span>, res.type <span class="op">=</span> <span class="st">"rules"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##            habitat cost</span></span>
 <span><span class="co">## 1              sea    1</span></span>
 <span><span class="co">## 2             land  100</span></span>
@@ -401,7 +400,7 @@ the attribute <code>habitat</code>, selecting affected nodes using the
 <span>  attr.value <span class="op">=</span> <span class="st">"shallowwater"</span>, newCol <span class="op">=</span> <span class="st">"deepskyblue"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">newGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/getColors.html">getColors</a></span><span class="op">(</span><span class="va">newGraph</span>, res.type <span class="op">=</span> <span class="st">"rules"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##            habitat       color</span></span>
 <span><span class="co">## 1              sea        blue</span></span>
 <span><span class="co">## 2             land       green</span></span>

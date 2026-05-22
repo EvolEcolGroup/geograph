@@ -61,6 +61,8 @@ object in different ways.
 
 Other cost_functions:
 [`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md),
+[`dropCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/dropCosts.md),
+[`getCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/getCosts.md),
 [`hasCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/hasCosts.md),
 [`setCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md)
 

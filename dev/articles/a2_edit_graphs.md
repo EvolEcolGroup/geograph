@@ -32,7 +32,7 @@ Here is an example using `worldgraph.10k`:
 
 ``` r
 
-worldgraph.10k@meta$colors
+getColors(worldgraph.10k, res.type = "rules")
 ```
 
     ##            habitat       color
@@ -294,12 +294,13 @@ the easiest approach is to i) define costs for the edges based on
 habitat, with land being given large costs and ii) remove all edges with
 large costs.
 
-Costs of a given node attribute (here, `habitat`) are indicated in the
-`meta$costs` slot:
+Costs of a given node attribute (here, habitat) can be retrieved using
+getCosts(x, res.type = ‘rules’) and modified using setCosts with the
+cost.rules argument.
 
 ``` r
 
-rawgraph.10k@meta$costs
+getCosts(rawgraph.10k, res.type = "rules")
 ```
 
     ##            habitat cost
@@ -312,10 +313,11 @@ rawgraph.10k@meta$costs
 
 ``` r
 
-newGraph <- rawgraph.10k
-newGraph@meta$costs[newGraph@meta$costs[,1] == "sea", 2] <- 1
-newGraph@meta$costs[newGraph@meta$costs[,1] != "sea", 2] <- 100
-newGraph@meta$costs
+cost.rules <- getCosts(rawgraph.10k, res.type = "rules")
+cost.rules$cost[cost.rules$habitat == "sea"]  <- 1
+cost.rules$cost[cost.rules$habitat != "sea"]  <- 100
+newGraph <- setCosts(rawgraph.10k, attr.name = "habitat", cost.rules = cost.rules)
+getCosts(newGraph, res.type = "rules")
 ```
 
     ##            habitat cost
@@ -429,7 +431,7 @@ newGraph <- geo.change.attr(newGraph,
 
 ``` r
 
-newGraph@meta$colors
+getColors(newGraph, res.type = "rules")
 ```
 
     ##            habitat       color

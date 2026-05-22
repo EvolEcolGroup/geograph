@@ -28,11 +28,12 @@ squareGraph <- makeGrid(
   lat.range = c(49, 61)
 )
 squareGraph <- findLand(squareGraph)
-squareGraph@meta$colors <- data.frame(
+colors <- data.frame(
   habitat = c("sea", "land"),
-  color = c("blue", "green")
+  color = c("#b0d4e8", "#90c090")  
 )
 
+squareGraph <- setColors(squareGraph, colors)
 plot(squareGraph, reset = TRUE)
 ```
 
@@ -75,10 +76,13 @@ hexGraph <- createNewGraph(geo.box = aoi.bound, spacing = 30)
 ``` r
 
 hexGraph <- findLand(hexGraph)
-hexGraph@meta$colors <- data.frame(
+
+colors <- data.frame(
   habitat = c("sea", "land"),
-  color = c("blue", "green")
+  color = c("#b0d4e8", "#90c090")  
 )
+
+hexGraph <- setColors(hexGraph, colors)
 
 plot(hexGraph, reset = TRUE)
 ```
@@ -136,14 +140,12 @@ cells and prefers to move through land cells.
 ``` r
 
 # set the costs for sea cells to 10 and land cells to 1
-sea.cost <- 10
-land.cost <- 1
-hexGraph@meta$costs <- data.frame(
+cost.rules <- data.frame(
   habitat = c("sea", "land"),
-  cost = c(sea.cost, land.cost)
+  cost = c(10, 1)
 )
 
-hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat")
+hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat", cost.rules = cost.rules)
 
 
 point1 <- c(-3.7038, 40.4168) # Madrid
@@ -154,7 +156,7 @@ row.names(cities.dat) <- c("Madrid", "Naples")
 cities <- new("gData", coords = cities.dat[, 1:2], gGraph.name = "hexGraph")
 path <- dijkstraBetween(cities)
 plot(hexGraph, reset = TRUE)
-plot(path, col = "red", lwd = 2)
+plot(path, col = "black", lwd = 2)
 ```
 
 ![](a1_making_grids_files/figure-html/least%20cost%20path-1.png)
@@ -266,11 +268,14 @@ rugged.threshold <- 200
 very.rugged.threshold <- 400
 
 ## now we identify rugged and very rugged cells as those with sd.elevation > threshold
-habitat.new <- case_when(
-  is.na(sd.ele) ~ "sea",
-  sd.ele > very.rugged.threshold ~ "very_rugged",
-  sd.ele > rugged.threshold ~ "rugged",
-  TRUE ~ "land"
+node.attr <- getNodesAttr(hexGraph)
+
+habitat.new <- dplyr::case_when(
+  node.attr$habitat == "sea"         ~ "sea",        
+  is.na(sd.ele)                      ~ "land",       
+  sd.ele > very.rugged.threshold     ~ "very_rugged",
+  sd.ele > rugged.threshold          ~ "rugged",
+  TRUE                               ~ "land"
 )
 
 # update the habitat attribute in the graph
@@ -279,11 +284,11 @@ hexGraph <- setNodesAttr(hexGraph, attr.name = "habitat", values = habitat.new)
 
 colors <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged"),
-  color = c("blue", "green", "orange", "brown")
+  color   = c("#b0d4e8", "#90c090", "#d4a857", "#8b6340")
 )
 
 # change colors associated with the land meta info
-hexGraph@meta$colors <- colors
+hexGraph <- setColors(hexGraph, colors)
 
 plot(hexGraph, reset = TRUE)
 ```
@@ -298,19 +303,16 @@ rugged cells. This can be shown in the same toy example as above.
 ``` r
 
 # set the costs for sea cells to 10, land cells to 1, rugged cells to 3 and very rugged cells to 10
-sea.cost <- 10
-land.cost <- 1
-rugged.cost <- 3
-very.rugged.cost <- 10
-hexGraph@meta$costs <- data.frame(
+cost.rules <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged"),
-  cost = c(sea.cost, land.cost, rugged.cost, very.rugged.cost)
+  cost = c(10, 1, 3, 10)
 )
-hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat")
+
+hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat", cost.rules = cost.rules)
 
 path <- dijkstraBetween(cities)
 plot(hexGraph, reset = TRUE)
-plot(path, col = "red", lwd = 2)
+plot(path, col = "black", lwd = 2)
 ```
 
 ![](a1_making_grids_files/figure-html/least%20cost%20path%20with%20ruggedness-1.png)
@@ -345,14 +347,13 @@ for (i.node in seq_len(nrow(node.attr))) {
 # set the new node attributes
 hexGraph <- setNodesAttr(hexGraph, attr.name = "habitat", values = node.attr$habitat)
 
-
 colors <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged", "coast"),
-  color = c("blue", "green", "orange", "brown", "lightblue")
+  color   = c("#b0d4e8", "#90c090", "#d4a857", "#8b6340", "#c8e6f5")
 )
 
 # change the costs and colors associated with the land meta info
-hexGraph@meta$colors <- colors
+hexGraph <- setColors(hexGraph, colors)
 plot(hexGraph, reset = TRUE)
 ```
 
@@ -364,20 +365,16 @@ tend to prefer crossing coastal cells over crossing rugged areas.
 
 ``` r
 
-sea.cost <- 10
-land.cost <- 1
-rugged.cost <- 3
-very.rugged.cost <- 10
-coastal.cost <- 1
-hexGraph@meta$costs <- data.frame(
+cost.rules <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged", "coast"),
-  cost = c(sea.cost, land.cost, rugged.cost, very.rugged.cost, coastal.cost)
+  cost = c(10, 1, 3, 10, 1)
 )
-hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat")
+
+hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat", cost.rules = cost.rules)
 
 path <- dijkstraBetween(cities)
 plot(hexGraph, reset = TRUE)
-plot(path, col = "red", lwd = 2)
+plot(path, col = "black", lwd = 2)
 ```
 
 ![](a1_making_grids_files/figure-html/least%20cost%20path%20with%20coastal%20cells-1.png)
@@ -421,18 +418,20 @@ hab.new    <- ifelse(
 hexGraph <- setNodesAttr(hexGraph, attr.name = "habitat", values = hab.new)
 
 # update colors and costs to include desert
-hexGraph@meta$colors <- data.frame(
+colors <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged", "coast", "desert"),
-  color   = c("blue", "green", "orange", "brown", "lightblue", "khaki")
+  color   = c("#b0d4e8", "#90c090", "#d4a857", "#8b6340", "#c8e6f5", "#e8d5a3")
 )
 
-costs <- data.frame(
+# change the costs and colors associated with the land meta info
+hexGraph <- setColors(hexGraph, colors)
+
+cost.rules <- data.frame(
   habitat = c("sea", "land", "rugged", "very_rugged", "coast", "desert"),
   cost    = c(10, 1, 3, 10, 1, 5)
 )
 
-hexGraph@meta$costs <- costs
-hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat")
+hexGraph <- setCosts(hexGraph, method = "mean", attr.name = "habitat", cost.rules = cost.rules)
 plot(hexGraph, reset = TRUE)
 ```
 
@@ -451,7 +450,7 @@ more difficult habitat type of the two nodes. This can be done by
 defining a custom function `max.cost` and then using it in the
 `setCosts` function with the method set to “function”. The resulting
 graph will have costs for each edge that reflect the maximum cost of the
-two nodes it connects.
+two nodes it connects. To visualize this better we zoom in on the Alps.
 
 ``` r
 
@@ -466,8 +465,7 @@ maxCostGraph <- setCosts(
   FUN = max.cost
 )
 
-plot(maxCostGraph, reset = TRUE)
-plotEdges(maxCostGraph)
+plot(maxCostGraph, edges = TRUE)
 ```
 
 ![](a1_making_grids_files/figure-html/setting%20costs-1.png)
@@ -507,8 +505,7 @@ temperatureGraph <-
     cost.coeff = 1
   )
 
-plot(temperatureGraph, reset = TRUE)
-plotEdges(temperatureGraph)
+plot(temperatureGraph, edges = TRUE)
 ```
 
 ![](a1_making_grids_files/figure-html/unnamed-chunk-2-1.png)
@@ -526,8 +523,7 @@ movement.
 
 combineCostsGraph <- combineCosts(temperatureGraph, maxCostGraph, method = "prod")
 
-plot(combineCostsGraph, reset = TRUE)
-plotEdges(combineCostsGraph)
+plot(combineCostsGraph, edges = TRUE)
 ```
 
 ![](a1_making_grids_files/figure-html/unnamed-chunk-3-1.png)

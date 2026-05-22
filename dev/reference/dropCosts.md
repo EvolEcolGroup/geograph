@@ -44,6 +44,13 @@ to set edge costs.
 [`hasCosts`](https://evolecolgroup.github.io/geograph/dev/reference/hasCosts.md)
 to check if a graph has costs defined.
 
+Other cost_functions:
+[`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md),
+[`getCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/getCosts.md),
+[`hasCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/hasCosts.md),
+[`setCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md),
+[`setDistCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.md)
+
 ## Examples
 
 ``` r

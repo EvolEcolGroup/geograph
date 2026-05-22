@@ -47,8 +47,8 @@ to set edge costs.
 
 ``` r
 ### for gGraphs
-node.attr <- getNodesAttr(rawgraph.40k, attr.name = "habitat")
-neigh.list <- rawgraph.40k@graph@edgeL
+node.attr <- getNodesAttr(rawgraph.10k, attr.name = "habitat")
+neigh.list <- rawgraph.10k@graph@edgeL
 
 # reclassify sea nodes as "coast" if they have any land neighbors
 levels(node.attr$habitat) <- c(levels(node.attr$habitat), "coast")
@@ -63,14 +63,14 @@ for (i.node in seq_len(nrow(node.attr))) {
 }
 
 # create coast graph
-coastGraph <- setNodesAttr(rawgraph.40k, attr.name = "habitat", values = node.attr$habitat)
+coastGraph <- setNodesAttr(rawgraph.10k, attr.name = "habitat", values = node.attr$habitat)
 
 colors <- data.frame(
   habitat = c("sea", "land", "coast"),
   color = c("blue", "green", "lightblue")
 )
 
-coastGraph@meta$colors <- colors
+coastGraph <- setColors(coastGraph, col.rules = colors)
 
 plot(coastGraph, reset = TRUE)
 

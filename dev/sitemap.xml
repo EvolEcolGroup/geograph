@@ -5,7 +5,6 @@
 <url><loc>https://evolecolgroup.github.io/geograph/dev/articles/a2_edit_graphs.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/articles/geoGraph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/articles/index.html</loc></url>
-<url><loc>https://evolecolgroup.github.io/geograph/dev/articles/old_vignette_geograph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/authors.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/index.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/news/index.html</loc></url>
@@ -53,9 +52,11 @@
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/plot.gPath.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/polygonBetween.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setColors.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setCosts.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setEdges.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setGraph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setNodesAttr.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/worldgraph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/zoom.html</loc></url>

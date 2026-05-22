@@ -54,6 +54,10 @@ Functions for accessing slots of a `gGraph` or `gData` object.
   : Get nodes of a gGraph or gData object
 - [`getNodesAttr()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodesAttr.md)
   : Get nodes attributes from gGraph/gData object
+- [`setColors()`](https://evolecolgroup.github.io/geograph/dev/reference/setColors.md)
+  : Set color rules for a gGraph object
+- [`setGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/setGraph.md)
+  : Set the linked gGraph for a gData object
 
 ## Connectivity functions
 
@@ -85,14 +89,17 @@ Functions adjusting the costs of a `gGraph` object.
 
 - [`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md)
   : Combine the costs of two gGraph objects
+- [`dropCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/dropCosts.md)
+  : Remove all costs from a gGraph object
+- [`getCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/getCosts.md)
+  [`getNodeCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/getCosts.md)
+  : Get costs associated to edges of a gGraph object
 - [`hasCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/hasCosts.md)
   : Check if a gGraph has costs
 - [`setCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md)
   : Set friction in a gGraph object
 - [`setDistCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.md)
   : Set costs associated to edges based on geographic distances
-- [`dropCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/dropCosts.md)
-  : Remove all costs from a gGraph object
 
 ## Shortest paths
 

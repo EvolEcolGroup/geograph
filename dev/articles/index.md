@@ -7,4 +7,3 @@
 - [Edit graphs in
   geoGraph](https://evolecolgroup.github.io/geograph/dev/articles/a2_edit_graphs.md):
 - [geoGraph](https://evolecolgroup.github.io/geograph/dev/articles/geoGraph.md):
-- [geoGraph_old](https://evolecolgroup.github.io/geograph/dev/articles/old_vignette_geograph.md):

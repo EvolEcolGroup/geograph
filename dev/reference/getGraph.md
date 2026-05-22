@@ -58,7 +58,9 @@ Other accessor_methods:
 [`getData()`](https://evolecolgroup.github.io/geograph/dev/reference/getData.md),
 [`getEdges()`](https://evolecolgroup.github.io/geograph/dev/reference/getEdges.md),
 [`getNodes()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodes.md),
-[`getNodesAttr()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodesAttr.md)
+[`getNodesAttr()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodesAttr.md),
+[`setColors()`](https://evolecolgroup.github.io/geograph/dev/reference/setColors.md),
+[`setGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/setGraph.md)
 
 ## Examples
 

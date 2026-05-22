@@ -23,12 +23,12 @@ based on habitat.
 
 *geoGraph* harnesses the full power of graph algorithms implemented in R
 by the *graph* and *RBGL* (R Boost Graph Library) packages. In
-particular, RBGL is an interface between R and the comprehensive *Boost
-Graph Library* in C++, which provides fast and efficient implementations
-of a wide range of graph algorithms. Once we have defined frictions for
-an entire geographic area, we can easily, for instance, find the least
-costs path from one location to another, or find the most parsimonious
-way of connecting a set of locations.
+particular, *RBGL* is an interface between R and the comprehensive
+*Boost Graph Library* in C++, which provides fast and efficient
+implementations of a wide range of graph algorithms. Once we have
+defined frictions for an entire geographic area, we can easily, for
+instance, find the least costs path from one location to another, or
+find the most parsimonious way of connecting a set of locations.
 
 Interfacing spatial data and graphs can be a complicated task. The
 purpose of *geoGraph* is to provide tools to achieve and simplify this
@@ -46,19 +46,12 @@ algorithms.
 All the following instructions should be entered from a new R session to
 avoid errors due to installing attached packages.
 
-*devtools* is also needed to install *geoGraph*:
+You can install `geoGraph` from [GitHub](https://github.com/) with:
 
 ``` r
 
-install.packages("devtools")
-```
-
-Then, to install *geoGraph*, simply type:
-
-``` r
-
-library(devtools)
-install_github("EvolEcolGroup/geograph")
+install.packages("pak")
+pak::pak("EvolEcolGroup/geograph")
 ```
 
 Once installed, the package can be loaded using:
@@ -487,7 +480,7 @@ plot(cities, reset = TRUE)
 plot(cities.paths)
 ```
 
-![](geoGraph_files/figure-html/unnamed-chunk-13-1.png)
+![](geoGraph_files/figure-html/unnamed-chunk-12-1.png)
 
 In this graph, each path is plotted with a different color, but several
 paths overlap in several places. We can clearly see that all paths go
@@ -511,7 +504,7 @@ geo.zoomin(c(-10, 2, 32, 40))
 plotEdges(worldgraph.10k)
 ```
 
-![](geoGraph_files/figure-html/unnamed-chunk-14-1.png)
+![](geoGraph_files/figure-html/unnamed-chunk-13-1.png)
 
 ``` r
 
@@ -549,21 +542,21 @@ newGraph <- geo.add.edges(newGraph)
 
 img
 
-We can then assign the new graph to the `gGraph.name` slot of `cities`
-(@TODO should we do it that way??), so that the new graph will be used
-for path computations. Now when we compute least-cost paths between
-cities, we can see that the path between Bordeaux and Timbuktu goes
-through the Strait of Gibraltar instead of the Caucasus mountains:
+We can then assign the new graph using the `setGraph` function, so that
+the new graph will be used for path computations. Now when we compute
+least-cost paths between cities, we can see that the path between
+Bordeaux and Timbuktu goes through the Strait of Gibraltar instead of
+the Caucasus mountains:
 
 ``` r
 
-cities@gGraph.name <- "newGraph"
+cities <- setGraph(cities, "newGraph")
 cities.paths <- dijkstraBetween(cities)
 plot(cities, reset = TRUE)
 plot(cities.paths)
 ```
 
-![](geoGraph_files/figure-html/unnamed-chunk-17-1.png)
+![](geoGraph_files/figure-html/unnamed-chunk-16-1.png)
 
 #### Example application using the Human Genome Diversity Panel
 
@@ -607,7 +600,7 @@ hgdp
 plot(hgdp, reset = TRUE)
 ```
 
-![](geoGraph_files/figure-html/unnamed-chunk-18-1.png)
+![](geoGraph_files/figure-html/unnamed-chunk-17-1.png)
 
 Populations of the dataset are shown by red circles, while the
 underlying grid (`worldgraph.40k`) is represented with colors depending
@@ -641,7 +634,7 @@ paths between Addis Ababa and the populations of `hgdp`:
 ``` r
 
 myGraph <- dropCosts(worldgraph.40k)
-hgdp@gGraph.name <- "myGraph"
+hgdp <- setGraph(hgdp, "myGraph")
 addis <- cbind(38, 9)
 ori <- closestNode(myGraph, addis)
 paths <- dijkstraFrom(hgdp, ori)
@@ -658,10 +651,10 @@ plot(myGraph, col = NA, reset = TRUE)
 plot(paths)
 points(addis[1], addis[2], pch = "x", cex = 2)
 text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
-points(hgdp, col.node = "black")
+points(hgdp, col.nodes = "black")
 ```
 
-![](geoGraph_files/figure-html/unnamed-chunk-21-1.png)
+![](geoGraph_files/figure-html/unnamed-chunk-20-1.png)
 
 In this graph, each path is plotted with a different color, but several
 paths overlap in several places. We can extract the distances from the
@@ -703,32 +696,22 @@ summary(lm.unif)
 title("Genetic diversity vs geographic distance \n uniform costs ")
 ```
 
-![](geoGraph_files/figure-html/unnamed-chunk-22-1.png)
+![](geoGraph_files/figure-html/unnamed-chunk-21-1.png)
 
 Alternatively, we can use costs based on habitat. As a toy example, we
 will consider that coasts are four times more favorable for dispersal
-than the rest of the landmasses. We define these new costs, and then
-compute and plot the corresponding shortest paths:
+than the rest of the landmasses. For this we simply use the `getCosts`
+function to access the cost-rule data frame and change the cost
+associated with coastal cells. After defining the new cost rules, we set
+costs using this data frame with `setCosts`, and then compute and plot
+the corresponding shortest paths:
 
 ``` r
 
-myGraph@meta$costs["coast", ] <- c("coast", 0.25)
-myGraph@meta$costs
-```
+cost.rules <- getCosts(myGraph, res.type = "rules")
+cost.rules$cost[cost.rules$habitat == "coast"] <- 0.25
 
-    ##                habitat cost
-    ## 1                  sea  100
-    ## 2                 land    1
-    ## 3             mountain   10
-    ## 4           landbridge    5
-    ## 5     oceanic crossing   20
-    ## 6      deselected land  100
-    ## 7                coast 0.33
-    ## coast            coast 0.25
-
-``` r
-
-myGraph <- setCosts(myGraph, attr.name = "habitat")
+myGraph <- setCosts(myGraph, attr.name = "habitat", cost.rules = cost.rules)
 paths.2 <- dijkstraFrom(hgdp, ori)
 ```
 
@@ -738,10 +721,10 @@ plot(myGraph, col = NA, reset = TRUE)
 plot(paths.2)
 points(addis[1], addis[2], pch = "x", cex = 2)
 text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
-points(hgdp, col.node = "black")
+points(hgdp, col.nodes = "black")
 ```
 
-![](geoGraph_files/figure-html/unnamed-chunk-24-1.png)
+![](geoGraph_files/figure-html/unnamed-chunk-23-1.png)
 
 The new paths are slightly different from the previous ones. We can
 examine the new relationship with genetic distance:
@@ -761,25 +744,25 @@ summary(lm.hab)
     ## 
     ## Residuals:
     ##      Min       1Q   Median       3Q      Max 
-    ## -0.10576 -0.00864  0.00043  0.01471  0.05683 
+    ## -0.11183 -0.00976  0.00133  0.01216  0.06413 
     ## 
     ## Coefficients:
     ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  0.770540   0.006686   115.2  < 2e-16 ***
-    ## dgeo.hab    -0.001248   0.000117   -10.6  1.9e-14 ***
+    ## (Intercept)  0.770137   0.007174  107.36  < 2e-16 ***
+    ## dgeo.hab    -0.001421   0.000145   -9.79  3.2e-13 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 0.0251 on 50 degrees of freedom
-    ## Multiple R-squared:  0.693,  Adjusted R-squared:  0.687 
-    ## F-statistic:  113 on 1 and 50 DF,  p-value: 1.94e-14
+    ## Residual standard error: 0.0265 on 50 degrees of freedom
+    ## Multiple R-squared:  0.657,  Adjusted R-squared:  0.651 
+    ## F-statistic: 95.9 on 1 and 50 DF,  p-value: 3.21e-13
 
 ``` r
 
 title("Genetic diversity vs geographic distance \n habitat costs ")
 ```
 
-![](geoGraph_files/figure-html/unnamed-chunk-25-1.png)
+![](geoGraph_files/figure-html/unnamed-chunk-24-1.png)
 
 Now of course depending on the application, we may want to use different
 grid resolutions, and/or more complex habitat information to define

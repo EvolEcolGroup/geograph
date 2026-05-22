@@ -39,6 +39,8 @@ this function does not test for the validity of the provided arguments
 
 Other cost_functions:
 [`combineCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.md),
+[`dropCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/dropCosts.md),
+[`getCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/getCosts.md),
 [`setCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setCosts.md),
 [`setDistCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.md)
 

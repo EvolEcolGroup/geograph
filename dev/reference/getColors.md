@@ -1,8 +1,9 @@
 # Get colors associated to nodes of a gGraph object
 
-The function `getColors` returns the colors associated to the nodes of a
-[gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-object, based on a specified node attribute.
+The function `getColors` returns either the color rules stored in a
+[`gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
+object (`res.type = "rules"`) or a vector of colors for each node based
+on a specified node attribute (`res.type = "colors"`).
 
 ## Usage
 
@@ -10,7 +11,14 @@ object, based on a specified node attribute.
 getColors(x, ...)
 
 # S4 method for class 'gGraph'
-getColors(x, nodes = "all", attr.name, col.rules = NULL, ...)
+getColors(
+  x,
+  nodes = "all",
+  attr.name = NULL,
+  col.rules = NULL,
+  res.type = c("colors", "rules"),
+  ...
+)
 ```
 
 ## Arguments
@@ -18,50 +26,58 @@ getColors(x, nodes = "all", attr.name, col.rules = NULL, ...)
 - x:
 
   a valid
-  [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md).
+  [`gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
+  object.
 
 - ...:
 
-  other arguments passed to other methods.
+  other arguments passed to other methods (currently unused).
 
 - nodes:
 
-  a vector of character strings or of integers identifying nodes by
-  their name or their index. Can be "all", in which case all nodes are
-  considered.
+  a vector of node names or indices, or `"all"` for all nodes (default).
+  Only used when `res.type = "colors"`.
 
 - attr.name:
 
-  a character string indicating the name of node attribute to be used to
-  define colors.
+  a character string giving the name of the node attribute to use for
+  color assignment. Required when `res.type = "colors"`.
 
 - col.rules:
 
-  a matrix giving the rules for plotting attribute values with different
-  colors. See details.
+  a two-column `data.frame` mapping attribute values to colors. If
+  `NULL`, uses `x@meta$colors`. Only used when `res.type = "colors"`.
+
+- res.type:
+
+  a character string indicating the output type:
+
+  - `"colors"`: a named character vector of colors, one per node.
+
+  - `"rules"`: the color rules `data.frame` stored in `x@meta$colors`.
 
 ## Value
 
-A vector of characters being valid colors.  
+A named character vector of colors when `res.type = "colors"`, or a
+`data.frame` of color rules when `res.type = "rules"`.
 
 ## Details
 
-Colors are based on a node attribute, that is, on a column of the
-`nodes.attr` data.frame. This attribute should have a finite number of
-values, and would most likely be a factor. Correspondence between values
-of this variable and colors must be provided in the `@meta\$color` slot,
-or as `col.rules` argument. Color rules mus be provided as a two-column
-matrix; the first column contains values of a node attribute, and is
-named after this attribute; the second must be named "color", and
-contain valid colors.
-
-See example section to know how this slot should be designed.
+Color rules are stored as a two-column `data.frame` in `x@meta$colors`.
+The first column is named after the node attribute and contains its
+possible values; the second column is named `"color"` and contains valid
+R color strings.
 
 ## Functions
 
 - `getColors(gGraph)`: Method for gGraph objects
 
 ## See also
+
+[`setColors`](https://evolecolgroup.github.io/geograph/dev/reference/setColors.md)
+to set color rules.
+[`getNodesAttr`](https://evolecolgroup.github.io/geograph/dev/reference/getNodesAttr.md)
+to retrieve node attributes.
 
 Other accessor_methods:
 [`getCoords()`](https://evolecolgroup.github.io/geograph/dev/reference/getCoords.md),
@@ -70,38 +86,15 @@ Other accessor_methods:
 [`getEdges()`](https://evolecolgroup.github.io/geograph/dev/reference/getEdges.md),
 [`getGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/getGraph.md),
 [`getNodes()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodes.md),
-[`getNodesAttr()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodesAttr.md)
+[`getNodesAttr()`](https://evolecolgroup.github.io/geograph/dev/reference/getNodesAttr.md),
+[`setColors()`](https://evolecolgroup.github.io/geograph/dev/reference/setColors.md),
+[`setGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/setGraph.md)
 
 ## Examples
 
 ``` r
-
-worldgraph.10k # there is a node attribute 'habitat'
-#> 
-#> === gGraph object ===
-#> 
-#> @coords: spatial coordinates of 10242 nodes
-#>         lon       lat
-#> 1 -180.0000  90.00000
-#> 2  144.0000 -90.00000
-#> 3  -33.7806  27.18924
-#> ...
-#> 
-#> @nodes.attr: 1 nodes attributes
-#>   habitat
-#> 1     sea
-#> 2     sea
-#> 3     sea
-#> ...
-#> 
-#> @meta: list of meta information with 2 items
-#> [1] "$colors" "$costs" 
-#> 
-#> @graph:
-#> A graphNEL graph with undirected edges
-#> Number of Nodes = 10242 
-#> Number of Edges = 6954 
-worldgraph.10k@meta$color
+## get color rules
+getColors(worldgraph.10k, res.type = "rules")
 #>            habitat       color
 #> 1              sea        blue
 #> 2             land       green
@@ -110,9 +103,8 @@ worldgraph.10k@meta$color
 #> 5 oceanic crossing  light blue
 #> 6  deselected land   lightgray
 
-head(getNodes(worldgraph.10k))
-#> [1] "1" "2" "3" "4" "5" "6"
-head(getColors(worldgraph.10k, res.type = "vector", attr.name = "habitat"))
+## get node colors based on habitat attribute
+head(getColors(worldgraph.10k, attr.name = "habitat"))
 #>      1      2      3      4      5      6 
 #> "blue" "blue" "blue" "blue" "blue" "blue" 
 ```

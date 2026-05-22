@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9010</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9011</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,6 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/a1_making_grids.html">Making custom grids in geoGraph</a></li>
     <li><a class="dropdown-item" href="../articles/a2_edit_graphs.html">Edit graphs in geoGraph</a></li>
-    <li><a class="dropdown-item" href="../articles/old_vignette_geograph.html">geoGraph_old</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -61,10 +60,8 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Making custom grids in geoGraph</h1>
-                        <h4 data-toc-skip class="author">Dominik
-Jud</h4>
             
-            <h4 data-toc-skip class="date">2026-02-20</h4>
+            <h4 data-toc-skip class="date">2026-05-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/a1_making_grids.Rmd" class="external-link"><code>vignettes/a1_making_grids.Rmd</code></a></small>
       <div class="d-none name"><code>a1_making_grids.Rmd</code></div>
@@ -99,11 +96,12 @@ the <code>plot</code> function.</p>
 <span>  lat.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">49</span>, <span class="fl">61</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">squareGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/findLand.html">findLand</a></span><span class="op">(</span><span class="va">squareGraph</span><span class="op">)</span></span>
-<span><span class="va">squareGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span><span class="op">)</span>,</span>
-<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span></span>
+<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#b0d4e8"</span>, <span class="st">"#90c090"</span><span class="op">)</span>  </span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="va">squareGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setColors.html">setColors</a></span><span class="op">(</span><span class="va">squareGraph</span>, <span class="va">colors</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">squareGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/unnamed-chunk-1-1.png" class="r-plt" alt="" width="672"></p>
 </div>
@@ -139,10 +137,13 @@ that covers the area of western Europe and parts of Northern Africa.</p>
 <pre><code><span><span class="co">## Resolution: 10, Area (km^2): 863.800609195903, Spacing (km): 29.0273762609499, CLS (km): 33.1636203580006</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/findLand.html">findLand</a></span><span class="op">(</span><span class="va">hexGraph</span><span class="op">)</span></span>
-<span><span class="va">hexGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span></span>
+<span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span><span class="op">)</span>,</span>
-<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span><span class="op">)</span></span>
+<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#b0d4e8"</span>, <span class="st">"#90c090"</span><span class="op">)</span>  </span>
 <span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setColors.html">setColors</a></span><span class="op">(</span><span class="va">hexGraph</span>, <span class="va">colors</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hexGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/creating%20graph%20object-1.png" class="r-plt" alt="" width="672"></p>
@@ -192,14 +193,12 @@ the path tends to avoid sea cells and prefers to move through land
 cells.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set the costs for sea cells to 10 and land cells to 1</span></span>
-<span><span class="va">sea.cost</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
-<span><span class="va">land.cost</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span><span class="va">hexGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span><span class="va">cost.rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span><span class="op">)</span>,</span>
-<span>  cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">sea.cost</span>, <span class="va">land.cost</span><span class="op">)</span></span>
+<span>  cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">hexGraph</span>, method <span class="op">=</span> <span class="st">"mean"</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span><span class="op">)</span></span>
+<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">hexGraph</span>, method <span class="op">=</span> <span class="st">"mean"</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, cost.rules <span class="op">=</span> <span class="va">cost.rules</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="va">point1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3.7038</span>, <span class="fl">40.4168</span><span class="op">)</span> <span class="co"># Madrid</span></span>
@@ -210,7 +209,7 @@ cells.</p>
 <span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">"gData"</span>, coords <span class="op">=</span> <span class="va">cities.dat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, gGraph.name <span class="op">=</span> <span class="st">"hexGraph"</span><span class="op">)</span></span>
 <span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraBetween.html">dijkstraBetween</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hexGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">path</span>, col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">path</span>, col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/least%20cost%20path-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 </div>
@@ -316,11 +315,14 @@ with the new habitat classifications.</p>
 <span><span class="va">very.rugged.threshold</span> <span class="op">&lt;-</span> <span class="fl">400</span></span>
 <span></span>
 <span><span class="co">## now we identify rugged and very rugged cells as those with sd.elevation &gt; threshold</span></span>
-<span><span class="va">habitat.new</span> <span class="op">&lt;-</span> <span class="fu">case_when</span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">sd.ele</span><span class="op">)</span> <span class="op">~</span> <span class="st">"sea"</span>,</span>
-<span>  <span class="va">sd.ele</span> <span class="op">&gt;</span> <span class="va">very.rugged.threshold</span> <span class="op">~</span> <span class="st">"very_rugged"</span>,</span>
-<span>  <span class="va">sd.ele</span> <span class="op">&gt;</span> <span class="va">rugged.threshold</span> <span class="op">~</span> <span class="st">"rugged"</span>,</span>
-<span>  <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"land"</span></span>
+<span><span class="va">node.attr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">hexGraph</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">habitat.new</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>  <span class="va">node.attr</span><span class="op">$</span><span class="va">habitat</span> <span class="op">==</span> <span class="st">"sea"</span>         <span class="op">~</span> <span class="st">"sea"</span>,        </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">sd.ele</span><span class="op">)</span>                      <span class="op">~</span> <span class="st">"land"</span>,       </span>
+<span>  <span class="va">sd.ele</span> <span class="op">&gt;</span> <span class="va">very.rugged.threshold</span>     <span class="op">~</span> <span class="st">"very_rugged"</span>,</span>
+<span>  <span class="va">sd.ele</span> <span class="op">&gt;</span> <span class="va">rugged.threshold</span>          <span class="op">~</span> <span class="st">"rugged"</span>,</span>
+<span>  <span class="cn">TRUE</span>                               <span class="op">~</span> <span class="st">"land"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># update the habitat attribute in the graph</span></span>
@@ -329,11 +331,11 @@ with the new habitat classifications.</p>
 <span></span>
 <span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span>, <span class="st">"rugged"</span>, <span class="st">"very_rugged"</span><span class="op">)</span>,</span>
-<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"orange"</span>, <span class="st">"brown"</span><span class="op">)</span></span>
+<span>  color   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#b0d4e8"</span>, <span class="st">"#90c090"</span>, <span class="st">"#d4a857"</span>, <span class="st">"#8b6340"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># change colors associated with the land meta info</span></span>
-<span><span class="va">hexGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="va">colors</span></span>
+<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setColors.html">setColors</a></span><span class="op">(</span><span class="va">hexGraph</span>, <span class="va">colors</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hexGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/reclassifying%20nodes-1.png" class="r-plt" alt="" width="672"></p>
@@ -343,19 +345,16 @@ land areas tend to avoid not only sea cells but also rugged and very
 rugged cells. This can be shown in the same toy example as above.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># set the costs for sea cells to 10, land cells to 1, rugged cells to 3 and very rugged cells to 10</span></span>
-<span><span class="va">sea.cost</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
-<span><span class="va">land.cost</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span><span class="va">rugged.cost</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
-<span><span class="va">very.rugged.cost</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
-<span><span class="va">hexGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span><span class="va">cost.rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span>, <span class="st">"rugged"</span>, <span class="st">"very_rugged"</span><span class="op">)</span>,</span>
-<span>  cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">sea.cost</span>, <span class="va">land.cost</span>, <span class="va">rugged.cost</span>, <span class="va">very.rugged.cost</span><span class="op">)</span></span>
+<span>  cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">hexGraph</span>, method <span class="op">=</span> <span class="st">"mean"</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">hexGraph</span>, method <span class="op">=</span> <span class="st">"mean"</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, cost.rules <span class="op">=</span> <span class="va">cost.rules</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraBetween.html">dijkstraBetween</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hexGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">path</span>, col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">path</span>, col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/least%20cost%20path%20with%20ruggedness-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level3">
@@ -387,34 +386,29 @@ neighbor as ‘coast’.</p>
 <span><span class="co"># set the new node attributes</span></span>
 <span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setNodesAttr.html">setNodesAttr</a></span><span class="op">(</span><span class="va">hexGraph</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, values <span class="op">=</span> <span class="va">node.attr</span><span class="op">$</span><span class="va">habitat</span><span class="op">)</span></span>
 <span></span>
-<span></span>
 <span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span>, <span class="st">"rugged"</span>, <span class="st">"very_rugged"</span>, <span class="st">"coast"</span><span class="op">)</span>,</span>
-<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"orange"</span>, <span class="st">"brown"</span>, <span class="st">"lightblue"</span><span class="op">)</span></span>
+<span>  color   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#b0d4e8"</span>, <span class="st">"#90c090"</span>, <span class="st">"#d4a857"</span>, <span class="st">"#8b6340"</span>, <span class="st">"#c8e6f5"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># change the costs and colors associated with the land meta info</span></span>
-<span><span class="va">hexGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="va">colors</span></span>
+<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setColors.html">setColors</a></span><span class="op">(</span><span class="va">hexGraph</span>, <span class="va">colors</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hexGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/adding%20coastal%20cells-1.png" class="r-plt" alt="" width="672"></p>
 <p>Now if we set the cost for coastal cells to be the same as for land
 cells, we can see that the least cost paths between different land areas
 tend to prefer crossing coastal cells over crossing rugged areas.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">sea.cost</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
-<span><span class="va">land.cost</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span><span class="va">rugged.cost</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
-<span><span class="va">very.rugged.cost</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
-<span><span class="va">coastal.cost</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
-<span><span class="va">hexGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">cost.rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span>, <span class="st">"rugged"</span>, <span class="st">"very_rugged"</span>, <span class="st">"coast"</span><span class="op">)</span>,</span>
-<span>  cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">sea.cost</span>, <span class="va">land.cost</span>, <span class="va">rugged.cost</span>, <span class="va">very.rugged.cost</span>, <span class="va">coastal.cost</span><span class="op">)</span></span>
+<span>  cost <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">10</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">hexGraph</span>, method <span class="op">=</span> <span class="st">"mean"</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">hexGraph</span>, method <span class="op">=</span> <span class="st">"mean"</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, cost.rules <span class="op">=</span> <span class="va">cost.rules</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraBetween.html">dijkstraBetween</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hexGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">path</span>, col <span class="op">=</span> <span class="st">"red"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">path</span>, col <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/least%20cost%20path%20with%20coastal%20cells-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 </div>
@@ -457,18 +451,20 @@ classification.</p>
 <span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setNodesAttr.html">setNodesAttr</a></span><span class="op">(</span><span class="va">hexGraph</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, values <span class="op">=</span> <span class="va">hab.new</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># update colors and costs to include desert</span></span>
-<span><span class="va">hexGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span>, <span class="st">"rugged"</span>, <span class="st">"very_rugged"</span>, <span class="st">"coast"</span>, <span class="st">"desert"</span><span class="op">)</span>,</span>
-<span>  color   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"orange"</span>, <span class="st">"brown"</span>, <span class="st">"lightblue"</span>, <span class="st">"khaki"</span><span class="op">)</span></span>
+<span>  color   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#b0d4e8"</span>, <span class="st">"#90c090"</span>, <span class="st">"#d4a857"</span>, <span class="st">"#8b6340"</span>, <span class="st">"#c8e6f5"</span>, <span class="st">"#e8d5a3"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">costs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span><span class="co"># change the costs and colors associated with the land meta info</span></span>
+<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setColors.html">setColors</a></span><span class="op">(</span><span class="va">hexGraph</span>, <span class="va">colors</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cost.rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span>, <span class="st">"rugged"</span>, <span class="st">"very_rugged"</span>, <span class="st">"coast"</span>, <span class="st">"desert"</span><span class="op">)</span>,</span>
 <span>  cost    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">10</span>, <span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">hexGraph</span><span class="op">@</span><span class="va">meta</span><span class="op">$</span><span class="va">costs</span> <span class="op">&lt;-</span> <span class="va">costs</span></span>
-<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">hexGraph</span>, method <span class="op">=</span> <span class="st">"mean"</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span><span class="op">)</span></span>
+<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">hexGraph</span>, method <span class="op">=</span> <span class="st">"mean"</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, cost.rules <span class="op">=</span> <span class="va">cost.rules</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hexGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/load%20desert%20shapefile-1.png" class="r-plt" alt="" width="672"></p>
 </div>
@@ -486,7 +482,8 @@ determined by the more difficult habitat type of the two nodes. This can
 be done by defining a custom function <code>max.cost</code> and then
 using it in the <code>setCosts</code> function with the method set to
 “function”. The resulting graph will have costs for each edge that
-reflect the maximum cost of the two nodes it connects.</p>
+reflect the maximum cost of the two nodes it connects. To visualize this
+better we zoom in on the Alps.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">max.cost</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmax</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span><span class="op">)</span></span>
@@ -499,8 +496,7 @@ reflect the maximum cost of the two nodes it connects.</p>
 <span>  FUN <span class="op">=</span> <span class="va">max.cost</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">maxCostGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">maxCostGraph</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">maxCostGraph</span>, edges <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/setting%20costs-1.png" class="r-plt" alt="" width="672"></p>
 <div class="section level3">
 <h3 id="combining-costs">Combining costs<a class="anchor" aria-label="anchor" href="#combining-costs"></a>
@@ -536,8 +532,7 @@ to the graph based on the temperature values assigned to each node.</p>
 <span>    cost.coeff <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temperatureGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">temperatureGraph</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">temperatureGraph</span>, edges <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="672"></p>
 <p>Now we want a combined cost that both captures the temperature as
 well as the terrain. For this we can use the <code>combineCosts</code>
@@ -550,8 +545,7 @@ both the temperature and terrain constraints on movement.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">combineCostsGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combineCosts.html">combineCosts</a></span><span class="op">(</span><span class="va">temperatureGraph</span>, <span class="va">maxCostGraph</span>, method <span class="op">=</span> <span class="st">"prod"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">combineCostsGraph</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">combineCostsGraph</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">combineCostsGraph</span>, edges <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a1_making_grids_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 </div>
