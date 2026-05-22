@@ -23,28 +23,52 @@
 #' @return A \linkS4class{gGraph} object.
 
 #' @keywords utilities methods
-#' @export
 #' @examples
-#'
-#' ## zoom in to a smaller area
-#' plot(worldgraph.10k)
-#' geo.zoomin(c(-10, 0, 50, 54))
-#'
-#'
-#' ## make a new gGraph
+#' # by defining the range covered by the grid
+#' squareGraph <- makeGrid(
+#'   size      = 10000,
+#'   lon.range = c(-12, 2),
+#'   lat.range = c(49, 61)
+#' )
+#' squareGraph <- findLand(squareGraph)
+#' squareGraph <- setColors(
+#'   squareGraph,
+#'   col.rules = data.frame(
+#'     habitat = c("sea", "land"),
+#'     color = c("blue", "green")
+#'   )
+#' )
+#' plot(squareGraph, reset = TRUE)
+#' 
+#' # If no area is specified, currently plotted area is used
+#' geo.zoomin(c(8, 13, 54, 58))
 #' newGraph <- makeGrid(1e3)
 #' newGraph <- findLand(newGraph)
-#' newGraph@meta$colors <- data.frame(
-#'   habitat = c("sea", "land"),
-#'   color = c("blue", "green")
+#' newGraph <- setColors(
+#'   newGraph,
+#'   col.rules = data.frame(
+#'     habitat = c("sea", "land"),
+#'     color = c("blue", "green")
+#'   )
 #' )
-#'
 #'
 #' ## plot the new gGraph
 #' plot(newGraph, reset = TRUE, edge = TRUE)
-#'
+#' 
+#' @export
+#' 
 makeGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL, lon.range = NULL, lat.range = NULL) {
   ## HANDLE ARGUMENTS ##
+  
+  if (!is.null(n.lon) && (!is.numeric(n.lon) || length(n.lon) != 1 || is.na(n.lon) || 
+                          !is.finite(n.lon) || n.lon < 1 || n.lon %% 1 != 0)) {
+    stop("n.lon must be a positive integer")
+  }
+  if (!is.null(n.lat) && (!is.numeric(n.lat) || length(n.lat) != 1 || is.na(n.lat) || 
+                          !is.finite(n.lat) || n.lat < 1 || n.lat %% 1 != 0)) {
+    stop("n.lat must be a positive integer")
+  }
+  
   if (is.null(n.lon)) {
     if (is.null(size)) stop("Please provide either size or n.lon/n.lat")
     n.lon <- round(sqrt(size))
@@ -68,7 +92,6 @@ makeGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL, lon.range = NULL, 
 
   ## GET LON/LAT FROM ZOOM LOG ##
   ## get zoom log info
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
   zoomLog <- get("zoom.log", envir = .geoGraphEnv)
   if (nrow(zoomLog) < 1) {
     curZoom <- c(-180, 180, -90, 90)
@@ -120,17 +143,17 @@ makeGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL, lon.range = NULL, 
 
 
   ## lateral connections
-  from <- 1:(size - n.lat)
-  to <- n.lat + (1:(size - n.lat))
+  from <- seq_len(size - n.lat)
+  to <- n.lat + (seq_len(size - n.lat))
 
   ## vertical connections
-  temp <- setdiff(1:(size - 1), seq(n.lat, size, length = n.lon))
+  temp <- setdiff(seq_len(size - 1), seq(n.lat, size, length = n.lon))
   from <- c(from, temp)
   to <- c(to, temp + 1)
   ft <- cbind(from, to)
 
   ## CREATE graphNEL ##
-  myGraph <- ftM2graphNEL(ft, V = as.character(1:size), edgemode = "undirected")
+  myGraph <- ftM2graphNEL(ft, V = as.character(seq_len(size)), edgemode = "undirected")
 
 
   ## CREATE gGraph ##

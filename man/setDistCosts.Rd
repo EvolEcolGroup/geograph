@@ -56,6 +56,8 @@ of a \linkS4class{gGraph} object in different ways.\cr
 
 Other cost_functions:
 \code{\link[=combineCosts]{combineCosts()}},
+\code{\link[=dropCosts]{dropCosts()}},
+\code{\link[=getCosts]{getCosts()}},
 \code{\link[=hasCosts]{hasCosts()}},
 \code{\link[=setCosts]{setCosts()}}
 }

@@ -33,6 +33,8 @@ hasCosts(worldgraph.10k) # FALSE as not all edges have costs
 \seealso{
 Other cost_functions:
 \code{\link[=combineCosts]{combineCosts()}},
+\code{\link[=dropCosts]{dropCosts()}},
+\code{\link[=getCosts]{getCosts()}},
 \code{\link[=setCosts]{setCosts()}},
 \code{\link[=setDistCosts]{setDistCosts()}}
 }

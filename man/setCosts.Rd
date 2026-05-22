@@ -8,75 +8,65 @@ setCosts(
   x,
   attr.name = NULL,
   node.values = NULL,
+  cost.rules = NULL,
   method = c("mean", "product", "function"),
   FUN = NULL,
   ...
 )
 }
 \arguments{
-\item{x}{a \linkS4class{gGraph} object with a least one node attribute, and
-a \code{@meta$costs} component (for an example, see worldgraph.10k dataset).}
+\item{x}{a \code{\link{gGraph}} object with at least one node attribute and a
+\verb{@meta$costs} component (see \code{worldgraph.10k} for an example).}
 
-\item{attr.name}{the name of the node attribute used to compute costs (i.e.,
-of one column of \code{@nodes.attr}).}
+\item{attr.name}{the name of the node attribute used to compute costs.}
 
-\item{node.values}{a numeric vector giving costs associated to the nodes. If
-provided, it will be used instead of \code{attr.name}.}
+\item{node.values}{a numeric vector of costs for the nodes. If provided,
+overrides \code{attr.name}.}
 
-\item{method}{a character string indicating which method should be used to
-compute edge cost from nodes costs. Currently available options are 'mean',
-'prod' and 'function', where the cost associated to an edge is respectively computed as
-the mean, the product or a custom function (defined in \code{FUN}) of the costs of its nodes.}
+\item{cost.rules}{a two-column \code{data.frame} to update \code{x@meta$costs}
+before computing edge costs. If \code{NULL}, existing \code{x@meta$costs} is used.}
 
-\item{FUN}{a function used to compute the cost between two nodes (needed if \code{method="function"}).}
+\item{method}{how edge costs are computed from node costs: \code{"mean"},
+\code{"product"}, or \code{"function"} (requires \code{FUN}).}
 
-\item{\dots}{additional parameters to be passed to \code{FUN}.}
+\item{FUN}{a function to compute edge cost from two node costs. Required
+when \code{method = "function"}.}
+
+\item{...}{additional arguments passed to \code{FUN}.}
 }
 \value{
-A \linkS4class{gGraph} object with the newly defined costs used as
-weightings of edges.
+A \code{\link{gGraph}} object with the newly defined edge costs.
 }
 \description{
-The function \code{setCosts} define costs for the edges of a
-\linkS4class{gGraph} object according to a node attribute and some rules
-defined in the \code{@meta\$costs} slot of the object. Each node has a value
-for the chosen attribute, which is associated to a costs (a friction). The
-cost of an edge is computed as a function (see argument \code{method}) of
-the costs of its nodes.\cr
+The function \code{setCosts} defines costs for the edges of a \code{\link{gGraph}} object
+according to a node attribute and cost rules defined in \verb{@meta$costs}. Each
+node has a value for the chosen attribute which is associated to a cost. The
+cost of an edge is computed as a function of the costs of its two nodes.
 }
 \details{
-Note that costs are inversely proportional to connectivity between edges:
-the larger the cost associated to an edge, the lower the connectivity
-between the two concerned nodes.\cr
-
-Also note that 'costs' defined in \code{geoGraph} are equivalent to
-'weights' as defined in \code{graph} and \code{RBGL} packages.
+Costs are inversely proportional to connectivity: the larger the cost of an
+edge, the lower the connectivity between its two nodes. Costs in \code{geoGraph}
+are equivalent to weights in the \code{graph} and \code{RBGL} packages.
 }
 \examples{
+## get and modify cost rules then set costs in one call
+cost.rules <- getCosts(worldgraph.10k, res.type = "rules")
+cost.rules
 
-plot(rawgraph.10k, reset = TRUE)
+## make sea travel cheaper
+cost.rules$cost[cost.rules$habitat == "sea"] <- 50
 
-## zooming in
-geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
-title("Europe")
-
-## defining a new object restrained to visible nodes
-x <- rawgraph.10k[isInArea(rawgraph.10k)]
-
-## define weights for edges
-x <- setCosts(x, attr.name = "habitat")
-plot(x, edges = TRUE)
-title("costs defined by habitat (land/land=1, other=100)")
+## update rules and set costs in one call
+x <- setCosts(worldgraph.10k, attr.name = "habitat", cost.rules = cost.rules)
 }
 \seealso{
-\code{\link{dropDeadEdges}}, to get rid of edge whose cost is below
-a given threshold. \code{\link{geo.add.edges}} to add edges to a
-\linkS4class{gGraph} object.
+\code{\link{dropDeadEdges}}, \code{\link{getCosts}}, \code{\link{hasCosts}}
 
 Other cost_functions:
 \code{\link[=combineCosts]{combineCosts()}},
+\code{\link[=dropCosts]{dropCosts()}},
+\code{\link[=getCosts]{getCosts()}},
 \code{\link[=hasCosts]{hasCosts()}},
 \code{\link[=setDistCosts]{setDistCosts()}}
 }
 \concept{cost_functions}
-\keyword{utilities}
