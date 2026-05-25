@@ -23,7 +23,7 @@ reference:
     desc: "Functions for modifying `gGraph` objects."
     contents:
       - assignByRaster
-      - extractFromLayer
+      - assignByPolygon
       - setEdges
       - setNodesAttr
 

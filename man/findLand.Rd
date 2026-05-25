@@ -72,7 +72,7 @@ plot(obj)
 
 }
 \seealso{
-\code{\link{extractFromLayer}}, to retrieve any information from a
+\code{\link{assignByPolygon}}, to retrieve any information from a
 GIS shapefile.
 }
 \keyword{methods}

@@ -22,7 +22,7 @@
 #'   large graphs. Once values are assigned, further node attributes can be
 #'   derived using [`setNodesAttr`].
 #' @seealso [`setNodesAttr`] to set node attributes manually.
-#'   [`extractFromLayer`] to assign attributes from GIS shapefiles.
+#'   [`assignByPolygon`] to assign attributes from GIS shapefiles.
 #' @examples
 #' if (requireNamespace("terra", quietly = TRUE)) {
 #'   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)

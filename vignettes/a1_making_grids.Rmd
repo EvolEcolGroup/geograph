@@ -255,7 +255,7 @@ plot(path, col = "black", lwd = 2)
 
 ## Assigning attributes from polygon layers
 
-In the previous sections, we extracted environmental information from raster layers and assigned it to the nodes using `assignByRaster.` Another way *geoGraph* can serve as an interface between geographic information system (GIS) layers and geographic data is the function `extractFromLayer`.
+In the previous sections, we extracted environmental information from raster layers and assigned it to the nodes using `assignByRaster.` Another way *geoGraph* can serve as an interface between geographic information system (GIS) layers and geographic data is the function `assignByPolygon`.
 *geoGraph* uses `sf` objects to
 represent geographic objects such as points and polygons. By default, *geoGraph*
 uses the package *rnaturalearth* to provide continent and country outlines, but
@@ -266,7 +266,7 @@ it is possible also to load custom GIS shapefiles with `sf::st_read()`. For exam
 desert <- st_read("shapefiles/desert_polygon.gpkg", quiet = TRUE)
 
 # nodes inside the polygon get "desert" as their type, all others get NA
-hexGraph <- extractFromLayer(hexGraph,
+hexGraph <- assignByPolygon(hexGraph,
                              layer = desert,
                              attr  = "type"
 )

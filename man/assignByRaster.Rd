@@ -67,5 +67,5 @@ if (requireNamespace("terra", quietly = TRUE)) {
 }
 \seealso{
 \code{\link{setNodesAttr}} to set node attributes manually.
-\code{\link{extractFromLayer}} to assign attributes from GIS shapefiles.
+\code{\link{assignByPolygon}} to assign attributes from GIS shapefiles.
 }
