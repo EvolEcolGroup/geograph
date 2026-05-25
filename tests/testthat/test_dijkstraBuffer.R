@@ -1,4 +1,4 @@
-testGraph <- makeGrid(
+testGraph <- makeSquareGrid(
   size      = 100,
   lon.range = c(-12, 2),
   lat.range = c(49, 61)

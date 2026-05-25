@@ -17,7 +17,7 @@ reference:
     desc: "Functions for creating new custom `gGraph` objects."
     contents:
       - makeHexGrid
-      - makeGrid
+      - makeSquareGrid
 
   - title: "Graph modification"
     desc: "Functions for modifying `gGraph` objects."

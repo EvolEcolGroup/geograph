@@ -29,10 +29,10 @@ library(sf)
 
 ## Creating a custom square grid
 
-We can create a custom square grid using the `makeGrid` function. This function allows us to specify the approximate number of the grid cells and the geographic bounding box for the area of interest (by setting the range for both the latitude and longitude of the grid) . In this example, we create a grid with about 10'000 cells that covers the area of Great Britain. We can then use the `findLand` function to identify which cells in the grid correspond to land and which correspond to sea, and we can visualize the resulting graph using the `plot` function.
+We can create a custom square grid using the `makeSquareGrid` function. This function allows us to specify the approximate number of the grid cells and the geographic bounding box for the area of interest (by setting the range for both the latitude and longitude of the grid) . In this example, we create a grid with about 10'000 cells that covers the area of Great Britain. We can then use the `findLand` function to identify which cells in the grid correspond to land and which correspond to sea, and we can visualize the resulting graph using the `plot` function.
 
 ```{r}
-squareGraph <- makeGrid(
+squareGraph <- makeSquareGrid(
   size      = 10000,
   lon.range = c(-12, 2),
   lat.range = c(49, 61)
