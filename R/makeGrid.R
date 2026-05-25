@@ -1,9 +1,4 @@
-############
-## makeGrid
-############
-
-
-#' Build a regular grid gGraph
+#' Make a new gGraph object from a custom square grid
 #'
 #' The function \code{makeGrid} builds a \linkS4class{gGraph} using a regular
 #' grid for a given area. If no area is specified, currently plotted area is

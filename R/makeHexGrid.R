@@ -1,4 +1,4 @@
-#' @title Make a new gGraph object from a custom discrete global grid
+#' @title Make a new gGraph object from a custom hexagonal grid
 #'
 #' @description This function constructs a new [`gGraph`] object based on a
 #' discrete global grid system (DGGS) with a user-defined spatial resolution.
@@ -19,12 +19,12 @@
 #' # Define a geographic bounding box (e.g., for a region in Europe)
 #' geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 #' # Create a gGraph with a spacing of 300 km
-#' ggraph <- createNewGraph(geo.box = geo.box, spacing = 300)
+#' ggraph <- makeHexGrid(geo.box = geo.box, spacing = 300)
 #' plot(ggraph, edge = TRUE)
 #' @export
 #'
 
-createNewGraph <- function(geo.box, spacing, ...) {
+makeHexGrid <- function(geo.box, spacing, ...) {
   if (!is.numeric(spacing) ||
     length(spacing) != 1 ||
     is.na(spacing) ||

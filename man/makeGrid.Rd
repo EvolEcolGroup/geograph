@@ -2,7 +2,7 @@
 % Please edit documentation in R/makeGrid.R
 \name{makeGrid}
 \alias{makeGrid}
-\title{Build a regular grid gGraph}
+\title{Make a new gGraph object from a custom square grid}
 \usage{
 makeGrid(
   size = NULL,
