@@ -45,18 +45,30 @@
 assignByRaster <- function(graph, raster, layer.name = "raster_points",
                                fun = "mean", na.rm = TRUE, ...) {
   if (!inherits(graph, "gGraph")) stop("graph must be a gGraph object.")
-
+  
+  if (!inherits(raster, "SpatRaster")) stop("raster must be a SpatRaster object.")
+  if (terra::nlyr(raster) != 1L) {
+    stop("raster must have exactly one layer.")
+  }
+  
   ## convert raster to data.frame
   raster.df           <- as.data.frame(raster, xy = TRUE)
   colnames(raster.df) <- c("lon", "lat", "value")
   
   ## convert to sf
-  raster.sf           <- sf::st_as_sf(raster.df, coords = c("lon", "lat"), crs = 4326)
+  raster.sf           <- sf::st_as_sf(
+    raster.df,
+    coords = c("lon", "lat"),
+    crs = terra::crs(raster, proj = TRUE)
+  )  
   node.coords         <- as.data.frame(getCoords(graph))
   node.coords$node.id <- seq_len(nrow(node.coords))
   nodes.sf            <- sf::st_as_sf(node.coords, coords = c("lon", "lat"), crs = 4326)
+  raster.sf           <- sf::st_transform(raster.sf, sf::st_crs(nodes.sf))
   
   ## find nearest node for each raster point
+  old_s2 <- sf::sf_use_s2()
+  on.exit(sf::sf_use_s2(old_s2), add = TRUE)
   sf::sf_use_s2(FALSE)
   raster.sf$node.id <- sf::st_nearest_feature(raster.sf, nodes.sf)
   
@@ -119,11 +131,12 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
     if (ncol(df) != 1) stop("Node data has multiple columns; cannot infer value column.")
     vals <- df[[1]]
     if (length(vals) == 0 || all(is.na(vals))) return(NA_real_)
-    ## coerce to logical if fun expects it
     if (identical(fun, any) || identical(fun, all)) {
       vals <- as.logical(vals)
     }
-    fun(vals, na.rm = na.rm, ...)
+    out <- fun(vals, na.rm = na.rm, ...)
+    if (length(out) != 1L) stop("`fun` must return a scalar per node.")
+    return(out)
   }
 
   sapply(x, collapseOneNode, fun = fun, na.rm = na.rm, ...)

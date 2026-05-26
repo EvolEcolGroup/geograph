@@ -5,7 +5,7 @@ test_that("makeSquareGrid errors and warns correctly on bad inputs", {
   
   # grid too small
   expect_warning(
-    makeSquareGrid(3, lon.range = c(1, 5), lat.range = c(1, 5)),
+    result <- makeSquareGrid(size = 1, lon.range = c(1, 5), lat.range = c(1, 5)),
     "Minimum grid size is 4"
   )
   

@@ -33,7 +33,7 @@
 #' cost.rules$cost[cost.rules$habitat == "sea"] <- 50
 #'
 #' ## update rules and set costs in one call
-#' x <- setCosts(worldgraph.10k, attr.name = "habitat", cost.rules = cost.rules, , method = "mean")
+#' x <- setCosts(worldgraph.10k, attr.name = "habitat", cost.rules = cost.rules, method = "mean")
 #' @export
 setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
                      method = c("mean", "product", "function"), FUN = NULL, ...) {

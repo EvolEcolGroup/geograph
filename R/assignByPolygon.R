@@ -58,6 +58,8 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
     layer <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
     # layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
+  old_s2 <- sf::sf_use_s2()
+  on.exit(sf::sf_use_s2(old_s2), add = TRUE)
   sf::sf_use_s2(FALSE)
   ## TODO if the layer is null, we should throw an error!!!
   if (!is.null(layer)) {
@@ -207,9 +209,13 @@ setMethod("assignByPolygon", "gData", function(x, layer = "world", attr = "all",
 #'
 #' @inheritParams assignByPolygon
 #' @seealso [`assignByPolygon`]
-#' @export
+#' @noRd
 setGeneric("extractFromLayer", function(x, ...) {
-  .Deprecated("assignByPolygon", package = "geoGraph",
-              msg = "'extractFromLayer' has been renamed to 'assignByPolygon'. Please update your code.")
   standardGeneric("extractFromLayer")
 })
+
+setMethod("extractFromLayer", "ANY", function(x, ...) {
+    .Deprecated("assignByPolygon", package = "geoGraph",
+                msg = "'extractFromLayer' has been renamed to 'assignByPolygon'. Please update your code.")
+  assignByPolygon(x, ...)
+  })

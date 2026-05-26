@@ -145,3 +145,11 @@ test_that("assignByRaster works with logical built-ins any and all", {
                  info = paste("fun =", fn, "wrong length"))
   }
 })
+
+test_that("assignByRaster errors on multi-layer raster", {
+  multi.layer.raster <- c(test.raster, test.raster)  # 2-layer raster
+  expect_error(
+    assignByRaster(test.graph, multi.layer.raster),
+    "raster must have exactly one layer"
+  )
+})

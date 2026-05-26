@@ -53,6 +53,7 @@ dijkstraBuffer <- function(x, origin, d, res.type = c("nodes", "gGraph"), ...) {
   
   ## resolve origin node
   if (is.character(origin)) {
+    if (length(origin) != 1L) stop("origin must be a single node name.")
     if (!origin %in% getNodes(x)) stop("origin is not a node in x.")
     origin.node <- origin
   } else {

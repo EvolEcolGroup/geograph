@@ -53,39 +53,47 @@
 #' 
 #' @export
 #' 
-makeSquareGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL, lon.range = NULL, lat.range = NULL) {
-  ## HANDLE ARGUMENTS ##
+makeSquareGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL,
+                           lon.range = NULL, lat.range = NULL) {
   
-  if (!is.null(n.lon) && (!is.numeric(n.lon) || length(n.lon) != 1 || is.na(n.lon) || 
-                          !is.finite(n.lon) || n.lon < 1 || n.lon %% 1 != 0)) {
-    stop("n.lon must be a positive integer")
+  ## validate size if provided
+  if (!is.null(size) && (!is.numeric(size) || length(size) != 1 ||
+                         is.na(size) || !is.finite(size) || size <= 0)) {
+    stop("size must be a single positive numeric value.")
   }
-  if (!is.null(n.lat) && (!is.numeric(n.lat) || length(n.lat) != 1 || is.na(n.lat) || 
-                          !is.finite(n.lat) || n.lat < 1 || n.lat %% 1 != 0)) {
-    stop("n.lat must be a positive integer")
+  
+  ## validate n.lon and n.lat if provided
+  if (!is.null(n.lon) && (!is.numeric(n.lon) || length(n.lon) != 1 ||
+                          is.na(n.lon) || !is.finite(n.lon) ||
+                          n.lon < 1 || n.lon %% 1 != 0)) {
+    stop("n.lon must be a positive integer.")
+  }
+  if (!is.null(n.lat) && (!is.numeric(n.lat) || length(n.lat) != 1 ||
+                          is.na(n.lat) || !is.finite(n.lat) ||
+                          n.lat < 1 || n.lat %% 1 != 0)) {
+    stop("n.lat must be a positive integer.")
   }
   
   if (is.null(n.lon)) {
-    if (is.null(size)) stop("Please provide either size or n.lon/n.lat")
+    if (is.null(size)) stop("Please provide either size or n.lon/n.lat.")
     n.lon <- round(sqrt(size))
   }
   
   if (is.null(n.lat)) {
-    if (is.null(size)) stop("Please provide either size or n.lon/n.lat")
+    if (is.null(size)) stop("Please provide either size or n.lon/n.lat.")
     n.lat <- round(sqrt(size))
   }
   
-  if (is.null(size)) {
-    if (is.null(n.lon) | is.null(n.lat)) stop("Please provide either size or n.lon/n.lat")
-  }
-  
   size <- n.lon * n.lat
-  if (size < 4.1) {
-    size <- 4
-    warning("Minimum grid size is 4 - ignoring required size.")
+  
+  ## enforce minimum grid size — update n.lon/n.lat to keep xy consistent
+  if (size < 4) {
+    n.lon <- 2
+    n.lat <- 2
+    size  <- 4
+    warning("Minimum grid size is 4; using a 2x2 grid.")
   }
-  
-  
+
   ## GET LON/LAT FROM ZOOM LOG ##
   ## get zoom log info
   zoomLog <- get("zoom.log", envir = .geoGraphEnv)
@@ -172,7 +180,7 @@ makeSquareGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL, lon.range = 
 #'
 #' @inheritParams makeSquareGrid
 #' @seealso [`makeSquareGrid`]
-#' @export
+#' @noRd
 makeGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL,
                      lon.range = NULL, lat.range = NULL) {
   .Deprecated(

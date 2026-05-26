@@ -32,7 +32,8 @@ Imports:
  dggridR,
  spdep,
  tibble,
- tidyr
+ tidyr,
+ terra
 Suggests:
     elevatr,
     progress,
@@ -40,7 +41,6 @@ Suggests:
     rmarkdown,
     rnaturalearthdata,
     spelling,
-    terra,
     pastclim,
     testthat,
     lintr
