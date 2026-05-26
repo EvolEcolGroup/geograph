@@ -214,6 +214,8 @@ setGeneric("extractFromLayer", function(x, ...) {
   standardGeneric("extractFromLayer")
 })
 
+#' @rdname extractFromLayer
+#' @export
 setMethod("extractFromLayer", "ANY", function(x, ...) {
     .Deprecated("assignByPolygon", package = "geoGraph",
                 msg = "'extractFromLayer' has been renamed to 'assignByPolygon'. Please update your code.")

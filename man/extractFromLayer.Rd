@@ -2,9 +2,12 @@
 % Please edit documentation in R/assignByPolygon.R
 \name{extractFromLayer}
 \alias{extractFromLayer}
+\alias{extractFromLayer,ANY-method}
 \title{Deprecated: use assignByPolygon instead}
 \usage{
 extractFromLayer(x, ...)
+
+\S4method{extractFromLayer}{ANY}(x, ...)
 }
 \arguments{
 \item{x}{a matrix, \code{data.frame}, list, valid \code{\link{gGraph}}, or valid \code{\link{gData}}
