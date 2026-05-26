@@ -209,7 +209,7 @@ setMethod("assignByPolygon", "gData", function(x, layer = "world", attr = "all",
 #'
 #' @inheritParams assignByPolygon
 #' @seealso [`assignByPolygon`]
-#' @noRd
+#' @export
 setGeneric("extractFromLayer", function(x, ...) {
   standardGeneric("extractFromLayer")
 })

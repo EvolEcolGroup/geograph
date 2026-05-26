@@ -89,3 +89,10 @@ reference:
     desc: "Basic methods to subset and show gGraph and gData objects"
     contents:
       - has_concept("basic_methods")
+      
+  - title: "Deprecated"
+    desc: "Functions that have been renamed. These still work but will show
+      a deprecation warning. Please update your code to use the new names."
+    contents:
+      - makeGrid
+      - extractFromLayer

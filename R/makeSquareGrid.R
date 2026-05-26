@@ -180,7 +180,7 @@ makeSquareGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL,
 #'
 #' @inheritParams makeSquareGrid
 #' @seealso [`makeSquareGrid`]
-#' @noRd
+#' @export
 makeGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL,
                      lon.range = NULL, lat.range = NULL) {
   .Deprecated(
