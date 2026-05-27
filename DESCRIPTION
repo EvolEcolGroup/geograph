@@ -64,6 +64,7 @@ Collate:
     'findLand.R'
     'gPath2dist.R'
     'geo.segments.R'
+    'geoGraph-deprecated.R'
     'geograph-package.R'
     'globals.R'
     'hasCosts.R'

@@ -166,31 +166,3 @@ makeSquareGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL,
   return(res)
 } # end makeSquareGrid
 
-
-#####################
-## makeGrid (deprecated)
-#####################
-
-#' Deprecated: use makeSquareGrid instead
-#'
-#' @description `r lifecycle::badge("deprecated")`
-#'
-#' `makeGrid` has been renamed to [`makeSquareGrid`]. Please update your
-#' code accordingly.
-#'
-#' @inheritParams makeSquareGrid
-#' @seealso [`makeSquareGrid`]
-#' @export
-makeGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL,
-                     lon.range = NULL, lat.range = NULL) {
-  .Deprecated(
-    new     = "makeSquareGrid",
-    package = "geoGraph",
-    msg     = paste(
-      "'makeGrid' has been renamed to 'makeSquareGrid'.",
-      "Please update your code to use 'makeSquareGrid' instead."
-    )
-  )
-  makeSquareGrid(size = size, n.lon = n.lon, n.lat = n.lat,
-                 lon.range = lon.range, lat.range = lat.range)
-}

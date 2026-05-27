@@ -194,30 +194,3 @@ setMethod("assignByPolygon", "gData", function(x, layer = "world", attr = "all",
   
   return(x)
 })
-
-
-##########################
-## extractFromLayer (deprecated)
-##########################
-
-#' Deprecated: use assignByPolygon instead
-#'
-#' @description `r lifecycle::badge("deprecated")`
-#'
-#' `extractFromLayer` has been renamed to [`assignByPolygon`]. Please update
-#' your code accordingly.
-#'
-#' @inheritParams assignByPolygon
-#' @seealso [`assignByPolygon`]
-#' @export
-setGeneric("extractFromLayer", function(x, ...) {
-  standardGeneric("extractFromLayer")
-})
-
-#' @rdname extractFromLayer
-#' @export
-setMethod("extractFromLayer", "ANY", function(x, ...) {
-    .Deprecated("assignByPolygon", package = "geoGraph",
-                msg = "'extractFromLayer' has been renamed to 'assignByPolygon'. Please update your code.")
-  assignByPolygon(x, ...)
-  })
