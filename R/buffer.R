@@ -42,7 +42,7 @@
 #' 
 #' ## find some buffers
 #' buffer(x, node, 1000)
-#' buf500km <- buffer(x, node, 1000, res = "gGraph")
+#' buf500km <- buffer(x, node, 1000, res.type = "gGraph")
 #' plot(buf500km, col.rules = buf500km@meta$buf.colors)
 #' 
 #' #### gData example ####
