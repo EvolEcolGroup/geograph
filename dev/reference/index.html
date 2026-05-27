@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9012</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9013</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,17 +79,17 @@
 
       <dl><dt>
 
-          <code><a href="createNewGraph.html">createNewGraph()</a></code>
+          <code><a href="makeHexGrid.html">makeHexGrid()</a></code>
 
         </dt>
-        <dd>Make a new gGraph object from a custom discrete global grid</dd>
+        <dd>Make a new gGraph object from a custom hexagonal grid</dd>
 
         <dt>
 
-          <code><a href="makeGrid.html">makeGrid()</a></code>
+          <code><a href="makeSquareGrid.html">makeSquareGrid()</a></code>
 
         </dt>
-        <dd>Build a regular grid gGraph</dd>
+        <dd>Make a new gGraph object from a custom square grid</dd>
       </dl></div><div class="section level2">
       <h2 id="graph-modification">Graph modification<a class="anchor" aria-label="anchor" href="#graph-modification"></a></h2>
 
@@ -102,24 +102,17 @@
 
       <dl><dt>
 
-          <code><a href="assignRasterPoints.html">assignRasterPoints()</a></code>
+          <code><a href="assignByRaster.html">assignByRaster()</a></code>
 
         </dt>
-        <dd>Assign raster points to graph nodes</dd>
+        <dd>Assign raster values to graph nodes</dd>
 
         <dt>
 
-          <code><a href="extractFromLayer.html">extractFromLayer()</a></code>
+          <code><a href="assignByPolygon.html">assignByPolygon()</a></code>
 
         </dt>
-        <dd>Retrieves node attributes from a layer</dd>
-
-        <dt>
-
-          <code><a href="collapseNodeAttribute.html">collapseNodeAttribute()</a></code>
-
-        </dt>
-        <dd>Collapse a list-based node attribute into a scalar node attribute</dd>
+        <dd>Assign node attributes from a polygon layer</dd>
 
         <dt>
 
@@ -378,6 +371,13 @@
 
         <dt>
 
+          <code><a href="dijkstraBuffer.html">dijkstraBuffer()</a></code>
+
+        </dt>
+        <dd>Find nodes reachable within a cost threshold</dd>
+
+        <dt>
+
           <code><a href="dijkstraFrom.html">dijkstraFrom()</a></code>
 
         </dt>
@@ -403,13 +403,6 @@
 
         </dt>
         <dd>Compute buffers around locations for gGraph and gData objects</dd>
-
-        <dt>
-
-          <code><a href="nodeBuffer.html">nodeBuffer()</a></code>
-
-        </dt>
-        <dd>node buffer</dd>
       </dl></div><div class="section level2">
       <h2 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a></h2>
 

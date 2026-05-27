@@ -50,6 +50,7 @@ vector of distances when `res.type = "vector"`.
 
 Other dijkstra_methods:
 [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md),
+[`dijkstraBuffer()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBuffer.md),
 [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraFrom.md)
 
 ## Examples

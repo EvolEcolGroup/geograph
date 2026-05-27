@@ -13,7 +13,7 @@ cost of an edge is computed as a function of the costs of its two nodes."><meta 
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9012</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9013</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -140,7 +140,7 @@ are equivalent to weights in the <code>graph</code> and <code>RBGL</code> packag
 <span class="r-in"><span><span class="va">cost.rules</span><span class="op">$</span><span class="va">cost</span><span class="op">[</span><span class="va">cost.rules</span><span class="op">$</span><span class="va">habitat</span> <span class="op">==</span> <span class="st">"sea"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">50</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## update rules and set costs in one call</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">setCosts</span><span class="op">(</span><span class="va">worldgraph.10k</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, cost.rules <span class="op">=</span> <span class="va">cost.rules</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">setCosts</span><span class="op">(</span><span class="va">worldgraph.10k</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, cost.rules <span class="op">=</span> <span class="va">cost.rules</span>, method <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

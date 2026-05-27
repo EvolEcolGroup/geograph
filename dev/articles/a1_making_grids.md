@@ -11,18 +11,19 @@ the Earth’s surface.
 
 ## Creating a custom square grid
 
-We can create a custom square grid using the `makeGrid` function. This
-function allows us to specify the approximate number of the grid cells
-and the geographic bounding box for the area of interest (by setting the
-range for both the latitude and longitude of the grid) . In this
-example, we create a grid with about 10’000 cells that covers the area
-of Great Britain. We can then use the `findLand` function to identify
-which cells in the grid correspond to land and which correspond to sea,
-and we can visualize the resulting graph using the `plot` function.
+We can create a custom square grid using the `makeSquareGrid` function.
+This function allows us to specify the approximate number of the grid
+cells and the geographic bounding box for the area of interest (by
+setting the range for both the latitude and longitude of the grid) . In
+this example, we create a grid with about 10’000 cells that covers the
+area of Great Britain. We can then use the `findLand` function to
+identify which cells in the grid correspond to land and which correspond
+to sea, and we can visualize the resulting graph using the `plot`
+function.
 
 ``` r
 
-squareGraph <- makeGrid(
+squareGraph <- makeSquareGrid(
   size      = 10000,
   lon.range = c(-12, 2),
   lat.range = c(49, 61)
@@ -43,16 +44,16 @@ plot(squareGraph, reset = TRUE)
 
 Now as mentioned above, using a square grid is fine for small scale
 analyses but can introduce distortions when working over larger areas of
-the world. To avoid this, we can use the `createNewGraph` function to
+the world. To avoid this, we can use the `makeHexGrid` function to
 create a hexagonal grid that provides a more accurate representation of
-the Earth’s surface. In `createNewGraph` we need to specify the
-geographic bounding box for our area of interest and set the spacing
-between the center of adjacent cells in kilometers. The function will
-then determine an appropriate grid resolution based on this spacing. Be
-aware that using a small spacing will result in a very large graph
-object, which can be computationally intensive to work with. In this
-example, we create a hexagonal grid with a spacing of about 30km that
-covers the area of western Europe and parts of Northern Africa.
+the Earth’s surface. In `makeHexGrid` we need to specify the geographic
+bounding box for our area of interest and set the spacing between the
+center of adjacent cells in kilometers. The function will then determine
+an appropriate grid resolution based on this spacing. Be aware that
+using a small spacing will result in a very large graph object, which
+can be computationally intensive to work with. In this example, we
+create a hexagonal grid with a spacing of about 30km that covers the
+area of western Europe and parts of Northern Africa.
 
 ``` r
 
@@ -68,7 +69,7 @@ area.of.interest <- st_as_sfc(
 
 aoi.bound <- st_sf(geometry = area.of.interest)
 
-hexGraph <- createNewGraph(geo.box = aoi.bound, spacing = 30)
+hexGraph <- makeHexGrid(geo.box = aoi.bound, spacing = 30)
 ```
 
     ## Resolution: 10, Area (km^2): 863.800609195903, Spacing (km): 29.0273762609499, CLS (km): 33.1636203580006
@@ -193,41 +194,20 @@ spatr <- rast(elevation.data)
 
 ### Assigning elevation data to graph nodes
 
-In the next step we can then use the `assignRasterPoints` function to
-add the elevation data to the nodes of the graph. In a nutshell the
-function takes all the raster values that fall within a cell and assigns
-them to the corresponding node. The resulting graph will have a new node
-attribute (in this case, “elevation”) that contains all the elevation
-values for each node.
-
-In this case we need to choose how to incorporate the elevation data
-into the graph, since each node will have multiple raster points
-associated with it. So before using the `collapseNodeAttribute` function
-to get a single elevation value for each node, we can first have a look
-at the standard deviation of the elevation values for each node, which
-gives us an idea of the variability of elevation within each cell. This
-can be useful for identifying rugged areas, which typically have high
-variability in elevation and a higher cost of traveling through. For
-this we set the `fun` parameter in the `collapseNodeAttribute` function
-to `sd`, which calculates the standard deviation of the elevation values
-for each node. We can then visualize the distribution of the standard
-deviation of elevation values for land cells by plotting a density plot.
+In the next step we can use the `assignByRaster` function to add the
+elevation data to the nodes of the graph. The function takes all the
+raster values that fall within each cell, summarizes them using a
+function specified by the `fun` argument, and assigns the result as a
+new node attribute. Here we use `fun = "sd"` to compute the standard
+deviation of elevation values within each cell, which gives us an idea
+of the terrain variability. Cells with high standard deviation typically
+correspond to rugged mountainous areas and are more costly to traverse.
+We can then visualize the distribution of these values for land cells
+using a density plot.
 
 ``` r
 
-hexGraph <- assignRasterPoints(
-  graph = hexGraph,
-  raster = spatr,
-  layer.name = "elevation"
-)
-
-# now we collapse the elevation attribute to get the sd of the elevation for each node
-hexGraph <- collapseNodeAttribute(
-  graph = hexGraph,
-  attribute = "elevation",
-  fun = sd,
-  na.rm = TRUE
-)
+hexGraph <- assignByRaster(graph = hexGraph, raster = spatr, layer.name = "elevation", fun = "sd")
 
 # have a look at the distribution of sd.elevation values for land cells
 sd.ele <- getNodesAttr(hexGraph) %>%
@@ -379,13 +359,13 @@ plot(path, col = "black", lwd = 2)
 
 ![](a1_making_grids_files/figure-html/least%20cost%20path%20with%20coastal%20cells-1.png)
 
-## Extracting information from GIS shapefiles
+## Assigning attributes from polygon layers
 
 In the previous sections, we extracted environmental information from
-raster layers and assigned it to the nodes using `assignRasterPoints.`
+raster layers and assigned it to the nodes using `assignByRaster.`
 Another way *geoGraph* can serve as an interface between geographic
 information system (GIS) layers and geographic data is the function
-`extractFromLayer`. *geoGraph* uses `sf` objects to represent geographic
+`assignByPolygon`. *geoGraph* uses `sf` objects to represent geographic
 objects such as points and polygons. By default, *geoGraph* uses the
 package *rnaturalearth* to provide continent and country outlines, but
 it is possible also to load custom GIS shapefiles with
@@ -402,7 +382,7 @@ resulting graph with the new habitat classification.
 desert <- st_read("shapefiles/desert_polygon.gpkg", quiet = TRUE)
 
 # nodes inside the polygon get "desert" as their type, all others get NA
-hexGraph <- extractFromLayer(hexGraph,
+hexGraph <- assignByPolygon(hexGraph,
                              layer = desert,
                              attr  = "type"
 )

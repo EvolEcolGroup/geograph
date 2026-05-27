@@ -57,6 +57,7 @@ are duplicated paths.
 ## See also
 
 Other dijkstra_methods:
+[`dijkstraBuffer()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBuffer.md),
 [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraFrom.md),
 [`gPath2dist()`](https://evolecolgroup.github.io/geograph/dev/reference/gPath2dist.md)
 

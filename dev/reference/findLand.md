@@ -65,7 +65,7 @@ object.
 
 ## See also
 
-[`extractFromLayer`](https://evolecolgroup.github.io/geograph/dev/reference/extractFromLayer.md),
+[`assignByPolygon`](https://evolecolgroup.github.io/geograph/dev/reference/assignByPolygon.md),
 to retrieve any information from a GIS shapefile.
 
 ## Examples
@@ -81,10 +81,10 @@ obj # note: no node attribute
 #> === gGraph object ===
 #> 
 #> @coords: spatial coordinates of 1000 nodes
-#>          lon       lat
-#> 1 -129.77304  83.74634
-#> 2  -80.99909 -66.20638
-#> 3   24.02686 -53.19595
+#>          lon        lat
+#> 1   28.30739  -2.324435
+#> 2 -123.62068 -72.245621
+#> 3  139.39669 -26.118052
 #> ...
 #> 
 #> @nodes.attr: 0 nodes attributes
@@ -108,17 +108,17 @@ obj # note: new node attribute
 #> === gGraph object ===
 #> 
 #> @coords: spatial coordinates of 1000 nodes
-#>          lon       lat
-#> 1 -129.77304  83.74634
-#> 2  -80.99909 -66.20638
-#> 3   24.02686 -53.19595
+#>          lon        lat
+#> 1   28.30739  -2.324435
+#> 2 -123.62068 -72.245621
+#> 3  139.39669 -26.118052
 #> ...
 #> 
 #> @nodes.attr: 1 nodes attributes
 #>   habitat
-#> 1     sea
+#> 1    land
 #> 2     sea
-#> 3     sea
+#> 3    land
 #> ...
 #> 
 #> @meta: list of meta information with 0 items

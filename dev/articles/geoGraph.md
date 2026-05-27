@@ -506,14 +506,6 @@ plotEdges(worldgraph.10k)
 
 ![](geoGraph_files/figure-html/unnamed-chunk-13-1.png)
 
-``` r
-
-geo.bookmark("gibraltar") # TODO explain this
-```
-
-    ## 
-    ## Bookmark ' gibraltar  'saved.
-
 We can change this by adding a connection between the two continents,
 for instance by adding a connection between the two nodes of the grid
 which are closest to the Strait of Gibraltar. Adding and removing edges

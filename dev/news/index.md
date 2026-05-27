@@ -2,6 +2,19 @@
 
 ## geoGraph (development version)
 
+New Features
+
+- Added `assignByRaster` to assign raster cell values to graph nodes
+  with customizable aggregation.
+
+- Added `dijkstraBuffer` to identify nodes within a specified
+  shortest-path distance from an origin.
+
+- Added `makeHexGrid` for explicit hexagonal grid construction.
+
+- Deprecated `extractFromLayer` in favor of `assignByPolygon` and
+  `makeGrid` in favor of `makeSquareGrid`.
+
 - Added documentation for the `gPath` class and basic subsetting methods
   for `gGraph` and `gData` objects
 

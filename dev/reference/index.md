@@ -18,21 +18,19 @@ Classes included in the package.
 
 Functions for creating new custom `gGraph` objects.
 
-- [`createNewGraph()`](https://evolecolgroup.github.io/geograph/dev/reference/createNewGraph.md)
-  : Make a new gGraph object from a custom discrete global grid
-- [`makeGrid()`](https://evolecolgroup.github.io/geograph/dev/reference/makeGrid.md)
-  : Build a regular grid gGraph
+- [`makeHexGrid()`](https://evolecolgroup.github.io/geograph/dev/reference/makeHexGrid.md)
+  : Make a new gGraph object from a custom hexagonal grid
+- [`makeSquareGrid()`](https://evolecolgroup.github.io/geograph/dev/reference/makeSquareGrid.md)
+  : Make a new gGraph object from a custom square grid
 
 ## Graph modification
 
 Functions for modifying `gGraph` objects.
 
-- [`assignRasterPoints()`](https://evolecolgroup.github.io/geograph/dev/reference/assignRasterPoints.md)
-  : Assign raster points to graph nodes
-- [`extractFromLayer()`](https://evolecolgroup.github.io/geograph/dev/reference/extractFromLayer.md)
-  : Retrieves node attributes from a layer
-- [`collapseNodeAttribute()`](https://evolecolgroup.github.io/geograph/dev/reference/collapseNodeAttribute.md)
-  : Collapse a list-based node attribute into a scalar node attribute
+- [`assignByRaster()`](https://evolecolgroup.github.io/geograph/dev/reference/assignByRaster.md)
+  : Assign raster values to graph nodes
+- [`assignByPolygon()`](https://evolecolgroup.github.io/geograph/dev/reference/assignByPolygon.md)
+  : Assign node attributes from a polygon layer
 - [`setEdges()`](https://evolecolgroup.github.io/geograph/dev/reference/setEdges.md)
   : Add and remove edges from a gGraph object
 - [`setNodesAttr()`](https://evolecolgroup.github.io/geograph/dev/reference/setNodesAttr.md)
@@ -121,6 +119,8 @@ Functions for computing shortest paths and distances.
 
 - [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md)
   : Find the shortest path between nodes in a graph
+- [`dijkstraBuffer()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBuffer.md)
+  : Find nodes reachable within a cost threshold
 - [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraFrom.md)
   : Find the minimum cost path
 - [`gPath2dist()`](https://evolecolgroup.github.io/geograph/dev/reference/gPath2dist.md)
@@ -130,8 +130,6 @@ Functions for computing shortest paths and distances.
 - [`buffer(`*`<gGraph>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/buffer.md)
   [`buffer(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/buffer.md)
   : Compute buffers around locations for gGraph and gData objects
-- [`nodeBuffer()`](https://evolecolgroup.github.io/geograph/dev/reference/nodeBuffer.md)
-  : node buffer
 
 ## Plotting
 

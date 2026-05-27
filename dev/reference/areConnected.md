@@ -58,7 +58,7 @@ Other connectivity_functions:
 
 ``` r
 # create a small square graph
-test_graph <- makeGrid(25, lon.range = c(1, 5), lat.range = c(1, 5))
+test_graph <- makeSquareGrid(25, lon.range = c(1, 5), lat.range = c(1, 5))
 # test that the function correctly identifies connected sets
 # 1, 9, and 10 are connected
 areConnected(test_graph, nodes = c("1", "9", "10"))

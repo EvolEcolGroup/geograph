@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9012</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9013</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
 
       <h1>Making custom grids in geoGraph</h1>
             
-            <h4 data-toc-skip class="date">2026-05-22</h4>
+            <h4 data-toc-skip class="date">2026-05-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/a1_making_grids.Rmd" class="external-link"><code>vignettes/a1_making_grids.Rmd</code></a></small>
       <div class="d-none name"><code>a1_making_grids.Rmd</code></div>
@@ -80,17 +80,17 @@ that provides a more accurate representation of the Earth’s surface.</p>
 <div class="section level2">
 <h2 id="creating-a-custom-square-grid">Creating a custom square grid<a class="anchor" aria-label="anchor" href="#creating-a-custom-square-grid"></a>
 </h2>
-<p>We can create a custom square grid using the <code>makeGrid</code>
-function. This function allows us to specify the approximate number of
-the grid cells and the geographic bounding box for the area of interest
-(by setting the range for both the latitude and longitude of the grid) .
-In this example, we create a grid with about 10’000 cells that covers
-the area of Great Britain. We can then use the <code>findLand</code>
-function to identify which cells in the grid correspond to land and
-which correspond to sea, and we can visualize the resulting graph using
-the <code>plot</code> function.</p>
+<p>We can create a custom square grid using the
+<code>makeSquareGrid</code> function. This function allows us to specify
+the approximate number of the grid cells and the geographic bounding box
+for the area of interest (by setting the range for both the latitude and
+longitude of the grid) . In this example, we create a grid with about
+10’000 cells that covers the area of Great Britain. We can then use the
+<code>findLand</code> function to identify which cells in the grid
+correspond to land and which correspond to sea, and we can visualize the
+resulting graph using the <code>plot</code> function.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">squareGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeGrid.html">makeGrid</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">squareGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeSquareGrid.html">makeSquareGrid</a></span><span class="op">(</span></span>
 <span>  size      <span class="op">=</span> <span class="fl">10000</span>,</span>
 <span>  lon.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">12</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  lat.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">49</span>, <span class="fl">61</span><span class="op">)</span></span>
@@ -110,9 +110,9 @@ the <code>plot</code> function.</p>
 </h2>
 <p>Now as mentioned above, using a square grid is fine for small scale
 analyses but can introduce distortions when working over larger areas of
-the world. To avoid this, we can use the <code>createNewGraph</code>
+the world. To avoid this, we can use the <code>makeHexGrid</code>
 function to create a hexagonal grid that provides a more accurate
-representation of the Earth’s surface. In <code>createNewGraph</code> we
+representation of the Earth’s surface. In <code>makeHexGrid</code> we
 need to specify the geographic bounding box for our area of interest and
 set the spacing between the center of adjacent cells in kilometers. The
 function will then determine an appropriate grid resolution based on
@@ -133,7 +133,7 @@ that covers the area of western Europe and parts of Northern Africa.</p>
 <span></span>
 <span><span class="va">aoi.bound</span> <span class="op">&lt;-</span> <span class="fu">st_sf</span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">area.of.interest</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createNewGraph.html">createNewGraph</a></span><span class="op">(</span>geo.box <span class="op">=</span> <span class="va">aoi.bound</span>, spacing <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeHexGrid.html">makeHexGrid</a></span><span class="op">(</span>geo.box <span class="op">=</span> <span class="va">aoi.bound</span>, spacing <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Resolution: 10, Area (km^2): 863.800609195903, Spacing (km): 29.0273762609499, CLS (km): 33.1636203580006</span></span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/findLand.html">findLand</a></span><span class="op">(</span><span class="va">hexGraph</span><span class="op">)</span></span>
@@ -244,40 +244,18 @@ the <code>terra</code> package, which allows us to work with it in
 <div class="section level3">
 <h3 id="assigning-elevation-data-to-graph-nodes">Assigning elevation data to graph nodes<a class="anchor" aria-label="anchor" href="#assigning-elevation-data-to-graph-nodes"></a>
 </h3>
-<p>In the next step we can then use the <code>assignRasterPoints</code>
-function to add the elevation data to the nodes of the graph. In a
-nutshell the function takes all the raster values that fall within a
-cell and assigns them to the corresponding node. The resulting graph
-will have a new node attribute (in this case, “elevation”) that contains
-all the elevation values for each node.</p>
-<p>In this case we need to choose how to incorporate the elevation data
-into the graph, since each node will have multiple raster points
-associated with it. So before using the
-<code>collapseNodeAttribute</code> function to get a single elevation
-value for each node, we can first have a look at the standard deviation
-of the elevation values for each node, which gives us an idea of the
-variability of elevation within each cell. This can be useful for
-identifying rugged areas, which typically have high variability in
-elevation and a higher cost of traveling through. For this we set the
-<code>fun</code> parameter in the <code>collapseNodeAttribute</code>
-function to <code>sd</code>, which calculates the standard deviation of
-the elevation values for each node. We can then visualize the
-distribution of the standard deviation of elevation values for land
-cells by plotting a density plot.</p>
+<p>In the next step we can use the <code>assignByRaster</code> function
+to add the elevation data to the nodes of the graph. The function takes
+all the raster values that fall within each cell, summarizes them using
+a function specified by the <code>fun</code> argument, and assigns the
+result as a new node attribute. Here we use <code>fun = "sd"</code> to
+compute the standard deviation of elevation values within each cell,
+which gives us an idea of the terrain variability. Cells with high
+standard deviation typically correspond to rugged mountainous areas and
+are more costly to traverse. We can then visualize the distribution of
+these values for land cells using a density plot.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assignRasterPoints.html">assignRasterPoints</a></span><span class="op">(</span></span>
-<span>  graph <span class="op">=</span> <span class="va">hexGraph</span>,</span>
-<span>  raster <span class="op">=</span> <span class="va">spatr</span>,</span>
-<span>  layer.name <span class="op">=</span> <span class="st">"elevation"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># now we collapse the elevation attribute to get the sd of the elevation for each node</span></span>
-<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/collapseNodeAttribute.html">collapseNodeAttribute</a></span><span class="op">(</span></span>
-<span>  graph <span class="op">=</span> <span class="va">hexGraph</span>,</span>
-<span>  attribute <span class="op">=</span> <span class="st">"elevation"</span>,</span>
-<span>  fun <span class="op">=</span> <span class="va">sd</span>,</span>
-<span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assignByRaster.html">assignByRaster</a></span><span class="op">(</span>graph <span class="op">=</span> <span class="va">hexGraph</span>, raster <span class="op">=</span> <span class="va">spatr</span>, layer.name <span class="op">=</span> <span class="st">"elevation"</span>, fun <span class="op">=</span> <span class="st">"sd"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># have a look at the distribution of sd.elevation values for land cells</span></span>
 <span><span class="va">sd.ele</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">hexGraph</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -413,13 +391,13 @@ tend to prefer crossing coastal cells over crossing rugged areas.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="extracting-information-from-gis-shapefiles">Extracting information from GIS shapefiles<a class="anchor" aria-label="anchor" href="#extracting-information-from-gis-shapefiles"></a>
+<h2 id="assigning-attributes-from-polygon-layers">Assigning attributes from polygon layers<a class="anchor" aria-label="anchor" href="#assigning-attributes-from-polygon-layers"></a>
 </h2>
 <p>In the previous sections, we extracted environmental information from
 raster layers and assigned it to the nodes using
-<code>assignRasterPoints.</code> Another way <em>geoGraph</em> can serve
-as an interface between geographic information system (GIS) layers and
-geographic data is the function <code>extractFromLayer</code>.
+<code>assignByRaster.</code> Another way <em>geoGraph</em> can serve as
+an interface between geographic information system (GIS) layers and
+geographic data is the function <code>assignByPolygon</code>.
 <em>geoGraph</em> uses <code>sf</code> objects to represent geographic
 objects such as points and polygons. By default, <em>geoGraph</em> uses
 the package <em>rnaturalearth</em> to provide continent and country
@@ -435,7 +413,7 @@ classification.</p>
 <span><span class="va">desert</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="st">"shapefiles/desert_polygon.gpkg"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># nodes inside the polygon get "desert" as their type, all others get NA</span></span>
-<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/extractFromLayer.html">extractFromLayer</a></span><span class="op">(</span><span class="va">hexGraph</span>,</span>
+<span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assignByPolygon.html">assignByPolygon</a></span><span class="op">(</span><span class="va">hexGraph</span>,</span>
 <span>                             layer <span class="op">=</span> <span class="va">desert</span>,</span>
 <span>                             attr  <span class="op">=</span> <span class="st">"type"</span></span>
 <span><span class="op">)</span></span>

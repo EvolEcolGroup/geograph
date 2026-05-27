@@ -87,7 +87,7 @@ test coverage.
 ### Code style
 
 Unlike most tidyverse packages, geoGraph uses the following naming
-conventions: - **Functions**: `camelCase` (e.g. `extractFromLayer`) -
+conventions: - **Functions**: `camelCase` (e.g. `assignByPolygon`) -
 **Variables**: `dotted.case` (e.g. `geo.box`)
 
 The `.lintr` file in the package root enforces these conventions
