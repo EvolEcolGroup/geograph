@@ -1,3 +1,5 @@
+# nocov start
+
 # .onAttach <- function(libname, pkgname) {
 #   pkg.version <- utils::packageDescription("geoGraph", fields = "Version")
 #
@@ -33,3 +35,5 @@ assign("bookmarks", bookmarks, envir = .geoGraphEnv)
 rm(zoom.log)
 rm(temp)
 rm(bookmarks)
+
+# nocov end

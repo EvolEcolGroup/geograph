@@ -45,6 +45,7 @@ gPath2dist(hgdp.path, res = "vector") # extract as vector of distances
 \seealso{
 Other dijkstra_methods:
 \code{\link[=dijkstraBetween]{dijkstraBetween()}},
+\code{\link[=dijkstraBuffer]{dijkstraBuffer()}},
 \code{\link[=dijkstraFrom]{dijkstraFrom()}}
 }
 \concept{dijkstra_methods}

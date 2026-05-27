@@ -1,6 +1,6 @@
 test_that("areNeighbours works correctly", {
   # create a custom square grid
-  test_graph <- makeGrid(25, lon.range = c(1, 5), lat.range = c(1, 5))
+  test_graph <- makeSquareGrid(25, lon.range = c(1, 5), lat.range = c(1, 5))
   # test that the function correctly identifies neighbours
   expect_true(areNeighbours(V1 = "1", V2 = "2", graph = test_graph))
   # now do the same with the graphNEL part

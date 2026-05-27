@@ -1,73 +1,73 @@
-test_that("createNewGraph errors on invalid `spacing`", {
+test_that("makeHexGrid errors on invalid `spacing`", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 
   expect_error(
-    createNewGraph(geo.box, spacing = -1),
+    makeHexGrid(geo.box, spacing = -1),
     "`spacing` must be a single positive numeric value"
   )
 
   expect_error(
-    createNewGraph(geo.box, spacing = 0),
+    makeHexGrid(geo.box, spacing = 0),
     "`spacing` must be a single positive numeric value"
   )
 
   expect_error(
-    createNewGraph(geo.box, spacing = NA_real_),
+    makeHexGrid(geo.box, spacing = NA_real_),
     "`spacing` must be a single positive numeric value"
   )
 
   expect_error(
-    createNewGraph(geo.box, spacing = "1000"),
+    makeHexGrid(geo.box, spacing = "1000"),
     "`spacing` must be a single positive numeric value"
   )
 
   expect_error(
-    createNewGraph(geo.box, spacing = c(500, 1000)),
+    makeHexGrid(geo.box, spacing = c(500, 1000)),
     "`spacing` must be a single positive numeric value"
   )
 })
 
 
-test_that("createNewGraph errors on invalid `geo.box`", {
+test_that("makeHexGrid errors on invalid `geo.box`", {
   # unnamed numeric vector
   expect_error(
-    createNewGraph(c(-10, 30, 35, 60), spacing = 1000),
+    makeHexGrid(c(-10, 30, 35, 60), spacing = 1000),
     "geo.box must be a bbox, sf object, or named numeric vector"
   )
 
   # wrong names
   expect_error(
-    createNewGraph(c(left = -10, right = 30, bottom = 35, top = 60), spacing = 1000),
+    makeHexGrid(c(left = -10, right = 30, bottom = 35, top = 60), spacing = 1000),
     "geo.box must be a bbox, sf object, or named numeric vector"
   )
 
   # non-numeric non-spatial object
   expect_error(
-    createNewGraph(list(xmin = -10, xmax = 30, ymin = 35, ymax = 60), spacing = 1000),
+    makeHexGrid(list(xmin = -10, xmax = 30, ymin = 35, ymax = 60), spacing = 1000),
     "geo.box must be a bbox, sf object, or named numeric vector"
   )
 })
 
 
-test_that("createNewGraph returns a gGraph with named numeric vector input", {
+test_that("makeHexGrid returns a gGraph with named numeric vector input", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-  result <- createNewGraph(geo.box, spacing = 1000)
+  result <- makeHexGrid(geo.box, spacing = 1000)
 
   expect_s4_class(result, "gGraph")
 })
 
 
-test_that("createNewGraph returns a gGraph from a bbox input", {
+test_that("makeHexGrid returns a gGraph from a bbox input", {
   bbox <- sf::st_bbox(c(xmin = -10, xmax = 30, ymin = 35, ymax = 60),
     crs = sf::st_crs(4326)
   )
-  result <- createNewGraph(bbox, spacing = 1000)
+  result <- makeHexGrid(bbox, spacing = 1000)
 
   expect_s4_class(result, "gGraph")
 })
 
 
-test_that("createNewGraph returns a gGraph from an sf input", {
+test_that("makeHexGrid returns a gGraph from an sf input", {
   poly <- sf::st_sfc(
     sf::st_polygon(list(matrix(
       c(-10, 35, 30, 35, 30, 60, -10, 60, -10, 35),
@@ -76,26 +76,26 @@ test_that("createNewGraph returns a gGraph from an sf input", {
     crs = 4326
   )
   sf_obj <- sf::st_sf(geometry = poly)
-  result <- createNewGraph(sf_obj, spacing = 1000)
+  result <- makeHexGrid(sf_obj, spacing = 1000)
 
   expect_s4_class(result, "gGraph")
 })
 
 
-test_that("createNewGraph produces more nodes with smaller spacing", {
+test_that("makeHexGrid produces more nodes with smaller spacing", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
   
-  result_coarse <- createNewGraph(geo.box, spacing = 2000)
-  result_fine <- createNewGraph(geo.box, spacing = 500)
+  result_coarse <- makeHexGrid(geo.box, spacing = 2000)
+  result_fine <- makeHexGrid(geo.box, spacing = 500)
   
   expect_gt(nrow(result_fine@coords), nrow(result_coarse@coords))
 })
 
 
-test_that("createNewGraph@coords lon and lat values are within spacing margin of bbox", {
+test_that("makeHexGrid@coords lon and lat values are within spacing margin of bbox", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
   spacing <- 1000
-  result  <- createNewGraph(geo.box, spacing = spacing)
+  result  <- makeHexGrid(geo.box, spacing = spacing)
   
   # convert spacing from km to degrees (approximate: 1 degree ~ 111 km)
   margin <- (spacing / 111) * 1.5
@@ -106,18 +106,18 @@ test_that("createNewGraph@coords lon and lat values are within spacing margin of
   expect_true(all(result@coords[, "lat"] <= geo.box["ymax"] + margin))
 })
 
-test_that("createNewGraph@nodes.attr is an empty data.frame with correct row names", {
+test_that("makeHexGrid@nodes.attr is an empty data.frame with correct row names", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-  result  <- createNewGraph(geo.box, spacing = 1000)
+  result  <- makeHexGrid(geo.box, spacing = 1000)
   
   expect_s3_class(result@nodes.attr, "data.frame")
   expect_equal(ncol(result@nodes.attr), 0L)
   expect_equal(rownames(result@nodes.attr), as.character(seq_len(nrow(result@coords))))
 })
 
-test_that("createNewGraph@meta has costs and colors both NULL", {
+test_that("makeHexGrid@meta has costs and colors both NULL", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-  result  <- createNewGraph(geo.box, spacing = 1000)
+  result  <- makeHexGrid(geo.box, spacing = 1000)
   
   expect_null(result@meta$costs)
   expect_null(result@meta$colors)
@@ -126,7 +126,7 @@ test_that("createNewGraph@meta has costs and colors both NULL", {
 test_that("the central node has 6 neighbours", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
   spacing <- 1000
-  result <- createNewGraph(geo.box, spacing = spacing)
+  result <- makeHexGrid(geo.box, spacing = spacing)
   
   # Find the central node (closest to the center of the bbox)
   center_lon <- (geo.box["xmin"] + geo.box["xmax"]) / 2
@@ -146,7 +146,7 @@ test_that("the central node has 6 neighbours", {
 test_that("no node has no neighbours", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
   spacing <- 100
-  result <- createNewGraph(geo.box, spacing = spacing)
+  result <- makeHexGrid(geo.box, spacing = spacing)
   
   for (i in seq_along(result@graph@edgeL)) {
     neighbors <- result@graph@edgeL[[i]]
@@ -157,7 +157,7 @@ test_that("no node has no neighbours", {
 test_that("no node has has more than 6 neighbours", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
   spacing <- 100
-  result <- createNewGraph(geo.box, spacing = spacing)
+  result <- makeHexGrid(geo.box, spacing = spacing)
   
   for (i in seq_along(result@graph@edgeL)) {
     neighbors <- result@graph@edgeL[[i]]
@@ -165,9 +165,9 @@ test_that("no node has has more than 6 neighbours", {
   }
 })
 
-test_that("createNewGraph neighbour relationships are symmetric", {
+test_that("makeHexGrid neighbour relationships are symmetric", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-  result  <- createNewGraph(geo.box, spacing = 1000)
+  result  <- makeHexGrid(geo.box, spacing = 1000)
   
   neighbours <- result@graph@edgeL
   for (i in seq_along(neighbours)) {

@@ -280,7 +280,6 @@ In the current version of `worldgraph.10k`, there is no connection at the Strait
 ```{r}
 geo.zoomin(c(-10, 2, 32, 40))
 plotEdges(worldgraph.10k)
-geo.bookmark("gibraltar") # TODO explain this
 ```
 
 We can change this by adding a connection between the two continents, for instance by adding a connection between the two nodes of the grid which are closest to the Strait of Gibraltar. Adding and removing edges from the grid of a `gGraph` can be achieved by `geo.add.edges` and `geo.remove.edges`, respectively.

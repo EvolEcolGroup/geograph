@@ -16,15 +16,14 @@ reference:
   - title: "Graph construction"
     desc: "Functions for creating new custom `gGraph` objects."
     contents:
-      - createNewGraph
-      - makeGrid
+      - makeHexGrid
+      - makeSquareGrid
 
   - title: "Graph modification"
     desc: "Functions for modifying `gGraph` objects."
     contents:
-      - assignRasterPoints
-      - extractFromLayer
-      - collapseNodeAttribute
+      - assignByRaster
+      - assignByPolygon
       - setEdges
       - setNodesAttr
 
@@ -64,7 +63,7 @@ reference:
       - gPath2dist
       - polygonBetween
       - buffer
-      - nodeBuffer
+      - dijkstraBuffer
 
   - title: "Plotting"
     desc: "Functions for visualising `gGraph` and `gData` objects."
@@ -90,3 +89,4 @@ reference:
     desc: "Basic methods to subset and show gGraph and gData objects"
     contents:
       - has_concept("basic_methods")
+      

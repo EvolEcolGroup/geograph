@@ -49,6 +49,7 @@ hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
 }
 \seealso{
 Other dijkstra_methods:
+\code{\link[=dijkstraBuffer]{dijkstraBuffer()}},
 \code{\link[=dijkstraFrom]{dijkstraFrom()}},
 \code{\link[=gPath2dist]{gPath2dist()}}
 }

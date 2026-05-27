@@ -42,7 +42,7 @@ world.countries <- rnaturalearth::ne_countries(
   scale = "medium",
   returnclass = "sf"
 )
-newGraph <- extractFromLayer(rawgraph.10k,
+newGraph <- assignByPolygon(rawgraph.10k,
   layer = world.countries,
   attr = c("continent", "name")
 )

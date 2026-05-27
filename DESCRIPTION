@@ -1,7 +1,7 @@
 Package: geoGraph
 Type: Package
 Title: Walking Through the Geographic Space Using Graphs
-Version: 1.1.1.9012
+Version: 1.1.1.9013
 Authors@R: c(
     person("Thibaut", "Jombart", role = "aut"),
     person("Andrea", "Manica", email = "am315@cam.ac.uk", role = c("aut", "cre")))
@@ -32,7 +32,8 @@ Imports:
  dggridR,
  spdep,
  tibble,
- tidyr
+ tidyr,
+ terra
 Suggests:
     elevatr,
     progress,
@@ -40,7 +41,6 @@ Suggests:
     rmarkdown,
     rnaturalearthdata,
     spelling,
-    terra,
     pastclim,
     testthat,
     lintr
@@ -49,22 +49,22 @@ Collate:
     'accessors.R'
     'areConnected.R'
     'areNeighbours.R'
-    'assignRasterPoints.R'
+    'assignByPolygon.R'
+    'assignByRaster.R'
     'basicMethods.R'
     'buffer.R'
     'closestNode.R'
-    'collapseNodeAttribute.R'
     'combineCosts.R'
     'connectivityPlot.R'
-    'createNewGraph.R'
     'datasets.R'
     'dijkstraBetween.R'
+    'dijkstraBuffer.R'
     'dijkstraFrom.R'
     'dropDead.R'
-    'extractFromLayer.R'
     'findLand.R'
     'gPath2dist.R'
     'geo.segments.R'
+    'geoGraph-deprecated.R'
     'geograph-package.R'
     'globals.R'
     'hasCosts.R'
@@ -73,8 +73,8 @@ Collate:
     'isInArea.R'
     'isReachable.R'
     'keepMaxConnected.R'
-    'makeGrid.R'
-    'nodeBuffer.R'
+    'makeHexGrid.R'
+    'makeSquareGrid.R'
     'plot_gData.R'
     'plot_gGraph.R'
     'plot_gPath.R'

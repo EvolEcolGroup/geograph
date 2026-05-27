@@ -26,7 +26,7 @@
 #' possibly added to previously existing node attributes (\code{@nodes.attr}
 #' slot).\cr
 
-#' @seealso \code{\link{extractFromLayer}}, to retrieve any information from a
+#' @seealso \code{\link{assignByPolygon}}, to retrieve any information from a
 #' GIS shapefile.
 #' @keywords utilities methods
 #' @name findLand

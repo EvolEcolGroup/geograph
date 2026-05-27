@@ -24,7 +24,7 @@ tests if two nodes are directly connected with an edge (i.e. if they are neighbo
 }
 \examples{
 # create a small square graph
-test_graph <- makeGrid(25, lon.range = c(1, 5), lat.range = c(1, 5))
+test_graph <- makeSquareGrid(25, lon.range = c(1, 5), lat.range = c(1, 5))
 # get the coordinates of the first 10 nodes
 getCoords(test_graph)[1:10, ]
 # test that the function correctly identifies neighbours

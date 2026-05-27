@@ -1,48 +1,35 @@
-#' Retrieves node attributes from a layer
+#' Assign node attributes from a polygon layer
 #'
-#' The generic function \code{extractFromLayer} uses information from a GIS
-#' shapefile to define node attributes. For each node, information is retrieved
-#' from the layer and assigned to that node.\cr
+#' The function `assignByPolygon` uses information from a GIS polygon
+#' shapefile to define node attributes. For each node, information is
+#' retrieved from the layer and assigned to that node.
 #'
-#' Nodes can be specified in different ways, including by providing a
-#' \linkS4class{gGraph} or a \linkS4class{gData} object. Outputs match the
-#' input formats.
+#' Nodes can be specified as a matrix, `data.frame`, list, [`gGraph`], or
+#' [`gData`] object. Outputs match the input format.
 #'
-#' @param x a matrix, a data.frame, a list, a valid \linkS4class{gGraph}, or a
-#' valid \linkS4class{gData} object. For matrix and data.frame, input must have
-#' two columns giving longitudes and latitudes of locations being considered.
-#' For list, input must have two components being vectors giving longitudes and
-#' latitudes of locations.
-#' @param layer a shapefile of the class `sf` (see
-#' [sf::st_read()] to import a GIS
-#' shapefile). Alternatively, a character string indicating one shapefile
-#' released with geoGraph; currently, only 'world' is available.
-#' @param attr a character vector giving names of the variables to be extracted
-#' from the layer. If 'all', all available variables are extracted. In case of
-#' problem, available names are displayed with the error message.
-#' @param \dots further arguments to be passed to other methods. Currently not
-#' used.
-#' @return The output depends on the nature of the input:\cr - \code{matrix,
-#' data.frame, list}: a data.frame with one row per location, and as many
-#' columns as requested variables ('attributes').\cr
-#'
-#' - \code{gGraph}: a \linkS4class{gGraph} object with new node attributes
-#' (\code{@nodes.attr} slot). If nodes attributes already existed, new
-#' attributes are added as new columns.\cr
-#'
-#' - \code{gData}: a \linkS4class{gData} object with new data associated to
-#' locations (\code{@data} slot). New information is merge to older information
-#' according to the type of data being stored. \cr
-
-#' @seealso \code{\link{findLand}}, to find which locations are on land.
-#' @keywords utilities methods
+#' @param x a matrix, `data.frame`, list, valid [`gGraph`], or valid [`gData`]
+#'   object. For matrix and data.frame, input must have two columns giving
+#'   longitudes and latitudes. For list, input must have two components being
+#'   vectors of longitudes and latitudes.
+#' @param layer a shapefile of class `sf` (see [`sf::st_read`] to import a
+#'   GIS shapefile). Alternatively, `"world"` to use the built-in world
+#'   shapefile.
+#' @param attr a character vector of variable names to extract from the layer.
+#'   Use `"all"` to extract all available variables.
+#' @param ... further arguments passed to other methods (currently unused).
+#' @return For matrix, data.frame, or list input: a `data.frame` with one row
+#'   per location and one column per requested variable. For [`gGraph`] input:
+#'   a [`gGraph`] object with new node attributes added to `@nodes.attr`. For
+#'   [`gData`] input: a [`gData`] object with new data added to `@data`.
+#' @seealso [`findLand`] to find which locations are on land.
+#'   [`assignByRaster`] to assign attributes from raster data.
 #' @examples
 #'
 #' plot(worldgraph.10k, reset = TRUE)
 #'
 #' ## retrieve continent info for all nodes
 #' ## (might take a few seconds)
-#' x <- extractFromLayer(worldgraph.10k, layer = "world", attr = "continent")
+#' x <- assignByPolygon(worldgraph.10k, layer = "world", attr = "continent")
 #' x
 #' table(getNodesAttr(x, attr.name = "continent"))
 #'
@@ -54,23 +41,25 @@
 #' plot(x, reset = TRUE)
 #'
 #' @export
-setGeneric("extractFromLayer", function(x, ...) {
-  standardGeneric("extractFromLayer")
+setGeneric("assignByPolygon", function(x, ...) {
+  standardGeneric("assignByPolygon")
 })
 
 
 ################
 ## for matrices (of long/lat)
 ################
-#' @describeIn extractFromLayer Method for matrix input
+#' @describeIn assignByPolygon Method for matrix input
 #' @export
-setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all", ...) {
+setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all", ...) {
   ## Load default shapefile ##
   if (is.character(layer) && layer[1] == "world") {
     # use rnaturalearth instead of the inbuilt dataset
     layer <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
     # layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
+  old_s2 <- sf::sf_use_s2()
+  on.exit(sf::sf_use_s2(old_s2), add = TRUE)
   sf::sf_use_s2(FALSE)
   ## TODO if the layer is null, we should throw an error!!!
   if (!is.null(layer)) {
@@ -82,8 +71,8 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
       }
     }
   }
-
-
+  
+  
   ## search attr in data ##
   if (attr[1] == "all") {
     # selAttr <- 1:ncol(layer)
@@ -97,8 +86,8 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
       return(NULL) # return NULL if attr not found, not generate an error
     }
   }
-
-
+  
+  
   # create an sf point object from the coordinates
   locations.st <- x %>%
     as.data.frame() %>%
@@ -113,37 +102,37 @@ setMethod("extractFromLayer", "matrix", function(x, layer = "world", attr = "all
   points.assignment <- data.frame(x = seq(1, nrow(x)), polygon = NA)
   # add missing points for which we have no information
   points.assignment[points.within$x, "polygon"] <- points.within$polygon
-
+  
   dat <- layer %>% sf::st_drop_geometry()
   # @TOFIX the line below will fail if layerId is all NAs (i.e. no points were assigned to a polygon)
   res <- dat[points.assignment$polygon, selAttr, drop = FALSE]
-
+  
   row.names(res) <- rownames(x)
-
+  
   return(res)
-}) # end extractFromLayer for matrices
+}) # end assignByPolygon for matrices
 
 
 ################
 ## for data.frames (of long/lat)
 ################
-#' @describeIn extractFromLayer Method for data.frames input
+#' @describeIn assignByPolygon Method for data.frames input
 #' @export
-setMethod("extractFromLayer", "data.frame", function(x, layer = "world", attr = "all", ...) {
+setMethod("assignByPolygon", "data.frame", function(x, layer = "world", attr = "all", ...) {
   x <- as.matrix(x)
-  return(extractFromLayer(x, layer = layer, attr = attr, ...))
-}) # end extractFromLayer
+  return(assignByPolygon(x, layer = layer, attr = attr, ...))
+}) # end assignByPolygon
 
 
 ################
 ## for numeric vector (of long/lat)
 ################
-#' @describeIn extractFromLayer Method for numeric vector input
+#' @describeIn assignByPolygon Method for numeric vector input
 #' @export
-setMethod("extractFromLayer", "numeric", function(x, layer = "world", attr = "all", ...) {
+setMethod("assignByPolygon", "numeric", function(x, layer = "world", attr = "all", ...) {
   if (isTRUE(length(x) %% 2 == 0)) {
     x <- matrix(x, ncol = 2, byrow = TRUE)
-    return(extractFromLayer(x, layer = layer, attr = attr, ...))
+    return(assignByPolygon(x, layer = layer, attr = attr, ...))
   } else {
     stop("Vector must have even number of longitude and latitude entries")
   }
@@ -153,43 +142,43 @@ setMethod("extractFromLayer", "numeric", function(x, layer = "world", attr = "al
 ################
 ## for list (of long/lat)
 ################
-#' @describeIn extractFromLayer Method for numeric list input
+#' @describeIn assignByPolygon Method for numeric list input
 #' @export
-setMethod("extractFromLayer", "list", function(x, layer = "world", attr = "all", ...) {
+setMethod("assignByPolygon", "list", function(x, layer = "world", attr = "all", ...) {
   x <- data.frame(x)
-  return(extractFromLayer(x, layer = layer, attr = attr, ...))
-}) # end extractFromLayer
+  return(assignByPolygon(x, layer = layer, attr = attr, ...))
+}) # end assignByPolygon
 
 
 ##############
 ## for gGraph # should be carefully used, output is going to be heavy
 ##############
-#' @describeIn extractFromLayer Method for numeric gGraph objects
+#' @describeIn assignByPolygon Method for numeric gGraph objects
 #' @note The gGraph method should be carefully used, output is going to be heavy.
 #' @export
-setMethod("extractFromLayer", "gGraph", function(x, layer = "world", attr = "all", ...) {
+setMethod("assignByPolygon", "gGraph", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
-  res <- extractFromLayer(x = coords, layer = layer, attr = attr, ...)
-
+  res <- assignByPolygon(x = coords, layer = layer, attr = attr, ...)
+  
   if (nrow(x@nodes.attr) > 1) {
     x@nodes.attr <- cbind.data.frame(x@nodes.attr, res)
   } else {
     x@nodes.attr <- res
   }
-
+  
   return(x)
-}) # end extractFromLayer
+}) # end assignByPolygon
 
 
 ##############
 ## for gData
 ##############
-#' @describeIn extractFromLayer Method for numeric gData objects
+#' @describeIn assignByPolygon Method for numeric gData objects
 #' @export
-setMethod("extractFromLayer", "gData", function(x, layer = "world", attr = "all", ...) {
+setMethod("assignByPolygon", "gData", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
-  res <- extractFromLayer(x = coords, layer = layer, attr = attr, ...)
-
+  res <- assignByPolygon(x = coords, layer = layer, attr = attr, ...)
+  
   if (is.null(x@data)) {
     x@data <- res
   } else if (length(nrow(x@data)) > 0 && nrow(x@data) > 1) { # if data are non-empty data.frame
@@ -202,6 +191,6 @@ setMethod("extractFromLayer", "gData", function(x, layer = "world", attr = "all"
     warning("x@data has been transformed into a list to include layer data.")
     x@data <- list(x@data, layerInfo = res)
   }
-
+  
   return(x)
 })

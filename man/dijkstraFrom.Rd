@@ -57,6 +57,7 @@ my.path <- dijkstraFrom(hgdp.sub, french)
 \seealso{
 Other dijkstra_methods:
 \code{\link[=dijkstraBetween]{dijkstraBetween()}},
+\code{\link[=dijkstraBuffer]{dijkstraBuffer()}},
 \code{\link[=gPath2dist]{gPath2dist()}}
 }
 \concept{dijkstra_methods}
