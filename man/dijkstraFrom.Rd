@@ -18,7 +18,7 @@ dijkstraFrom(x, start)
 \item{start}{a character string naming the 'source' node.}
 }
 \value{
-A gPath object (TODO link with a full description of gPath).
+A \code{\link{gPath}} object.
 }
 \description{
 This function finds the shortest path from a given 'source' node

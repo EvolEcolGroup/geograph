@@ -22,7 +22,7 @@ dijkstraBetween(x, ...)
 \item{to}{A character vector of ending node IDs.}
 }
 \value{
-A gPath object (TODO link with a full description of gPath).
+A \code{\link{gPath}} object.
 }
 \description{
 This function finds the shortest path between nodes in a graph
