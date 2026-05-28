@@ -32,7 +32,9 @@ dijkstraFrom(x, start)
 
 ## Value
 
-A gPath object (TODO link with a full description of gPath).
+A
+[`gPath`](https://evolecolgroup.github.io/geograph/dev/reference/gPath-class.md)
+object.
 
 ## Details
 

@@ -76,26 +76,28 @@ to assign attributes from GIS shapefiles.
 ## Examples
 
 ``` r
-if (requireNamespace("terra", quietly = TRUE)) {
-  geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-  ggraph <- makeHexGrid(geo.box, spacing = 1000)
 
-  r <- terra::rast(
-    xmin = geo.box["xmin"], xmax = geo.box["xmax"],
-    ymin = geo.box["ymin"], ymax = geo.box["ymax"],
-    resolution = 5, crs = "EPSG:4326"
-  )
-  terra::values(r) <- runif(terra::ncell(r))
-
-  ## assign mean raster value per node
-  ggraph <- assignByRaster(ggraph, r, layer.name = "elevation", fun = "mean")
-
-  ## assign standard deviation per node (useful for ruggedness)
-  ggraph <- assignByRaster(ggraph, r, layer.name = "ruggedness", fun = "sd")
-}
+## Make a new gGraph without any nodes attribute
+geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+ggraph <- makeHexGrid(geo.box, spacing = 1000) 
 #> Resolution: 4, Area (km^2): 629710.644103813, Spacing (km): 783.739159045648, CLS (km): 895.60184164835
+
+## Create a synthetic raster of random elevation values over the same region.
+set.seed(42)
+r <- terra::rast(
+  xmin = geo.box["xmin"], xmax = geo.box["xmax"],
+  ymin = geo.box["ymin"], ymax = geo.box["ymax"],
+  resolution = 5, crs = "EPSG:4326"
+)
+terra::values(r) <- runif(terra::ncell(r)) 
+
+## assign mean raster value per node
+ggraph <- assignByRaster(ggraph, r, layer.name = "elevation", fun = "mean") 
 #> although coordinates are longitude/latitude, st_nearest_feature assumes that
 #> they are planar
+
+## assign standard deviation per node (useful for ruggedness)
+ggraph <- assignByRaster(ggraph, r, layer.name = "ruggedness", fun = "sd")
 #> although coordinates are longitude/latitude, st_nearest_feature assumes that
 #> they are planar
 ```

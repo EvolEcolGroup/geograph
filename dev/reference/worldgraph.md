@@ -93,7 +93,7 @@ title("Europe")
 
 
 ## defining the subset of visible points
-x <- worldgraph.10k[isInArea(worldgraph.10k)]
+x <- worldgraph.10k[isInArea(worldgraph.10k, quiet = TRUE)]
 plot(x, reset = TRUE, edges = TRUE)
 title("One subsetted object.")
 

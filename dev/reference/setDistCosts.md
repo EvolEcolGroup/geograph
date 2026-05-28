@@ -75,6 +75,8 @@ geo.zoomin(list(x = c(110, 150), y = c(-10, -40)))
 plotEdges(rawgraph.10k)
 
 x <- rawgraph.10k[isInArea(rawgraph.10k)]
+#> Area: lon = [103.2044, 156.7956], lat = [-46.6000, -3.4000]
+#>   Reproducible call: reg = list(x = c(103.2044, 156.7956), y = c(-46.6000, -3.4000))
 x <- setDistCosts(x)
 
 plotEdges(x)

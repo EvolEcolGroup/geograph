@@ -53,4 +53,7 @@ geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 ggraph <- makeHexGrid(geo.box = geo.box, spacing = 300)
 #> Resolution: 6, Area (km^2): 69967.8493448681, Spacing (km): 261.246386348549, CLS (km): 298.479323187169
 plot(ggraph, edge = TRUE)
+
+#> 
+#> No edge to plot.
 ```
