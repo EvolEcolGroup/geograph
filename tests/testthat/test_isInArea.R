@@ -60,7 +60,8 @@ test_that("isInArea gives same nodes from zoom device and explicit bbox", {
   )
   
   ## extract the reg = list(...) part from the message and evaluate it
-  reg.string <- sub(".*Reproducible call: ", "", msg[2])
+  reg.line <- msg[grepl("Reproducible call:", msg)][1]
+  reg.string <- sub(".*Reproducible call: ", "", reg.line)
   reg.bbox   <- eval(parse(text = reg.string))
   
   ## get nodes using the reproducible call from the message
