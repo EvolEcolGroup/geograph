@@ -110,9 +110,10 @@ x <- worldgraph.10k[isInArea(worldgraph.10k)]
 plot(x, reset = TRUE)
 
 ## Instead of the current plotted area we can use an explicit bounding box
-y <- worldgraph.10k[(isInArea(worldgraph.10k, 
-                              reg = list(x = c(113, 154), y = c(-44, -10)), 
-                              quiet = TRUE))]#' plot(y, reset = TRUE)
+y <- worldgraph.10k[(isInArea(worldgraph.10k,
+                              reg = list(x = c(113, 154), y = c(-44, -10)),
+                              quiet = TRUE))]
+plot(y, reset = TRUE)
 
 }
 \seealso{

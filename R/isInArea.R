@@ -23,7 +23,7 @@
 #'   be produced. See value.
 #' @param buffer a numeric value giving a buffer adding extra space around
 #'   the area, as a proportion of current area's dimensions.
-#' @param quiet logical. If `TRUE`, prints the bounding box coordinates
+#' @param quiet logical. If `TRUE`, suppresses printing of bounding box coordinates
 #'   and a reproducible `reg` argument that can be copy-pasted into scripts
 #'   for exact reproducibility. Defaults to `FALSE`.
 #' @return The output depends on the value of the argument `res.type`:

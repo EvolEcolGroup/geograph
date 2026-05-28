@@ -44,7 +44,7 @@ minimum path cost does not exceed the specified threshold.
 ## Subset gGraph to Europe
 x <- rawgraph.10k[isInArea(worldgraph.10k, reg = list(x = c(-10, 50), y = c(35, 70)), quiet = TRUE)]
 
-## Get all nodes reachable within cost 10 from the origin node (here Zurich)
+## Get all nodes reachable within cost 10 from node the origin (here Zurich)
 zurich <- data.frame(lon = 8.55, lat = 47.37)
 
 ## Set costs for the graph and calculate the buffer
