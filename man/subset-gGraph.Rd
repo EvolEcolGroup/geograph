@@ -31,7 +31,7 @@ subsetted consistently.
 ## subset to nodes in a geographic area
 plot(worldgraph.10k, reset = TRUE)
 geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
-x <- worldgraph.10k[isInArea(worldgraph.10k)]
+x <- worldgraph.10k[isInArea(worldgraph.10k, quiet = TRUE)]
 
 ## subset by node name
 x <- worldgraph.10k[c("1", "2", "3")]

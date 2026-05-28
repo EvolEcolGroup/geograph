@@ -41,17 +41,17 @@ Dijkstra's algorithm from the origin node and returns all nodes whose
 minimum path cost does not exceed the specified threshold.
 }
 \examples{
-## zoom in to an area
-plot(rawgraph.10k, reset = TRUE)
-geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
-x <- rawgraph.10k[isInArea(rawgraph.10k)]
-## get all nodes reachable within cost 10 from node the origin (here Zurich)
+## Subset gGraph to Europe
+x <- rawgraph.10k[isInArea(worldgraph.10k, reg = list(x = c(-10, 50), y = c(35, 70)), quiet = TRUE)]
+
+## Get all nodes reachable within cost 10 from node the origin (here Zurich)
 zurich <- data.frame(lon = 8.55, lat = 47.37)
-## set costs for the graph and calculate the buffer
+
+## Set costs for the graph and calculate the buffer
 graph <- setCosts(x, attr.name = "habitat", method = "mean")
 x2 <- dijkstraBuffer(graph, origin = zurich, d = 10, res.type = "gGraph")
 
-## plot reachable nodes in dark blue, all others transparent
+## Plot reachable nodes in dark blue, all others transparent
 col.rules <- data.frame(
   reachable = c(TRUE, FALSE),
   color     = c("darkblue", "transparent")

@@ -113,7 +113,7 @@ setMethod("closestNode", "gGraph", function(x, loc, zoneSize = 5, attr.name = NU
       reg$y <- oneLoc[2] + c(-zoneSize, zoneSize) # +- zoneZine in lat
       
       ## isolate nodes in this area
-      toKeep <- isInArea(x, reg) # ! from now nodes indices won't match those of x and coords
+      toKeep <- isInArea(x, reg, quiet = TRUE) # ! from now nodes indices won't match those of x and coords
       
       ## intersect with attribute selection
       toKeep <- toKeep & hasRightAttr

@@ -32,23 +32,23 @@
 #' @name buffer
 #' @examples
 #' #### gGraph example ####
-#' ## zoom in to an area
-#' plot(rawgraph.10k, reset = TRUE)
-#' geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
-#' x <- rawgraph.10k[isInArea(rawgraph.10k)]
+#' ## Subset gGraph to Europe
+#' x <- rawgraph.10k[isInArea(worldgraph.10k, reg = list(x = c(-10, 50), y = c(35, 70)), quiet = TRUE)]
 #' 
 #' ## identify one node
 #' node <- closestNode(x, data.frame(lon = 12, lat = 50))
 #' 
-#' ## find some buffers
+#' ## find a buffer
 #' buffer(x, node, 1000)
 #' buf500km <- buffer(x, node, 1000, res.type = "gGraph")
-#' plot(buf500km, col.rules = buf500km@meta$buf.colors)
+#' plot(buf500km, col.rules = buf500km@meta$buf.colors, reset = TRUE)
 #' 
 #' #### gData example ####
-#' x <- hgdp[27:30] # retain a subset of hgdp
+#' 
+#' ## retain a subset of hgdp
+#' x <- hgdp[27:30] 
 #' plot(x, reset = TRUE, col.g = "lightgrey", pch.node = 20)
-#' buf.400 <- buffer(x, 400, res = "gData")
+#' buf.400 <- buffer(x, 400, res.type = "gData")
 #' points(buf.400, col.node = "gold")
 #' 
 NULL

@@ -186,8 +186,6 @@ setMethod("points", signature(x = "gData"), function(x, type = c("nodes", "origi
 
     myGraph <- get(x@gGraph.name, envir = .GlobalEnv)
     coords.nodes <- getCoords(myGraph)[x@nodes.id, , drop = FALSE]
-    ## toKeep <- isInArea(coords.nodes, reg="usr", res.type="integer") # useless, messy
-    ## coords.nodes <- coords.nodes[toKeep, , drop=FALSE]
   }
 
   ## add points ##

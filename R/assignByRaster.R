@@ -25,9 +25,12 @@
 #'   [`assignByPolygon`] to assign attributes from GIS shapefiles.
 #' @examples
 #' 
+#' ## Make a new gGraph without any nodes attribute
 #' geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 #' ggraph <- makeHexGrid(geo.box, spacing = 1000) 
 #' 
+#' ## Create a synthetic raster of random elevation values over the same region.
+#' set.seed(42)
 #' r <- terra::rast(
 #'   xmin = geo.box["xmin"], xmax = geo.box["xmax"],
 #'   ymin = geo.box["ymin"], ymax = geo.box["ymax"],
