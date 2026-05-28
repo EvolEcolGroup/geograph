@@ -27,20 +27,23 @@
 #'   [`setCosts`] to define edge costs before running `dijkstraBuffer`.
 #' @family dijkstra_methods
 #' @examples
-#' ## get all nodes reachable within cost 10 from node the origin (here Zurich)
+#' ## Subset gGraph to Europe
+#' x <- rawgraph.10k[isInArea(worldgraph.10k, reg = list(x = c(-10, 50), y = c(35, 70)), quiet = TRUE)]
+#' 
+#' ## Get all nodes reachable within cost 10 from node the origin (here Zurich)
 #' zurich <- data.frame(lon = 8.55, lat = 47.37)
 #' 
-#' ## set costs for the graph and calculate the buffer
-#' graph <- setCosts(rawgraph.10k, attr.name = "habitat", method = "mean")
+#' ## Set costs for the graph and calculate the buffer
+#' graph <- setCosts(x, attr.name = "habitat", method = "mean")
 #' x2 <- dijkstraBuffer(graph, origin = zurich, d = 10, res.type = "gGraph")
 #' 
-#' ## plot reachable nodes in dark blue, all others transparent
+#' ## Plot reachable nodes in dark blue, all others transparent
 #' col.rules <- data.frame(
 #'   reachable = c(TRUE, FALSE),
 #'   color     = c("darkblue", "transparent")
 #' )
 #' plot(x2, col.rules = col.rules, reset = TRUE)
-#'
+#' 
 #' @export
 dijkstraBuffer <- function(x, origin, d, res.type = c("nodes", "gGraph"), ...) {
   res.type <- match.arg(res.type)

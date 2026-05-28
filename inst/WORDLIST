@@ -12,7 +12,6 @@ RBGL
 RBGL's
 Ringler
 antimeridian
-assignByPolygon
 closestNode
 coords
 dev
@@ -29,7 +28,6 @@ getCosts
 img
 linux
 magrittr
-makeSquareGrid
 manpage
 nb
 neighbours

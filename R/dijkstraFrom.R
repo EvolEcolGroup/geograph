@@ -4,7 +4,7 @@
 #'    It can be applied to both gGraph and gData objects.
 #' @param x A [`gGraph`] or [`gData`] object.
 #' @param start a character string naming the 'source' node.
-#' @return A gPath object (TODO link with a full description of gPath).
+#' @return A [`gPath`] object.
 #' @details The function uses the RBGL package to compute the shortest paths. It
 #'   checks for the connectivity of the graph and handles cases where there are
 #'   duplicated paths.

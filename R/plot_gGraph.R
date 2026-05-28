@@ -152,7 +152,7 @@ setMethod(
     }
 
 
-    toKeep <- isInArea(x, res.type = "integer")
+    toKeep <- isInArea(x, res.type = "integer", quiet = TRUE)
     coords <- coords[toKeep, ]
 
 
@@ -197,7 +197,7 @@ setMethod(
       plot(sf::st_geometry(shape), col = bg.col, border = border.col, xlim = xlim, ylim = ylim)
 
       ## subset of points in area
-      toKeep <- isInArea(x, reg = "current", res.type = "character")
+      toKeep <- isInArea(x, reg = "current", res.type = "character", quiet = TRUE)
       coords <- getCoords(x)[toKeep, ]
 
       ## define colors for these points
@@ -291,7 +291,7 @@ setMethod("points", signature("gGraph"), function(x, psize = NULL, pch = NULL, c
 
   ## subset data to visible area ##
   coords <- getCoords(x)
-  toKeep <- isInArea(x, reg = "current", res.type = "integer")
+  toKeep <- isInArea(x, reg = "current", res.type = "integer", quiet = TRUE)
   coords <- coords[toKeep, , drop = FALSE]
 
   ## handle plot param
@@ -405,7 +405,7 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
 
   ## retained coords (those within plotting area)
   coords <- getCoords(x)
-  toKeep <- isInArea(x, reg = "current", res.type = "integer")
+  toKeep <- isInArea(x, reg = "current", res.type = "integer", quiet = TRUE)
   keptCoords <- coords[toKeep, , drop = FALSE]
 
   ## adjust pcol to subset of points in area

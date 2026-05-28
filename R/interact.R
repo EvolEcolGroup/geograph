@@ -55,14 +55,10 @@ geo.add.edges <- function(x, mode = c("points", "area", "all"), refObj = "rawgra
   ## preliminary stuff
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
   mode <- match.arg(mode)
-  ## temp <- isInArea(x) # not needed
-  ## coords <- getCoords(x)[temp,]
-  ## nodes <- getNodes(x)[temp]
   coords <- getCoords(x)
   nodes <- getNodes(x)
   lon <- coords[, 1]
   lat <- coords[, 2]
-  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
   ## handle refObj
   if (is.character(refObj) && refObj == "rawgraph.10k") {
@@ -109,7 +105,7 @@ geo.add.edges <- function(x, mode = c("points", "area", "all"), refObj = "rawgra
       selArea <- data.frame(locator(2))
 
       if (nrow(selArea) > 1) {
-        selNodes <- isInArea(refObj, reg = selArea, res.type = "integer") # indices of selected points
+        selNodes <- isInArea(refObj, reg = selArea, res.type = "integer", quiet = TRUE) # indices of selected points
         selEdges <- getEdges(refObj, res.type = "matId", unique = TRUE) # edges, nodes=numerical indices
         temp <- (selEdges[, 1] %in% selNodes) & (selEdges[, 2] %in% selNodes)
         selEdges <- selEdges[temp, ] # edges of refobj wholly inside the selected area
@@ -152,7 +148,7 @@ geo.add.edges <- function(x, mode = c("points", "area", "all"), refObj = "rawgra
 geo.remove.edges <- function(x, mode = c("points", "area")) {
   ## preliminary stuff
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
-  temp <- isInArea(x)
+  temp <- isInArea(x, quiet = TRUE)
   # coords <- getCoords(x)[temp,] # not needed: can work with whole object
   coords <- getCoords(x)
   nodeNames <- getNodes(x)
@@ -202,7 +198,7 @@ geo.remove.edges <- function(x, mode = c("points", "area")) {
       selArea <- data.frame(locator(2))
 
       if (nrow(selArea) > 1) {
-        selIdx <- which(isInArea(x, reg = selArea)) # indices of selected points
+        selIdx <- which(isInArea(x, reg = selArea, quiet = TRUE)) # indices of selected points
         selEdges <- getEdges(x, res.type = "matId", unique = TRUE) # edges, nodes=numerical indices
         temp <- (selEdges[, 1] %in% selIdx) & (selEdges[, 2] %in% selIdx)
         selEdges <- selEdges[temp, ] # edges wholly inside the selected area
@@ -379,7 +375,7 @@ geo.change.attr <- function(x, mode = c("points", "area"), attr.name, attr.value
       selArea <- data.frame(locator(2))
 
       if (nrow(selArea) > 1) {
-        selIdx <- which(isInArea(x, reg = selArea)) # indices of selected points
+        selIdx <- which(isInArea(x, reg = selArea, quiet = TRUE)) # indices of selected points
         selIdx <- selIdx[selIdx %in% hasRightAttr] # only nodes with replaced attribute
         points(lon[selIdx], lat[selIdx], cex = psize, pch = pch, col = newCol)
 

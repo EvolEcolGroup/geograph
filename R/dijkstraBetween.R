@@ -6,7 +6,7 @@
 #' @param from A character vector of starting node IDs.
 #' @param to A character vector of ending node IDs.
 #' @param ... Additional arguments passed to other methods (currently not used).
-#' @return A gPath object (TODO link with a full description of gPath).
+#' @return A [`gPath`] object.
 #' @details The function uses the RBGL package to compute the shortest paths. It
 #'   checks for the connectivity of the graph and handles cases where there are
 #'   duplicated paths.
