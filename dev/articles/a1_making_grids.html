@@ -61,7 +61,7 @@
 
       <h1>Making custom grids in geoGraph</h1>
             
-            <h4 data-toc-skip class="date">2026-05-28</h4>
+            <h4 data-toc-skip class="date">2026-05-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/a1_making_grids.Rmd" class="external-link"><code>vignettes/a1_making_grids.Rmd</code></a></small>
       <div class="d-none name"><code>a1_making_grids.Rmd</code></div>
@@ -98,7 +98,7 @@ resulting graph using the <code>plot</code> function.</p>
 <span><span class="va">squareGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/findLand.html">findLand</a></span><span class="op">(</span><span class="va">squareGraph</span><span class="op">)</span></span>
 <span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span><span class="op">)</span>,</span>
-<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#b0d4e8"</span>, <span class="st">"#90c090"</span><span class="op">)</span>  </span>
+<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#b0d4e8"</span>, <span class="st">"#90c090"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">squareGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setColors.html">setColors</a></span><span class="op">(</span><span class="va">squareGraph</span>, <span class="va">colors</span><span class="op">)</span></span>
@@ -140,7 +140,7 @@ that covers the area of western Europe and parts of Northern Africa.</p>
 <span></span>
 <span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  habitat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sea"</span>, <span class="st">"land"</span><span class="op">)</span>,</span>
-<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#b0d4e8"</span>, <span class="st">"#90c090"</span><span class="op">)</span>  </span>
+<span>  color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#b0d4e8"</span>, <span class="st">"#90c090"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setColors.html">setColors</a></span><span class="op">(</span><span class="va">hexGraph</span>, <span class="va">colors</span><span class="op">)</span></span>
@@ -296,11 +296,11 @@ with the new habitat classifications.</p>
 <span><span class="va">node.attr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">hexGraph</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">habitat.new</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
-<span>  <span class="va">node.attr</span><span class="op">$</span><span class="va">habitat</span> <span class="op">==</span> <span class="st">"sea"</span>         <span class="op">~</span> <span class="st">"sea"</span>,        </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">sd.ele</span><span class="op">)</span>                      <span class="op">~</span> <span class="st">"land"</span>,       </span>
-<span>  <span class="va">sd.ele</span> <span class="op">&gt;</span> <span class="va">very.rugged.threshold</span>     <span class="op">~</span> <span class="st">"very_rugged"</span>,</span>
-<span>  <span class="va">sd.ele</span> <span class="op">&gt;</span> <span class="va">rugged.threshold</span>          <span class="op">~</span> <span class="st">"rugged"</span>,</span>
-<span>  <span class="cn">TRUE</span>                               <span class="op">~</span> <span class="st">"land"</span></span>
+<span>  <span class="va">node.attr</span><span class="op">$</span><span class="va">habitat</span> <span class="op">==</span> <span class="st">"sea"</span> <span class="op">~</span> <span class="st">"sea"</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">sd.ele</span><span class="op">)</span> <span class="op">~</span> <span class="st">"land"</span>,</span>
+<span>  <span class="va">sd.ele</span> <span class="op">&gt;</span> <span class="va">very.rugged.threshold</span> <span class="op">~</span> <span class="st">"very_rugged"</span>,</span>
+<span>  <span class="va">sd.ele</span> <span class="op">&gt;</span> <span class="va">rugged.threshold</span> <span class="op">~</span> <span class="st">"rugged"</span>,</span>
+<span>  <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"land"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># update the habitat attribute in the graph</span></span>
@@ -414,13 +414,13 @@ classification.</p>
 <span></span>
 <span><span class="co"># nodes inside the polygon get "desert" as their type, all others get NA</span></span>
 <span><span class="va">hexGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/assignByPolygon.html">assignByPolygon</a></span><span class="op">(</span><span class="va">hexGraph</span>,</span>
-<span>                             layer <span class="op">=</span> <span class="va">desert</span>,</span>
-<span>                             attr  <span class="op">=</span> <span class="st">"type"</span></span>
+<span>  layer <span class="op">=</span> <span class="va">desert</span>,</span>
+<span>  attr  <span class="op">=</span> <span class="st">"type"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># reclassify habitat: nodes with type "desert" become "desert",</span></span>
-<span><span class="va">node.attr</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">hexGraph</span><span class="op">)</span></span>
-<span><span class="va">hab.new</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span></span>
+<span><span class="va">node.attr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">hexGraph</span><span class="op">)</span></span>
+<span><span class="va">hab.new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span></span>
 <span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">node.attr</span><span class="op">$</span><span class="va">type</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">node.attr</span><span class="op">$</span><span class="va">type</span> <span class="op">==</span> <span class="st">"desert"</span>,</span>
 <span>  <span class="st">"desert"</span>,</span>
 <span>  <span class="va">node.attr</span><span class="op">$</span><span class="va">habitat</span></span>
@@ -495,12 +495,14 @@ increases as the temperature difference increases. The
 to the graph based on the temperature values assigned to each node.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp.cost</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span>, <span class="va">cost.coeff</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">x1</span> <span class="op">-</span> <span class="va">x2</span><span class="op">)</span> <span class="op">*</span> <span class="va">cost.coeff</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">x1</span> <span class="op">-</span> <span class="va">x2</span><span class="op">)</span> <span class="op">*</span> <span class="va">cost.coeff</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
 <span></span>
 <span><span class="co"># create a set of node costs for temperature</span></span>
-<span><span class="va">temperatureGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setNodesAttr.html">setNodesAttr</a></span><span class="op">(</span><span class="va">maxCostGraph</span>, attr.name <span class="op">=</span> <span class="st">"temp"</span>,</span>
-<span>                                 values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/getNodes.html">getNodes</a></span><span class="op">(</span><span class="va">maxCostGraph</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">temperatureGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setNodesAttr.html">setNodesAttr</a></span><span class="op">(</span><span class="va">maxCostGraph</span>,</span>
+<span>  attr.name <span class="op">=</span> <span class="st">"temp"</span>,</span>
+<span>  values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/getNodes.html">getNodes</a></span><span class="op">(</span><span class="va">maxCostGraph</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="va">temperatureGraph</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span></span>
 <span>    <span class="va">temperatureGraph</span>,</span>

@@ -314,8 +314,8 @@ getCosts(rawgraph.10k, res.type = "rules")
 ``` r
 
 cost.rules <- getCosts(rawgraph.10k, res.type = "rules")
-cost.rules$cost[cost.rules$habitat == "sea"]  <- 1
-cost.rules$cost[cost.rules$habitat != "sea"]  <- 100
+cost.rules$cost[cost.rules$habitat == "sea"] <- 1
+cost.rules$cost[cost.rules$habitat != "sea"] <- 100
 newGraph <- setCosts(rawgraph.10k, attr.name = "habitat", cost.rules = cost.rules)
 getCosts(newGraph, res.type = "rules")
 ```
