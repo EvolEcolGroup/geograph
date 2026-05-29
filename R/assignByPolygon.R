@@ -108,7 +108,7 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
   
   if (all(is.na(points.assignment$polygon))) {
     warning("No points were assigned to any polygon, returning NA for all locations.")
-    res <- dat[rep(NA, nrow(x)), selAttr, drop = FALSE]
+    res <- dat[rep(NA_integer_, nrow(x)), selAttr, drop = FALSE]
     row.names(res) <- rownames(x)
     return(res)
   }  

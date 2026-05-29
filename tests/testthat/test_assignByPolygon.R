@@ -107,3 +107,19 @@ test_that("assignByPolygon works on gData with NULL data slot", {
   expect_false(is.null(res@data))
 })
 
+test_that("assignByPolygon returns correct number of rows when no points in any polygon", {
+  ocean.coords <- data.frame(lon = c(-30, -40, -35), lat = c(0, 10, 5))
+  expect_warning(
+    res <- assignByPolygon(ocean.coords, layer = "world", attr = "continent"),
+    "No points were assigned to any polygon"
+  )
+  expect_equal(nrow(res), nrow(ocean.coords))
+  expect_true(all(is.na(res$continent)))
+})
+
+test_that("assignByPolygon handles duplicate coordinates correctly", {
+  dupes <- data.frame(lon = c(2, 2), lat = c(48, 48))
+  res <- assignByPolygon(dupes, layer = "world", attr = "continent")
+  expect_equal(nrow(res), 2L)
+  expect_equal(res$continent[1], res$continent[2])
+})
