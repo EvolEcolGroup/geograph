@@ -41,9 +41,9 @@ ori <- closestNode(worldgraph.40k, cbind(33, 10))
 myPath <- dijkstraFrom(hgdp, ori)
 
 ## examine the structure
-length(myPath)            # number of paths
-myPath[[1]]$path_detail   # nodes in first path
-myPath[[1]]$length        # cost of first path
+length(myPath) # number of paths
+myPath[[1]]$path_detail # nodes in first path
+myPath[[1]]$length # cost of first path
 myPath[[1]]$length_detail # details for each step
 
 ## get coordinates of nodes in paths

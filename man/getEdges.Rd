@@ -43,7 +43,7 @@ object using different possible outputs.
 }}
 \examples{
 head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
-head(getEdges(worldgraph.10k, res.type = "matId",   unique = TRUE))
+head(getEdges(worldgraph.10k, res.type = "matId", unique = TRUE))
 
 }
 \seealso{

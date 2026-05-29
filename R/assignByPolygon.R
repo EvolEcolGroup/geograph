@@ -23,6 +23,8 @@
 #'   [`gData`] input: a [`gData`] object with new data added to `@data`.
 #' @seealso [`findLand`] to find which locations are on land.
 #'   [`assignByRaster`] to assign attributes from raster data.
+#' @details The [`gGraph`] method can be memory-intensive for large graphs
+#'   since it assigns attributes to all nodes.
 #' @examples
 #'
 #' plot(worldgraph.10k, reset = TRUE)
@@ -56,12 +58,12 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
   if (is.character(layer) && layer[1] == "world") {
     # use rnaturalearth instead of the inbuilt dataset
     layer <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
-    # layer <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
   }
   old_s2 <- sf::sf_use_s2()
   on.exit(sf::sf_use_s2(old_s2), add = TRUE)
   sf::sf_use_s2(FALSE)
-  ## TODO if the layer is null, we should throw an error!!!
+  
+  if (is.null(layer)) stop("layer must not be NULL.")
   if (!is.null(layer)) {
     if (!inherits(layer, "sf")) {
       if (inherits(layer, "SpatialPolygonsDataFrame")) {
@@ -75,7 +77,6 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
 
   ## search attr in data ##
   if (attr[1] == "all") {
-    # selAttr <- 1:ncol(layer)
     selAttr <- seq_len(ncol(layer)) - 1
   } else {
     selAttr <- match(attr, colnames(layer)) # selected attributes
@@ -104,7 +105,14 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
   points.assignment[points.within$x, "polygon"] <- points.within$polygon
 
   dat <- layer %>% sf::st_drop_geometry()
-  # @TOFIX the line below will fail if layerId is all NAs (i.e. no points were assigned to a polygon)
+  
+  if (all(is.na(points.assignment$polygon))) {
+    warning("No points were assigned to any polygon, returning NA for all locations.")
+    res <- dat[rep(NA, nrow(x)), selAttr, drop = FALSE]
+    row.names(res) <- rownames(x)
+    return(res)
+  }  
+  
   res <- dat[points.assignment$polygon, selAttr, drop = FALSE]
 
   row.names(res) <- rownames(x)
@@ -151,9 +159,9 @@ setMethod("assignByPolygon", "list", function(x, layer = "world", attr = "all", 
 
 
 ##############
-## for gGraph # should be carefully used, output is going to be heavy
+## for gGraph 
 ##############
-#' @describeIn assignByPolygon Method for numeric gGraph objects
+#' @describeIn assignByPolygon Method for gGraph objects
 #' @note The gGraph method should be carefully used, output is going to be heavy.
 #' @export
 setMethod("assignByPolygon", "gGraph", function(x, layer = "world", attr = "all", ...) {
@@ -173,7 +181,7 @@ setMethod("assignByPolygon", "gGraph", function(x, layer = "world", attr = "all"
 ##############
 ## for gData
 ##############
-#' @describeIn assignByPolygon Method for numeric gData objects
+#' @describeIn assignByPolygon Method for gData objects
 #' @export
 setMethod("assignByPolygon", "gData", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)

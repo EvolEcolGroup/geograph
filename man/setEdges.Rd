@@ -45,10 +45,11 @@ head(getEdges(worldgraph.10k, res.type = "matNames"))
 
 # remove an edge between two neighbouring nodes
 node.from <- "1"
-node.to   <- getEdges(worldgraph.10k, res.type = "matNames")[1, 2]
+node.to <- getEdges(worldgraph.10k, res.type = "matNames")[1, 2]
 
 x <- setEdges(worldgraph.10k,
-              remove = data.frame(from = node.from, to = node.to))
+  remove = data.frame(from = node.from, to = node.to)
+)
 
 # verify the edge is gone
 areNeighbours(node.from, node.to, getGraph(x))

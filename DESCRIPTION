@@ -4,6 +4,11 @@ Title: Walking Through the Geographic Space Using Graphs
 Version: 1.1.1.9013
 Authors@R: c(
     person("Thibaut", "Jombart", role = "aut"),
+    person("Dominik", "Jud", role = "aut"),
+    person("Cecilia", "Padilla-Iglesias", role =  c("aut")),
+    person("Ondrej", "Pelanek", role = c("aut")),
+    person("Andrea", "Pozzi", role = c("aut")),
+    person("Margherita", "Colucci", role = c("aut")),
     person("Andrea", "Manica", email = "am315@cam.ac.uk", role = c("aut", "cre")))
 Maintainer: Andrea Manica <am315@cam.ac.uk>
 Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.

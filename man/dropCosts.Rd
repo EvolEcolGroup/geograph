@@ -27,9 +27,9 @@ object, returning an unweighted graph.
 
 }}
 \examples{
-hasCosts(rawgraph.10k)  
+hasCosts(rawgraph.10k)
 x <- dropCosts(worldgraph.10k)
-hasCosts(x)               
+hasCosts(x)
 }
 \seealso{
 \code{\link{getCosts}} to retrieve edge costs, \code{\link{setCosts}} to set edge costs.

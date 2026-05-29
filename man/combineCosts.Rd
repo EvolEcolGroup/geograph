@@ -39,7 +39,7 @@ Also note that 'costs' defined in \code{geoGraph} are equivalent to
 'weights' as defined in \code{graph} and \code{RBGL} packages.
 }
 \examples{
- 
+
 data("worldgraph.40k")
 # new graph with custom cost function
 exp.cost <- function(x1, x2, cost.coeff) {
