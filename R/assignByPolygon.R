@@ -71,8 +71,8 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
       }
     }
   }
-  
-  
+
+
   ## search attr in data ##
   if (attr[1] == "all") {
     # selAttr <- 1:ncol(layer)
@@ -86,8 +86,8 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
       return(NULL) # return NULL if attr not found, not generate an error
     }
   }
-  
-  
+
+
   # create an sf point object from the coordinates
   locations.st <- x %>%
     as.data.frame() %>%
@@ -102,13 +102,13 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
   points.assignment <- data.frame(x = seq(1, nrow(x)), polygon = NA)
   # add missing points for which we have no information
   points.assignment[points.within$x, "polygon"] <- points.within$polygon
-  
+
   dat <- layer %>% sf::st_drop_geometry()
   # @TOFIX the line below will fail if layerId is all NAs (i.e. no points were assigned to a polygon)
   res <- dat[points.assignment$polygon, selAttr, drop = FALSE]
-  
+
   row.names(res) <- rownames(x)
-  
+
   return(res)
 }) # end assignByPolygon for matrices
 
@@ -159,13 +159,13 @@ setMethod("assignByPolygon", "list", function(x, layer = "world", attr = "all", 
 setMethod("assignByPolygon", "gGraph", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
   res <- assignByPolygon(x = coords, layer = layer, attr = attr, ...)
-  
+
   if (nrow(x@nodes.attr) > 1) {
     x@nodes.attr <- cbind.data.frame(x@nodes.attr, res)
   } else {
     x@nodes.attr <- res
   }
-  
+
   return(x)
 }) # end assignByPolygon
 
@@ -178,7 +178,7 @@ setMethod("assignByPolygon", "gGraph", function(x, layer = "world", attr = "all"
 setMethod("assignByPolygon", "gData", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
   res <- assignByPolygon(x = coords, layer = layer, attr = attr, ...)
-  
+
   if (is.null(x@data)) {
     x@data <- res
   } else if (length(nrow(x@data)) > 0 && nrow(x@data) > 1) { # if data are non-empty data.frame
@@ -191,6 +191,6 @@ setMethod("assignByPolygon", "gData", function(x, layer = "world", attr = "all",
     warning("x@data has been transformed into a list to include layer data.")
     x@data <- list(x@data, layerInfo = res)
   }
-  
+
   return(x)
 })

@@ -29,7 +29,7 @@
 #' gPath2dist(hgdp.path, res = "vector") # extract as vector of distances
 #' @family dijkstra_methods
 
-#TODO think whether this should be a as.dist method for gPath
+# TODO think whether this should be a as.dist method for gPath
 
 #' @export
 gPath2dist <- function(m, diag = FALSE, upper = FALSE,
@@ -59,8 +59,10 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
 
   ## check size consistency
   if (res.type == "dist" && L != (resSize * (resSize - 1L)) %/% 2L) {
-    stop("Length of x does not match a number of pairwise comparisons; ",
-          "cannot construct a 'dist' object. Use res.type = 'vector' instead.")
+    stop(
+      "Length of x does not match a number of pairwise comparisons; ",
+      "cannot construct a 'dist' object. Use res.type = 'vector' instead."
+    )
   }
 
 

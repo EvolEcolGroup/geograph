@@ -8,7 +8,7 @@ test_that("[,gGraph subsets coords, nodes.attr and graph consistently", {
 
 test_that("[,gGraph works with logical index", {
   idx <- seq_len(nrow(getCoords(worldgraph.10k))) <= 10
-  x   <- worldgraph.10k[idx]
+  x <- worldgraph.10k[idx]
   expect_equal(nrow(getCoords(x)), 10L)
 })
 
@@ -45,7 +45,7 @@ test_that("[,gData subsets coords, nodes.id and data consistently", {
 
 test_that("[,gData works with logical index", {
   idx <- hgdp@data$Latitude > 0
-  x   <- hgdp[idx]
+  x <- hgdp[idx]
   expect_true(all(getData(x)$Latitude > 0))
 })
 
@@ -68,11 +68,15 @@ test_that("[,gData returns full object when no index given", {
 
 test_that("[,gGraph subsets node attributes with j", {
   # add two more attributes
-  attrGraph <- setNodesAttr(worldgraph.10k, attr.name = "extra1",
-                            values = seq_len(length(getNodes(worldgraph.10k))))
-  attrGraph <- setNodesAttr(attrGraph, attr.name = "extra2",
-                            values = seq_len(length(getNodes(worldgraph.10k))))
-  
+  attrGraph <- setNodesAttr(worldgraph.10k,
+    attr.name = "extra1",
+    values = seq_len(length(getNodes(worldgraph.10k)))
+  )
+  attrGraph <- setNodesAttr(attrGraph,
+    attr.name = "extra2",
+    values = seq_len(length(getNodes(worldgraph.10k)))
+  )
+
   x <- attrGraph[1:10, c("extra1", "extra2")]
   expect_equal(ncol(getNodesAttr(x)), 2L)
   expect_equal(colnames(getNodesAttr(x)), c("extra1", "extra2"))

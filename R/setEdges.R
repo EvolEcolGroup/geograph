@@ -17,7 +17,7 @@
 #' \code{costs[i]} is the weight of the i-th edge.
 #' @param \dots other arguments passed to other methods (currently unused).
 #' @return A \linkS4class{gGraph} object with newly added or removed edges.
-#' 
+#'
 #' @seealso [`getEdges`] to retrieve edges.
 #'   [`geo.add.edges`] and [`geo.remove.edges`] for interactive versions.
 #' @keywords utilities methods
@@ -27,10 +27,11 @@
 #'
 #' # remove an edge between two neighbouring nodes
 #' node.from <- "1"
-#' node.to   <- getEdges(worldgraph.10k, res.type = "matNames")[1, 2]
+#' node.to <- getEdges(worldgraph.10k, res.type = "matNames")[1, 2]
 #'
 #' x <- setEdges(worldgraph.10k,
-#'               remove = data.frame(from = node.from, to = node.to))
+#'   remove = data.frame(from = node.from, to = node.to)
+#' )
 #'
 #' # verify the edge is gone
 #' areNeighbours(node.from, node.to, getGraph(x))
@@ -51,11 +52,11 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
   if (is.null(add) & is.null(remove)) {
     return(x)
   }
-  
+
   if (!is.null(add) && !is.null(remove)) {
     stop("Only one of `add` or `remove` can be specified per call.")
   }
-  
+
   if (!is.null(add)) { ## add edges ##
     add <- as.data.frame(add)
     if (ncol(add) != 2) stop("add does not have two columns")
@@ -69,7 +70,7 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
     } else if (length(costs) != length(from)) {
       stop("`costs` must have length 1 or match the number of edges in `add`.")
     }
-    
+
     myGraph <- suppressWarnings(addEdge(from = from, to = to, graph = x@graph, weights = costs))
   } else { ## remove edges ##
     remove <- as.data.frame(remove)
@@ -77,12 +78,12 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
     from <- as.character(remove[[1]])
     to <- as.character(remove[[2]])
     if (!all(unique(c(from, to)) %in% getNodes(x))) stop("unknown specified nodes") # unknown nodes
-    
+
     ## avoid attempts to removing non-existing edges
     temp <- areNeighbours(from, to, x@graph)
     myGraph <- removeEdge(from = from[temp], to = to[temp], graph = x@graph)
   }
-  
+
   ##  subx <- deparse(substitute(x))
   res <- x
   res@graph <- myGraph

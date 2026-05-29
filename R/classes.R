@@ -171,7 +171,7 @@ setClass(
 #' using Dijkstra's algorithm via the RBGL package and represent the
 #' minimum-cost routes connecting pairs of nodes in the graph.
 #'
-#' `gPath` objects are primarily created as outputs from [`dijkstraFrom`], 
+#' `gPath` objects are primarily created as outputs from [`dijkstraFrom`],
 #' [`dijkstraBetween`], and [`polygonBetween`] applied to [`gGraph`] or [`gData`] objects.
 #' The structure is based on the output from RBGL's `sp.between` function,
 #' enhanced with geographic coordinate information.
@@ -180,7 +180,7 @@ setClass(
 #' @aliases gPath gPath-class
 #'
 #' @section Creating gPath objects:
-#' `gPath` objects are created by dijkstra methods. Direct construction is not recommended. 
+#' `gPath` objects are created by dijkstra methods. Direct construction is not recommended.
 #'
 #' @section Structure:
 #' A named list where each element represents a path between two nodes,
@@ -201,9 +201,9 @@ setClass(
 #' myPath <- dijkstraFrom(hgdp, ori)
 #'
 #' ## examine the structure
-#' length(myPath)            # number of paths
-#' myPath[[1]]$path_detail   # nodes in first path
-#' myPath[[1]]$length        # cost of first path
+#' length(myPath) # number of paths
+#' myPath[[1]]$path_detail # nodes in first path
+#' myPath[[1]]$length # cost of first path
 #' myPath[[1]]$length_detail # details for each step
 #'
 #' ## get coordinates of nodes in paths

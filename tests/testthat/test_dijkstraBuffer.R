@@ -22,19 +22,23 @@ test_that("dijkstraBuffer errors if character origin is not in the graph", {
 
 test_that("dijkstraBuffer returns a character vector with valid node IDs when res.type = nodes", {
   origin <- getNodes(testGraph)[1]
-  all.nodes  <- getNodes(testGraph)
-  result <- dijkstraBuffer(testGraph, origin = origin,
-                       d = 10, res.type = "nodes")
-  
+  all.nodes <- getNodes(testGraph)
+  result <- dijkstraBuffer(testGraph,
+    origin = origin,
+    d = 10, res.type = "nodes"
+  )
+
   expect_type(result, "character")
   expect_true(all(result %in% all.nodes))
 })
 
 test_that("dijkstraBuffer returns a gGraph when res.type = gGraph", {
   origin <- getNodes(testGraph)[1]
-  result <- dijkstraBuffer(testGraph, origin = origin,
-                           d = 10, res.type = "gGraph")
-  
+  result <- dijkstraBuffer(testGraph,
+    origin = origin,
+    d = 10, res.type = "gGraph"
+  )
+
   expect_s4_class(result, "gGraph")
   expect_true("reachable" %in% colnames(result@nodes.attr))
   col <- result@nodes.attr$reachable
@@ -44,11 +48,14 @@ test_that("dijkstraBuffer returns a gGraph when res.type = gGraph", {
 
 test_that("dijkstraBuffer returns more nodes with a larger max.distance", {
   origin <- getNodes(testGraph)[1]
-  result.large     <- dijkstraBuffer(testGraph, origin = origin,
-                               d = 100, res.type = "nodes")
-  result.small     <- dijkstraBuffer(testGraph, origin = origin,
-                                     d = 10, res.type = "nodes")
-  
+  result.large <- dijkstraBuffer(testGraph,
+    origin = origin,
+    d = 100, res.type = "nodes"
+  )
+  result.small <- dijkstraBuffer(testGraph,
+    origin = origin,
+    d = 10, res.type = "nodes"
+  )
+
   expect_gte(length(result.large), length(result.small))
 })
-

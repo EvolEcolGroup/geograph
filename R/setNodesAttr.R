@@ -15,7 +15,7 @@
 #' ### for gGraphs
 #' node.attr <- getNodesAttr(rawgraph.10k, attr.name = "habitat")
 #' neigh.list <- rawgraph.10k@graph@edgeL
-#' 
+#'
 #' # reclassify sea nodes as "coast" if they have any land neighbors
 #' levels(node.attr$habitat) <- c(levels(node.attr$habitat), "coast")
 #' for (i.node in seq_len(nrow(node.attr))) {
@@ -27,19 +27,19 @@
 #'     }
 #'   }
 #' }
-#' 
+#'
 #' # create coast graph
 #' coastGraph <- setNodesAttr(rawgraph.10k, attr.name = "habitat", values = node.attr$habitat)
-#' 
+#'
 #' colors <- data.frame(
 #'   habitat = c("sea", "land", "coast"),
 #'   color = c("blue", "green", "lightblue")
 #' )
-#' 
+#'
 #' coastGraph <- setColors(coastGraph, col.rules = colors)
-#' 
+#'
 #' plot(coastGraph, reset = TRUE)
-#' 
+#'
 #' @export
 setNodesAttr <- function(x, attr.name, values, ...) {
   if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
@@ -52,7 +52,7 @@ setNodesAttr <- function(x, attr.name, values, ...) {
       length(values), length(getNodes(x))
     ))
   }
-  
+
   x@nodes.attr[[attr.name]] <- values
   return(x)
 }

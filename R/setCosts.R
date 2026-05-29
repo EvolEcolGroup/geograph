@@ -43,7 +43,7 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
   if ((method == "function") && (is.null(FUN))) {
     stop("if method = 'function', FUN needs to be defined.")
   }
-  
+
   ## update cost rules if provided
   if (!is.null(cost.rules)) {
     if (!is.data.frame(cost.rules)) {
@@ -55,7 +55,7 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
     if (!is.null(attr.name) && !(attr.name %in% colnames(cost.rules))) {
       stop("cost.rules must include the column named by attr.name.")
     }
-    
+
     ## identify columns by name, not position
     if (!is.null(attr.name) && attr.name %in% colnames(cost.rules)) {
       attr.col <- attr.name
@@ -68,7 +68,7 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
       cost.col <- if ("cost" %in% colnames(cost.rules)) "cost" else colnames(cost.rules)[2]
       attr.col <- setdiff(colnames(cost.rules), cost.col)[1]
     }
-    
+
     if (anyDuplicated(cost.rules[[attr.col]]) > 0) {
       stop("The attribute column of cost.rules must contain unique values.")
     }
@@ -78,12 +78,12 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
     if (anyNA(cost.rules[[cost.col]])) {
       stop("cost.rules cost column must not contain NA.")
     }
-    
+
     ## normalize to canonical column order: attr first, cost second
-    cost.rules   <- cost.rules[, c(attr.col, cost.col), drop = FALSE]
+    cost.rules <- cost.rules[, c(attr.col, cost.col), drop = FALSE]
     x@meta$costs <- cost.rules
   }
-  
+
   ## assign costs to vertices
   if (is.null(node.values)) { # costs from a node attribute
     nodeAttr <- unlist(getNodesAttr(x, attr.name = attr.name))
@@ -92,23 +92,23 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
         stop("attr.name is not documented in x@meta$costs.")
       }
       nodeCosts <- as.character(nodeAttr)
-      rules     <- x@meta$costs
-      cost.col  <- colnames(rules)[2] # safe after normalization
-      
+      rules <- x@meta$costs
+      cost.col <- colnames(rules)[2] # safe after normalization
+
       known.values <- as.character(rules[[attr.name]])
-      unmapped     <- unique(nodeCosts[!nodeCosts %in% known.values])
+      unmapped <- unique(nodeCosts[!nodeCosts %in% known.values])
       if (length(unmapped) > 0) {
         stop(sprintf(
           "The following node attribute values have no cost rule defined: %s. Add them to x@meta$costs before calling setCosts().",
           paste(unmapped, collapse = ", ")
         ))
       }
-      
+
       ## use named indexing — safe regardless of column order
       for (i in seq_len(nrow(rules))) {
         nodeCosts[nodeCosts == as.character(rules[[attr.name]][i])] <- rules[[cost.col]][i]
       }
-      
+
       nodeCosts <- as.numeric(nodeCosts)
     } else {
       stop("x@meta does not contain a 'costs' component.")
@@ -116,33 +116,33 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
   } else { # cost directly provided
     if (!is.numeric(node.values)) stop("Provided 'node.values' not numeric.")
     node.values <- rep(node.values, length = length(getNodes(x)))
-    nodeCosts   <- node.values
+    nodeCosts <- node.values
   }
-  
+
   ## find costs of edges as a function of terminating vertices
   EL <- getGraph(x)@edgeL
-  
+
   if (method == "mean") {
     for (i in seq_along(EL)) {
       EL[[i]]$weights <- (nodeCosts[i] + nodeCosts[EL[[i]]$edges]) / 2
     }
   }
-  
+
   if (method == "product") {
     for (i in seq_along(EL)) {
       EL[[i]]$weights <- nodeCosts[i] * nodeCosts[EL[[i]]$edges]
     }
   }
-  
+
   if (method == "function") {
     for (i in seq_along(EL)) {
       EL[[i]]$weights <- FUN(nodeCosts[i], nodeCosts[EL[[i]]$edges], ...)
     }
   }
-  
-  newGraph  <- new("graphNEL", nodes = getNodes(x), edgeL = EL)
-  res       <- x
+
+  newGraph <- new("graphNEL", nodes = getNodes(x), edgeL = EL)
+  res <- x
   res@graph <- newGraph
-  
+
   return(res)
 }

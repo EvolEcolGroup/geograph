@@ -25,7 +25,7 @@
 #' @family cost_functions
 #' @seealso [setCosts] to set costs for a single gGraph object
 #' @examples
-#'  
+#'
 #' data("worldgraph.40k")
 #' # new graph with custom cost function
 #' exp.cost <- function(x1, x2, cost.coeff) {
@@ -54,11 +54,11 @@ combineCosts <- function(x1, x2, method = c("sum", "product", "function"), FUN =
   if (!hasCosts(x1)) stop("x1 is does not have costs; use setCosts to set the costs first")
   if (!hasCosts(x2)) stop("x2 is does not have costs; use setCosts to set the costs first")
   method <- match.arg(method)
-  
+
   if (method == "function" && is.null(FUN)) {
     stop("if method = 'function', FUN needs to be defined.")
   }
-  
+
   ## get the edges and weights from the two graphs
   myGraph1 <- getGraph(x1)
   edgeW1 <- edgeWeights(myGraph1)

@@ -32,7 +32,7 @@
 #'
 #' plotEdges(x)
 #' head(getCosts(x))
-#' 
+#'
 ############
 ## generic
 ############

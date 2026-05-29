@@ -211,8 +211,8 @@ Costs of a given node attribute (here, habitat) can be retrieved using getCosts(
 ```{r }
 getCosts(rawgraph.10k, res.type = "rules")
 cost.rules <- getCosts(rawgraph.10k, res.type = "rules")
-cost.rules$cost[cost.rules$habitat == "sea"]  <- 1
-cost.rules$cost[cost.rules$habitat != "sea"]  <- 100
+cost.rules$cost[cost.rules$habitat == "sea"] <- 1
+cost.rules$cost[cost.rules$habitat != "sea"] <- 100
 newGraph <- setCosts(rawgraph.10k, attr.name = "habitat", cost.rules = cost.rules)
 getCosts(newGraph, res.type = "rules")
 ```

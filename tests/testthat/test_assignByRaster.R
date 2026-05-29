@@ -11,8 +11,8 @@ make.test.raster <- function(geo.box, res = 2, vals = NULL) {
 }
 
 # shared objects — built once to avoid repeating slow calls
-geo.box     <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-test.graph  <- makeHexGrid(geo.box, spacing = 1000)
+geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
+test.graph <- makeHexGrid(geo.box, spacing = 1000)
 test.raster <- make.test.raster(geo.box)
 
 test.graph.w <- assignByRaster(test.graph, test.raster, fun = "mean")
@@ -51,7 +51,7 @@ test_that("assignByRaster respects a custom layer.name", {
 
 test_that("assignByRaster stores a scalar numeric column of correct length", {
   result <- assignByRaster(test.graph, test.raster)
-  col    <- result@nodes.attr$raster_points
+  col <- result@nodes.attr$raster_points
   expect_true(is.numeric(col))
   expect_equal(length(col), nrow(test.graph@coords))
 })
@@ -65,11 +65,13 @@ test_that("assignByRaster gives identical results on repeated calls", {
 test_that("assignByRaster works with all built-in character functions", {
   for (fn in c("mean", "max", "min", "median", "sd")) {
     result <- assignByRaster(test.graph, test.raster, fun = fn)
-    col    <- result@nodes.attr$raster_points
+    col <- result@nodes.attr$raster_points
     expect_true(is.numeric(col),
-                info = paste("fun =", fn, "should return numeric"))
+      info = paste("fun =", fn, "should return numeric")
+    )
     expect_equal(length(col), nrow(test.graph@coords),
-                 info = paste("fun =", fn, "wrong length"))
+      info = paste("fun =", fn, "wrong length")
+    )
   }
 })
 
@@ -97,7 +99,7 @@ test_that("assignByRaster errors on invalid fun", {
 test_that("assignByRaster mean is correct for known uniform values", {
   uniform.raster <- make.test.raster(geo.box, vals = rep(5, terra::ncell(test.raster)))
   result <- assignByRaster(test.graph, uniform.raster, fun = "mean")
-  col    <- result@nodes.attr$raster_points
+  col <- result@nodes.attr$raster_points
   expect_true(all(col == 5 | is.na(col)))
 })
 
@@ -112,10 +114,10 @@ test_that("assignByRaster max equals min for uniform raster", {
 })
 
 test_that("assignByRaster respects na.rm = TRUE", {
-  vals      <- rep(c(1, NA_real_), length.out = terra::ncell(test.raster))
+  vals <- rep(c(1, NA_real_), length.out = terra::ncell(test.raster))
   na.raster <- make.test.raster(geo.box, vals = vals)
-  result    <- assignByRaster(test.graph, na.raster, fun = "mean", na.rm = TRUE)
-  col       <- result@nodes.attr$raster_points
+  result <- assignByRaster(test.graph, na.raster, fun = "mean", na.rm = TRUE)
+  col <- result@nodes.attr$raster_points
   expect_true(all(is.finite(col[!is.na(col)])))
 })
 
@@ -126,7 +128,7 @@ test_that("assignByRaster correctly captures known raster values", {
   )
   terra::values(r) <- 42
   result <- assignByRaster(test.graph, r, fun = "mean")
-  col    <- result@nodes.attr$raster_points
+  col <- result@nodes.attr$raster_points
   # exactly one node should have received value 42
   expect_equal(sum(col == 42, na.rm = TRUE), 1L)
 })
@@ -138,16 +140,18 @@ test_that("assignByRaster works with logical built-ins any and all", {
   )
   for (fn in c("any", "all")) {
     result <- assignByRaster(test.graph, logical.raster, fun = fn)
-    col    <- result@nodes.attr$raster_points
+    col <- result@nodes.attr$raster_points
     expect_true(is.logical(col) || is.numeric(col),
-                info = paste("fun =", fn, "should return logical or numeric"))
+      info = paste("fun =", fn, "should return logical or numeric")
+    )
     expect_equal(length(col), nrow(test.graph@coords),
-                 info = paste("fun =", fn, "wrong length"))
+      info = paste("fun =", fn, "wrong length")
+    )
   }
 })
 
 test_that("assignByRaster errors on multi-layer raster", {
-  multi.layer.raster <- c(test.raster, test.raster)  # 2-layer raster
+  multi.layer.raster <- c(test.raster, test.raster) # 2-layer raster
   expect_error(
     assignByRaster(test.graph, multi.layer.raster),
     "raster must have exactly one layer"

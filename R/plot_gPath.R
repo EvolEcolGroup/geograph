@@ -1,13 +1,13 @@
 #' Plot a gPath object
 #'
-#' This method plots a [`gPath`] object, which is the output of the [`dijkstraBetween`], 
-#' [`polygonBetween`] and [`dijkstraFrom`] functions. 
-#'  
-#' @param x a [`gPath`] object 
+#' This method plots a [`gPath`] object, which is the output of the [`dijkstraBetween`],
+#' [`polygonBetween`] and [`dijkstraFrom`] functions.
+#'
+#' @param x a [`gPath`] object
 #' @param col a character string indicating a color or a palette of colors to
 #' be used for plotting edges.
 #' @param lwd a numeric value indicating the width of edges.
-#' @param seed an optional integer value to set the seed for random color generation 
+#' @param seed an optional integer value to set the seed for random color generation
 #' when `col = "rainbow"`.
 #' @param ... further arguments passed to [`geo.segments`].
 #' @return NULL.
@@ -16,7 +16,7 @@
 #' hgdp.sub <- hgdp[getData(hgdp)$Population %in%
 #'   c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
 #' hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
-#' 
+#'
 #' ## plotting
 #' plot(worldgraph.40k, reset = TRUE, pch = "")
 #' points(hgdp.sub, lwd = 1) # plot populations
@@ -24,14 +24,12 @@
 #'
 #' ## printing
 #' print(hgdp.path)
-
-#################
-## plot method
-#################
+#' ################
+#' # plot method
+#' ################
 #' @method plot gPath
 #' @export
 plot.gPath <- function(x, col = "rainbow", lwd = 3, seed = NULL, ...) {
-
   listNodes <- lapply(x, function(e) e$path_detail)
 
   ## xy <- x$xy
@@ -64,7 +62,6 @@ plot.gPath <- function(x, col = "rainbow", lwd = 3, seed = NULL, ...) {
 
   return(invisible())
 } # end plot.gPath
-
 
 
 #################

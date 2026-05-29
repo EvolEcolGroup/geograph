@@ -2,18 +2,18 @@
 test_that("setGraph preserves all other gData slots when updating graph", {
   assign("myGraph", dropCosts(worldgraph.40k), envir = .GlobalEnv)
   on.exit(rm("myGraph", envir = .GlobalEnv), add = TRUE)
-  
+
   result <- setGraph(hgdp, "myGraph")
-  expect_equal(getNodes(result),  getNodes(hgdp))
+  expect_equal(getNodes(result), getNodes(hgdp))
   expect_equal(getCoords(result), getCoords(hgdp))
-  expect_equal(getData(result),   getData(hgdp))
+  expect_equal(getData(result), getData(hgdp))
 })
 
 test_that("setGraph by name and by object give identical results", {
   assign("myGraph", dropCosts(worldgraph.40k), envir = .GlobalEnv)
   on.exit(rm("myGraph", envir = .GlobalEnv), add = TRUE)
-  
-  by.name   <- setGraph(hgdp, "myGraph")
+
+  by.name <- setGraph(hgdp, "myGraph")
   by.object <- setGraph(hgdp, myGraph)
   expect_equal(by.name@gGraph.name, by.object@gGraph.name)
 })
@@ -21,7 +21,7 @@ test_that("setGraph by name and by object give identical results", {
 test_that("setGraph accepts string references to global objects", {
   assign("string_ref_graph", dropCosts(rawgraph.40k), envir = .GlobalEnv)
   on.exit(rm("string_ref_graph", envir = .GlobalEnv), add = TRUE)
-  
+
   result <- setGraph(hgdp, "string_ref_graph")
   expect_equal(result@gGraph.name, "string_ref_graph")
 })
@@ -33,7 +33,7 @@ test_that("setGraph rejects non-existent string references", {
   )
 })
 
-## setColors 
+## setColors
 test_that("setColors errors when col.rules has wrong number of columns", {
   bad.rules <- data.frame(
     habitat = c("sea", "land"),
@@ -85,29 +85,30 @@ test_that("getGraph errors when linked gGraph not in global environment", {
 
 ## getNodesAttr,gData
 test_that("getNodesAttr for gData returns same result as for underlying gGraph", {
-  gdata.result  <- getNodesAttr(hgdp)
+  gdata.result <- getNodesAttr(hgdp)
   ggraph.result <- getNodesAttr(worldgraph.40k,
-                                nodes    = getNodes(hgdp),
-                                attr.name = "habitat")
+    nodes = getNodes(hgdp),
+    attr.name = "habitat"
+  )
   expect_equal(gdata.result, ggraph.result)
 })
 
 ## getEdges
 test_that("getEdges matId and matNames have same number of rows", {
-  mat.id    <- getEdges(worldgraph.10k, res.type = "matId")
+  mat.id <- getEdges(worldgraph.10k, res.type = "matId")
   mat.names <- getEdges(worldgraph.10k, res.type = "matNames")
   expect_equal(nrow(mat.id), nrow(mat.names))
 })
 
 test_that("getEdges unique = TRUE returns exactly half the rows of unique = FALSE", {
-  all    <- getEdges(worldgraph.10k, res.type = "matNames", unique = FALSE)
+  all <- getEdges(worldgraph.10k, res.type = "matNames", unique = FALSE)
   unique <- getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE)
   expect_equal(nrow(unique) * 2, nrow(all))
 })
 
 ## getColors
 test_that("getCosts asIs and vector contain same total costs", {
-  as.is  <- getCosts(worldgraph.10k, res.type = "asIs")
+  as.is <- getCosts(worldgraph.10k, res.type = "asIs")
   vector <- getCosts(worldgraph.10k, res.type = "vector")
   expect_equal(sum(unlist(as.is)), sum(vector))
 })

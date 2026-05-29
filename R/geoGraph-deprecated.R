@@ -50,7 +50,7 @@ NULL
 #'   )
 #' )
 #' plot(squareGraph, reset = TRUE)
-#' 
+#'
 #' # If no area is specified, currently plotted area is used
 #' geo.zoomin(c(8, 13, 54, 58))
 #' newGraph <- makeGrid(1e3)
@@ -74,10 +74,14 @@ NULL
 #' @export
 makeGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL,
                      lon.range = NULL, lat.range = NULL) {
-  .Deprecated("makeSquareGrid", package = "geoGraph",
-              msg = "'makeGrid' has been renamed to 'makeSquareGrid'. Please update your code.")
-  makeSquareGrid(size = size, n.lon = n.lon, n.lat = n.lat,
-                 lon.range = lon.range, lat.range = lat.range)
+  .Deprecated("makeSquareGrid",
+    package = "geoGraph",
+    msg = "'makeGrid' has been renamed to 'makeSquareGrid'. Please update your code."
+  )
+  makeSquareGrid(
+    size = size, n.lon = n.lon, n.lat = n.lat,
+    lon.range = lon.range, lat.range = lat.range
+  )
 }
 
 
@@ -125,8 +129,10 @@ setGeneric("extractFromLayer", function(x, ...) {
 #' @rdname extractFromLayer-deprecated
 #' @export
 setMethod("extractFromLayer", "ANY", function(x, ...) {
-  .Deprecated("assignByPolygon", package = "geoGraph",
-              msg = "'extractFromLayer' has been renamed to 'assignByPolygon'. Please update your code.")
+  .Deprecated("assignByPolygon",
+    package = "geoGraph",
+    msg = "'extractFromLayer' has been renamed to 'assignByPolygon'. Please update your code."
+  )
   assignByPolygon(x, ...)
 })
 

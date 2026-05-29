@@ -56,15 +56,15 @@ setMethod("[", "gGraph", function(x, i, j, ..., drop = TRUE) {
   if (is.logical(i) && is.logical(j) && all(c(i, j))) {
     return(x)
   }
-  
+
   ## do the subsetting ##
-  res        <- x
+  res <- x
   res@coords <- res@coords[i, , drop = FALSE]
   if (nrow(res@nodes.attr) > 0) {
     res@nodes.attr <- res@nodes.attr[i, j, drop = FALSE]
   }
   res@graph <- subGraph(nodes(res@graph)[i], res@graph)
-  
+
   return(res)
 })
 
@@ -118,13 +118,13 @@ setMethod("[", "gData", function(x, i, j, ..., drop = FALSE) {
   if (is.logical(i) && is.logical(j) && all(c(i, j))) {
     return(x)
   }
-  
+
   ## do the subsetting ##
-  res          <- x
-  N            <- nrow(res@coords)
-  res@coords   <- res@coords[i, , drop = FALSE]
+  res <- x
+  N <- nrow(res@coords)
+  res@coords <- res@coords[i, , drop = FALSE]
   res@nodes.id <- res@nodes.id[i]
-  
+
   if (!is.null(getData(x))) {
     if (nrow(getData(x)) == N) {
       res@data <- res@data[i, j, drop = FALSE]
@@ -136,7 +136,7 @@ setMethod("[", "gData", function(x, i, j, ..., drop = FALSE) {
       warning("Don't know what to do with @data.")
     }
   }
-  
+
   return(res)
 })
 
@@ -150,22 +150,22 @@ setMethod("[", "gData", function(x, i, j, ..., drop = FALSE) {
 ###############
 
 setMethod("show", "gGraph", function(object) {
-  x     <- object
-  N     <- nrow(x@coords)
+  x <- object
+  N <- nrow(x@coords)
   nDisp <- 3
-  
+
   cat("\n=== gGraph object ===\n")
   cat("\n@coords: spatial coordinates of", nrow(x@coords), "nodes\n")
   print(utils::head(x@coords, nDisp))
   if (N > nDisp) cat("...\n")
-  
+
   cat("\n@nodes.attr:", ncol(x@nodes.attr), "nodes attributes\n")
   print(utils::head(x@nodes.attr, nDisp))
   if (nrow(x@nodes.attr) > nDisp) cat("...\n")
-  
+
   cat("\n@meta: list of meta information with", length(x@meta), "items\n")
   if (length(x@meta) > 0) print(paste("$", names(x@meta), sep = ""))
-  
+
   cat("\n@graph:\n")
   print(x@graph)
 })
@@ -176,22 +176,22 @@ setMethod("show", "gGraph", function(object) {
 ###############
 
 setMethod("show", "gData", function(object) {
-  x     <- object
-  N     <- nrow(x@coords)
+  x <- object
+  N <- nrow(x@coords)
   nDisp <- 3
-  
+
   cat("\n=== gData object ===\n")
   cat("\n@coords: spatial coordinates of", nrow(x@coords), "nodes\n")
   print(utils::head(x@coords, nDisp))
   if (N > nDisp) cat("...\n")
-  
+
   cat("\n@nodes.id:", length(x@nodes.id), "nodes identifiers\n")
   print(utils::head(x@nodes.id, nDisp))
   if (length(x@nodes.id) > nDisp) cat("...\n")
-  
+
   cat("\n@data:", nrow(x@data), "data\n")
   print(utils::head(x@data, nDisp))
   if (N > nDisp) cat("...\n")
-  
+
   cat("\nAssociated gGraph:", x@gGraph.name, "\n")
 })

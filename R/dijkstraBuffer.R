@@ -29,31 +29,31 @@
 #' @examples
 #' ## Subset gGraph to Europe
 #' x <- rawgraph.10k[isInArea(worldgraph.10k, reg = list(x = c(-10, 50), y = c(35, 70)), quiet = TRUE)]
-#' 
+#'
 #' ## Get all nodes reachable within cost 10 from node the origin (here Zurich)
 #' zurich <- data.frame(lon = 8.55, lat = 47.37)
-#' 
+#'
 #' ## Set costs for the graph and calculate the buffer
 #' graph <- setCosts(x, attr.name = "habitat", method = "mean")
 #' x2 <- dijkstraBuffer(graph, origin = zurich, d = 10, res.type = "gGraph")
-#' 
+#'
 #' ## Plot reachable nodes in dark blue, all others transparent
 #' col.rules <- data.frame(
 #'   reachable = c(TRUE, FALSE),
 #'   color     = c("darkblue", "transparent")
 #' )
 #' plot(x2, col.rules = col.rules, reset = TRUE)
-#' 
+#'
 #' @export
 dijkstraBuffer <- function(x, origin, d, res.type = c("nodes", "gGraph"), ...) {
   res.type <- match.arg(res.type)
-  
+
   ## checks
   if (!is.gGraph(x)) stop("x must be a valid gGraph object.")
   if (!is.numeric(d) || length(d) != 1 || d <= 0) {
     stop("d must be a single positive number.")
   }
-  
+
   ## resolve origin node
   if (is.character(origin)) {
     if (length(origin) != 1L) stop("origin must be a single node name.")
@@ -65,24 +65,24 @@ dijkstraBuffer <- function(x, origin, d, res.type = c("nodes", "gGraph"), ...) {
       stop("Could not resolve a unique origin node from origin.")
     }
   }
-  
+
   ## compute least-cost paths from origin
   paths <- dijkstraFrom(x, start = origin.node)
   dists <- gPath2dist(paths, res.type = "vector")
-  
+
   ## extract destination node names
-  dest.nodes   <- sub(".*:", "", names(dists))
+  dest.nodes <- sub(".*:", "", names(dists))
   names(dists) <- dest.nodes
-  in.reach     <- names(dists)[dists <= d]
-  
+  in.reach <- names(dists)[dists <= d]
+
   if (res.type == "nodes") {
     return(in.reach)
   }
-  
+
   ## map back onto graph as node attribute
-  reachable              <- getNodes(x) %in% in.reach
-  names(reachable)       <- getNodes(x)
+  reachable <- getNodes(x) %in% in.reach
+  names(reachable) <- getNodes(x)
   x@nodes.attr$reachable <- reachable
-  
+
   return(x)
 }

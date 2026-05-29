@@ -12,3 +12,5 @@ data-raw
 ^pkgdown$
 ^\.lintr$
 ^vignettes/geoGraph_old\.Rmd$
+^\.positai$
+^\.claude$

@@ -2,19 +2,19 @@
 test_that("makeSquareGrid errors and warns correctly on bad inputs", {
   # no size or n.lon/n.lat
   expect_error(makeSquareGrid(), "Please provide either size or n.lon/n.lat")
-  
+
   # grid too small
   expect_warning(
     result <- makeSquareGrid(size = 1, lon.range = c(1, 5), lat.range = c(1, 5)),
     "Minimum grid size is 4"
   )
-  
+
   # longitude out of range
   expect_warning(
     makeSquareGrid(25, lon.range = c(-200, 0), lat.range = c(1, 5)),
     "Setting lowest longitude to -180"
   )
-  
+
   # latitude out of range
   expect_warning(
     makeSquareGrid(25, lon.range = c(1, 5), lat.range = c(-100, 5)),
@@ -30,20 +30,20 @@ test_that("makeSquareGrid creates a gGraph with correct number of nodes", {
 })
 
 test_that("makeSquareGrid nodes never have more than 4 neighbours", {
-  result     <- makeSquareGrid(100, lon.range = c(1, 10), lat.range = c(1, 10))
+  result <- makeSquareGrid(100, lon.range = c(1, 10), lat.range = c(1, 10))
   neighbours <- result@graph@edgeL
   n.neighbours <- sapply(neighbours, function(e) length(e$edges))
   expect_true(all(n.neighbours <= 4))
 })
 
 test_that("makeSquareGrid has correct number of corner and edge nodes", {
-  result       <- makeSquareGrid(25, lon.range = c(1, 5), lat.range = c(1, 5))
-  neighbours   <- result@graph@edgeL
+  result <- makeSquareGrid(25, lon.range = c(1, 5), lat.range = c(1, 5))
+  neighbours <- result@graph@edgeL
   n.neighbours <- sapply(neighbours, function(e) length(e$edges))
-  
+
   # 4 corner nodes with 2 neighbours
   expect_equal(sum(n.neighbours == 2), 4L)
-  
+
   # 12 edge nodes with 3 neighbours
   expect_equal(sum(n.neighbours == 3), 12L)
 })

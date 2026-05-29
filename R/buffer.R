@@ -34,23 +34,23 @@
 #' #### gGraph example ####
 #' ## Subset gGraph to Europe
 #' x <- rawgraph.10k[isInArea(worldgraph.10k, reg = list(x = c(-10, 50), y = c(35, 70)), quiet = TRUE)]
-#' 
+#'
 #' ## identify one node
 #' node <- closestNode(x, data.frame(lon = 12, lat = 50))
-#' 
+#'
 #' ## find a buffer
 #' buffer(x, node, 1000)
 #' buf500km <- buffer(x, node, 1000, res.type = "gGraph")
 #' plot(buf500km, col.rules = buf500km@meta$buf.colors, reset = TRUE)
-#' 
+#'
 #' #### gData example ####
-#' 
+#'
 #' ## retain a subset of hgdp
-#' x <- hgdp[27:30] 
+#' x <- hgdp[27:30]
 #' plot(x, reset = TRUE, col.g = "lightgrey", pch.node = 20)
 #' buf.400 <- buffer(x, 400, res.type = "gData")
 #' points(buf.400, col.node = "gold")
-#' 
+#'
 NULL
 
 #########

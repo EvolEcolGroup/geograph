@@ -6,10 +6,10 @@ NULL
 ## getGraph
 ##############
 #' Get the graph component of a gGraph or gData object
-#' 
-#' The function `getGraph` returns the [`graph::graphNEL`] object stored in a [`gGraph`] 
+#'
+#' The function `getGraph` returns the [`graph::graphNEL`] object stored in a [`gGraph`]
 #' or [`gData`] object.
-#' 
+#'
 #' @param x a valid [`gGraph`] or [`gData`] object.
 #' @param ... additional arguments passed to other methods (currently unused).
 #' @return A [`graph::graphNEL`] object.
@@ -159,10 +159,10 @@ setMethod("getNodesAttr", "gData", function(x, attr.name = NULL, ...) {
 ## getCoords
 #############
 #' Get coordinates of nodes in a gGraph or gData object
-#' 
-#' The function `getCoords` returns the coordinates (longitude and latitude) of 
-#' nodes in a [`gGraph`] or [`gData`] object. 
-#' 
+#'
+#' The function `getCoords` returns the coordinates (longitude and latitude) of
+#' nodes in a [`gGraph`] or [`gData`] object.
+#'
 #' @param x a valid [`gGraph`] or [`gData`] object.
 #' @param ... additional arguments passed to other methods (currently unused).
 #' @return A matrix with two columns, `lon` and `lat`, giving the longitude
@@ -176,7 +176,7 @@ setMethod("getNodesAttr", "gData", function(x, attr.name = NULL, ...) {
 #'
 #' ## coordinates of matched grid nodes instead of original locations
 #' getCoords(hgdp, original = FALSE)
-#' 
+#'
 #' @family accessor_methods
 #' @export
 setGeneric("getCoords", function(x, ...) {
@@ -211,9 +211,9 @@ setMethod("getCoords", "gData", function(x, original = TRUE, ...) {
 ## getNodes
 #############
 #' Get nodes of a gGraph or gData object
-#' 
+#'
 #' The function `getNodes` returns the names of nodes in a [`gGraph`] or [`gData`] object.
-#' 
+#'
 #' @param x a valid [`gGraph`] or [`gData`] object.
 #' @param ... additional arguments passed to other methods (currently unused).
 #' @return A character vector of node names.
@@ -221,7 +221,7 @@ setMethod("getCoords", "gData", function(x, original = TRUE, ...) {
 #' @examples
 #' head(getNodes(worldgraph.10k))
 #' getNodes(hgdp)
-#' 
+#'
 #' @family accessor_methods
 #' @export
 setGeneric("getNodes", function(x, ...) {
@@ -272,8 +272,8 @@ setMethod("getNodes", "gData", function(x, ...) {
 #' @keywords utilities methods
 #' @examples
 #' head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
-#' head(getEdges(worldgraph.10k, res.type = "matId",   unique = TRUE))
-#' 
+#' head(getEdges(worldgraph.10k, res.type = "matId", unique = TRUE))
+#'
 #' @family accessor_methods
 #' @export
 setGeneric("getEdges", function(x, ...) {
@@ -370,10 +370,10 @@ setGeneric("getCosts", function(x, ...) {
 
 #' @describeIn getCosts Method for gGraph object
 #' @export
-setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector", "rules"), 
+setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector", "rules"),
                                          unique = FALSE, ...) {
   res.type <- match.arg(res.type)
-  
+
   ## return cost rules directly if requested
   if (res.type == "rules") {
     if (is.null(x@meta$costs)) {
@@ -408,9 +408,9 @@ setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector", "rule
     } else {
       # For vector format
       nodeNames <- names(res)
-      temp      <- strsplit(nodeNames, "[.]")
-      toKeep    <- sapply(temp, function(v) v[1] < v[2])
-      res       <- res[toKeep]
+      temp <- strsplit(nodeNames, "[.]")
+      toKeep <- sapply(temp, function(v) v[1] < v[2])
+      res <- res[toKeep]
     }
   }
 
@@ -431,7 +431,7 @@ setGeneric("getNodeCosts", function(x, ...) {
 #' @export
 setMethod("getNodeCosts", "gGraph", function(x, attr.name, ...) {
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
-  
+
   ## assign costs to vertices
   nodeAttr <- unlist(getNodesAttr(x, attr.name = attr.name))
   if (!is.null(x@meta$costs)) {
@@ -447,8 +447,8 @@ setMethod("getNodeCosts", "gGraph", function(x, attr.name, ...) {
   } else {
     stop("x@meta does not contain a 'costs' component.")
   }
-  
-  
+
+
   return(nodeCosts)
 }) # end getNodeCosts
 
@@ -457,10 +457,10 @@ setMethod("getNodeCosts", "gGraph", function(x, attr.name, ...) {
 ## dropCosts
 ###############
 #' Remove all costs from a gGraph object
-#' 
+#'
 #' The function `dropCosts` removes all edge weights (costs) from a [`gGraph`]
 #' object, returning an unweighted graph.
-#' 
+#'
 #' @param x a valid [`gGraph`] object.
 #' @param ... additional arguments passed to other methods (currently unused).
 #' @return A [`gGraph`] object with all edge costs removed.
@@ -468,9 +468,9 @@ setMethod("getNodeCosts", "gGraph", function(x, attr.name, ...) {
 #' [`hasCosts`] to check if a graph has costs defined.
 #' @family cost_functions
 #' @examples
-#' hasCosts(rawgraph.10k)  
+#' hasCosts(rawgraph.10k)
 #' x <- dropCosts(worldgraph.10k)
-#' hasCosts(x)               
+#' hasCosts(x)
 #' @export
 setGeneric("dropCosts", function(x, ...) {
   standardGeneric("dropCosts")
@@ -491,10 +491,10 @@ setMethod("dropCosts", "gGraph", function(x) {
 ## getData
 #############
 #' Get the data component of a gData object
-#' 
+#'
 #' The function `getData` returns the data stored in the `@data` slot of a
 #' [`gData`] object.
-#' 
+#'
 #' @param x a valid [`gData`] object.
 #' @param ... additional arguments passed to other methods (currently unused).
 #' @return The data stored in the `@data` slot of the input object, typically a
@@ -505,7 +505,7 @@ setMethod("dropCosts", "gGraph", function(x) {
 #' @examples
 #' ## get the data stored in the hgdp dataset
 #' head(getData(hgdp))
-#' 
+#'
 #' @family accessor_methods
 #' @export
 setGeneric("getData", function(x, ...) {
@@ -568,7 +568,7 @@ setMethod("getColors", "gGraph", function(x, nodes = "all", attr.name = NULL,
                                           col.rules = NULL,
                                           res.type = c("colors", "rules"), ...) {
   res.type <- match.arg(res.type)
-  
+
   ## return rules directly if requested
   if (res.type == "rules") {
     if (is.null(x@meta$colors)) {
@@ -576,31 +576,31 @@ setMethod("getColors", "gGraph", function(x, nodes = "all", attr.name = NULL,
     }
     return(x@meta$colors)
   }
-  
+
   ## res.type == "colors" from here
   if (is.null(attr.name)) {
     stop("attr.name must be provided when res.type = 'colors'.")
   }
-  
+
   if (!attr.name %in% colnames(getNodesAttr(x))) {
     stop("Requested attribute not found in x@nodes.attr.")
   }
-  
+
   if (is.null(col.rules)) {
     if (is.null(x@meta$colors)) {
       stop("No color rules provided and none defined in x (x@meta$colors is NULL).")
     }
     col.rules <- x@meta$colors
   }
-  
+
   if (is.null(ncol(col.rules)) || ncol(col.rules) != 2) {
     stop("col.rules must have exactly two columns.")
   }
-  
+
   if (!attr.name %in% colnames(col.rules)) {
     stop(paste("Nothing known about", attr.name, "in color rules."))
   }
-  
+
   ## handle nodes
   if (length(nodes) == 1 && nodes == "all") {
     toKeep <- TRUE
@@ -611,15 +611,15 @@ setMethod("getColors", "gGraph", function(x, nodes = "all", attr.name = NULL,
   } else {
     stop("Don't know what to do with 'nodes': wrong specification.")
   }
-  
+
   ## define colors
   criterion <- getNodesAttr(x, nodes = toKeep, attr.name = attr.name)
-  col       <- as.character(unlist(criterion))
-  
+  col <- as.character(unlist(criterion))
+
   for (i in seq_len(nrow(col.rules))) {
     col[col == col.rules[i, 1]] <- col.rules[i, 2]
   }
-  
+
   names(col) <- getNodes(x)[toKeep]
   return(col)
 })
@@ -661,38 +661,43 @@ setColors <- function(x, col.rules) {
   if (!is.data.frame(col.rules)) stop("col.rules must be a data.frame.")
   if (ncol(col.rules) != 2) stop("col.rules must have exactly two columns.")
   if (!("color" %in% colnames(col.rules))) stop("col.rules must have a column named 'color'.")
-  
+
   ## get the attribute name from the first column
   attr.name <- colnames(col.rules)[1]
-  
+
   ## check that the attribute exists in nodes.attr
   if (nrow(x@nodes.attr) > 0) {
     if (!attr.name %in% colnames(x@nodes.attr)) {
-      stop(paste0("Column '", attr.name, "' not found in x@nodes.attr. ",
-                  "The first column of col.rules must match a node attribute name."))
+      stop(paste0(
+        "Column '", attr.name, "' not found in x@nodes.attr. ",
+        "The first column of col.rules must match a node attribute name."
+      ))
     }
-    
+
     ## check that all node attribute values have a color rule defined
-    node.values   <- unique(as.character(x@nodes.attr[, attr.name]))
-    rule.values   <- as.character(col.rules[, attr.name])
-    unmapped      <- node.values[!node.values %in% rule.values]
+    node.values <- unique(as.character(x@nodes.attr[, attr.name]))
+    rule.values <- as.character(col.rules[, attr.name])
+    unmapped <- node.values[!node.values %in% rule.values]
     if (length(unmapped) > 0) {
       stop(sprintf(
         "The following node attribute values have no color rule defined: %s.",
         paste(unmapped, collapse = ", ")
       ))
     }
-    
+
     ## check that colors are valid R colors
     valid.colors <- tryCatch(
-      { grDevices::col2rgb(col.rules$color); TRUE },
+      {
+        grDevices::col2rgb(col.rules$color)
+        TRUE
+      },
       error = function(e) FALSE
     )
     if (!valid.colors) {
       stop("col.rules contains invalid R color values.")
     }
   }
-  
+
   x@meta$colors <- col.rules
   return(x)
 }

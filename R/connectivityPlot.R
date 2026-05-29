@@ -15,7 +15,7 @@
 #' @examples
 #' # plot connected sets of a gGraph object
 #' connectivityPlot(worldgraph.10k)
-#' 
+#'
 #' # plot connected sets of a gData object
 #' connectivityPlot(hgdp)
 #' @export
@@ -136,18 +136,19 @@ setMethod("connectivityPlot", "gData", function(x, ..., seed = NULL) {
     if (length(nodes.in.set) > 0) {
       color.idx <- color.idx + 1
       col[nodes.in.set] <- colSets[color.idx]
-      }
+    }
   }
 
   ## call to plot ##
   plot(x,
-       col.gGraph = NA,
-       col.nodes  = "black",      
-       pch.nodes  = 21,          
-       bg         = col,
-       type       = "nodes",
-       ...)
-  
+    col.gGraph = NA,
+    col.nodes  = "black",
+    pch.nodes  = 21,
+    bg         = col,
+    type       = "nodes",
+    ...
+  )
+
   ## fix last call ##
   curCall <- sys.call(-1)
   assign("last.plot", curCall, envir = .geoGraphEnv)

@@ -20,7 +20,7 @@ The `gGraph` objects can either be constructed using a square grid or using a di
 
 ```{r loading libraries, include=FALSE}
 library(geoGraph)
-library(elevatr) 
+library(elevatr)
 library(terra)
 library(dplyr)
 library(sf)
@@ -40,7 +40,7 @@ squareGraph <- makeSquareGrid(
 squareGraph <- findLand(squareGraph)
 colors <- data.frame(
   habitat = c("sea", "land"),
-  color = c("#b0d4e8", "#90c090")  
+  color = c("#b0d4e8", "#90c090")
 )
 
 squareGraph <- setColors(squareGraph, colors)
@@ -72,7 +72,7 @@ hexGraph <- findLand(hexGraph)
 
 colors <- data.frame(
   habitat = c("sea", "land"),
-  color = c("#b0d4e8", "#90c090")  
+  color = c("#b0d4e8", "#90c090")
 )
 
 hexGraph <- setColors(hexGraph, colors)
@@ -166,11 +166,11 @@ very.rugged.threshold <- 400
 node.attr <- getNodesAttr(hexGraph)
 
 habitat.new <- dplyr::case_when(
-  node.attr$habitat == "sea"         ~ "sea",        
-  is.na(sd.ele)                      ~ "land",       
-  sd.ele > very.rugged.threshold     ~ "very_rugged",
-  sd.ele > rugged.threshold          ~ "rugged",
-  TRUE                               ~ "land"
+  node.attr$habitat == "sea" ~ "sea",
+  is.na(sd.ele) ~ "land",
+  sd.ele > very.rugged.threshold ~ "very_rugged",
+  sd.ele > rugged.threshold ~ "rugged",
+  TRUE ~ "land"
 )
 
 # update the habitat attribute in the graph
@@ -267,13 +267,13 @@ desert <- st_read("shapefiles/desert_polygon.gpkg", quiet = TRUE)
 
 # nodes inside the polygon get "desert" as their type, all others get NA
 hexGraph <- assignByPolygon(hexGraph,
-                             layer = desert,
-                             attr  = "type"
+  layer = desert,
+  attr  = "type"
 )
 
 # reclassify habitat: nodes with type "desert" become "desert",
-node.attr  <- getNodesAttr(hexGraph)
-hab.new    <- ifelse(
+node.attr <- getNodesAttr(hexGraph)
+hab.new <- ifelse(
   !is.na(node.attr$type) & node.attr$type == "desert",
   "desert",
   node.attr$habitat
@@ -328,12 +328,14 @@ To illustrate how multiple environmental layers can be incorporated into a conne
 
 ```{r}
 exp.cost <- function(x1, x2, cost.coeff) {
-    exp(-abs(x1 - x2) * cost.coeff)
-  }
+  exp(-abs(x1 - x2) * cost.coeff)
+}
 
 # create a set of node costs for temperature
-temperatureGraph <- setNodesAttr(maxCostGraph, attr.name = "temp",
-                                 values = runif(length(getNodes(maxCostGraph))))
+temperatureGraph <- setNodesAttr(maxCostGraph,
+  attr.name = "temp",
+  values = runif(length(getNodes(maxCostGraph)))
+)
 temperatureGraph <-
   setCosts(
     temperatureGraph,

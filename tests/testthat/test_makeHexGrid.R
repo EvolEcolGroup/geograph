@@ -84,10 +84,10 @@ test_that("makeHexGrid returns a gGraph from an sf input", {
 
 test_that("makeHexGrid produces more nodes with smaller spacing", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-  
+
   result_coarse <- makeHexGrid(geo.box, spacing = 2000)
   result_fine <- makeHexGrid(geo.box, spacing = 500)
-  
+
   expect_gt(nrow(result_fine@coords), nrow(result_coarse@coords))
 })
 
@@ -95,11 +95,11 @@ test_that("makeHexGrid produces more nodes with smaller spacing", {
 test_that("makeHexGrid@coords lon and lat values are within spacing margin of bbox", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
   spacing <- 1000
-  result  <- makeHexGrid(geo.box, spacing = spacing)
-  
+  result <- makeHexGrid(geo.box, spacing = spacing)
+
   # convert spacing from km to degrees (approximate: 1 degree ~ 111 km)
   margin <- (spacing / 111) * 1.5
-  
+
   expect_true(all(result@coords[, "lon"] >= geo.box["xmin"] - margin))
   expect_true(all(result@coords[, "lon"] <= geo.box["xmax"] + margin))
   expect_true(all(result@coords[, "lat"] >= geo.box["ymin"] - margin))
@@ -108,8 +108,8 @@ test_that("makeHexGrid@coords lon and lat values are within spacing margin of bb
 
 test_that("makeHexGrid@nodes.attr is an empty data.frame with correct row names", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-  result  <- makeHexGrid(geo.box, spacing = 1000)
-  
+  result <- makeHexGrid(geo.box, spacing = 1000)
+
   expect_s3_class(result@nodes.attr, "data.frame")
   expect_equal(ncol(result@nodes.attr), 0L)
   expect_equal(rownames(result@nodes.attr), as.character(seq_len(nrow(result@coords))))
@@ -117,8 +117,8 @@ test_that("makeHexGrid@nodes.attr is an empty data.frame with correct row names"
 
 test_that("makeHexGrid@meta has costs and colors both NULL", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-  result  <- makeHexGrid(geo.box, spacing = 1000)
-  
+  result <- makeHexGrid(geo.box, spacing = 1000)
+
   expect_null(result@meta$costs)
   expect_null(result@meta$colors)
 })
@@ -127,19 +127,19 @@ test_that("the central node has 6 neighbours", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
   spacing <- 1000
   result <- makeHexGrid(geo.box, spacing = spacing)
-  
+
   # Find the central node (closest to the center of the bbox)
   center_lon <- (geo.box["xmin"] + geo.box["xmax"]) / 2
   center_lat <- (geo.box["ymin"] + geo.box["ymax"]) / 2
-  
-  distances <- sqrt((result@coords[, "lon"] - center_lon)^2 + 
-                    (result@coords[, "lat"] - center_lat)^2)
-  
+
+  distances <- sqrt((result@coords[, "lon"] - center_lon)^2 +
+    (result@coords[, "lat"] - center_lat)^2)
+
   central_node_index <- which.min(distances)
-  
+
   # Get the neighbors of the central node
   neighbors <- result@graph@edgeL[[central_node_index]]
-  
+
   expect_equal(length(neighbors$edges), 6)
 })
 
@@ -147,7 +147,7 @@ test_that("no node has no neighbours", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
   spacing <- 100
   result <- makeHexGrid(geo.box, spacing = spacing)
-  
+
   for (i in seq_along(result@graph@edgeL)) {
     neighbors <- result@graph@edgeL[[i]]
     expect_gt(length(neighbors$edges), 0)
@@ -158,7 +158,7 @@ test_that("no node has has more than 6 neighbours", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
   spacing <- 100
   result <- makeHexGrid(geo.box, spacing = spacing)
-  
+
   for (i in seq_along(result@graph@edgeL)) {
     neighbors <- result@graph@edgeL[[i]]
     expect_lte(length(neighbors$edges), 6)
@@ -167,8 +167,8 @@ test_that("no node has has more than 6 neighbours", {
 
 test_that("makeHexGrid neighbour relationships are symmetric", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
-  result  <- makeHexGrid(geo.box, spacing = 1000)
-  
+  result <- makeHexGrid(geo.box, spacing = 1000)
+
   neighbours <- result@graph@edgeL
   for (i in seq_along(neighbours)) {
     for (neighbor in neighbours[[i]]$edges) {
@@ -176,4 +176,3 @@ test_that("makeHexGrid neighbour relationships are symmetric", {
     }
   }
 })
-

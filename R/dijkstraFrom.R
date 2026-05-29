@@ -1,6 +1,6 @@
 #' @title Find the minimum cost path
-#' @description This function finds the shortest path from a given 'source' node 
-#'    to all other nodes in the graph using Dijkstra's algorithm. 
+#' @description This function finds the shortest path from a given 'source' node
+#'    to all other nodes in the graph using Dijkstra's algorithm.
 #'    It can be applied to both gGraph and gData objects.
 #' @param x A [`gGraph`] or [`gData`] object.
 #' @param start a character string naming the 'source' node.
@@ -28,7 +28,7 @@
 #' @export
 setGeneric("dijkstraFrom", function(x, start) {
   standardGeneric("dijkstraFrom")
-},  signature = c("x"))
+}, signature = c("x"))
 
 
 #####################
@@ -49,8 +49,10 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
 
   endNodes <- getNodes(x)[!getNodes(x) %in% start]
 
-  res <- RBGL::sp.between(myGraph, start = start,
-                          finish = endNodes)
+  res <- RBGL::sp.between(myGraph,
+    start = start,
+    finish = endNodes
+  )
 
   ## sp.between uses unique(x@nodes.id) ##
   ## eventually have to duplicate paths ##

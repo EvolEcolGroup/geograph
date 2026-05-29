@@ -1,6 +1,6 @@
 #' Check if a gGraph has costs
 #'
-#' This function tests whether a [`gGraph`] has heterogeneous 
+#' This function tests whether a [`gGraph`] has heterogeneous
 #' costs associated to its edges.
 #'
 #' @details This low-level function is designed to be called  by other procedures of
@@ -16,7 +16,7 @@
 #' @family cost_functions
 #' @examples
 #'
-#' hasCosts(rawgraph.10k)   # TRUE
+#' hasCosts(rawgraph.10k) # TRUE
 #' hasCosts(worldgraph.10k) # FALSE as not all edges have costs
 #'
 #' @export

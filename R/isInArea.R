@@ -39,7 +39,7 @@
 #' ## Zoom into Europe and get the nodes in the current plot
 #' plot(worldgraph.10k, reset = TRUE)
 #' geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
-#' 
+#'
 #' ## Different output formats of the current nodes
 #' head(isInArea(worldgraph.10k, quiet = TRUE))
 #' head(isInArea(worldgraph.10k, res.type = "integer", quiet = TRUE))
@@ -48,13 +48,14 @@
 #' ## subset the gGraph just to visible nodes
 #' x <- worldgraph.10k[isInArea(worldgraph.10k)]
 #' plot(x, reset = TRUE)
-#' 
+#'
 #' ## Instead of the current plotted area we can use an explicit bounding box
 #' y <- worldgraph.10k[(isInArea(worldgraph.10k,
-#'                               reg = list(x = c(113, 154), y = c(-44, -10)),
-#'                               quiet = TRUE))]
+#'   reg = list(x = c(113, 154), y = c(-44, -10)),
+#'   quiet = TRUE
+#' ))]
 #' plot(y, reset = TRUE)
-#' 
+#'
 #' @export
 setGeneric("isInArea", function(x, ...) {
   standardGeneric("isInArea")
@@ -71,15 +72,15 @@ setMethod("isInArea", "matrix", function(x, reg = "current",
                                          buffer = 0,
                                          quiet = FALSE) {
   res.type <- match.arg(res.type)
-  coords   <- x
-  
+  coords <- x
+
   ## get xlim and ylim
   if (exists("zoom.log", envir = .geoGraphEnv) &&
-      length(reg) == 1 && reg == "zoom") {
+    length(reg) == 1 && reg == "zoom") {
     zoomlog <- get("zoom.log", envir = .geoGraphEnv)
     zoomlog <- zoomlog[1, ]
-    xlim    <- zoomlog[1:2]
-    ylim    <- zoomlog[3:4]
+    xlim <- zoomlog[1:2]
+    ylim <- zoomlog[3:4]
   } else if (length(reg) == 1 && reg == "current") {
     xlim <- sort(graphics::par("usr")[1:2])
     ylim <- sort(graphics::par("usr")[3:4])
@@ -90,13 +91,13 @@ setMethod("isInArea", "matrix", function(x, reg = "current",
   } else {
     return(NA)
   }
-  
+
   ## handle a buffer around area
   bufferx <- (xlim[2] - xlim[1]) * buffer
   buffery <- (ylim[2] - ylim[1]) * buffer
-  xlim    <- xlim + c(-bufferx, bufferx)
-  ylim    <- ylim + c(-buffery, buffery)
-  
+  xlim <- xlim + c(-bufferx, bufferx)
+  ylim <- ylim + c(-buffery, buffery)
+
   ## print reproducible call if requested
   if (quiet == FALSE) {
     message(sprintf(
@@ -105,14 +106,20 @@ setMethod("isInArea", "matrix", function(x, reg = "current",
       xlim[1], xlim[2], ylim[1], ylim[2]
     ))
   }
-  
+
   toKeep <- ((coords[, 1] >= xlim[1]) & (coords[, 1] <= xlim[2]) &
-               (coords[, 2] >= ylim[1]) & (coords[, 2] <= ylim[2]))
+    (coords[, 2] >= ylim[1]) & (coords[, 2] <= ylim[2]))
   names(toKeep) <- rownames(coords)
-  
-  if (res.type == "logical")   return(toKeep)
-  if (res.type == "integer")   return(which(toKeep))
-  if (res.type == "character") return(names(toKeep)[toKeep])
+
+  if (res.type == "logical") {
+    return(toKeep)
+  }
+  if (res.type == "integer") {
+    return(which(toKeep))
+  }
+  if (res.type == "character") {
+    return(names(toKeep)[toKeep])
+  }
 }) # end isInArea for matrix
 
 
@@ -126,8 +133,10 @@ setMethod("isInArea", "data.frame", function(x, reg = "current",
                                              buffer = 0,
                                              quiet = FALSE) {
   x <- as.matrix(x)
-  res <- isInArea(x = x, reg = reg, res.type = res.type,
-                  buffer = buffer, quiet = quiet)
+  res <- isInArea(
+    x = x, reg = reg, res.type = res.type,
+    buffer = buffer, quiet = quiet
+  )
   return(res)
 }) # end isInArea for data.frame
 
@@ -143,8 +152,10 @@ setMethod("isInArea", "gGraph", function(x, reg = "current",
                                          quiet = FALSE) {
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
   coords <- getCoords(x)
-  res <- isInArea(x = coords, reg = reg, res.type = res.type,
-                  buffer = buffer, quiet = quiet)
+  res <- isInArea(
+    x = coords, reg = reg, res.type = res.type,
+    buffer = buffer, quiet = quiet
+  )
   return(res)
 }) # end isInArea for gGraph
 
@@ -160,7 +171,9 @@ setMethod("isInArea", "gData", function(x, reg = "current",
                                         quiet = FALSE) {
   if (!is.gData(x)) stop("x is not a valid gData object")
   coords <- getCoords(x)
-  res <- isInArea(x = coords, reg = reg, res.type = res.type,
-                  buffer = buffer, quiet = quiet)
+  res <- isInArea(
+    x = coords, reg = reg, res.type = res.type,
+    buffer = buffer, quiet = quiet
+  )
   return(res)
 }) # end isInArea for gData

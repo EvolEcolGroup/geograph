@@ -49,7 +49,7 @@ areConnected <- function(x, nodes) { # x is a gGraph
   }
 
   names(connected.sets) <- paste("set", seq_along(connected.sets))
-  
+
   res <- sapply(connected.sets, function(e) all(nodes %in% e))
   res <- any(res)
 
