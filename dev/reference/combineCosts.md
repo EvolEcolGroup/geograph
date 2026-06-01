@@ -72,7 +72,7 @@ Other cost_functions:
 ## Examples
 
 ``` r
- 
+
 data("worldgraph.40k")
 # new graph with custom cost function
 exp.cost <- function(x1, x2, cost.coeff) {

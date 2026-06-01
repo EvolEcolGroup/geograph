@@ -77,6 +77,11 @@ or
 [`gData`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
 object. Outputs match the input format.
 
+The
+[`gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
+method can be memory-intensive for large graphs since it assigns
+attributes to all nodes.
+
 ## Functions
 
 - `assignByPolygon(matrix)`: Method for matrix input
@@ -87,9 +92,9 @@ object. Outputs match the input format.
 
 - `assignByPolygon(list)`: Method for numeric list input
 
-- `assignByPolygon(gGraph)`: Method for numeric gGraph objects
+- `assignByPolygon(gGraph)`: Method for gGraph objects
 
-- `assignByPolygon(gData)`: Method for numeric gData objects
+- `assignByPolygon(gData)`: Method for gData objects
 
 ## Note
 

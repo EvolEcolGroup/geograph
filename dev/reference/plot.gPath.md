@@ -84,4 +84,7 @@ print(hgdp.path)
 #> 
 #> each path, accessible with [[]] has elements 'length', 'path_detail' and 'length_detail'
 #> x and y coordinates of all nodes are stored as an attribute 'xy'; see ?gPath for details
+################
+# plot method
+################
 ```

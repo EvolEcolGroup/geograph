@@ -54,9 +54,9 @@ Other cost_functions:
 ## Examples
 
 ``` r
-hasCosts(rawgraph.10k)  
+hasCosts(rawgraph.10k)
 #> [1] TRUE
 x <- dropCosts(worldgraph.10k)
-hasCosts(x)               
+hasCosts(x)
 #> [1] FALSE
 ```

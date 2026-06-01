@@ -63,9 +63,9 @@ ori <- closestNode(worldgraph.40k, cbind(33, 10))
 myPath <- dijkstraFrom(hgdp, ori)
 
 ## examine the structure
-length(myPath)            # number of paths
+length(myPath) # number of paths
 #> [1] 52
-myPath[[1]]$path_detail   # nodes in first path
+myPath[[1]]$path_detail # nodes in first path
 #>  [1] "32713" "33353" "33993" "34633" "35273" "35913" "36553" "37193" "37833"
 #> [10] "37832" "37831" "38471" "38470" "38469" "38468" "38467" "39107" "39106"
 #> [19] "39105" "39104" "38463" "38462" "37821" "37820" "38460" "39101" "39741"
@@ -76,7 +76,7 @@ myPath[[1]]$path_detail   # nodes in first path
 #> [64] "26912" "26272" "25631" "24990" "24349" "23708" "23707" "24347" "24346"
 #> [73] "24345" "24985" "25626" "26266" "26906" "26905" "26904" "26903" "26902"
 #> [82] "26901" "26900" "26899" "26898"
-myPath[[1]]$length        # cost of first path
+myPath[[1]]$length # cost of first path
 #> [1] 38.755
 myPath[[1]]$length_detail # details for each step
 #> [[1]]

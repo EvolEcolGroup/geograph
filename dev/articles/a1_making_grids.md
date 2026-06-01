@@ -103,7 +103,7 @@ hexGraph
     ## 
     ## === gGraph object ===
     ## 
-    ## @coords: spatial coordinates of 10465 nodes
+    ## @coords: spatial coordinates of 10480 nodes
     ##      lon   lat
     ## 1 -14.99 50.07
     ## 2 -14.60 50.07
@@ -122,8 +122,8 @@ hexGraph
     ## 
     ## @graph:
     ## A graphNEL graph with undirected edges
-    ## Number of Nodes = 10465 
-    ## Number of Edges = 30976
+    ## Number of Nodes = 10480 
+    ## Number of Edges = 31021
 
 ### Setting costs for the different habitat types
 

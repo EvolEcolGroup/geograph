@@ -88,9 +88,9 @@ isInArea(
 
 - quiet:
 
-  logical. If `TRUE`, prints the bounding box coordinates and a
-  reproducible `reg` argument that can be copy-pasted into scripts for
-  exact reproducibility. Defaults to `FALSE`.
+  logical. If `TRUE`, suppresses printing of bounding box coordinates
+  and a reproducible `reg` argument that can be copy-pasted into scripts
+  for exact reproducibility. Defaults to `FALSE`.
 
 ## Value
 
@@ -152,8 +152,9 @@ plot(x, reset = TRUE)
 
 ## Instead of the current plotted area we can use an explicit bounding box
 y <- worldgraph.10k[(isInArea(worldgraph.10k,
-                              reg = list(x = c(113, 154), y = c(-44, -10)),
-                              quiet = TRUE))]
+  reg = list(x = c(113, 154), y = c(-44, -10)),
+  quiet = TRUE
+))]
 plot(y, reset = TRUE)
 
 ```

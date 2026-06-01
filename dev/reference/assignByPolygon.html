@@ -11,7 +11,7 @@ retrieved from the layer and assigned to that node."><meta name="robots" content
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9013</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9015</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,6 +109,8 @@ a <code><a href="gGraph-class.html">gGraph</a></code> object with new node attri
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Nodes can be specified as a matrix, <code>data.frame</code>, list, <code><a href="gGraph-class.html">gGraph</a></code>, or
 <code><a href="gData-class.html">gData</a></code> object. Outputs match the input format.</p>
+<p>The <code><a href="gGraph-class.html">gGraph</a></code> method can be memory-intensive for large graphs
+since it assigns attributes to all nodes.</p>
     </div>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
@@ -117,8 +119,8 @@ a <code><a href="gGraph-class.html">gGraph</a></code> object with new node attri
 <li><p><code>assignByPolygon(data.frame)</code>: Method for data.frames input</p></li>
 <li><p><code>assignByPolygon(numeric)</code>: Method for numeric vector input</p></li>
 <li><p><code>assignByPolygon(list)</code>: Method for numeric list input</p></li>
-<li><p><code>assignByPolygon(gGraph)</code>: Method for numeric gGraph objects</p></li>
-<li><p><code>assignByPolygon(gData)</code>: Method for numeric gData objects</p></li>
+<li><p><code>assignByPolygon(gGraph)</code>: Method for gGraph objects</p></li>
+<li><p><code>assignByPolygon(gData)</code>: Method for gData objects</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
@@ -189,7 +191,7 @@ a <code><a href="gGraph-class.html">gGraph</a></code> object with new node attri
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Andrea Manica.</p>
+  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">

@@ -2,9 +2,9 @@
 
 This function constructs a new
 [`gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
-object based on a discrete global grid system (DGGS) with a user-defined
-spatial resolution. The graph is restricted to a geographic bounding box
-defined by the user.
+object based on a hexagonal discrete global grid system (DGGS) with a
+user-defined spatial resolution. The graph is restricted to a geographic
+bounding box defined by the user.
 
 ## Usage
 

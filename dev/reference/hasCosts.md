@@ -48,7 +48,7 @@ Other cost_functions:
 
 ``` r
 
-hasCosts(rawgraph.10k)   # TRUE
+hasCosts(rawgraph.10k) # TRUE
 #> [1] TRUE
 hasCosts(worldgraph.10k) # FALSE as not all edges have costs
 #> [1] FALSE

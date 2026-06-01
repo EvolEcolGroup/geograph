@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9013</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9015</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,8 +40,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="geograph-development-version">geoGraph (development version)<a class="anchor" aria-label="anchor" href="#geograph-development-version"></a></h2>
-<p>New Features</p>
-<ul><li><p>Added <code>assignByRaster</code> to assign raster cell values to graph nodes with customizable aggregation.</p></li>
+<div class="section level3">
+<h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li><p>Updated <code>makeHexGrid</code> to handle date line crossing gGraphs</p></li>
+<li><p>Updated <code>isInArea</code> to print a reproducible bounding box message</p></li>
+<li><p>Added <code>assignByRaster</code> to assign raster cell values to graph nodes with customizable aggregation.</p></li>
 <li><p>Added <code>dijkstraBuffer</code> to identify nodes within a specified shortest-path distance from an origin.</p></li>
 <li><p>Added <code>makeHexGrid</code> for explicit hexagonal grid construction.</p></li>
 <li><p>Deprecated <code>extractFromLayer</code> in favor of <code>assignByPolygon</code> and <code>makeGrid</code> in favor of <code>makeSquareGrid</code>.</p></li>
@@ -54,6 +57,7 @@
 <li><p>Fix incorrect handling of duplicate nodes in <code><a href="../reference/dijkstraBetween.html">dijkstraBetween()</a></code>, ensuring zero-distance paths are properly represented.</p></li>
 <li><p>remove all use of deprecated packages (<code>sp</code> and <code>maptools</code>), and move to <code>sf</code> objects</p></li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1" id="geograph-v11">geoGraph v1.1<a class="anchor" aria-label="anchor" href="#geograph-v11"></a></h2>
 <ul><li>Update documentation to roxygen.</li>
@@ -68,7 +72,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Andrea Manica.</p>
+  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">

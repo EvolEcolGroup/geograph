@@ -22,3 +22,17 @@ Authors:
 - Andrea Manica <am315@cam.ac.uk>
 
 - Thibaut Jombart
+
+- Dominik Jud
+
+- Cecilia Padilla-Iglesias
+
+- Ondrej Pelanek
+
+- Andrea Pozzi
+
+- Margherita Colucci
+
+- Evie Carter
+
+- Michela Leonardi

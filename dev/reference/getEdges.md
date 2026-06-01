@@ -85,7 +85,7 @@ head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
 #> [4,] "68" "69"  
 #> [5,] "68" "9955"
 #> [6,] "69" "9957"
-head(getEdges(worldgraph.10k, res.type = "matId",   unique = TRUE))
+head(getEdges(worldgraph.10k, res.type = "matId", unique = TRUE))
 #>      Vi   Vj
 #> [1,] 67 9955
 #> [2,] 67  387

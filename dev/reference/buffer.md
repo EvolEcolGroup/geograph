@@ -93,7 +93,7 @@ plot(buf500km, col.rules = buf500km@meta$buf.colors, reset = TRUE)
 #### gData example ####
 
 ## retain a subset of hgdp
-x <- hgdp[27:30] 
+x <- hgdp[27:30]
 plot(x, reset = TRUE, col.g = "lightgrey", pch.node = 20)
 buf.400 <- buffer(x, 400, res.type = "gData")
 points(buf.400, col.node = "gold")
