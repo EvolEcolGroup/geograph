@@ -152,13 +152,13 @@ makeHexGrid <- function(geo.box, spacing, ...) {
 #' @noRd
 .make_sample_points <- function(xmin, xmax, ymin, ymax, cellsize) {
   if (xmin > xmax) {
-    ## include the endpoints explicitly so cells straddling 180 are sampled
+    ## include 180 and xmax explicitly so edge/seam cells are sampled
     lon <- c(seq(xmin, 180, by = cellsize), 180,
-             seq(-180, xmax, by = cellsize), -180)
+             seq(-180, xmax, by = cellsize), xmax)
     lon <- sort(unique(lon))
   } else {
-    lon <- seq(xmin, xmax, by = cellsize)
+    lon <- sort(unique(c(seq(xmin, xmax, by = cellsize), xmax)))
   }
-  lat <- seq(ymin, ymax, by = cellsize)
+  lat <- sort(unique(c(seq(ymin, ymax, by = cellsize), ymax)))
   expand.grid(lon = lon, lat = lat)
 }

@@ -2,6 +2,8 @@
 
 ## New Features
 
+* Updated `makeHexGrid` to handle date line crossing gGraphs
+
 * Updated `isInArea` to print a reproducible bounding box message 
 
 * Added `assignByRaster` to assign raster cell values to graph nodes with customizable aggregation.
