@@ -46,6 +46,9 @@ plot(hgdp.path) # plot the path
 
 ## printing
 print(hgdp.path)
+################
+# plot method
+################
 }
 \seealso{
 Other plotting_methods:

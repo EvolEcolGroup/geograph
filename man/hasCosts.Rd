@@ -26,7 +26,7 @@ test for the validity of the provided arguments (for speed purposes).
 }
 \examples{
 
-hasCosts(rawgraph.10k)   # TRUE
+hasCosts(rawgraph.10k) # TRUE
 hasCosts(worldgraph.10k) # FALSE as not all edges have costs
 
 }

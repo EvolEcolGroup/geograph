@@ -53,6 +53,9 @@ retrieved from the layer and assigned to that node.
 \details{
 Nodes can be specified as a matrix, \code{data.frame}, list, \code{\link{gGraph}}, or
 \code{\link{gData}} object. Outputs match the input format.
+
+The \code{\link{gGraph}} method can be memory-intensive for large graphs
+since it assigns attributes to all nodes.
 }
 \section{Functions}{
 \itemize{
@@ -64,9 +67,9 @@ Nodes can be specified as a matrix, \code{data.frame}, list, \code{\link{gGraph}
 
 \item \code{assignByPolygon(list)}: Method for numeric list input
 
-\item \code{assignByPolygon(gGraph)}: Method for numeric gGraph objects
+\item \code{assignByPolygon(gGraph)}: Method for gGraph objects
 
-\item \code{assignByPolygon(gData)}: Method for numeric gData objects
+\item \code{assignByPolygon(gData)}: Method for gData objects
 
 }}
 \note{

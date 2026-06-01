@@ -1,9 +1,16 @@
 Package: geoGraph
 Type: Package
 Title: Walking Through the Geographic Space Using Graphs
-Version: 1.1.1.9013
+Version: 1.1.1.9015
 Authors@R: c(
     person("Thibaut", "Jombart", role = "aut"),
+    person("Dominik", "Jud", role = "aut"),
+    person("Cecilia", "Padilla-Iglesias", role =  "aut"),
+    person("Ondrej", "Pelanek", role = "aut"),
+    person("Andrea", "Pozzi", role = "aut"),
+    person("Margherita", "Colucci", role = "aut"),
+    person("Evie", "Carter", role = "aut"),
+    person("Michela", "Leonardi", role = "aut"),
     person("Andrea", "Manica", email = "am315@cam.ac.uk", role = c("aut", "cre")))
 Maintainer: Andrea Manica <am315@cam.ac.uk>
 Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.

@@ -1,6 +1,6 @@
 #' @title Make a new gGraph object from a custom hexagonal grid
 #'
-#' @description This function constructs a new [`gGraph`] object based on a
+#' @description This function constructs a new [`gGraph`] object based on a hexagonal
 #' discrete global grid system (DGGS) with a user-defined spatial resolution.
 #' The graph is restricted to a geographic bounding box defined by the user.
 #'
@@ -34,13 +34,31 @@ makeHexGrid <- function(geo.box, spacing, ...) {
 
   # get the boundaries of the region in the format we need
   if (inherits(geo.box, "sf")) {
+    if (!is.na(sf::st_crs(geo.box)) && sf::st_crs(geo.box) != sf::st_crs(4326)) {
+      stop("geo.box must be in longitude/latitude (EPSG:4326).")
+    }
     bbox <- sf::st_bbox(geo.box)
-  } else if (inherits(geo.box, "bbox")) { # TODO look if we need to convert crs!
+  } else if (inherits(geo.box, "bbox")) {
+    if (!is.na(sf::st_crs(geo.box)) && sf::st_crs(geo.box) != sf::st_crs(4326)) {
+      stop("geo.box must be in longitude/latitude (EPSG:4326).")
+    }
     bbox <- geo.box
   } else if (is.numeric(geo.box) && all(c("xmin", "xmax", "ymin", "ymax") %in% names(geo.box))) {
-    bbox <- sf::st_bbox(geo.box, crs = 4326)
+    bbox <- geo.box[c("xmin", "xmax", "ymin", "ymax")]
   } else {
     stop("geo.box must be a bbox, sf object, or named numeric vector.")
+  }
+  
+  # check the validity of coordinates
+  if (bbox["xmin"] < -180 || bbox["xmin"] > 180 ||
+      bbox["xmax"] < -180 || bbox["xmax"] > 180) {
+    stop("Longitude values in geo.box must be between -180 and 180.")
+  }
+  if (bbox["ymin"] < -90 || bbox["ymax"] > 90) {
+    stop("Latitude values in geo.box must be between -90 and 90.")
+  }
+  if (bbox["ymin"] >= bbox["ymax"]) {
+    stop("ymin must be less than ymax in geo.box.")
   }
 
   # construct the gird (for the whole world) using the specified spacing
@@ -49,21 +67,27 @@ makeHexGrid <- function(geo.box, spacing, ...) {
     metric = TRUE,
     resround = "down"
   )
-
+  
+  # find all grid cells within the bounding box
   resolution <- dggs$res
 
   cell.size <- dggridR::dggetres(dggs) %>%
     dplyr::filter(.data$res == resolution) %>%
     dplyr::pull(dplyr::all_of("spacing_km"))
 
-  grid.sf <- dggridR::dgrectgrid(
-    dggs,
-    minlon = bbox["xmin"],
-    maxlon = bbox["xmax"],
-    minlat = bbox["ymin"],
-    maxlat = bbox["ymax"],
-    cellsize = cell.size / (111 * 3) # TODO need to find a way to make this dependent on the spacing
+  samp.cellsize <- cell.size / 333 #at least 9 points per cell
+  
+  samp <- .make_sample_points(
+    xmin     = bbox["xmin"], xmax = bbox["xmax"],
+    ymin     = bbox["ymin"], ymax = bbox["ymax"],
+    cellsize = samp.cellsize
   )
+  
+  # get the boundary coordinates of cells 
+  seqnums <- dggridR::dgGEO_to_SEQNUM(dggs, samp$lon, samp$lat)$seqnum
+  seqnums <- unique(seqnums)
+  grid.sf <- dggridR::dgcellstogrid(dggs, seqnums)
+  
 
   # get the coords argument from the centers of the grid cells
   centers <- dggridR::dgSEQNUM_to_GEO(dggs, grid.sf$seqnum)
@@ -78,7 +102,7 @@ makeHexGrid <- function(geo.box, spacing, ...) {
   nb <- spdep::dnearneigh( # TODO switch to sf at some point here
     xy,
     d1 = 0,
-    d2 = cell.size * 1.5, # TODO make this more robust
+    d2 = cell.size * 1.5,
     longlat = TRUE
   )
 
@@ -100,7 +124,6 @@ makeHexGrid <- function(geo.box, spacing, ...) {
   )
 
   # create the gGraph object
-
   newGraph <- new(
     "gGraph",
     graphNEL = gNEL,
@@ -111,4 +134,31 @@ makeHexGrid <- function(geo.box, spacing, ...) {
   )
 
   return(newGraph)
+}
+
+
+#' Generate a dense grid of sample points across a bounding box
+#'
+#' Internal helper for [`makeHexGrid`]. Produces a regular grid of longitude /
+#' latitude points covering the requested region. When `xmin` is greater than
+#' `xmax`, the region is assumed to cross the antimeridian and the longitude
+#' span is split into `[xmin, 180]` and `[-180, xmax]`.
+#'
+#' @param xmin,xmax longitude limits. `xmin > xmax` indicates a dateline
+#'   crossing.
+#' @param ymin,ymax latitude limits.
+#' @param cellsize spacing in degrees between sample points.
+#' @return a `data.frame` with columns `lon` and `lat`.
+#' @noRd
+.make_sample_points <- function(xmin, xmax, ymin, ymax, cellsize) {
+  if (xmin > xmax) {
+    ## include 180 and xmax explicitly so edge/seam cells are sampled
+    lon <- c(seq(xmin, 180, by = cellsize), 180,
+             seq(-180, xmax, by = cellsize), xmax)
+    lon <- sort(unique(lon))
+  } else {
+    lon <- sort(unique(c(seq(xmin, xmax, by = cellsize), xmax)))
+  }
+  lat <- sort(unique(c(seq(ymin, ymax, by = cellsize), ymax)))
+  expand.grid(lon = lon, lat = lat)
 }

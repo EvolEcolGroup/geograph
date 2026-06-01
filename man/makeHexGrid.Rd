@@ -21,7 +21,7 @@ A \code{\link{gGraph}} object representing the DGGS restricted to the
 specified geographic region. The \verb{@nodes.attr} slot is empty.
 }
 \description{
-This function constructs a new \code{\link{gGraph}} object based on a
+This function constructs a new \code{\link{gGraph}} object based on a hexagonal
 discrete global grid system (DGGS) with a user-defined spatial resolution.
 The graph is restricted to a geographic bounding box defined by the user.
 }
