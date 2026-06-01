@@ -23,13 +23,14 @@ Useful links:
 Authors:
 \itemize{
   \item Andrea Manica \email{am315@cam.ac.uk}
-  \item Dominik Jud
   \item Thibaut Jombart
+  \item Dominik Jud
   \item Cecilia Padilla-Iglesias
   \item Ondrej Pelanek
   \item Andrea Pozzi
   \item Margherita Colucci
   \item Evie Carter
+  \item Michela Leonardi
 }
 
 }

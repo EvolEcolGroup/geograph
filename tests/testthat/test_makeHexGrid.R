@@ -176,3 +176,32 @@ test_that("makeHexGrid neighbour relationships are symmetric", {
     }
   }
 })
+
+test_that("makeHexGrid neighbours are correct across the dateline", {
+  ## region crossing the antimeridian
+  geo.box <- c(xmin = 110, xmax = -150, ymin = -30, ymax = 30)
+  result  <- makeHexGrid(geo.box, spacing = 500)
+  
+  # check if all nodes are connected
+  for (i in seq_along(result@graph@edgeL)) {
+    expect_gt(length(result@graph@edgeL[[i]]$edges), 0)
+  }
+  
+  # no node should have more than 6 neighbours 
+  for (i in seq_along(result@graph@edgeL)) {
+    expect_lte(length(result@graph@edgeL[[i]]$edges), 6)
+  }
+  
+  # check if dateline is briged
+  coords <- result@coords
+  bridges.dateline <- FALSE
+  for (i in seq_along(result@graph@edgeL)) {
+    for (j in result@graph@edgeL[[i]]$edges) {
+      lon.i <- coords[i, "lon"]
+      lon.j <- coords[as.integer(j), "lon"]
+      if (lon.i > 150 && lon.j < -150) bridges.dateline <- TRUE
+      if (lon.i < -150 && lon.j > 150) bridges.dateline <- TRUE
+    }
+  }
+  expect_true(bridges.dateline)
+})
