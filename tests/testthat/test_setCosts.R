@@ -178,5 +178,6 @@ test_that("setCosts errors when node.values is not numeric", {
 test_that("setCosts computes edge costs as the product of node costs", {
   g <- setCosts(worldgraph.10k, node.values = 2, method = "product")
   w <- vapply(g@graph@edgeData@data, function(e) e$weight, numeric(1))
+  expect_gt(length(w), 0)
   expect_true(all(w == 4))
 })
