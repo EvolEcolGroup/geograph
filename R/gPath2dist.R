@@ -53,7 +53,8 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
     origins <- sub(":.*", "", names(x))
     
     n <- (1 + sqrt(1 + 8 * L)) / 2
-    if (n != round(n)) {
+    n <- round(n)
+    if (n * (n - 1) / 2 != L) {
       stop(
         "Length of x does not match a number of pairwise comparisons; ",
         "cannot construct a 'dist' object. Use res.type = 'vector' instead."
