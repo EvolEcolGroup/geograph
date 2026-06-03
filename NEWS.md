@@ -2,7 +2,9 @@
 
 ## New Features
 
-* Updated `makeHexGrid` to handle date line crossing gGraphs
+* Fixed bug in `gPath2dist` with same-node distances
+
+* Updated `makeHexGrid` to handle date line crossing `gGraph` objects
 
 * Updated `isInArea` to print a reproducible bounding box message 
 

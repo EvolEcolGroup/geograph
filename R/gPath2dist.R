@@ -38,7 +38,6 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
   if (!inherits(m, "gPath")) {
     stop("m is not a gPath object.")
   }
-
   ## find the size of the dist object ##
   x <- m
   res.type <- match.arg(res.type)
@@ -49,27 +48,27 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
   if (is.null(names(x))) {
     stop("m must have non-NULL names.")
   }
-  x.names <- sub(":.*", "", names(x))
-  i <- 1
-  while (i < L && x.names[i] == x.names[i + 1]) {
-    i <- i + 1
-  }
-
-  resSize <- i + 1
-
   ## check size consistency
-  if (res.type == "dist" && L != (resSize * (resSize - 1L)) %/% 2L) {
-    stop(
-      "Length of x does not match a number of pairwise comparisons; ",
-      "cannot construct a 'dist' object. Use res.type = 'vector' instead."
-    )
+  if (res.type == "dist") {
+    origins <- sub(":.*", "", names(x))
+    
+    n <- (1 + sqrt(1 + 8 * L)) / 2
+    if (n != round(n)) {
+      stop(
+        "Length of x does not match a number of pairwise comparisons; ",
+        "cannot construct a 'dist' object. Use res.type = 'vector' instead."
+      )
+    }
+    resSize <- n
+    
+    # check that the origin nodes are not all the same
+    if (length(unique(origins)) == 1) {
+      stop("All paths in m have the same origin node; cannot construct a 'dist'. ",
+           "Use res.type = 'vector'.")
+    }
   }
-
-
   ## GET DISTANCES ##
   resDist <- sapply(x, function(e) sum(e$length_detail[[1]], na.rm = TRUE))
-
-
   ## BUILD RESULT ##
   ## type == dist
   if (res.type == "dist") {
@@ -79,6 +78,5 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
     ## type == vector (no change)
     res <- resDist
   }
-
   return(res)
-} # end gPath2dist
+} # end gPath2dist # end gPath2dist

@@ -1,12 +1,15 @@
-test_that("plot.gPath works with custom color and lwd", {
-  hgdp.sub <- hgdp[getData(hgdp)$Population %in%
-    c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
+test_that("plot.gPath draws paths that connect the plotted points", {
+  hgdp.sub  <- hgdp[getData(hgdp)$Population %in%
+                      c("French", "Balochi", "BantuKenya", "Papuan", "Pima")]
   hgdp.path <- dijkstraBetween(hgdp.sub)
-
-  pdf(NULL)
-  on.exit(dev.off(), add = TRUE)
-  plot(worldgraph.40k)
-  expect_no_error(plot(hgdp.path, col = "blue", lwd = 1))
+  
+  pdf(NULL); on.exit(dev.off(), add = TRUE)
+  plot(worldgraph.40k, col = "NA")
+  points(hgdp.sub, col.nodes = "black", pch.nodes = 19)
+  expect_no_error((plot(hgdp.path, col = "blue", lwd = 1)))
+  
+  endpoints <- unique(unlist(strsplit(names(hgdp.path), ":", fixed = TRUE)))
+  expect_setequal(endpoints, unique(hgdp.sub@nodes.id))
 })
 
 test_that("print.gPath outputs correct number of paths", {

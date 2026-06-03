@@ -53,7 +53,6 @@ test_that("setCosts with cost.rules updates meta and sets costs in one call", {
   expect_false(isTRUE(all.equal(result_w, baseline_w)))
 })
 
-
 test_that("setCosts with cost.rules must have exactly two columns", {
   cost.rules <- data.frame(
     habitat = c("sea", "land"),
@@ -122,4 +121,62 @@ test_that("setCosts accepts cost.rules with columns in any order", {
     getCosts(result.reversed, res.type = "vector"),
     getCosts(result.normal, res.type = "vector")
   )
+})
+
+
+test_that("setCosts errors when x is not a gGraph and when method = 'function' but FUN is NULL", {
+  expect_error(setCosts(list()), "x is not a valid gGraph object")
+  expect_error(setCosts("not_a_graph"), "x is not a valid gGraph object")
+  expect_error(
+    setCosts(worldgraph.10k, attr.name = "habitat", method = "function"),
+    "FUN needs to be defined"
+  )
+})
+
+
+test_that("setCosts errors when cost.rules is not a data.frame", {
+  expect_error(
+    setCosts(worldgraph.10k, attr.name = "habitat",
+             cost.rules = list(habitat = "sea", cost = 10)),
+    "cost.rules must be a data.frame"
+  )
+})
+
+test_that("setCosts errors when cost.rules lacks the attr.name column", {
+  cost.rules <- data.frame(foo = c("sea", "land"), cost = c(10, 1))
+  expect_error(
+    setCosts(worldgraph.10k, attr.name = "habitat", cost.rules = cost.rules),
+    "cost.rules must include the column named by attr.name"
+  )
+})
+
+test_that("setCosts errors when attr.name is absent from x@meta$costs", {
+  g <- worldgraph.10k
+  g@meta$costs <- data.frame(foo = c("sea", "land"), cost = c(10, 1))
+  expect_error(
+    setCosts(g, attr.name = "habitat"),
+    "attr.name is not documented"
+  )
+})
+
+test_that("setCosts errors when x has no costs component on the attribute path", {
+  g <- worldgraph.10k
+  g@meta$costs <- NULL
+  expect_error(
+    setCosts(g, attr.name = "habitat"),
+    "x@meta does not contain a 'costs' component"
+  )
+})
+
+test_that("setCosts errors when node.values is not numeric", {
+  expect_error(
+    setCosts(worldgraph.10k, node.values = c("a", "b", "c")),
+    "Provided 'node.values' not numeric"
+  )
+})
+
+test_that("setCosts computes edge costs as the product of node costs", {
+  g <- setCosts(worldgraph.10k, node.values = 2, method = "product")
+  w <- vapply(g@graph@edgeData@data, function(e) e$weight, numeric(1))
+  expect_true(all(w == 4))
 })
