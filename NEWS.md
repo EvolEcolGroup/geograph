@@ -2,7 +2,7 @@
 
 ## New Features
 
-* Fixed bug in `gPath2dist` with same-node distances
+* Updated `gPath2dist` to now automatically return a vector or dist object based on the input type
 
 * Updated `makeHexGrid` to handle date line crossing `gGraph` objects
 

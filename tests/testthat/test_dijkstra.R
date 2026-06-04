@@ -59,21 +59,26 @@ testthat::test_that("DijkstraFrom works on a gData object", {
 })
 
 testthat::test_that("DijkstraBetween can handle two points on the same node in a gData object", {
-  # get a subset of the hgdp data where in two cases two populations are from the same node
-  hgdp_sub <- hgdp[getData(hgdp)$Region == "MIDDLE_EAST" | getData(hgdp)$Region == "CENTRAL_SOUTH_ASIA"]
-  pop <- getData(hgdp_sub)$Population
-
-  # compute the distances between all pairs of populations in this subset
+  hgdp_sub <- hgdp[getData(hgdp)$Region == "MIDDLE_EAST" |
+                     getData(hgdp)$Region == "CENTRAL_SOUTH_ASIA"]
+  pop      <- getData(hgdp_sub)$Population
+  nodes_id <- hgdp_sub@nodes.id
+  
   m <- dijkstraBetween(hgdp_sub)
-  vec <- geoGraph::gPath2dist(m, res.type = "vector")
-  dist <- geoGraph::gPath2dist(m)
-
-  # check that we get distances for all populations
-  testthat::expect_equal(attr(dist, "Size"), length(pop))
-
-  # check that the distances between populations from the same node is always zero
-  testthat::expect_equal(vec["39740:39740"][[1]], 0)
-  testthat::expect_equal(vec["16798:16798"][[1]], 0)
+  d <- geoGraph::gPath2dist(m)
+  
+  ## one entry per population
+  testthat::expect_equal(attr(d, "Size"), length(pop))
+  
+  ## every pair of populations sharing a graph node has distance 0
+  d_mat <- as.matrix(d)
+  for (i in seq_along(pop)) {
+    for (j in seq_along(pop)) {
+      if (i != j && nodes_id[i] == nodes_id[j]) {
+        testthat::expect_equal(d_mat[i, j], 0)
+      }
+    }
+  }
 })
 
 test_that("dijkstraBetween errors when from is empty", {
