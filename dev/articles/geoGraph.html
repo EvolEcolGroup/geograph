@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9015</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9016</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
 
       <h1>geoGraph</h1>
             
-            <h4 data-toc-skip class="date">2026-06-01</h4>
+            <h4 data-toc-skip class="date">2026-06-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/geoGraph.Rmd" class="external-link"><code>vignettes/geoGraph.Rmd</code></a></small>
       <div class="d-none name"><code>geoGraph.Rmd</code></div>
@@ -603,7 +603,7 @@ examine the relationship between genetic diversity within populations
 (stored in <code>hgdp</code>) and the distance from the origin:</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">div</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getData.html">getData</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span><span class="op">$</span><span class="st">"Genetic.Div"</span></span>
-<span><span class="va">dgeo.unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gPath2dist.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths</span>, res.type <span class="op">=</span> <span class="st">"vector"</span><span class="op">)</span></span>
+<span><span class="va">dgeo.unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gPath2dist.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.unif</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
 <span><span class="va">lm.unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.unif</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="va">lm.unif</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
@@ -653,7 +653,7 @@ shortest paths:</p>
 <p>The new paths are slightly different from the previous ones. We can
 examine the new relationship with genetic distance:</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dgeo.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gPath2dist.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths.2</span>, res.type <span class="op">=</span> <span class="st">"vector"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">dgeo.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gPath2dist.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths.2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.hab</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
 <span><span class="va">lm.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.hab</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="va">lm.hab</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>

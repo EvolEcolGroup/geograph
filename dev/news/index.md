@@ -4,7 +4,10 @@
 
 ### New Features
 
-- Updated `makeHexGrid` to handle date line crossing gGraphs
+- Updated `gPath2dist` to now automatically return a vector or dist
+  object based on the input type
+
+- Updated `makeHexGrid` to handle date line crossing `gGraph` objects
 
 - Updated `isInArea` to print a reproducible bounding box message
 

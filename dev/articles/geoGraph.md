@@ -658,7 +658,7 @@ from the origin:
 ``` r
 
 div <- getData(hgdp)$"Genetic.Div"
-dgeo.unif <- gPath2dist(paths, res.type = "vector")
+dgeo.unif <- gPath2dist(paths)
 plot(div ~ dgeo.unif, xlab = "GeoGraphic distance (arbitrary units)", ylab = "Genetic diversity")
 lm.unif <- lm(div ~ dgeo.unif)
 abline(lm.unif, col = "red")
@@ -724,7 +724,7 @@ examine the new relationship with genetic distance:
 
 ``` r
 
-dgeo.hab <- gPath2dist(paths.2, res.type = "vector")
+dgeo.hab <- gPath2dist(paths.2)
 plot(div ~ dgeo.hab, xlab = "GeoGraphic distance (arbitrary units)", ylab = "Genetic diversity")
 lm.hab <- lm(div ~ dgeo.hab)
 abline(lm.hab, col = "red")

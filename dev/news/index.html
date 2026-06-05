@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9015</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9016</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,8 @@
 <h2 class="pkg-version" data-toc-text="development version" id="geograph-development-version">geoGraph (development version)<a class="anchor" aria-label="anchor" href="#geograph-development-version"></a></h2>
 <div class="section level3">
 <h3 id="new-features-development-version">New Features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li><p>Updated <code>makeHexGrid</code> to handle date line crossing gGraphs</p></li>
+<ul><li><p>Updated <code>gPath2dist</code> to now automatically return a vector or dist object based on the input type</p></li>
+<li><p>Updated <code>makeHexGrid</code> to handle date line crossing <code>gGraph</code> objects</p></li>
 <li><p>Updated <code>isInArea</code> to print a reproducible bounding box message</p></li>
 <li><p>Added <code>assignByRaster</code> to assign raster cell values to graph nodes with customizable aggregation.</p></li>
 <li><p>Added <code>dijkstraBuffer</code> to identify nodes within a specified shortest-path distance from an origin.</p></li>
