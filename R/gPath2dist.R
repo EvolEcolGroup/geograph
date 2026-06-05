@@ -82,4 +82,4 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
     res <- resDist
   }
   return(res)
-} # end gPath2dist # end gPath2dist
+} 

@@ -76,9 +76,9 @@ test_that("polygonBetween outline = TRUE returns fewer or equal paths than outli
     from = "west", to = "east",
     outline = TRUE
   )
-  dist.all <- gPath2dist(result.all)
-  dist.outline <- gPath2dist(result.outline)
   if (!anyNA(result.outline)) {
+    dist.all <- gPath2dist(result.all)
+    dist.outline <- gPath2dist(result.outline)
     expect_lte(length(dist.outline), length(dist.all))
   }
 })

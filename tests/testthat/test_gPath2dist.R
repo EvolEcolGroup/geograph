@@ -87,3 +87,29 @@ test_that("gPath2dist auto-detects dist for between and vector for from", {
   expect_equal(length(res_from), 10L)
   expect_false(is.null(names(res_from)))
 })
+
+
+test_that("gPath2dist errors on an broken gPath objects", {
+  # empty gPath
+  m <- structure(list(), class = "gPath")
+  expect_error(gPath2dist(m), "at least one element")
+  
+  # gPath with NULL names
+  m <- structure(list(list(length_detail = list(0))), class = "gPath")
+  expect_error(gPath2dist(m), "non-NULL names")
+  
+  # gPath with non-pairwise names
+  m <- structure(
+    list(list(length_detail = list(1)),
+         list(length_detail = list(2))),
+    class = "gPath"
+  )
+  names(m) <- c("a:x", "b:y")
+  expect_error(gPath2dist(m), "does not match a pairwise count")
+})
+
+test_that("gPath2dist emits a deprecation message when res.type is supplied", {
+  hgdp.sub  <- hgdp[c(1, 2, 3, 4), ]
+  hgdp.path <- dijkstraBetween(hgdp.sub)
+  expect_message(gPath2dist(hgdp.path, res.type = "dist"), "deprecated")
+})
