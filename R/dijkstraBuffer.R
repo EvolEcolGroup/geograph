@@ -68,7 +68,7 @@ dijkstraBuffer <- function(x, origin, d, res.type = c("nodes", "gGraph"), ...) {
 
   ## compute least-cost paths from origin
   paths <- dijkstraFrom(x, start = origin.node)
-  dists <- gPath2dist(paths, res.type = "vector")
+  dists <- gPath2dist(paths)
 
   ## extract destination node names
   dest.nodes <- sub(".*:", "", names(dists))

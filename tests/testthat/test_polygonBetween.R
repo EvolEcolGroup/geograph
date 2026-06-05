@@ -76,9 +76,9 @@ test_that("polygonBetween outline = TRUE returns fewer or equal paths than outli
     from = "west", to = "east",
     outline = TRUE
   )
-  dist.all <- gPath2dist(result.all, res = "vec")
-  dist.outline <- gPath2dist(result.outline, res = "vec")
   if (!anyNA(result.outline)) {
+    dist.all <- gPath2dist(result.all)
+    dist.outline <- gPath2dist(result.outline)
     expect_lte(length(dist.outline), length(dist.all))
   }
 })
@@ -125,8 +125,8 @@ test_that("polygonBetween distances are shorter for adjacent than distant polygo
   )
 
 
-  dist.adjacent <- gPath2dist(result.adjacent, res = "vec")
-  dist.distant <- gPath2dist(result.distant, res = "vec")
+  dist.adjacent <- gPath2dist(result.adjacent)
+  dist.distant <- gPath2dist(result.distant)
 
   expect_lt(
     min(dist.adjacent, na.rm = TRUE),

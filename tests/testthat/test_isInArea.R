@@ -50,7 +50,7 @@ test_that("isInArea gives same nodes from zoom device and explicit bbox", {
   on.exit(dev.off(), add = TRUE)
 
   ## zoom into Europe on the device
-  plot(worldgraph.10k, reset = TRUE)
+  plot(worldgraph.10k, reset = TRUE, edges = TRUE, shape = NULL)
   geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
 
   ## get nodes from current plot and capture the reproducible call
