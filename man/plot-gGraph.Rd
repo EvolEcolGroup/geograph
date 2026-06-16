@@ -60,10 +60,10 @@ plotEdges(
 \arguments{
 \item{x}{a \linkS4class{gGraph} object.}
 
-\item{shape}{a shapefile of the class \code{sf} (see
-\code{\link[sf:st_read]{sf::st_read()}} to import a GIS
-shapefile). Alternatively, a character string indicating one shapefile
-released with geoGraph; currently, only 'world' is available.}
+\item{shape}{a shapefile of the class \code{sf} (see \code{\link[sf:st_read]{sf::st_read()}} to import
+a GIS shapefile). Alternatively, a character string indicating one
+shapefile released with geoGraph; currently, only 'world' is available.
+If \code{NULL}, the graph is plotted without any background layer.}
 
 \item{psize}{a numeric giving the size of points.}
 

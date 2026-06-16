@@ -21,10 +21,10 @@
 #' @aliases plot,gGraph-method plot,gGraph,missing-method plot.gGraph plot_gGraph
 #' @docType methods
 #' @param x a \linkS4class{gGraph} object.
-#' @param shape a shapefile of the class `sf` (see
-#' [sf::st_read()] to import a GIS
-#' shapefile). Alternatively, a character string indicating one shapefile
-#' released with geoGraph; currently, only 'world' is available.
+#' @param shape a shapefile of the class `sf` (see [sf::st_read()] to import
+#'   a GIS shapefile). Alternatively, a character string indicating one
+#'   shapefile released with geoGraph; currently, only 'world' is available.
+#'   If `NULL`, the graph is plotted without any background layer.
 #' @param psize a numeric giving the size of points.
 #' @param pch a numeric or a character indicating the type of point.
 #' @param col a character string indicating the color to be used.
@@ -183,7 +183,6 @@ setMethod(
       sf::sf_use_s2(FALSE)
     }
 
-    ## TODO if the shape is null, we should throw an error!!!
     if (!is.null(shape)) {
       if (!inherits(shape, "sf")) {
         if (inherits(shape, "SpatialPolygonsDataFrame")) {

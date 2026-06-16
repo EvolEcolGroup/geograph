@@ -42,3 +42,14 @@ test_that("co-ordinate format", {
   # NA produces error in findLand
   expect_error(findLand(NA_matrix))
 })
+
+test_that("findLand errors when shape is NULL", {
+  coords <- matrix(c(10, 50), ncol = 2)
+  expect_error(findLand(coords, shape = NULL), "cannot be NULL")
+})
+
+test_that("findLand rejects multi-element character shape", {
+  coords <- matrix(c(10, 50), ncol = 2)
+  expect_error(findLand(coords, shape = c("world", "moon")),
+               "shape must be a sf object")
+})
