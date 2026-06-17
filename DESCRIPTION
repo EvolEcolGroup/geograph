@@ -11,7 +11,7 @@ Authors@R: c(
     person("Margherita", "Colucci", role = "aut"),
     person("Evie", "Carter", role = "aut"),
     person("Michela", "Leonardi", role = "aut"),
-    person("Cassandra", "Gunasekaram", role = "aut")
+    person("Cassandra", "Gunasekaram", role = "aut"),
     person("Andrea", "Manica", email = "am315@cam.ac.uk", role = c("aut", "cre")))
 Maintainer: Andrea Manica <am315@cam.ac.uk>
 Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
