@@ -73,6 +73,8 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
   ## Load default shapefile ##
   if (is.character(shape) && length(shape) == 1L && shape == "world") {
     shape <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+    old_s2 <- sf::sf_use_s2()
+    on.exit(sf::sf_use_s2(old_s2), add = TRUE)
     sf::sf_use_s2(FALSE)
   }
 

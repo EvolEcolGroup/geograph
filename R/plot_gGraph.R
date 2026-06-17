@@ -177,9 +177,11 @@ setMethod(
 
 
     ## handle shape
-    if (!is.null(shape) && is.character(shape) && shape == "world") {
+    if (!is.null(shape) && is.character(shape) && length(shape) == 1L && shape == "world") {
       # shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
       shape <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+      old_s2 <- sf::sf_use_s2()
+      on.exit(sf::sf_use_s2(old_s2), add = TRUE)
       sf::sf_use_s2(FALSE)
     }
 
