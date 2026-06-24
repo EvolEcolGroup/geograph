@@ -22,7 +22,7 @@ test_that("areNeighbours correctly returns neighbours", {
   # Test vectors of neighbours are correctly identified
   V3 <- c("6303", "6304")
   V4 <- c("6303", "6305")
-  out4 <- areNeighbours(V1, V2, worldgraph.40k@graph)
+  out4 <- areNeighbours(V3, V4, worldgraph.40k@graph)
 
   expect_false(out4[[1]])
   expect_true(out4[[2]])
