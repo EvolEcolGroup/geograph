@@ -56,7 +56,9 @@ setMethod("setDistCosts", "gGraph", function(x, ...) {
 
 
   ## get costs ##
-  w <- sapply(1:nrow(E), function(i) fields::rdist.earth(xy1[i, , drop = FALSE], xy2[i, , drop = FALSE])) # list of costs
+  w <- sapply(seq_len(nrow(E)), function(i) {
+    fields::rdist.earth(xy1[i, , drop = FALSE], xy2[i, , drop = FALSE])
+  }) # list of costs
 
   ## assign costs to the graphNEL ##
   edgeData(x@graph, from = E[, 1], to = E[, 2], attr = "weight") <- w

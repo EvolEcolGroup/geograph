@@ -181,12 +181,12 @@ We enter the longitudes and latitudes (in this order, that is, xy coordinates) o
 decimal degrees, as well as approximate population sizes:
 
 ```{r cities}
-Bordeaux <- c(-1, 45)
-Berlin <- c(13, 52)
-Baku <- c(44, 40)
-Timbuktu <- c(-3, 16)
+bordeaux <- c(-1, 45)
+berlin <- c(13, 52)
+baku <- c(44, 40)
+timbuktu <- c(-3, 16)
 
-cities.dat <- rbind.data.frame(Bordeaux, Berlin, Baku, Timbuktu)
+cities.dat <- rbind.data.frame(bordeaux, berlin, baku, timbuktu)
 colnames(cities.dat) <- c("lon", "lat")
 row.names(cities.dat) <- c("Bordeaux", "Berlin", "Baku", "Timbuktu")
 cities.dat$pop <- c(250000, 3500000, 2000000, 50000)

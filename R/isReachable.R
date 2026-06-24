@@ -39,7 +39,7 @@ isReachable <- function(x, loc) { # x is a gData object
     connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
   }
 
-  names(connected.sets) <- paste("set", 1:length(connected.sets))
+  names(connected.sets) <- paste("set", seq_along(connected.sets))
 
 
   ## check which set contains refNode ##

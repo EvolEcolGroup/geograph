@@ -75,8 +75,8 @@ setMethod("buffer", "gGraph", function(x, nodes, d, res.type = c("nodes", "gGrap
   if (d > 1e4) warning("Buffer distance is greater than 10,000km; computations may be long.")
   res.type <- match.arg(res.type)
 
-  ALL.NODES <- getNodes(x)
-  if (!all(nodes %in% ALL.NODES)) stop("Some requested nodes do not exist in the gGraph grid.")
+  all.nodes <- getNodes(x)
+  if (!all(nodes %in% all.nodes)) stop("Some requested nodes do not exist in the gGraph grid.")
 
   GRAPH <- getGraph(x)
   EDGES <- edges(GRAPH)
@@ -114,25 +114,14 @@ setMethod("buffer", "gGraph", function(x, nodes, d, res.type = c("nodes", "gGrap
     return(res)
   } # if res.type is nodes
 
-
-  #### DOES NOT WORK
-  ## ISSUES WHEN DEPARSING THE GGRAPH
-  ## if(res.type == "gData"){ # if res.type is gData
-  ##     graphName <- gsub("\"","",deparse(x, back=FALSE))
-  ##     return(graphName)
-  ##     temp <- new("gData", coords=XY[res,,drop=FALSE], gGraph.name=graphName)
-  ##     return(temp)
-  ## }
-
-
   ## else ... (res.type==gGraph)
-  bufAttr <- rep(FALSE, length(ALL.NODES))
-  names(bufAttr) <- ALL.NODES
+  bufAttr <- rep(FALSE, length(all.nodes))
+  names(bufAttr) <- all.nodes
   bufAttr[res] <- TRUE
 
   ## set new attributes
-  ALL.ATTR <- getNodesAttr(x)
-  newATTR <- cbind.data.frame(ALL.ATTR, buffer = bufAttr)
+  allAttr <- getNodesAttr(x)
+  newATTR <- cbind.data.frame(allAttr, buffer = bufAttr)
   x@nodes.attr <- newATTR
 
   ## set new color rules

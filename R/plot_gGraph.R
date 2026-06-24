@@ -104,8 +104,6 @@ setMethod(
            col = NULL, edges = FALSE, reset = FALSE, bg.col = "gray",
            border.col = "dark gray", lwd = 1, useCosts = NULL,
            maxLwd = 3, col.rules = NULL, ...) {
-    env <- .geoGraphEnv
-
     coords <- getCoords(x)
 
 
@@ -178,10 +176,9 @@ setMethod(
 
     ## handle shape
     if (!is.null(shape) && is.character(shape) && length(shape) == 1L && shape == "world") {
-      # shape <- sf::st_read(system.file("files/shapefiles/world-countries.shp", package = "geoGraph"))
       shape <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
-      old_s2 <- sf::sf_use_s2()
-      on.exit(sf::sf_use_s2(old_s2), add = TRUE)
+      old.s2 <- sf::sf_use_s2()
+      on.exit(sf::sf_use_s2(old.s2), add = TRUE)
       sf::sf_use_s2(FALSE)
     }
 
@@ -214,7 +211,6 @@ setMethod(
 
 
       if (edges) {
-        ## plotEdges(x, replot=FALSE, lwd=lwd, useCosts=useCosts, maxLwd=maxLwd)
         plotEdges(x, lwd = lwd, useCosts = useCosts, maxLwd = maxLwd)
       }
       points(coords, cex = psize, pch = pch, col = col, ...)
@@ -224,8 +220,6 @@ setMethod(
         cex = psize, pch = pch, col = col, ...
       )
       if (edges) {
-        ##       plotEdges(x, replot=TRUE, psize=psize, pch=pch, pcol=col, lwd=lwd,
-        ##            useCosts=useCosts, maxLwd=maxLwd)
         plotEdges(x,
           psize = psize, pch = pch, pcol = col, lwd = lwd,
           useCosts = useCosts, maxLwd = maxLwd
@@ -270,14 +264,6 @@ setMethod("points", signature("gGraph"), function(x, psize = NULL, pch = NULL, c
                                                   sticky.points = FALSE, ...) {
   ## some checks
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
-
-  ## create the .geoGraphEnv if it does not exist
-  # if(!exists(".geoGraphEnv", envir=.GlobalEnv)) {
-  #     assign(".geoGraphEnv",  new.env(parent=.GlobalEnv), envir=.GlobalEnv)
-  #     warning(".geoGraphEnv was not present, which may indicate a problem in loading geoGraph.")
-  # }
-
-  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
   zoomlog <- get("zoom.log", envir = .geoGraphEnv)
   zoomlog <- zoomlog[1, ]
@@ -349,7 +335,6 @@ setMethod("points", signature("gGraph"), function(x, psize = NULL, pch = NULL, c
 
   ## add only points and optionally edges
   if (edges) {
-    ## plotEdges(x, replot=FALSE, lwd=lwd, useCosts=useCosts, maxLwd=maxLwd)
     plotEdges(x, lwd = lwd, useCosts = useCosts, maxLwd = maxLwd)
   }
   points(coords,
@@ -393,10 +378,6 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
   if (is.null(useCosts)) {
     useCosts <- hasCosts(x)
   }
-
-  ## get the environment
-  # env <- get(".geoGraphEnv", envir=.GlobalEnv)
-
 
   if (exists("last.points", envir = .geoGraphEnv)) {
     last.points <- get("last.points", envir = .geoGraphEnv)
@@ -476,7 +457,6 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
 
   ## if sticky edges are used, store info in env ##
   if (sticky.edges) {
-    ## curCall <- sys.call(-1) # does not work as plotEdges is not a S4 method
     curCall <- match.call()
     temp <- get("last.points", envir = .geoGraphEnv) # might be a single expression or a list of expressions
     if (!is.list(temp)) {

@@ -59,10 +59,10 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
     # use rnaturalearth instead of the inbuilt dataset
     layer <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
   }
-  old_s2 <- sf::sf_use_s2()
-  on.exit(sf::sf_use_s2(old_s2), add = TRUE)
+  old.s2 <- sf::sf_use_s2()
+  on.exit(sf::sf_use_s2(old.s2), add = TRUE)
   sf::sf_use_s2(FALSE)
-  
+
   if (is.null(layer)) stop("layer must not be NULL.")
   if (!is.null(layer)) {
     if (!inherits(layer, "sf")) {
@@ -105,14 +105,14 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
   points.assignment[points.within$x, "polygon"] <- points.within$polygon
 
   dat <- layer %>% sf::st_drop_geometry()
-  
+
   if (all(is.na(points.assignment$polygon))) {
     warning("No points were assigned to any polygon, returning NA for all locations.")
     res <- dat[rep(NA_integer_, nrow(x)), selAttr, drop = FALSE]
     row.names(res) <- rownames(x)
     return(res)
-  }  
-  
+  }
+
   res <- dat[points.assignment$polygon, selAttr, drop = FALSE]
 
   row.names(res) <- rownames(x)
@@ -159,7 +159,7 @@ setMethod("assignByPolygon", "list", function(x, layer = "world", attr = "all", 
 
 
 ##############
-## for gGraph 
+## for gGraph
 ##############
 #' @describeIn assignByPolygon Method for gGraph objects
 #' @note The gGraph method should be carefully used, output is going to be heavy.

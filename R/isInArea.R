@@ -76,7 +76,7 @@ setMethod("isInArea", "matrix", function(x, reg = "current",
 
   ## get xlim and ylim
   if (exists("zoom.log", envir = .geoGraphEnv) &&
-    length(reg) == 1 && reg == "zoom") {
+        length(reg) == 1 && reg == "zoom") {
     zoomlog <- get("zoom.log", envir = .geoGraphEnv)
     zoomlog <- zoomlog[1, ]
     xlim <- zoomlog[1:2]
@@ -101,14 +101,15 @@ setMethod("isInArea", "matrix", function(x, reg = "current",
   ## print reproducible call if requested
   if (quiet == FALSE) {
     message(sprintf(
-      "Area: lon = [%.4f, %.4f], lat = [%.4f, %.4f]\n  Reproducible call: reg = list(x = c(%.4f, %.4f), y = c(%.4f, %.4f))",
+      "Area: lon = [%.4f, %.4f], lat = [%.4f, %.4f]\n
+      Reproducible call: reg = list(x = c(%.4f, %.4f), y = c(%.4f, %.4f))",
       xlim[1], xlim[2], ylim[1], ylim[2],
       xlim[1], xlim[2], ylim[1], ylim[2]
     ))
   }
 
   toKeep <- ((coords[, 1] >= xlim[1]) & (coords[, 1] <= xlim[2]) &
-    (coords[, 2] >= ylim[1]) & (coords[, 2] <= ylim[2]))
+               (coords[, 2] >= ylim[1]) & (coords[, 2] <= ylim[2]))
   names(toKeep) <- rownames(coords)
 
   if (res.type == "logical") {

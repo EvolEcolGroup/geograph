@@ -26,9 +26,9 @@
 
 makeHexGrid <- function(geo.box, spacing, ...) {
   if (!is.numeric(spacing) ||
-    length(spacing) != 1 ||
-    is.na(spacing) ||
-    spacing <= 0) {
+        length(spacing) != 1 ||
+        is.na(spacing) ||
+        spacing <= 0) {
     stop("`spacing` must be a single positive numeric value (in km).")
   }
 
@@ -48,10 +48,10 @@ makeHexGrid <- function(geo.box, spacing, ...) {
   } else {
     stop("geo.box must be a bbox, sf object, or named numeric vector.")
   }
-  
+
   # check the validity of coordinates
   if (bbox["xmin"] < -180 || bbox["xmin"] > 180 ||
-      bbox["xmax"] < -180 || bbox["xmax"] > 180) {
+        bbox["xmax"] < -180 || bbox["xmax"] > 180) {
     stop("Longitude values in geo.box must be between -180 and 180.")
   }
   if (bbox["ymin"] < -90 || bbox["ymax"] > 90) {
@@ -67,7 +67,7 @@ makeHexGrid <- function(geo.box, spacing, ...) {
     metric = TRUE,
     resround = "down"
   )
-  
+
   # find all grid cells within the bounding box
   resolution <- dggs$res
 
@@ -75,19 +75,19 @@ makeHexGrid <- function(geo.box, spacing, ...) {
     dplyr::filter(.data$res == resolution) %>%
     dplyr::pull(dplyr::all_of("spacing_km"))
 
-  samp.cellsize <- cell.size / 333 #at least 9 points per cell
-  
-  samp <- .make_sample_points(
+  samp.cellsize <- cell.size / 333 # at least 9 points per cell
+
+  samp <- .makeSamplePoints(
     xmin     = bbox["xmin"], xmax = bbox["xmax"],
     ymin     = bbox["ymin"], ymax = bbox["ymax"],
     cellsize = samp.cellsize
   )
-  
-  # get the boundary coordinates of cells 
+
+  # get the boundary coordinates of cells
   seqnums <- dggridR::dgGEO_to_SEQNUM(dggs, samp$lon, samp$lat)$seqnum
   seqnums <- unique(seqnums)
   grid.sf <- dggridR::dgcellstogrid(dggs, seqnums)
-  
+
 
   # get the coords argument from the centers of the grid cells
   centers <- dggridR::dgSEQNUM_to_GEO(dggs, grid.sf$seqnum)
@@ -150,11 +150,13 @@ makeHexGrid <- function(geo.box, spacing, ...) {
 #' @param cellsize spacing in degrees between sample points.
 #' @return a `data.frame` with columns `lon` and `lat`.
 #' @noRd
-.make_sample_points <- function(xmin, xmax, ymin, ymax, cellsize) {
+.makeSamplePoints <- function(xmin, xmax, ymin, ymax, cellsize) {
   if (xmin > xmax) {
     ## include 180 and xmax explicitly so edge/seam cells are sampled
-    lon <- c(seq(xmin, 180, by = cellsize), 180,
-             seq(-180, xmax, by = cellsize), xmax)
+    lon <- c(
+      seq(xmin, 180, by = cellsize), 180,
+      seq(-180, xmax, by = cellsize), xmax
+    )
     lon <- sort(unique(lon))
   } else {
     lon <- sort(unique(c(seq(xmin, xmax, by = cellsize), xmax)))

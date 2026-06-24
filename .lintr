@@ -1,10 +1,12 @@
 linters: linters_with_defaults(
     object_name_linter = lintr::object_name_linter(
-      styles = c("camelCase", "dotted.case", "symbols")
+      styles = c("camelCase", "dotted.case", "symbols", "UPPERCASE"),
+      regexes = c(dotted_camel = "^\\.?[a-z][a-zA-Z0-9]*(\\.[a-z][a-zA-Z0-9]*)+$")
     ),
-    line_length_linter = NULL,
-    commented_code_linter = NULL,
-    return_linter = NULL
+    return_linter = NULL,
+    pipe_consistency_linter = NULL,
+    line_length_linter(120)
   )
 encoding: "UTF-8"
 exclusions: list("data-raw")
+

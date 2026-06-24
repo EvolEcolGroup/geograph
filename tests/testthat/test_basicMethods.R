@@ -70,11 +70,11 @@ test_that("[,gGraph subsets node attributes with j", {
   # add two more attributes
   attrGraph <- setNodesAttr(worldgraph.10k,
     attr.name = "extra1",
-    values = seq_len(length(getNodes(worldgraph.10k)))
+    values = seq_along(getNodes(worldgraph.10k))
   )
   attrGraph <- setNodesAttr(attrGraph,
     attr.name = "extra2",
-    values = seq_len(length(getNodes(worldgraph.10k)))
+    values = seq_along(getNodes(worldgraph.10k))
   )
 
   x <- attrGraph[1:10, c("extra1", "extra2")]
@@ -83,8 +83,8 @@ test_that("[,gGraph subsets node attributes with j", {
 })
 
 test_that("[,gData subsets data columns with j", {
-  data_cols <- colnames(getData(hgdp))[1:2]
-  x <- hgdp[1:5, data_cols]
+  data.cols <- colnames(getData(hgdp))[1:2]
+  x <- hgdp[1:5, data.cols]
   expect_equal(ncol(getData(x)), 2L)
-  expect_equal(colnames(getData(x)), data_cols)
+  expect_equal(colnames(getData(x)), data.cols)
 })

@@ -22,11 +22,11 @@ test_that("setGraph by name and by object give identical results", {
 })
 
 test_that("setGraph accepts string references to global objects", {
-  assign("string_ref_graph", dropCosts(rawgraph.40k), envir = .GlobalEnv)
-  on.exit(rm("string_ref_graph", envir = .GlobalEnv), add = TRUE)
+  assign("stringRefGraph", dropCosts(rawgraph.40k), envir = .GlobalEnv)
+  on.exit(rm("stringRefGraph", envir = .GlobalEnv), add = TRUE)
 
-  result <- setGraph(hgdp, "string_ref_graph")
-  expect_equal(result@gGraph.name, "string_ref_graph")
+  result <- setGraph(hgdp, "stringRefGraph")
+  expect_equal(result@gGraph.name, "stringRefGraph")
 })
 
 test_that("setGraph rejects non-existent string references", {
@@ -83,14 +83,16 @@ test_that("setColors updates @meta$colors with valid rules", {
   rules <- getColors(worldgraph.10k, res.type = "rules")
   rules$color[rules$habitat == "sea"] <- "lightblue"
   result <- setColors(worldgraph.10k, rules)
-  new_rules <- getColors(result, res.type = "rules")
-  expect_equal(new_rules$color[new_rules$habitat == "sea"], "lightblue")
+  new.rules <- getColors(result, res.type = "rules")
+  expect_equal(new.rules$color[new.rules$habitat == "sea"], "lightblue")
 })
 
 test_that("setColors errors when col.rules has no 'color' column", {
   bad <- data.frame(habitat = c("sea", "land"), other = c("blue", "green"))
-  expect_error(setColors(worldgraph.10k, bad),
-               "must have a column named 'color'")
+  expect_error(
+    setColors(worldgraph.10k, bad),
+    "must have a column named 'color'"
+  )
 })
 
 #######################
@@ -143,13 +145,13 @@ test_that("getCosts asIs and vector contain same total costs", {
 })
 
 test_that("getCosts with unique = TRUE filters edge weights in both formats", {
-  all_vec  <- getCosts(worldgraph.10k, res.type = "vector", unique = FALSE)
-  uniq_vec <- getCosts(worldgraph.10k, res.type = "vector", unique = TRUE)
-  expect_lt(length(uniq_vec), length(all_vec))
-  
-  all_asIs  <- getCosts(worldgraph.10k, res.type = "asIs", unique = FALSE)
-  uniq_asIs <- getCosts(worldgraph.10k, res.type = "asIs", unique = TRUE)
-  expect_lt(sum(lengths(uniq_asIs)), sum(lengths(all_asIs)))
+  all.vec <- getCosts(worldgraph.10k, res.type = "vector", unique = FALSE)
+  uniq.vec <- getCosts(worldgraph.10k, res.type = "vector", unique = TRUE)
+  expect_lt(length(uniq.vec), length(all.vec))
+
+  allAsIs <- getCosts(worldgraph.10k, res.type = "asIs", unique = FALSE)
+  uniqAsIs <- getCosts(worldgraph.10k, res.type = "asIs", unique = TRUE)
+  expect_lt(sum(lengths(uniqAsIs)), sum(lengths(allAsIs)))
 })
 
 #######################
@@ -163,8 +165,8 @@ test_that("getColors returns one colour per node when res.type = 'colors'", {
 })
 
 test_that("getColors accepts a character vector of node names", {
-  some_nodes <- head(getNodes(worldgraph.10k), 5)
-  res <- getColors(worldgraph.10k, nodes = some_nodes, attr.name = "habitat")
+  some.nodes <- head(getNodes(worldgraph.10k), 5)
+  res <- getColors(worldgraph.10k, nodes = some.nodes, attr.name = "habitat")
   expect_equal(length(res), 5L)
 })
 
@@ -196,4 +198,3 @@ test_that("getCoords for gData with original = FALSE returns matched node coords
   expect_equal(nrow(res), length(getNodes(hgdp)))
   expect_equal(ncol(res), 2L)
 })
-

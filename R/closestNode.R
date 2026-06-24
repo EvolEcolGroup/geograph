@@ -138,10 +138,7 @@ setMethod("closestNode", "gGraph", function(x, loc, zoneSize = 5, attr.name = NU
   res <- apply(loc, 1, closeOne) # these are node labels
 
   ## must not return indices, as this would not work for subsets of data
-  ## e.g. closestPoint[x[getNodesAttr(x)=="land"]] will return wrong indices
-  ## temp <- res
-  ## res <- match(res, getNodes(x))
-  ## names(res) <- temp
+  ## e.g. closestPoint[x[getNodesAttr(x) == "land"]] will return wrong indices
 
   return(res)
 }) # end closestNode for gGraph

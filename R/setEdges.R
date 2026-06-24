@@ -84,7 +84,6 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
     myGraph <- removeEdge(from = from[temp], to = to[temp], graph = x@graph)
   }
 
-  ##  subx <- deparse(substitute(x))
   res <- x
   res@graph <- myGraph
 

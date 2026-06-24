@@ -285,7 +285,6 @@ setGeneric("getEdges", function(x, ...) {
 #' @describeIn getEdges Method for gGraph objects
 setMethod("getEdges", "gGraph", function(x, res.type = c("asIs", "matNames", "matId"), unique = FALSE, ...) {
   res.type <- match.arg(res.type)
-  ##    if(res.type=="asIs") return(x@graph@edgeL)
   if (res.type == "asIs") {
     return(edges(x@graph))
   }
@@ -294,7 +293,6 @@ setMethod("getEdges", "gGraph", function(x, res.type = c("asIs", "matNames", "ma
     res <- edges(x@graph)
     temp <- sapply(res, length)
     col1 <- rep(names(res), temp)
-    ## col1 <- rep(1:length(res), temp)
     col2 <- unlist(res)
     res <- cbind(Vi = col1, Vj = col2)
   }

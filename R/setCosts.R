@@ -99,7 +99,8 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
       unmapped <- unique(nodeCosts[!nodeCosts %in% known.values])
       if (length(unmapped) > 0) {
         stop(sprintf(
-          "The following node attribute values have no cost rule defined: %s. Add them to x@meta$costs before calling setCosts().",
+          "The following node attribute values have no cost rule defined: %s.
+          Add them to x@meta$costs before calling setCosts().",
           paste(unmapped, collapse = ", ")
         ))
       }

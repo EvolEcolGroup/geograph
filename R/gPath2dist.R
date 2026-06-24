@@ -12,7 +12,7 @@
 #' automatically detects whether the input is from [dijkstraBetween()] or
 #' [dijkstraFrom()] and returns the appropriate output type.
 #' @return Either a [`dist`] object containing pairwise distances between
-#' nodes the gPath object was constructed from dijkstraBetween(), 
+#' nodes the gPath object was constructed from dijkstraBetween(),
 #' or a numeric vector of distances if the gPath object was constructed from dijkstraFrom().
 #' @examples
 #' ## for pairwise distances between multiple a "dist" object is returned
@@ -46,14 +46,16 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
   if (is.null(names(x))) {
     stop("m must have non-NULL names.")
   }
-  
+
   ## deprecation: res.type is now ignored, type is auto-detected
   if (!is.null(res.type)) {
-    message("res.type is deprecated; the function now returns a vector for ",
-            "dijkstraFrom outputs and a 'dist' object for dijkstraBetween ",
-            "outputs.")
+    message(
+      "res.type is deprecated; the function now returns a vector for ",
+      "dijkstraFrom outputs and a 'dist' object for dijkstraBetween ",
+      "outputs."
+    )
   }
-  
+
   ## check type
   # check that the origin nodes are not all the same > djikstraFrom output
   origins <- sub(":.*", "", names(x))
@@ -62,24 +64,24 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
   } else {
     n <- (1 + sqrt(1 + 8 * L)) / 2
     if (abs(n - round(n)) > 1e-9) {
-      stop("Length of m does not match a pairwise count and origins differ; ",
-           "cannot interpret as dijkstraBetween or dijkstraFrom output.")
+      stop(
+        "Length of m does not match a pairwise count and origins differ; ",
+        "cannot interpret as dijkstraBetween or dijkstraFrom output."
+      )
     }
-    n    <- round(n)
+    n <- round(n)
     type <- "between"
   }
-  
-  
+
+
   ## GET DISTANCES ##
   resDist <- sapply(x, function(e) sum(e$length_detail[[1]], na.rm = TRUE))
   ## BUILD RESULT ##
-  ## type == between
   if (type == "between") {
     res <- stats::dist(1:n)
     res[] <- resDist
   } else {
-    ## type == between (no change)
     res <- resDist
   }
   return(res)
-} 
+}

@@ -12,10 +12,10 @@
 
 keepMaxConnectedSet <- function(x) {
   myGraph <- getGraph(x)
-  connected_sets <- RBGL::connectedComp(myGraph)
+  connected.sets <- RBGL::connectedComp(myGraph)
   # find the largest set
-  max_set <- connected_sets[[which.max(lapply(connected_sets, length))]]
-  max_set <- as.numeric(max_set)
+  maxSet <- connected.sets[[which.max(lapply(connected.sets, length))]]
+  maxSet <- as.numeric(maxSet)
   # all cells NOT in the largest set need to be removed
 
   # get the edges from the graph
@@ -25,12 +25,12 @@ keepMaxConnectedSet <- function(x) {
   # We create a new list and then copy over only the edges for which we have a node
   # from the largest set
   newEdgeL <- list()
-  for (i in 1:length(edgeL)) {
+  for (i in seq_along(edgeL)) {
     newEdgeL[[i]] <- list()
     # if the source is in the set, we keep its edges but remove any destination not in the set
-    if (i %in% max_set) {
-      newEdgeL[[i]]$edges <- edgeL[[i]]$edges[edgeL[[i]]$edges %in% max_set]
-      newEdgeL[[i]]$weights <- edgeW[[i]][edgeL[[i]]$edges %in% max_set]
+    if (i %in% maxSet) {
+      newEdgeL[[i]]$edges <- edgeL[[i]]$edges[edgeL[[i]]$edges %in% maxSet]
+      newEdgeL[[i]]$weights <- edgeW[[i]][edgeL[[i]]$edges %in% maxSet]
     } else { # we remove this edge
       newEdgeL[[i]]$edges <- numeric(0)
       newEdgeL[[i]]$weights <- numeric(0)

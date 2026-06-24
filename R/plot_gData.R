@@ -86,10 +86,6 @@ setMethod(
     if (!is.gData(x)) stop("x is not a valid gData object")
     type <- match.arg(type)
 
-    ## get the environment
-    #    env <- get(".geoGraphEnv", envir=.GlobalEnv)
-    env <- .geoGraphEnv
-
     if (!exists(x@gGraph.name, envir = .GlobalEnv)) { # if the gGraph is missing, stop
       stop(paste("The gGraph object", x@gGraph.name, "is missing."))
     }

@@ -31,60 +31,63 @@ test_that("areNeighbours correctly returns neighbours", {
 
 test_that("areConnected correctly returns neighbours", {
   # Test areConnected works with a gGraph and nodes set
-  max_set <- keepMaxConnectedSet(worldgraph.10k)
-  coords_max_set <- getCoords(max_set)
+  max.set <- keepMaxConnectedSet(worldgraph.10k)
+  coords.max.set <- getCoords(max.set)
 
   # Pass the node names to areConnected - (is this the behviours we wanted?)
-  expect_true(areConnected(x = max_set, nodes = getNodes(max_set)))
-  expect_error(areConnected(x = max_set, nodes = coords_max_set), "Some specified nodes were not found in the gGraph object.")
+  expect_true(areConnected(x = max.set, nodes = getNodes(max.set)))
+  expect_error(
+    areConnected(x = max.set, nodes = coords.max.set),
+    "Some specified nodes were not found in the gGraph object."
+  )
 
   # Check error if non gGraph object is passed
-  expect_error(areConnected(x = hgdp, nodes = getNodes(max_set)), "x is not a valid gGraph object")
+  expect_error(areConnected(x = hgdp, nodes = getNodes(max.set)), "x is not a valid gGraph object")
 })
 
 
 test_that("isConnected works on a gGraph", {
-  max_set <- keepMaxConnectedSet(worldgraph.10k)
-  expect_true(isConnected(max_set))
+  max.set <- keepMaxConnectedSet(worldgraph.10k)
+  expect_true(isConnected(max.set))
 })
 
 
 test_that("isConnected works on a gData", {
   # Select African populations Mandenka, Yoruba, and Biaka
-  hgdp_sub <- hgdp[c(29, 30, 31), ]
+  hgdp.sub <- hgdp[c(29, 30, 31), ]
 
   # Check they are correctly identified as connected
-  expect_true(isConnected(hgdp_sub))
+  expect_true(isConnected(hgdp.sub))
 
   # But populations anywhere on the globe are also connected - is this the behavior we want?
 
   # "AMERICA", "EUROPE", "CENTRAL_SOUTH_ASIA",  "AFRICA"
-  hgdp_sub <- hgdp[c(24, 1, 13, 27), ]
-  expect_true(isConnected(hgdp_sub))
+  hgdp.sub <- hgdp[c(24, 1, 13, 27), ]
+  expect_true(isConnected(hgdp.sub))
 })
 
 
 test_that("isReachable works with a gData object", {
   # Select African populations Mandenka, Yoruba, and Biaka
-  hgdp_sub <- hgdp[c(29, 30, 31), ]
+  hgdp.sub <- hgdp[c(29, 30, 31), ]
 
   # Get a location that is reachable
   location <- getCoords(hgdp[32, ])
 
   # Check these are reachable
-  expect_true(all(isReachable(x = hgdp_sub, loc = location)))
+  expect_true(all(isReachable(x = hgdp.sub, loc = location)))
 
   # Create a gGraph
-  max_set <- keepMaxConnectedSet(worldgraph.10k)
+  max.set <- keepMaxConnectedSet(worldgraph.10k)
 
   # Check error given when isReachable is not given a gData
-  expect_error(isReachable(x = max_set, loc = location), "x is not a valid gData object.")
+  expect_error(isReachable(x = max.set, loc = location), "x is not a valid gData object.")
 
   # Create a new gData object
-  Bordeaux <- c(-1, 45)
-  Malaga <- c(-4, 37)
-  Zagreb <- c(16, 46)
-  cities.dat <- rbind.data.frame(Bordeaux, Malaga, Zagreb)
+  bordeaux <- c(-1, 45)
+  malaga <- c(-4, 37)
+  zagreb <- c(16, 46)
+  cities.dat <- rbind.data.frame(bordeaux, malaga, zagreb)
   colnames(cities.dat) <- c("lon", "lat")
   cities.dat$pop <- c(1e6, 5e5, 1.2e6)
   row.names(cities.dat) <- c("Bordeaux", "Malaga", "Zagreb")
@@ -100,6 +103,6 @@ test_that("isReachable works with a gData object", {
   location2 <- getCoords(hgdp[49, ])
 
   # Check this is false
-  expect_warning(res <- isReachable(x = hgdp_sub, loc = location2), "The reference node is not connected to any node.")
+  expect_warning(res <- isReachable(x = hgdp.sub, loc = location2), "The reference node is not connected to any node.")
   expect_false(res)
 })

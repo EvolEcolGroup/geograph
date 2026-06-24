@@ -70,8 +70,8 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
   raster.sf <- sf::st_transform(raster.sf, sf::st_crs(nodes.sf))
 
   ## find nearest node for each raster point
-  old_s2 <- sf::sf_use_s2()
-  on.exit(sf::sf_use_s2(old_s2), add = TRUE)
+  old.s2 <- sf::sf_use_s2()
+  on.exit(sf::sf_use_s2(old.s2), add = TRUE)
   sf::sf_use_s2(FALSE)
   raster.sf$node.id <- sf::st_nearest_feature(raster.sf, nodes.sf)
 
