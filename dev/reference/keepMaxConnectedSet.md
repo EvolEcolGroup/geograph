@@ -28,5 +28,7 @@ object with only the nodes from the largest set remaining
 ``` r
 max_set <- keepMaxConnectedSet(worldgraph.10k)
 plot(max_set)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 ```

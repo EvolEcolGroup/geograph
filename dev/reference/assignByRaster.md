@@ -93,11 +93,15 @@ terra::values(r) <- runif(terra::ncell(r))
 
 ## assign mean raster value per node
 ggraph <- assignByRaster(ggraph, r, layer.name = "elevation", fun = "mean")
+#> Spherical geometry (s2) switched off
 #> although coordinates are longitude/latitude, st_nearest_feature assumes that
 #> they are planar
+#> Spherical geometry (s2) switched on
 
 ## assign standard deviation per node (useful for ruggedness)
 ggraph <- assignByRaster(ggraph, r, layer.name = "ruggedness", fun = "sd")
+#> Spherical geometry (s2) switched off
 #> although coordinates are longitude/latitude, st_nearest_feature assumes that
 #> they are planar
+#> Spherical geometry (s2) switched on
 ```

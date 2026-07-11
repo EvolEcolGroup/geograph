@@ -97,12 +97,16 @@ obj # note: no node attribute
 #> Number of Nodes = 1000 
 #> Number of Edges = 0 
 plot(obj)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 ## find which points are on land
 obj <- findLand(obj)
+#> Spherical geometry (s2) switched off
 #> although coordinates are longitude/latitude, st_intersects assumes that they
 #> are planar
+#> Spherical geometry (s2) switched on
 obj # note: new node attribute
 #> 
 #> === gGraph object ===
@@ -138,5 +142,7 @@ obj@meta$colors <- temp
 
 ## plot object with new colors
 plot(obj)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 ```

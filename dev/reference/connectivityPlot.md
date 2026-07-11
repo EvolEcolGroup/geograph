@@ -55,8 +55,12 @@ A named character vector of colors, one per node, returned invisibly.
 ``` r
 # plot connected sets of a gGraph object
 connectivityPlot(worldgraph.10k)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 # plot connected sets of a gData object
 connectivityPlot(hgdp)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 ```

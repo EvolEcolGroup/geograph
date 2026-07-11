@@ -63,5 +63,7 @@ of the provided arguments (for speed purposes).
 
 ``` r
 plot(worldgraph.10k, reset = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 geo.segments(x0 = -170, y0 = 60, x1 = 170, y1 = 55, col = "red", lwd = 2)
 ```

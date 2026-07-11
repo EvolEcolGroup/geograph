@@ -52,5 +52,7 @@ Other basic_methods:
 ## subset to northern hemisphere populations
 north <- hgdp[hgdp@data$Latitude > 40]
 plot(worldgraph.40k, reset = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 points(north)
 ```

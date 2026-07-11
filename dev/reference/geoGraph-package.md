@@ -36,3 +36,5 @@ Authors:
 - Evie Carter
 
 - Michela Leonardi
+
+- Cassandra Gunasekaram

@@ -11,7 +11,7 @@ being 'on land' is in fact being inside a polygon of the shapefile."><meta name=
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9016</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9017</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -136,12 +136,16 @@ GIS shapefile.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of Nodes = 1000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of Edges = 0 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Spherical geometry (s2) switched off</span>
 <span class="r-plt img"><img src="findLand-1.png" alt="" width="700" height="433"></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Spherical geometry (s2) switched on</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## find which points are on land</span></span></span>
 <span class="r-in"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu">findLand</span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Spherical geometry (s2) switched off</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> although coordinates are longitude/latitude, st_intersects assumes that they</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> are planar</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Spherical geometry (s2) switched on</span>
 <span class="r-in"><span><span class="va">obj</span> <span class="co"># note: new node attribute</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> === gGraph object ===</span>
@@ -177,7 +181,9 @@ GIS shapefile.</p></div>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## plot object with new colors</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Spherical geometry (s2) switched off</span>
 <span class="r-plt img"><img src="findLand-2.png" alt="" width="700" height="433"></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Spherical geometry (s2) switched on</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -186,11 +192,11 @@ GIS shapefile.</p></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Andrea Manica.</p>
+  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Cassandra Gunasekaram, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

@@ -114,12 +114,15 @@ to assign attributes from raster data.
 plot(worldgraph.10k, reset = TRUE)
 #> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 ## retrieve continent info for all nodes
 ## (might take a few seconds)
 x <- assignByPolygon(worldgraph.10k, layer = "world", attr = "continent")
+#> Spherical geometry (s2) switched off
 #> although coordinates are longitude/latitude, st_intersects assumes that they
 #> are planar
+#> Spherical geometry (s2) switched on
 x
 #> 
 #> === gGraph object ===
@@ -158,5 +161,7 @@ temp <- getNodesAttr(x, attr.name = "continent") == "Africa"
 temp[is.na(temp)] <- FALSE
 x <- x[temp]
 plot(x, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 ```

@@ -69,6 +69,8 @@ hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
 
 ## plotting
 plot(worldgraph.40k, reset = TRUE, pch = "")
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 points(hgdp.sub, lwd = 1) # plot populations
 plot(hgdp.path) # plot the path
 

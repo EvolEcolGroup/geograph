@@ -150,6 +150,8 @@ obj <- closestNode(obj, attr.name = "habitat", attr.value = "land")
 
 ## plot the result (original location -> assigned node)
 plot(obj, type = "both", reset = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("'x'=location, 'o'=assigned node")
 
 

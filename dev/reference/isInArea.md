@@ -129,9 +129,13 @@ for the input object classes.
 
 ## Zoom into Europe and get the nodes in the current plot
 plot(worldgraph.10k, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 ## Different output formats of the current nodes
 head(isInArea(worldgraph.10k, quiet = TRUE))
@@ -146,9 +150,12 @@ head(isInArea(worldgraph.10k, res.type = "character", quiet = TRUE))
 ## subset the gGraph just to visible nodes
 x <- worldgraph.10k[isInArea(worldgraph.10k)]
 #> Area: lon = [-29.4479, 61.4479], lat = [30.2400, 77.7600]
-#>   Reproducible call: reg = list(x = c(-29.4479, 61.4479), y = c(30.2400, 77.7600))
+#> 
+#>       Reproducible call: reg = list(x = c(-29.4479, 61.4479), y = c(30.2400, 77.7600))
 plot(x, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 ## Instead of the current plotted area we can use an explicit bounding box
 y <- worldgraph.10k[(isInArea(worldgraph.10k,
@@ -156,5 +163,7 @@ y <- worldgraph.10k[(isInArea(worldgraph.10k,
   quiet = TRUE
 ))]
 plot(y, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 ```

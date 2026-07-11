@@ -88,13 +88,17 @@ buffer(x, node, 1000)
 #> [61] "8661" "8022" "8342"
 buf500km <- buffer(x, node, 1000, res.type = "gGraph")
 plot(buf500km, col.rules = buf500km@meta$buf.colors, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 #### gData example ####
 
 ## retain a subset of hgdp
 x <- hgdp[27:30]
 plot(x, reset = TRUE, col.g = "lightgrey", pch.node = 20)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 buf.400 <- buffer(x, 400, res.type = "gData")
 points(buf.400, col.node = "gold")
 

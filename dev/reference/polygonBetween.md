@@ -65,10 +65,14 @@ newGraph <- assignByPolygon(rawgraph.10k,
   layer = world.countries,
   attr = c("continent", "name")
 )
+#> Spherical geometry (s2) switched off
 #> although coordinates are longitude/latitude, st_intersects assumes that they
 #> are planar
+#> Spherical geometry (s2) switched on
 test <- polygonBetween(newGraph, layer = "name", "Spain", "Germany", outline = TRUE)
 plot(newGraph, col = NA, reset = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 plot(test, col = "red")
 
 ```

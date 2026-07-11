@@ -66,8 +66,10 @@ squareGraph <- makeSquareGrid(
   lat.range = c(49, 61)
 )
 squareGraph <- findLand(squareGraph)
+#> Spherical geometry (s2) switched off
 #> although coordinates are longitude/latitude, st_intersects assumes that they
 #> are planar
+#> Spherical geometry (s2) switched on
 squareGraph <- setColors(
   squareGraph,
   col.rules = data.frame(
@@ -76,15 +78,19 @@ squareGraph <- setColors(
   )
 )
 plot(squareGraph, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 # If no area is specified, currently plotted area is used
 geo.zoomin(c(8, 13, 54, 58))
 #> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'plot': object 'squareGraph' not found
 newGraph <- makeSquareGrid(1e3)
 newGraph <- findLand(newGraph)
+#> Spherical geometry (s2) switched off
 #> although coordinates are longitude/latitude, st_intersects assumes that they
 #> are planar
+#> Spherical geometry (s2) switched on
 newGraph <- setColors(
   newGraph,
   col.rules = data.frame(
@@ -95,5 +101,7 @@ newGraph <- setColors(
 
 ## plot the new gGraph
 plot(newGraph, reset = TRUE, edge = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 ```

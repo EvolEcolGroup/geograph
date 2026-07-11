@@ -4,6 +4,9 @@
 
 ### New Features
 
+- Functions that temporarily toggle `sf` settings now restore the prior
+  state on exit.
+
 - Updated `gPath2dist` to now automatically return a vector or dist
   object based on the input type
 

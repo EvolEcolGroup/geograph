@@ -94,5 +94,7 @@ col.rules <- data.frame(
   color     = c("darkblue", "transparent")
 )
 plot(x2, col.rules = col.rules, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 ```

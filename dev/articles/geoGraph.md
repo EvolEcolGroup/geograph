@@ -275,12 +275,12 @@ population sizes:
 
 ``` r
 
-Bordeaux <- c(-1, 45)
-Berlin <- c(13, 52)
-Baku <- c(44, 40)
-Timbuktu <- c(-3, 16)
+bordeaux <- c(-1, 45)
+berlin <- c(13, 52)
+baku <- c(44, 40)
+timbuktu <- c(-3, 16)
 
-cities.dat <- rbind.data.frame(Bordeaux, Berlin, Baku, Timbuktu)
+cities.dat <- rbind.data.frame(bordeaux, berlin, baku, timbuktu)
 colnames(cities.dat) <- c("lon", "lat")
 row.names(cities.dat) <- c("Bordeaux", "Berlin", "Baku", "Timbuktu")
 cities.dat$pop <- c(250000, 3500000, 2000000, 50000)
@@ -304,6 +304,8 @@ plot(worldgraph.10k)
     ## Spherical geometry (s2) switched off
 
 ![](geoGraph_files/figure-html/wg10plot-1.png)
+
+    ## Spherical geometry (s2) switched on
 
 In this figure, each node is represented with a color depending on the
 habitat type, either ‘sea’ (blue) or ‘land’ (green). We are going to
@@ -345,6 +347,14 @@ cities
 ``` r
 
 plot(cities, type = "both", reset = TRUE)
+```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
+
+``` r
+
 plotEdges(worldgraph.10k)
 ```
 
@@ -362,6 +372,14 @@ attribute in `worldgraph.10k`) equaling `land` (green points):
 
 cities <- closestNode(cities, attr.name = "habitat", attr.value = "land")
 plot(cities, type = "both", reset = TRUE)
+```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
+
+``` r
+
 plotEdges(worldgraph.10k)
 ```
 
@@ -452,8 +470,13 @@ is available for both `gGraph` and `gData` objects. For instance:
 connectivityPlot(worldgraph.10k, edges = TRUE, seed = 1, reset = TRUE)
 ```
 
-![](geoGraph_files/figure-html/connectivityPlot-1.png) Since all
-locations in `cities` are connected, we can proceed further.
+    ## Spherical geometry (s2) switched off
+
+![](geoGraph_files/figure-html/connectivityPlot-1.png)
+
+    ## Spherical geometry (s2) switched on
+
+Since all locations in `cities` are connected, we can proceed further.
 
 We can now compute least-cost paths between all pairs of cities using
 `dijkstraBetween`:
@@ -477,6 +500,14 @@ cities.paths
 ``` r
 
 plot(cities, reset = TRUE)
+```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
+
+``` r
+
 plot(cities.paths)
 ```
 
@@ -501,6 +532,14 @@ area of interest and plotting the edges of the grid:
 ``` r
 
 geo.zoomin(c(-10, 2, 32, 40))
+```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
+
+``` r
+
 plotEdges(worldgraph.10k)
 ```
 
@@ -545,6 +584,14 @@ the Caucasus mountains:
 cities <- setGraph(cities, "newGraph")
 cities.paths <- dijkstraBetween(cities)
 plot(cities, reset = TRUE)
+```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
+
+``` r
+
 plot(cities.paths)
 ```
 
@@ -591,6 +638,10 @@ hgdp
 
 plot(hgdp, reset = TRUE)
 ```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
 
 ![](geoGraph_files/figure-html/unnamed-chunk-17-1.png)
 
@@ -641,6 +692,14 @@ Paths can be plotted easily:
 
 addis <- as.vector(addis)
 plot(myGraph, col = NA, reset = TRUE)
+```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
+
+``` r
+
 plot(paths)
 points(addis[1], addis[2], pch = "x", cex = 2)
 text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
@@ -711,6 +770,14 @@ paths.2 <- dijkstraFrom(hgdp, ori)
 ``` r
 
 plot(myGraph, col = NA, reset = TRUE)
+```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
+
+``` r
+
 plot(paths.2)
 points(addis[1], addis[2], pch = "x", cex = 2)
 text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)

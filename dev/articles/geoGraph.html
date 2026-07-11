@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9016</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.1.9017</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
 
       <h1>geoGraph</h1>
             
-            <h4 data-toc-skip class="date">2026-06-05</h4>
+            <h4 data-toc-skip class="date">2026-07-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/geoGraph.Rmd" class="external-link"><code>vignettes/geoGraph.Rmd</code></a></small>
       <div class="d-none name"><code>geoGraph.Rmd</code></div>
@@ -313,12 +313,12 @@ We enter the longitudes and latitudes (in this order, that is, xy
 coordinates) of these cities in decimal degrees, as well as approximate
 population sizes:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Bordeaux</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">45</span><span class="op">)</span></span>
-<span><span class="va">Berlin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">52</span><span class="op">)</span></span>
-<span><span class="va">Baku</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">44</span>, <span class="fl">40</span><span class="op">)</span></span>
-<span><span class="va">Timbuktu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">16</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">bordeaux</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">45</span><span class="op">)</span></span>
+<span><span class="va">berlin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">13</span>, <span class="fl">52</span><span class="op">)</span></span>
+<span><span class="va">baku</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">44</span>, <span class="fl">40</span><span class="op">)</span></span>
+<span><span class="va">timbuktu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>, <span class="fl">16</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">cities.dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind.data.frame</a></span><span class="op">(</span><span class="va">Bordeaux</span>, <span class="va">Berlin</span>, <span class="va">Baku</span>, <span class="va">Timbuktu</span><span class="op">)</span></span>
+<span><span class="va">cities.dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind.data.frame</a></span><span class="op">(</span><span class="va">bordeaux</span>, <span class="va">berlin</span>, <span class="va">baku</span>, <span class="va">timbuktu</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">cities.dat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lon"</span>, <span class="st">"lat"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">cities.dat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Bordeaux"</span>, <span class="st">"Berlin"</span>, <span class="st">"Baku"</span>, <span class="st">"Timbuktu"</span><span class="op">)</span></span>
 <span><span class="va">cities.dat</span><span class="op">$</span><span class="va">pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">250000</span>, <span class="fl">3500000</span>, <span class="fl">2000000</span>, <span class="fl">50000</span><span class="op">)</span></span>
@@ -334,12 +334,13 @@ will support the data:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
 <p><img src="geoGraph_files/figure-html/wg10plot-1.png" class="r-plt" alt="" width="768"></p>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched on</span></span></code></pre>
 <p>In this figure, each node is represented with a color depending on
 the habitat type, either ‘sea’ (blue) or ‘land’ (green). We are going to
 interface the cities data with this grid; to do so, we create a
 <code>gData</code> object using <code>new</code> (see
 <code><a href="../reference/gData-class.html">?gData</a></code> object):</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/new.html" class="external-link">new</a></span><span class="op">(</span><span class="st">"gData"</span>, coords <span class="op">=</span> <span class="va">cities.dat</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, data <span class="op">=</span> <span class="va">cities.dat</span><span class="op">[</span>, <span class="fl">3</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>, gGraph.name <span class="op">=</span> <span class="st">"worldgraph.10k"</span><span class="op">)</span></span>
 <span><span class="va">cities</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -365,9 +366,12 @@ interface the cities data with this grid; to do so, we create a
 <span><span class="co">## ...</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Associated gGraph: worldgraph.10k</span></span></code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, type <span class="op">=</span> <span class="st">"both"</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, type <span class="op">=</span> <span class="st">"both"</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched on</span></span></code></pre>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/citiesplot-1.png" class="r-plt" alt="" width="672"></p>
 <p>This figure illustrates the matching of original locations (black
 crosses) to nodes of the grid (red circles). As we can see, an issue
@@ -377,27 +381,30 @@ node attribute values using <code>closestNode</code>; for instance, here
 we constrain matching nodes to have an <code>habitat</code> value
 (defined as node attribute in <code>worldgraph.10k</code>) equaling
 <code>land</code> (green points):</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/closestNode.html">closestNode</a></span><span class="op">(</span><span class="va">cities</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, attr.value <span class="op">=</span> <span class="st">"land"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, type <span class="op">=</span> <span class="st">"both"</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, type <span class="op">=</span> <span class="st">"both"</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched on</span></span></code></pre>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/closeNode-1.png" class="r-plt" alt="" width="672"></p>
 <p>Now, all cities have been assigned to a <code>land</code> node of the
 grid. Content of <code>cities</code> can be accessed via various
 accessors (see <code><a href="../reference/gData-class.html">?gData</a></code>). For instance, we can retrieve
 original locations, assigned nodes, and stored data using:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getCoords.html">getCoords</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      lon lat</span></span>
 <span><span class="co">## 5775  -1  45</span></span>
 <span><span class="co">## 7696  13  52</span></span>
 <span><span class="co">## 2629  44  40</span></span>
 <span><span class="co">## 3221  -3  16</span></span></code></pre>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getNodes.html">getNodes</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   5774   7696   2629   3221 </span></span>
 <span><span class="co">## "5775" "7696" "2629" "3221"</span></span></code></pre>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getData.html">getData</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##              pop</span></span>
 <span><span class="co">## Bordeaux  250000</span></span>
@@ -407,7 +414,7 @@ original locations, assigned nodes, and stored data using:</p>
 <p>More interestingly, we can now retrieve all the geographic
 information contained in the underlying grid (<em>i.e.</em>
 <code>gGraph</code> object) as node attributes:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getNodesAttr.html">getNodesAttr</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      habitat</span></span>
 <span><span class="co">## 5775    land</span></span>
@@ -435,21 +442,23 @@ locations of the <code>gData</code>. Below, we illustrate the use of
 pairs of cities in our example.</p>
 <p>First, we check that all populations are connected on the grid using
 <code>isConnected</code>:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/isConnected.html">isConnected</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>If not all locations are connected, <code>connectivityPlot</code> can
 help diagnose the problem by displaying connected components in
 different colors, and is available for both <code>gGraph</code> and
 <code>gData</code> objects. For instance:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/connectivityPlot.html">connectivityPlot</a></span><span class="op">(</span><span class="va">worldgraph.10k</span>, edges <span class="op">=</span> <span class="cn">TRUE</span>, seed <span class="op">=</span> <span class="fl">1</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="geoGraph_files/figure-html/connectivityPlot-1.png" class="r-plt" alt="" width="768">
-Since all locations in <code>cities</code> are connected, we can proceed
-further.</p>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
+<p><img src="geoGraph_files/figure-html/connectivityPlot-1.png" class="r-plt" alt="" width="768"></p>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched on</span></span></code></pre>
+<p>Since all locations in <code>cities</code> are connected, we can
+proceed further.</p>
 <p>We can now compute least-cost paths between all pairs of cities using
 <code>dijkstraBetween</code>:</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities.paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraBetween.html">dijkstraBetween</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span>
 <span><span class="va">cities.paths</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -461,9 +470,12 @@ further.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## each path, accessible with [[]] has elements 'length', 'path_detail' and 'length_detail'</span></span>
 <span><span class="co">## x and y coordinates of all nodes are stored as an attribute 'xy'; see ?gPath for details</span></span></code></pre>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities.paths</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched on</span></span></code></pre>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities.paths</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="672"></p>
 <p>In this graph, each path is plotted with a different color, but
 several paths overlap in several places. We can clearly see that all
@@ -482,9 +494,12 @@ connection at the Strait of Gibraltar as the grid is designed to only
 allow for land to land connectivity. We can visually check this by
 zooming in on the area of interest and plotting the edges of the
 grid:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.zoomin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="fl">2</span>, <span class="fl">32</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/zoom.html">geo.zoomin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span>, <span class="fl">2</span>, <span class="fl">32</span>, <span class="fl">40</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched on</span></span></code></pre>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot-gGraph.html">plotEdges</a></span><span class="op">(</span><span class="va">worldgraph.10k</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="672"></p>
 <p>We can change this by adding a connection between the two continents,
 for instance by adding a connection between the two nodes of the grid
@@ -502,7 +517,7 @@ nodes of the grid that we want to connect (in this case, one node in
 Europe and one node in Africa). After adding the edge, we can save the
 new graph as a new object (note that we have to save the changes using
 <code>&lt;-</code>):</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="va">worldgraph.10k</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">newGraph</span><span class="op">)</span></span>
 <span><span class="va">newGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/geo.add.edges.html">geo.add.edges</a></span><span class="op">(</span><span class="va">newGraph</span><span class="op">)</span></span></code></pre></div>
@@ -514,11 +529,14 @@ function, so that the new graph will be used for path computations. Now
 when we compute least-cost paths between cities, we can see that the
 path between Bordeaux and Timbuktu goes through the Strait of Gibraltar
 instead of the Caucasus mountains:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cities</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setGraph.html">setGraph</a></span><span class="op">(</span><span class="va">cities</span>, <span class="st">"newGraph"</span><span class="op">)</span></span>
 <span><span class="va">cities.paths</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraBetween.html">dijkstraBetween</a></span><span class="op">(</span><span class="va">cities</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities.paths</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched on</span></span></code></pre>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cities.paths</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level4">
@@ -528,7 +546,7 @@ instead of the Caucasus mountains:</p>
 dataset, the Human Genome Diversity Panel (HGDP) dataset, which contains
 genetic diversity information for 52 human populations worldwide (see
 <code><a href="../reference/hgdp.html">?hgdp</a></code> for more information on this dataset).</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hgdp</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## === gData object ===</span></span>
@@ -553,8 +571,10 @@ genetic diversity information for 52 human populations worldwide (see
 <span><span class="co">## ...</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Associated gGraph: worldgraph.40k</span></span></code></pre>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">hgdp</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched on</span></span></code></pre>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" alt="" width="768"></p>
 <p>Populations of the dataset are shown by red circles, while the
 underlying grid (<code>worldgraph.40k</code>) is represented with colors
@@ -566,7 +586,7 @@ in Addis Ababa, Ethiopia. We shall seek all paths through landmasses to
 the HGDP populations.</p>
 <p>First, we check again that all populations are connected on the grid
 using <code>isConnected</code>:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/isConnected.html">isConnected</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>Since all locations in <code>hgdp</code> are connected, we can
@@ -579,7 +599,7 @@ attribute-driven costs (using <code>setCosts</code>).</p>
 <code>gGraph</code> with uniform costs, we use <code>dijkstraFrom</code>
 to find the shortest paths between Addis Ababa and the populations of
 <code>hgdp</code>:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">myGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dropCosts.html">dropCosts</a></span><span class="op">(</span><span class="va">worldgraph.40k</span><span class="op">)</span></span>
 <span><span class="va">hgdp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setGraph.html">setGraph</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="st">"myGraph"</span><span class="op">)</span></span>
 <span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">38</span>, <span class="fl">9</span><span class="op">)</span></span>
@@ -588,10 +608,13 @@ to find the shortest paths between Addis Ababa and the populations of
 <p>The object <code>paths</code> contains the identified paths, which
 are stored as a list with class <code>gPath</code> (see
 <code><a href="../reference/gPath-class.html">?gPath</a></code>). Paths can be plotted easily:</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">addis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">addis</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched on</span></span></code></pre>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">addis</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">addis</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, pch <span class="op">=</span> <span class="st">"x"</span>, cex <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="va">addis</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">35</span>, <span class="va">addis</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="st">"Addis Ababa"</span>, cex <span class="op">=</span> <span class="fl">.8</span>, font <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">hgdp</span>, col.nodes <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
@@ -601,7 +624,7 @@ several paths overlap in several places. We can extract the distances
 from the <code>origin</code> using <code>gPath2dist</code>, and then
 examine the relationship between genetic diversity within populations
 (stored in <code>hgdp</code>) and the distance from the origin:</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">div</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getData.html">getData</a></span><span class="op">(</span><span class="va">hgdp</span><span class="op">)</span><span class="op">$</span><span class="st">"Genetic.Div"</span></span>
 <span><span class="va">dgeo.unif</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gPath2dist.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.unif</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
@@ -626,7 +649,7 @@ examine the relationship between genetic diversity within populations
 <span><span class="co">## Residual standard error: 0.0185 on 50 degrees of freedom</span></span>
 <span><span class="co">## Multiple R-squared:  0.833,  Adjusted R-squared:  0.83 </span></span>
 <span><span class="co">## F-statistic:  250 on 1 and 50 DF,  p-value: &lt;2e-16</span></span></code></pre>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Genetic diversity vs geographic distance \n uniform costs "</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="672"></p>
 <p>Alternatively, we can use costs based on habitat. As a toy example,
@@ -637,22 +660,25 @@ change the cost associated with coastal cells. After defining the new
 cost rules, we set costs using this data frame with
 <code>setCosts</code>, and then compute and plot the corresponding
 shortest paths:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cost.rules</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getCosts.html">getCosts</a></span><span class="op">(</span><span class="va">myGraph</span>, res.type <span class="op">=</span> <span class="st">"rules"</span><span class="op">)</span></span>
 <span><span class="va">cost.rules</span><span class="op">$</span><span class="va">cost</span><span class="op">[</span><span class="va">cost.rules</span><span class="op">$</span><span class="va">habitat</span> <span class="op">==</span> <span class="st">"coast"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0.25</span></span>
 <span></span>
 <span><span class="va">myGraph</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/setCosts.html">setCosts</a></span><span class="op">(</span><span class="va">myGraph</span>, attr.name <span class="op">=</span> <span class="st">"habitat"</span>, cost.rules <span class="op">=</span> <span class="va">cost.rules</span><span class="op">)</span></span>
 <span><span class="va">paths.2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dijkstraFrom.html">dijkstraFrom</a></span><span class="op">(</span><span class="va">hgdp</span>, <span class="va">ori</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paths.2</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">myGraph</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched off</span></span></code></pre>
+<pre><code><span><span class="co">## Spherical geometry (s2) switched on</span></span></code></pre>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paths.2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">addis</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">addis</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, pch <span class="op">=</span> <span class="st">"x"</span>, cex <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="va">addis</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">35</span>, <span class="va">addis</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="st">"Addis Ababa"</span>, cex <span class="op">=</span> <span class="fl">.8</span>, font <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">hgdp</span>, col.nodes <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-23-1.png" class="r-plt" alt="" width="768"></p>
 <p>The new paths are slightly different from the previous ones. We can
 examine the new relationship with genetic distance:</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dgeo.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gPath2dist.html">gPath2dist</a></span><span class="op">(</span><span class="va">paths.2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.hab</span>, xlab <span class="op">=</span> <span class="st">"GeoGraphic distance (arbitrary units)"</span>, ylab <span class="op">=</span> <span class="st">"Genetic diversity"</span><span class="op">)</span></span>
 <span><span class="va">lm.hab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">div</span> <span class="op">~</span> <span class="va">dgeo.hab</span><span class="op">)</span></span>
@@ -676,7 +702,7 @@ examine the new relationship with genetic distance:</p>
 <span><span class="co">## Residual standard error: 0.0265 on 50 degrees of freedom</span></span>
 <span><span class="co">## Multiple R-squared:  0.657,  Adjusted R-squared:  0.651 </span></span>
 <span><span class="co">## F-statistic: 95.9 on 1 and 50 DF,  p-value: 3.21e-13</span></span></code></pre>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Genetic diversity vs geographic distance \n habitat costs "</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="672"></p>
 <p>Now of course depending on the application, we may want to use
@@ -697,11 +723,11 @@ available vignettes).</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Andrea Manica.</p>
+  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Cassandra Gunasekaram, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

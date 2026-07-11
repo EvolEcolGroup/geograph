@@ -122,5 +122,7 @@ head(attr(myPath, "xy"))
 
 ## plot the paths
 plot(worldgraph.40k, col = NA, reset = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 plot(myPath)
 ```

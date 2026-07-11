@@ -52,9 +52,13 @@ Other basic_methods:
 ``` r
 ## subset to nodes in a geographic area
 plot(worldgraph.10k, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 x <- worldgraph.10k[isInArea(worldgraph.10k, quiet = TRUE)]
 
 ## subset by node name

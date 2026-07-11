@@ -67,6 +67,8 @@ hgdp
 
 ## plotting the object
 plot(hgdp)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 
 
 

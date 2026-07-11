@@ -72,6 +72,8 @@ plot(worldgraph.10k, reset = TRUE)
 
     ## Spherical geometry (s2) switched off
 
+    ## Spherical geometry (s2) switched on
+
 ``` r
 
 title("Default plotting of worldgraph.10k")
@@ -123,7 +125,11 @@ Here are some examples based on the previous plotting of
 geo.zoomin()
 ```
 
+    ## Spherical geometry (s2) switched off
+
 ![](a2_edit_graphs_files/figure-html/zoomin-1.png)
+
+    ## Spherical geometry (s2) switched on
 
 Zooming out:
 
@@ -132,7 +138,11 @@ Zooming out:
 geo.zoomout()
 ```
 
+    ## Spherical geometry (s2) switched off
+
 ![](a2_edit_graphs_files/figure-html/zoomout-1.png)
+
+    ## Spherical geometry (s2) switched on
 
 Sliding to the east:
 
@@ -141,7 +151,11 @@ Sliding to the east:
 geo.slide()
 ```
 
+    ## Spherical geometry (s2) switched off
+
 ![](a2_edit_graphs_files/figure-html/geoslide-1.png)
+
+    ## Spherical geometry (s2) switched on
 
 One important thing which makes plotting `gGraph` objects different from
 most other plotting in R is that `geoGraph` keeps the changes made to
@@ -187,12 +201,12 @@ and undo possible wrong manipulations.
 
 ``` r
 
-Bordeaux <- c(-1, 45)
-Berlin <- c(13, 52)
-Baku <- c(44, 40)
-Timbuktu <- c(-3, 16)
+bordeaux <- c(-1, 45)
+berlin <- c(13, 52)
+baku <- c(44, 40)
+timbuktu <- c(-3, 16)
 
-cities.dat <- rbind.data.frame(Bordeaux, Berlin, Baku, Timbuktu)
+cities.dat <- rbind.data.frame(bordeaux, berlin, baku, timbuktu)
 colnames(cities.dat) <- c("lon", "lat")
 row.names(cities.dat) <- c("Bordeaux", "Berlin", "Baku", "Timbuktu")
 cities.dat$pop <- c(250000, 3500000, 2000000, 50000)
@@ -209,6 +223,14 @@ cities.dat
 
 cities <- new("gData", coords = cities.dat[, 1:2], data = cities.dat[, 3, drop = FALSE], gGraph.name = "worldgraph.10k")
 plot(cities, type = "both", reset = TRUE)
+```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
+
+``` r
+
 text(getCoords(cities), rownames(getData(cities)))
 ```
 
@@ -235,6 +257,14 @@ transp <- function(col, alpha = .5) {
 }
 
 plot(cities, reset = TRUE)
+```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
+
+``` r
+
 par(xpd = TRUE)
 text(getCoords(cities) + -.5, rownames(getData(cities)))
 symbols(getCoords(cities)[, 1], getCoords(cities)[, 2],
@@ -273,6 +303,14 @@ in to a smaller area (Madagascar) to illustrate changes in connectivity:
 ``` r
 
 geo.zoomin(c(35, 54, -26, -10))
+```
+
+    ## Spherical geometry (s2) switched off
+
+    ## Spherical geometry (s2) switched on
+
+``` r
+
 plotEdges(rawgraph.10k)
 ```
 
@@ -338,7 +376,11 @@ newGraph <- setCosts(newGraph, attr.name = "habitat")
 plot(newGraph, edge = TRUE)
 ```
 
+    ## Spherical geometry (s2) switched off
+
 ![](a2_edit_graphs_files/figure-html/unnamed-chunk-10-1.png)
+
+    ## Spherical geometry (s2) switched on
 
 On this new graph, we represent the edges with a width inversely
 proportional to the associated cost; that is, bold lines for easy
@@ -354,7 +396,11 @@ newGraph <- dropDeadEdges(newGraph, thres = 1.1)
 plot(newGraph, edge = TRUE)
 ```
 
+    ## Spherical geometry (s2) switched off
+
 ![](a2_edit_graphs_files/figure-html/unnamed-chunk-11-1.png)
+
+    ## Spherical geometry (s2) switched on
 
 Here we are: `newGraph` only contains connections in the sea. Note that,
 although we restrained the plotting area to Madagascar, this change is
@@ -366,7 +412,11 @@ Australian coasts:
 geo.zoomin(c(110, 130, -27, -12))
 ```
 
+    ## Spherical geometry (s2) switched off
+
 ![](a2_edit_graphs_files/figure-html/bookmark-1.png)
+
+    ## Spherical geometry (s2) switched on
 
 ``` r
 
@@ -448,7 +498,11 @@ getColors(newGraph, res.type = "rules")
 plot(newGraph, edge = TRUE)
 ```
 
+    ## Spherical geometry (s2) switched off
+
 ![](a2_edit_graphs_files/figure-html/unnamed-chunk-16-1.png)
+
+    ## Spherical geometry (s2) switched on
 
 Again, note that the changes made to the graph have to be saved in an
 object (using `<-`) to be effective.

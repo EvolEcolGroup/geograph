@@ -73,7 +73,8 @@ plotEdges(
   [`sf::st_read()`](https://r-spatial.github.io/sf/reference/st_read.html)
   to import a GIS shapefile). Alternatively, a character string
   indicating one shapefile released with geoGraph; currently, only
-  'world' is available.
+  'world' is available. If `NULL`, the graph is plotted without any
+  background layer.
 
 - psize:
 
@@ -191,16 +192,24 @@ Other plotting_methods:
 
 ## just the background
 plot(worldgraph.10k, reset = TRUE, type = "n")
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 ## basic plot
 plot(worldgraph.10k)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 ## zooming and adding edges
 geo.zoomin(list(x = c(90, 150), y = c(0, -50)))
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 plot(worldgraph.10k, edges = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 
 
 ## display edges differently
@@ -220,6 +229,8 @@ points(worldgraph.10k[inSea], col = "white", sticky = TRUE) # this will stay
 ## but better, only draw those on land, and use a fancy setup
 par(bg = "blue")
 plot(worldgraph.10k[!inSea], bg.col = "darkgreen", col = "purple", edges = TRUE)
+#> Spherical geometry (s2) switched off
 
 #> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'points': error in evaluating the argument 'i' in selecting a method for function '[': object 'inSea' not found
+#> Spherical geometry (s2) switched on
 ```

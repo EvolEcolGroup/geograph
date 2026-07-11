@@ -73,5 +73,7 @@ colors <- data.frame(
 coastGraph <- setColors(coastGraph, col.rules = colors)
 
 plot(coastGraph, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 ```
