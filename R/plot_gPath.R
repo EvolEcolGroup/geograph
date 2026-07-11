@@ -32,17 +32,17 @@
 plot.gPath <- function(x, col = "rainbow", lwd = 3, seed = NULL, ...) {
   listNodes <- lapply(x, function(e) e$path_detail)
 
-  ## xy <- x$xy
+  ## set x$xy to xy
   xy <- attr(x, "xy")
-  Npath <- length(listNodes)
+  n.path <- length(listNodes)
 
   ## handle color ##
   if (is.character(col) && col[1] == "rainbow") {
     if (!is.null(seed)) set.seed(seed)
     col <- sample(grDevices::rainbow(length(x)))
   }
-  col <- rep(col, length = Npath)
-  lwd <- rep(lwd, length = Npath)
+  col <- rep(col, length = n.path)
+  lwd <- rep(lwd, length = n.path)
 
   ## function plotting one gPath
   f1 <- function(vecNodes, col, lwd, ...) {
@@ -52,7 +52,6 @@ plot.gPath <- function(x, col = "rainbow", lwd = 3, seed = NULL, ...) {
     } # escape if a path is a single vertex
     from <- vecNodes[seq_len(N - 1)]
     to <- vecNodes[2:N]
-    ## segments(xy[from,1], xy[from,2], xy[to,1], xy[to,2], col=col, lwd=lwd, ...)
     geo.segments(xy[from, 1], xy[from, 2], xy[to, 1], xy[to, 2], col = col, lwd = lwd, ...)
   }
 

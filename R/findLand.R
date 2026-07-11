@@ -71,21 +71,26 @@ setGeneric("findLand", function(x, ...) {
 #' @export
 setMethod("findLand", "matrix", function(x, shape = "world", ...) {
   ## Load default shapefile ##
-  if (is.character(shape) && shape[1] == "world") {
-    # use rnaturalearth
+  if (is.character(shape) && length(shape) == 1L && shape == "world") {
     shape <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+    old.s2 <- sf::sf_use_s2()
+    on.exit(sf::sf_use_s2(old.s2), add = TRUE)
     sf::sf_use_s2(FALSE)
   }
 
 
-  ## TODO if the shape is null, we should throw an error!!!
-  if (!is.null(shape)) {
-    if (!inherits(shape, "sf")) {
-      if (inherits(shape, "SpatialPolygonsDataFrame")) {
-        shape <- sf::st_as_sf(shape)
-      } else {
-        stop("shape must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
-      }
+  if (is.null(shape)) {
+    stop(
+      "shape cannot be NULL; provide an sf object, ",
+      "or 'world' for the default world shapefile."
+    )
+  }
+
+  if (!inherits(shape, "sf")) {
+    if (inherits(shape, "SpatialPolygonsDataFrame")) {
+      shape <- sf::st_as_sf(shape)
+    } else {
+      stop("shape must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
     }
   }
 
@@ -95,19 +100,19 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
   }
 
   # create an sf point object from the coordinates
-  locations_st <- x %>%
+  locations.st <- x %>%
     as.data.frame() %>%
     sf::st_as_sf(coords = c(1, 2)) %>%
     sf::st_set_crs(sf::st_crs(shape))
   # now find points in polygons
-  points_within <- sf::st_intersects(shape, locations_st)
-  points_within <- data.frame(
-    x = unlist(points_within),
-    polygon = rep(seq_along(lengths(points_within)), lengths(points_within))
+  points.within <- sf::st_intersects(shape, locations.st)
+  points.within <- data.frame(
+    x = unlist(points.within),
+    polygon = rep(seq_along(lengths(points.within)), lengths(points.within))
   )
 
   land <- rep("sea", nrow(x))
-  land[points_within$x] <- "land"
+  land[points.within$x] <- "land"
 
   return(factor(land))
 })

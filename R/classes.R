@@ -261,8 +261,8 @@ NULL
 #' @noRd
 .gData.valid <- function(object) {
   x <- object
-  Ncoords <- nrow(x@coords)
-  Nnodes <- length(x@nodes.id)
+  n.coords <- nrow(x@coords)
+  n.nodes <- length(x@nodes.id)
 
   if (x@gGraph.name == "") {
     stop("x is not associated with a gGraph object.")
@@ -274,7 +274,7 @@ NULL
   }
 
   ## dim matching
-  if (Ncoords != Nnodes) {
+  if (n.coords != n.nodes) {
     cat("\n Number of coordinates and of nodes do not match.")
     return(FALSE)
   }
@@ -343,10 +343,10 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
     latlist <- list("lat", "latitude", "y")
     ## Test if the column order is inverted
     if (is.element(colnames(input$coords)[1], latlist) &
-      is.element(colnames(input$coords)[2], lonlist)) {
+          is.element(colnames(input$coords)[2], lonlist)) {
       input$coords[, c(1, 2)] <- input$coords[, c(2, 1)]
     } else if (!(is.element(colnames(input$coords)[1], lonlist) &
-      is.element(colnames(input$coords)[2], latlist))) {
+                   is.element(colnames(input$coords)[2], latlist))) {
       message(
         "The coordinate column names are not part of the standardised list;\n",
         "we will use the order they were given in, make sure it corresponds to x and y!"
@@ -355,7 +355,7 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
 
     ## names of the matrix
     colnames(input$coords) <- c("lon", "lat")
-    rownames(input$coords) <- as.character(1:nrow(input$coords))
+    rownames(input$coords) <- as.character(seq_len(nrow(input$coords)))
 
     ## check/rectify longitudes
     temp <- input$coords[, "lon"] > 180
@@ -403,8 +403,6 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
 setMethod("initialize", "gData", function(.Object, ...) {
   x <- .Object
   input <- list(...)
-  inputClasses <- sapply(input, class)
-
 
   ## handle @coords ##
   if (!is.null(input$coords)) {
@@ -420,7 +418,7 @@ setMethod("initialize", "gData", function(.Object, ...) {
 
     ## names of the matrix
     colnames(input$coords) <- c("lon", "lat")
-    rownames(input$coords) <- as.character(1:nrow(input$coords))
+    rownames(input$coords) <- as.character(seq_len(nrow(input$coords)))
 
     ## check/rectify longitudes
     temp <- input$coords[, "lon"] > 180
@@ -439,10 +437,6 @@ setMethod("initialize", "gData", function(.Object, ...) {
       myGraph <- get(input$gGraph.name, envir = .GlobalEnv) # used later for node.id
       x@gGraph.name <- input$gGraph.name
     }
-
-    ## if(is.null(input$gGraph.version) & !is.null(myGraph)){
-    ##     x@gGraph.version <- myGraph@history@dates[length(myGraph@history@dates)]
-    ## }
   } else {
     myGraph <- NULL
   }

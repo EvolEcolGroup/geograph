@@ -31,6 +31,7 @@ Authors:
   \item Margherita Colucci
   \item Evie Carter
   \item Michela Leonardi
+  \item Cassandra Gunasekaram
 }
 
 }

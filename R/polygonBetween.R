@@ -46,6 +46,10 @@ polygonBetween <- function(g, layer, from, to, outline = TRUE) {
     stop("Input g must be a gGraph or gData object.")
   }
 
+  if (!layer %in% colnames(geoGraph::getNodesAttr(g))) {
+    stop(sprintf("Layer '%s' not found in node attributes.", layer))
+  }
+
   # get node attributes
   node.attr <- geoGraph::getNodesAttr(g)[[layer]]
   node.ids <- geoGraph::getNodes(g)
@@ -59,7 +63,7 @@ polygonBetween <- function(g, layer, from, to, outline = TRUE) {
   }
 
   # neighbor list
-  neighL <- g@graph@edgeL
+  neighL <- geoGraph::getGraph(g)@edgeL
 
   # function to compute outline nodes
   polygonOutlineNodes <- function(nodes.polygon) {

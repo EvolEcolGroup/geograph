@@ -149,12 +149,10 @@ geo.remove.edges <- function(x, mode = c("points", "area")) {
   ## preliminary stuff
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
   temp <- isInArea(x, quiet = TRUE)
-  # coords <- getCoords(x)[temp,] # not needed: can work with whole object
   coords <- getCoords(x)
   nodeNames <- getNodes(x)
   lon <- coords[, 1]
   lat <- coords[, 2]
-  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
   psize <- get("psize", envir = .geoGraphEnv)
   mode <- match.arg(mode)
 
@@ -301,7 +299,7 @@ geo.change.attr <- function(x, mode = c("points", "area"), attr.name, attr.value
     hasRightAttr <- which(temp == only.value)
     if (length(hasRightAttr) == 0) stop(paste("specified values of", only.name, "never found."))
   } else {
-    hasRightAttr <- 1:nrow(getCoords(x))
+    hasRightAttr <- seq_len(nrow(getCoords(x)))
   }
 
   ## handle refObj ##
@@ -319,7 +317,6 @@ geo.change.attr <- function(x, mode = c("points", "area"), attr.name, attr.value
   coords <- getCoords(x)
   lon <- coords[, 1]
   lat <- coords[, 2]
-  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
   mode <- match.arg(mode)
   if (!attr.name %in% colnames(x@nodes.attr)) stop("specified node attribute name not found")
 

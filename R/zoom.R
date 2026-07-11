@@ -75,7 +75,6 @@ NULL
 .zoomlog.up <- function(vec) { # vec is xmin, xmax, ymin, ymax
   if (!is.vector(vec) || length(vec) != 4 || !is.numeric(vec)) stop("Updating zoomlog using a wrong value.")
 
-  #    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
   oldZoomLog <- get("zoom.log", envir = .geoGraphEnv)
   newZoomLog <- rbind(vec, oldZoomLog)
   colnames(newZoomLog) <- colnames(oldZoomLog)
@@ -109,10 +108,6 @@ geo.zoomin <- function(reg = NULL) { # reg should be a list as returned by locat
     reg <- list(x = temp[1:2], y = temp[3:4])
   }
 
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
-
   ## get last plot
   last.plot.call <- get("last.plot", envir = .geoGraphEnv)
 
@@ -137,12 +132,6 @@ geo.zoomin <- function(reg = NULL) { # reg should be a list as returned by locat
     temp <- deparse(last.plot.call)
     temp <- sub("reset[^,]*,", "", temp) # remove subset if provided
     temp <- sub(",[[:blank:]]*reset[^)]*", "", temp) # same thing, if last arg
-
-    ##     temp <- sub("ylim[^,]*,","",temp) # idem, ylim
-    ##     temp <- sub(")$","",temp) # idem, ylim
-    ##     temp <- paste(temp, ", xlim = c(", reg$x[1], ",", reg$x[2],")")
-    ##     temp <- paste(temp, ", ylim = c(", reg$y[1], ",", reg$y[2],")")
-    ##     temp <- paste(temp, ")")
 
     newCall <- parse(text = temp)
     eval(newCall, envir = .GlobalEnv)
@@ -184,9 +173,6 @@ geo.zoomin <- function(reg = NULL) { # reg should be a list as returned by locat
 ###############
 #' @export
 geo.zoomout <- function() {
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   ## loop ##
   while (!is.null(locator(1))) {
     ## get last plot
@@ -251,9 +237,6 @@ geo.zoomout <- function() {
 ############
 #' @export
 geo.back <- function() {
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   ## loop ##
   while (!is.null(locator(1))) {
     ## get last plot
@@ -286,9 +269,6 @@ geo.back <- function() {
 #############
 #' @export
 geo.slide <- function() {
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   ## loop ##
   while (!is.null(spoint <- locator(1))) {
     ## get last plot
@@ -327,9 +307,6 @@ geo.slide <- function() {
 ############
 #' @export
 geo.bookmark <- function(name = NULL) {
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   if (is.null(name)) {
     cat("\nAvailable bookmarks:\n")
     return(get("bookmarks", envir = .geoGraphEnv))
@@ -363,9 +340,6 @@ geo.bookmark <- function(name = NULL) {
 ############
 #' @export
 geo.goto <- function(name) {
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   ## get next zoom coords
   bookmarks <- get("bookmarks", envir = .geoGraphEnv)
   zoomLog <- get("zoom.log", envir = .geoGraphEnv)

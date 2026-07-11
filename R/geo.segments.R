@@ -72,7 +72,7 @@ geo.segments <- function(x0, y0, x1, y1,
   XMIN
   ## - d1: distance XMAX - x1
   ## - h0, h1: differential of y coord for new coord
-  ## (h0/d0 = h1/d1)
+  ## - (h0/d0 = h1/d1)
   ## - H: distance between y0 and y1
 
 

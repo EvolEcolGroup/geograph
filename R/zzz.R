@@ -1,18 +1,5 @@
 # nocov start
 
-# .onAttach <- function(libname, pkgname) {
-#   pkg.version <- utils::packageDescription("geoGraph", fields = "Version")
-#
-#   startup.txt <- paste("\n   /// geoGraph ", pkg.version, " is loaded ////////////",
-#     "\n\n   > overview: '?geoGraph'",
-#     "\n   > tutorials/doc/questions: https://github.com/EvolEcolGroup/geograph' \n",
-#     sep = ""
-#   )
-#
-#   packageStartupMessage(startup.txt)
-# }
-
-
 # store local temporary variables in an environment whose parent is an empty environment
 # (which should be safe no matter where we are when we create it)
 .geoGraphEnv <- new.env(parent = emptyenv())

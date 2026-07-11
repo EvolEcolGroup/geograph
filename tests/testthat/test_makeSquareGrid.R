@@ -58,15 +58,15 @@ test_that("makeSquareGrid has correct neighbour assignment", {
 
 
 test_that("makeSquareGrid handles one-dimensional grids correctly", {
-  col_grid <- makeSquareGrid(n.lon = 1, n.lat = 5, lon.range = c(1, 2), lat.range = c(1, 5))
-  row_grid <- makeSquareGrid(n.lon = 5, n.lat = 1, lon.range = c(1, 5), lat.range = c(1, 2))
-  col_deg <- sapply(col_grid@graph@edgeL, function(e) length(e$edges))
-  row_deg <- sapply(row_grid@graph@edgeL, function(e) length(e$edges))
+  col.grid <- makeSquareGrid(n.lon = 1, n.lat = 5, lon.range = c(1, 2), lat.range = c(1, 5))
+  row.grid <- makeSquareGrid(n.lon = 5, n.lat = 1, lon.range = c(1, 5), lat.range = c(1, 2))
+  col.deg <- sapply(col.grid@graph@edgeL, function(e) length(e$edges))
+  row.deg <- sapply(row.grid@graph@edgeL, function(e) length(e$edges))
 
-  expect_equal(length(getNodes(col_grid)), 5L)
-  expect_equal(length(getNodes(row_grid)), 5L)
-  expect_equal(sum(col_deg == 1), 2L)
-  expect_equal(sum(row_deg == 1), 2L)
-  expect_true(all(col_deg %in% c(1, 2)))
-  expect_true(all(row_deg %in% c(1, 2)))
+  expect_equal(length(getNodes(col.grid)), 5L)
+  expect_equal(length(getNodes(row.grid)), 5L)
+  expect_equal(sum(col.deg == 1), 2L)
+  expect_equal(sum(row.deg == 1), 2L)
+  expect_true(all(col.deg %in% c(1, 2)))
+  expect_true(all(row.deg %in% c(1, 2)))
 })

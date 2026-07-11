@@ -6,22 +6,22 @@ test_that("arbitrary function to set costs", {
     exp(-abs(x1 - x2) * cost.coeff)
   }
   worldgraph.40k@nodes.attr$meanProd <- runif(graph::numNodes(getGraph(worldgraph.40k)))
-  my_coeff <- 0.5
-  test_graph <-
+  my.coeff <- 0.5
+  test.graph <-
     setCosts(
       worldgraph.40k,
       node.values = worldgraph.40k@nodes.attr$meanProd,
       method = "function",
       FUN = exp.cost,
-      cost.coeff = my_coeff
+      cost.coeff = my.coeff
     )
   # now check that we have the right costs
-  sample_edge <- names(test_graph@graph@edgeData@data)[1]
-  sample_nodes <- as.integer(strsplit(sample_edge, "|", fixed = TRUE)[[1]])
-  sample_meanProd <- worldgraph.40k@nodes.attr$meanProd[sample_nodes]
+  sample.edge <- names(test.graph@graph@edgeData@data)[1]
+  sample.nodes <- as.integer(strsplit(sample.edge, "|", fixed = TRUE)[[1]])
+  sample.mean.prod <- worldgraph.40k@nodes.attr$meanProd[sample.nodes]
   expect_equal(
-    test_graph@graph@edgeData@data[[1]]$weight,
-    exp.cost(sample_meanProd[1], sample_meanProd[2], cost.coeff = my_coeff)
+    test.graph@graph@edgeData@data[[1]]$weight,
+    exp.cost(sample.mean.prod[1], sample.mean.prod[2], cost.coeff = my.coeff)
   )
 })
 
@@ -48,9 +48,9 @@ test_that("setCosts with cost.rules updates meta and sets costs in one call", {
   new.rules <- getCosts(result, res.type = "rules")
   expect_equal(as.numeric(new.rules$cost[new.rules$habitat == "sea"]), 50)
   # edge costs should differ from baseline after changing sea rule
-  baseline_w <- vapply(baseline@graph@edgeData@data, function(e) e$weight, numeric(1))
-  result_w <- vapply(result@graph@edgeData@data, function(e) e$weight, numeric(1))
-  expect_false(isTRUE(all.equal(result_w, baseline_w)))
+  baseline.w <- vapply(baseline@graph@edgeData@data, function(e) e$weight, numeric(1))
+  result.w <- vapply(result@graph@edgeData@data, function(e) e$weight, numeric(1))
+  expect_false(isTRUE(all.equal(result.w, baseline.w)))
 })
 
 test_that("setCosts with cost.rules must have exactly two columns", {
@@ -136,8 +136,10 @@ test_that("setCosts errors when x is not a gGraph and when method = 'function' b
 
 test_that("setCosts errors when cost.rules is not a data.frame", {
   expect_error(
-    setCosts(worldgraph.10k, attr.name = "habitat",
-             cost.rules = list(habitat = "sea", cost = 10)),
+    setCosts(worldgraph.10k,
+      attr.name = "habitat",
+      cost.rules = list(habitat = "sea", cost = 10)
+    ),
     "cost.rules must be a data.frame"
   )
 })

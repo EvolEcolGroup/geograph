@@ -75,8 +75,8 @@ test_that("makeHexGrid returns a gGraph from an sf input", {
     ))),
     crs = 4326
   )
-  sf_obj <- sf::st_sf(geometry = poly)
-  result <- makeHexGrid(sf_obj, spacing = 1000)
+  sf.obj <- sf::st_sf(geometry = poly)
+  result <- makeHexGrid(sf.obj, spacing = 1000)
 
   expect_s4_class(result, "gGraph")
 })
@@ -85,10 +85,10 @@ test_that("makeHexGrid returns a gGraph from an sf input", {
 test_that("makeHexGrid produces more nodes with smaller spacing", {
   geo.box <- c(xmin = -10, xmax = 30, ymin = 35, ymax = 60)
 
-  result_coarse <- makeHexGrid(geo.box, spacing = 2000)
-  result_fine <- makeHexGrid(geo.box, spacing = 500)
+  result.coarse <- makeHexGrid(geo.box, spacing = 2000)
+  result.fine <- makeHexGrid(geo.box, spacing = 500)
 
-  expect_gt(nrow(result_fine@coords), nrow(result_coarse@coords))
+  expect_gt(nrow(result.fine@coords), nrow(result.coarse@coords))
 })
 
 
@@ -129,16 +129,16 @@ test_that("the central node has 6 neighbours", {
   result <- makeHexGrid(geo.box, spacing = spacing)
 
   # Find the central node (closest to the center of the bbox)
-  center_lon <- (geo.box["xmin"] + geo.box["xmax"]) / 2
-  center_lat <- (geo.box["ymin"] + geo.box["ymax"]) / 2
+  center.lon <- (geo.box["xmin"] + geo.box["xmax"]) / 2
+  center.lat <- (geo.box["ymin"] + geo.box["ymax"]) / 2
 
-  distances <- sqrt((result@coords[, "lon"] - center_lon)^2 +
-    (result@coords[, "lat"] - center_lat)^2)
+  distances <- sqrt((result@coords[, "lon"] - center.lon)^2 +
+                      (result@coords[, "lat"] - center.lat)^2)
 
-  central_node_index <- which.min(distances)
+  central.node.index <- which.min(distances)
 
   # Get the neighbors of the central node
-  neighbors <- result@graph@edgeL[[central_node_index]]
+  neighbors <- result@graph@edgeL[[central.node.index]]
 
   expect_equal(length(neighbors$edges), 6)
 })
@@ -180,18 +180,18 @@ test_that("makeHexGrid neighbour relationships are symmetric", {
 test_that("makeHexGrid neighbours are correct across the dateline", {
   ## region crossing the antimeridian
   geo.box <- c(xmin = 110, xmax = -150, ymin = -30, ymax = 30)
-  result  <- makeHexGrid(geo.box, spacing = 500)
-  
+  result <- makeHexGrid(geo.box, spacing = 500)
+
   # check if all nodes are connected
   for (i in seq_along(result@graph@edgeL)) {
     expect_gt(length(result@graph@edgeL[[i]]$edges), 0)
   }
-  
-  # no node should have more than 6 neighbours 
+
+  # no node should have more than 6 neighbours
   for (i in seq_along(result@graph@edgeL)) {
     expect_lte(length(result@graph@edgeL[[i]]$edges), 6)
   }
-  
+
   # check if dateline is briged
   coords <- result@coords
   bridges.dateline <- FALSE

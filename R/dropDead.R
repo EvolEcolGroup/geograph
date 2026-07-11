@@ -43,7 +43,7 @@ dropDeadEdges <- function(x, thres) { # x is a gGraph object
   toKeep <- lapply(edgeW, function(v) v <= thres)
 
   newEdgeL <- list()
-  for (i in 1:length(edgeL)) {
+  for (i in seq_along(edgeL)) {
     newEdgeL[[i]] <- list()
     newEdgeL[[i]]$edges <- edgeL[[i]]$edges[toKeep[[i]]]
     newEdgeL[[i]]$weights <- edgeW[[i]][toKeep[[i]]]

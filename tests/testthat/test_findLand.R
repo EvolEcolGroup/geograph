@@ -14,9 +14,9 @@ test_that("find land correctly", {
 
   # tests error for NAs as coordinates (this only applies to matrices and data.frames)
   # gGraph objects should fail when creted with NA coordinates
-  NACoords <- data.frame(long = c(-24, NA), lat = c(31, 55))
+  na.coords <- data.frame(long = c(-24, NA), lat = c(31, 55))
   expect_error(
-    findLand(NACoords),
+    findLand(na.coords),
     "Matrix contains NA"
   )
 })
@@ -34,11 +34,24 @@ test_that("co-ordinate format", {
   expect_equal(obj, factor(c("sea", "land")))
 
   # Create co-ordinates matrix with NA
-  NA_matrix <- matrix(c(-24, NA, 37, 55), nrow = 2, ncol = 2, byrow = TRUE)
+  na.matrix <- matrix(c(-24, NA, 37, 55), nrow = 2, ncol = 2, byrow = TRUE)
   # NA entries are recognized and produce error in plot
-  expect_true(is.na(NA_matrix[1, 2]))
-  expect_error(plotEdges(NA_matrix))
+  expect_true(is.na(na.matrix[1, 2]))
+  expect_error(plotEdges(na.matrix))
 
   # NA produces error in findLand
-  expect_error(findLand(NA_matrix))
+  expect_error(findLand(na.matrix))
+})
+
+test_that("findLand errors when shape is NULL", {
+  coords <- matrix(c(10, 50), ncol = 2)
+  expect_error(findLand(coords, shape = NULL), "cannot be NULL")
+})
+
+test_that("findLand rejects multi-element character shape", {
+  coords <- matrix(c(10, 50), ncol = 2)
+  expect_error(
+    findLand(coords, shape = c("world", "moon")),
+    "shape must be a sf object"
+  )
 })

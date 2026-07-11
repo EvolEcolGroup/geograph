@@ -21,16 +21,16 @@ test_that("setDistCosts is symmetric (A->B same cost as B->A)", {
   E <- getEdges(result, res.type = "matNames")
 
   # Find a pair where both directions exist
-  edge_pairs <- paste(E[, 1], E[, 2], sep = "|")
-  reverse_pairs <- paste(E[, 2], E[, 1], sep = "|")
-  bidirectional_idx <- which(edge_pairs %in% reverse_pairs)[1]
+  edge.pairs <- paste(E[, 1], E[, 2], sep = "|")
+  reverse.pairs <- paste(E[, 2], E[, 1], sep = "|")
+  bidirectional.idx <- which(edge.pairs %in% reverse.pairs)[1]
 
-  pair_fwd <- edge_pairs[bidirectional_idx]
-  pair_rev <- paste(E[bidirectional_idx, 2], E[bidirectional_idx, 1], sep = "|")
+  pair.fwd <- edge.pairs[bidirectional.idx]
+  pair.rev <- paste(E[bidirectional.idx, 2], E[bidirectional.idx, 1], sep = "|")
   result <- setDistCosts(rawgraph.10k)
 
   data <- result@graph@edgeData@data
-  expect_equal(data[[pair_fwd]]$weight, data[[pair_rev]]$weight)
+  expect_equal(data[[pair.fwd]]$weight, data[[pair.rev]]$weight)
 })
 
 test_that("setDistCosts errors on a non-gGraph input", {

@@ -9,3 +9,5 @@ docs
 .DS_Store
 **/.DS_Store
 .positai
+/doc/
+/Meta/
