@@ -15,12 +15,18 @@
 #' @name hgdp
 #' @aliases hgdp hgdpPlus
 #' @docType data
-#' @format \code{hgdp} is a \linkS4class{gGraph} object with the following
-#' data: % \describe{ % \item{@nodes.attr$habitat}{habitat corresponding to
-#' each % vertex; currently 'land' or 'sea'.} % \item{@meta$color}{a matrix
-#' assigning a color for plotting % vertices (second column) to different
-#' values of habitat (first % column).} % }
-#' @references Authors \emph{Journal}, YEAR, \bold{nb}: pp-pp.
+#' @format `hgdp` is a [`gData`] object with the following slots:
+#'   \describe{
+#'     \item{@coords}{Coordinates (lon, lat) of each of the 52
+#'       population sampling locations.}
+#'     \item{@nodes.id}{Node identifiers of the underlying [`gGraph`]
+#'       ([`worldgraph.40k`]) matched to each population.}
+#'     \item{@data}{Metadata associated with the populations, including
+#'       population name, region, and genetic.div}
+#'   }
+#' @references
+#'   Cann, H. M. et al. (2002) A human genome diversity cell line panel.
+#'   \emph{Science} \bold{296}: 261-262. \doi{10.1126/science.296.5566.261b}
 #' @keywords datasets
 #' @examples
 #'
@@ -32,7 +38,6 @@
 #'
 #'
 #' ## results from Handley et al.
-#' \dontrun{
 #' ## Addis Ababa
 #' addis <- list(lon = 38.74, lat = 9.03)
 #' addis <- closestNode(worldgraph.40k, addis) # this takes a while
@@ -41,19 +46,17 @@
 #' myPath <- dijkstraFrom(hgdp, addis)
 #'
 #' ## plot results
-#' plot(worldgraph.40k, col = 0)
+#' plot(worldgraph.40k, col = NA)
 #' points(hgdp)
 #' points(worldgraph.40k[addis], psize = 3, pch = "x", col = "black")
 #' plot(myPath)
 #'
 #' ## correlations distance/genetic div.
-#' geo.dist <- sapply(myPath[-length(myPath)], function(e) e$length)
-#' gen.div <- getData(hgdp)[, "Genetic.Div"]
+#' geo.dist <- gPath2dist(myPath)
+#' gen.div  <- getData(hgdp)$Genetic.Div
 #' plot(gen.div ~ geo.dist)
-#' lm1 <- lm(gen.div ~ geo.dist)
-#' abline(lm1, col = "blue") # this regression is wrong
-#' summary(lm1)
-#' }
+#' abline(lm(gen.div ~ geo.dist), col = "blue")
+#' summary(lm(gen.div ~ geo.dist))
 #'
 NULL
 
