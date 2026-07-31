@@ -47,18 +47,17 @@ addis <- closestNode(worldgraph.40k, addis) # this takes a while
 myPath <- dijkstraFrom(hgdp, addis)
 
 ## plot results
-plot(worldgraph.40k, col = 0)
+plot(worldgraph.40k, col = NA)
 points(hgdp)
 points(worldgraph.40k[addis], psize = 3, pch = "x", col = "black")
 plot(myPath)
 
 ## correlations distance/genetic div.
-geo.dist <- sapply(myPath[-length(myPath)], function(e) e$length)
-gen.div <- getData(hgdp)[, "Genetic.Div"]
+geo.dist <- gPath2dist(myPath)
+gen.div  <- getData(hgdp)$Genetic.Div
 plot(gen.div ~ geo.dist)
-lm1 <- lm(gen.div ~ geo.dist)
-abline(lm1, col = "blue") # this regression is wrong
-summary(lm1)
+abline(lm(gen.div ~ geo.dist), col = "blue")
+summary(lm(gen.div ~ geo.dist))
 
 }
 \references{
