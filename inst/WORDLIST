@@ -2,6 +2,7 @@ Ababa
 Addis
 Baumgardner
 CMD
+Cann
 Codecov
 DGGS
 EPSG
@@ -12,6 +13,7 @@ Iglesias
 RBGL
 RBGL's
 Ringler
+al
 antimeridian
 closestNode
 coords
@@ -19,6 +21,7 @@ dev
 dijkstra
 dijkstraBetween
 dijkstraFrom
+et
 gData
 gGraph
 gPath
@@ -28,9 +31,9 @@ georeferenced
 getCosts
 img
 linux
+lon
 magrittr
 manpage
-nb
 neighbours
 rawgraph
 rawgraph's
