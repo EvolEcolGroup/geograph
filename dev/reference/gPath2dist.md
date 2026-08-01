@@ -65,15 +65,15 @@ hgdp.sub <- hgdp[getData(hgdp)$Population %in%
   c("Balochi", "BantuKenya", "Papuan", "Pima")]
 hgdp.path <- dijkstraBetween(hgdp.sub) # compute shortest path
 gPath2dist(hgdp.path) # extract as dist object
-#>         1       2       3
-#> 2  91.035                
-#> 3  85.310 140.005        
-#> 4  33.810 118.175  95.640
+#>     1   2   3
+#> 2 137        
+#> 3 135 249    
+#> 4  55 189 185
 ## for distances from a single origin node to multiple the output is a vector of distances
 #' # choose an origin node
 start <- "24988"
 hgdp.path <- dijkstraFrom(hgdp.sub, start) # compute shortest path from origin
 gPath2dist(hgdp.path) # extract as vector of distances
 #> 24988:16798  24988:7348 24988:40768 24988:30164 
-#>      30.490     114.855      65.500      34.360 
+#>          53         189         148          75 
 ```

@@ -94,59 +94,53 @@ distances. <code><a href="gGraph-class.html">gGraph</a></code> and <code><a href
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">myPath</span><span class="op">)</span> <span class="co"># number of paths</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 52</span>
 <span class="r-in"><span><span class="va">myPath</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">path_detail</span> <span class="co"># nodes in first path</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "32713" "33353" "33993" "34633" "35273" "35913" "36553" "37193" "37833"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "37832" "37831" "38471" "38470" "38469" "38468" "38467" "39107" "39106"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "39105" "39104" "38463" "38462" "37821" "37820" "38460" "39101" "39741"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [28] "39740" "40380" "40379" "40378" "40377" "5891"  "6531"  "40375" "39735"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37] "39095" "38454" "37813" "37172" "36531" "35890" "35889" "35888" "35887"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [46] "35246" "34605" "33965" "33325" "32684" "32683" "32682" "32681" "32040"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [55] "31399" "31398" "31397" "30756" "30115" "29475" "28835" "28194" "27553"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [64] "26912" "26272" "25631" "24990" "24349" "23708" "23707" "24347" "24346"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [73] "24345" "24985" "25626" "26266" "26906" "26905" "26904" "26903" "26902"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [82] "26901" "26900" "26899" "26898"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "32713" "32712" "32711" "33351" "33350" "33990" "33989" "34629" "34628"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "34627" "35267" "35266" "35906" "35905" "36545" "36544" "36543" "36542"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "36541" "36540" "37180" "37820" "38460" "39101" "39741" "39740" "40380"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28] "40379" "40378" "40377" "5891"  "6531"  "40375" "39734" "39093" "38452"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37] "37811" "37170" "36529" "35888" "35887" "35886" "35885" "35884" "35243"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46] "35242" "34601" "33960" "33319" "32678" "32037" "31396" "30755" "30114"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [55] "29473" "29472" "29471" "28830" "28189" "27548" "26907" "26906" "26905"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [64] "26904" "26903" "26902" "26901" "26900" "26899" "26898"</span>
 <span class="r-in"><span><span class="va">myPath</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">length</span> <span class="co"># cost of first path</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 38.755</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 73</span>
 <span class="r-in"><span><span class="va">myPath</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">length_detail</span> <span class="co"># details for each step</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32713--33353 33353--33993 33993--34633 34633--35273 35273--35913 35913--36553 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1.000        1.000        1.000        1.000        1.000        1.000 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36553--37193 37193--37833 37833--37832 37832--37831 37831--38471 38471--38470 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1.000        0.665        0.330        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38470--38469 38469--38468 38468--38467 38467--39107 39107--39106 39106--39105 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.330        0.330        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39105--39104 39104--38463 38463--38462 38462--37821 37821--37820 37820--38460 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.665        0.665        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38460--39101 39101--39741 39741--39740 39740--40380 40380--40379 40379--40378 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.330        0.330        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40378--40377  40377--5891   5891--6531  6531--40375 40375--39735 39735--39095 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.330        0.330        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39095--38454 38454--37813 37813--37172 37172--36531 36531--35890 35890--35889 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.330        0.330        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35889--35888 35888--35887 35887--35246 35246--34605 34605--33965 33965--33325 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.330        0.330        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33325--32684 32684--32683 32683--32682 32682--32681 32681--32040 32040--31399 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.330        0.330        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31399--31398 31398--31397 31397--30756 30756--30115 30115--29475 29475--28835 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.330        0.330        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28835--28194 28194--27553 27553--26912 26912--26272 26272--25631 25631--24990 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.330        0.330        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24990--24349 24349--23708 23708--23707 23707--24347 24347--24346 24346--24345 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.665        0.665        0.330        0.330        0.330        0.330 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24345--24985 24985--25626 25626--26266 26266--26906 26906--26905 26905--26904 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.330        0.330        0.330        2.665        2.665 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26904--26903 26903--26902 26902--26901 26901--26900 26900--26899 26899--26898 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.330        0.330        0.330        0.330        0.330        0.330 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32713--32712 32712--32711 32711--33351 33351--33350 33350--33990 33990--33989 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33989--34629 34629--34628 34628--34627 34627--35267 35267--35266 35266--35906 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35906--35905 35905--36545 36545--36544 36544--36543 36543--36542 36542--36541 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36541--36540 36540--37180 37180--37820 37820--38460 38460--39101 39101--39741 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39741--39740 39740--40380 40380--40379 40379--40378 40378--40377  40377--5891 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   5891--6531  6531--40375 40375--39734 39734--39093 39093--38452 38452--37811 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37811--37170 37170--36529 36529--35888 35888--35887 35887--35886 35886--35885 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35885--35884 35884--35243 35243--35242 35242--34601 34601--33960 33960--33319 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33319--32678 32678--32037 32037--31396 31396--30755 30755--30114 30114--29473 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29473--29472 29472--29471 29471--28830 28830--28189 28189--27548 27548--26907 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26907--26906 26906--26905 26905--26904 26904--26903 26903--26902 26902--26901 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            3            3            1            1            1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26901--26900 26900--26899 26899--26898 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            1            1            1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## get coordinates of nodes in paths</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">myPath</span>, <span class="st">"xy"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            lon      lat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 32713 33.01964 10.37995</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33353 33.60165 11.23682</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33993 34.19030 12.09397</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34633 34.78602 12.95142</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35273 35.38923 13.80909</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35913 36.00000 14.66729</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32712 32.40262 11.25346</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32711 31.77773 12.12624</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33351 32.35828 12.97658</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33350 31.72473 13.84543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33990 32.31169 14.69338</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## plot the paths</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">worldgraph.40k</span>, col <span class="op">=</span> <span class="cn">NA</span>, reset <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
