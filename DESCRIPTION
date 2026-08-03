@@ -62,6 +62,7 @@ Collate:
     'basicMethods.R'
     'buffer.R'
     'closestNode.R'
+    'closestNodeFnn.R'
     'combineCosts.R'
     'connectivityPlot.R'
     'datasets.R'
