@@ -41,7 +41,8 @@ Imports:
  spdep,
  tibble,
  tidyr,
- terra
+ terra,
+ FNN
 Suggests:
     elevatr,
     progress,

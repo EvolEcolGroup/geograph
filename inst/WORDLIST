@@ -6,6 +6,7 @@ Cann
 Codecov
 DGGS
 EPSG
+FNN
 GeoGraphic
 HGDP
 Heikes
@@ -16,6 +17,7 @@ Ringler
 al
 antimeridian
 closestNode
+closestNodeFNN
 coords
 dev
 dijkstra
@@ -30,6 +32,7 @@ geoGraphEnv
 georeferenced
 getCosts
 img
+knnx
 linux
 lon
 magrittr
