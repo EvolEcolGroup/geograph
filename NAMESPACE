@@ -9,9 +9,7 @@ export(areNeighbours)
 export(assignByPolygon)
 export(assignByRaster)
 export(buffer)
-export(buildNnIndex)
 export(closestNode)
-export(closestNodeFnn)
 export(combineCosts)
 export(connectivityPlot)
 export(dijkstraBetween)
@@ -89,8 +87,10 @@ import(methods)
 import(sf)
 importFrom(dplyr,.data)
 importFrom(graph,isConnected)
-importFrom(graphics,identify)
-importFrom(graphics,locator)
-importFrom(graphics,segments)
+importFrom(graphics,
+  identify,
+  locator,
+  segments
+)
 importFrom(magrittr,"%>%")
 importFrom(rnaturalearth,ne_countries)

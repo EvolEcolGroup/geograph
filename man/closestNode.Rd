@@ -8,55 +8,54 @@
 \usage{
 closestNode(x, ...)
 
-\S4method{closestNode}{gGraph}(x, loc, zoneSize = 5, attr.name = NULL, attr.values = NULL)
+\S4method{closestNode}{gGraph}(x, loc, zoneSize, attr.name = NULL, attr.values = NULL)
 
-\S4method{closestNode}{gData}(x, zoneSize = 5, attr.name = NULL, attr.values = NULL)
+\S4method{closestNode}{gData}(x, zoneSize, attr.name = NULL, attr.values = NULL)
 }
 \arguments{
-\item{x}{a valid \linkS4class{gGraph} or \linkS4class{gData} object. In the
-latter case, the \linkS4class{gGraph} to which the \linkS4class{gData} is
-linked has to be in the current environment.}
+\item{x}{a valid \code{\link{gGraph}} or \code{\link{gData}} object. In the latter case, the
+\code{\link{gGraph}} to which the \code{\link{gData}} is linked has to be in the current
+environment.}
 
-\item{\dots}{further arguments passed to specific methods.}
+\item{...}{further arguments passed to specific methods.}
 
 \item{loc}{locations, specified as a list with two components indicating
-longitude and latitude of locations. Alternatively, this can be a data.frame
-or a matrix with longitude and latitude in columns, in this order. Note that
-\code{locator()} can be used to specify interactively the locations.}
+longitude and latitude of locations. Alternatively, this can be a
+\code{data.frame} or a matrix with longitude and latitude in columns, in
+this order. Note that \code{\link[=locator]{locator()}} can be used to specify the
+locations interactively.}
 
-\item{zoneSize}{a numeric value indicating the size of the zone (in
-latitude/longitude units) where the closest node is searched for. Note that
-this only matters for speed purpose: if no closest node is found inside a
-given zone, the zone is expanded until nodes are found.}
+\item{zoneSize}{deprecated. When supplied, forces the use of the legacy
+zone-expansion algorithm. When omitted (the default), \code{closestNode()}
+uses a fast FNN-based spatial index over unit-sphere Cartesian
+coordinates.}
 
 \item{attr.name}{the optional name of a node attribute. See details.}
 
-\item{attr.values}{an optional vector giving values for \code{attr.names}.
+\item{attr.values}{an optional vector giving values for \code{attr.name}.
 See details.}
 }
 \value{
-If \code{x} is a \linkS4class{gGraph} object: a vector of node
-names.\cr
+If \code{x} is a \code{\link{gGraph}} object: a vector of node names.
 
-If \code{x} is a \linkS4class{gData} object: a \linkS4class{gData} object
-with matching nodes stored in the \code{@nodes.id} slot. Note that previous
-content of \code{@nodes.id} will be erased.\cr
+If \code{x} is a \code{\link{gData}} object: a \code{\link{gData}} object with matching nodes
+stored in the \verb{@nodes.id} slot. Note that previous content of
+\verb{@nodes.id} will be erased.
 }
 \description{
 The function \code{closestNode} searches for the closest node in a
-\linkS4class{gGraph} or a \linkS4class{gData} object to a given location. It
-is possible to restrain the research to given values of a node attribute.
-For instance, one can search the closest node on land to a given
-location.\cr
+\code{\link{gGraph}} or a \code{\link{gData}} object to a given location. It is possible to
+restrain the research to given values of a node attribute. For instance,
+one can search the closest node on land to a given location.
 }
 \details{
-This function is also used to match locations of a \linkS4class{gData}
-object with nodes of the \code{gGraph} object to which it is linked.
+This function is also used to match locations of a \code{\link{gData}} object with
+nodes of the \code{\link{gGraph}} object to which it is linked.
 
-When creating a \linkS4class{gData} object, if the \code{gGraph.name}
-argument is provided, then locations are matched with the \code{gGraph}
-object automatically, by an internal call to closestNode. Note, however,
-that it is not possible to specify node attributes (\code{attr.names} and
+When creating a \code{\link{gData}} object, if the \code{gGraph.name} argument is
+provided, then locations are matched with the \code{\link{gGraph}} object
+automatically, by an internal call to \code{closestNode}. Note, however, that
+it is not possible to specify node attributes (\code{attr.name} and
 \code{attr.values}) this way.
 }
 \section{Functions}{
@@ -97,9 +96,3 @@ title("'x'=location, 'o'=assigned node")
 
 
 }
-\seealso{
-\code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} to
-interactively add or remove edges in a \linkS4class{gGraph} object.
-}
-\keyword{methods}
-\keyword{utilities}
