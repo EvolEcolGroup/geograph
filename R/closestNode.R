@@ -36,6 +36,7 @@
 #'   stored in the `@nodes.id` slot. Note that previous content of
 #'   `@nodes.id` will be erased.
 #' @export
+#' @importFrom FNN get.knnx
 #' 
 #' @examples
 #' \dontrun{

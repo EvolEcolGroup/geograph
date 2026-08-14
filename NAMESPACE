@@ -85,6 +85,7 @@ exportMethods(setGraph)
 import(graph)
 import(methods)
 import(sf)
+importFrom(FNN,get.knnx)
 importFrom(dplyr,.data)
 importFrom(graph,isConnected)
 importFrom(graphics,
