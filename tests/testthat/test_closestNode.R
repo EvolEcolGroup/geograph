@@ -1,6 +1,6 @@
 test_that("both approaches in closestNode matche on hgdp data", {
-  fnn_result <- closestNode(worldgraph.40k, hgdp@coords)
-  old_result <- closestNode(worldgraph.40k, hgdp@coords, zoneSize = 5)
+  fnn_result <- closestNode(worldgraph.40k, hgdp@coords, method = "knn")
+  old_result <- closestNode(worldgraph.40k, hgdp@coords, method = "inArea")
   expect_identical(unname(fnn_result), unname(old_result))
 })
 

@@ -8,9 +8,22 @@
 \usage{
 closestNode(x, ...)
 
-\S4method{closestNode}{gGraph}(x, loc, zoneSize, attr.name = NULL, attr.values = NULL)
+\S4method{closestNode}{gGraph}(
+  x,
+  loc,
+  method = "knn",
+  zoneSize = 5,
+  attr.name = NULL,
+  attr.values = NULL
+)
 
-\S4method{closestNode}{gData}(x, zoneSize, attr.name = NULL, attr.values = NULL)
+\S4method{closestNode}{gData}(
+  x,
+  method = "knn",
+  zoneSize = 5,
+  attr.name = NULL,
+  attr.values = NULL
+)
 }
 \arguments{
 \item{x}{a valid \code{\link{gGraph}} or \code{\link{gData}} object. In the latter case, the
@@ -25,10 +38,13 @@ longitude and latitude of locations. Alternatively, this can be a
 this order. Note that \code{\link[=locator]{locator()}} can be used to specify the
 locations interactively.}
 
-\item{zoneSize}{deprecated. When supplied, forces the use of the legacy
-zone-expansion algorithm. When omitted (the default), \code{closestNode()}
-uses a fast FNN-based spatial index over unit-sphere Cartesian
-coordinates.}
+\item{method}{the method to use for finding the closest node. The default is
+\code{"knn"}, which uses a fast FNN-based spatial index over unit-sphere Cartesian coordinates.
+The legacy \code{"inArea"} method is also available, but it is slower.}
+
+\item{zoneSize}{The initial size of the search area (in degrees). Only needs to
+be specified if \code{method = "inArea"}. The search zone will be expanded until at
+least 3 candidate nodes are found.}
 
 \item{attr.name}{the optional name of a node attribute. See details.}
 
@@ -79,7 +95,7 @@ myNodes <- closestNode(worldgraph.10k, locator(), attr.name = "habitat", attr.va
 myNodes
 
 ## here are the closestNodes
-points(getCoords(worldgraph.10k)[myNodes, ], col = "red")
+points(getCoords(worldgraph.10k)[myNodes, , drop = FALSE], col = "red")
 }
 
 ## example with a gData object ##

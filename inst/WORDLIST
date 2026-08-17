@@ -11,13 +11,12 @@ GeoGraphic
 HGDP
 Heikes
 Iglesias
+KNN
 RBGL
 RBGL's
 Ringler
 al
 antimeridian
-closestNode
-closestNodeFNN
 coords
 dev
 dijkstra
@@ -32,7 +31,7 @@ geoGraphEnv
 georeferenced
 getCosts
 img
-knnx
+inArea
 linux
 lon
 magrittr

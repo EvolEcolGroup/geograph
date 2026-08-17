@@ -17,19 +17,21 @@
 #' @param x a valid [`gGraph`] or [`gData`] object. In the latter case, the
 #'   [`gGraph`] to which the [`gData`] is linked has to be in the current
 #'   environment.
-#' @param ... further arguments passed to specific methods.
 #' @param loc locations, specified as a list with two components indicating
 #'   longitude and latitude of locations. Alternatively, this can be a
 #'   `data.frame` or a matrix with longitude and latitude in columns, in
 #'   this order. Note that [`locator()`] can be used to specify the
 #'   locations interactively.
-#' @param zoneSize deprecated. When supplied, forces the use of the legacy
-#'   zone-expansion algorithm. When omitted (the default), `closestNode()`
-#'   uses a fast FNN-based spatial index over unit-sphere Cartesian
-#'   coordinates.
+#' @param method the method to use for finding the closest node. The default is
+#'  `"knn"`, which uses a fast FNN-based spatial index over unit-sphere Cartesian coordinates. 
+#'  The legacy `"inArea"` method is also available, but it is slower.
+#' @param zoneSize The initial size of the search area (in degrees). Only needs to 
+#' be specified if `method = "inArea"`. The search zone will be expanded until at 
+#' least 3 candidate nodes are found.
 #' @param attr.name the optional name of a node attribute. See details.
 #' @param attr.values an optional vector giving values for `attr.name`.
 #'   See details.
+#' @param ... further arguments passed to specific methods.
 #' @return If `x` is a [`gGraph`] object: a vector of node names.
 #'
 #'   If `x` is a [`gData`] object: a [`gData`] object with matching nodes
@@ -52,7 +54,7 @@
 #' myNodes
 #'
 #' ## here are the closestNodes
-#' points(getCoords(worldgraph.10k)[myNodes, ], col = "red")
+#' points(getCoords(worldgraph.10k)[myNodes, , drop = FALSE], col = "red")
 #' }
 #'
 #' ## example with a gData object ##
@@ -83,7 +85,8 @@ setGeneric("closestNode", function(x, ...) {
 ###############
 #' @describeIn closestNode Method for gGraph
 #' @export
-setMethod("closestNode", "gGraph", function(x, loc, zoneSize, attr.name = NULL, attr.values = NULL) {
+setMethod("closestNode", "gGraph", function(x, loc, method = "knn", 
+                                            zoneSize = 5, attr.name = NULL, attr.values = NULL) {
   ## handle arguments
   if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
   loc <- as.data.frame(loc)
@@ -101,20 +104,72 @@ setMethod("closestNode", "gGraph", function(x, loc, zoneSize, attr.name = NULL, 
     hasRightAttr <- rep(TRUE, length(nodes))
   }
   
-  ## default: FNN over unit-sphere XYZ
-  if (missing(zoneSize)) {
-    if (is.null(x@meta$.xyz)) x@meta$.xyz <- .buildNnIndex(coords)
-    cand_xyz   <- x@meta$.xyz[hasRightAttr, , drop = FALSE]
-    cand_nodes <- nodes[hasRightAttr]
-    qxyz <- .buildNnIndex(as.matrix(loc))
-    nn_idx <- FNN::get.knnx(cand_xyz, qxyz, k = 1)$nn.index[, 1]
-    res <- cand_nodes[nn_idx]
-    names(res) <- rownames(loc)
-    return(res)
+  ## use the specified method
+  if (method == "knn") {
+    res <- .closeOneKnn(x, loc, coords, nodes, hasRightAttr)
+  } else if (method == "inArea") {
+    res <- apply(loc, 1, .closeOneLegacy, coords = coords, nodes = nodes, 
+                 hasRightAttr = hasRightAttr, zoneSize = zoneSize, x = x)
+  } else {
+    stop("method must be either 'knn' or 'inArea'.")
   }
   
-  ## legacy: zone-expansion (triggered by explicit zoneSize)
-  closeOne <- function(oneLoc) {
+  return(res)
+}) # end closestNode for gGraph
+
+
+###############
+## closestNode for gData
+###############
+#' @describeIn closestNode Method for gData
+#' @export
+setMethod("closestNode", "gData", function(x, method = "knn", zoneSize = 5, 
+                                           attr.name = NULL, attr.values = NULL) {
+  ## get coords ##
+  xy <- getCoords(x)
+  
+  ## get gGraph object ##
+  if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "does not exist."))
+  obj <- get(x@gGraph.name, envir = .GlobalEnv)
+  
+  ## make a call to the gGraph method, pass zoneSize only if user supplied it
+  res <- closestNode(obj, method = method, zoneSize = zoneSize, loc = xy, attr.name = attr.name, attr.values = attr.values)
+  
+  ## return result ##
+  x@nodes.id <- res
+  
+  return(x)
+}) # end closestNode for gData
+
+
+#' internal: convert a lon/lat matrix to unit-sphere Cartesian coordinates
+#' @noRd
+.buildNnIndex <- function(coords) {
+  lon <- coords[, 1] * pi / 180
+  lat <- coords[, 2] * pi / 180
+  cbind(cos(lat) * cos(lon),
+        cos(lat) * sin(lon),
+        sin(lat))
+}
+
+
+#' internal: knn version of the function
+#' @noRd
+## default: FNN over unit-sphere XYZ
+.closeOneKnn <- function(x, loc, coords, nodes, hasRightAttr) {
+  if (is.null(x@meta$.xyz)) x@meta$.xyz <- .buildNnIndex(coords)
+  cand_xyz   <- x@meta$.xyz[hasRightAttr, , drop = FALSE]
+  cand_nodes <- nodes[hasRightAttr]
+  qxyz <- .buildNnIndex(as.matrix(loc))
+  nn_idx <- FNN::get.knnx(cand_xyz, qxyz, k = 1)$nn.index[, 1]
+  res <- cand_nodes[nn_idx]
+  names(res) <- rownames(loc)
+  return(res)
+}
+
+#' internal: legacy zone expansion version of the function
+#' @noRd
+.closeOneLegacy <- function(oneLoc, coords, nodes, hasRightAttr, zoneSize, x) {
     ## define area around loc
     reg <- list()
     toKeep <- character(0) # will contain node names
@@ -143,53 +198,5 @@ setMethod("closestNode", "gGraph", function(x, loc, zoneSize, attr.name = NULL, 
     temp <- fields::rdist.earth(xy, matrix(oneLoc, nrow = 1))
     closeNode <- rownames(temp)[which.min(temp)]
     return(closeNode)
-  } # end closeOne
+} 
   
-  
-  ## apply closeOne to all requested locations
-  res <- apply(loc, 1, closeOne) # these are node labels
-  
-  ## must not return indices, as this would not work for subsets of data
-  ## e.g. closestPoint[x[getNodesAttr(x) == "land"]] will return wrong indices
-  
-  return(res)
-}) # end closestNode for gGraph
-
-
-###############
-## closestNode for gData
-###############
-#' @describeIn closestNode Method for gData
-#' @export
-setMethod("closestNode", "gData", function(x, zoneSize, attr.name = NULL, attr.values = NULL) {
-  ## get coords ##
-  xy <- getCoords(x)
-  
-  ## get gGraph object ##
-  if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "does not exist."))
-  obj <- get(x@gGraph.name, envir = .GlobalEnv)
-  
-  ## make a call to the gGraph method, pass zoneSize only if user supplied it
-  if (missing(zoneSize)) {
-    res <- closestNode(obj, loc = xy, attr.name = attr.name, attr.values = attr.values)
-  } else {
-    res <- closestNode(obj, loc = xy, zoneSize = zoneSize, attr.name = attr.name, attr.values = attr.values)
-  }
-  
-  ## return result ##
-  x@nodes.id <- res
-  
-  return(x)
-}) # end closestNode for gData
-
-
-#' internal: convert a lon/lat matrix to unit-sphere Cartesian coordinates
-#' @noRd
-.buildNnIndex <- function(coords) {
-  lon <- coords[, 1] * pi / 180
-  lat <- coords[, 2] * pi / 180
-  cbind(cos(lat) * cos(lon),
-        cos(lat) * sin(lon),
-        sin(lat))
-}
-

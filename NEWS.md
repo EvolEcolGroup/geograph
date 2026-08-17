@@ -2,7 +2,7 @@
 
 ## New Features
 
-* `closestNode` now uses a faster FNN implementation for nearest neighbor searches.
+* `closestNode` now uses a faster KNN implementation for nearest neighbor searches by default. The legacy zone-expansion method is still available via method = "inArea".
 
 * Functions that temporarily toggle `sf` settings now restore the prior state on exit.
 
