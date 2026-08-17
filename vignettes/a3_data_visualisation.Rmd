@@ -1,0 +1,116 @@
+---
+title: "Data visualisation in geoGraph"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Data visualisation in geoGraph}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(fig.width = 7, fig.height = 6)
+options(digits = 4)
+```
+
+```{r loading libraries, include=FALSE}
+library(geoGraph)
+library(sf)
+```
+
+Manually editing graphs in *geoGraph*
+=================================================
+
+This vignette will cover the main functions for visualizing all objects in *geoGrapgh.* It first gives an overview of the basic plotting functions and then also has a section for more advanced visualisation using `ggplot2.`
+
+## Basic visualizing
+
+An essential aspect of spatial analysis lies in visualizing the data.
+In *geoGraph*, the spatial grids (`gGraph`) and spatial data (`gData`) can be plotted
+and browsed using a variety of functions.
+
+### Plotting `gGraph` objects
+
+Displaying a `gGraph` object is done through `plot` and `points` functions.
+The first opens a new plotting region, while the second draws in the current plotting region;
+functions have otherwise similar arguments (see `?plot.gGraph`).
+
+By default, plotting a `gGraph` displays the grid of nodes overlaying a shapefile (by default,
+the landmasses).
+Edges can be plotted at the same time (argument `edges`), or added afterwards using `plotEdges`.
+If the `gGraph` object possesses an adequately formed `meta$colors` component, the
+colors of the nodes are chosen according to the node attributes and the color scheme specified in `meta$colors`.
+Alternatively, the color of the nodes can be specified via the `col` argument in `plot`/`points`.
+
+Here is an example using `worldgraph.10k`:
+
+```{r wg10kdefplot, fig=TRUE, fig.width=8}
+getColors(worldgraph.10k, res.type = "rules")
+head(getNodesAttr(worldgraph.10k))
+table(getNodesAttr(worldgraph.10k))
+plot(worldgraph.10k, reset = TRUE)
+title("Default plotting of worldgraph.10k")
+```
+
+ It may be worth noting that plotting `gGraph` objects involves plotting a fairly
+large number of points and edges.
+On some graphical devices, the resulting plotting can be slow.
+For instance, one may want to disable `cairo` under linux: this graphical device yields better
+graphics than `Xlib`, but at the expense of increased computational time.
+To switch to `Xlib`, type:
+```{r eval=FALSE}
+X11.options(type = "Xlib")
+```
+and to revert to `cairo`, type:
+```{r eval=FALSE}
+X11.options(type = "cairo")
+```
+
+### Plotting `gData` objects
+
+`gData` objects are by default plotted overlaying the corresponding `gGraph`.
+To show this, we use the `cities` example from the vignette 'get started':
+```{r citiesPlot2, fig=TRUE}
+bordeaux <- c(-1, 45)
+berlin <- c(13, 52)
+baku <- c(44, 40)
+timbuktu <- c(-3, 16)
+
+cities.dat <- rbind.data.frame(bordeaux, berlin, baku, timbuktu)
+colnames(cities.dat) <- c("lon", "lat")
+row.names(cities.dat) <- c("Bordeaux", "Berlin", "Baku", "Timbuktu")
+cities.dat$pop <- c(250000, 3500000, 2000000, 50000)
+cities.dat
+
+cities <- new("gData", coords = cities.dat[, 1:2], data = cities.dat[, 3, drop = FALSE], gGraph.name = "worldgraph.10k")
+plot(cities, type = "both", reset = TRUE)
+text(getCoords(cities), rownames(getData(cities)))
+```
+
+Note the argument `reset=TRUE`, which tells the plotting function to adapt the
+plotting area to the geographic extent of the dataset.
+
+
+To plot additional information, it can be useful to extract the spatial coordinates from the data.
+This is achieved by `getCoords`.
+This method takes an extra argument `original`, which is TRUE if original spatial coordinates
+are sought, or FALSE for coordinates of the nodes on the grid.
+We can use this to represent, for instance, the population sizes for the different cities:
+```{r cities_plot, fig=TRUE}
+transp <- function(col, alpha = .5) {
+  res <- apply(
+    col2rgb(col), 2,
+    function(c) rgb(c[1] / 255, c[2] / 255, c[3] / 255, alpha)
+  )
+  return(res)
+}
+
+plot(cities, reset = TRUE)
+par(xpd = TRUE)
+text(getCoords(cities) + -.5, rownames(getData(cities)))
+symbols(getCoords(cities)[, 1], getCoords(cities)[, 2],
+  circ = sqrt(unlist(getData(cities))), inch = .2,
+  bg = transp("red"), add = TRUE
+)
+```
+
