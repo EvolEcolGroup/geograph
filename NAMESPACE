@@ -85,10 +85,13 @@ exportMethods(setGraph)
 import(graph)
 import(methods)
 import(sf)
+importFrom(FNN,get.knnx)
 importFrom(dplyr,.data)
 importFrom(graph,isConnected)
-importFrom(graphics,identify)
-importFrom(graphics,locator)
-importFrom(graphics,segments)
+importFrom(graphics,
+  identify,
+  locator,
+  segments
+)
 importFrom(magrittr,"%>%")
 importFrom(rnaturalearth,ne_countries)
