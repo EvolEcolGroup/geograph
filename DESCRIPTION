@@ -1,7 +1,7 @@
 Package: geoGraph
 Type: Package
 Title: Walking Through the Geographic Space Using Graphs
-Version: 1.1.1.9017
+Version: 1.1.1.9018
 Authors@R: c(
     person("Thibaut", "Jombart", role = "aut"),
     person("Dominik", "Jud", role = "aut"),
@@ -41,7 +41,8 @@ Imports:
  spdep,
  tibble,
  tidyr,
- terra
+ terra,
+ FNN
 Suggests:
     elevatr,
     progress,
@@ -94,4 +95,4 @@ Collate:
     'utils-pipe.R'
     'zoom.R'
     'zzz.R'
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

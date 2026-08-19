@@ -6,16 +6,17 @@ Cann
 Codecov
 DGGS
 EPSG
+FNN
 GeoGraphic
 HGDP
 Heikes
 Iglesias
+KNN
 RBGL
 RBGL's
 Ringler
 al
 antimeridian
-closestNode
 coords
 dev
 dijkstra
@@ -30,6 +31,7 @@ geoGraphEnv
 georeferenced
 getCosts
 img
+inArea
 linux
 lon
 magrittr
