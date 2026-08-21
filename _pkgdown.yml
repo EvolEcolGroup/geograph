@@ -65,8 +65,8 @@ reference:
       - buffer
       - dijkstraBuffer
 
-  - title: "Plotting"
-    desc: "Functions for visualising `gGraph` and `gData` objects."
+  - title: "Basic plotting"
+    desc: "Basic functions for visualising `gGraph` and `gData` objects."
     contents:
       - has_concept("plotting_methods")
       - plotEdges
@@ -78,6 +78,11 @@ reference:
       - geo.slide
       - geo.bookmark
       - geo.back
+      
+  - title: "Advanced plotting"
+    desc: "Plotting functions based on ggplot2."
+    contents:
+      - has_concept("ggplot_methods")
       
   - title: "Example data"
     desc: "Datasets included in the package."

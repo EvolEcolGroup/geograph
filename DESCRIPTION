@@ -87,6 +87,7 @@ Collate:
     'plot_gData.R'
     'plot_gGraph.R'
     'plot_gPath.R'
+    'plot_ggplot.R'
     'polygonBetween.R'
     'setCosts.R'
     'setDistCosts.R'

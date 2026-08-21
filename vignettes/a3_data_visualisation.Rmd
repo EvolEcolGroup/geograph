@@ -1,9 +1,9 @@
 ---
-title: "Data visualisation in geoGraph"
+title: "Data visualization in geoGraph"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Data visualisation in geoGraph}
+  %\VignetteIndexEntry{Data visualization in geoGraph}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,13 +15,13 @@ options(digits = 4)
 
 ```{r loading libraries, include=FALSE}
 library(geoGraph)
-library(sf)
+library(ggplot2)
 ```
 
-Manually editing graphs in *geoGraph*
+Data visualization in *geoGraph*
 =================================================
 
-This vignette will cover the main functions for visualizing all objects in *geoGrapgh.* It first gives an overview of the basic plotting functions and then also has a section for more advanced visualisation using `ggplot2.`
+This vignette will cover the main functions for visualizing all objects in *geoGrapgh.* It first gives an overview of the basic plotting functions and then also has a section for more advanced visualization using `ggplot2.`
 
 ## Basic visualizing
 
@@ -52,7 +52,7 @@ plot(worldgraph.10k, reset = TRUE)
 title("Default plotting of worldgraph.10k")
 ```
 
- It may be worth noting that plotting `gGraph` objects involves plotting a fairly
+It may be worth noting that plotting `gGraph` objects involves plotting a fairly
 large number of points and edges.
 On some graphical devices, the resulting plotting can be slow.
 For instance, one may want to disable `cairo` under linux: this graphical device yields better
@@ -96,6 +96,7 @@ This is achieved by `getCoords`.
 This method takes an extra argument `original`, which is TRUE if original spatial coordinates
 are sought, or FALSE for coordinates of the nodes on the grid.
 We can use this to represent, for instance, the population sizes for the different cities:
+
 ```{r cities_plot, fig=TRUE}
 transp <- function(col, alpha = .5) {
   res <- apply(
@@ -113,4 +114,51 @@ symbols(getCoords(cities)[, 1], getCoords(cities)[, 2],
   bg = transp("red"), add = TRUE
 )
 ```
+
+## Autoplotting and advanced visualization 
+
+Now if we want to use have more advanced visualization and publication ready plots, we can use the `autoplot` functions that are based on `ggplot2`. Currently there are `autoplot` methods for `gGraph` and `gData` objects that provide a quick way to visualize the data. 
+For more customization, there are also `geom_ggraph`, `geom_gdata` and `geom_gpath` functions that allow for more control over the plotting. Under the hood these functions convert the `gGraph`, `gData` and `gPath` objects into `sf` objects that can be plotted using `ggplot2`.
+
+### Autoplotting `gGraph` and `gData` objects
+
+For `gGraph` objects the `autoplot` function will by default return a `ggplot` object with the nodes colors based on the first node attribute and the edges (if specified as edges = `TRUE`) drawn in grey. 
+
+```{r}
+autoplot(worldgraph.40k)
+```
+As the `gGraph` is now sf object, we have more flexibility in the projections we want to plot the graphs in. By default the the `autoplot` function will plot the `gGraph` in a flat Mercator projection, but we can also choose to plot it in `orthographic` mode for it to look like a globe. This can be done by setting the `mode` argument to `"orthographic"` and specifying the center of the view using the `lon0` and `lat0` arguments.
+
+```{r}
+autoplot(worldgraph.40k, mode = "orthographic", lon0 = 0, lat0 = 60)
+```
+
+Similarly when we want to plot a `gData` object, we can use the `autoplot` function. By default, the linked `gGraph` will be plotted as well. If we want to plot only the `gData` object, we can set the `show.gGraph` argument to `FALSE`. Again, we can use the `coord_sf` function to change the projection of the plot. For example, we can use the Robinson projection by setting the `crs` argument to `"+proj=robin"`.
+
+```{r}
+autoplot(hgdp) + coord_sf(crs = "+proj=robin")
+```
+
+### More advanced plots using `geom_ggraph`, `geom_gdata` and `geom_gpath`
+
+Finally if we want to have more control over the plotting, we can use the `geom_ggraph`, `geom_gdata` and `geom_gpath` functions. These functions allow us to customize the plots using the full power of `ggplot2`. Lets say for example we want to plot the example from the `Get Started` vignette, we can use the `geom_gpath` function to plot the paths and the `geom_gdata` function to plot the HGDP populations. Finally we can use the `coord_sf` function to change the projection of the plot to orthographic and set custom colors for the land, sea and coast.
+
+```{r}
+addis <- list(lon = 38.74, lat = 9.03)
+addis_node <- closestNode(worldgraph.40k, addis)
+myPath <- dijkstraFrom(hgdp, addis_node)
+
+ggplot() +
+  geom_ggraph(data = worldgraph.40k, aes(colour = habitat),
+              edges = FALSE, size = 1, show.legend = FALSE) +
+  scale_colour_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+  geom_gpath(data = myPath, colour = "firebrick", linewidth = 0.4) +
+  geom_gdata(data = hgdp, colour = "black", size = 1.5) +
+  coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=30") +
+  theme_void()
+```
+
+
+
+
 
