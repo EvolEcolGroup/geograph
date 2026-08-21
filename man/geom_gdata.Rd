@@ -22,12 +22,30 @@ geom_gdata(
 
 \item{original}{logical. If TRUE, plot at the original sample locations;
 if FALSE (default), plot at the assigned-node coordinates on the linked
-gGraph. Defaults to FALSE so path endpoints line up with population
-markers.}
+gGraph.}
 
 \item{stat, position, na.rm, show.legend, ...}{forwarded to \code{\link[ggplot2:geom_sf]{ggplot2::geom_sf()}}.}
+}
+\value{
+a ggplot layer.
 }
 \description{
 Adds sample localities of a \code{\link{gData}} to a ggplot as a \code{\link[ggplot2:geom_sf]{ggplot2::geom_sf()}}
 layer.
 }
+\examples{
+\dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(ggplot2)
+ggplot() +
+ geom_gdata(data = hgdp, colour = "black", size = 1.5) +
+ theme_void()
+\dontshow{\}) # examplesIf}
+}
+\seealso{
+Other ggplot_methods:
+\code{\link[=autoplot.gData]{autoplot.gData()}},
+\code{\link[=autoplot.gGraph]{autoplot.gGraph()}},
+\code{\link[=geom_ggraph]{geom_ggraph()}},
+\code{\link[=geom_gpath]{geom_gpath()}}
+}
+\concept{ggplot_methods}

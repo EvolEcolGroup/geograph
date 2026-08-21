@@ -1,77 +1,3 @@
-###############################################################################
-## R/plot_ggplot.R
-##
-## ggplot2 support for geoGraph classes.
-##
-## Idea:
-##   S4 object -> tidy data.frame -> sf object -> geom_sf layer
-##
-###############################################################################
-
-
-## convert gGraph/gData/gPath to data.frame for ggplot
-
-.ggraphNodesDf <- function(g) {
-  cbind(data.frame(node_id = getNodes(g)),
-        as.data.frame(getCoords(g)),
-        getNodesAttr(g))
-}
-
-.ggraphEdgesDf <- function(g) {
-  E <- getEdges(g, res.type = "matNames", unique = TRUE)
-  co <- getCoords(g)
-  data.frame(from = E[, 1], to = E[, 2],
-             x    = co[E[, 1], 1], y    = co[E[, 1], 2],
-             xend = co[E[, 2], 1], yend = co[E[, 2], 2])
-}
-
-.gdataDf <- function(gd, original = FALSE) {
-  co <- as.data.frame(getCoords(gd, original = original))
-  colnames(co) <- c("lon", "lat")
-  
-  df <- cbind(data.frame(node_id = gd@nodes.id), co)
-  if (!is.null(gd@data) && length(gd@data) > 0 && nrow(gd@data) > 0) {
-    df <- cbind(df, gd@data)
-  }
-  df
-}
-
-.gpathDf <- function(gp) {
-  xy <- attr(gp, "xy")
-  do.call(rbind, lapply(seq_along(gp), function(k) {
-    nd <- gp[[k]]$path_detail
-    if (length(nd) < 2) return(NULL)
-    data.frame(path_id = k, order = seq_along(nd),
-               lon = xy[nd, 1], lat = xy[nd, 2])
-  }))
-}
-
-
-## convert data.frame to sf object
-
-.dfToSfPoints <- function(df) {
-  sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326)
-}
-
-.dfToSfLines <- function(df) {
-  lines <- lapply(seq_len(nrow(df)), function(i) {
-    sf::st_linestring(rbind(c(df$x[i], df$y[i]),
-                            c(df$xend[i], df$yend[i])))
-  })
-  sf::st_sf(from = df$from, to = df$to,
-            geometry = sf::st_sfc(lines, crs = 4326))
-}
-
-.dfToSfPaths <- function(df) {
-  by_path <- split(df, df$path_id)
-  lines <- lapply(by_path, function(p) sf::st_linestring(cbind(p$lon, p$lat)))
-  sf::st_sf(path_id = names(by_path),
-            geometry = sf::st_sfc(lines, crs = 4326))
-}
-
-
-## exported ggplot layers for gGraph/gData/gPath 
-
 #' ggplot layer for a [`gGraph`]
 #'
 #' Adds nodes (and optionally edges) of a [`gGraph`] to a ggplot as
@@ -83,7 +9,15 @@
 #' @param edges logical; whether to draw edges. Defaults to `FALSE`.
 #' @param stat,position,na.rm,show.legend,... forwarded to [ggplot2::geom_sf()].
 #' @return one or two ggplot layers (edges under nodes).
+#' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
+#' library(ggplot2)
+#' ggplot() +
+#'  geom_ggraph(data = worldgraph.10k, aes(colour = habitat), edges = TRUE, size = 0.3) +
+#'  scale_colour_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+#'  coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=30") +
+#'  theme_void()
 #' @export
+#' @family ggplot_methods
 geom_ggraph <- function(mapping = ggplot2::aes(), data = NULL, edges = FALSE,
                         stat = "sf", position = "identity",
                         na.rm = FALSE, show.legend = NA, ...) {
@@ -117,9 +51,17 @@ geom_ggraph <- function(mapping = ggplot2::aes(), data = NULL, edges = FALSE,
 #' @param mapping aesthetics.
 #' @param data a [`gData`] object.
 #' @param stat,position,na.rm,show.legend,... forwarded to [ggplot2::geom_sf()].
-#' @param coords whether to use the original coordinates of the gData ("original") or the
-#'   coordinates of the assigned nodes in the linked gGraph. Defaults to "nodes".
+#' @param original logical. If TRUE, plot at the original sample locations;
+#'   if FALSE (default), plot at the assigned-node coordinates on the linked
+#'   gGraph.
+#' @return a ggplot layer.
+#' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
+#' library(ggplot2)
+#' ggplot() +
+#'  geom_gdata(data = hgdp, colour = "black", size = 1.5) +
+#'  theme_void()
 #' @export
+#' @family ggplot_methods
 geom_gdata <- function(mapping = ggplot2::aes(), data = NULL,
                        original = FALSE,
                        stat = "sf", position = "identity",
@@ -143,7 +85,22 @@ geom_gdata <- function(mapping = ggplot2::aes(), data = NULL,
 #' @param mapping aesthetics.
 #' @param data a `gPath` object.
 #' @param stat,position,na.rm,show.legend,... forwarded to [ggplot2::geom_sf()].
+#' @return a ggplot layer.
+#' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
+#' library(ggplot2)
+#' addis <- list(lon = 38.74, lat = 9.03)
+#' addis_node <- closestNode(worldgraph.40k, addis)
+#' myPath <- dijkstraFrom(hgdp, addis_node)
+#' ggplot() +
+#'   geom_ggraph(data = worldgraph.40k, aes(colour = habitat),
+#'               edges = FALSE, size = 1, show.legend = FALSE) +
+#'   scale_colour_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+#'   geom_gpath(data = myPath, colour = "firebrick", linewidth = 0.4) +
+#'   geom_gdata(data = hgdp, colour = "black", size = 1.5) +
+#'   coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=30") +
+#'   theme_void()
 #' @export
+#' @family ggplot_methods
 geom_gpath <- function(mapping = ggplot2::aes(), data = NULL,
                        stat = "sf", position = "identity",
                        na.rm = FALSE, show.legend = NA, ...) {
@@ -169,7 +126,10 @@ geom_gpath <- function(mapping = ggplot2::aes(), data = NULL,
 #' @param ... unused.
 #' @return a ggplot.
 #' @importFrom ggplot2 autoplot
+#' @examples
+#' autoplot(worldgraph.10k)
 #' @export
+#' @family ggplot_methods
 autoplot.gGraph <- function(object, mode = c("flat", "orthographic"),
                             lon0 = 0, lat0 = 20, edges = TRUE, ...) {
   mode <- match.arg(mode)
@@ -201,7 +161,12 @@ autoplot.gGraph <- function(object, mode = c("flat", "orthographic"),
 #' @param node.size point size for the gData localities.
 #' @param node.color point colour for the gData localities.
 #' @param ... unused.
+#' @return a ggplot.
+#' @importFrom ggplot2 autoplot
+#' @examples
+#' autoplot(hgdp)
 #' @export
+#' @family ggplot_methods
 autoplot.gData <- function(object, mode = c("flat", "orthographic"),
                            lon0 = 0, lat0 = 20, show.gGraph = TRUE,
                            node.size = 2, node.color = "darkred", ...) {
@@ -233,3 +198,78 @@ autoplot.gData <- function(object, mode = c("flat", "orthographic"),
   gg + geom_gdata(data = object, colour = node.color, size = node.size) +
     ggplot2::coord_sf(crs = crs) + ggplot2::theme_minimal()
 }
+
+
+#' Internal function to convert a gGraph to a data.frame for ggplot
+#' @noRd
+.ggraphNodesDf <- function(g) {
+  cbind(data.frame(node_id = getNodes(g)),
+        as.data.frame(getCoords(g)),
+        getNodesAttr(g))
+}
+
+#' Internal function to convert a gGraph's edges to a data.frame for ggplot
+#' @noRd
+.ggraphEdgesDf <- function(g) {
+  E <- getEdges(g, res.type = "matNames", unique = TRUE)
+  co <- getCoords(g)
+  data.frame(from = E[, 1], to = E[, 2],
+             x    = co[E[, 1], 1], y    = co[E[, 1], 2],
+             xend = co[E[, 2], 1], yend = co[E[, 2], 2])
+}
+
+#' Internal function to convert a gData to a data.frame for ggplot
+#' @noRd
+.gdataDf <- function(gd, original = FALSE) {
+  co <- as.data.frame(getCoords(gd, original = original))
+  colnames(co) <- c("lon", "lat")
+  
+  df <- cbind(data.frame(node_id = gd@nodes.id), co)
+  if (!is.null(gd@data) && length(gd@data) > 0 && nrow(gd@data) > 0) {
+    df <- cbind(df, gd@data)
+  }
+  df
+}
+
+#' Internal function to convert a gPath to a data.frame for ggplot
+#' @noRd
+.gpathDf <- function(gp) {
+  xy <- attr(gp, "xy")
+  do.call(rbind, lapply(seq_along(gp), function(k) {
+    nd <- gp[[k]]$path_detail
+    if (length(nd) < 2) return(NULL)
+    data.frame(path_id = k, order = seq_along(nd),
+               lon = xy[nd, 1], lat = xy[nd, 2])
+  }))
+}
+
+
+#' Internal functions to convert data.frames to sf objects for ggplot
+#' @noRd
+.dfToSfPoints <- function(df) {
+  sf::st_as_sf(df, coords = c("lon", "lat"), crs = 4326)
+}
+
+#' Internal function to convert a data.frame of edges to sf linestrings for ggplot
+#' @noRd
+.dfToSfLines <- function(df) {
+  lines <- lapply(seq_len(nrow(df)), function(i) {
+    sf::st_linestring(rbind(c(df$x[i], df$y[i]),
+                            c(df$xend[i], df$yend[i])))
+  })
+  sf::st_sf(from = df$from, to = df$to,
+            geometry = sf::st_sfc(lines, crs = 4326))
+}
+
+#' Internal function to convert a data.frame of paths to sf linestrings for ggplot
+#' @noRd
+.dfToSfPaths <- function(df) {
+  by_path <- split(df, df$path_id)
+  lines <- lapply(by_path, function(p) sf::st_linestring(cbind(p$lon, p$lat)))
+  sf::st_sf(path_id = names(by_path),
+            geometry = sf::st_sfc(lines, crs = 4326))
+}
+
+#' @importFrom ggplot2 autoplot
+#' @export
+ggplot2::autoplot

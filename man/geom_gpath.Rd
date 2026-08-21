@@ -21,7 +21,34 @@ geom_gpath(
 
 \item{stat, position, na.rm, show.legend, ...}{forwarded to \code{\link[ggplot2:geom_sf]{ggplot2::geom_sf()}}.}
 }
+\value{
+a ggplot layer.
+}
 \description{
 Adds a \code{\link{gPath}} (from \code{\link[=dijkstraBetween]{dijkstraBetween()}} or \code{\link[=dijkstraFrom]{dijkstraFrom()}}) to a ggplot
 as \code{\link[ggplot2:geom_sf]{ggplot2::geom_sf()}} linestrings.
 }
+\examples{
+\dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(ggplot2)
+addis <- list(lon = 38.74, lat = 9.03)
+addis_node <- closestNode(worldgraph.40k, addis)
+myPath <- dijkstraFrom(hgdp, addis_node)
+ggplot() +
+  geom_ggraph(data = worldgraph.40k, aes(colour = habitat),
+              edges = FALSE, size = 1, show.legend = FALSE) +
+  scale_colour_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+  geom_gpath(data = myPath, colour = "firebrick", linewidth = 0.4) +
+  geom_gdata(data = hgdp, colour = "black", size = 1.5) +
+  coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=30") +
+  theme_void()
+\dontshow{\}) # examplesIf}
+}
+\seealso{
+Other ggplot_methods:
+\code{\link[=autoplot.gData]{autoplot.gData()}},
+\code{\link[=autoplot.gGraph]{autoplot.gGraph()}},
+\code{\link[=geom_gdata]{geom_gdata()}},
+\code{\link[=geom_ggraph]{geom_ggraph()}}
+}
+\concept{ggplot_methods}

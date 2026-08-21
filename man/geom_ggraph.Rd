@@ -32,3 +32,21 @@ one or two ggplot layers (edges under nodes).
 Adds nodes (and optionally edges) of a \code{\link{gGraph}} to a ggplot as
 \code{\link[ggplot2:geom_sf]{ggplot2::geom_sf()}} layers.
 }
+\examples{
+\dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+library(ggplot2)
+ggplot() +
+ geom_ggraph(data = worldgraph.10k, aes(colour = habitat), edges = TRUE, size = 0.3) +
+ scale_colour_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+ coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=30") +
+ theme_void()
+\dontshow{\}) # examplesIf}
+}
+\seealso{
+Other ggplot_methods:
+\code{\link[=autoplot.gData]{autoplot.gData()}},
+\code{\link[=autoplot.gGraph]{autoplot.gGraph()}},
+\code{\link[=geom_gdata]{geom_gdata()}},
+\code{\link[=geom_gpath]{geom_gpath()}}
+}
+\concept{ggplot_methods}

@@ -30,3 +30,14 @@ a ggplot.
 \description{
 Default ggplot for a \code{\link{gGraph}}
 }
+\examples{
+autoplot(worldgraph.10k)
+}
+\seealso{
+Other ggplot_methods:
+\code{\link[=autoplot.gData]{autoplot.gData()}},
+\code{\link[=geom_gdata]{geom_gdata()}},
+\code{\link[=geom_ggraph]{geom_ggraph()}},
+\code{\link[=geom_gpath]{geom_gpath()}}
+}
+\concept{ggplot_methods}

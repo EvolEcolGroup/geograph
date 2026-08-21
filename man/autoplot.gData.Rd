@@ -22,8 +22,26 @@
 
 \item{show.gGraph}{logical; overlay the linked gGraph if available.}
 
+\item{node.size}{point size for the gData localities.}
+
+\item{node.color}{point colour for the gData localities.}
+
 \item{...}{unused.}
+}
+\value{
+a ggplot.
 }
 \description{
 Default ggplot for a \code{\link{gData}}
 }
+\examples{
+autoplot(hgdp)
+}
+\seealso{
+Other ggplot_methods:
+\code{\link[=autoplot.gGraph]{autoplot.gGraph()}},
+\code{\link[=geom_gdata]{geom_gdata()}},
+\code{\link[=geom_ggraph]{geom_ggraph()}},
+\code{\link[=geom_gpath]{geom_gpath()}}
+}
+\concept{ggplot_methods}
