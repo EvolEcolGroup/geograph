@@ -3,35 +3,39 @@
 #' Adds nodes (and optionally edges) of a [`gGraph`] to a ggplot as
 #' [ggplot2::geom_sf()] layers.
 #'
-#' @param mapping aesthetics. Variables from the gGraph's node attributes may
-#'   be used (e.g. `aes(colour = habitat)`).
 #' @param data a [`gGraph`] object.
+#' @param mapping aesthetics. Variables from the gGraph's node attributes may
+#'   be used (e.g. `aes(color = habitat)`).
 #' @param edges logical; whether to draw edges. Defaults to `FALSE`.
 #' @param stat,position,na.rm,show.legend,... forwarded to [ggplot2::geom_sf()].
 #' @return one or two ggplot layers (edges under nodes).
 #' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
 #' library(ggplot2)
 #' ggplot() +
-#'  geom_ggraph(data = worldgraph.10k, aes(colour = habitat), edges = TRUE, size = 0.3) +
-#'  scale_colour_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
-#'  coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=30") +
+#'  geom_ggraph(data = worldgraph.10k, aes(color = habitat), edges = TRUE, size = 0.3) +
+#'  scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+#'  coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=-80") +
 #'  theme_void()
 #' @export
 #' @family ggplot_methods
-geom_ggraph <- function(mapping = ggplot2::aes(), data = NULL, edges = FALSE,
+geom_ggraph <- function(data = NULL, mapping = ggplot2::aes(), edges = FALSE,
                         stat = "sf", position = "identity",
                         na.rm = FALSE, show.legend = NA, ...) {
   if (is.null(data))            stop("data (a gGraph) must be specified")
   if (!inherits(data, "gGraph")) stop("data must be a gGraph object")
   
   layers <- list()
+  
+  # handle the edges layer
   if (edges) {
     layers <- c(layers, list(
       ggplot2::geom_sf(data = .dfToSfLines(.ggraphEdgesDf(data)),
-                       colour = "grey65", linewidth = 0.4,
+                       color = "grey65", linewidth = 0.4,
                        inherit.aes = FALSE)
     ))
   }
+  
+  # make the node layer
   layers <- c(layers, list(
     ggplot2::geom_sf(mapping = mapping,
                      data = .dfToSfPoints(.ggraphNodesDf(data)),
@@ -48,8 +52,8 @@ geom_ggraph <- function(mapping = ggplot2::aes(), data = NULL, edges = FALSE,
 #' Adds sample localities of a [`gData`] to a ggplot as a [ggplot2::geom_sf()]
 #' layer.
 #'
-#' @param mapping aesthetics.
 #' @param data a [`gData`] object.
+#' @param mapping aesthetics.
 #' @param stat,position,na.rm,show.legend,... forwarded to [ggplot2::geom_sf()].
 #' @param original logical. If TRUE, plot at the original sample locations;
 #'   if FALSE (default), plot at the assigned-node coordinates on the linked
@@ -58,11 +62,11 @@ geom_ggraph <- function(mapping = ggplot2::aes(), data = NULL, edges = FALSE,
 #' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
 #' library(ggplot2)
 #' ggplot() +
-#'  geom_gdata(data = hgdp, colour = "black", size = 1.5) +
+#'  geom_gdata(data = hgdp, color = "black", size = 1.5) +
 #'  theme_void()
 #' @export
 #' @family ggplot_methods
-geom_gdata <- function(mapping = ggplot2::aes(), data = NULL,
+geom_gdata <- function(data = NULL, mapping = ggplot2::aes(),
                        original = FALSE,
                        stat = "sf", position = "identity",
                        na.rm = FALSE, show.legend = NA, ...) {
@@ -82,8 +86,8 @@ geom_gdata <- function(mapping = ggplot2::aes(), data = NULL,
 #' Adds a [`gPath`] (from [dijkstraBetween()] or [dijkstraFrom()]) to a ggplot
 #' as [ggplot2::geom_sf()] linestrings.
 #'
-#' @param mapping aesthetics.
 #' @param data a `gPath` object.
+#' @param mapping aesthetics.
 #' @param stat,position,na.rm,show.legend,... forwarded to [ggplot2::geom_sf()].
 #' @return a ggplot layer.
 #' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
@@ -92,16 +96,16 @@ geom_gdata <- function(mapping = ggplot2::aes(), data = NULL,
 #' addis_node <- closestNode(worldgraph.40k, addis)
 #' myPath <- dijkstraFrom(hgdp, addis_node)
 #' ggplot() +
-#'   geom_ggraph(data = worldgraph.40k, aes(colour = habitat),
+#'   geom_ggraph(data = worldgraph.40k, aes(color = habitat),
 #'               edges = FALSE, size = 1, show.legend = FALSE) +
-#'   scale_colour_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
-#'   geom_gpath(data = myPath, colour = "firebrick", linewidth = 0.4) +
-#'   geom_gdata(data = hgdp, colour = "black", size = 1.5) +
+#'   scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+#'   geom_gpath(data = myPath, color = "firebrick", linewidth = 0.4) +
+#'   geom_gdata(data = hgdp, color = "black", size = 1.5) +
 #'   coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=30") +
 #'   theme_void()
 #' @export
 #' @family ggplot_methods
-geom_gpath <- function(mapping = ggplot2::aes(), data = NULL,
+geom_gpath <- function(data = NULL, mapping = ggplot2::aes(),
                        stat = "sf", position = "identity",
                        na.rm = FALSE, show.legend = NA, ...) {
   if (is.null(data))         stop("data (a gPath) must be specified")
@@ -121,7 +125,7 @@ geom_gpath <- function(mapping = ggplot2::aes(), data = NULL,
 #'
 #' @param object a [`gGraph`].
 #' @param mode `"flat"` (default) or `"orthographic"`.
-#' @param lon0,lat0 view centre (orthographic only).
+#' @param lon0,lat0 view center (orthographic only).
 #' @param edges logical; whether to draw edges.
 #' @param ... unused.
 #' @return a ggplot.
@@ -131,21 +135,25 @@ geom_gpath <- function(mapping = ggplot2::aes(), data = NULL,
 #' @export
 #' @family ggplot_methods
 autoplot.gGraph <- function(object, mode = c("flat", "orthographic"),
-                            lon0 = 0, lat0 = 20, edges = TRUE, ...) {
+                            lon0 = 0, lat0 = 0, edges = TRUE, ...) {
   mode <- match.arg(mode)
+  
+  # handle crs for spherical plot
   crs  <- if (mode == "orthographic")
     sprintf("+proj=ortho +lat_0=%s +lon_0=%s", lat0, lon0) else 4326
   
+  # set color mapping
   color_col <- if (!is.null(object@meta$colors)) colnames(object@meta$colors)[1]
   mapping   <- if (!is.null(color_col))
-    ggplot2::aes(colour = .data[[color_col]]) else ggplot2::aes()
+    ggplot2::aes(color = .data[[color_col]]) else ggplot2::aes()
   
   gg <- ggplot2::ggplot() +
     geom_ggraph(mapping = mapping, data = object, edges = edges, size = 0.3)
   
+  # set color scale
   if (!is.null(color_col)) {
     rules <- getColors(object, res.type = "rules")
-    gg <- gg + ggplot2::scale_colour_manual(
+    gg <- gg + ggplot2::scale_color_manual(
       values = stats::setNames(rules$color, rules[[color_col]])
     )
   }
@@ -159,7 +167,7 @@ autoplot.gGraph <- function(object, mode = c("flat", "orthographic"),
 #' @param mode,lon0,lat0 as in [autoplot.gGraph()].
 #' @param show.gGraph logical; overlay the linked gGraph if available.
 #' @param node.size point size for the gData localities.
-#' @param node.color point colour for the gData localities.
+#' @param node.color point color for the gData localities.
 #' @param ... unused.
 #' @return a ggplot.
 #' @importFrom ggplot2 autoplot
@@ -171,11 +179,14 @@ autoplot.gData <- function(object, mode = c("flat", "orthographic"),
                            lon0 = 0, lat0 = 20, show.gGraph = TRUE,
                            node.size = 2, node.color = "darkred", ...) {
   mode <- match.arg(mode)
+  
+  # handle crs for spherical plot
   crs  <- if (mode == "orthographic")
     sprintf("+proj=ortho +lat_0=%s +lon_0=%s", lat0, lon0) else 4326
   
   gg <- ggplot2::ggplot()
   
+  # handle colors from underlying gGraph
   if (show.gGraph && exists(object@gGraph.name, envir = .GlobalEnv)) {
     parent_graph <- get(object@gGraph.name, envir = .GlobalEnv)
     
@@ -185,9 +196,9 @@ autoplot.gData <- function(object, mode = c("flat", "orthographic"),
     if (!is.null(color_col)) {
       rules <- getColors(parent_graph, res.type = "rules")
       gg <- gg +
-        geom_ggraph(mapping = ggplot2::aes(colour = .data[[color_col]]),
+        geom_ggraph(mapping = ggplot2::aes(color = .data[[color_col]]),
                     data = parent_graph, edges = FALSE, size = 0.2) +
-        ggplot2::scale_colour_manual(
+        ggplot2::scale_color_manual(
           values = stats::setNames(rules$color, rules[[color_col]])
         )
     } else {
@@ -195,7 +206,7 @@ autoplot.gData <- function(object, mode = c("flat", "orthographic"),
     }
   }
   
-  gg + geom_gdata(data = object, colour = node.color, size = node.size) +
+  gg + geom_gdata(data = object, color = node.color, size = node.size) +
     ggplot2::coord_sf(crs = crs) + ggplot2::theme_minimal()
 }
 

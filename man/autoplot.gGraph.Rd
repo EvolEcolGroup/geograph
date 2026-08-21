@@ -8,7 +8,7 @@
   object,
   mode = c("flat", "orthographic"),
   lon0 = 0,
-  lat0 = 20,
+  lat0 = 0,
   edges = TRUE,
   ...
 )
@@ -18,7 +18,7 @@
 
 \item{mode}{\code{"flat"} (default) or \code{"orthographic"}.}
 
-\item{lon0, lat0}{view centre (orthographic only).}
+\item{lon0, lat0}{view center (orthographic only).}
 
 \item{edges}{logical; whether to draw edges.}
 

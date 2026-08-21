@@ -24,7 +24,7 @@
 
 \item{node.size}{point size for the gData localities.}
 
-\item{node.color}{point colour for the gData localities.}
+\item{node.color}{point color for the gData localities.}
 
 \item{...}{unused.}
 }

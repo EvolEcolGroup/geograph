@@ -5,8 +5,8 @@
 \title{ggplot layer for a \code{\link{gData}}}
 \usage{
 geom_gdata(
-  mapping = ggplot2::aes(),
   data = NULL,
+  mapping = ggplot2::aes(),
   original = FALSE,
   stat = "sf",
   position = "identity",
@@ -16,9 +16,9 @@ geom_gdata(
 )
 }
 \arguments{
-\item{mapping}{aesthetics.}
-
 \item{data}{a \code{\link{gData}} object.}
+
+\item{mapping}{aesthetics.}
 
 \item{original}{logical. If TRUE, plot at the original sample locations;
 if FALSE (default), plot at the assigned-node coordinates on the linked
@@ -37,7 +37,7 @@ layer.
 \dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(ggplot2)
 ggplot() +
- geom_gdata(data = hgdp, colour = "black", size = 1.5) +
+ geom_gdata(data = hgdp, color = "black", size = 1.5) +
  theme_void()
 \dontshow{\}) # examplesIf}
 }

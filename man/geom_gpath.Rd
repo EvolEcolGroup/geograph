@@ -5,8 +5,8 @@
 \title{ggplot layer for a gPath}
 \usage{
 geom_gpath(
-  mapping = ggplot2::aes(),
   data = NULL,
+  mapping = ggplot2::aes(),
   stat = "sf",
   position = "identity",
   na.rm = FALSE,
@@ -15,9 +15,9 @@ geom_gpath(
 )
 }
 \arguments{
-\item{mapping}{aesthetics.}
-
 \item{data}{a \code{gPath} object.}
+
+\item{mapping}{aesthetics.}
 
 \item{stat, position, na.rm, show.legend, ...}{forwarded to \code{\link[ggplot2:geom_sf]{ggplot2::geom_sf()}}.}
 }
@@ -35,11 +35,11 @@ addis <- list(lon = 38.74, lat = 9.03)
 addis_node <- closestNode(worldgraph.40k, addis)
 myPath <- dijkstraFrom(hgdp, addis_node)
 ggplot() +
-  geom_ggraph(data = worldgraph.40k, aes(colour = habitat),
+  geom_ggraph(data = worldgraph.40k, aes(color = habitat),
               edges = FALSE, size = 1, show.legend = FALSE) +
-  scale_colour_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
-  geom_gpath(data = myPath, colour = "firebrick", linewidth = 0.4) +
-  geom_gdata(data = hgdp, colour = "black", size = 1.5) +
+  scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+  geom_gpath(data = myPath, color = "firebrick", linewidth = 0.4) +
+  geom_gdata(data = hgdp, color = "black", size = 1.5) +
   coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=30") +
   theme_void()
 \dontshow{\}) # examplesIf}

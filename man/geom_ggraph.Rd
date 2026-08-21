@@ -5,8 +5,8 @@
 \title{ggplot layer for a \code{\link{gGraph}}}
 \usage{
 geom_ggraph(
-  mapping = ggplot2::aes(),
   data = NULL,
+  mapping = ggplot2::aes(),
   edges = FALSE,
   stat = "sf",
   position = "identity",
@@ -16,10 +16,10 @@ geom_ggraph(
 )
 }
 \arguments{
-\item{mapping}{aesthetics. Variables from the gGraph's node attributes may
-be used (e.g. \code{aes(colour = habitat)}).}
-
 \item{data}{a \code{\link{gGraph}} object.}
+
+\item{mapping}{aesthetics. Variables from the gGraph's node attributes may
+be used (e.g. \code{aes(color = habitat)}).}
 
 \item{edges}{logical; whether to draw edges. Defaults to \code{FALSE}.}
 
@@ -36,9 +36,9 @@ Adds nodes (and optionally edges) of a \code{\link{gGraph}} to a ggplot as
 \dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(ggplot2)
 ggplot() +
- geom_ggraph(data = worldgraph.10k, aes(colour = habitat), edges = TRUE, size = 0.3) +
- scale_colour_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
- coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=30") +
+ geom_ggraph(data = worldgraph.10k, aes(color = habitat), edges = TRUE, size = 0.3) +
+ scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+ coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=-80") +
  theme_void()
 \dontshow{\}) # examplesIf}
 }
