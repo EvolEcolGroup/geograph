@@ -1,7 +1,7 @@
 Package: geoGraph
 Type: Package
 Title: Walking Through the Geographic Space Using Graphs
-Version: 1.1.1.9018
+Version: 1.1.1.9019
 Authors@R: c(
     person("Thibaut", "Jombart", role = "aut"),
     person("Dominik", "Jud", role = "aut"),
@@ -42,7 +42,8 @@ Imports:
  tibble,
  tidyr,
  terra,
- FNN
+ FNN,
+ ggplot2
 Suggests:
     elevatr,
     progress,
@@ -87,6 +88,7 @@ Collate:
     'plot_gData.R'
     'plot_gGraph.R'
     'plot_gPath.R'
+    'plot_ggplot.R'
     'polygonBetween.R'
     'setCosts.R'
     'setDistCosts.R'
