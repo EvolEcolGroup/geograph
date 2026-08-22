@@ -117,8 +117,8 @@ symbols(getCoords(cities)[, 1], getCoords(cities)[, 2],
 
 ## Autoplotting and advanced visualization 
 
-Now if we want to use have more advanced visualization and publication ready plots, we can use the `autoplot` functions that are based on `ggplot2`. Currently there are `autoplot` methods for `gGraph` and `gData` objects that provide a quick way to visualize the data. 
-For more customization, there are also `geom_ggraph`, `geom_gdata` and `geom_gpath` functions that allow for more control over the plotting. Under the hood these functions convert the `gGraph`, `gData` and `gPath` objects into `sf` objects that can be plotted using `ggplot2`.
+Now if we want to have more advanced visualization and publication ready plots, we can use the `autoplot` functions that are based on `ggplot2`. Currently there are `autoplot` methods for `gGraph` and `gData` objects that provide a quick way to visualize the data. 
+For even more customization, we can directly use the underlying `geom_ggraph`, `geom_gdata` and `geom_gpath` functions that allow for more control over the plotting. Under the hood these functions convert the `gGraph`, `gData` and `gPath` objects into `sf` objects that can be plotted using `ggplot2`.
 
 ### Autoplotting `gGraph` and `gData` objects
 
@@ -127,16 +127,16 @@ For `gGraph` objects the `autoplot` function will by default return a `ggplot` o
 ```{r}
 autoplot(worldgraph.40k)
 ```
-As the `gGraph` is now sf object, we have more flexibility in the projections we want to plot the graphs in. By default the the `autoplot` function will plot the `gGraph` in a flat Mercator projection, but we can also choose to plot it in `orthographic` mode for it to look like a globe. This can be done by setting the `mode` argument to `"orthographic"` and specifying the center of the view using the `lon0` and `lat0` arguments.
+Because the ggplot layers convert the graph's coordinates to `sf` geometry internally, we have full access to the projections supported by `sf`. By default `autoplot` uses an equirectangular projection (longitude and latitude plotted directly). To use a different projection, add `coord_sf()` with the desired CRS. For example, the Robinson projection often used for world maps:
 
 ```{r}
-autoplot(worldgraph.40k, mode = "orthographic", lon0 = 0, lat0 = 60)
+autoplot(worldgraph.40k) + coord_sf(crs = "+proj=robin")
 ```
 
-Similarly when we want to plot a `gData` object, we can use the `autoplot` function. By default, the linked `gGraph` will be plotted as well. If we want to plot only the `gData` object, we can set the `show.gGraph` argument to `FALSE`. Again, we can use the `coord_sf` function to change the projection of the plot. For example, we can use the Robinson projection by setting the `crs` argument to `"+proj=robin"`.
+Similarly when we want to plot a `gData` object, we can use the `autoplot` function. By default, the linked `gGraph` will be plotted as well. If we want to plot only the `gData` object, we can set the `show.gGraph` argument to `FALSE`. Again, we can use the `coord_sf` function to change the projection of the plot.
 
 ```{r}
-autoplot(hgdp) + coord_sf(crs = "+proj=robin")
+autoplot(hgdp) + coord_sf(crs = "+proj=eck4")
 ```
 
 ### More advanced plots using `geom_ggraph`, `geom_gdata` and `geom_gpath`
@@ -149,11 +149,14 @@ addis_node <- closestNode(worldgraph.40k, addis)
 myPath <- dijkstraFrom(hgdp, addis_node)
 
 ggplot() +
-  geom_ggraph(data = worldgraph.40k, aes(colour = habitat),
+  geom_ggraph(data = worldgraph.40k, aes(color = habitat),
               edges = FALSE, size = 1, show.legend = FALSE) +
-  scale_colour_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
-  geom_gpath(data = myPath, colour = "firebrick", linewidth = 0.4) +
-  geom_gdata(data = hgdp, colour = "black", size = 1.5) +
+  scale_color_manual(values = c(land = "grey70", sea = "lightblue",
+                                 coast = "grey70")) +
+  geom_gpath(data = myPath, color = "firebrick", linewidth = 0.4) +
+  geom_gdata(data = hgdp, aes(fill = Genetic.Div),
+             shape = 21, color = "white", size = 2.5, stroke = 0.3) +
+  scale_fill_viridis_c(name = "Genetic diversity") +
   coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=30") +
   theme_void()
 ```

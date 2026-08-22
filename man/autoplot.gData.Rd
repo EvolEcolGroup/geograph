@@ -4,27 +4,14 @@
 \alias{autoplot.gData}
 \title{Default ggplot for a \code{\link{gData}}}
 \usage{
-\method{autoplot}{gData}(
-  object,
-  mode = c("flat", "orthographic"),
-  lon0 = 0,
-  lat0 = 20,
-  show.gGraph = TRUE,
-  node.size = 2,
-  node.color = "darkred",
-  ...
-)
+\method{autoplot}{gData}(object, show.gGraph = TRUE, edges = FALSE, ...)
 }
 \arguments{
 \item{object}{a \code{\link{gData}}.}
 
-\item{mode, lon0, lat0}{as in \code{\link[=autoplot.gGraph]{autoplot.gGraph()}}.}
-
 \item{show.gGraph}{logical; overlay the linked gGraph if available.}
 
-\item{node.size}{point size for the gData localities.}
-
-\item{node.color}{point color for the gData localities.}
+\item{edges}{logical; whether to draw edges.}
 
 \item{...}{unused.}
 }

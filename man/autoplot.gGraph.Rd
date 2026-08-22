@@ -4,21 +4,10 @@
 \alias{autoplot.gGraph}
 \title{Default ggplot for a \code{\link{gGraph}}}
 \usage{
-\method{autoplot}{gGraph}(
-  object,
-  mode = c("flat", "orthographic"),
-  lon0 = 0,
-  lat0 = 0,
-  edges = TRUE,
-  ...
-)
+\method{autoplot}{gGraph}(object, edges = TRUE, ...)
 }
 \arguments{
 \item{object}{a \code{\link{gGraph}}.}
-
-\item{mode}{\code{"flat"} (default) or \code{"orthographic"}.}
-
-\item{lon0, lat0}{view center (orthographic only).}
 
 \item{edges}{logical; whether to draw edges.}
 

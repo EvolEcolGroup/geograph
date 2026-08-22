@@ -4,7 +4,7 @@
 #' [ggplot2::geom_sf()] layers.
 #'
 #' @param data a [`gGraph`] object.
-#' @param mapping aesthetics. Variables from the gGraph's node attributes may
+#' @param mapping aesthetics. Variables from the `gGraph's` node attributes may
 #'   be used (e.g. `aes(color = habitat)`).
 #' @param edges logical; whether to draw edges. Defaults to `FALSE`.
 #' @param stat,position,na.rm,show.legend,... forwarded to [ggplot2::geom_sf()].
@@ -124,8 +124,6 @@ geom_gpath <- function(data = NULL, mapping = ggplot2::aes(),
 #' Default ggplot for a [`gGraph`]
 #'
 #' @param object a [`gGraph`].
-#' @param mode `"flat"` (default) or `"orthographic"`.
-#' @param lon0,lat0 view center (orthographic only).
 #' @param edges logical; whether to draw edges.
 #' @param ... unused.
 #' @return a ggplot.
@@ -134,40 +132,32 @@ geom_gpath <- function(data = NULL, mapping = ggplot2::aes(),
 #' autoplot(worldgraph.10k)
 #' @export
 #' @family ggplot_methods
-autoplot.gGraph <- function(object, mode = c("flat", "orthographic"),
-                            lon0 = 0, lat0 = 0, edges = TRUE, ...) {
-  mode <- match.arg(mode)
-  
-  # handle crs for spherical plot
-  crs  <- if (mode == "orthographic")
-    sprintf("+proj=ortho +lat_0=%s +lon_0=%s", lat0, lon0) else 4326
-  
-  # set color mapping
+autoplot.gGraph <- function(object, edges = TRUE, ...) {
   color_col <- if (!is.null(object@meta$colors)) colnames(object@meta$colors)[1]
-  mapping   <- if (!is.null(color_col))
-    ggplot2::aes(color = .data[[color_col]]) else ggplot2::aes()
   
-  gg <- ggplot2::ggplot() +
-    geom_ggraph(mapping = mapping, data = object, edges = edges, size = 0.3)
-  
-  # set color scale
   if (!is.null(color_col)) {
     rules <- getColors(object, res.type = "rules")
-    gg <- gg + ggplot2::scale_color_manual(
-      values = stats::setNames(rules$color, rules[[color_col]])
-    )
+    ggplot2::ggplot() +
+      geom_ggraph(mapping = ggplot2::aes(color = .data[[color_col]]),
+                  data = object, edges = edges, size = 0.3) +
+      ggplot2::scale_color_manual(
+        values = stats::setNames(rules$color, rules[[color_col]])
+      ) +
+      ggplot2::coord_sf() +
+      ggplot2::theme_minimal()
+  } else {
+    ggplot2::ggplot() +
+      geom_ggraph(data = object, edges = edges, size = 0.3) +
+      ggplot2::coord_sf() +
+      ggplot2::theme_minimal()
   }
-  gg + ggplot2::coord_sf(crs = crs) + ggplot2::theme_minimal()
 }
-
 
 #' Default ggplot for a [`gData`]
 #'
 #' @param object a [`gData`].
-#' @param mode,lon0,lat0 as in [autoplot.gGraph()].
 #' @param show.gGraph logical; overlay the linked gGraph if available.
-#' @param node.size point size for the gData localities.
-#' @param node.color point color for the gData localities.
+#' @param edges logical; whether to draw edges.
 #' @param ... unused.
 #' @return a ggplot.
 #' @importFrom ggplot2 autoplot
@@ -175,21 +165,12 @@ autoplot.gGraph <- function(object, mode = c("flat", "orthographic"),
 #' autoplot(hgdp)
 #' @export
 #' @family ggplot_methods
-autoplot.gData <- function(object, mode = c("flat", "orthographic"),
-                           lon0 = 0, lat0 = 20, show.gGraph = TRUE,
-                           node.size = 2, node.color = "darkred", ...) {
-  mode <- match.arg(mode)
-  
-  # handle crs for spherical plot
-  crs  <- if (mode == "orthographic")
-    sprintf("+proj=ortho +lat_0=%s +lon_0=%s", lat0, lon0) else 4326
-  
+autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
   gg <- ggplot2::ggplot()
   
-  # handle colors from underlying gGraph
+  # overlay the linked gGraph with its colors, if available
   if (show.gGraph && exists(object@gGraph.name, envir = .GlobalEnv)) {
     parent_graph <- get(object@gGraph.name, envir = .GlobalEnv)
-    
     color_col <- if (!is.null(parent_graph@meta$colors))
       colnames(parent_graph@meta$colors)[1]
     
@@ -197,19 +178,18 @@ autoplot.gData <- function(object, mode = c("flat", "orthographic"),
       rules <- getColors(parent_graph, res.type = "rules")
       gg <- gg +
         geom_ggraph(mapping = ggplot2::aes(color = .data[[color_col]]),
-                    data = parent_graph, edges = FALSE, size = 0.2) +
+                    data = parent_graph, edges = edges, size = 0.2) +
         ggplot2::scale_color_manual(
           values = stats::setNames(rules$color, rules[[color_col]])
         )
     } else {
-      gg <- gg + geom_ggraph(data = parent_graph, edges = FALSE, size = 0.2)
+      gg <- gg + geom_ggraph(data = parent_graph, edges = edges, size = 0.2)
     }
   }
   
-  gg + geom_gdata(data = object, color = node.color, size = node.size) +
-    ggplot2::coord_sf(crs = crs) + ggplot2::theme_minimal()
+  gg + geom_gdata(data = object) +
+    ggplot2::coord_sf() + ggplot2::theme_minimal()
 }
-
 
 #' Internal function to convert a gGraph to a data.frame for ggplot
 #' @noRd
@@ -219,7 +199,7 @@ autoplot.gData <- function(object, mode = c("flat", "orthographic"),
         getNodesAttr(g))
 }
 
-#' Internal function to convert a gGraph's edges to a data.frame for ggplot
+#' Internal function to convert a `gGraph's` edges to a data.frame for ggplot
 #' @noRd
 .ggraphEdgesDf <- function(g) {
   E <- getEdges(g, res.type = "matNames", unique = TRUE)
