@@ -2,132 +2,58 @@
 
 ## Manually editing graphs in *geoGraph*
 
-This vignette will cover the main functions for visualizing and manually
-editing `gGraph` objects. It also touches on the way `geoGraph` keeps
-track of the plotting area, and how to navigate within it.
+This vignette will cover the main functions for manually editing
+`gGraph` objects. It also briefly touches on the way `geoGraph` keeps
+track of the plotting area, and how to navigate within it as some of the
+interactive functions rely on using the `locator.`
 
-### Visualizing data
+### Editing `gGraphs`
 
-An essential aspect of spatial analysis lies in visualizing the data. In
-*geoGraph*, the spatial grids (`gGraph`) and spatial data (`gData`) can
-be plotted and browsed using a variety of functions.
+Editing graphs is an essential task in *geoGraph*. While available
+`gGraph` objects provide a basis to work with (see
+[`?worldgraph.10k`](https://evolecolgroup.github.io/geograph/dev/reference/worldgraph.md)),
+one may want to adapt a graph to a specific case. For instance,
+connectivity should be defined according to biological knowledge of the
+organism under study. `gGraph` can be modified in different ways: by
+changing the connectivity, the costs of edges, or the attribute values.
+We already saw in the vignette ‘get started’ how to manually add a
+connection between two nodes, and we will see here how to change the
+global connectivity and edge costs.
 
-#### Plotting `gGraph` objects
+#### Visually inspecting a `gGraph` object
 
-Displaying a `gGraph` object is done through `plot` and `points`
-functions. The first opens a new plotting region, while the second draws
-in the current plotting region; functions have otherwise similar
-arguments (see
-[`?plot.gGraph`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)).
-
-By default, plotting a `gGraph` displays the grid of nodes overlaying a
-shapefile (by default, the landmasses). Edges can be plotted at the same
-time (argument `edges`), or added afterwards using `plotEdges`. If the
-`gGraph` object possesses an adequately formed `meta$colors` component,
-the colors of the nodes are chosen according to the node attributes and
-the color scheme specified in `meta$colors`. Alternatively, the color of
-the nodes can be specified via the `col` argument in `plot`/`points`.
-
-Here is an example using `worldgraph.10k`:
-
-``` r
-
-getColors(worldgraph.10k, res.type = "rules")
-```
-
-    ##            habitat       color
-    ## 1              sea        blue
-    ## 2             land       green
-    ## 3         mountain       brown
-    ## 4       landbridge light green
-    ## 5 oceanic crossing  light blue
-    ## 6  deselected land   lightgray
-
-``` r
-
-head(getNodesAttr(worldgraph.10k))
-```
-
-    ##   habitat
-    ## 1     sea
-    ## 2     sea
-    ## 3     sea
-    ## 4     sea
-    ## 5     sea
-    ## 6     sea
-
-``` r
-
-table(getNodesAttr(worldgraph.10k))
-```
-
-    ## habitat
-    ## deselected land            land             sea 
-    ##             290            2632            7320
-
-``` r
-
-plot(worldgraph.10k, reset = TRUE)
-```
-
-    ## Spherical geometry (s2) switched off
-
-    ## Spherical geometry (s2) switched on
-
-``` r
-
-title("Default plotting of worldgraph.10k")
-```
-
-![](a2_edit_graphs_files/figure-html/wg10kdefplot-1.png)
-
-It may be worth noting that plotting `gGraph` objects involves plotting
-a fairly large number of points and edges. On some graphical devices,
-the resulting plotting can be slow. For instance, one may want to
-disable `cairo` under linux: this graphical device yields better
-graphics than `Xlib`, but at the expense of increased computational
-time. To switch to `Xlib`, type:
-
-``` r
-
-X11.options(type = "Xlib")
-```
-
-and to revert to `cairo`, type:
-
-``` r
-
-X11.options(type = "cairo")
-```
-
-#### Zooming in and out, sliding, etc.
-
-In practice, it is often useful to be able to peer at specific regions,
-and more generally to navigate inside the graphical representation of
-the data. For this, we can use the interactive functions `geo.zoomin`,
-`geo.zoomout`, `geo.slide`, `geo.back`, `geo.bookmark`, and `geo.goto`.
-The zoom and slide functions require to left-click on the graphics to
-zoom in, zoom out, or slide to adjacent areas; in all cases, a right
-click ends the function. Also note that `geo.zoomin` can accept an
-argument specifying a rectangular region, which will be adapted by the
-function to fit best a square area with similar position and center, and
-zoom to this area (see
+When customizing a `gGraph` object, it is often useful to be able to
+peer at specific regions, and more generally to navigate inside the
+graphical representation of the data. For this, we can use the
+interactive functions `geo.zoomin`, `geo.zoomout`, `geo.slide`,
+`geo.back`, `geo.bookmark`, and `geo.goto`. The zoom and slide functions
+require to left-click on the graphics to zoom in, zoom out, or slide to
+adjacent areas; in all cases, a right click ends the function. Also note
+that `geo.zoomin` can accept an argument specifying a rectangular
+region, which will be adapted by the function to fit best a square area
+with similar position and center, and zoom to this area (see
 [`?geo.zoomin`](https://evolecolgroup.github.io/geograph/dev/reference/zoom.md)).
 `geo.bookmark` and `geo.goto` respectively set and go to a bookmark,
 *i.e.* a tagged area. This is most useful when one has to switch between
 distant areas repeatedly.
 
-Here are some examples based on the previous plotting of
-`worldgraph.10k`: Zooming in:
+Here are some examples based on the plotting of `worldgraph.10k`:
+Zooming in:
 
 ``` r
 
+plot(worldgraph.10k)
 geo.zoomin()
 ```
 
     ## Spherical geometry (s2) switched off
 
 ![](a2_edit_graphs_files/figure-html/zoomin-1.png)
+
+    ## Spherical geometry (s2) switched on
+    ## Spherical geometry (s2) switched off
+
+![](a2_edit_graphs_files/figure-html/zoomin-2.png)
 
     ## Spherical geometry (s2) switched on
 
@@ -192,101 +118,6 @@ However, it is recommended not to modify these objects directly, unless
 you really know what you are doing. In any case, plotting a `gGraph`
 object with argument `reset=TRUE` will remove previous plotting history
 and undo possible wrong manipulations.
-
-#### Plotting `gData` objects
-
-`gData` objects are by default plotted overlaying the corresponding
-`gGraph`. To show this, we use the `cities` example from the vignette
-‘get started’:
-
-``` r
-
-bordeaux <- c(-1, 45)
-berlin <- c(13, 52)
-baku <- c(44, 40)
-timbuktu <- c(-3, 16)
-
-cities.dat <- rbind.data.frame(bordeaux, berlin, baku, timbuktu)
-colnames(cities.dat) <- c("lon", "lat")
-row.names(cities.dat) <- c("Bordeaux", "Berlin", "Baku", "Timbuktu")
-cities.dat$pop <- c(250000, 3500000, 2000000, 50000)
-cities.dat
-```
-
-    ##          lon lat     pop
-    ## Bordeaux  -1  45  250000
-    ## Berlin    13  52 3500000
-    ## Baku      44  40 2000000
-    ## Timbuktu  -3  16   50000
-
-``` r
-
-cities <- new("gData", coords = cities.dat[, 1:2], data = cities.dat[, 3, drop = FALSE], gGraph.name = "worldgraph.10k")
-plot(cities, type = "both", reset = TRUE)
-```
-
-    ## Spherical geometry (s2) switched off
-
-    ## Spherical geometry (s2) switched on
-
-``` r
-
-text(getCoords(cities), rownames(getData(cities)))
-```
-
-![](a2_edit_graphs_files/figure-html/citiesPlot2-1.png)
-
-Note the argument `reset=TRUE`, which tells the plotting function to
-adapt the plotting area to the geographic extent of the dataset.
-
-To plot additional information, it can be useful to extract the spatial
-coordinates from the data. This is achieved by `getCoords`. This method
-takes an extra argument `original`, which is TRUE if original spatial
-coordinates are sought, or FALSE for coordinates of the nodes on the
-grid. We can use this to represent, for instance, the population sizes
-for the different cities:
-
-``` r
-
-transp <- function(col, alpha = .5) {
-  res <- apply(
-    col2rgb(col), 2,
-    function(c) rgb(c[1] / 255, c[2] / 255, c[3] / 255, alpha)
-  )
-  return(res)
-}
-
-plot(cities, reset = TRUE)
-```
-
-    ## Spherical geometry (s2) switched off
-
-    ## Spherical geometry (s2) switched on
-
-``` r
-
-par(xpd = TRUE)
-text(getCoords(cities) + -.5, rownames(getData(cities)))
-symbols(getCoords(cities)[, 1], getCoords(cities)[, 2],
-  circ = sqrt(unlist(getData(cities))), inch = .2,
-  bg = transp("red"), add = TRUE
-)
-```
-
-![](a2_edit_graphs_files/figure-html/cities_plot-1.png)
-
-### Editing `gGraphs`
-
-Editing graphs is an essential task in *geoGraph*. While available
-`gGraph` objects provide a basis to work with (see
-[`?worldgraph.10k`](https://evolecolgroup.github.io/geograph/dev/reference/worldgraph.md)),
-one may want to adapt a graph to a specific case. For instance,
-connectivity should be defined according to biological knowledge of the
-organism under study. `gGraph` can be modified in different ways: by
-changing the connectivity, the costs of edges, or the attribute values.
-We already saw in the vignette ‘get started’ how to manually add a
-connection between two nodes, and we will see here how to change the
-global connectivity and edge costs.
 
 #### Changing the global connectivity of a `gGraph`
 
@@ -378,7 +209,7 @@ plot(newGraph, edge = TRUE)
 
     ## Spherical geometry (s2) switched off
 
-![](a2_edit_graphs_files/figure-html/unnamed-chunk-10-1.png)
+![](a2_edit_graphs_files/figure-html/unnamed-chunk-8-1.png)
 
     ## Spherical geometry (s2) switched on
 
@@ -398,7 +229,7 @@ plot(newGraph, edge = TRUE)
 
     ## Spherical geometry (s2) switched off
 
-![](a2_edit_graphs_files/figure-html/unnamed-chunk-11-1.png)
+![](a2_edit_graphs_files/figure-html/unnamed-chunk-9-1.png)
 
     ## Spherical geometry (s2) switched on
 
@@ -500,7 +331,7 @@ plot(newGraph, edge = TRUE)
 
     ## Spherical geometry (s2) switched off
 
-![](a2_edit_graphs_files/figure-html/unnamed-chunk-16-1.png)
+![](a2_edit_graphs_files/figure-html/unnamed-chunk-14-1.png)
 
     ## Spherical geometry (s2) switched on
 

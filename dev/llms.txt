@@ -181,9 +181,9 @@ Functions for computing shortest paths and distances.
   [`buffer(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/buffer.md)
   : Compute buffers around locations for gGraph and gData objects
 
-## Plotting
+## Basic plotting
 
-Functions for visualising `gGraph` and `gData` objects.
+Basic functions for visualising `gGraph` and `gData` objects.
 
 - [`plot(`*`<gData>`*`,`*`<missing>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.md)
   [`points(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gData.md)
@@ -208,6 +208,33 @@ Functions for visualising `gGraph` and `gData` objects.
   [`geo.goto`](https://evolecolgroup.github.io/geograph/dev/reference/zoom.md)
   [`.zoomlog.up`](https://evolecolgroup.github.io/geograph/dev/reference/zoom.md)
   : Navigate in the plot of a gGraph object
+
+## Advanced plotting
+
+Plotting functions based on ggplot2.
+
+- [`autoplot(`*`<gData>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/autoplot.gData.md)
+  :
+
+  Default ggplot for a `gData`
+
+- [`autoplot(`*`<gGraph>`*`)`](https://evolecolgroup.github.io/geograph/dev/reference/autoplot.gGraph.md)
+  :
+
+  Default ggplot for a `gGraph`
+
+- [`geom_gdata()`](https://evolecolgroup.github.io/geograph/dev/reference/geom_gdata.md)
+  :
+
+  ggplot layer for a `gData`
+
+- [`geom_ggraph()`](https://evolecolgroup.github.io/geograph/dev/reference/geom_ggraph.md)
+  :
+
+  ggplot layer for a `gGraph`
+
+- [`geom_gpath()`](https://evolecolgroup.github.io/geograph/dev/reference/geom_gpath.md)
+  : ggplot layer for a gPath
 
 ## Example data
 
@@ -246,4 +273,6 @@ Basic methods to subset and show gGraph and gData objects
   geoGraph](https://evolecolgroup.github.io/geograph/dev/articles/a1_making_grids.md):
 - [Edit graphs in
   geoGraph](https://evolecolgroup.github.io/geograph/dev/articles/a2_edit_graphs.md):
+- [Data visualization in
+  geoGraph](https://evolecolgroup.github.io/geograph/dev/articles/a3_data_visualisation.md):
 - [geoGraph](https://evolecolgroup.github.io/geograph/dev/articles/geoGraph.md):

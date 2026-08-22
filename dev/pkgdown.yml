@@ -4,8 +4,9 @@ pkgdown_sha: ~
 articles:
   a1_making_grids: a1_making_grids.html
   a2_edit_graphs: a2_edit_graphs.html
+  a3_data_visualisation: a3_data_visualisation.html
   geoGraph: geoGraph.html
-last_built: 2026-08-18T20:31Z
+last_built: 2026-08-22T14:25Z
 urls:
   reference: https://evolecolgroup.github.io/geograph/reference
   article: https://evolecolgroup.github.io/geograph/articles

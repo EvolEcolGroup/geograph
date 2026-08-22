@@ -3,6 +3,7 @@
 <url><loc>https://evolecolgroup.github.io/geograph/dev/CONTRIBUTING.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/articles/a1_making_grids.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/articles/a2_edit_graphs.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/articles/a3_data_visualisation.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/articles/geoGraph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/articles/index.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/authors.html</loc></url>
@@ -12,6 +13,8 @@
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/areNeighbours.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/assignByPolygon.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/assignByRaster.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/autoplot.gData.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/autoplot.gGraph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/buffer.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/closestNode.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/combineCosts.html</loc></url>
@@ -32,6 +35,9 @@
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/geo.segments.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/geoGraph-deprecated.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/geoGraph-package.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/geom_gdata.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/geom_ggraph.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/geom_gpath.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/getColors.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/getCoords.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/getCosts.html</loc></url>
@@ -55,6 +61,7 @@
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/plot.gPath.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/polygonBetween.html</loc></url>
+<url><loc>https://evolecolgroup.github.io/geograph/dev/reference/reexports.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setColors.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setCosts.html</loc></url>
 <url><loc>https://evolecolgroup.github.io/geograph/dev/reference/setDistCosts.html</loc></url>
