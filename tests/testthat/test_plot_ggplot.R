@@ -1,5 +1,3 @@
-## tests/testthat/test-plot_ggplot.R
-
 test_that(".ggraphNodesDf returns node_id, lon, lat, and attributes", {
   df <- .ggraphNodesDf(worldgraph.40k)
   expect_true(all(c("node_id", "lon", "lat", "habitat") %in% colnames(df)))
@@ -15,12 +13,12 @@ test_that(".ggraphEdgesDf returns endpoint coords matching the graph", {
 })
 
 test_that(".gdataDf defaults to node coords, switches with original = TRUE", {
-  df_nodes <- .gdataDf(hgdp)
-  df_orig  <- .gdataDf(hgdp, original = TRUE)
-  expect_true(all(c("node_id", "lon", "lat") %in% colnames(df_nodes)))
-  expect_equal(nrow(df_nodes), length(hgdp@nodes.id))
+  df.nodes <- .gdataDf(hgdp)
+  df_orig <- .gdataDf(hgdp, original = TRUE)
+  expect_true(all(c("node_id", "lon", "lat") %in% colnames(df.nodes)))
+  expect_equal(nrow(df.nodes), length(hgdp@nodes.id))
   ## node coords differ from original sample coords in general
-  expect_false(isTRUE(all.equal(df_nodes$lon, df_orig$lon)))
+  expect_false(isTRUE(all.equal(df.nodes$lon, df_orig$lon)))
 })
 
 test_that(".gpathDf has monotone order within each path", {
@@ -38,7 +36,7 @@ test_that("sf helpers return correct geometry types with CRS 4326", {
   expect_s3_class(pts, "sf")
   expect_equal(sf::st_crs(pts)$epsg, 4326L)
   expect_true(all(sf::st_geometry_type(pts) == "POINT"))
-  
+
   lines <- .dfToSfLines(.ggraphEdgesDf(worldgraph.40k)[1:5, ])
   expect_true(all(sf::st_geometry_type(lines) == "LINESTRING"))
   expect_equal(nrow(lines), 5L)
@@ -61,4 +59,3 @@ test_that("autoplot methods return ggplot objects in both modes", {
   expect_s3_class(autoplot(worldgraph.40k, mode = "orthographic"), "ggplot")
   expect_s3_class(autoplot(hgdp), "ggplot")
 })
-

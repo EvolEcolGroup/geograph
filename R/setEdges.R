@@ -49,7 +49,7 @@ setGeneric("setEdges", function(x, ...) {
 #' @describeIn setEdges Method for gGraph object
 setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = NULL, ...) {
   ## some checks
-  if (is.null(add) & is.null(remove)) {
+  if (is.null(add) && is.null(remove)) {
     return(x)
   }
 

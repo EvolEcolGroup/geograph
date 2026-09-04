@@ -37,8 +37,8 @@ layer.
 \dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(ggplot2)
 ggplot() +
- geom_gdata(data = hgdp, color = "black", size = 1.5) +
- theme_void()
+  geom_gdata(data = hgdp, color = "black", size = 1.5) +
+  theme_void()
 \dontshow{\}) # examplesIf}
 }
 \seealso{

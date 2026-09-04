@@ -57,19 +57,19 @@ makeSquareGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL,
                            lon.range = NULL, lat.range = NULL) {
   ## validate size if provided
   if (!is.null(size) && (!is.numeric(size) || length(size) != 1 ||
-                           is.na(size) || !is.finite(size) || size <= 0)) {
+    is.na(size) || !is.finite(size) || size <= 0)) {
     stop("size must be a single positive numeric value.")
   }
 
   ## validate n.lon and n.lat if provided
   if (!is.null(n.lon) && (!is.numeric(n.lon) || length(n.lon) != 1 ||
-                            is.na(n.lon) || !is.finite(n.lon) ||
-                            n.lon < 1 || n.lon %% 1 != 0)) {
+    is.na(n.lon) || !is.finite(n.lon) ||
+    n.lon < 1 || n.lon %% 1 != 0)) {
     stop("n.lon must be a positive integer.")
   }
   if (!is.null(n.lat) && (!is.numeric(n.lat) || length(n.lat) != 1 ||
-                            is.na(n.lat) || !is.finite(n.lat) ||
-                            n.lat < 1 || n.lat %% 1 != 0)) {
+    is.na(n.lat) || !is.finite(n.lat) ||
+    n.lat < 1 || n.lat %% 1 != 0)) {
     stop("n.lat must be a positive integer.")
   }
 

@@ -23,10 +23,10 @@
 #'   this order. Note that [`locator()`] can be used to specify the
 #'   locations interactively.
 #' @param method the method to use for finding the closest node. The default is
-#'  `"knn"`, which uses a fast FNN-based spatial index over unit-sphere Cartesian coordinates. 
+#'  `"knn"`, which uses a fast FNN-based spatial index over unit-sphere Cartesian coordinates.
 #'  The legacy `"inArea"` method is also available, but it is slower.
-#' @param zoneSize The initial size of the search area (in degrees). Only needs to 
-#' be specified if `method = "inArea"`. The search zone will be expanded until at 
+#' @param zoneSize The initial size of the search area (in degrees). Only needs to
+#' be specified if `method = "inArea"`. The search zone will be expanded until at
 #' least 3 candidate nodes are found.
 #' @param attr.name the optional name of a node attribute. See details.
 #' @param attr.values an optional vector giving values for `attr.name`.
@@ -39,7 +39,7 @@
 #'   `@nodes.id` will be erased.
 #' @export
 #' @importFrom FNN get.knnx
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' ## interactive example ##
@@ -70,8 +70,6 @@
 #' title("'x'=location, 'o'=assigned node")
 #'
 #'
-
-
 ###############
 ## closestNode
 ###############
@@ -85,7 +83,7 @@ setGeneric("closestNode", function(x, ...) {
 ###############
 #' @describeIn closestNode Method for gGraph
 #' @export
-setMethod("closestNode", "gGraph", function(x, loc, method = "knn", 
+setMethod("closestNode", "gGraph", function(x, loc, method = "knn",
                                             zoneSize = 5, attr.name = NULL, attr.values = NULL) {
   ## handle arguments
   if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
@@ -93,7 +91,7 @@ setMethod("closestNode", "gGraph", function(x, loc, method = "knn",
   if (ncol(loc) != 2) stop("coords does not have two columns.")
   coords <- getCoords(x)
   nodes <- getNodes(x)
-  
+
   ## handle attribute specification if provided
   if (!is.null(attr.name)) {
     temp <- unlist(getNodesAttr(x, attr.name = attr.name))
@@ -103,17 +101,19 @@ setMethod("closestNode", "gGraph", function(x, loc, method = "knn",
   } else {
     hasRightAttr <- rep(TRUE, length(nodes))
   }
-  
+
   ## use the specified method
   if (method == "knn") {
     res <- .closeOneKnn(x, loc, coords, nodes, hasRightAttr)
   } else if (method == "inArea") {
-    res <- apply(loc, 1, .closeOneLegacy, coords = coords, nodes = nodes, 
-                 hasRightAttr = hasRightAttr, zoneSize = zoneSize, x = x)
+    res <- apply(loc, 1, .closeOneLegacy,
+      coords = coords, nodes = nodes,
+      hasRightAttr = hasRightAttr, zoneSize = zoneSize, x = x
+    )
   } else {
     stop("method must be either 'knn' or 'inArea'.")
   }
-  
+
   return(res)
 }) # end closestNode for gGraph
 
@@ -123,21 +123,22 @@ setMethod("closestNode", "gGraph", function(x, loc, method = "knn",
 ###############
 #' @describeIn closestNode Method for gData
 #' @export
-setMethod("closestNode", "gData", function(x, method = "knn", zoneSize = 5, 
+setMethod("closestNode", "gData", function(x, method = "knn", zoneSize = 5,
                                            attr.name = NULL, attr.values = NULL) {
   ## get coords ##
   xy <- getCoords(x)
-  
+
   ## get gGraph object ##
   if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "does not exist."))
   obj <- get(x@gGraph.name, envir = .GlobalEnv)
-  
+
   ## make a call to the gGraph method, pass zoneSize only if user supplied it
-  res <- closestNode(obj, method = method, zoneSize = zoneSize, loc = xy, attr.name = attr.name, attr.values = attr.values)
-  
+  res <- closestNode(obj, method = method, zoneSize = zoneSize, loc = xy,
+                     attr.name = attr.name, attr.values = attr.values)
+
   ## return result ##
   x@nodes.id <- res
-  
+
   return(x)
 }) # end closestNode for gData
 
@@ -147,9 +148,11 @@ setMethod("closestNode", "gData", function(x, method = "knn", zoneSize = 5,
 .buildNnIndex <- function(coords) {
   lon <- coords[, 1] * pi / 180
   lat <- coords[, 2] * pi / 180
-  cbind(cos(lat) * cos(lon),
-        cos(lat) * sin(lon),
-        sin(lat))
+  cbind(
+    cos(lat) * cos(lon),
+    cos(lat) * sin(lon),
+    sin(lat)
+  )
 }
 
 
@@ -158,11 +161,11 @@ setMethod("closestNode", "gData", function(x, method = "knn", zoneSize = 5,
 ## default: FNN over unit-sphere XYZ
 .closeOneKnn <- function(x, loc, coords, nodes, hasRightAttr) {
   if (is.null(x@meta$.xyz)) x@meta$.xyz <- .buildNnIndex(coords)
-  cand_xyz   <- x@meta$.xyz[hasRightAttr, , drop = FALSE]
-  cand_nodes <- nodes[hasRightAttr]
+  cand.xyz <- x@meta$.xyz[hasRightAttr, , drop = FALSE]
+  cand.nodes <- nodes[hasRightAttr]
   qxyz <- .buildNnIndex(as.matrix(loc))
-  nn_idx <- FNN::get.knnx(cand_xyz, qxyz, k = 1)$nn.index[, 1]
-  res <- cand_nodes[nn_idx]
+  nn.idx <- FNN::get.knnx(cand.xyz, qxyz, k = 1)$nn.index[, 1]
+  res <- cand.nodes[nn.idx]
   names(res) <- rownames(loc)
   return(res)
 }
@@ -170,33 +173,32 @@ setMethod("closestNode", "gData", function(x, method = "knn", zoneSize = 5,
 #' internal: legacy zone expansion version of the function
 #' @noRd
 .closeOneLegacy <- function(oneLoc, coords, nodes, hasRightAttr, zoneSize, x) {
-    ## define area around loc
-    reg <- list()
-    toKeep <- character(0) # will contain node names
-    
-    while (length(toKeep) < 3) { # enlarge zoneSize until at least 3 candidates appear
-      ## define region
-      reg$x <- oneLoc[1] + c(-zoneSize, zoneSize) # +- zoneZine in long
-      reg$y <- oneLoc[2] + c(-zoneSize, zoneSize) # +- zoneZine in lat
-      
-      ## isolate nodes in this area
-      toKeep <- isInArea(x, reg, quiet = TRUE) # ! from now nodes indices won't match those of x and coords
-      
-      ## intersect with attribute selection
-      toKeep <- toKeep & hasRightAttr
-      
-      ## toKeep must be a character to insure matching
-      toKeep <- nodes[toKeep]
-      
-      ## increment zoneSize
-      zoneSize <- zoneSize * 1.5
-    } # end while
-    
-    xy <- coords[toKeep, , drop = FALSE]
-    
-    ## compute all great circle distances between nodes and loc
-    temp <- fields::rdist.earth(xy, matrix(oneLoc, nrow = 1))
-    closeNode <- rownames(temp)[which.min(temp)]
-    return(closeNode)
-} 
-  
+  ## define area around loc
+  reg <- list()
+  toKeep <- character(0) # will contain node names
+
+  while (length(toKeep) < 3) { # enlarge zoneSize until at least 3 candidates appear
+    ## define region
+    reg$x <- oneLoc[1] + c(-zoneSize, zoneSize) # +- zoneZine in long
+    reg$y <- oneLoc[2] + c(-zoneSize, zoneSize) # +- zoneZine in lat
+
+    ## isolate nodes in this area
+    toKeep <- isInArea(x, reg, quiet = TRUE) # ! from now nodes indices won't match those of x and coords
+
+    ## intersect with attribute selection
+    toKeep <- toKeep & hasRightAttr
+
+    ## toKeep must be a character to insure matching
+    toKeep <- nodes[toKeep]
+
+    ## increment zoneSize
+    zoneSize <- zoneSize * 1.5
+  } # end while
+
+  xy <- coords[toKeep, , drop = FALSE]
+
+  ## compute all great circle distances between nodes and loc
+  temp <- fields::rdist.earth(xy, matrix(oneLoc, nrow = 1))
+  closeNode <- rownames(temp)[which.min(temp)]
+  return(closeNode)
+}

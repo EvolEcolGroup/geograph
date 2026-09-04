@@ -1,6 +1,6 @@
 # geoGraph (development version)
 
-## New Features
+# geoGraph v2.0
 
 * Added ggplot2 support for gGraph, gData, and gPath objects via autoplot() methods and geom_ggraph(), geom_gdata(), and geom_gpath() layers.
 

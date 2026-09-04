@@ -30,9 +30,9 @@ keepMaxConnectedSet <- function(x) {
     newEdgeL[[i]] <- list()
     # if the source is in the set, we keep its edges but remove any destination not in the set
     if (i %in% maxSet.idx) {
-        keep <- edgeL[[i]]$edges %in% maxSet.idx
-        newEdgeL[[i]]$edges <- edgeL[[i]]$edges[keep]
-        newEdgeL[[i]]$weights <- edgeW[[i]][keep]
+      keep <- edgeL[[i]]$edges %in% maxSet.idx
+      newEdgeL[[i]]$edges <- edgeL[[i]]$edges[keep]
+      newEdgeL[[i]]$weights <- edgeW[[i]][keep]
     } else { # we remove this edge
       newEdgeL[[i]]$edges <- numeric(0)
       newEdgeL[[i]]$weights <- numeric(0)
