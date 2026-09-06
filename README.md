@@ -45,7 +45,7 @@ pak::pak("EvolEcolGroup/geograph@dev")
 
 A schematic overview of the `geoGraph` workflow is shown below.
 
-![The geoGraph workflow](pkgdown/readme_assets/geograph_infographic.png)
+![The geoGraph workflow](readme_assets/geograph_infographic.png)
 
 More detailed introduction to the functionalities of `geoGraph` can be found in the
 overview article of its website.

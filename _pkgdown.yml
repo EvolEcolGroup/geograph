@@ -5,7 +5,6 @@ development:
   mode: auto
 
 reference:
-
   - title: "Classes"
     desc: "Classes included in the package."
     contents:
