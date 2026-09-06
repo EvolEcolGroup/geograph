@@ -193,7 +193,7 @@ setMethod("assignByPolygon", "gData", function(x, layer = "world", attr = "all",
     x@data <- cbind.data.frame(x@data, res)
   } else if (is.list(x@data)) { # if data is a list
     x@data$layerInfo <- res
-  } else if (is.vector(x@data) & length(x@data) == nrow(res)) { # if data is a 'mergeable' vector
+  } else if (is.vector(x@data) && length(x@data) == nrow(res)) { # if data is a 'mergeable' vector
     x@data <- cbind.data.frame(x@data, res)
   } else { # else, build a list
     warning("x@data has been transformed into a list to include layer data.")

@@ -53,7 +53,7 @@
 #'
 #' ## correlations distance/genetic div.
 #' geo.dist <- gPath2dist(myPath)
-#' gen.div  <- getData(hgdp)$Genetic.Div
+#' gen.div <- getData(hgdp)$Genetic.Div
 #' plot(gen.div ~ geo.dist)
 #' abline(lm(gen.div ~ geo.dist), col = "blue")
 #' summary(lm(gen.div ~ geo.dist))
@@ -119,4 +119,22 @@ NULL
 #' geo.zoomin()
 #' }
 #'
+NULL
+
+#' Pairwise FST matrix for HGDP populations
+#'
+#' A matrix of pairwise \eqn{F_{ST}} values between the HGDP populations,
+#' used in the geoGraph case studies to relate genetic differentiation to
+#' geographic and least-cost distances.
+#'
+#' @name fst_hgdp
+#' @docType data
+#' @format A numeric matrix with one row and one column per population.
+#'   Row and column names are population identifiers matching those in
+#'   [`hgdp`].
+#' @keywords datasets
+#' @examples
+#' data(fst_hgdp)
+#' dim(fst_hgdp)
+#' fst_hgdp[1:5, 1:5]
 NULL

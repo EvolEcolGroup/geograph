@@ -18,7 +18,7 @@ geom_ggraph(
 \arguments{
 \item{data}{a \code{\link{gGraph}} object.}
 
-\item{mapping}{aesthetics. Variables from the gGraph's node attributes may
+\item{mapping}{aesthetics. Variables from the \verb{gGraph's} node attributes may
 be used (e.g. \code{aes(color = habitat)}).}
 
 \item{edges}{logical; whether to draw edges. Defaults to \code{FALSE}.}
@@ -36,10 +36,10 @@ Adds nodes (and optionally edges) of a \code{\link{gGraph}} to a ggplot as
 \dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(ggplot2)
 ggplot() +
- geom_ggraph(data = worldgraph.10k, aes(color = habitat), edges = TRUE, size = 0.3) +
- scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
- coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=-80") +
- theme_void()
+  geom_ggraph(data = worldgraph.10k, aes(color = habitat), edges = TRUE, size = 0.3) +
+  scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+  coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=-80") +
+  theme_void()
 \dontshow{\}) # examplesIf}
 }
 \seealso{

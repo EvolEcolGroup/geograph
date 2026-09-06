@@ -12,36 +12,40 @@
 #' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
 #' library(ggplot2)
 #' ggplot() +
-#'  geom_ggraph(data = worldgraph.10k, aes(color = habitat), edges = TRUE, size = 0.3) +
-#'  scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
-#'  coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=-80") +
-#'  theme_void()
+#'   geom_ggraph(data = worldgraph.10k, aes(color = habitat), edges = TRUE, size = 0.3) +
+#'   scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+#'   coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=-80") +
+#'   theme_void()
 #' @export
 #' @family ggplot_methods
 geom_ggraph <- function(data = NULL, mapping = ggplot2::aes(), edges = FALSE,
                         stat = "sf", position = "identity",
                         na.rm = FALSE, show.legend = NA, ...) {
-  if (is.null(data))            stop("data (a gGraph) must be specified")
+  if (is.null(data)) stop("data (a gGraph) must be specified")
   if (!inherits(data, "gGraph")) stop("data must be a gGraph object")
-  
+
   layers <- list()
-  
+
   # handle the edges layer
   if (edges) {
     layers <- c(layers, list(
-      ggplot2::geom_sf(data = .dfToSfLines(.ggraphEdgesDf(data)),
-                       color = "grey65", linewidth = 0.4,
-                       inherit.aes = FALSE)
+      ggplot2::geom_sf(
+        data = .dfToSfLines(.ggraphEdgesDf(data)),
+        color = "grey65", linewidth = 0.4,
+        inherit.aes = FALSE
+      )
     ))
   }
-  
+
   # make the node layer
   layers <- c(layers, list(
-    ggplot2::geom_sf(mapping = mapping,
-                     data = .dfToSfPoints(.ggraphNodesDf(data)),
-                     stat = stat, position = position,
-                     na.rm = na.rm, show.legend = show.legend,
-                     inherit.aes = FALSE, ...)
+    ggplot2::geom_sf(
+      mapping = mapping,
+      data = .dfToSfPoints(.ggraphNodesDf(data)),
+      stat = stat, position = position,
+      na.rm = na.rm, show.legend = show.legend,
+      inherit.aes = FALSE, ...
+    )
   ))
   layers
 }
@@ -62,22 +66,24 @@ geom_ggraph <- function(data = NULL, mapping = ggplot2::aes(), edges = FALSE,
 #' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
 #' library(ggplot2)
 #' ggplot() +
-#'  geom_gdata(data = hgdp, color = "black", size = 1.5) +
-#'  theme_void()
+#'   geom_gdata(data = hgdp, color = "black", size = 1.5) +
+#'   theme_void()
 #' @export
 #' @family ggplot_methods
 geom_gdata <- function(data = NULL, mapping = ggplot2::aes(),
                        original = FALSE,
                        stat = "sf", position = "identity",
                        na.rm = FALSE, show.legend = NA, ...) {
-  if (is.null(data))            stop("data (a gData) must be specified")
+  if (is.null(data)) stop("data (a gData) must be specified")
   if (!inherits(data, "gData")) stop("data must be a gData object")
-  
-  ggplot2::geom_sf(mapping = mapping,
-                   data = .dfToSfPoints(.gdataDf(data, original = original)),
-                   stat = stat, position = position,
-                   na.rm = na.rm, show.legend = show.legend,
-                   inherit.aes = FALSE, ...)
+
+  ggplot2::geom_sf(
+    mapping = mapping,
+    data = .dfToSfPoints(.gdataDf(data, original = original)),
+    stat = stat, position = position,
+    na.rm = na.rm, show.legend = show.legend,
+    inherit.aes = FALSE, ...
+  )
 }
 
 
@@ -96,8 +102,10 @@ geom_gdata <- function(data = NULL, mapping = ggplot2::aes(),
 #' addis_node <- closestNode(worldgraph.40k, addis)
 #' myPath <- dijkstraFrom(hgdp, addis_node)
 #' ggplot() +
-#'   geom_ggraph(data = worldgraph.40k, aes(color = habitat),
-#'               edges = FALSE, size = 1, show.legend = FALSE) +
+#'   geom_ggraph(
+#'     data = worldgraph.40k, aes(color = habitat),
+#'     edges = FALSE, size = 1, show.legend = FALSE
+#'   ) +
 #'   scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
 #'   geom_gpath(data = myPath, color = "firebrick", linewidth = 0.4) +
 #'   geom_gdata(data = hgdp, color = "black", size = 1.5) +
@@ -108,14 +116,16 @@ geom_gdata <- function(data = NULL, mapping = ggplot2::aes(),
 geom_gpath <- function(data = NULL, mapping = ggplot2::aes(),
                        stat = "sf", position = "identity",
                        na.rm = FALSE, show.legend = NA, ...) {
-  if (is.null(data))         stop("data (a gPath) must be specified")
+  if (is.null(data)) stop("data (a gPath) must be specified")
   if (!inherits(data, "gPath")) stop("data must be a gPath object")
-  
-  ggplot2::geom_sf(mapping = mapping,
-                   data = .dfToSfPaths(.gpathDf(data)),
-                   stat = stat, position = position,
-                   na.rm = na.rm, show.legend = show.legend,
-                   inherit.aes = FALSE, ...)
+
+  ggplot2::geom_sf(
+    mapping = mapping,
+    data = .dfToSfPaths(.gpathDf(data)),
+    stat = stat, position = position,
+    na.rm = na.rm, show.legend = show.legend,
+    inherit.aes = FALSE, ...
+  )
 }
 
 
@@ -133,15 +143,17 @@ geom_gpath <- function(data = NULL, mapping = ggplot2::aes(),
 #' @export
 #' @family ggplot_methods
 autoplot.gGraph <- function(object, edges = TRUE, ...) {
-  color_col <- if (!is.null(object@meta$colors)) colnames(object@meta$colors)[1]
-  
-  if (!is.null(color_col)) {
+  color.col <- if (!is.null(object@meta$colors)) colnames(object@meta$colors)[1]
+
+  if (!is.null(color.col)) {
     rules <- getColors(object, res.type = "rules")
     ggplot2::ggplot() +
-      geom_ggraph(mapping = ggplot2::aes(color = .data[[color_col]]),
-                  data = object, edges = edges, size = 0.3) +
+      geom_ggraph(
+        mapping = ggplot2::aes(color = .data[[color.col]]),
+        data = object, edges = edges, size = 0.3
+      ) +
       ggplot2::scale_color_manual(
-        values = stats::setNames(rules$color, rules[[color_col]])
+        values = stats::setNames(rules$color, rules[[color.col]])
       ) +
       ggplot2::coord_sf() +
       ggplot2::theme_minimal()
@@ -167,26 +179,29 @@ autoplot.gGraph <- function(object, edges = TRUE, ...) {
 #' @family ggplot_methods
 autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
   gg <- ggplot2::ggplot()
-  
+
   # overlay the linked gGraph with its colors, if available
   if (show.gGraph && exists(object@gGraph.name, envir = .GlobalEnv)) {
-    parent_graph <- get(object@gGraph.name, envir = .GlobalEnv)
-    color_col <- if (!is.null(parent_graph@meta$colors))
-      colnames(parent_graph@meta$colors)[1]
-    
-    if (!is.null(color_col)) {
-      rules <- getColors(parent_graph, res.type = "rules")
+    parentGraph <- get(object@gGraph.name, envir = .GlobalEnv)
+    color.col <- if (!is.null(parentGraph@meta$colors)) {
+      colnames(parentGraph@meta$colors)[1]
+    }
+
+    if (!is.null(color.col)) {
+      rules <- getColors(parentGraph, res.type = "rules")
       gg <- gg +
-        geom_ggraph(mapping = ggplot2::aes(color = .data[[color_col]]),
-                    data = parent_graph, edges = edges, size = 0.2) +
+        geom_ggraph(
+          mapping = ggplot2::aes(color = .data[[color.col]]),
+          data = parentGraph, edges = edges, size = 0.2
+        ) +
         ggplot2::scale_color_manual(
-          values = stats::setNames(rules$color, rules[[color_col]])
+          values = stats::setNames(rules$color, rules[[color.col]])
         )
     } else {
-      gg <- gg + geom_ggraph(data = parent_graph, edges = edges, size = 0.2)
+      gg <- gg + geom_ggraph(data = parentGraph, edges = edges, size = 0.2)
     }
   }
-  
+
   gg + geom_gdata(data = object) +
     ggplot2::coord_sf() + ggplot2::theme_minimal()
 }
@@ -194,9 +209,11 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 #' Internal function to convert a gGraph to a data.frame for ggplot
 #' @noRd
 .ggraphNodesDf <- function(g) {
-  cbind(data.frame(node_id = getNodes(g)),
-        as.data.frame(getCoords(g)),
-        getNodesAttr(g))
+  cbind(
+    data.frame(node_id = getNodes(g)),
+    as.data.frame(getCoords(g)),
+    getNodesAttr(g)
+  )
 }
 
 #' Internal function to convert a `gGraph's` edges to a data.frame for ggplot
@@ -204,9 +221,11 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 .ggraphEdgesDf <- function(g) {
   E <- getEdges(g, res.type = "matNames", unique = TRUE)
   co <- getCoords(g)
-  data.frame(from = E[, 1], to = E[, 2],
-             x    = co[E[, 1], 1], y    = co[E[, 1], 2],
-             xend = co[E[, 2], 1], yend = co[E[, 2], 2])
+  data.frame(
+    from = E[, 1], to = E[, 2],
+    x = co[E[, 1], 1], y = co[E[, 1], 2],
+    xend = co[E[, 2], 1], yend = co[E[, 2], 2]
+  )
 }
 
 #' Internal function to convert a gData to a data.frame for ggplot
@@ -214,7 +233,7 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 .gdataDf <- function(gd, original = FALSE) {
   co <- as.data.frame(getCoords(gd, original = original))
   colnames(co) <- c("lon", "lat")
-  
+
   df <- cbind(data.frame(node_id = gd@nodes.id), co)
   if (!is.null(gd@data) && length(gd@data) > 0 && nrow(gd@data) > 0) {
     df <- cbind(df, gd@data)
@@ -228,9 +247,13 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
   xy <- attr(gp, "xy")
   do.call(rbind, lapply(seq_along(gp), function(k) {
     nd <- gp[[k]]$path_detail
-    if (length(nd) < 2) return(NULL)
-    data.frame(path_id = k, order = seq_along(nd),
-               lon = xy[nd, 1], lat = xy[nd, 2])
+    if (length(nd) < 2) {
+      return(NULL)
+    }
+    data.frame(
+      path_id = k, order = seq_along(nd),
+      lon = xy[nd, 1], lat = xy[nd, 2]
+    )
   }))
 }
 
@@ -245,20 +268,26 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 #' @noRd
 .dfToSfLines <- function(df) {
   lines <- lapply(seq_len(nrow(df)), function(i) {
-    sf::st_linestring(rbind(c(df$x[i], df$y[i]),
-                            c(df$xend[i], df$yend[i])))
+    sf::st_linestring(rbind(
+      c(df$x[i], df$y[i]),
+      c(df$xend[i], df$yend[i])
+    ))
   })
-  sf::st_sf(from = df$from, to = df$to,
-            geometry = sf::st_sfc(lines, crs = 4326))
+  sf::st_sf(
+    from = df$from, to = df$to,
+    geometry = sf::st_sfc(lines, crs = 4326)
+  )
 }
 
 #' Internal function to convert a data.frame of paths to sf linestrings for ggplot
 #' @noRd
 .dfToSfPaths <- function(df) {
-  by_path <- split(df, df$path_id)
-  lines <- lapply(by_path, function(p) sf::st_linestring(cbind(p$lon, p$lat)))
-  sf::st_sf(path_id = names(by_path),
-            geometry = sf::st_sfc(lines, crs = 4326))
+  by.path <- split(df, df$path_id)
+  lines <- lapply(by.path, function(p) sf::st_linestring(cbind(p$lon, p$lat)))
+  sf::st_sf(
+    path_id = names(by.path),
+    geometry = sf::st_sfc(lines, crs = 4326)
+  )
 }
 
 #' @importFrom ggplot2 autoplot

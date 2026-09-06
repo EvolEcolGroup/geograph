@@ -8,6 +8,12 @@ on:
   schedule: # this will automatically run once a month on main
     - cron: "0 0 1 * *"
 
+permissions: read-all
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 name: R-CMD-check
 
 jobs:

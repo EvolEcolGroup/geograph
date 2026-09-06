@@ -54,7 +54,7 @@ plot(myPath)
 
 ## correlations distance/genetic div.
 geo.dist <- gPath2dist(myPath)
-gen.div  <- getData(hgdp)$Genetic.Div
+gen.div <- getData(hgdp)$Genetic.Div
 plot(gen.div ~ geo.dist)
 abline(lm(gen.div ~ geo.dist), col = "blue")
 summary(lm(gen.div ~ geo.dist))

@@ -92,7 +92,7 @@ setMethod(
 
     myGraph <- get(x@gGraph.name, envir = .GlobalEnv) # get the gGraph object
 
-    if ((type %in% c("nodes", "both")) & (length(x@nodes.id) == 0)) { # no nodes assigned
+    if ((type %in% c("nodes", "both")) && (length(x@nodes.id) == 0)) { # no nodes assigned
       stop("Locations are not assigned to nodes (x@nodes.id is empty).")
     }
 
@@ -104,7 +104,7 @@ setMethod(
     }
 
     ## define visible area if reset ##
-    if ((!exists("zoom.log", envir = .geoGraphEnv)) | reset) {
+    if ((!exists("zoom.log", envir = .geoGraphEnv)) || reset) {
       loc <- getCoords(x)
       coords.nodes <- getCoords(myGraph)[x@nodes.id, , drop = FALSE]
       temp <- rbind(loc, coords.nodes)
@@ -185,11 +185,11 @@ setMethod("points", signature(x = "gData"), function(x, type = c("nodes", "origi
   }
 
   ## add points ##
-  if (type == "original" | type == "both") { # plot original coordinates
+  if (type == "original" || type == "both") { # plot original coordinates
     points(coords.ori[, 1], coords.ori[, 2], pch = pch.ori, col = col.ori, ...)
   }
 
-  if (type == "nodes" | type == "both") { # plot assigned nodes
+  if (type == "nodes" || type == "both") { # plot assigned nodes
     points(coords.nodes[, 1], coords.nodes[, 2], pch = pch.nodes, col = col.nodes, ...)
   }
 

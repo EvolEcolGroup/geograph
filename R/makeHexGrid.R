@@ -26,9 +26,9 @@
 
 makeHexGrid <- function(geo.box, spacing, ...) {
   if (!is.numeric(spacing) ||
-        length(spacing) != 1 ||
-        is.na(spacing) ||
-        spacing <= 0) {
+    length(spacing) != 1 ||
+    is.na(spacing) ||
+    spacing <= 0) {
     stop("`spacing` must be a single positive numeric value (in km).")
   }
 
@@ -51,7 +51,7 @@ makeHexGrid <- function(geo.box, spacing, ...) {
 
   # check the validity of coordinates
   if (bbox["xmin"] < -180 || bbox["xmin"] > 180 ||
-        bbox["xmax"] < -180 || bbox["xmax"] > 180) {
+    bbox["xmax"] < -180 || bbox["xmax"] > 180) {
     stop("Longitude values in geo.box must be between -180 and 180.")
   }
   if (bbox["ymin"] < -90 || bbox["ymax"] > 90) {

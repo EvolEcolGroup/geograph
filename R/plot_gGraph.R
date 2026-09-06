@@ -118,7 +118,7 @@ setMethod(
     }
 
     ## handle xlim and ylim
-    if ((!exists("zoom.log", envir = .geoGraphEnv)) | reset) { # if xlim absent or if reset
+    if ((!exists("zoom.log", envir = .geoGraphEnv)) || reset) { # if xlim absent or if reset
       temp <- c(range(coords[, 1]), range(coords[, 2]))
       .zoomlog.up(temp)
     }

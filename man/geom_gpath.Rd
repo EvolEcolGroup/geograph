@@ -35,8 +35,10 @@ addis <- list(lon = 38.74, lat = 9.03)
 addis_node <- closestNode(worldgraph.40k, addis)
 myPath <- dijkstraFrom(hgdp, addis_node)
 ggplot() +
-  geom_ggraph(data = worldgraph.40k, aes(color = habitat),
-              edges = FALSE, size = 1, show.legend = FALSE) +
+  geom_ggraph(
+    data = worldgraph.40k, aes(color = habitat),
+    edges = FALSE, size = 1, show.legend = FALSE
+  ) +
   scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
   geom_gpath(data = myPath, color = "firebrick", linewidth = 0.4) +
   geom_gdata(data = hgdp, color = "black", size = 1.5) +

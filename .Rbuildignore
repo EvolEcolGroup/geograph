@@ -16,3 +16,4 @@ data-raw
 ^\.claude$
 ^doc$
 ^Meta$
+^LICENSE\.md$
