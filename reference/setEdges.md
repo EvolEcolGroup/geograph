@@ -56,12 +56,42 @@ object with newly added or removed edges.
 
 ## See also
 
+[`getEdges`](https://evolecolgroup.github.io/geograph/reference/getEdges.md)
+to retrieve edges.
 [`geo.add.edges`](https://evolecolgroup.github.io/geograph/reference/geo.add.edges.md)
 and
 [`geo.remove.edges`](https://evolecolgroup.github.io/geograph/reference/geo.add.edges.md)
-to interactively add or remove edges in a
-[gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
-object.  
+for interactive versions.
 
-[`getEdges`](https://evolecolgroup.github.io/geograph/reference/getEdges.md)
-to retrieve edges in different formats.
+## Examples
+
+``` r
+# check which nodes are neighbours of node "1"
+head(getEdges(worldgraph.10k, res.type = "matNames"))
+#>      Vi   Vj    
+#> [1,] "67" "9955"
+#> [2,] "67" "387" 
+#> [3,] "67" "68"  
+#> [4,] "67" "9953"
+#> [5,] "67" "388" 
+#> [6,] "68" "388" 
+
+# remove an edge between two neighbouring nodes
+node.from <- "1"
+node.to <- getEdges(worldgraph.10k, res.type = "matNames")[1, 2]
+
+x <- setEdges(worldgraph.10k,
+  remove = data.frame(from = node.from, to = node.to)
+)
+
+# verify the edge is gone
+areNeighbours(node.from, node.to, getGraph(x))
+#> 1->9955 
+#>   FALSE 
+
+# add it back
+x <- setEdges(x, add = data.frame(from = node.from, to = node.to))
+areNeighbours(node.from, node.to, getGraph(x))
+#> 1->9955 
+#>    TRUE 
+```

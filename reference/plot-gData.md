@@ -98,6 +98,10 @@ points(
 
   further arguments passed to `points`.
 
+## Value
+
+NULL.
+
 ## Details
 
 When `sticky.points` is set to TRUE, all operations performed on the
@@ -118,6 +122,10 @@ loosing the `gData` plot.
   [`geo.bookmark`](https://evolecolgroup.github.io/geograph/reference/zoom.md),
   [`geo.goto`](https://evolecolgroup.github.io/geograph/reference/zoom.md).  
 
+Other plotting_methods:
+[`plot-gGraph`](https://evolecolgroup.github.io/geograph/reference/plot-gGraph.md),
+[`plot.gPath()`](https://evolecolgroup.github.io/geograph/reference/plot.gPath.md)
+
 ## Examples
 
 ``` r
@@ -136,7 +144,7 @@ obj
 #> 3  11  71
 #> ...
 #> 
-#> @nodes.id: nodes identifiers
+#> @nodes.id: 0 nodes identifiers
 #> character(0)
 #> 
 #> @data: data
@@ -150,6 +158,8 @@ obj <- closestNode(obj, attr.name = "habitat", attr.value = "land")
 
 ## plot the result (original location -> assigned node)
 plot(obj, type = "both", reset = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("'x'=location, 'o'=assigned node")
 
 ## using different parameters
@@ -158,7 +168,9 @@ points(obj, type = "both", pch.ori = 2, col.ori = "red", pch.nodes = 20, col.nod
 
 ## only nodes, fancy plot
 plot(obj, col.nodes = "red", cex = 1, pch.node = 20)
+#> Spherical geometry (s2) switched off
 #> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'points': object 'obj' not found
+#> Spherical geometry (s2) switched on
 points(obj, col.nodes = "red", cex = 2)
 points(obj, col.nodes = "orange", cex = 3)
 points(obj, col.nodes = "yellow", cex = 4)

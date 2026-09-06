@@ -12,18 +12,18 @@ vertices.
 [gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
 objects with the following specificities:
 
-- @nodes.attr\\habitat:
+- @nodes.attr\$habitat:
 
-  habitat corresponding to each vertice; currently 'land' or 'sea'.
+  habitat corresponding to each vertex; currently 'land' or 'sea'.
 
-- @meta\\color:
+- @meta\$color:
 
   a matrix assigning a color for plotting vertices (second column) to
   different values of habitat (first column).
 
 ## Source
 
-Graph reconstructed by Andrea Manica.
+Graph constructed by Andrea Manica.
 
 ## Details
 
@@ -33,9 +33,6 @@ in references.
 'worldgraph's are 'rawgraph's that have been modified manually to
 rectify connectivity between edges at some places. The most noticeable
 change is that all edges involving sea vertices have been removed.  
-
-'worldshape' is a shapefile of countries of the world (snapshot from
-1994).
 
 ## References
 
@@ -77,14 +74,20 @@ worldgraph.10k
 
 ## plotting the object
 plot(worldgraph.10k, reset = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("Hello world")
 
 
 ## zooming in
 geo.zoomin(list(x = c(-12, 45), y = c(33, 75)))
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("Europe")
 
 geo.zoomin(list(x = c(-12, 2), y = c(50, 60)))
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 plotEdges(worldgraph.10k)
 title("United Kingdom")
 
@@ -92,12 +95,16 @@ title("United Kingdom")
 ## zooming out
 # geo.zoomout() # needs clicking on device
 geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("Europe")
 
 
 ## defining the subset of visible points
-x <- worldgraph.10k[isInArea(worldgraph.10k)]
+x <- worldgraph.10k[isInArea(worldgraph.10k, quiet = TRUE)]
 plot(x, reset = TRUE, edges = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("One subsetted object.")
 
 

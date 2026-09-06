@@ -32,8 +32,10 @@ taken from the row names of `@coords` slot).
 
 - `graph`:
 
-  an object of the class graphNEL, from the `graph` package (see
-  `class?graphNEL`), describing connectivity among nodes.
+  an object of the class
+  [`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html),
+  from the `graph` package (see `class?graphNEL`), describing
+  connectivity among nodes.
 
   Note that none of these is mandatory: `new("gGraph")` would work, and
   create an empty `gGraph` object.
@@ -45,8 +47,9 @@ taken from the row names of `@coords` slot).
 
 ## See also
 
-Related classes are:  
-% - `graphNEL` (graph package): slot `@graph` in `gGraph`.  
+Related classes are:
+[`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html):
+slot `@graph` in `gGraph`.  
 
 ## Examples
 
@@ -73,10 +76,14 @@ new("gGraph")
 
 ## plotting the object
 plot(rawgraph.10k, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 ## zooming in
 geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("Europe")
 
 
@@ -88,19 +95,28 @@ title("Europe")
 
 ## defining a new object restrained to visible nodes
 x <- rawgraph.10k[isInArea(rawgraph.10k)]
+#> Area: lon = [-29.4479, 61.4479], lat = [30.2400, 77.7600]
+#> 
+#>       Reproducible call: reg = list(x = c(-29.4479, 61.4479), y = c(30.2400, 77.7600))
 plot(x, reset = TRUE, edges = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("x does just contain these visible nodes.")
 
 
 ## define weights for edges
 x <- setCosts(x, attr.name = "habitat", method = "prod")
 plot(x, edges = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("costs defined by habitat (land/land=1, other=100)")
 
 
 ## drop 'dead edges' (i.e. with weight 0)
 x <- dropDeadEdges(x, thres = 10)
 plot(x, edges = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("after droping edges with null weight")
 
 ```

@@ -41,9 +41,11 @@ removed from the object.
 
 The notion of 'costs' in the context of
 [gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
-objects is identical to the concept of 'weights' in graph (and thus
-graphNEL) objects. The larger it is for an edge, the less connectivity
-there is between the couple of concerned nodes.
+objects is identical to the concept of 'weights' in the library `graph`
+(and thus
+[`graph::graphNEL`](https://rdrr.io/pkg/graph/man/graphNEL-class.html))
+objects. The larger it is for an edge, the less connectivity there is
+between the couple of concerned nodes.
 
 ## Functions
 
@@ -57,42 +59,34 @@ accessor, returning costs of the edges of a
 [gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
 object in different ways.  
 
+Other cost_functions:
+[`combineCosts()`](https://evolecolgroup.github.io/geograph/reference/combineCosts.md),
+[`dropCosts()`](https://evolecolgroup.github.io/geograph/reference/dropCosts.md),
+[`getCosts()`](https://evolecolgroup.github.io/geograph/reference/getCosts.md),
+[`hasCosts()`](https://evolecolgroup.github.io/geograph/reference/hasCosts.md),
+[`setCosts()`](https://evolecolgroup.github.io/geograph/reference/setCosts.md)
+
 ## Examples
 
 ``` r
+plot(rawgraph.10k, reset = TRUE)
+#> Spherical geometry (s2) switched off
 
-if (require(fields)) {
-  ## load data
-  plot(rawgraph.10k, reset = TRUE)
-  geo.zoomin(list(x = c(110, 150), y = c(-10, -40)))
-  plotEdges(rawgraph.10k)
+#> Spherical geometry (s2) switched on
+geo.zoomin(list(x = c(110, 150), y = c(-10, -40)))
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
+plotEdges(rawgraph.10k)
 
-  ## compute costs
-  x <- rawgraph.10k[isInArea(rawgraph.10k)]
-  x <- setDistCosts(x)
-
-  ## replot edges
-  plotEdges(x) # no big differences can be seen
-  head(getCosts(x))
-}
-#> Loading required package: fields
-#> Loading required package: spam
-#> Spam version 2.11-4 (2026-05-28) is loaded.
-#> Type 'help( Spam)' or 'demo( spam)' for a short introduction 
-#> and overview of this package.
-#> Help for individual functions is also obtained by adding the
-#> suffix '.spam' to the function name, e.g. 'help( chol.spam)'.
+x <- rawgraph.10k[isInArea(rawgraph.10k)]
+#> Area: lon = [103.2044, 156.7956], lat = [-46.6000, -3.4000]
 #> 
-#> Attaching package: ‘spam’
-#> The following objects are masked from ‘package:base’:
-#> 
-#>     backsolve, forwardsolve
-#> Loading required package: viridisLite
-#> Loading required package: RColorBrewer
-#> 
-#> Try help(fields) to get started.
+#>       Reproducible call: reg = list(x = c(103.2044, 156.7956), y = c(-46.6000, -3.4000))
+x <- setDistCosts(x)
 
+plotEdges(x)
 
+head(getCosts(x))
 #> $`150`
 #>    10038      151    10037      471 
 #> 153.5122 135.5409 159.0169 159.0779 

@@ -72,7 +72,7 @@ hgdp
 #> 3  40  61
 #> ...
 #> 
-#> @nodes.id: nodes identifiers
+#> @nodes.id: 52 nodes identifiers
 #>   28179   11012   22532 
 #> "26898" "11652" "22532" 
 #> ...
@@ -88,6 +88,8 @@ hgdp
 
 ## plot data
 plot(worldgraph.40k, pch = "")
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 points(hgdp)
 
 
@@ -95,6 +97,8 @@ points(hgdp)
 onlyNorth <- hgdp[hgdp@data$Latitude > 0] # only northern populations
 
 plot(worldgraph.40k, reset = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 abline(h = 0) # equator
 points(onlyNorth, pch.node = 20, cex = 2, col.node = "purple")
 

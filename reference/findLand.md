@@ -1,7 +1,7 @@
 # Find which nodes are on land
 
 The generic function `findLand` uses information from a GIS shapefile to
-define which nodes are on land, and which are not. Strickly speaking,
+define which nodes are on land, and which are not. Strictly speaking,
 being 'on land' is in fact being inside a polygon of the shapefile.
 
 ## Usage
@@ -34,11 +34,11 @@ findLand(x, shape = "world", attr.name = "habitat", ...)
 
 - shape:
 
-  a shapefile of the class `SpatialPolygonsDataFrame` (see
-  `readShapePoly` in maptools package to import such data from a GIS
-  shapefile). Alternatively, a character string indicating one shapefile
-  released with geoGraph; currently, only 'world' is available (see
-  `?data(worldshape)`).
+  a shapefile of the class `sf` (see
+  [`sf::st_read()`](https://r-spatial.github.io/sf/reference/st_read.html)
+  to import a GIS shapefile). Alternatively, a character string
+  indicating one shapefile released with geoGraph; currently, only
+  'world' is available.
 
 - attr.name:
 
@@ -65,7 +65,7 @@ object.
 
 ## See also
 
-[`extractFromLayer`](https://evolecolgroup.github.io/geograph/reference/extractFromLayer.md),
+[`assignByPolygon`](https://evolecolgroup.github.io/geograph/reference/assignByPolygon.md),
 to retrieve any information from a GIS shapefile.
 
 ## Examples
@@ -81,10 +81,10 @@ obj # note: no node attribute
 #> === gGraph object ===
 #> 
 #> @coords: spatial coordinates of 1000 nodes
-#>         lon      lat
-#> 1  35.70424 25.41490
-#> 2 113.53237 63.96240
-#> 3  18.78418 76.08098
+#>         lon       lat
+#> 1 151.86631 -72.25429
+#> 2  48.34813  76.86184
+#> 3 -71.79669 -20.55676
 #> ...
 #> 
 #> @nodes.attr: 0 nodes attributes
@@ -97,25 +97,31 @@ obj # note: no node attribute
 #> Number of Nodes = 1000 
 #> Number of Edges = 0 
 plot(obj)
+#> Spherical geometry (s2) switched off
 
+#> Spherical geometry (s2) switched on
 
 ## find which points are on land
 obj <- findLand(obj)
+#> Spherical geometry (s2) switched off
+#> although coordinates are longitude/latitude, st_intersects assumes that they
+#> are planar
+#> Spherical geometry (s2) switched on
 obj # note: new node attribute
 #> 
 #> === gGraph object ===
 #> 
 #> @coords: spatial coordinates of 1000 nodes
-#>         lon      lat
-#> 1  35.70424 25.41490
-#> 2 113.53237 63.96240
-#> 3  18.78418 76.08098
+#>         lon       lat
+#> 1 151.86631 -72.25429
+#> 2  48.34813  76.86184
+#> 3 -71.79669 -20.55676
 #> ...
 #> 
 #> @nodes.attr: 1 nodes attributes
 #>   habitat
-#> 1     sea
-#> 2    land
+#> 1    land
+#> 2     sea
 #> 3     sea
 #> ...
 #> 
@@ -132,8 +138,11 @@ temp
 #>   habitat color
 #> 1    land green
 #> 2     sea  blue
-obj@meta$color <- temp
+obj@meta$colors <- temp
 
 ## plot object with new colors
 plot(obj)
+#> Spherical geometry (s2) switched off
+
+#> Spherical geometry (s2) switched on
 ```

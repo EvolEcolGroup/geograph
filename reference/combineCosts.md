@@ -2,7 +2,7 @@
 
 The function `combineCosts` combines the edge costs of two
 [gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
-objects. The first object is used as a temlate to generate the objects
+objects. The first object is used as a template to generate the objects
 with the combined costs. Two two
 [gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
 objects must have the same edges.
@@ -17,7 +17,7 @@ combineCosts(x1, x2, method = c("sum", "product", "function"), FUN = NULL, ...)
 
 - x1:
 
-  The firt gGraph (which will be used as a template to build the
+  The first gGraph (which will be used as a template to build the
   combined gGraph)
 
 - x2:
@@ -45,8 +45,8 @@ combineCosts(x1, x2, method = c("sum", "product", "function"), FUN = NULL, ...)
 
 A
 [gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
-object with the newly defined costs, basedd on the combination of the
-two gGraph objects, used as weightings of edges.
+object with the newly defined costs, based on the combination of the two
+gGraph objects, used as weightings of edges.
 
 ## Details
 
@@ -57,9 +57,22 @@ connectivity between the two concerned nodes.
 Also note that 'costs' defined in `geoGraph` are equivalent to 'weights'
 as defined in `graph` and `RBGL` packages.
 
+## See also
+
+[setCosts](https://evolecolgroup.github.io/geograph/reference/setCosts.md)
+to set costs for a single gGraph object
+
+Other cost_functions:
+[`dropCosts()`](https://evolecolgroup.github.io/geograph/reference/dropCosts.md),
+[`getCosts()`](https://evolecolgroup.github.io/geograph/reference/getCosts.md),
+[`hasCosts()`](https://evolecolgroup.github.io/geograph/reference/hasCosts.md),
+[`setCosts()`](https://evolecolgroup.github.io/geograph/reference/setCosts.md),
+[`setDistCosts()`](https://evolecolgroup.github.io/geograph/reference/setDistCosts.md)
+
 ## Examples
 
 ``` r
+
 data("worldgraph.40k")
 # new graph with custom cost function
 exp.cost <- function(x1, x2, cost.coeff) {

@@ -1,12 +1,11 @@
 # Set friction in a gGraph object
 
-The function `setCosts` define costs for the edges of a
-[gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
-object according to a node attribute and some rules defined in the
-`@meta\$costs` slot of the object. Each node has a value for the chosen
-attribute, which is associated to a costs (a friction). The cost of an
-edge is computed as a function (see argument `method`) of the costs of
-its nodes.  
+The function `setCosts` defines costs for the edges of a
+[`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
+object according to a node attribute and cost rules defined in
+`@meta$costs`. Each node has a value for the chosen attribute which is
+associated to a cost. The cost of an edge is computed as a function of
+the costs of its two nodes.
 
 ## Usage
 
@@ -15,6 +14,7 @@ setCosts(
   x,
   attr.name = NULL,
   node.values = NULL,
+  cost.rules = NULL,
   method = c("mean", "product", "function"),
   FUN = NULL,
   ...
@@ -26,79 +26,80 @@ setCosts(
 - x:
 
   a
-  [gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
-  object with a least one node attribute, and a `@meta$costs` component
-  (for an example, see worldgraph.10k dataset).
+  [`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
+  object with at least one node attribute and a `@meta$costs` component
+  (see `worldgraph.10k` for an example).
 
 - attr.name:
 
-  the name of the node attribute used to compute costs (i.e., of one
-  column of `@nodes.attr`).
+  the name of the node attribute used to compute costs.
 
 - node.values:
 
-  a numeric vector giving costs associated to the nodes. If provided, it
-  will be used instead of `attr.name`.
+  a numeric vector of costs for the nodes. If provided, overrides
+  `attr.name`.
+
+- cost.rules:
+
+  a two-column `data.frame` to update `x@meta$costs` before computing
+  edge costs. If `NULL`, existing `x@meta$costs` is used.
 
 - method:
 
-  a character string indicating which method should be used to compute
-  edge cost from nodes costs. Currently available options are 'mean',
-  'prod' and 'function', where the cost associated to an edge is
-  respectively computed as the mean, the product or a custom function
-  (defined in `FUN`) of the costs of its nodes.
+  how edge costs are computed from node costs: `"mean"`, `"product"`, or
+  `"function"` (requires `FUN`).
 
 - FUN:
 
-  a function used to compute the cost between two nodes (needed if
-  `method="function"`).
+  a function to compute edge cost from two node costs. Required when
+  `method = "function"`.
 
 - ...:
 
-  additional parameters to be passed to `FUN`.
+  additional arguments passed to `FUN`.
 
 ## Value
 
 A
-[gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
-object with the newly defined costs used as weightings of edges.
+[`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
+object with the newly defined edge costs.
 
 ## Details
 
-Note that costs are inversely proportional to connectivity between
-edges: the larger the cost associated to an edge, the lower the
-connectivity between the two concerned nodes.  
-
-Also note that 'costs' defined in `geoGraph` are equivalent to 'weights'
-as defined in `graph` and `RBGL` packages.
+Costs are inversely proportional to connectivity: the larger the cost of
+an edge, the lower the connectivity between its two nodes. Costs in
+`geoGraph` are equivalent to weights in the `graph` and `RBGL` packages.
 
 ## See also
 
 [`dropDeadEdges`](https://evolecolgroup.github.io/geograph/reference/dropDeadEdges.md),
-to get rid of edge whose cost is below a given threshold.
-[`geo.add.edges`](https://evolecolgroup.github.io/geograph/reference/geo.add.edges.md)
-to add edges to a
-[gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
-object.
+[`getCosts`](https://evolecolgroup.github.io/geograph/reference/getCosts.md),
+[`hasCosts`](https://evolecolgroup.github.io/geograph/reference/hasCosts.md)
+
+Other cost_functions:
+[`combineCosts()`](https://evolecolgroup.github.io/geograph/reference/combineCosts.md),
+[`dropCosts()`](https://evolecolgroup.github.io/geograph/reference/dropCosts.md),
+[`getCosts()`](https://evolecolgroup.github.io/geograph/reference/getCosts.md),
+[`hasCosts()`](https://evolecolgroup.github.io/geograph/reference/hasCosts.md),
+[`setDistCosts()`](https://evolecolgroup.github.io/geograph/reference/setDistCosts.md)
 
 ## Examples
 
 ``` r
+## get and modify cost rules then set costs in one call
+cost.rules <- getCosts(worldgraph.10k, res.type = "rules")
+cost.rules
+#>            habitat cost
+#> 1              sea  100
+#> 2             land    1
+#> 3         mountain   10
+#> 4       landbridge    5
+#> 5 oceanic crossing   20
+#> 6  deselected land  100
 
-plot(rawgraph.10k, reset = TRUE)
+## make sea travel cheaper
+cost.rules$cost[cost.rules$habitat == "sea"] <- 50
 
-
-## zooming in
-geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
-title("Europe")
-
-
-## defining a new object restrained to visible nodes
-x <- rawgraph.10k[isInArea(rawgraph.10k)]
-
-## define weights for edges
-x <- setCosts(x, attr.name = "habitat")
-plot(x, edges = TRUE)
-title("costs defined by habitat (land/land=1, other=100)")
-
+## update rules and set costs in one call
+x <- setCosts(worldgraph.10k, attr.name = "habitat", cost.rules = cost.rules, method = "mean")
 ```

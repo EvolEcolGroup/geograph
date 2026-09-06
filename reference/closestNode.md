@@ -1,12 +1,12 @@
 # Find the closest node to a given location
 
 The function `closestNode` searches for the closest node in a
-[gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
+[`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
 or a
-[gData](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
+[`gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
 object to a given location. It is possible to restrain the research to
 given values of a node attribute. For instance, one can search the
-closest node on land to a given location.  
+closest node on land to a given location.
 
 ## Usage
 
@@ -14,10 +14,23 @@ closest node on land to a given location.
 closestNode(x, ...)
 
 # S4 method for class 'gGraph'
-closestNode(x, loc, zoneSize = 5, attr.name = NULL, attr.values = NULL)
+closestNode(
+  x,
+  loc,
+  method = "knn",
+  zoneSize = 5,
+  attr.name = NULL,
+  attr.values = NULL
+)
 
 # S4 method for class 'gData'
-closestNode(x, zoneSize = 5, attr.name = NULL, attr.values = NULL)
+closestNode(
+  x,
+  method = "knn",
+  zoneSize = 5,
+  attr.name = NULL,
+  attr.values = NULL
+)
 ```
 
 ## Arguments
@@ -25,13 +38,13 @@ closestNode(x, zoneSize = 5, attr.name = NULL, attr.values = NULL)
 - x:
 
   a valid
-  [gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
+  [`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
   or
-  [gData](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
+  [`gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
   object. In the latter case, the
-  [gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
+  [`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
   to which the
-  [gData](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
+  [`gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
   is linked has to be in the current environment.
 
 - ...:
@@ -42,17 +55,23 @@ closestNode(x, zoneSize = 5, attr.name = NULL, attr.values = NULL)
 
   locations, specified as a list with two components indicating
   longitude and latitude of locations. Alternatively, this can be a
-  data.frame or a matrix with longitude and latitude in columns, in this
-  order. Note that
+  `data.frame` or a matrix with longitude and latitude in columns, in
+  this order. Note that
   [`locator()`](https://rdrr.io/r/graphics/locator.html) can be used to
-  specify interactively the locations.
+  specify the locations interactively.
+
+- method:
+
+  the method to use for finding the closest node. The default is
+  `"knn"`, which uses a fast FNN-based spatial index over unit-sphere
+  Cartesian coordinates. The legacy `"inArea"` method is also available,
+  but it is slower.
 
 - zoneSize:
 
-  a numeric value indicating the size of the zone (in latitude/longitude
-  units) where the closest node is searched for. Note that this only
-  matters for speed purpose: if no closest node is found inside a given
-  zone, the zone is expanded until nodes are found.
+  The initial size of the search area (in degrees). Only needs to be
+  specified if `method = "inArea"`. The search zone will be expanded
+  until at least 3 candidate nodes are found.
 
 - attr.name:
 
@@ -60,48 +79,43 @@ closestNode(x, zoneSize = 5, attr.name = NULL, attr.values = NULL)
 
 - attr.values:
 
-  an optional vector giving values for `attr.names`. See details.
+  an optional vector giving values for `attr.name`. See details.
 
 ## Value
 
 If `x` is a
-[gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
-object: a vector of node names.  
+[`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
+object: a vector of node names.
 
 If `x` is a
-[gData](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
+[`gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
 object: a
-[gData](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
+[`gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
 object with matching nodes stored in the `@nodes.id` slot. Note that
-previous content of `@nodes.id` will be erased.  
+previous content of `@nodes.id` will be erased.
 
 ## Details
 
 This function is also used to match locations of a
-[gData](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
-object with nodes of the `gGraph` object to which it is linked.
+[`gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
+object with nodes of the
+[`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
+object to which it is linked.
 
 When creating a
-[gData](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
+[`gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
 object, if the `gGraph.name` argument is provided, then locations are
-matched with the `gGraph` object automatically, by an internal call to
-closestNode. Note, however, that it is not possible to specify node
-attributes (`attr.names` and `attr.values`) this way.
+matched with the
+[`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
+object automatically, by an internal call to `closestNode`. Note,
+however, that it is not possible to specify node attributes (`attr.name`
+and `attr.values`) this way.
 
 ## Functions
 
 - `closestNode(gGraph)`: Method for gGraph
 
 - `closestNode(gData)`: Method for gData
-
-## See also
-
-[`geo.add.edges`](https://evolecolgroup.github.io/geograph/reference/geo.add.edges.md)
-and
-[`geo.remove.edges`](https://evolecolgroup.github.io/geograph/reference/geo.add.edges.md)
-to interactively add or remove edges in a
-[gGraph](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
-object.
 
 ## Examples
 
@@ -119,7 +133,7 @@ myNodes <- closestNode(worldgraph.10k, locator(), attr.name = "habitat", attr.va
 myNodes
 
 ## here are the closestNodes
-points(getCoords(worldgraph.10k)[myNodes, ], col = "red")
+points(getCoords(worldgraph.10k)[myNodes, , drop = FALSE], col = "red")
 } # }
 
 ## example with a gData object ##
@@ -136,7 +150,7 @@ obj
 #> 3  11  71
 #> ...
 #> 
-#> @nodes.id: nodes identifiers
+#> @nodes.id: 0 nodes identifiers
 #> character(0)
 #> 
 #> @data: data
@@ -149,8 +163,9 @@ obj@gGraph.name <- "worldgraph.10k" # this could be done when creating obj
 obj <- closestNode(obj, attr.name = "habitat", attr.value = "land")
 
 ## plot the result (original location -> assigned node)
-plot(obj, method = "both", reset = TRUE)
-#> Warning: "method" is not a graphical parameter
+plot(obj, type = "both", reset = TRUE)
+#> Spherical geometry (s2) switched off
+#> Spherical geometry (s2) switched on
 title("'x'=location, 'o'=assigned node")
 
 
