@@ -25,7 +25,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/EvolEcolGroup/geograph/blob/dev/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/EvolEcolGroup/geograph/blob/main/DESCRIPTION)
 
 Jombart T, Jud D, Padilla-Iglesias C, Pelanek O, Pozzi A, Colucci M,
 Carter E, Leonardi M, Gunasekaram C, Manica A (2026). *geoGraph: Walking
