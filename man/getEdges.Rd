@@ -2,7 +2,6 @@
 % Please edit documentation in R/accessors.R
 \name{getEdges}
 \alias{getEdges}
-\alias{getEdges-methods}
 \alias{getEdges,gGraph-method}
 \title{Get edges from a gGraph object}
 \usage{
@@ -26,7 +25,7 @@ The output depends on the value of the argument \code{res.type}:\cr
 \itemize{
 \item \code{asIs}: output is a named list of nodes, each slot containing nodes
 forming an edge with one given node. This format is that of the \code{edges}
-accessor for \linkS4class{graphNEL} objects.\cr
+accessor for \code{\link[graph:graphNEL]{graph::graphNEL}} objects.\cr
 \item \code{matNames}: a matrix with two columns giving couples of node names
 forming edges.\cr
 \item \code{matId}: a matrix with two columns giving couples of node indices
@@ -43,21 +42,25 @@ object using different possible outputs.
 
 }}
 \examples{
-
-example(gGraph)
-
-getEdges(x)
-getEdges(x, res.type = "matNames")
-getEdges(x, res.type = "matId")
+head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
+head(getEdges(worldgraph.10k, res.type = "matId", unique = TRUE))
 
 }
 \seealso{
-Most other accessors are documented in \linkS4class{gGraph}
-manpage.\cr
+\code{\link{setEdges}} to add or remove edges.
+\code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} for interactive versions.
 
-See \code{\link{setEdges}} to add/remove edges, or
-\code{\link{geo.add.edges}} and \code{\link{geo.remove.edges}} for
-interactive versions.
+Other accessor_methods:
+\code{\link[=getColors]{getColors()}},
+\code{\link[=getCoords]{getCoords()}},
+\code{\link[=getCosts]{getCosts()}},
+\code{\link[=getData]{getData()}},
+\code{\link[=getGraph]{getGraph()}},
+\code{\link[=getNodes]{getNodes()}},
+\code{\link[=getNodesAttr]{getNodesAttr()}},
+\code{\link[=setColors]{setColors()}},
+\code{\link[=setGraph]{setGraph()}}
 }
+\concept{accessor_methods}
 \keyword{methods}
 \keyword{utilities}

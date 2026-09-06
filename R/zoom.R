@@ -26,8 +26,7 @@
 #' Whenever clicking is needed, a right-click will stop the function.
 #'
 #'
-#' @aliases geo.zoomin geo.zoomout geo.slide geo.back geo.bookmark geo.goto
-#' .zoomlog.up
+#' @aliases geo.zoomin geo.zoomout geo.slide geo.back geo.bookmark geo.goto .zoomlog.up
 #' @param reg a list of length 2, with its first component being the new x
 #' (longitude) boundaries (a vector of length 2), and its second being new y
 #' (latitude) boundaries (a vector of length 2).
@@ -76,7 +75,6 @@ NULL
 .zoomlog.up <- function(vec) { # vec is xmin, xmax, ymin, ymax
   if (!is.vector(vec) || length(vec) != 4 || !is.numeric(vec)) stop("Updating zoomlog using a wrong value.")
 
-  #    geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
   oldZoomLog <- get("zoom.log", envir = .geoGraphEnv)
   newZoomLog <- rbind(vec, oldZoomLog)
   colnames(newZoomLog) <- colnames(oldZoomLog)
@@ -91,8 +89,7 @@ NULL
 }
 
 
-
-
+# nocov start
 
 ##############
 ## geo.zoomin
@@ -110,10 +107,6 @@ geo.zoomin <- function(reg = NULL) { # reg should be a list as returned by locat
     temp <- reg
     reg <- list(x = temp[1:2], y = temp[3:4])
   }
-
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
 
   ## get last plot
   last.plot.call <- get("last.plot", envir = .geoGraphEnv)
@@ -139,12 +132,6 @@ geo.zoomin <- function(reg = NULL) { # reg should be a list as returned by locat
     temp <- deparse(last.plot.call)
     temp <- sub("reset[^,]*,", "", temp) # remove subset if provided
     temp <- sub(",[[:blank:]]*reset[^)]*", "", temp) # same thing, if last arg
-
-    ##     temp <- sub("ylim[^,]*,","",temp) # idem, ylim
-    ##     temp <- sub(")$","",temp) # idem, ylim
-    ##     temp <- paste(temp, ", xlim = c(", reg$x[1], ",", reg$x[2],")")
-    ##     temp <- paste(temp, ", ylim = c(", reg$y[1], ",", reg$y[2],")")
-    ##     temp <- paste(temp, ")")
 
     newCall <- parse(text = temp)
     eval(newCall, envir = .GlobalEnv)
@@ -181,17 +168,11 @@ geo.zoomin <- function(reg = NULL) { # reg should be a list as returned by locat
 } # end geo.zoomin
 
 
-
-
-
 ###############
 ## geo.zoomout
 ###############
 #' @export
 geo.zoomout <- function() {
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   ## loop ##
   while (!is.null(locator(1))) {
     ## get last plot
@@ -251,17 +232,11 @@ geo.zoomout <- function() {
 } # end geo.zoomout
 
 
-
-
-
 ############
 ## geo.back
 ############
 #' @export
 geo.back <- function() {
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   ## loop ##
   while (!is.null(locator(1))) {
     ## get last plot
@@ -289,17 +264,11 @@ geo.back <- function() {
 } # end geo.back
 
 
-
-
-
 #############
 ## geo.slide
 #############
 #' @export
 geo.slide <- function() {
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   ## loop ##
   while (!is.null(spoint <- locator(1))) {
     ## get last plot
@@ -330,8 +299,7 @@ geo.slide <- function() {
 } # end geo.slide
 
 
-
-
+# nocov end
 
 
 ############
@@ -339,9 +307,6 @@ geo.slide <- function() {
 ############
 #' @export
 geo.bookmark <- function(name = NULL) {
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   if (is.null(name)) {
     cat("\nAvailable bookmarks:\n")
     return(get("bookmarks", envir = .geoGraphEnv))
@@ -370,17 +335,11 @@ geo.bookmark <- function(name = NULL) {
 } # end geo.bookmark
 
 
-
-
-
 ############
 ## geo.goto
 ############
 #' @export
 geo.goto <- function(name) {
-  ## get environment
-  # geoEnv <- get(".geoGraphEnv", envir=.GlobalEnv)
-
   ## get next zoom coords
   bookmarks <- get("bookmarks", envir = .geoGraphEnv)
   zoomLog <- get("zoom.log", envir = .geoGraphEnv)

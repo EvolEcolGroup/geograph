@@ -2,58 +2,59 @@
 % Please edit documentation in R/accessors.R
 \name{getCosts}
 \alias{getCosts}
-\alias{getCosts-methods}
 \alias{getCosts,gGraph-method}
 \alias{getNodeCosts}
-\alias{getNodeCosts-methods}
 \alias{getNodeCosts,gGraph-method}
 \title{Get costs associated to edges of a gGraph object}
 \usage{
 getCosts(x, ...)
 
-\S4method{getCosts}{gGraph}(x, res.type = c("asIs", "vector"), unique = FALSE, ...)
+\S4method{getCosts}{gGraph}(x, res.type = c("asIs", "vector", "rules"), unique = FALSE, ...)
 
 getNodeCosts(x, ...)
 
 \S4method{getNodeCosts}{gGraph}(x, attr.name, ...)
 }
 \arguments{
-\item{x}{a valid \linkS4class{gGraph}.}
+\item{x}{a valid \code{\link{gGraph}} object.}
 
-\item{\dots}{other arguments passed to other methods (currently unused).}
+\item{...}{other arguments passed to other methods (currently unused).}
 
-\item{res.type}{a character string indicating which kind of output should be
-used. See value.}
+\item{res.type}{a character string indicating the output format:
+\itemize{
+\item \code{"asIs"}: a named list of weights for each node's edges (default).
+\item \code{"vector"}: a named numeric vector of all edge weights.
+\item \code{"rules"}: the cost rules \code{data.frame} stored in \code{x@meta$costs},
+with one row per node attribute value and a column named \code{"cost"}.
+}}
 
-\item{unique}{a logical indicating whether the costs should be returned for
-unique edges (TRUE), or if duplicate edges should be considered as well
-(TRUE, default).}
+\item{unique}{logical. If \code{TRUE}, only unique edge weights are returned.
+Defaults to \code{FALSE}. Only used when \code{res.type} is \code{"asIs"} or
+\code{"vector"}.}
 
-\item{attr.name}{the name of the node attribute used to define node costs.}
+\item{attr.name}{character string. The name of the node attribute used to
+look up costs from \code{x@meta$costs} (for \code{getNodeCosts} only).}
 }
 \value{
-The output depends on the value of the argument \code{res.type}:\cr
+For \code{getCosts}:
 \itemize{
-\item \code{asIs}: output is a named list of weights, each slot containing
-weights associated to the edges stemming from one given node. This format is
-that of the \code{weights} accessor for \linkS4class{graphNEL} objects.\cr
-\item \code{vector}: a vector of weights; this output matches matrix outputs of
-\code{\link{getEdges}}.\cr
+\item \code{"asIs"}: a named list of edge weights, one element per node.
+\item \code{"vector"}: a named numeric vector of edge weights.
+\item \code{"rules"}: a \code{data.frame} of cost rules from \code{x@meta$costs}.
 }
+
+For \code{getNodeCosts}: a numeric vector of costs, one per node.
 }
 \description{
 The function \code{getCosts} returns the costs associated to the edges of a
-\linkS4class{gGraph} object using different possible outputs. These outputs
-are designed to match possible outputs of \code{\link{getEdges}} function.
+\code{\link{gGraph}} object in different formats. \code{getNodeCosts} returns the costs
+associated to nodes based on a node attribute and the cost rules stored
+in \verb{@meta$costs}.
 }
 \details{
-\code{getNodeCosts} returns the costs associated to nodes based on one node
-attribute.
-
-The notion of 'costs' in the context of \linkS4class{gGraph} objects is
-identical to the concept of 'weights' in \linkS4class{graph} (and thus
-\linkS4class{graphNEL}) objects. The larger it is for an edge, the less
-connectivity there is between the couple of concerned nodes.
+In \code{geoGraph}, costs are equivalent to weights in the \code{graph} package:
+the larger the cost of an edge, the lower the connectivity between its
+two nodes.
 }
 \section{Functions}{
 \itemize{
@@ -65,15 +66,36 @@ connectivity there is between the couple of concerned nodes.
 
 }}
 \examples{
-
-head(getEdges(worldgraph.10k, res.type = "matNames", unique = TRUE))
+## get edge costs as a vector
 head(getCosts(worldgraph.10k, res.type = "vector", unique = TRUE))
 
+## get cost rules
+getCosts(worldgraph.10k, res.type = "rules")
 
+## get node costs based on habitat attribute
+head(getNodeCosts(worldgraph.10k, attr.name = "habitat"))
 }
 \seealso{
-Most other accessors are documented in \linkS4class{gGraph}
-manpage.\cr
+\code{\link{setCosts}} to set edge costs. \code{\link{dropCosts}} to remove all
+costs. \code{\link{hasCosts}} to check if a graph has costs defined.
+
+Other accessor_methods:
+\code{\link[=getColors]{getColors()}},
+\code{\link[=getCoords]{getCoords()}},
+\code{\link[=getData]{getData()}},
+\code{\link[=getEdges]{getEdges()}},
+\code{\link[=getGraph]{getGraph()}},
+\code{\link[=getNodes]{getNodes()}},
+\code{\link[=getNodesAttr]{getNodesAttr()}},
+\code{\link[=setColors]{setColors()}},
+\code{\link[=setGraph]{setGraph()}}
+
+Other cost_functions:
+\code{\link[=combineCosts]{combineCosts()}},
+\code{\link[=dropCosts]{dropCosts()}},
+\code{\link[=hasCosts]{hasCosts()}},
+\code{\link[=setCosts]{setCosts()}},
+\code{\link[=setDistCosts]{setDistCosts()}}
 }
-\keyword{methods}
-\keyword{utilities}
+\concept{accessor_methods}
+\concept{cost_functions}

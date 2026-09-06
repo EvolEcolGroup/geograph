@@ -1,3 +1,5 @@
+# nocov start
+
 #' @importFrom graphics  identify locator segments
 NULL
 
@@ -53,14 +55,10 @@ geo.add.edges <- function(x, mode = c("points", "area", "all"), refObj = "rawgra
   ## preliminary stuff
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
   mode <- match.arg(mode)
-  ## temp <- isInArea(x) # not needed
-  ## coords <- getCoords(x)[temp,]
-  ## nodes <- getNodes(x)[temp]
   coords <- getCoords(x)
   nodes <- getNodes(x)
   lon <- coords[, 1]
   lat <- coords[, 2]
-  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
 
   ## handle refObj
   if (is.character(refObj) && refObj == "rawgraph.10k") {
@@ -107,7 +105,7 @@ geo.add.edges <- function(x, mode = c("points", "area", "all"), refObj = "rawgra
       selArea <- data.frame(locator(2))
 
       if (nrow(selArea) > 1) {
-        selNodes <- isInArea(refObj, reg = selArea, res.type = "integer") # indices of selected points
+        selNodes <- isInArea(refObj, reg = selArea, res.type = "integer", quiet = TRUE) # indices of selected points
         selEdges <- getEdges(refObj, res.type = "matId", unique = TRUE) # edges, nodes=numerical indices
         temp <- (selEdges[, 1] %in% selNodes) & (selEdges[, 2] %in% selNodes)
         selEdges <- selEdges[temp, ] # edges of refobj wholly inside the selected area
@@ -143,10 +141,6 @@ geo.add.edges <- function(x, mode = c("points", "area", "all"), refObj = "rawgra
 } # end geo.add.edges
 
 
-
-
-
-
 ####################
 ## geo.remove.edges
 ####################
@@ -154,13 +148,11 @@ geo.add.edges <- function(x, mode = c("points", "area", "all"), refObj = "rawgra
 geo.remove.edges <- function(x, mode = c("points", "area")) {
   ## preliminary stuff
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
-  temp <- isInArea(x)
-  # coords <- getCoords(x)[temp,] # not needed: can work with whole object
+  temp <- isInArea(x, quiet = TRUE)
   coords <- getCoords(x)
   nodeNames <- getNodes(x)
   lon <- coords[, 1]
   lat <- coords[, 2]
-  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
   psize <- get("psize", envir = .geoGraphEnv)
   mode <- match.arg(mode)
 
@@ -204,7 +196,7 @@ geo.remove.edges <- function(x, mode = c("points", "area")) {
       selArea <- data.frame(locator(2))
 
       if (nrow(selArea) > 1) {
-        selIdx <- which(isInArea(x, reg = selArea)) # indices of selected points
+        selIdx <- which(isInArea(x, reg = selArea, quiet = TRUE)) # indices of selected points
         selEdges <- getEdges(x, res.type = "matId", unique = TRUE) # edges, nodes=numerical indices
         temp <- (selEdges[, 1] %in% selIdx) & (selEdges[, 2] %in% selIdx)
         selEdges <- selEdges[temp, ] # edges wholly inside the selected area
@@ -234,10 +226,6 @@ geo.remove.edges <- function(x, mode = c("points", "area")) {
 
   return(res)
 } # end geo.remove.edges
-
-
-
-
 
 
 ###################
@@ -311,7 +299,7 @@ geo.change.attr <- function(x, mode = c("points", "area"), attr.name, attr.value
     hasRightAttr <- which(temp == only.value)
     if (length(hasRightAttr) == 0) stop(paste("specified values of", only.name, "never found."))
   } else {
-    hasRightAttr <- 1:nrow(getCoords(x))
+    hasRightAttr <- seq_len(nrow(getCoords(x)))
   }
 
   ## handle refObj ##
@@ -329,7 +317,6 @@ geo.change.attr <- function(x, mode = c("points", "area"), attr.name, attr.value
   coords <- getCoords(x)
   lon <- coords[, 1]
   lat <- coords[, 2]
-  # env <- get(".geoGraphEnv", envir=.GlobalEnv) # env is our target environnement
   mode <- match.arg(mode)
   if (!attr.name %in% colnames(x@nodes.attr)) stop("specified node attribute name not found")
 
@@ -385,7 +372,7 @@ geo.change.attr <- function(x, mode = c("points", "area"), attr.name, attr.value
       selArea <- data.frame(locator(2))
 
       if (nrow(selArea) > 1) {
-        selIdx <- which(isInArea(x, reg = selArea)) # indices of selected points
+        selIdx <- which(isInArea(x, reg = selArea, quiet = TRUE)) # indices of selected points
         selIdx <- selIdx[selIdx %in% hasRightAttr] # only nodes with replaced attribute
         points(lon[selIdx], lat[selIdx], cex = psize, pch = pch, col = newCol)
 
@@ -420,3 +407,5 @@ geo.change.attr <- function(x, mode = c("points", "area"), attr.name, attr.value
 
   return(res)
 } # end geo.change.attr
+
+# nocov end

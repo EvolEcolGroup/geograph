@@ -15,12 +15,18 @@
 #' @name hgdp
 #' @aliases hgdp hgdpPlus
 #' @docType data
-#' @format \code{hgdp} is a \linkS4class{gGraph} object with the following
-#' data: % \describe{ % \item{@nodes.attr$habitat}{habitat corresponding to
-#' each % vertice; currently 'land' or 'sea'.} % \item{@meta$color}{a matrix
-#' assigning a color for plotting % vertices (second column) to different
-#' values of habitat (first % column).} % }
-#' @references Authors \emph{Journal}, YEAR, \bold{nb}: pp-pp.
+#' @format `hgdp` is a [`gData`] object with the following slots:
+#'   \describe{
+#'     \item{@coords}{Coordinates (lon, lat) of each of the 52
+#'       population sampling locations.}
+#'     \item{@nodes.id}{Node identifiers of the underlying [`gGraph`]
+#'       ([`worldgraph.40k`]) matched to each population.}
+#'     \item{@data}{Metadata associated with the populations, including
+#'       population name, region, and genetic.div}
+#'   }
+#' @references
+#'   Cann, H. M. et al. (2002) A human genome diversity cell line panel.
+#'   \emph{Science} \bold{296}: 261-262. \doi{10.1126/science.296.5566.261b}
 #' @keywords datasets
 #' @examples
 #'
@@ -32,7 +38,6 @@
 #'
 #'
 #' ## results from Handley et al.
-#' \dontrun{
 #' ## Addis Ababa
 #' addis <- list(lon = 38.74, lat = 9.03)
 #' addis <- closestNode(worldgraph.40k, addis) # this takes a while
@@ -41,19 +46,17 @@
 #' myPath <- dijkstraFrom(hgdp, addis)
 #'
 #' ## plot results
-#' plot(worldgraph.40k, col = 0)
+#' plot(worldgraph.40k, col = NA)
 #' points(hgdp)
 #' points(worldgraph.40k[addis], psize = 3, pch = "x", col = "black")
 #' plot(myPath)
 #'
 #' ## correlations distance/genetic div.
-#' geo.dist <- sapply(myPath[-length(myPath)], function(e) e$length)
-#' gen.div <- getData(hgdp)[, "Genetic.Div"]
+#' geo.dist <- gPath2dist(myPath)
+#' gen.div <- getData(hgdp)$Genetic.Div
 #' plot(gen.div ~ geo.dist)
-#' lm1 <- lm(gen.div ~ geo.dist)
-#' abline(lm1, col = "blue") # this regression is wrong
-#' summary(lm1)
-#' }
+#' abline(lm(gen.div ~ geo.dist), col = "blue")
+#' summary(lm(gen.div ~ geo.dist))
 #'
 NULL
 
@@ -70,24 +73,20 @@ NULL
 #' connectivity between edges at some places. The most noticeable change is that
 #' all edges involving sea vertices have been removed.\cr
 #'
-#' 'worldshape' is a shapefile of countries of the world (snapshot from 1994).
-#'
-#'
 #' @name worldgraph
 #' @aliases worldgraph rawgraph.10k rawgraph.40k worldgraph.10k worldgraph.40k
-#' worldshape
 #' @docType data
 #' @format \code{worldgraph.10k} and \code{worldgraph.40k} are
 #' \linkS4class{gGraph} objects with the following specificities: \describe{
-#' \item{@nodes.attr\$habitat}{habitat corresponding to each vertice; currently
-#' 'land' or 'sea'.} \item{@meta\$color}{a matrix assigning a color for
+#' \item{@nodes.attr$habitat}{habitat corresponding to each vertex; currently
+#' 'land' or 'sea'.} \item{@meta$color}{a matrix assigning a color for
 #' plotting vertices (second column) to different values of habitat (first
 #' column).} }
 #' @references === On the construction of the graph ===\cr Randall, D. A.;
 #' Ringler, T. D.; Heikes, R. P.; Jones, P. & Baumgardner, J. Climate Modeling
 #' with Spherical Geodesic Grids \emph{Computing in science & engineering},
 #' 2002, \bold{4}: 32-41.
-#' @source Graph reconstructed by Andrea Manica.
+#' @source Graph constructed by Andrea Manica.
 #' @keywords datasets
 #' @examples
 #'
@@ -111,7 +110,7 @@ NULL
 #' title("Europe")
 #'
 #' ## defining the subset of visible points
-#' x <- worldgraph.10k[isInArea(worldgraph.10k)]
+#' x <- worldgraph.10k[isInArea(worldgraph.10k, quiet = TRUE)]
 #' plot(x, reset = TRUE, edges = TRUE)
 #' title("One subsetted object.")
 #'
@@ -120,4 +119,22 @@ NULL
 #' geo.zoomin()
 #' }
 #'
+NULL
+
+#' Pairwise FST matrix for HGDP populations
+#'
+#' A matrix of pairwise \eqn{F_{ST}} values between the HGDP populations,
+#' used in the geoGraph case studies to relate genetic differentiation to
+#' geographic and least-cost distances.
+#'
+#' @name fst_hgdp
+#' @docType data
+#' @format A numeric matrix with one row and one column per population.
+#'   Row and column names are population identifiers matching those in
+#'   [`hgdp`].
+#' @keywords datasets
+#' @examples
+#' data(fst_hgdp)
+#' dim(fst_hgdp)
+#' fst_hgdp[1:5, 1:5]
 NULL

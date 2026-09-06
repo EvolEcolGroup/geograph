@@ -1,23 +1,20 @@
 #' Find which nodes are on land
 #'
 #' The generic function \code{findLand} uses information from a GIS shapefile
-#' to define which nodes are on land, and which are not. Strickly speaking,
+#' to define which nodes are on land, and which are not. Strictly speaking,
 #' being 'on land' is in fact being inside a polygon of the shapefile.
 #'
 #' Nodes can be specified either as a matrix of geographic coordinates, or as a
 #' \linkS4class{gGraph} object.
 #'
 #'
-#' @aliases findLand findLand-methods findLand,matrix-method
-#' findLand,data.frame-method findLand,gGraph-method
 #' @param x a matrix, a data.frame, or a valid \linkS4class{gGraph} object. For
 #' matrix and data.frame, input must have two columns giving longitudes and
 #' latitudes of locations being considered.
-#' @param shape a shapefile of the class \code{SpatialPolygonsDataFrame} (see
-#' \code{readShapePoly} in maptools package to import such data from a GIS
+#' @param shape a shapefile of the class `sf` (see
+#' [sf::st_read()] to import a GIS
 #' shapefile). Alternatively, a character string indicating one shapefile
-#' released with geoGraph; currently, only 'world' is available (see
-#' \code{?data(worldshape)}).
+#' released with geoGraph; currently, only 'world' is available.
 #' @param \dots further arguments to be passed to other methods. Currently not
 #' used.
 #' @param attr.name a character string giving the name of the node attribute in
@@ -29,7 +26,7 @@
 #' possibly added to previously existing node attributes (\code{@nodes.attr}
 #' slot).\cr
 
-#' @seealso \code{\link{extractFromLayer}}, to retrieve any information from a
+#' @seealso \code{\link{assignByPolygon}}, to retrieve any information from a
 #' GIS shapefile.
 #' @keywords utilities methods
 #' @name findLand
@@ -49,7 +46,7 @@
 #' ## define rules for colors
 #' temp <- data.frame(habitat = c("land", "sea"), color = c("green", "blue"))
 #' temp
-#' obj@meta$color <- temp
+#' obj@meta$colors <- temp
 #'
 #' ## plot object with new colors
 #' plot(obj)
@@ -67,53 +64,58 @@ setGeneric("findLand", function(x, ...) {
 })
 
 
-
-
-
-
 ################
 ## for matrices (of long/lat)
 ################
 #' @rdname findLand
 #' @export
 setMethod("findLand", "matrix", function(x, shape = "world", ...) {
-  ## This functions automatically assigns to land all points overlapping the country polygons
-  #    if(!require(maptools)) stop("maptools package is required.")
-
-  ## Load country shapefile
-  if (is.character(shape) && shape[1] == "world") {
-    shape <- worldshape
+  ## Load default shapefile ##
+  if (is.character(shape) && length(shape) == 1L && shape == "world") {
+    shape <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+    old.s2 <- sf::sf_use_s2()
+    on.exit(sf::sf_use_s2(old.s2), add = TRUE)
+    sf::sf_use_s2(FALSE)
   }
 
-  if (!is.null(shape)) { # with background
-    if (!inherits(shape, "SpatialPolygonsDataFrame")) {
-      stop("Layer must be a SpatialPolygonsDataFrame object \n(see st_read and as_Spatial in sf to import such data from a GIS shapefile).")
+
+  if (is.null(shape)) {
+    stop(
+      "shape cannot be NULL; provide an sf object, ",
+      "or 'world' for the default world shapefile."
+    )
+  }
+
+  if (!inherits(shape, "sf")) {
+    if (inherits(shape, "SpatialPolygonsDataFrame")) {
+      shape <- sf::st_as_sf(shape)
+    } else {
+      stop("shape must be a sf object \n(see st_read in sf to import such data from a GIS shapefile).")
     }
   }
 
-  long <- x[, 1]
-  lat <- x[, 2]
-  n.country <- length(shape@polygons)
 
-  ## create land vector to score land
-  land <- rep(0, length(lat))
-
-  for (i in 1:n.country) {
-    this.country <- shape@polygons[i][[1]]
-    n.polys <- length(this.country@Polygons)
-
-    for (p in 1:n.polys) {
-      this.poly <- this.country@Polygons[p][[1]]
-      land <- land + point.in.polygon(long, lat, this.poly@coords[, 1], this.poly@coords[, 2])
-    }
+  if (any(is.na(x))) {
+    stop("Matrix contains NA values.")
   }
-  land[land > 1] <- 1
-  land[land == 0] <- "sea"
-  land[land == 1] <- "land"
+
+  # create an sf point object from the coordinates
+  locations.st <- x %>%
+    as.data.frame() %>%
+    sf::st_as_sf(coords = c(1, 2)) %>%
+    sf::st_set_crs(sf::st_crs(shape))
+  # now find points in polygons
+  points.within <- sf::st_intersects(shape, locations.st)
+  points.within <- data.frame(
+    x = unlist(points.within),
+    polygon = rep(seq_along(lengths(points.within)), lengths(points.within))
+  )
+
+  land <- rep("sea", nrow(x))
+  land[points.within$x] <- "land"
 
   return(factor(land))
 })
-
 
 
 ################
@@ -125,10 +127,6 @@ setMethod("findLand", "data.frame", function(x, shape = "world", ...) {
   x <- as.matrix(x)
   return(findLand(x, shape = shape, ...))
 }) # end findLand
-
-
-
-
 
 
 ##############

@@ -2,47 +2,55 @@
 % Please edit documentation in R/accessors.R
 \name{getColors}
 \alias{getColors}
-\alias{getColors-methods}
 \alias{getColors,gGraph-method}
-\title{Get colors associated to edges of a gGraph object}
+\title{Get colors associated to nodes of a gGraph object}
 \usage{
 getColors(x, ...)
 
-\S4method{getColors}{gGraph}(x, nodes = "all", attr.name, col.rules = NULL, ...)
+\S4method{getColors}{gGraph}(
+  x,
+  nodes = "all",
+  attr.name = NULL,
+  col.rules = NULL,
+  res.type = c("colors", "rules"),
+  ...
+)
 }
 \arguments{
-\item{x}{a valid \linkS4class{gGraph}.}
+\item{x}{a valid \code{\link{gGraph}} object.}
 
-\item{\dots}{other arguments passed to other methods.}
+\item{...}{other arguments passed to other methods (currently unused).}
 
-\item{nodes}{a vector of character strings or of integers identifying nodes
-by their name or their index. Can be "all", in which case all nodes are
-considered.}
+\item{nodes}{a vector of node names or indices, or \code{"all"} for all nodes
+(default). Only used when \code{res.type = "colors"}.}
 
-\item{attr.name}{a character string indicating the name of node attribute to
-be used to define colors.}
+\item{attr.name}{a character string giving the name of the node attribute
+to use for color assignment. Required when \code{res.type = "colors"}.}
 
-\item{col.rules}{a matrix giving the rules for plotting attribute values
-with different colors. See details.}
+\item{col.rules}{a two-column \code{data.frame} mapping attribute values to
+colors. If \code{NULL}, uses \code{x@meta$colors}. Only used when
+\code{res.type = "colors"}.}
+
+\item{res.type}{a character string indicating the output type:
+\itemize{
+\item \code{"colors"}: a named character vector of colors, one per node.
+\item \code{"rules"}: the color rules \code{data.frame} stored in \code{x@meta$colors}.
+}}
 }
 \value{
-A vector of characters being valid colors.\cr
+A named character vector of colors when \code{res.type = "colors"}, or
+a \code{data.frame} of color rules when \code{res.type = "rules"}.
 }
 \description{
-The function \code{getColors} returns the colors associated to the nodes of
-a \linkS4class{gGraph} object, based on a specified node attribute.
+The function \code{getColors} returns either the color rules stored in a
+\code{\link{gGraph}} object (\code{res.type = "rules"}) or a vector of colors for each
+node based on a specified node attribute (\code{res.type = "colors"}).
 }
 \details{
-Colors are based on a node attribute, that is, on a column of the
-\code{nodes.attr} data.frame. This attribute should have a finite number of
-values, and would most likely be a factor. Correspondence between values of
-this variable and colors must be provided in the \code{@meta\$color} slot,
-or as \code{col.rules} argument. Color rules mus be provided as a two-column
-matrix; the first column contains values of a node attribute, and is named
-after this attribute; the second must be named "color", and contain valid
-colors.
-
-See example section to know how this slot should be designed.
+Color rules are stored as a two-column \code{data.frame} in \code{x@meta$colors}.
+The first column is named after the node attribute and contains its possible
+values; the second column is named \code{"color"} and contains valid R color
+strings.
 }
 \section{Functions}{
 \itemize{
@@ -50,13 +58,25 @@ See example section to know how this slot should be designed.
 
 }}
 \examples{
+## get color rules
+getColors(worldgraph.10k, res.type = "rules")
 
-worldgraph.10k # there is a node attribute 'habitat'
-worldgraph.10k@meta$color
-
-head(getNodes(worldgraph.10k))
-head(getColors(worldgraph.10k, res.type = "vector", attr.name = "habitat"))
-
+## get node colors based on habitat attribute
+head(getColors(worldgraph.10k, attr.name = "habitat"))
 }
-\keyword{methods}
-\keyword{utilities}
+\seealso{
+\code{\link{setColors}} to set color rules. \code{\link{getNodesAttr}} to retrieve
+node attributes.
+
+Other accessor_methods:
+\code{\link[=getCoords]{getCoords()}},
+\code{\link[=getCosts]{getCosts()}},
+\code{\link[=getData]{getData()}},
+\code{\link[=getEdges]{getEdges()}},
+\code{\link[=getGraph]{getGraph()}},
+\code{\link[=getNodes]{getNodes()}},
+\code{\link[=getNodesAttr]{getNodesAttr()}},
+\code{\link[=setColors]{setColors()}},
+\code{\link[=setGraph]{setGraph()}}
+}
+\concept{accessor_methods}

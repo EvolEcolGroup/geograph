@@ -2,7 +2,6 @@
 % Please edit documentation in R/isInArea.R
 \name{isInArea}
 \alias{isInArea}
-\alias{isInArea-methods}
 \alias{isInArea,matrix-method}
 \alias{isInArea,data.frame-method}
 \alias{isInArea,gGraph-method}
@@ -15,66 +14,74 @@ isInArea(x, ...)
   x,
   reg = "current",
   res.type = c("logical", "integer", "character"),
-  buffer = 0
+  buffer = 0,
+  quiet = FALSE
 )
 
 \S4method{isInArea}{data.frame}(
   x,
   reg = "current",
   res.type = c("logical", "integer", "character"),
-  buffer = 0
+  buffer = 0,
+  quiet = FALSE
 )
 
 \S4method{isInArea}{gGraph}(
   x,
   reg = "current",
   res.type = c("logical", "integer", "character"),
-  buffer = 0
+  buffer = 0,
+  quiet = FALSE
 )
 
 \S4method{isInArea}{gData}(
   x,
   reg = "current",
   res.type = c("logical", "integer", "character"),
-  buffer = 0
+  buffer = 0,
+  quiet = FALSE
 )
 }
 \arguments{
-\item{x}{a matrix, a data.frame, a valid \linkS4class{gGraph}, or a valid
-\linkS4class{gData} object. For matrix and data.frame, input must have two
-columns giving longitudes and latitudes of locations being considered.}
+\item{x}{a matrix, \code{data.frame}, valid \code{\link{gGraph}}, or valid \code{\link{gData}}
+object. For matrix and data.frame, input must have two columns giving
+longitudes and latitudes of locations being considered.}
 
-\item{\dots}{further arguments passed to specific methods.}
+\item{...}{further arguments passed to specific methods.}
 
-\item{reg}{a character string or a list indicating the area ('reg' stands
-for 'region'). Character strings can be "current" (current user window,
-default) or "zoom" (current zoom). If the argument is a list, is has to have
-two components, both being numeric vectors of length two, giving x and y
-limits of the area. Note that such list can be produced by \code{locator},
-so \code{locator(1)} is a valid value for \code{reg}.}
+\item{reg}{a character string or a list indicating the area. Character
+strings can be \code{"current"} (current user window, default) or \code{"zoom"}
+(current zoom). If a list, it must have two components, both being
+numeric vectors of length two, giving x and y limits of the area, e.g.
+\code{list(x = c(-10, 30), y = c(35, 70))}. A list produced by \code{locator()}
+is also a valid value.}
 
-\item{res.type}{a character string indicating what kind of output should be
-produced. See value.}
+\item{res.type}{a character string indicating what kind of output should
+be produced. See value.}
 
-\item{buffer}{a numeric value giving a buffer adding extra space aroung the
-area, as a proportion of current area's dimensions.}
+\item{buffer}{a numeric value giving a buffer adding extra space around
+the area, as a proportion of current area's dimensions.}
+
+\item{quiet}{logical. If \code{TRUE}, suppresses printing of bounding box coordinates
+and a reproducible \code{reg} argument that can be copy-pasted into scripts
+for exact reproducibility. Defaults to \code{FALSE}.}
 }
 \value{
-The output depends on the value of the argument \code{res.type}:\cr
+The output depends on the value of the argument \code{res.type}:
 \itemize{
-\item \code{logical}: a vector of logicals having one value for each node of the
-input.\cr
-\item \code{integer}: a vector of integers corresponding to the indices of nodes
-falling within the area.\cr
-\item \code{character}: a vector of characters corresponding to the names of the
-nodes falling within the area.\cr
+\item \code{"logical"}: a vector of logicals having one value for each node.
+\item \code{"integer"}: a vector of integers corresponding to the indices of
+nodes falling within the area.
+\item \code{"character"}: a vector of characters corresponding to the names of
+the nodes falling within the area.
 }
 }
 \description{
 The generic function \code{isInArea} finds which nodes fall in a given area.
 Nodes can be specified in different ways, including by providing a
-\linkS4class{gGraph} or a \linkS4class{gData} object. Different format for
-the output are also available.
+\code{\link{gGraph}} or a \code{\link{gData}} object. Different formats for the output are
+also available. The area can be defined interactively (current plot
+window), from the zoom log, or explicitly by providing a bounding box.
 }
 \section{Functions}{
 \itemize{
@@ -89,28 +96,28 @@ the output are also available.
 }}
 \examples{
 
+## Zoom into Europe and get the nodes in the current plot
 plot(worldgraph.10k, reset = TRUE)
-
-## zooming in
 geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
-title("Europe")
 
+## Different output formats of the current nodes
+head(isInArea(worldgraph.10k, quiet = TRUE))
+head(isInArea(worldgraph.10k, res.type = "integer", quiet = TRUE))
+head(isInArea(worldgraph.10k, res.type = "character", quiet = TRUE))
 
-## different outputs of isInArea
-head(isInArea(worldgraph.10k)) # logical
-length(isInArea(worldgraph.10k))
-sum(isInArea(worldgraph.10k))
-head(which(isInArea(worldgraph.10k))) # which nodes are TRUE ?
-
-head(isInArea(worldgraph.10k, res.type = "integer")) # node indices
-
-head(isInArea(worldgraph.10k, res.type = "character")) # node names
-
-
-## use isInArea to have a subset of visible nodes
+## subset the gGraph just to visible nodes
 x <- worldgraph.10k[isInArea(worldgraph.10k)]
 plot(x, reset = TRUE)
 
+## Instead of the current plotted area we can use an explicit bounding box
+y <- worldgraph.10k[(isInArea(worldgraph.10k,
+  reg = list(x = c(113, 154), y = c(-44, -10)),
+  quiet = TRUE
+))]
+plot(y, reset = TRUE)
+
 }
-\keyword{methods}
-\keyword{utilities}
+\seealso{
+\code{\link{geo.zoomin}} to zoom into an area. \code{\link[=gGraph-class]{gGraph}} and
+\code{\link[=gData-class]{gData}} for the input object classes.
+}

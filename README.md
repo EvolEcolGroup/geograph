@@ -1,14 +1,16 @@
-# geoGraph
+# geoGraph <img src="./man/figures/logo.png" align="right" width="150"/>
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check main](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/main?label=main&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check dev](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/dev?label=dev&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/EvolEcolGroup/geograph/graph/badge.svg)](https://app.codecov.io/gh/EvolEcolGroup/geograph)
 <!-- badges: end -->
 
 `geoGraph` aims at implementing graph approaches for geographic data.
-In `geoGraph`, a given geographic area is modelled by a fine regular grid, where each vertice
+In `geoGraph`, a given geographic area is modeled by a fine regular grid, where each vertex
 has a set of spatial coordinates and a set of attributes, which can be for instance habitat
 descriptors, or the presence/abundance of a given species.
-'Travelling' within the geographic area can then be easily modelled as moving between connected vertices.
+'traveling' within the geographic area can then be easily modeled as moving between connected vertices.
 The cost of moving from one vertex to another can be defined according to attribute values, which
 allows for instance to define friction routes based on habitat.
 
@@ -26,15 +28,24 @@ with node attributes (`gGraph` objects), and interfaced spatial data (`gData` ob
 
 ## Installation
 
-You can install the development version of `geoGraph` from [GitHub](https://github.com/) with:
+You can install `geoGraph` from [GitHub](https://github.com/) with:
 
 ``` r
-install.packages("devtools")
-devtools::install_github("EvolEcolGroup/geograph/")
+install.packages("pak")
+pak::pak("EvolEcolGroup/geograph")
+```
+
+You can install the development version of `geoGraph` with:
+``` r
+install.packages("pak")
+pak::pak("EvolEcolGroup/geograph@dev")
 ```
 
 ## How the package works
 
-A detailed introduction to the functionalities of `geoGraph` is found in the
-overview article of its website.
+A schematic overview of the `geoGraph` workflow is shown below.
 
+![The geoGraph workflow](readme_assets/geograph_infographic.png)
+
+More detailed introduction to the functionalities of `geoGraph` can be found in the
+overview article of its website.

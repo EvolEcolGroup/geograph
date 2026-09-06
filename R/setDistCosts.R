@@ -7,8 +7,8 @@
 #' the \code{fields} package.
 #'
 #' The notion of 'costs' in the context of \linkS4class{gGraph} objects is
-#' identical to the concept of 'weights' in \linkS4class{graph} (and thus
-#' \linkS4class{graphNEL}) objects. The larger it is for an edge, the less
+#' identical to the concept of 'weights' in the library `graph` (and thus
+#' [`graph::graphNEL`]) objects. The larger it is for an edge, the less
 #' connectivity there is between the couple of concerned nodes.
 #'
 #' @aliases setDistCosts setDistCosts-methods setDistCosts,gGraph-method
@@ -21,22 +21,17 @@
 #' @seealso The \code{\link{getCosts}} accessor, returning costs of the edges
 #' of a \linkS4class{gGraph} object in different ways.\cr
 #' @keywords utilities methods
+#' @family cost_functions
 #' @examples
+#' plot(rawgraph.10k, reset = TRUE)
+#' geo.zoomin(list(x = c(110, 150), y = c(-10, -40)))
+#' plotEdges(rawgraph.10k)
 #'
-#' if (require(fields)) {
-#'   ## load data
-#'   plot(rawgraph.10k, reset = TRUE)
-#'   geo.zoomin(list(x = c(110, 150), y = c(-10, -40)))
-#'   plotEdges(rawgraph.10k)
+#' x <- rawgraph.10k[isInArea(rawgraph.10k)]
+#' x <- setDistCosts(x)
 #'
-#'   ## compute costs
-#'   x <- rawgraph.10k[isInArea(rawgraph.10k)]
-#'   x <- setDistCosts(x)
-#'
-#'   ## replot edges
-#'   plotEdges(x) # no big differences can be seen
-#'   head(getCosts(x))
-#' }
+#' plotEdges(x)
+#' head(getCosts(x))
 #'
 ############
 ## generic
@@ -46,20 +41,12 @@ setGeneric("setDistCosts", function(x, ...) {
   standardGeneric("setDistCosts")
 })
 
-
-
-
-
 #################
 ## gGraph method
 #################
 #' @export
 #' @describeIn setDistCosts Method for gGraph object
 setMethod("setDistCosts", "gGraph", function(x, ...) {
-  ## some checks ##
-  if (!is.gGraph(x)) stop("x is not a valid gGraph object")
-
-
   ## get edges and coords ##
   E <- getEdges(x, res.type = "matNames")
 
@@ -69,7 +56,9 @@ setMethod("setDistCosts", "gGraph", function(x, ...) {
 
 
   ## get costs ##
-  w <- sapply(1:nrow(E), function(i) fields::rdist.earth(xy1[i, , drop = FALSE], xy2[i, , drop = FALSE])) # list of costs
+  w <- sapply(seq_len(nrow(E)), function(i) {
+    fields::rdist.earth(xy1[i, , drop = FALSE], xy2[i, , drop = FALSE])
+  }) # list of costs
 
   ## assign costs to the graphNEL ##
   edgeData(x@graph, from = E[, 1], to = E[, 2], attr = "weight") <- w

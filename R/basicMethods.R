@@ -1,33 +1,44 @@
 #' @include classes.R
 NULL
 
-
 #################
 ## BASIC METHODS
 #################
 
-###################
-## [ gGraphHistory
-###################
-## setMethod("[", "gGraphHistory", function(x, i, j = "missing", drop = "missing") {
-##     if(missing(i)) i <- TRUE
-
-##     res <- x
-##     res@cmd <- res@cmd[i]
-##     res@dates <- res@dates[i]
-##     res@comments <- res@comments[i]
-
-##     return(res)
-## })
-
-
-
-
-
-
 ############
 ## [ gGraph
 ############
+
+#' Subset a gGraph object
+#'
+#' Select a subset of nodes from a [`gGraph`] object by index, logical vector,
+#' or node name. The `@coords`, `@nodes.attr`, and `@graph` slots are all
+#' subsetted consistently.
+#'
+#' @param x a valid [`gGraph`] object.
+#' @param i indices for subsetting nodes — a logical vector, integer indices,
+#'   or character node names. If missing, all nodes are kept.
+#' @param j indices for subsetting node attributes (columns of `@nodes.attr`).
+#'   If missing, all attributes are kept.
+#' @param ... additional arguments (currently unused).
+#' @param drop logical, currently unused.
+#' @return A [`gGraph`] object containing only the selected nodes.
+#' @seealso [`getNodes`] to retrieve node names. [`isInArea`] to select nodes
+#'   within a geographic area.
+#' @aliases [,gGraph-method [,gGraph,ANY,ANY-method [,gGraph,ANY,ANY,ANY-method
+#' @exportMethod "["
+#' @family basic_methods
+#' @name subset-gGraph
+#' @examples
+#' ## subset to nodes in a geographic area
+#' plot(worldgraph.10k, reset = TRUE)
+#' geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
+#' x <- worldgraph.10k[isInArea(worldgraph.10k, quiet = TRUE)]
+#'
+#' ## subset by node name
+#' x <- worldgraph.10k[c("1", "2", "3")]
+NULL
+
 setMethod("[", "gGraph", function(x, i, j, ..., drop = TRUE) {
   if (missing(i)) {
     i <- TRUE
@@ -42,21 +53,9 @@ setMethod("[", "gGraph", function(x, i, j, ..., drop = TRUE) {
   if (missing(j)) {
     j <- TRUE
   }
-
   if (is.logical(i) && is.logical(j) && all(c(i, j))) {
     return(x)
-  } # don't loose time for silly trials
-
-  argList <- list(...)
-  if (is.null(argList$useSubGraph)) {
-    useSubGraph <- TRUE
-  } else {
-    useSubGraph <- argList$useSubGraph
   }
-
-  oldNodeNames <- getNodes(x) # node names before subsetting
-  newNodeNames <- oldNodeNames[i] # node names after subsetting
-
 
   ## do the subsetting ##
   res <- x
@@ -64,68 +63,44 @@ setMethod("[", "gGraph", function(x, i, j, ..., drop = TRUE) {
   if (nrow(res@nodes.attr) > 0) {
     res@nodes.attr <- res@nodes.attr[i, j, drop = FALSE]
   }
-  ## if(useSubGraph){ # use procedure from graph package to subset graph (slow) #
-
-  myGraph <- subGraph(nodes(res@graph)[i], res@graph)
-
-  ## } else ## { # use a customized procedure (faster) #
-  ##         myGraph <- getGraph(res)
-  ##         myGraph@nodes <- myGraph@nodes[i]
-  ##         myGraph@edgeL <- myGraph@edgeL[myGraph@nodes]
-  ##         ## special handling of i, to know which indexes are kept
-  ##         if(is.character(i)){ # type == character
-  ##             keptIdx <- match(i, nodeNames)
-  ##             keptIdx <- !is.na(keptIdx)
-  ##         }
-  ##         if(is.logical(i)){ # type == logical
-  ##             keptIdx <- which(i)
-  ##         }
-  ##         if(is.numeric(i)){ # type == numeric
-  ##             if(i[1]>0) {
-  ##                 keptIdx <- i
-  ##             } else{
-  ##                 keptIdx <- setdiff(1:nrow(x@coords), i)
-  ##             }
-  ##         }
-
-  ##         f1.noweights <- function(nodeIdc){ # function to subset graph without weights
-  ##             nodeIdc$edges <- nodeIdc$edges[nodeIdc$edges %in% keptIdx] # erase non kept indices
-  ##             nodeIdc$edges <- match(oldNodeNames[nodeIdc$edges], newNodeNames) # match indices with new positions
-  ##             return(nodeIdc)
-  ##         }
-  ##         f1.withweights <- function(oneNode){ # function to subset graph with weights
-  ##             temp <- oneNode$edges %in% keptIdx
-  ##             oneNode$edges <- oneNode$edges[temp]
-  ##             oneNode$weights <- oneNode$weights[temp]
-  ##             return(oneNode)
-  ##         }
-
-  ##         if(is.null(myGraph@edgeL[[1]]$weights)){
-  ##             myGraph@edgeL <- lapply(myGraph@edgeL, f1.noweights)
-  ##         } else {
-  ##             myGraph@edgeL <- lapply(myGraph@edgeL, f1.withweights)
-  ##         }
-  ##     }
-  # end subset graph
-
-  res@graph <- myGraph
-
-  ## remember this subsetting
-  curCall <- match.call()
-  ## newHist <- new("gGraphHistory", res@history, cmd=curCall, comments="Subsetting using [...]")
-  ## res@history <- newHist
+  res@graph <- subGraph(nodes(res@graph)[i], res@graph)
 
   return(res)
 })
 
 
-
-
-
-
 ###########
 ## [ gData
 ###########
+
+#' Subset a gData object
+#'
+#' Select a subset of locations from a [`gData`] object by index, logical
+#' vector, or node name. The `@coords`, `@nodes.id`, and `@data` slots are all
+#' subsetted consistently.
+#'
+#' @param x a valid [`gData`] object.
+#' @param i indices for subsetting locations — a logical vector, integer
+#'   indices, or character node names. If missing, all locations are kept.
+#' @param j indices for subsetting data columns. If missing, all columns
+#'   are kept.
+#' @param ... additional arguments passed to the `[` method of `@data`.
+#' @param drop logical passed to the `[` method of `@data`. Defaults to
+#'   `FALSE`.
+#' @return A [`gData`] object with `@coords`, `@nodes.id`, and `@data` all
+#'   subsetted consistently.
+#' @seealso [`getCoords`], [`getNodes`], [`getData`]
+#' @aliases [,gData-method [,gData,ANY,ANY-method [,gData,ANY,ANY,ANY-method
+#' @exportMethod "["
+#' @family basic_methods
+#' @name subset-gData
+#' @examples
+#' ## subset to northern hemisphere populations
+#' north <- hgdp[hgdp@data$Latitude > 40]
+#' plot(worldgraph.40k, reset = TRUE)
+#' points(north)
+NULL
+
 setMethod("[", "gData", function(x, i, j, ..., drop = FALSE) {
   if (missing(i)) {
     i <- TRUE
@@ -140,27 +115,20 @@ setMethod("[", "gData", function(x, i, j, ..., drop = FALSE) {
   if (missing(j)) {
     j <- TRUE
   }
-
   if (is.logical(i) && is.logical(j) && all(c(i, j))) {
     return(x)
-  } # don't loose time for silly trials
-
+  }
 
   ## do the subsetting ##
-
-  ## coords
   res <- x
   N <- nrow(res@coords)
   res@coords <- res@coords[i, , drop = FALSE]
-
-  ## nodes id
   res@nodes.id <- res@nodes.id[i]
 
-  ## data
   if (!is.null(getData(x))) {
     if (nrow(getData(x)) == N) {
       res@data <- res@data[i, j, drop = FALSE]
-    } else if (length(getData) == N) {
+    } else if (length(getData(x)) == N) {
       res@data <- res@data[i]
     } else if (existsMethod("[", class(res@data)[1])) {
       res@data <- res@data[i, j, ..., drop = drop]
@@ -173,52 +141,19 @@ setMethod("[", "gData", function(x, i, j, ..., drop = FALSE) {
 })
 
 
-
-
-
-
 ################
 ## SHOW METHODS
 ################
 
-######################
-## show gGraphHistory
-######################
-## setMethod("show", "gGraphHistory", function(object){
-##     x <- object
-##     N <- length(x@cmd)
-
-##     ## printing
-##     ## cat("\n=== gGgraphHistory ===\n")
-##     if(N > 0){
-##         for(i in 1:N){
-##             cat("=",i, "=\n")
-##             cat("Date:", x@dates[i], "\n")
-##             cat("Comment:", x@comments[i], "\n")
-##             cat("Command: ")
-##             print(x@cmd[[i]])
-##             cat("\n")
-##         }
-##     } else{
-##         cat("\t- empty object -\n")
-##     }
-
-## }) # end show gGraphHistory
-
-
-
-
-
-
 ###############
 ## show gGraph
 ###############
+
 setMethod("show", "gGraph", function(object) {
   x <- object
   N <- nrow(x@coords)
   nDisp <- 3
 
-  ## printing
   cat("\n=== gGraph object ===\n")
   cat("\n@coords: spatial coordinates of", nrow(x@coords), "nodes\n")
   print(utils::head(x@coords, nDisp))
@@ -233,32 +168,24 @@ setMethod("show", "gGraph", function(object) {
 
   cat("\n@graph:\n")
   print(x@graph)
-
-  ## cat("\n@history: (", length(x@history@cmd)," items )\n")
-  ## print(x@history[1:min(nDisp,length(x@history@cmd))])
-  ## if(length(x@history@cmd) > nDisp) cat("\n...\n")
-}) # end show gGraph
-
-
-
-
+})
 
 
 ###############
 ## show gData
 ###############
+
 setMethod("show", "gData", function(object) {
   x <- object
   N <- nrow(x@coords)
   nDisp <- 3
 
-  ## printing
   cat("\n=== gData object ===\n")
   cat("\n@coords: spatial coordinates of", nrow(x@coords), "nodes\n")
   print(utils::head(x@coords, nDisp))
   if (N > nDisp) cat("...\n")
 
-  cat("\n@nodes.id:", nrow(x@nodes.id), "nodes identifiers\n")
+  cat("\n@nodes.id:", length(x@nodes.id), "nodes identifiers\n")
   print(utils::head(x@nodes.id, nDisp))
   if (length(x@nodes.id) > nDisp) cat("...\n")
 
@@ -266,6 +193,5 @@ setMethod("show", "gData", function(object) {
   print(utils::head(x@data, nDisp))
   if (N > nDisp) cat("...\n")
 
-  ## cat("\nAssociated gGraph:",x@gGraph.name, "[",x@gGraph.version,"]\n")
   cat("\nAssociated gGraph:", x@gGraph.name, "\n")
-}) # end show gData
+})

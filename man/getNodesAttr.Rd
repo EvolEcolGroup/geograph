@@ -2,7 +2,6 @@
 % Please edit documentation in R/accessors.R
 \name{getNodesAttr}
 \alias{getNodesAttr}
-\alias{getNodesAttr-methods}
 \alias{getNodesAttr,gGraph-method}
 \alias{getNodesAttr,gData-method}
 \title{Get nodes attributes from gGraph/gData object}
@@ -31,7 +30,7 @@ displayed in rows, variables in columns.
 }
 \description{
 The function \code{getNodesAttr} returns the values of a set of variables
-associated to the nodes (i.e. node attributes) of a \linkS4class{gGraph} or
+associated to the nodes (i.e. node attributes) of a \code{\link{gGraph}} or
 \linkS4class{gData} object.
 }
 \section{Functions}{
@@ -52,8 +51,19 @@ getNodesAttr(hgdp)
 
 }
 \seealso{
-Most other accessors are documented in \linkS4class{gGraph} and
-\linkS4class{gData} manpages.\cr
+\code{\link{getNodes}}, \code{\link{getEdges}}, \code{\link{getCoords}}
+
+Other accessor_methods:
+\code{\link[=getColors]{getColors()}},
+\code{\link[=getCoords]{getCoords()}},
+\code{\link[=getCosts]{getCosts()}},
+\code{\link[=getData]{getData()}},
+\code{\link[=getEdges]{getEdges()}},
+\code{\link[=getGraph]{getGraph()}},
+\code{\link[=getNodes]{getNodes()}},
+\code{\link[=setColors]{setColors()}},
+\code{\link[=setGraph]{setGraph()}}
 }
+\concept{accessor_methods}
 \keyword{methods}
 \keyword{utilities}

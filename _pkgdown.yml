@@ -4,3 +4,94 @@ template:
 development:
   mode: auto
 
+reference:
+  - title: "Classes"
+    desc: "Classes included in the package."
+    contents:
+      - gGraph-class
+      - gData-class
+      - gPath-class
+      
+  - title: "Graph construction"
+    desc: "Functions for creating new custom `gGraph` objects."
+    contents:
+      - makeHexGrid
+      - makeSquareGrid
+
+  - title: "Graph modification"
+    desc: "Functions for modifying `gGraph` objects."
+    contents:
+      - assignByRaster
+      - assignByPolygon
+      - setEdges
+      - setNodesAttr
+
+  - title: "Graph modification (interactive)"
+    desc: "Functions for interactively modifying `gGraph` objects."
+    contents:
+      - geo.add.edges
+      - geo.remove.edges
+      - geo.change.attr
+      
+  - title: "Accessors"
+    desc: "Functions for accessing slots of a `gGraph` or `gData` object."
+    contents:
+      - has_concept("accessor_methods")
+
+  - title: "Connectivity functions"
+    desc: "Functions for finding nodes and querying spatial relationships."
+    contents:
+      - has_concept("connectivity_functions")
+      - closestNode
+      - isInArea
+      - findLand
+      - dropDeadNodes
+      - dropDeadEdges
+      - keepMaxConnectedSet
+
+  - title: "Costs"
+    desc: "Functions adjusting the costs of a `gGraph` object."
+    contents:
+      - has_concept("cost_functions")
+      - dropCosts
+
+  - title: "Shortest paths"
+    desc: "Functions for computing shortest paths and distances."
+    contents:
+      - has_concept("dijkstra_methods")
+      - gPath2dist
+      - polygonBetween
+      - buffer
+      - dijkstraBuffer
+
+  - title: "Basic plotting"
+    desc: "Basic functions for visualising `gGraph` and `gData` objects."
+    contents:
+      - has_concept("plotting_methods")
+      - plotEdges
+      - connectivityPlot
+      - geo.segments
+      - geo.zoomin
+      - geo.zoomout
+      - geo.goto
+      - geo.slide
+      - geo.bookmark
+      - geo.back
+      
+  - title: "Advanced plotting"
+    desc: "Plotting functions based on ggplot2."
+    contents:
+      - has_concept("ggplot_methods")
+      
+  - title: "Example data"
+    desc: "Datasets included in the package."
+    contents:
+      - hgdp
+      - worldgraph
+      - fst_hgdp
+      
+  - title: "Basic Methods"
+    desc: "Basic methods to subset and show gGraph and gData objects"
+    contents:
+      - has_concept("basic_methods")
+      

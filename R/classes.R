@@ -25,10 +25,7 @@ NULL
 #'
 #'
 #' @name gGraph-class
-#' @aliases gGraph gGraph-class [,gGraph-method [,gGraph,ANY,ANY-method
-#' [,gGraph,ANY,ANY,ANY-method getCoords,gGraph-method getGraph,gGraph-method
-#' getNodes,gGraph-method initialize,gGraph-method dropCosts,gGraph-method
-#' dropCosts show,gGraph-method is.gGraph getGraph getCoords getNodes
+#' @aliases gGraph-class gGraph
 #' @docType class
 #' @section Objects from the class gGraph: \code{gGraph} objects can be created
 #' by calls to \code{new("gGraph", ...)}, where '...' can be the following
@@ -41,15 +38,15 @@ NULL
 #' columns are different variables associated to the nodes.
 #' @slot meta list, most likely containing named data.frames (see
 #' Slots).
-#' @slot graph an object of the class \linkS4class{graphNEL},
+#' @slot graph an object of the class [`graph::graphNEL`],
 #' from the \code{graph} package (see \code{class?graphNEL}), describing
 #' connectivity among nodes.
 #'
 #' Note that none of these is mandatory: \code{new("gGraph")} would work, and
 #' create an empty \code{gGraph} object.
 
-#' @seealso Related classes are:\cr % - \code{\linkS4class{graphNEL}}
-#' (graph package): slot \code{@graph} in \code{gGraph}.\cr
+#' @seealso Related classes are: [`graph::graphNEL`]: slot \code{@graph}
+#' in \code{gGraph}.\cr
 #' @keywords classes spatial graphs
 #' @exportClass gGraph
 #' @examples
@@ -115,10 +112,7 @@ setClass(
 #'
 #'
 #' @name gData-class
-#' @aliases gData gData-class [,gData-method [,gData,ANY,ANY-method
-#' [,gData,ANY,ANY,ANY-method getCoords,gData-method getData-methods
-#' getData,gData-method getData getNodes,gData-method initialize,gData-method
-#' show,gData-method is.gData getGraph,gData-method
+#' @aliases gData gData-class
 #' @docType class
 #' @section Objects from the class gData: \code{gData} objects can be created
 #' by calls to \code{new("gData", ...)}, where '...' can be the following
@@ -170,14 +164,60 @@ setClass(
   )
 )
 
-
-
-
+#' Formal class "gPath"
+#'
+#' The class `gPath` is an S3 class storing the results of shortest path
+#' computations between nodes in a [`gGraph`] object. Paths are computed
+#' using Dijkstra's algorithm via the RBGL package and represent the
+#' minimum-cost routes connecting pairs of nodes in the graph.
+#'
+#' `gPath` objects are primarily created as outputs from [`dijkstraFrom`],
+#' [`dijkstraBetween`], and [`polygonBetween`] applied to [`gGraph`] or [`gData`] objects.
+#' The structure is based on the output from RBGL's `sp.between` function,
+#' enhanced with geographic coordinate information.
+#'
+#' @name gPath-class
+#' @aliases gPath gPath-class
+#'
+#' @section Creating gPath objects:
+#' `gPath` objects are created by dijkstra methods. Direct construction is not recommended.
+#'
+#' @section Structure:
+#' A named list where each element represents a path between two nodes,
+#' containing:
+#' - `path_detail`: a character vector of node names from source to
+#'   destination.
+#' - `length`: a numeric value giving the total cost of the path.
+#'
+#' An `xy` attribute stores a matrix of spatial coordinates (longitude and
+#' latitude) for all nodes referenced in the paths, with node identifiers
+#' as row names.
+#'
+#' @seealso [`dijkstraFrom`], [`dijkstraBetween`]  and [`polygonBetween`] to create `gPath`
+#'   objects. [`plot.gPath`] to visualize paths. [`gPath2dist`] to extract
+#'   distances. [`gGraph-class`] and [`gData-class`] for related classes.
+#' @examples
+#' ori <- closestNode(worldgraph.40k, cbind(33, 10))
+#' myPath <- dijkstraFrom(hgdp, ori)
+#'
+#' ## examine the structure
+#' length(myPath) # number of paths
+#' myPath[[1]]$path_detail # nodes in first path
+#' myPath[[1]]$length # cost of first path
+#' myPath[[1]]$length_detail # details for each step
+#'
+#' ## get coordinates of nodes in paths
+#' head(attr(myPath, "xy"))
+#'
+#' ## plot the paths
+#' plot(worldgraph.40k, col = NA, reset = TRUE)
+#' plot(myPath)
+NULL
 
 ####################
 ## VALIDITY METHODS
 ####################
-#' @export
+#' @noRd
 .gGraph.valid <- function(object) {
   x <- object
   N <- nrow(x@coords)
@@ -218,18 +258,14 @@ setClass(
 } # end .gGprah.valid
 
 
-
-
-#' @export
+#' @noRd
 .gData.valid <- function(object) {
   x <- object
-  Ncoords <- nrow(x@coords)
-  Nnodes <- length(x@nodes.id)
+  n.coords <- nrow(x@coords)
+  n.nodes <- length(x@nodes.id)
 
-  ## dim matching
-  if (Ncoords != Nnodes) {
-    cat("\n Number of coordinates and of nodes do not match.")
-    return(FALSE)
+  if (x@gGraph.name == "") {
+    stop("x is not associated with a gGraph object.")
   }
 
   ## gGraph object
@@ -237,34 +273,33 @@ setClass(
     warning(paste("The gGraph object", x@gGraph.name, "is missing."))
   }
 
+  ## dim matching
+  if (n.coords != n.nodes) {
+    cat("\n Number of coordinates and of nodes do not match.")
+    return(FALSE)
+  }
+
   return(TRUE)
 } # end .gData.valid
 
 
-
-
-
-#' @export
+#' @noRd
 setValidity("gGraph", .gGraph.valid)
-## setValidity("gGraphHistory", .gGprahHistory.valid)
-#' @export
+
+#' @noRd
 setValidity("gData", .gData.valid)
 
-#' @export
+#' @noRd
 is.gGraph <- function(x) {
   res <- (is(x, "gGraph") & validObject(x))
   return(res)
 }
 
-#' @export
+#' @noRd
 is.gData <- function(x) {
   res <- (is(x, "gData") & validObject(x))
   return(res)
 }
-
-
-
-
 
 
 ################
@@ -274,14 +309,13 @@ is.gData <- function(x) {
 ##########
 ## gGraph
 ##########
-#' @export
 setMethod("initialize", "gGraph", function(.Object, ...) {
   x <- .Object
   input <- list(...)
 
   ## handle @coords ##
   if (!is.null(input$coords)) {
-    if (is.list(input$coords) && length(input$coords) == 2) {
+    if (is.list(input$coords)) {
       input$coords <- as.data.frame(input$coords)
     }
 
@@ -289,11 +323,39 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
       input$coords <- as.matrix(input$coords)
     }
 
-    if (nrow(input$coords) > 0 && !is.numeric(input$coords)) stop("Argument coords has to be numeric.")
+    if (ncol(input$coords) != 2) {
+      stop("Argument coords must include only two columns (longitude and latitude).")
+    }
+
+    if (nrow(input$coords) > 0 && !is.numeric(input$coords)) {
+      stop("Argument coords has to be numeric.")
+    }
+
+    ## NAs in coords
+    if (any(is.na(input$coords))) {
+      stop("Argument coords includes NAs")
+    }
+
+    ## Convert all column names to lower case
+    colnames(input$coords) <- tolower(colnames(input$coords))
+    ## Create list of lon/lat column heading names
+    lonlist <- list("lon", "long", "longitude", "x")
+    latlist <- list("lat", "latitude", "y")
+    ## Test if the column order is inverted
+    if (is.element(colnames(input$coords)[1], latlist) &&
+        is.element(colnames(input$coords)[2], lonlist)) {
+      input$coords[, c(1, 2)] <- input$coords[, c(2, 1)]
+    } else if (!(is.element(colnames(input$coords)[1], lonlist) &&
+                 is.element(colnames(input$coords)[2], latlist))) {
+      message(
+        "The coordinate column names are not part of the standardised list;\n",
+        "we will use the order they were given in, make sure it corresponds to x and y!"
+      )
+    } # if neither of the if catches it, then the names are part of the lists and in the correct order
 
     ## names of the matrix
     colnames(input$coords) <- c("lon", "lat")
-    rownames(input$coords) <- as.character(1:nrow(input$coords))
+    rownames(input$coords) <- as.character(seq_len(nrow(input$coords)))
 
     ## check/rectify longitudes
     temp <- input$coords[, "lon"] > 180
@@ -335,19 +397,12 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
 }) # end gGraph constructor
 
 
-
-
-
-
 ##########
 ## gData
 ##########
-#' @export
 setMethod("initialize", "gData", function(.Object, ...) {
   x <- .Object
   input <- list(...)
-  inputClasses <- sapply(input, class)
-
 
   ## handle @coords ##
   if (!is.null(input$coords)) {
@@ -363,7 +418,7 @@ setMethod("initialize", "gData", function(.Object, ...) {
 
     ## names of the matrix
     colnames(input$coords) <- c("lon", "lat")
-    rownames(input$coords) <- as.character(1:nrow(input$coords))
+    rownames(input$coords) <- as.character(seq_len(nrow(input$coords)))
 
     ## check/rectify longitudes
     temp <- input$coords[, "lon"] > 180
@@ -382,10 +437,6 @@ setMethod("initialize", "gData", function(.Object, ...) {
       myGraph <- get(input$gGraph.name, envir = .GlobalEnv) # used later for node.id
       x@gGraph.name <- input$gGraph.name
     }
-
-    ## if(is.null(input$gGraph.version) & !is.null(myGraph)){
-    ##     x@gGraph.version <- myGraph@history@dates[length(myGraph@history@dates)]
-    ## }
   } else {
     myGraph <- NULL
   }

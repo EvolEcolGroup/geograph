@@ -12,7 +12,7 @@
 #' @aliases buffer buffer-methods buffer,gGraph-method buffer,gData-method
 #' @param x a valid \linkS4class{gGraph} or \linkS4class{gData} object.
 #' @param \dots further arguments passed to specific methods.
-#' @param nodes a character vector identifying the nodes aournd which buffers
+#' @param nodes a character vector identifying the nodes around which buffers
 #' should be computed.
 #' @param d the radius of the buffer, in km.
 #' @param res.type the type of result that should be returned (see section
@@ -31,37 +31,25 @@
 #' @keywords utilities methods
 #' @name buffer
 #' @examples
-#'
 #' #### gGraph example ####
-#' ## zoom in to an area
-#' plot(worldgraph.10k, reset = TRUE)
-#' geo.zoomin(list(x = c(-6, 38), y = c(35, 73)))
+#' ## Subset gGraph to Europe
+#' x <- rawgraph.10k[isInArea(worldgraph.10k, reg = list(x = c(-10, 50), y = c(35, 70)), quiet = TRUE)]
 #'
 #' ## identify one node
-#' oneNodeXY <- c(getCoords(worldgraph.10k)[9299, 1], getCoords(worldgraph.10k)[9299, 2])
-#' points(oneNodeXY[1], oneNodeXY[2], col = "red")
+#' node <- closestNode(x, data.frame(lon = 12, lat = 50))
 #'
-#' ## find some buffers
-#' buffer(worldgraph.10k, "9299", 100) # nothing around 100km
-#' buffer(worldgraph.10k, "9299", 500)
-#' buf500km <- buffer(worldgraph.10k, "9299", 500, res = "gGraph")
-#' plot(buf500km, col.rules = buf500km@meta$buf.colors)
-#' buf1000km <- buffer(worldgraph.10k, "9299", 1000, res = "gGraph")
-#' plot(buf1000km, col.rules = buf1000km@meta$buf.colors)
-#'
+#' ## find a buffer
+#' buffer(x, node, 1000)
+#' buf500km <- buffer(x, node, 1000, res.type = "gGraph")
+#' plot(buf500km, col.rules = buf500km@meta$buf.colors, reset = TRUE)
 #'
 #' #### gData example ####
-#' x <- hgdp[27:30] # retain a subset of hgdp
+#'
+#' ## retain a subset of hgdp
+#' x <- hgdp[27:30]
 #' plot(x, reset = TRUE, col.g = "lightgrey", pch.node = 20)
-#' buf.200 <- buffer(x, 200, res = "gData")
-#' buf.400 <- buffer(x, 400, res = "gData")
-#' buf.600 <- buffer(x, 600, res = "gData")
-#' buf.1000 <- buffer(x, 1000, res = "gData")
-#' points(buf.1000, col.node = "black")
-#' points(buf.600, col.node = "yellow")
+#' buf.400 <- buffer(x, 400, res.type = "gData")
 #' points(buf.400, col.node = "gold")
-#' points(buf.200, col.node = "orange")
-#' title("Different buffers for a gData \n(100km, 200km, 500km)")
 #'
 NULL
 
@@ -72,9 +60,6 @@ NULL
 setGeneric("buffer", function(x, ...) {
   standardGeneric("buffer")
 })
-
-
-
 
 
 ################
@@ -90,8 +75,8 @@ setMethod("buffer", "gGraph", function(x, nodes, d, res.type = c("nodes", "gGrap
   if (d > 1e4) warning("Buffer distance is greater than 10,000km; computations may be long.")
   res.type <- match.arg(res.type)
 
-  ALL.NODES <- getNodes(x)
-  if (!all(nodes %in% ALL.NODES)) stop("Some requested nodes do not exist in the gGraph grid.")
+  all.nodes <- getNodes(x)
+  if (!all(nodes %in% all.nodes)) stop("Some requested nodes do not exist in the gGraph grid.")
 
   GRAPH <- getGraph(x)
   EDGES <- edges(GRAPH)
@@ -129,36 +114,20 @@ setMethod("buffer", "gGraph", function(x, nodes, d, res.type = c("nodes", "gGrap
     return(res)
   } # if res.type is nodes
 
-
-  #### DOES NOT WORK
-  ## ISSUES WHEN DEPARSING THE GGRAPH
-  ## if(res.type == "gData"){ # if res.type is gData
-  ##     graphName <- gsub("\"","",deparse(x, back=FALSE))
-  ##     return(graphName)
-  ##     temp <- new("gData", coords=XY[res,,drop=FALSE], gGraph.name=graphName)
-  ##     return(temp)
-  ## }
-
-
   ## else ... (res.type==gGraph)
-  bufAttr <- rep(FALSE, length(ALL.NODES))
-  names(bufAttr) <- ALL.NODES
+  bufAttr <- rep(FALSE, length(all.nodes))
+  names(bufAttr) <- all.nodes
   bufAttr[res] <- TRUE
 
   ## set new attributes
-  ALL.ATTR <- getNodesAttr(x)
-  newATTR <- cbind.data.frame(ALL.ATTR, buffer = bufAttr)
+  allAttr <- getNodesAttr(x)
+  newATTR <- cbind.data.frame(allAttr, buffer = bufAttr)
   x@nodes.attr <- newATTR
 
   ## set new color rules
   x@meta$buf.colors <- data.frame(buffer = c(TRUE, FALSE), color = c("orange", "lightgrey"))
   return(x)
 }) # end buffer for gGraph
-
-
-
-
-
 
 
 ################
@@ -178,12 +147,12 @@ setMethod("buffer", "gData", function(x, d, res.type = c("nodes", "gData", "gGra
 
 
   ## CALL UPON gGraph METHOD ##
-  if (res.type == "gGraph") { # if result seeked is gGraph
+  if (res.type == "gGraph") { # if result sought is gGraph
     res <- buffer(myGraph, myNodes, d, res.type = "gGraph")
     return(res)
   }
 
-  # if result seeked is nodes or gData
+  # if result sought is nodes or gData
   temp <- buffer(myGraph, myNodes, d, res.type = "nodes")
   if (res.type == "nodes") {
     return(temp)

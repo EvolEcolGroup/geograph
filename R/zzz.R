@@ -1,16 +1,4 @@
-.onAttach <- function(libname, pkgname) {
-  pkg.version <- utils::packageDescription("geoGraph", fields = "Version")
-
-  startup.txt <- paste("\n   /// geoGraph ", pkg.version, " is loaded ////////////",
-    "\n\n   > overview: '?geoGraph'",
-    "\n   > tutorials/doc/questions: https://github.com/thibautjombart/geograph' \n",
-    sep = ""
-  )
-
-  packageStartupMessage(startup.txt)
-}
-
-
+# nocov start
 
 # store local temporary variables in an environment whose parent is an empty environment
 # (which should be safe no matter where we are when we create it)
@@ -34,3 +22,5 @@ assign("bookmarks", bookmarks, envir = .geoGraphEnv)
 rm(zoom.log)
 rm(temp)
 rm(bookmarks)
+
+# nocov end
