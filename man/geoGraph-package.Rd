@@ -6,6 +6,8 @@
 \alias{geoGraph-package}
 \title{geoGraph: Walking Through the Geographic Space Using Graphs}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
 }
 \seealso{

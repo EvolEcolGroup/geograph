@@ -43,6 +43,9 @@ pak::pak("EvolEcolGroup/geograph@dev")
 
 ## How the package works
 
-A detailed introduction to the functionalities of `geoGraph` is found in the
-overview article of its website.
+A schematic overview of the `geoGraph` workflow is shown bellow.
 
+![The geoGraph workflow](man/figures/geograph_infographic.png)
+
+More detailed introduction to the functionalities of `geoGraph` can be found in the
+overview article of its website.
