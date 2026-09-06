@@ -1,4 +1,4 @@
-# geoGraph
+# geoGraph <img src="./man/figures/logo.png" align="right" width="150"/>
 
 <!-- badges: start -->
 [![R-CMD-check main](https://img.shields.io/github/checks-status/EvolEcolGroup/geograph/main?label=main&logo=GitHub)](https://github.com/EvolEcolGroup/geograph/actions/workflows/R-CMD-check.yaml)
@@ -43,9 +43,9 @@ pak::pak("EvolEcolGroup/geograph@dev")
 
 ## How the package works
 
-A schematic overview of the `geoGraph` workflow is shown bellow.
+A schematic overview of the `geoGraph` workflow is shown below.
 
-![The geoGraph workflow](man/figures/geograph_infographic.png)
+![The geoGraph workflow](pkgdown/readme_assets/geograph_infographic.png)
 
 More detailed introduction to the functionalities of `geoGraph` can be found in the
 overview article of its website.
