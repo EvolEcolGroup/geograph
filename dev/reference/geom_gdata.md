@@ -60,6 +60,6 @@ Other ggplot_methods:
 ``` r
 library(ggplot2)
 ggplot() +
- geom_gdata(data = hgdp, color = "black", size = 1.5) +
- theme_void()
+  geom_gdata(data = hgdp, color = "black", size = 1.5) +
+  theme_void()
 ```

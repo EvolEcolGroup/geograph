@@ -199,6 +199,8 @@ Datasets included in the package.
   [`worldgraph.10k`](https://evolecolgroup.github.io/geograph/dev/reference/worldgraph.md)
   [`worldgraph.40k`](https://evolecolgroup.github.io/geograph/dev/reference/worldgraph.md)
   : Worldwide geographic graphs
+- [`fst_hgdp`](https://evolecolgroup.github.io/geograph/dev/reference/fst_hgdp.md)
+  : Pairwise FST matrix for HGDP populations
 
 ## Basic Methods
 

@@ -31,7 +31,7 @@ geom_ggraph(
 
 - mapping:
 
-  aesthetics. Variables from the gGraph's node attributes may be used
+  aesthetics. Variables from the `gGraph's` node attributes may be used
   (e.g. `aes(color = habitat)`).
 
 - edges:
@@ -60,8 +60,8 @@ Other ggplot_methods:
 ``` r
 library(ggplot2)
 ggplot() +
- geom_ggraph(data = worldgraph.10k, aes(color = habitat), edges = TRUE, size = 0.3) +
- scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
- coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=-80") +
- theme_void()
+  geom_ggraph(data = worldgraph.10k, aes(color = habitat), edges = TRUE, size = 0.3) +
+  scale_color_manual(values = c(land = "grey70", sea = "lightblue", coast = "grey70")) +
+  coord_sf(crs = "+proj=ortho +lat_0=40 +lon_0=-80") +
+  theme_void()
 ```
