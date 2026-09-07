@@ -17,7 +17,7 @@
 #' @docType data
 #' @format `hgdp` is a [`gData`] object with the following slots:
 #'   \describe{
-#'     \item{@coords}{Coordinates (lon, lat) of each of the 52
+#'     \item{@coords}{Coordinates (lon, lat) of each of the 51
 #'       population sampling locations.}
 #'     \item{@nodes.id}{Node identifiers of the underlying [`gGraph`]
 #'       ([`worldgraph.40k`]) matched to each population.}

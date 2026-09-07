@@ -311,7 +311,7 @@ plot(cities.paths)
 
 ### Example application using the Human Genome Diversity Panel
 
-Here we show an application of the above-described methods to a real dataset, the Human Genome Diversity Panel (HGDP) dataset, which contains genetic diversity information for 52 human populations worldwide (see `?hgdp` for more information on this dataset).
+Here we show an application of the above-described methods to a real dataset, the Human Genome Diversity Panel (HGDP) dataset, which contains genetic diversity information for 51 human populations worldwide (see `?hgdp` for more information on this dataset).
 
 ```{r fig=TRUE, fig.width = 8}
 hgdp
