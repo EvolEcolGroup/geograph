@@ -601,7 +601,7 @@ plot(cities.paths)
 
 Here we show an application of the above-described methods to a real
 dataset, the Human Genome Diversity Panel (HGDP) dataset, which contains
-genetic diversity information for 52 human populations worldwide (see
+genetic diversity information for 51 human populations worldwide (see
 [`?hgdp`](https://evolecolgroup.github.io/geograph/dev/reference/hgdp.md)
 for more information on this dataset).
 
@@ -613,19 +613,19 @@ hgdp
     ## 
     ## === gData object ===
     ## 
-    ## @coords: spatial coordinates of 52 nodes
+    ## @coords: spatial coordinates of 51 nodes
     ##   lon lat
     ## 1  -3  59
     ## 2  39  44
     ## 3  40  61
     ## ...
     ## 
-    ## @nodes.id: 52 nodes identifiers
+    ## @nodes.id: 51 nodes identifiers
     ##   28179   11012   22532 
     ## "26898" "11652" "22532" 
     ## ...
     ## 
-    ## @data: 52 data
+    ## @data: 51 data
     ##   Population Region Label  n Latitude Longitude Genetic.Div
     ## 1   Orcadian EUROPE     1 15       59        -3      0.7259
     ## 2     Adygei EUROPE     2 17       44        39      0.7298
@@ -730,18 +730,18 @@ summary(lm.unif)
     ## 
     ## Residuals:
     ##      Min       1Q   Median       3Q      Max 
-    ## -0.07327 -0.00660  0.00074  0.01015  0.05449 
+    ## -0.07323 -0.00659  0.00075  0.01027  0.05454 
     ## 
     ## Coefficients:
     ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  7.70e-01   4.58e-03   168.2   <2e-16 ***
-    ## dgeo.unif   -8.39e-04   5.31e-05   -15.8   <2e-16 ***
+    ## (Intercept)  7.70e-01   4.64e-03   165.8   <2e-16 ***
+    ## dgeo.unif   -8.39e-04   5.36e-05   -15.7   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 0.0185 on 50 degrees of freedom
+    ## Residual standard error: 0.0187 on 49 degrees of freedom
     ## Multiple R-squared:  0.833,  Adjusted R-squared:  0.83 
-    ## F-statistic:  250 on 1 and 50 DF,  p-value: <2e-16
+    ## F-statistic:  245 on 1 and 49 DF,  p-value: <2e-16
 
 ``` r
 
@@ -804,18 +804,18 @@ summary(lm.hab)
     ## 
     ## Residuals:
     ##      Min       1Q   Median       3Q      Max 
-    ## -0.11183 -0.00976  0.00133  0.01216  0.06413 
+    ## -0.11182 -0.00993  0.00141  0.01277  0.06413 
     ## 
     ## Coefficients:
     ##              Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  0.770137   0.007174  107.36  < 2e-16 ***
-    ## dgeo.hab    -0.001421   0.000145   -9.79  3.2e-13 ***
+    ## (Intercept)  0.770102   0.007282  105.75  < 2e-16 ***
+    ## dgeo.hab    -0.001420   0.000147   -9.69  5.7e-13 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 0.0265 on 50 degrees of freedom
-    ## Multiple R-squared:  0.657,  Adjusted R-squared:  0.651 
-    ## F-statistic: 95.9 on 1 and 50 DF,  p-value: 3.21e-13
+    ## Residual standard error: 0.0268 on 49 degrees of freedom
+    ## Multiple R-squared:  0.657,  Adjusted R-squared:  0.65 
+    ## F-statistic: 93.9 on 1 and 49 DF,  p-value: 5.67e-13
 
 ``` r
 

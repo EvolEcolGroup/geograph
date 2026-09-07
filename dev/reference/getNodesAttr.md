@@ -141,5 +141,4 @@ getNodesAttr(hgdp)
 #> 19483     coast
 #> 27148      land
 #> 11457      land
-#> 30221      land
 ```

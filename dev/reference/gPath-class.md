@@ -64,7 +64,7 @@ myPath <- dijkstraFrom(hgdp, ori)
 
 ## examine the structure
 length(myPath) # number of paths
-#> [1] 52
+#> [1] 51
 myPath[[1]]$path_detail # nodes in first path
 #>  [1] "32713" "32712" "32711" "33351" "33350" "33990" "33989" "34629" "34628"
 #> [10] "34627" "35267" "35266" "35906" "35905" "36545" "36544" "36543" "36542"

@@ -66,7 +66,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>geoGraph</h1>
             
-            <h4 data-toc-skip class="date">2026-09-06</h4>
+            <h4 data-toc-skip class="date">2026-09-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/vignettes/geoGraph.Rmd" class="external-link"><code>vignettes/geoGraph.Rmd</code></a></small>
       <div class="d-none name"><code>geoGraph.Rmd</code></div>
@@ -549,26 +549,26 @@ instead of the Caucasus mountains:</p>
 </h4>
 <p>Here we show an application of the above-described methods to a real
 dataset, the Human Genome Diversity Panel (HGDP) dataset, which contains
-genetic diversity information for 52 human populations worldwide (see
+genetic diversity information for 51 human populations worldwide (see
 <code><a href="../reference/hgdp.html">?hgdp</a></code> for more information on this dataset).</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hgdp</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## === gData object ===</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## @coords: spatial coordinates of 52 nodes</span></span>
+<span><span class="co">## @coords: spatial coordinates of 51 nodes</span></span>
 <span><span class="co">##   lon lat</span></span>
 <span><span class="co">## 1  -3  59</span></span>
 <span><span class="co">## 2  39  44</span></span>
 <span><span class="co">## 3  40  61</span></span>
 <span><span class="co">## ...</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## @nodes.id: 52 nodes identifiers</span></span>
+<span><span class="co">## @nodes.id: 51 nodes identifiers</span></span>
 <span><span class="co">##   28179   11012   22532 </span></span>
 <span><span class="co">## "26898" "11652" "22532" </span></span>
 <span><span class="co">## ...</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## @data: 52 data</span></span>
+<span><span class="co">## @data: 51 data</span></span>
 <span><span class="co">##   Population Region Label  n Latitude Longitude Genetic.Div</span></span>
 <span><span class="co">## 1   Orcadian EUROPE     1 15       59        -3      0.7259</span></span>
 <span><span class="co">## 2     Adygei EUROPE     2 17       44        39      0.7298</span></span>
@@ -642,18 +642,18 @@ examine the relationship between genetic diversity within populations
 <span><span class="co">## </span></span>
 <span><span class="co">## Residuals:</span></span>
 <span><span class="co">##      Min       1Q   Median       3Q      Max </span></span>
-<span><span class="co">## -0.07327 -0.00660  0.00074  0.01015  0.05449 </span></span>
+<span><span class="co">## -0.07323 -0.00659  0.00075  0.01027  0.05454 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Coefficients:</span></span>
 <span><span class="co">##              Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">## (Intercept)  7.70e-01   4.58e-03   168.2   &lt;2e-16 ***</span></span>
-<span><span class="co">## dgeo.unif   -8.39e-04   5.31e-05   -15.8   &lt;2e-16 ***</span></span>
+<span><span class="co">## (Intercept)  7.70e-01   4.64e-03   165.8   &lt;2e-16 ***</span></span>
+<span><span class="co">## dgeo.unif   -8.39e-04   5.36e-05   -15.7   &lt;2e-16 ***</span></span>
 <span><span class="co">## ---</span></span>
 <span><span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Residual standard error: 0.0185 on 50 degrees of freedom</span></span>
+<span><span class="co">## Residual standard error: 0.0187 on 49 degrees of freedom</span></span>
 <span><span class="co">## Multiple R-squared:  0.833,  Adjusted R-squared:  0.83 </span></span>
-<span><span class="co">## F-statistic:  250 on 1 and 50 DF,  p-value: &lt;2e-16</span></span></code></pre>
+<span><span class="co">## F-statistic:  245 on 1 and 49 DF,  p-value: &lt;2e-16</span></span></code></pre>
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Genetic diversity vs geographic distance \n uniform costs "</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="672"></p>
@@ -695,18 +695,18 @@ examine the new relationship with genetic distance:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Residuals:</span></span>
 <span><span class="co">##      Min       1Q   Median       3Q      Max </span></span>
-<span><span class="co">## -0.11183 -0.00976  0.00133  0.01216  0.06413 </span></span>
+<span><span class="co">## -0.11182 -0.00993  0.00141  0.01277  0.06413 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Coefficients:</span></span>
 <span><span class="co">##              Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">## (Intercept)  0.770137   0.007174  107.36  &lt; 2e-16 ***</span></span>
-<span><span class="co">## dgeo.hab    -0.001421   0.000145   -9.79  3.2e-13 ***</span></span>
+<span><span class="co">## (Intercept)  0.770102   0.007282  105.75  &lt; 2e-16 ***</span></span>
+<span><span class="co">## dgeo.hab    -0.001420   0.000147   -9.69  5.7e-13 ***</span></span>
 <span><span class="co">## ---</span></span>
 <span><span class="co">## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Residual standard error: 0.0265 on 50 degrees of freedom</span></span>
-<span><span class="co">## Multiple R-squared:  0.657,  Adjusted R-squared:  0.651 </span></span>
-<span><span class="co">## F-statistic: 95.9 on 1 and 50 DF,  p-value: 3.21e-13</span></span></code></pre>
+<span><span class="co">## Residual standard error: 0.0268 on 49 degrees of freedom</span></span>
+<span><span class="co">## Multiple R-squared:  0.657,  Adjusted R-squared:  0.65 </span></span>
+<span><span class="co">## F-statistic: 93.9 on 1 and 49 DF,  p-value: 5.67e-13</span></span></code></pre>
 <div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span><span class="st">"Genetic diversity vs geographic distance \n habitat costs "</span><span class="op">)</span></span></code></pre></div>
 <p><img src="geoGraph_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="672"></p>
