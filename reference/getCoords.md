@@ -134,7 +134,6 @@ getCoords(hgdp)
 #> 19483  138.0  38.0
 #> 27148  129.5  63.0
 #> 11457  -62.0 -11.0
-#> 30221   65.0  67.0
 
 ## coordinates of matched grid nodes instead of original locations
 getCoords(hgdp, original = FALSE)
@@ -190,5 +189,4 @@ getCoords(hgdp, original = FALSE)
 #> 19483  138.9505681  37.7066945
 #> 27148  130.3634903  62.7228224
 #> 11457  -61.8701384 -10.6016019
-#> 30221   64.7691130  66.6678236
 ```

@@ -65,19 +65,19 @@ hgdp
 #> 
 #> === gData object ===
 #> 
-#> @coords: spatial coordinates of 52 nodes
+#> @coords: spatial coordinates of 51 nodes
 #>   lon lat
 #> 1  -3  59
 #> 2  39  44
 #> 3  40  61
 #> ...
 #> 
-#> @nodes.id: 52 nodes identifiers
+#> @nodes.id: 51 nodes identifiers
 #>   28179   11012   22532 
 #> "26898" "11652" "22532" 
 #> ...
 #> 
-#> @data: 52 data
+#> @data: 51 data
 #>   Population Region Label  n Latitude Longitude Genetic.Div
 #> 1   Orcadian EUROPE     1 15       59        -3   0.7258820
 #> 2     Adygei EUROPE     2 17       44        39   0.7297802
