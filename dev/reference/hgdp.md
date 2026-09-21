@@ -16,7 +16,7 @@ object with the following slots:
 
 - @coords:
 
-  Coordinates (lon, lat) of each of the 52 population sampling
+  Coordinates (lon, lat) of each of the 51 population sampling
   locations.
 
 - @nodes.id:
