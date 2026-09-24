@@ -312,7 +312,11 @@ habitat type, either ‘sea’ (blue) or ‘land’ (green). We are going to
 interface the cities data with this grid; to do so, we create a `gData`
 object using `new` (see
 [`?gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
-object):
+object). As we want all of our cities to be on land, we can re-assigned
+to nodes with restrictions for some node attribute values using
+`closestNode`. For instance, here we constrain matching nodes to have an
+`habitat` value (defined as node attribute in `worldgraph.10k`) equaling
+`land` (green points):
 
 ``` r
 
@@ -346,6 +350,7 @@ cities
 
 ``` r
 
+cities <- closestNode(cities, attr.name = "habitat", attr.value = "land")
 plot(cities, type = "both", reset = TRUE)
 ```
 
@@ -361,32 +366,11 @@ plotEdges(worldgraph.10k)
 ![](geoGraph_files/figure-html/citiesplot-1.png)
 
 This figure illustrates the matching of original locations (black
-crosses) to nodes of the grid (red circles). As we can see, an issue
-occurred for Bordeaux, which has been assigned to a node in the sea (in
-blue). Locations can be re-assigned to nodes with restrictions for some
-node attribute values using `closestNode`; for instance, here we
-constrain matching nodes to have an `habitat` value (defined as node
-attribute in `worldgraph.10k`) equaling `land` (green points):
-
-``` r
-
-cities <- closestNode(cities, attr.name = "habitat", attr.value = "land")
-plot(cities, type = "both", reset = TRUE)
-```
-
-    ## Spherical geometry (s2) switched off
-
-    ## Spherical geometry (s2) switched on
-
-``` r
-
-plotEdges(worldgraph.10k)
-```
-
-![](geoGraph_files/figure-html/closeNode-1.png)
-
-Now, all cities have been assigned to a `land` node of the grid. Content
-of `cities` can be accessed via various accessors (see
+crosses) to nodes of the grid (red circles). As we can see, for
+Bordeaux, the closest node on the grid is actually in the sea, but it
+has been reassign it to a node on land. The other three cities are
+already matched to nodes on land. Content of `cities` can be accessed
+via various accessors (see
 [`?gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)).
 For instance, we can retrieve original locations, assigned nodes, and
 stored data using:
@@ -463,21 +447,9 @@ isConnected(cities)
 
 If not all locations are connected, `connectivityPlot` can help diagnose
 the problem by displaying connected components in different colors, and
-is available for both `gGraph` and `gData` objects. For instance:
-
-``` r
-
-connectivityPlot(worldgraph.10k, edges = TRUE, seed = 1, reset = TRUE)
-```
-
-    ## Spherical geometry (s2) switched off
-
-![](geoGraph_files/figure-html/connectivityPlot-1.png)
-
-    ## Spherical geometry (s2) switched on
+is available for both `gGraph` and `gData` objects.
 
 Since all locations in `cities` are connected, we can proceed further.
-
 We can now compute least-cost paths between all pairs of cities using
 `dijkstraBetween`:
 
@@ -755,8 +727,8 @@ will consider that coasts are four times more favorable for dispersal
 than the rest of the landmasses. For this we simply use the `getCosts`
 function to access the cost-rule data frame and change the cost
 associated with coastal cells. After defining the new cost rules, we set
-costs using this data frame with `setCosts`, and then compute and plot
-the corresponding shortest paths:
+costs using this data frame with `setCosts`, and then compute the
+corresponding shortest paths:
 
 ``` r
 
@@ -767,26 +739,7 @@ myGraph <- setCosts(myGraph, attr.name = "habitat", cost.rules = cost.rules)
 paths.2 <- dijkstraFrom(hgdp, ori)
 ```
 
-``` r
-
-plot(myGraph, col = NA, reset = TRUE)
-```
-
-    ## Spherical geometry (s2) switched off
-
-    ## Spherical geometry (s2) switched on
-
-``` r
-
-plot(paths.2)
-points(addis[1], addis[2], pch = "x", cex = 2)
-text(addis[1] + 35, addis[2], "Addis Ababa", cex = .8, font = 2)
-points(hgdp, col.nodes = "black")
-```
-
-![](geoGraph_files/figure-html/unnamed-chunk-23-1.png)
-
-The new paths are slightly different from the previous ones. We can
+As the new paths are slightly different from the previous ones, we can
 examine the new relationship with genetic distance:
 
 ``` r
@@ -822,7 +775,7 @@ summary(lm.hab)
 title("Genetic diversity vs geographic distance \n habitat costs ")
 ```
 
-![](geoGraph_files/figure-html/unnamed-chunk-24-1.png)
+![](geoGraph_files/figure-html/unnamed-chunk-23-1.png)
 
 Now of course depending on the application, we may want to use different
 grid resolutions, and/or more complex habitat information to define
