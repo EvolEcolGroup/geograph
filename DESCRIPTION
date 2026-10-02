@@ -90,6 +90,7 @@ Collate:
     'plot_gPath.R'
     'plot_ggplot.R'
     'polygonBetween.R'
+    'readMapsGrid.R'
     'setCosts.R'
     'setDistCosts.R'
     'setEdges.R'

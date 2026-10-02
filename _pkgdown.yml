@@ -81,6 +81,11 @@ reference:
   - title: "Advanced plotting"
     desc: "Plotting functions based on ggplot2."
     contents:
+      - has_concept("maps")
+      
+  - title: "MAPS integration"
+    desc: "Integrating `gGraph` and `gData` objects with `MAPS`"
+    contents:
       - has_concept("ggplot_methods")
       
   - title: "Example data"
