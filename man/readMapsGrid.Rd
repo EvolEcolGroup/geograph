@@ -48,5 +48,9 @@ e1007908. \doi{10.1371/journal.pgen.1007908}
 \seealso{
 \code{\link{makeHexGrid}} and \code{\link{makeSquareGrid}} to build other grids.
 \code{\link{setCosts}} to set edge costs.
+
+Other maps:
+\code{\link[=readMapsRates]{readMapsRates()}},
+\code{\link[=readMapsSamples]{readMapsSamples()}}
 }
 \concept{maps}

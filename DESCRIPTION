@@ -91,6 +91,8 @@ Collate:
     'plot_ggplot.R'
     'polygonBetween.R'
     'readMapsGrid.R'
+    'readMapsRates.R'
+    'readMapsSamples.R'
     'setCosts.R'
     'setDistCosts.R'
     'setEdges.R'
