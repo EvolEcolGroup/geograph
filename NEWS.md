@@ -2,6 +2,8 @@
 
 # geoGraph v2.0
 
+* Removed legacy population names
+
 * Added ggplot2 support for gGraph, gData, and gPath objects via autoplot() methods and geom_ggraph(), geom_gdata(), and geom_gpath() layers.
 
 * `closestNode` now uses a faster KNN implementation for nearest neighbor searches by default. The legacy zone-expansion method is still available via method = "inArea".
