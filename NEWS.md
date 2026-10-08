@@ -1,8 +1,4 @@
-# geoGraph (development version)
-
-# geoGraph v2.0
-
-* Removed legacy population names
+# geoGraph v2.0.1
 
 * Added ggplot2 support for gGraph, gData, and gPath objects via autoplot() methods and geom_ggraph(), geom_gdata(), and geom_gpath() layers.
 
