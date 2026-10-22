@@ -126,3 +126,14 @@ test_that("gGraph constructor accepts coordinates without column names", {
   ref <- new("gGraph", coords = data.frame(lon = c(31, 55), lat = c(-24, 37)))
   expect_identical(x, ref)
 })
+
+test_that("validity checks report an informative message", {
+  x <- worldgraph.10k
+  x@nodes.attr <- x@nodes.attr[1:3, , drop = FALSE]
+  expect_error(validObject(x), "Number of coords do not match number of node attributes")
+
+  # graph with fewer nodes than coords must not pass through recycling
+  y <- new("gGraph", coords = cbind(lon = 1:4, lat = 1:4))
+  y@graph <- new("graphNEL", nodes = c("1", "2"))
+  expect_error(validObject(y), "Row names of @coords do not match node names of @graph")
+})

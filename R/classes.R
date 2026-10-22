@@ -230,27 +230,23 @@ NULL
 
   ## coords not numeric
   if (!is.numeric(x@coords)) {
-    cat("\n Content of coords is not numeric.")
-    return(FALSE)
+    return("Content of coords is not numeric.")
   }
 
   ## wrong nrow for nodes attributes
   temp <- nrow(x@nodes.attr)
   if (temp > 0 && temp != N) {
-    cat("\n Number of coords do not match number of node attributes.")
-    return(FALSE)
+    return("Number of coords do not match number of node attributes.")
   }
 
   ## NAs in coords
   if (any(is.na(x@coords))) {
-    cat("\n NAs in coords coordinates.")
-    return(FALSE)
+    return("NAs in coords coordinates.")
   }
 
   ## node labels consistency
-  if (!all(rownames(x@coords) == nodes(x@graph))) {
-    cat("\n Row names of @coords do not match node names of @graph.")
-    return(FALSE)
+  if (!identical(rownames(x@coords), nodes(x@graph))) {
+    return("Row names of @coords do not match node names of @graph.")
   }
 
 
@@ -275,8 +271,7 @@ NULL
 
   ## dim matching
   if (n.coords != n.nodes) {
-    cat("\n Number of coordinates and of nodes do not match.")
-    return(FALSE)
+    return("Number of coordinates and of nodes do not match.")
   }
 
   return(TRUE)
