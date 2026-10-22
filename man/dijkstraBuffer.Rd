@@ -36,9 +36,11 @@ origin within a specified maximum cumulative cost, where the distance is
 defined as the cumulative least-cost path over weighted edges.
 }
 \details{
-Internally, the function computes single-source shortest paths using
+Internally, the function computes single-source shortest path costs using
 Dijkstra's algorithm from the origin node and returns all nodes whose
-minimum path cost does not exceed the specified threshold.
+minimum path cost does not exceed the specified threshold. The origin
+itself (cost 0) is always included; nodes that cannot be reached from the
+origin (e.g. in another connected set) are not.
 }
 \examples{
 ## Subset gGraph to Europe
@@ -60,8 +62,8 @@ plot(x2, col.rules = col.rules, reset = TRUE)
 
 }
 \seealso{
-\code{\link{dijkstraFrom}} and \code{\link{gPath2dist}} for the underlying path
-computations. \code{\link{buffer}} for geographic distance-based buffers.
+\code{\link{dijkstraFrom}} and \code{\link{gPath2dist}} to obtain the least-cost paths
+themselves. \code{\link{buffer}} for geographic distance-based buffers.
 \code{\link{setCosts}} to define edge costs before running \code{dijkstraBuffer}.
 
 Other dijkstra_methods:

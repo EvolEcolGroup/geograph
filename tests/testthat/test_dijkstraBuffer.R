@@ -66,3 +66,28 @@ test_that("dijkstraBuffer accepts an origin given as c(lon, lat)", {
   res.node <- dijkstraBuffer(testGraph, origin = getNodes(testGraph)[1], d = 10)
   expect_identical(res.vec, res.node)
 })
+
+test_that("dijkstraBuffer includes the origin node", {
+  origin <- getNodes(testGraph)[1]
+  res <- dijkstraBuffer(testGraph, origin = origin, d = 10)
+  expect_true(origin %in% res)
+  res.graph <- dijkstraBuffer(testGraph, origin = origin, d = 10, res.type = "gGraph")
+  expect_true(getNodesAttr(res.graph, nodes = origin, attr.name = "reachable")$reachable)
+})
+
+test_that("dijkstraBuffer matches the costs computed by dijkstraFrom", {
+  origin <- getNodes(testGraph)[1]
+  costs <- gPath2dist(dijkstraFrom(testGraph, origin))
+  names(costs) <- sub(".*:", "", names(costs))
+  d <- stats::median(costs)
+  expected <- c(origin, names(costs)[costs <= d])
+  expect_setequal(dijkstraBuffer(testGraph, origin = origin, d = d), expected)
+})
+
+test_that("dijkstraBuffer works on graphs that are not fully connected", {
+  # two separate chains: 1-2-3 and 4-5
+  x <- new("gGraph", coords = cbind(lon = 1:5, lat = rep(0, 5)))
+  x <- setEdges(x, add = data.frame(c("1", "2", "4"), c("2", "3", "5")))
+  expect_equal(dijkstraBuffer(x, origin = "1", d = 1), c("1", "2"))
+  expect_equal(dijkstraBuffer(x, origin = "1", d = 100), c("1", "2", "3"))
+})
