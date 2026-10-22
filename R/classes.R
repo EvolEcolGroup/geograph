@@ -336,17 +336,20 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
       stop("Argument coords includes NAs")
     }
 
-    ## Convert all column names to lower case
-    colnames(input$coords) <- tolower(colnames(input$coords))
+    ## Convert all column names to lower case (unnamed columns match nothing)
+    coord.names <- tolower(colnames(input$coords))
+    if (length(coord.names) != 2) {
+      coord.names <- c("", "")
+    }
     ## Create list of lon/lat column heading names
     lonlist <- list("lon", "long", "longitude", "x")
     latlist <- list("lat", "latitude", "y")
     ## Test if the column order is inverted
-    if (is.element(colnames(input$coords)[1], latlist) &&
-        is.element(colnames(input$coords)[2], lonlist)) {
+    if (is.element(coord.names[1], latlist) &&
+        is.element(coord.names[2], lonlist)) {
       input$coords[, c(1, 2)] <- input$coords[, c(2, 1)]
-    } else if (!(is.element(colnames(input$coords)[1], lonlist) &&
-                 is.element(colnames(input$coords)[2], latlist))) {
+    } else if (!(is.element(coord.names[1], lonlist) &&
+                 is.element(coord.names[2], latlist))) {
       message(
         "The coordinate column names are not part of the standardised list;\n",
         "we will use the order they were given in, make sure it corresponds to x and y!"

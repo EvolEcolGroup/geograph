@@ -117,3 +117,12 @@ test_that("gGraph constructor keeps the meta argument", {
     "meta must be a list"
   )
 })
+
+test_that("gGraph constructor accepts coordinates without column names", {
+  expect_message(
+    x <- new("gGraph", coords = matrix(c(31, 55, -24, 37), ncol = 2)),
+    "use the order they were given in"
+  )
+  ref <- new("gGraph", coords = data.frame(lon = c(31, 55), lat = c(-24, 37)))
+  expect_identical(x, ref)
+})
