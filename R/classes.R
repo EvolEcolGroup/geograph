@@ -374,6 +374,9 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
     }
 
     x@nodes.attr <- input$nodes.attr
+  } else if (nrow(x@coords) > 0) {
+    ## no attributes yet: one row per node, no columns
+    x@nodes.attr <- data.frame(row.names = rownames(x@coords))
   }
 
 

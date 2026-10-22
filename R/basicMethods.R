@@ -61,7 +61,11 @@ setMethod("[", "gGraph", function(x, i, j, ..., drop = TRUE) {
   res <- x
   res@coords <- res@coords[i, , drop = FALSE]
   if (nrow(res@nodes.attr) > 0) {
-    res@nodes.attr <- res@nodes.attr[i, j, drop = FALSE]
+    if (isTRUE(j)) { # df[, TRUE] fails on a data.frame without columns
+      res@nodes.attr <- res@nodes.attr[i, , drop = FALSE]
+    } else {
+      res@nodes.attr <- res@nodes.attr[i, j, drop = FALSE]
+    }
   }
   res@graph <- subGraph(nodes(res@graph)[i], res@graph)
 

@@ -53,6 +53,7 @@ setNodesAttr <- function(x, attr.name, values, ...) {
     ))
   }
 
+  x@nodes.attr <- .nodesAttr(x)
   x@nodes.attr[[attr.name]] <- values
   return(x)
 }
