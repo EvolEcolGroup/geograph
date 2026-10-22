@@ -182,6 +182,7 @@ setMethod("assignByPolygon", "gGraph", function(x, layer = "world", attr = "all"
 #' @export
 setMethod("assignByPolygon", "gData", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
+  rownames(coords) <- NULL # node ids, which are duplicated when locations share a node
   res <- assignByPolygon(x = coords, layer = layer, attr = attr, ...)
 
   if (is.null(x@data)) {

@@ -135,3 +135,14 @@ test_that("assignByPolygon handles layers in a projected CRS", {
   expect_equal(res$id, c("A", "B", NA))
   expect_equal(res, assignByPolygon(locs, layer = layer, attr = "id"))
 })
+
+test_that("assignByPolygon works on gData whose locations share a node", {
+  gdat <- new("gData",
+    coords = data.frame(lon = c(10, 10.01, 2), lat = c(50, 50.01, 48)),
+    data = data.frame(id = 1:3), gGraph.name = "worldgraph.10k"
+  )
+  expect_equal(unname(getNodes(gdat)[1]), unname(getNodes(gdat)[2]))
+  res <- assignByPolygon(gdat, layer = "world", attr = "name")
+  expect_equal(getData(res)$id, 1:3)
+  expect_equal(as.character(getData(res)$name), c("Germany", "Germany", "France"))
+})
