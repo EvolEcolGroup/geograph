@@ -59,3 +59,10 @@ test_that("dijkstraBuffer returns more nodes with a larger max.distance", {
 
   expect_gte(length(result.large), length(result.small))
 })
+
+test_that("dijkstraBuffer accepts an origin given as c(lon, lat)", {
+  loc <- getCoords(testGraph)[1, ]
+  res.vec <- dijkstraBuffer(testGraph, origin = unname(loc), d = 10)
+  res.node <- dijkstraBuffer(testGraph, origin = getNodes(testGraph)[1], d = 10)
+  expect_identical(res.vec, res.node)
+})

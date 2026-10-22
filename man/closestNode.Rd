@@ -35,7 +35,7 @@ environment.}
 \item{loc}{locations, specified as a list with two components indicating
 longitude and latitude of locations. Alternatively, this can be a
 \code{data.frame} or a matrix with longitude and latitude in columns, in
-this order. Note that \code{\link[=locator]{locator()}} can be used to specify the
+this order, or a numeric vector \code{c(lon, lat)} for a single location. Note that \code{\link[=locator]{locator()}} can be used to specify the
 locations interactively.}
 
 \item{method}{the method to use for finding the closest node. The default is

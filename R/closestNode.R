@@ -20,7 +20,7 @@
 #' @param loc locations, specified as a list with two components indicating
 #'   longitude and latitude of locations. Alternatively, this can be a
 #'   `data.frame` or a matrix with longitude and latitude in columns, in
-#'   this order. Note that [`locator()`] can be used to specify the
+#'   this order, or a numeric vector `c(lon, lat)` for a single location. Note that [`locator()`] can be used to specify the
 #'   locations interactively.
 #' @param method the method to use for finding the closest node. The default is
 #'  `"knn"`, which uses a fast FNN-based spatial index over unit-sphere Cartesian coordinates.
@@ -87,6 +87,9 @@ setMethod("closestNode", "gGraph", function(x, loc, method = "knn",
                                             zoneSize = 5, attr.name = NULL, attr.values = NULL) {
   ## handle arguments
   if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
+  if (is.numeric(loc) && is.null(dim(loc)) && length(loc) == 2) { # a single c(lon, lat)
+    loc <- matrix(loc, ncol = 2)
+  }
   loc <- as.data.frame(loc)
   if (ncol(loc) != 2) stop("coords does not have two columns.")
   coords <- getCoords(x)
