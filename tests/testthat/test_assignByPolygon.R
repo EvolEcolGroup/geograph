@@ -123,3 +123,15 @@ test_that("assignByPolygon handles duplicate coordinates correctly", {
   expect_equal(nrow(res), 2L)
   expect_equal(res$continent[1], res$continent[2])
 })
+
+test_that("assignByPolygon handles layers in a projected CRS", {
+  pA <- sf::st_polygon(list(rbind(c(0, 0), c(1, 0), c(1, 1), c(0, 1), c(0, 0))))
+  pB <- sf::st_polygon(list(rbind(c(2, 0), c(3, 0), c(3, 1), c(2, 1), c(2, 0))))
+  layer <- sf::st_sf(id = c("A", "B"), geometry = sf::st_sfc(pA, pB, crs = 4326))
+  layer.proj <- sf::st_transform(layer, 3857) # web mercator, in metres
+  locs <- cbind(c(0.5, 2.5, 5), c(0.5, 0.5, 5))
+
+  res <- assignByPolygon(locs, layer = layer.proj, attr = "id")
+  expect_equal(res$id, c("A", "B", NA))
+  expect_equal(res, assignByPolygon(locs, layer = layer, attr = "id"))
+})

@@ -70,3 +70,11 @@ test_that("findLand replaces an existing attribute instead of duplicating it", {
   expected <- findLand(getCoords(x))
   expect_equal(getNodesAttr(x, attr.name = "habitat")$habitat, expected)
 })
+
+test_that("findLand handles shapes in a projected CRS", {
+  pA <- sf::st_polygon(list(rbind(c(0, 0), c(1, 0), c(1, 1), c(0, 1), c(0, 0))))
+  shape <- sf::st_sf(id = "A", geometry = sf::st_sfc(pA, crs = 4326))
+  shape.proj <- sf::st_transform(shape, 3857)
+  locs <- cbind(c(0.5, 5), c(0.5, 5))
+  expect_equal(as.character(findLand(locs, shape = shape.proj)), c("land", "sea"))
+})

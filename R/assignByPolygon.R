@@ -89,11 +89,8 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
   }
 
 
-  # create an sf point object from the coordinates
-  locations.st <- x %>%
-    as.data.frame() %>%
-    sf::st_as_sf(coords = c(1, 2)) %>%
-    sf::st_set_crs(sf::st_crs(layer))
+  # create an sf point object from the coordinates, in the CRS of the layer
+  locations.st <- .locationsToSf(x, sf::st_crs(layer))
   # now find points in polygons
   points.within <- sf::st_intersects(layer, locations.st)
   points.within <- data.frame(
