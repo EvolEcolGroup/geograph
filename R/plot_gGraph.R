@@ -134,8 +134,10 @@ setMethod(
       psize <- get("psize", envir = .geoGraphEnv)
     }
 
-    toKeep <- isInArea(x, res.type = "integer", quiet = TRUE)
-    coords <- coords[toKeep, ]
+    ## nodes in the new plotting area (the device still shows the previous
+    ## plot, so reg = "current" would use the previous area)
+    toKeep <- isInArea(x, reg = list(x = xlim, y = ylim), res.type = "integer", quiet = TRUE)
+    coords <- coords[toKeep, , drop = FALSE]
 
 
     ## store previous last.points in envir (is erased by plotEdges)
@@ -172,7 +174,7 @@ setMethod(
 
       ## subset of points in area
       toKeep <- isInArea(x, reg = "current", res.type = "character", quiet = TRUE)
-      coords <- getCoords(x)[toKeep, ]
+      coords <- getCoords(x)[toKeep, , drop = FALSE]
 
       ## define colors for these points
       col <- .nodeColors(x, toKeep, col = col.ori, col.rules = col.rules)

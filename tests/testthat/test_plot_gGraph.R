@@ -45,3 +45,22 @@ test_that("points draws per-node colours on the right nodes when zoomed in", {
   points(x, col = c("red", "green", "blue", "black"))
   expect_equal(unname(drawn$col), c("green", "blue"))
 })
+
+test_that("plot without a shape draws the nodes of the new area, not the previous one", {
+  pdf(NULL)
+  on.exit(dev.off(), add = TRUE)
+  x <- new("gGraph", coords = cbind(lon = 0:9, lat = rep(0, 10)))
+  plot(x, reset = TRUE, shape = NULL)
+  .zoomlog.up(c(0.6, 2.4, -1, 1)) # zoom in on nodes 2 and 3
+  plot(x, shape = NULL)
+
+  # replot the whole graph and count the points drawn
+  drawn <- new.env()
+  trace("plot.xy",
+    bquote(assign("n", length(xy$x), envir = .(drawn))),
+    print = FALSE, where = graphics::plot.default
+  )
+  on.exit(untrace("plot.xy", where = graphics::plot.default), add = TRUE)
+  plot(x, reset = TRUE, shape = NULL)
+  expect_equal(drawn$n, 10L)
+})
