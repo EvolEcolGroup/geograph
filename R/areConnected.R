@@ -35,23 +35,25 @@ areConnected <- function(x, nodes) { # x is a gGraph
   if (!all(nodes %in% getNodes(x))) stop("Some specified nodes were not found in the gGraph object.")
   nodes <- unique(nodes)
 
-  ## get connected sets ##
-  ## !! use RBGL::connectedComp from RBGL rather than connComp from graph
-  ## 100 times faster
-  connected.sets <- RBGL::connectedComp(getGraph(x))
+  ## get connected sets (with more than one node) ##
+  connected.sets <- .connectedSets(getGraph(x))
 
-  ## just keep sets > 1 node
-  temp <- sapply(connected.sets, length)
-  reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
-  temp <- temp[reOrd]
-  if (min(temp) == 1) {
-    connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
-  }
-
-  names(connected.sets) <- paste("set", seq_along(connected.sets))
-
-  res <- sapply(connected.sets, function(e) all(nodes %in% e))
+  res <- vapply(connected.sets, function(e) all(nodes %in% e), logical(1))
   res <- any(res)
 
   return(res)
+}
+
+
+#' internal: connected sets of a graph with more than one node, by decreasing
+#' size and named "set 1", "set 2", ... (an empty list if there is none)
+#' @noRd
+.connectedSets <- function(graph) {
+  ## !! use RBGL::connectedComp from RBGL rather than connComp from graph
+  ## 100 times faster
+  connected.sets <- RBGL::connectedComp(graph)
+  connected.sets <- connected.sets[order(lengths(connected.sets), decreasing = TRUE)]
+  connected.sets <- connected.sets[lengths(connected.sets) > 1]
+  names(connected.sets) <- sprintf("set %d", seq_along(connected.sets))
+  connected.sets
 }

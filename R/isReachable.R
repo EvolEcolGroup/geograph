@@ -27,24 +27,13 @@ isReachable <- function(x, loc) { # x is a gData object
   mygGraph <- get(x@gGraph.name, envir = .GlobalEnv)
 
 
-  ## get connected sets ##
-  connected.sets <- RBGL::connectedComp(getGraph(x))
-
-
-  ## just keep sets > 1 node
-  temp <- sapply(connected.sets, length)
-  reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
-  temp <- temp[reOrd]
-  if (min(temp) == 1) {
-    connected.sets <- connected.sets[reOrd][1:(which.min(temp) - 1)]
-  }
-
-  names(connected.sets) <- paste("set", seq_along(connected.sets))
+  ## get connected sets (with more than one node) ##
+  connected.sets <- .connectedSets(getGraph(x))
 
 
   ## check which set contains refNode ##
   refNode <- closestNode(mygGraph, loc)
-  temp <- sapply(connected.sets, function(e) refNode %in% e)
+  temp <- vapply(connected.sets, function(e) refNode %in% e, logical(1))
   if (!any(temp)) {
     warning("The reference node is not connected to any node.")
     return(FALSE)
@@ -53,13 +42,7 @@ isReachable <- function(x, loc) { # x is a gData object
 
   ## check reachability for each node ##
   myNodes <- getNodes(x)
-
-  f1 <- function(oneNode) { # finds the set in which a node is
-    temp <- sapply(connected.sets, function(e) oneNode %in% refSet)
-    return(any(temp))
-  }
-
-  res <- sapply(myNodes, f1)
+  res <- myNodes %in% refSet
   names(res) <- myNodes
 
   ## return res ##
