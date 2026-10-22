@@ -1,3 +1,73 @@
+# geoGraph (development version)
+
+## Behaviour changes
+
+* `dijkstraBetween(x, from, to)` on a `gGraph` now returns every path from each
+  node of `from` to each node of `to` (previously most requested paths were
+  silently dropped). With `to` missing or identical to `from`, all pairs of
+  `from` are computed, as before. `polygonBetween()` benefits from this.
+
+* `gPath` objects record their `type`; `gPath2dist()` uses it and returns a
+  `from` x `to` matrix for the output of `dijkstraBetween()` with distinct
+  `from` and `to` (and so for `polygonBetween()`). `dijkstraBetween()` on a
+  `gData` with two locations now returns a `dist`, as for more locations.
+
+* `dijkstraBuffer()` includes the origin node, works on graphs that are not
+  fully connected, and is much faster.
+
+* `isInArea()` errors on an invalid `reg` (it returned `NA`), and accepts
+  `reg = c(xmin, xmax, ymin, ymax)`.
+
+* `findLand()` and `assignByPolygon()` replace existing node attributes of the
+  same name instead of adding duplicated columns; `findLand()` always returns
+  a factor with levels `land` and `sea`.
+
+* `dijkstraFrom()` requires a single `start` node.
+
+## Bug fixes
+
+* `new("gData", nodes.id = ...)` no longer ignores `nodes.id`;
+  `new("gGraph", meta = ...)` no longer ignores `meta`; `new("gGraph")` accepts
+  coordinates without column names.
+
+* `gGraph` objects without node attributes (e.g. from `makeSquareGrid()` or
+  `makeHexGrid()`) can be subset, and work with `getNodesAttr()`,
+  `setNodesAttr()`, `buffer()`, `geom_ggraph()`.
+
+* `setCosts()`, `getNodeCosts()` and `getColors()` no longer chain rules when
+  a cost or colour equals another attribute value.
+
+* `assignByPolygon()` and `findLand()` handle layers in a projected CRS, and
+  `assignByPolygon()` works on `gData` objects with several locations on the
+  same node.
+
+* `closestNode()` accepts a single location as `c(lon, lat)`.
+
+* `polygonBetween()` detects polygon outlines correctly on subset graphs, and
+  works on `gData` objects.
+
+* `areConnected()` no longer reports an isolated node as connected in graphs
+  without edges.
+
+* `combineCosts()` compares the edges of the two graphs reliably.
+
+* Plotting: `plotEdges()` works with a single visible edge; `points()` keeps
+  per-node colours on the right nodes when zoomed in; `plot(x, shape = NULL)`
+  draws the nodes of the new area; `geo.segments()` keeps per-segment colours
+  with their segments.
+
+* `[` and `geom_gdata()` work on `gData` objects whose data is a vector.
+
+* `assignByRaster()` accepts summary functions without an `na.rm` argument.
+
+* `dropDeadEdges()` also drops edges when all costs are equal.
+
+* `dijkstraFrom()` on a `gData` gives an informative error when `start` is not
+  connected to the locations.
+
+* `setDistCosts()` is much faster; its documentation now states that costs
+  are in miles.
+
 # geoGraph v2.0.1
 
 * Added ggplot2 support for gGraph, gData, and gPath objects via autoplot() methods and geom_ggraph(), geom_gdata(), and geom_gpath() layers.
