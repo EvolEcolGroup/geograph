@@ -148,7 +148,7 @@ test_that("assignByPolygon works on gData whose locations share a node", {
 })
 
 test_that("assignByPolygon on a gGraph replaces attributes instead of duplicating them", {
-  x <- worldgraph.10k[1:50]
+  x <- worldgraph.10k[isInArea(worldgraph.10k, reg = list(x = c(0, 20), y = c(40, 55)), quiet = TRUE)]
   x <- assignByPolygon(x, layer = "world", attr = "continent")
   x <- assignByPolygon(x, layer = "world", attr = c("continent", "name"))
   expect_equal(colnames(getNodesAttr(x)), c("habitat", "continent", "name"))
@@ -156,8 +156,7 @@ test_that("assignByPolygon on a gGraph replaces attributes instead of duplicatin
 })
 
 test_that("assignByPolygon on a gGraph with a single node keeps its attributes", {
-  x <- worldgraph.10k[1:2]
-  x <- x[1]
+  x <- worldgraph.10k[closestNode(worldgraph.10k, c(10, 50))] # a node in Germany
   x <- assignByPolygon(x, layer = "world", attr = "continent")
   expect_equal(colnames(getNodesAttr(x)), c("habitat", "continent"))
 })
