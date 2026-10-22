@@ -164,3 +164,10 @@ test_that("dijkstraBetween keeps duplicated nodes in 'from' and 'to'", {
   d <- gPath2dist(p)
   expect_equal(d[1, ], d[2, ])
 })
+
+test_that("the xy attribute of a gPath is always a matrix", {
+  sq <- makeSquareGrid(n.lon = 5, n.lat = 5, lon.range = c(0, 4), lat.range = c(0, 4))
+  p <- dijkstraBetween(sq, from = "1", to = "1")
+  expect_true(is.matrix(attr(p, "xy")))
+  expect_equal(rownames(attr(p, "xy")), "1")
+})

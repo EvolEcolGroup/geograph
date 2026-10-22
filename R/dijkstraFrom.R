@@ -62,7 +62,7 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
 
   ## make it a class "gPath" (output + xy coords) ##
   allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
-  attr(res, "xy") <- getCoords(x)[allNodes, ]
+  attr(res, "xy") <- getCoords(x)[allNodes, , drop = FALSE]
   attr(res, "type") <- "from"
   class(res) <- "gPath"
 
@@ -100,7 +100,7 @@ setMethod("dijkstraFrom", "gData", function(x, start) {
 
   ## make it a class "gPath" (output + xy coords) ##
   allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
-  attr(res, "xy") <- coords[allNodes, ]
+  attr(res, "xy") <- coords[allNodes, , drop = FALSE]
   attr(res, "type") <- "from"
   class(res) <- "gPath"
   return(res)

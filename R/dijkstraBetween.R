@@ -79,7 +79,7 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
 
   ## make it a class "gPath" (output + xy coords) ##
   allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
-  attr(res, "xy") <- getCoords(x)[allNodes, ]
+  attr(res, "xy") <- getCoords(x)[allNodes, , drop = FALSE]
   attr(res, "type") <- type
   if (type == "cross") {
     attr(res, "nodes") <- list(from = from, to = to)
