@@ -7,6 +7,9 @@
 #' reduce computation time.
 #'
 #' @param g [`gData`] or [`gGraph`] object with edge costs already defined.
+#'   For a [`gData`], `layer` is a node attribute of the linked [`gGraph`],
+#'   and paths are computed between the locations of `g` falling in each
+#'   polygon.
 #' @param layer Character. Name of the node attribute layer containing polygon
 #'   membership.
 #' @param from Character. Name of the first polygon.
@@ -48,25 +51,34 @@ polygonBetween <- function(g, layer, from, to, outline = TRUE) {
     stop("Input g must be a gGraph or gData object.")
   }
 
-  if (!layer %in% colnames(geoGraph::getNodesAttr(g))) {
+  # for a gData, polygons are defined on the linked gGraph, and only the
+  # nodes of the gData locations are used
+  if (inherits(g, "gData")) {
+    if (!exists(g@gGraph.name, envir = .GlobalEnv)) {
+      stop(paste("gGraph object", g@gGraph.name, "not found."))
+    }
+    myGraph <- get(g@gGraph.name, envir = .GlobalEnv)
+    candidates <- unique(getNodes(g))
+  } else {
+    myGraph <- g
+    candidates <- getNodes(g)
+  }
+
+  if (!layer %in% colnames(getNodesAttr(myGraph))) {
     stop(sprintf("Layer '%s' not found in node attributes.", layer))
   }
 
   # get node attributes
-  node.attr <- geoGraph::getNodesAttr(g)[[layer]]
-  node.ids <- geoGraph::getNodes(g)
+  node.attr <- getNodesAttr(myGraph)[[layer]]
+  node.ids <- getNodes(myGraph)
 
   # extract nodes belonging to each polygon
   nodes.from <- node.ids[node.attr %in% from]
   nodes.to <- node.ids[node.attr %in% to]
 
-  if (length(nodes.from) == 0 || length(nodes.to) == 0) {
-    stop("One or both polygons contain no nodes.")
-  }
-
   # neighbour list, as node names (@edgeL stores positions, which differ
   # from node names once a graph has been subset)
-  neighL <- graph::edges(geoGraph::getGraph(g))
+  neighL <- graph::edges(getGraph(myGraph))
 
   # function to compute outline nodes
   polygonOutlineNodes <- function(nodes.polygon) {
@@ -76,10 +88,23 @@ polygonBetween <- function(g, layer, from, to, outline = TRUE) {
     nodes.polygon[is.outline]
   }
 
-  # optionally restrict to outline nodes
+  # optionally restrict to outline nodes (of the whole polygons)
   if (outline) {
-    nodes.from <- polygonOutlineNodes(nodes.from)
-    nodes.to <- polygonOutlineNodes(nodes.to)
+    outline.from <- polygonOutlineNodes(nodes.from)
+    outline.to <- polygonOutlineNodes(nodes.to)
+  }
+
+  # keep the nodes of interest (all nodes of a gGraph, locations of a gData)
+  nodes.from <- intersect(nodes.from, candidates)
+  nodes.to <- intersect(nodes.to, candidates)
+
+  if (length(nodes.from) == 0 || length(nodes.to) == 0) {
+    stop("One or both polygons contain no nodes.")
+  }
+
+  if (outline) {
+    nodes.from <- intersect(nodes.from, outline.from)
+    nodes.to <- intersect(nodes.to, outline.to)
 
     if (length(nodes.from) == 0 || length(nodes.to) == 0) {
       return(NA)
@@ -87,6 +112,6 @@ polygonBetween <- function(g, layer, from, to, outline = TRUE) {
   }
 
   # compute least-cost paths
-  paths <- geoGraph::dijkstraBetween(g, from = nodes.from, to = nodes.to)
+  paths <- dijkstraBetween(myGraph, from = nodes.from, to = nodes.to)
   return(paths)
 }

@@ -162,3 +162,20 @@ test_that("polygonBetween computes all paths between the two polygons", {
   expect_equal(length(result), n.west * n.east)
   expect_equal(dim(gPath2dist(result)), c(n.west, n.east))
 })
+
+test_that("polygonBetween works on a gData, using its locations", {
+  pb.graph <- worldgraph.10k
+  pb.graph@nodes.attr$side <- ifelse(getCoords(pb.graph)[, "lon"] < 0, "W", "E")
+  assign("pb.test.graph", pb.graph, envir = .GlobalEnv)
+  on.exit(rm("pb.test.graph", envir = .GlobalEnv), add = TRUE)
+  locs <- new("gData",
+    coords = cbind(c(-5, -3, 10, 12, 14), c(40, 41, 50, 51, 52)),
+    gGraph.name = "pb.test.graph"
+  )
+
+  res <- polygonBetween(locs, layer = "side", from = "W", to = "E", outline = FALSE)
+  expect_s3_class(res, "gPath")
+  expect_equal(dim(gPath2dist(res)), c(2L, 3L))
+  expect_setequal(sub(":.*", "", names(res)), getNodes(locs)[1:2])
+  expect_setequal(sub(".*:", "", names(res)), getNodes(locs)[3:5])
+})

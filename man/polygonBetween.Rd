@@ -7,7 +7,10 @@
 polygonBetween(g, layer, from, to, outline = TRUE)
 }
 \arguments{
-\item{g}{\code{\link{gData}} or \code{\link{gGraph}} object with edge costs already defined.}
+\item{g}{\code{\link{gData}} or \code{\link{gGraph}} object with edge costs already defined.
+For a \code{\link{gData}}, \code{layer} is a node attribute of the linked \code{\link{gGraph}},
+and paths are computed between the locations of \code{g} falling in each
+polygon.}
 
 \item{layer}{Character. Name of the node attribute layer containing polygon
 membership.}
