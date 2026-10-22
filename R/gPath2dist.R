@@ -11,9 +11,12 @@
 #' @param res.type deprecated parameter that is now ignored; the function
 #' automatically detects whether the input is from [dijkstraBetween()] or
 #' [dijkstraFrom()] and returns the appropriate output type.
-#' @return Either a [`dist`] object containing pairwise distances between
-#' nodes the gPath object was constructed from dijkstraBetween(),
-#' or a numeric vector of distances if the gPath object was constructed from dijkstraFrom().
+#' @return Depending on how the gPath object was constructed:
+#' - a [`dist`] object of pairwise distances, for [dijkstraBetween()] between
+#'   all pairs of a set of nodes (e.g. on a [`gData`] object);
+#' - a matrix with one row per `from` node and one column per `to` node, for
+#'   [dijkstraBetween()] with distinct `from` and `to` (e.g. [polygonBetween()]);
+#' - a named numeric vector, for [dijkstraFrom()].
 #' @examples
 #' ## for pairwise distances between multiple a "dist" object is returned
 #' # select a few populations from the HGDP dataset
@@ -57,11 +60,15 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
   }
 
   ## check type
-  # check that the origin nodes are not all the same > djikstraFrom output
-  origins <- sub(":.*", "", names(x))
-  if (length(unique(origins)) == 1) {
-    type <- "from"
-  } else {
+  ## dijkstraFrom and dijkstraBetween record the type of paths they computed;
+  ## gPath objects created by older versions are recognised from their names
+  type <- attr(x, "type")
+  if (is.null(type)) {
+    # check that the origin nodes are not all the same > djikstraFrom output
+    origins <- sub(":.*", "", names(x))
+    type <- if (length(unique(origins)) == 1) "from" else "pairwise"
+  }
+  if (type == "pairwise") {
     n <- (1 + sqrt(1 + 8 * L)) / 2
     if (abs(n - round(n)) > 1e-9) {
       stop(
@@ -70,16 +77,21 @@ gPath2dist <- function(m, diag = FALSE, upper = FALSE,
       )
     }
     n <- round(n)
-    type <- "between"
   }
 
 
   ## GET DISTANCES ##
   resDist <- sapply(x, function(e) sum(e$length_detail[[1]], na.rm = TRUE))
   ## BUILD RESULT ##
-  if (type == "between") {
-    res <- stats::dist(1:n)
+  if (type == "pairwise") {
+    res <- stats::dist(seq_len(n))
     res[] <- resDist
+  } else if (type == "cross") {
+    nodes <- attr(x, "nodes")
+    res <- matrix(resDist,
+      nrow = length(nodes$from), ncol = length(nodes$to), byrow = TRUE,
+      dimnames = list(nodes$from, nodes$to)
+    )
   } else {
     res <- resDist
   }

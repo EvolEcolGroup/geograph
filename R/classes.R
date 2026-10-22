@@ -193,6 +193,11 @@ setClass(
 #' latitude) for all nodes referenced in the paths, with node identifiers
 #' as row names.
 #'
+#' A `type` attribute records which paths were computed: `"from"` (one
+#' origin to many nodes, see [`dijkstraFrom`]), `"pairwise"` (all pairs of a
+#' set of nodes) or `"cross"` (each `from` node to each `to` node, see
+#' [`dijkstraBetween`]); [`gPath2dist`] uses it to shape its output.
+#'
 #' @seealso [`dijkstraFrom`], [`dijkstraBetween`]  and [`polygonBetween`] to create `gPath`
 #'   objects. [`plot.gPath`] to visualize paths. [`gPath2dist`] to extract
 #'   distances. [`gGraph-class`] and [`gData-class`] for related classes.
