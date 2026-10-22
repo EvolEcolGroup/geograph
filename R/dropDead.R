@@ -32,7 +32,9 @@
 #'
 dropDeadEdges <- function(x, thres) { # x is a gGraph object
   if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
-  if (!hasCosts(x)) {
+  ## no costs stored: no edge is dead (hasCosts() would also be FALSE for
+  ## uniform costs, which can all be above thres)
+  if (length(getGraph(x)@edgeData@data) == 0) {
     return(x)
   }
 
