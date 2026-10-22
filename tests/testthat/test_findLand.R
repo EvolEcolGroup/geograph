@@ -55,3 +55,18 @@ test_that("findLand rejects multi-element character shape", {
     "shape must be a sf object"
   )
 })
+
+test_that("findLand always returns both land and sea levels", {
+  all.land <- findLand(matrix(c(10, 50, 11, 51), ncol = 2, byrow = TRUE))
+  expect_identical(levels(all.land), c("land", "sea"))
+  expect_true(all(all.land == "land"))
+})
+
+test_that("findLand replaces an existing attribute instead of duplicating it", {
+  x <- worldgraph.10k[1:50]
+  x@nodes.attr$habitat <- factor(rep("sea", 50), levels = c("land", "sea"))
+  x <- findLand(x)
+  expect_equal(sum(colnames(getNodesAttr(x)) == "habitat"), 1L)
+  expected <- findLand(getCoords(x))
+  expect_equal(getNodesAttr(x, attr.name = "habitat")$habitat, expected)
+})

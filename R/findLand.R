@@ -24,7 +24,8 @@
 #'
 #' - \code{gGraph}: a \linkS4class{gGraph} object with a new node attribute,
 #' possibly added to previously existing node attributes (\code{@nodes.attr}
-#' slot).\cr
+#' slot). If an attribute named \code{attr.name} already exists, it is
+#' replaced.\cr
 
 #' @seealso \code{\link{assignByPolygon}}, to retrieve any information from a
 #' GIS shapefile.
@@ -114,7 +115,7 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
   land <- rep("sea", nrow(x))
   land[points.within$x] <- "land"
 
-  return(factor(land))
+  return(factor(land, levels = c("land", "sea")))
 })
 
 
@@ -137,12 +138,7 @@ setMethod("findLand", "data.frame", function(x, shape = "world", ...) {
 setMethod("findLand", "gGraph", function(x, shape = "world", attr.name = "habitat", ...) {
   coords <- getCoords(x)
   res <- findLand(coords, shape = shape, ...)
-  if (nrow(x@nodes.attr) > 1) {
-    x@nodes.attr <- cbind.data.frame(x@nodes.attr, res)
-    names(x@nodes.attr)[ncol(x@nodes.attr)] <- attr.name
-  } else {
-    x@nodes.attr <- data.frame(res)
-    names(x@nodes.attr) <- attr.name
-  }
+  ## replaces attr.name if it already exists
+  x <- setNodesAttr(x, attr.name = attr.name, values = res)
   return(x)
 }) # end findLand

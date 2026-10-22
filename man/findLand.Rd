@@ -37,7 +37,8 @@ data.frame}: a factor with two levels being 'land' and 'sea'.\cr
 \itemize{
 \item \code{gGraph}: a \linkS4class{gGraph} object with a new node attribute,
 possibly added to previously existing node attributes (\code{@nodes.attr}
-slot).\cr
+slot). If an attribute named \code{attr.name} already exists, it is
+replaced.\cr
 }
 }
 \description{
