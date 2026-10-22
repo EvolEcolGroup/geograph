@@ -23,9 +23,9 @@ object.
 \description{
 The function \code{setDistCosts} sets the costs of a \linkS4class{gGraph}
 object using the geographic distance. The cost associated to an edge is
-defined as the great circle distance between the two nodes of this edge.
-\code{setDistCosts} actually relies on \code{\link[fields]{rdist.earth}} of
-the \code{fields} package.
+defined as the great circle distance between the two nodes of this edge,
+in miles. \code{setDistCosts} actually relies on
+\code{\link[fields]{rdist.earth.vec}} of the \code{fields} package.
 }
 \details{
 The notion of 'costs' in the context of \linkS4class{gGraph} objects is
