@@ -39,6 +39,7 @@ setGeneric("dijkstraFrom", function(x, start) {
 setMethod("dijkstraFrom", "gGraph", function(x, start) {
   ## some checks ##
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
+  if (length(start) != 1) stop("start must be a single node.")
   if (!all(start %in% getNodes(x))) stop("Starting node is not in x.")
 
   ## check connectivity ##
@@ -80,11 +81,16 @@ setMethod("dijkstraFrom", "gData", function(x, start) {
   if (!is.gData(x)) stop("x is not a valid gData object")
   if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
   if (length(x@nodes.id) == 0) stop("No assigned nodes (x@nodes.id is empty).")
+  if (length(start) != 1) stop("start must be a single node.")
   if (!isConnected(x)) stop("Not all locations are connected by the graph")
 
 
   ## build the wrapper ##
   myGraph <- get(x@gGraph.name, envir = .GlobalEnv) # myGraph is a gGraph object
+  if (!start %in% getNodes(myGraph)) stop("Starting node is not in the gGraph object.")
+  if (!areConnected(myGraph, unique(c(start, getNodes(x))))) {
+    stop("Starting node is not connected to the locations by the graph.")
+  }
   coords <- getCoords(myGraph) # store xy for later
   myGraph <- getGraph(myGraph)
 

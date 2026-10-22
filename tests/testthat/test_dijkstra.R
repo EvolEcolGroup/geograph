@@ -171,3 +171,17 @@ test_that("the xy attribute of a gPath is always a matrix", {
   expect_true(is.matrix(attr(p, "xy")))
   expect_equal(rownames(attr(p, "xy")), "1")
 })
+
+test_that("dijkstraFrom on gData gives informative errors for a bad start", {
+  hgdp.sub <- hgdp[1:3]
+  habitat <- getNodesAttr(worldgraph.40k, attr.name = "habitat")$habitat
+  sea.node <- getNodes(worldgraph.40k)[habitat == "sea"][1]
+  expect_error(dijkstraFrom(hgdp.sub, sea.node), "not connected to the locations")
+  expect_error(dijkstraFrom(hgdp.sub, "not_a_node"), "Starting node is not in the gGraph")
+  expect_error(dijkstraFrom(hgdp.sub, getNodes(hgdp.sub)[1:2]), "single node")
+})
+
+test_that("dijkstraFrom on gGraph requires a single start node", {
+  max.set <- keepMaxConnectedSet(worldgraph.10k)
+  expect_error(dijkstraFrom(max.set, getNodes(max.set)[1:2]), "single node")
+})
