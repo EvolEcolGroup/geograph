@@ -18,7 +18,7 @@
 #'   (current zoom). If a list, it must have two components, both being
 #'   numeric vectors of length two, giving x and y limits of the area, e.g.
 #'   `list(x = c(-10, 30), y = c(35, 70))`. A list produced by `locator()`
-#'   is also a valid value.
+#'   is also a valid value, as is a numeric vector `c(xmin, xmax, ymin, ymax)`.
 #' @param res.type a character string indicating what kind of output should
 #'   be produced. See value.
 #' @param buffer a numeric value giving a buffer adding extra space around
@@ -74,6 +74,11 @@ setMethod("isInArea", "matrix", function(x, reg = "current",
   res.type <- match.arg(res.type)
   coords <- x
 
+  ## a vector c(xmin, xmax, ymin, ymax), as accepted by geo.zoomin
+  if (is.numeric(reg) && length(reg) == 4) {
+    reg <- list(x = reg[1:2], y = reg[3:4])
+  }
+
   ## get xlim and ylim
   if (exists("zoom.log", envir = .geoGraphEnv) &&
         length(reg) == 1 && reg == "zoom") {
@@ -89,7 +94,10 @@ setMethod("isInArea", "matrix", function(x, reg = "current",
     xlim <- sort(reg[[1]])[1:2]
     ylim <- sort(reg[[2]])[1:2]
   } else {
-    return(NA)
+    stop(
+      "reg must be 'current', 'zoom', a list of x and y limits, ",
+      "or a numeric vector c(xmin, xmax, ymin, ymax)."
+    )
   }
 
   ## handle a buffer around area
@@ -101,8 +109,10 @@ setMethod("isInArea", "matrix", function(x, reg = "current",
   ## print reproducible call if requested
   if (quiet == FALSE) {
     message(sprintf(
-      "Area: lon = [%.4f, %.4f], lat = [%.4f, %.4f]\n
-      Reproducible call: reg = list(x = c(%.4f, %.4f), y = c(%.4f, %.4f))",
+      paste0(
+        "Area: lon = [%.4f, %.4f], lat = [%.4f, %.4f]\n",
+        "Reproducible call: reg = list(x = c(%.4f, %.4f), y = c(%.4f, %.4f))"
+      ),
       xlim[1], xlim[2], ylim[1], ylim[2],
       xlim[1], xlim[2], ylim[1], ylim[2]
     ))
