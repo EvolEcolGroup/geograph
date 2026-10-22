@@ -130,7 +130,7 @@ setMethod("[", "gData", function(x, i, j, ..., drop = FALSE) {
   res@nodes.id <- res@nodes.id[i]
 
   if (!is.null(getData(x))) {
-    if (nrow(getData(x)) == N) {
+    if (!is.null(dim(getData(x))) && nrow(getData(x)) == N) { # nrow() is NULL for vectors
       res@data <- res@data[i, j, drop = FALSE]
     } else if (length(getData(x)) == N) {
       res@data <- res@data[i]
