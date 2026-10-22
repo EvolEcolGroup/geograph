@@ -164,12 +164,13 @@ setMethod("assignByPolygon", "list", function(x, layer = "world", attr = "all", 
 setMethod("assignByPolygon", "gGraph", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
   res <- assignByPolygon(x = coords, layer = layer, attr = attr, ...)
-
-  if (nrow(x@nodes.attr) > 1) {
-    x@nodes.attr <- cbind.data.frame(x@nodes.attr, res)
-  } else {
-    x@nodes.attr <- res
+  if (is.null(res)) { # requested attributes not found in layer
+    return(x)
   }
+
+  ## add new attributes, replacing existing ones with the same name
+  x@nodes.attr <- .nodesAttr(x)
+  x@nodes.attr[names(res)] <- res
 
   return(x)
 }) # end assignByPolygon

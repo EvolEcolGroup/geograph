@@ -146,3 +146,18 @@ test_that("assignByPolygon works on gData whose locations share a node", {
   expect_equal(getData(res)$id, 1:3)
   expect_equal(as.character(getData(res)$name), c("Germany", "Germany", "France"))
 })
+
+test_that("assignByPolygon on a gGraph replaces attributes instead of duplicating them", {
+  x <- worldgraph.10k[1:50]
+  x <- assignByPolygon(x, layer = "world", attr = "continent")
+  x <- assignByPolygon(x, layer = "world", attr = c("continent", "name"))
+  expect_equal(colnames(getNodesAttr(x)), c("habitat", "continent", "name"))
+  expect_true(validObject(x))
+})
+
+test_that("assignByPolygon on a gGraph with a single node keeps its attributes", {
+  x <- worldgraph.10k[1:2]
+  x <- x[1]
+  x <- assignByPolygon(x, layer = "world", attr = "continent")
+  expect_equal(colnames(getNodesAttr(x)), c("habitat", "continent"))
+})
