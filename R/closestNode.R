@@ -20,8 +20,9 @@
 #' @param loc locations, specified as a list with two components indicating
 #'   longitude and latitude of locations. Alternatively, this can be a
 #'   `data.frame` or a matrix with longitude and latitude in columns, in
-#'   this order, or a numeric vector `c(lon, lat)` for a single location. Note that [`locator()`] can be used to specify the
-#'   locations interactively.
+#'   this order, or a numeric vector `c(lon, lat)` for a single location.
+#'   Note that [`locator()`] can be used to specify the locations
+#'   interactively.
 #' @param method the method to use for finding the closest node. The default is
 #'  `"knn"`, which uses a fast FNN-based spatial index over unit-sphere Cartesian coordinates.
 #'  The legacy `"inArea"` method is also available, but it is slower.
