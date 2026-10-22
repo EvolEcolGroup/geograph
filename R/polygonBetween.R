@@ -15,8 +15,10 @@
 #'   (nodes with at least one neighbor outside the polygon) are used. Defaults
 #'   to `TRUE`.
 #'
-#' @return A numeric vector containing the least-cost distances between nodes
-#'   of the two polygons.
+#' @return A [`gPath`] object with the least-cost paths from each node of the
+#'   first polygon to each node of the second (see [`dijkstraBetween`]); use
+#'   [`gPath2dist`] to obtain the matrix of their costs. `NA` if `outline =
+#'   TRUE` and one of the polygons has no outline node.
 #'
 #' @details
 #' The function extracts all nodes belonging to the two specified polygons and
@@ -62,22 +64,16 @@ polygonBetween <- function(g, layer, from, to, outline = TRUE) {
     stop("One or both polygons contain no nodes.")
   }
 
-  # neighbor list
-  neighL <- geoGraph::getGraph(g)@edgeL
+  # neighbour list, as node names (@edgeL stores positions, which differ
+  # from node names once a graph has been subset)
+  neighL <- graph::edges(geoGraph::getGraph(g))
 
   # function to compute outline nodes
   polygonOutlineNodes <- function(nodes.polygon) {
-    outline.nodes <- c()
-
-    for (node in nodes.polygon) {
-      neighbors <- neighL[[node]]$edges
-
-      if (!all(neighbors %in% nodes.polygon)) {
-        outline.nodes <- c(outline.nodes, node)
-      }
-    }
-
-    outline.nodes
+    is.outline <- vapply(nodes.polygon, function(node) {
+      !all(neighL[[node]] %in% nodes.polygon)
+    }, logical(1))
+    nodes.polygon[is.outline]
   }
 
   # optionally restrict to outline nodes

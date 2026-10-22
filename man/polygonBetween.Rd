@@ -21,8 +21,9 @@ membership.}
 to \code{TRUE}.}
 }
 \value{
-A numeric vector containing the least-cost distances between nodes
-of the two polygons.
+A \code{\link{gPath}} object with the least-cost paths from each node of the
+first polygon to each node of the second (see \code{\link{dijkstraBetween}}); use
+\code{\link{gPath2dist}} to obtain the matrix of their costs. \code{NA} if \code{outline = TRUE} and one of the polygons has no outline node.
 }
 \description{
 This function computes least-cost path distances between all nodes
