@@ -423,7 +423,7 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
 
   edges <- getEdges(x, res.type = "matNames", unique = TRUE) # retrieve (unique) edges
   temp <- (edges[, 1] %in% rownames(keptCoords)) & (edges[, 2] %in% rownames(keptCoords))
-  keptEdges <- edges[temp, ]
+  keptEdges <- edges[temp, , drop = FALSE]
 
   if (nrow(keptEdges) < 1) {
     cat("\nNo edge to plot.\n")
