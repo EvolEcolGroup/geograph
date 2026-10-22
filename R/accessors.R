@@ -266,7 +266,7 @@ setMethod("getNodes", "gData", function(x, ...) {
 #' @param res.type a character string indicating which kind of output should be
 #' used. See value.
 #' @param unique a logical indicating whether all returned edges should be
-#' unique (TRUE) or if duplicated edges should be allowed (TRUE, default).
+#' unique (TRUE) or if duplicated edges should be allowed (FALSE, default).
 #' @param \dots other arguments passed to other methods (currently unused).
 #' @return The output depends on the value of the argument \code{res.type}:\cr
 #' - \code{asIs}: output is a named list of nodes, each slot containing nodes

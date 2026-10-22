@@ -23,7 +23,7 @@ objects, interfaced with the \linkS4class{gGraph} object
 \code{\link{worldgraph.40k}}.\cr
 }
 \details{
-\code{hgdp} describes 52 populations from the original Human Genome
+\code{hgdp} describes 51 populations from the original Human Genome
 Diversity Panel. \cr
 
 \code{hgdpPlus} describes \code{hgdp} populations plus 24 native American
