@@ -69,3 +69,37 @@ test_that("we give message when columns are not recognized", {
   )
   expect_identical(correct.heading, unrecognised.heading)
 })
+
+test_that("gData constructor keeps user-supplied nodes.id", {
+  my.nodes <- getNodes(worldgraph.10k)[c(10, 20)]
+  x <- new("gData",
+    coords = cbind(c(10, 20), c(50, 40)),
+    nodes.id = my.nodes, gGraph.name = "worldgraph.10k"
+  )
+  expect_identical(getNodes(x), my.nodes)
+})
+
+test_that("gData constructor warns (not errors) on unknown nodes.id", {
+  expect_warning(
+    x <- new("gData",
+      coords = cbind(10, 50),
+      nodes.id = "not_a_node", gGraph.name = "worldgraph.10k"
+    ),
+    "Some nodes were not found in the gGraph object worldgraph.10k"
+  )
+  expect_identical(getNodes(x), "not_a_node")
+})
+
+test_that("gData constructor errors when nodes.id does not match coords", {
+  expect_error(
+    new("gData", coords = cbind(c(10, 20), c(50, 40)), nodes.id = "1"),
+    "one value per location"
+  )
+})
+
+test_that("gData constructor names the missing gGraph in its warning", {
+  expect_warning(
+    new("gData", coords = cbind(10, 50), gGraph.name = "no_such_graph_xyz"),
+    "The gGraph object no_such_graph_xyz is missing"
+  )
+})

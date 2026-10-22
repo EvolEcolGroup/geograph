@@ -431,7 +431,7 @@ setMethod("initialize", "gData", function(.Object, ...) {
   ## handle gGraph.name and gGraph.version
   if (!is.null(input$gGraph.name)) {
     if (!exists(input$gGraph.name, envir = .GlobalEnv)) {
-      warning(paste("The gGraph object", input$gGraphName, "is missing."))
+      warning(paste("The gGraph object", input$gGraph.name, "is missing."))
       myGraph <- NULL
     } else {
       myGraph <- get(input$gGraph.name, envir = .GlobalEnv) # used later for node.id
@@ -448,10 +448,13 @@ setMethod("initialize", "gData", function(.Object, ...) {
       x@nodes.id <- closestNode(myGraph, loc = x@coords) # deduce nodes.id from the gGraph
     }
   } else {
-    x@nodes.id <- as.character(x@nodes.id)
+    x@nodes.id <- as.character(input$nodes.id)
+    if (length(x@nodes.id) != nrow(x@coords)) {
+      stop("Argument nodes.id must have one value per location in coords.")
+    }
     if (!is.null(myGraph)) {
       if (!all(x@nodes.id %in% getNodes(myGraph))) {
-        warning(paste("Some nodes were not found in the gGraph object", x@gGraphName, "."))
+        warning(paste("Some nodes were not found in the gGraph object", x@gGraph.name, "."))
       }
     }
   }
