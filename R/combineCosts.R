@@ -68,8 +68,12 @@ combineCosts <- function(x1, x2, method = c("sum", "product", "function"), FUN =
   edgeW2 <- edgeWeights(myGraph2)
   edgeL2 <- edgeL(myGraph2)
 
-  # test that the two graphs have the same edges
-  if (!all(unlist(edgeL1) == unlist(edgeL2))) {
+  # test that the two graphs have the same nodes and edges (in the same order,
+  # so that their weights can be combined element-wise)
+  edges1 <- lapply(edgeL1, function(e) as.integer(e$edges))
+  edges2 <- lapply(edgeL2, function(e) as.integer(e$edges))
+  if (!identical(nodes(myGraph1), nodes(myGraph2)) ||
+        !identical(unname(edges1), unname(edges2))) {
     stop("the graphs differ in the edges they have")
   }
 
