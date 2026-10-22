@@ -157,3 +157,11 @@ test_that("assignByRaster errors on multi-layer raster", {
     "raster must have exactly one layer"
   )
 })
+
+test_that("assignByRaster accepts a custom function without an na.rm argument", {
+  count.values <- function(v) length(v)
+  result <- assignByRaster(test.graph, test.raster, fun = count.values)
+  n <- result@nodes.attr$raster_points
+  # every raster cell is assigned to exactly one node
+  expect_equal(sum(n, na.rm = TRUE), terra::ncell(test.raster))
+})
