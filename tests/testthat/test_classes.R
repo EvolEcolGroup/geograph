@@ -103,3 +103,17 @@ test_that("gData constructor names the missing gGraph in its warning", {
     "The gGraph object no_such_graph_xyz is missing"
   )
 })
+
+test_that("gGraph constructor keeps the meta argument", {
+  col.rules <- data.frame(habitat = c("land", "sea"), color = c("green", "blue"))
+  x <- new("gGraph",
+    coords = cbind(lon = c(0, 1), lat = c(0, 1)),
+    nodes.attr = data.frame(habitat = c("land", "sea")),
+    meta = list(colors = col.rules)
+  )
+  expect_identical(getColors(x, res.type = "rules"), col.rules)
+  expect_error(
+    new("gGraph", coords = cbind(lon = 0, lat = 0), meta = "not a list"),
+    "meta must be a list"
+  )
+})

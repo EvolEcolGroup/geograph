@@ -126,11 +126,9 @@ makeHexGrid <- function(geo.box, spacing, ...) {
   # create the gGraph object
   newGraph <- new(
     "gGraph",
-    graphNEL = gNEL,
+    graph = gNEL,
     coords = coords,
-    nodes.attr = data.frame(row.names = node.ids),
-    meta = list(costs = NULL, colors = NULL),
-    neighbours = neighbours
+    nodes.attr = data.frame(row.names = node.ids)
   )
 
   return(newGraph)

@@ -395,6 +395,13 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
 
   x@graph <- input$graph
 
+
+  ## handle @meta ##
+  if (!is.null(input$meta)) {
+    if (!is.list(input$meta)) stop("Argument meta must be a list.")
+    x@meta <- input$meta
+  }
+
   ## return object
   return(x)
 }) # end gGraph constructor
