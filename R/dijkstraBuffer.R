@@ -79,8 +79,6 @@ dijkstraBuffer <- function(x, origin, d, res.type = c("nodes", "gGraph"), ...) {
 
   ## map back onto graph as node attribute
   reachable <- getNodes(x) %in% in.reach
-  names(reachable) <- getNodes(x)
-  x@nodes.attr$reachable <- reachable
-
+  x <- setNodesAttr(x, attr.name = "reachable", values = reachable)
   return(x)
 }
