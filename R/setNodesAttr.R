@@ -53,7 +53,8 @@ setNodesAttr <- function(x, attr.name, values, ...) {
     ))
   }
 
-  x@nodes.attr <- .nodesAttr(x)
+  ## graphs saved with older versions can have a 0 x 0 nodes.attr
+  if (nrow(x@nodes.attr) == 0) x@nodes.attr <- data.frame(row.names = getNodes(x))
   x@nodes.attr[[attr.name]] <- values
   return(x)
 }

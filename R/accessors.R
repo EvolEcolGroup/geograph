@@ -125,7 +125,9 @@ setGeneric("getNodesAttr", function(x, ...) {
 #' @describeIn getNodesAttr Method for gGraph objects
 #' @export
 setMethod("getNodesAttr", "gGraph", function(x, nodes = NULL, attr.name = NULL, ...) {
-  res <- .nodesAttr(x)
+  res <- x@nodes.attr
+  ## graphs saved with older versions can have a 0 x 0 nodes.attr
+  if (nrow(res) == 0) res <- data.frame(row.names = getNodes(x))
   ## NULL -> all kept; note that df[, TRUE] fails on a data.frame without columns
   if (!is.null(nodes)) {
     res <- res[nodes, , drop = FALSE]
@@ -136,18 +138,6 @@ setMethod("getNodesAttr", "gGraph", function(x, nodes = NULL, attr.name = NULL, 
 
   return(res)
 })
-
-
-#' internal: nodes attributes with one row per node, even when none are set
-#' (objects created before the constructor did this have a 0 x 0 data.frame)
-#' @noRd
-.nodesAttr <- function(x) {
-  if (nrow(x@nodes.attr) == 0 && nrow(x@coords) > 0) {
-    return(data.frame(row.names = rownames(x@coords)))
-  }
-  x@nodes.attr
-}
-
 
 #' @describeIn getNodesAttr Method for gData objects
 #' @export
