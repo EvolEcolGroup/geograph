@@ -79,15 +79,14 @@ test_that("gData constructor keeps user-supplied nodes.id", {
   expect_identical(getNodes(x), my.nodes)
 })
 
-test_that("gData constructor warns (not errors) on unknown nodes.id", {
-  expect_warning(
-    x <- new("gData",
-      coords = cbind(10, 50),
-      nodes.id = "not_a_node", gGraph.name = "worldgraph.10k"
+test_that("gData constructor errors on unknown nodes.id", {
+  expect_error(
+    new("gData",
+        coords = cbind(10, 50),
+        nodes.id = "not_a_node", gGraph.name = "worldgraph.10k"
     ),
-    "Some nodes were not found in the gGraph object worldgraph.10k"
+    "not nodes of the gGraph object worldgraph.10k: not_a_node"
   )
-  expect_identical(getNodes(x), "not_a_node")
 })
 
 test_that("gData constructor errors when nodes.id does not match coords", {

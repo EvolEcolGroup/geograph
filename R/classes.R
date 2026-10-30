@@ -466,8 +466,12 @@ setMethod("initialize", "gData", function(.Object, ...) {
       stop("Argument nodes.id must have one value per location in coords.")
     }
     if (!is.null(myGraph)) {
-      if (!all(x@nodes.id %in% getNodes(myGraph))) {
-        warning(paste("Some nodes were not found in the gGraph object", x@gGraph.name, "."))
+      unknown_nodes <- setdiff(x@nodes.id, getNodes(myGraph))
+      if (length(unknown_nodes) > 0) {
+        stop(
+          "Some nodes.id are not nodes of the gGraph object ", x@gGraph.name, ": ",
+          paste(utils::head(unknown_nodes), collapse = ", ")
+        )
       }
     }
   }
