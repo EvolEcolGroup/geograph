@@ -51,8 +51,8 @@ combineCosts <- function(x1, x2, method = c("sum", "product", "function"), FUN =
   ## some checks + argument handling
   if (!is.gGraph(x1)) stop("x1 is not a valid gGraph object")
   if (!is.gGraph(x2)) stop("x2 is not a valid gGraph object")
-  if (!hasCosts(x1)) stop("x1 is does not have costs; use setCosts to set the costs first")
-  if (!hasCosts(x2)) stop("x2 is does not have costs; use setCosts to set the costs first")
+  if (length(getGraph(x1)@edgeData@data) == 0) stop("x1 does not have costs; use setCosts to set the costs first")
+  if (length(getGraph(x2)@edgeData@data) == 0) stop("x2 does not have costs; use setCosts to set the costs first")
   method <- match.arg(method)
 
   if (method == "function" && is.null(FUN)) {
