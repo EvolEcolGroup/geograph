@@ -1,7 +1,7 @@
 #' Plot segments correctly when crossing the antimeridian
 #'
 #' A substitute to \code{segments} which correctly draws
-#' segments between locations distant by more than 90 degrees of longitude
+#' segments between locations distant by more than 180 degrees of longitude
 #' (i.e. from one hemisphere to the other). It is used instead of segments, but
 #' it is slower.
 #'
@@ -28,7 +28,7 @@
 geo.segments <- function(x0, y0, x1, y1,
                          col = graphics::par("fg"), lty = graphics::par("lty"), lwd = graphics::par("lwd"), ...) {
   ## some declarations ##
-  THRES <- 90
+  THRES <- 180
   XMIN <- graphics::par("usr")[1]
   XMAX <- graphics::par("usr")[2]
 
