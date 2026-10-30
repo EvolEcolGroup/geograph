@@ -49,8 +49,7 @@ areConnected <- function(x, nodes) { # x is a gGraph
 #' size and named "set 1", "set 2", ... (an empty list if there is none)
 #' @noRd
 .connectedSets <- function(graph) {
-  ## !! use RBGL::connectedComp from RBGL rather than connComp from graph
-  ## 100 times faster
+  ## use RBGL::connectedComp from RBGL rather than connComp from graph
   connected.sets <- RBGL::connectedComp(graph)
   connected.sets <- connected.sets[order(lengths(connected.sets), decreasing = TRUE)]
   connected.sets <- connected.sets[lengths(connected.sets) > 1]
