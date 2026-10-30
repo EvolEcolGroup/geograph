@@ -101,7 +101,13 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
   }
 
   # create an sf point object from the coordinates, in the CRS of the shape
-  locations.st <- .locationsToSf(x, sf::st_crs(shape))
+  # sf points in lon/lat, transformed into the shape's CRS
+  target_crs <- sf::st_crs(shape)
+  if (is.na(target_crs)) target_crs <- sf::st_crs(4326)
+  locations.st <- sf::st_transform(
+    sf::st_as_sf(as.data.frame(x), coords = c(1, 2), crs = 4326),
+    target_crs
+  )
   # now find points in polygons
   points.within <- sf::st_intersects(shape, locations.st)
   points.within <- data.frame(
@@ -139,15 +145,3 @@ setMethod("findLand", "gGraph", function(x, shape = "world", attr.name = "habita
   x <- setNodesAttr(x, attr.name = attr.name, values = res)
   return(x)
 }) # end findLand
-
-
-#' internal: convert lon/lat locations (a two-column matrix) into sf points
-#' expressed in the coordinate reference system `crs` of a layer
-#' @noRd
-.locationsToSf <- function(x, crs) {
-  x <- as.data.frame(x)
-  if (is.na(crs)) { # layer without CRS: assume it is in lon/lat too
-    return(sf::st_as_sf(x, coords = c(1, 2)))
-  }
-  sf::st_transform(sf::st_as_sf(x, coords = c(1, 2), crs = 4326), crs)
-}
