@@ -35,7 +35,7 @@ NULL.
 }
 \description{
 A substitute to \code{segments} which correctly draws
-segments between locations distant by more than 90 degrees of longitude
+segments between locations distant by more than 180 degrees of longitude
 (i.e. from one hemisphere to the other). It is used instead of segments, but
 it is slower.
 }

@@ -43,8 +43,8 @@
 
 * `closestNode()` accepts a single location as `c(lon, lat)`.
 
-* `polygonBetween()` detects polygon outlines correctly on subset graphs, and
-  works on `gData` objects.
+* `polygonBetween()` detects polygon outlines correctly on subset graphs. It
+  only accepts `gGraph` objects.
 
 * `areConnected()` no longer reports an isolated node as connected in graphs
   without edges.
