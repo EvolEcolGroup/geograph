@@ -24,9 +24,8 @@ attribute. Defaults to \code{"raster_points"}.}
 \item{fun}{a function or character string specifying how to summarize
 raster values within each node. Built-in options are \code{"mean"}, \code{"max"},
 \code{"min"}, \code{"median"}, \code{"sd"}, \code{"any"}, and \code{"all"}. Alternatively, pass
-any function that takes a numeric vector and returns a scalar; if it has
-an \code{na.rm} (or \code{...}) argument, \code{na.rm} is passed to it, otherwise \code{NA}s
-are removed beforehand when \code{na.rm = TRUE}. Defaults to \code{"mean"}.}
+any function that takes a numeric vector and returns a scalar (\code{NA}s are
+removed beforehand when \code{na.rm = TRUE}). Defaults to \code{"mean"}.}
 
 \item{na.rm}{logical. Whether to remove \code{NA} values before summarizing.
 Defaults to \code{TRUE}.}

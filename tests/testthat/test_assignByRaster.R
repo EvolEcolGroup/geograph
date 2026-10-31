@@ -78,9 +78,9 @@ test_that("assignByRaster works with all built-in character functions", {
 test_that("assignByRaster accepts a custom function", {
   result <- assignByRaster(
     test.graph, test.raster,
-    fun = function(x, na.rm) sum(x, na.rm = na.rm)
+    fun = function(x) sum(x)
   )
-  col <- result@nodes.attr$raster_points
+  col <- getNodesAttr(result)$raster_points
   expect_true(is.numeric(col))
   expect_equal(length(col), nrow(test.graph@coords))
 })
@@ -161,7 +161,13 @@ test_that("assignByRaster errors on multi-layer raster", {
 test_that("assignByRaster accepts a custom function without an na.rm argument", {
   count.values <- function(v) length(v)
   result <- assignByRaster(test.graph, test.raster, fun = count.values)
-  n <- result@nodes.attr$raster_points
+  n <- getNodesAttr(result)$raster_points
   # every raster cell is assigned to exactly one node
+  expect_equal(sum(n, na.rm = TRUE), terra::ncell(test.raster))
+})
+
+test_that("assignByRaster accepts a primitive without an na.rm argument", {
+  result <- assignByRaster(test.graph, test.raster, fun = length)
+  n <- getNodesAttr(result)$raster_points
   expect_equal(sum(n, na.rm = TRUE), terra::ncell(test.raster))
 })
