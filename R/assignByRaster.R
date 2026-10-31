@@ -94,7 +94,7 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
     ...
   )
 
-  graph@nodes.attr[[layer.name]] <- collapsed
+  graph <- setNodesAttr(graph, attr.name = layer.name, values = collapsed)
   return(graph)
 }
 

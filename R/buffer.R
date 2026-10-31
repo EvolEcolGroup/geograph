@@ -119,11 +119,9 @@ setMethod("buffer", "gGraph", function(x, nodes, d, res.type = c("nodes", "gGrap
   names(bufAttr) <- all.nodes
   bufAttr[res] <- TRUE
 
-  ## set new attributes
-  allAttr <- getNodesAttr(x)
-  newATTR <- cbind.data.frame(allAttr, buffer = bufAttr)
-  x@nodes.attr <- newATTR
-
+  ## set new attribute (replaces an existing "buffer" column)
+  x <- setNodesAttr(x, attr.name = "buffer", values = bufAttr)
+  
   ## set new color rules
   x@meta$buf.colors <- data.frame(buffer = c(TRUE, FALSE), color = c("orange", "lightgrey"))
   return(x)
