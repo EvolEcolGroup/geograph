@@ -51,8 +51,8 @@ combineCosts <- function(x1, x2, method = c("sum", "product", "function"), FUN =
   ## some checks + argument handling
   if (!is.gGraph(x1)) stop("x1 is not a valid gGraph object")
   if (!is.gGraph(x2)) stop("x2 is not a valid gGraph object")
-  if (!hasCosts(x1)) stop("x1 is does not have costs; use setCosts to set the costs first")
-  if (!hasCosts(x2)) stop("x2 is does not have costs; use setCosts to set the costs first")
+  if (length(getGraph(x1)@edgeData@data) == 0) stop("x1 does not have costs; use setCosts to set the costs first")
+  if (length(getGraph(x2)@edgeData@data) == 0) stop("x2 does not have costs; use setCosts to set the costs first")
   method <- match.arg(method)
 
   if (method == "function" && is.null(FUN)) {
@@ -68,8 +68,12 @@ combineCosts <- function(x1, x2, method = c("sum", "product", "function"), FUN =
   edgeW2 <- edgeWeights(myGraph2)
   edgeL2 <- edgeL(myGraph2)
 
-  # test that the two graphs have the same edges
-  if (!all(unlist(edgeL1) == unlist(edgeL2))) {
+  # test that the two graphs have the same nodes and edges (in the same order,
+  # so that their weights can be combined element-wise)
+  edges1 <- lapply(edgeL1, function(e) as.integer(e$edges))
+  edges2 <- lapply(edgeL2, function(e) as.integer(e$edges))
+  if (!identical(nodes(myGraph1), nodes(myGraph2)) ||
+        !identical(unname(edges1), unname(edges2))) {
     stop("the graphs differ in the edges they have")
   }
 

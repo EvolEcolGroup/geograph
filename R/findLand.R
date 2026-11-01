@@ -24,7 +24,8 @@
 #'
 #' - \code{gGraph}: a \linkS4class{gGraph} object with a new node attribute,
 #' possibly added to previously existing node attributes (\code{@nodes.attr}
-#' slot).\cr
+#' slot). If an attribute named \code{attr.name} already exists, it is
+#' replaced.\cr
 
 #' @seealso \code{\link{assignByPolygon}}, to retrieve any information from a
 #' GIS shapefile.
@@ -99,11 +100,14 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
     stop("Matrix contains NA values.")
   }
 
-  # create an sf point object from the coordinates
-  locations.st <- x %>%
-    as.data.frame() %>%
-    sf::st_as_sf(coords = c(1, 2)) %>%
-    sf::st_set_crs(sf::st_crs(shape))
+  # create an sf point object from the coordinates, in the CRS of the shape
+  # sf points in lon/lat, transformed into the shape's CRS
+  target_crs <- sf::st_crs(shape)
+  if (is.na(target_crs)) target_crs <- sf::st_crs(4326)
+  locations.st <- sf::st_transform(
+    sf::st_as_sf(as.data.frame(x), coords = c(1, 2), crs = 4326),
+    target_crs
+  )
   # now find points in polygons
   points.within <- sf::st_intersects(shape, locations.st)
   points.within <- data.frame(
@@ -114,7 +118,7 @@ setMethod("findLand", "matrix", function(x, shape = "world", ...) {
   land <- rep("sea", nrow(x))
   land[points.within$x] <- "land"
 
-  return(factor(land))
+  return(factor(land, levels = c("land", "sea")))
 })
 
 
@@ -137,12 +141,7 @@ setMethod("findLand", "data.frame", function(x, shape = "world", ...) {
 setMethod("findLand", "gGraph", function(x, shape = "world", attr.name = "habitat", ...) {
   coords <- getCoords(x)
   res <- findLand(coords, shape = shape, ...)
-  if (nrow(x@nodes.attr) > 1) {
-    x@nodes.attr <- cbind.data.frame(x@nodes.attr, res)
-    names(x@nodes.attr)[ncol(x@nodes.attr)] <- attr.name
-  } else {
-    x@nodes.attr <- data.frame(res)
-    names(x@nodes.attr) <- attr.name
-  }
+  ## replaces attr.name if it already exists
+  x <- setNodesAttr(x, attr.name = attr.name, values = res)
   return(x)
 }) # end findLand

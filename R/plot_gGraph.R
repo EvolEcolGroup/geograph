@@ -134,24 +134,10 @@ setMethod(
       psize <- get("psize", envir = .geoGraphEnv)
     }
 
-    ## handle color from attribute
-    useAttrCol <- FALSE
-    if (is.null(col.rules)) {
-      if (!is.null(x@meta$colors)) {
-        col.rules <- x@meta$colors
-        useAttrCol <- TRUE
-      }
-    } else {
-      useAttrCol <- TRUE
-    }
-
-    if (!is.null(col)) { # col overrides rules
-      useAttrCol <- FALSE
-    }
-
-
-    toKeep <- isInArea(x, res.type = "integer", quiet = TRUE)
-    coords <- coords[toKeep, ]
+    ## nodes in the new plotting area (the device still shows the previous
+    ## plot, so reg = "current" would use the previous area)
+    toKeep <- isInArea(x, reg = list(x = xlim, y = ylim), res.type = "integer", quiet = TRUE)
+    coords <- coords[toKeep, , drop = FALSE]
 
 
     ## store previous last.points in envir (is erased by plotEdges)
@@ -163,15 +149,7 @@ setMethod(
 
 
     ## handle colors
-    if (useAttrCol) {
-      col <- getColors(x, nodes = toKeep, attr.name = colnames(col.rules)[1], col.rules = col.rules)
-    } else if (is.null(col.ori)) {
-      col <- "red"
-    } else {
-      col <- rep(col.ori, length = length(getNodes(x)))
-      names(col) <- getNodes(x)
-      col <- col[toKeep]
-    }
+    col <- .nodeColors(x, toKeep, col = col.ori, col.rules = col.rules)
 
 
     ## handle shape
@@ -196,18 +174,10 @@ setMethod(
 
       ## subset of points in area
       toKeep <- isInArea(x, reg = "current", res.type = "character", quiet = TRUE)
-      coords <- getCoords(x)[toKeep, ]
+      coords <- getCoords(x)[toKeep, , drop = FALSE]
 
       ## define colors for these points
-      if (useAttrCol) {
-        col <- getColors(x, nodes = toKeep, attr.name = colnames(col.rules)[1], col.rules = col.rules)
-      } else if (is.null(col.ori)) {
-        col <- "red"
-      } else {
-        col <- rep(col.ori, length = length(getNodes(x)))
-        names(col) <- getNodes(x)
-        col <- col[toKeep]
-      }
+      col <- .nodeColors(x, toKeep, col = col.ori, col.rules = col.rules)
 
 
       if (edges) {
@@ -271,11 +241,6 @@ setMethod("points", signature("gGraph"), function(x, psize = NULL, pch = NULL, c
   xlim <- zoomlog[1:2]
   ylim <- zoomlog[3:4]
 
-  ## store original parameters to be passed to last.plot.param ##
-  pch.ori <- pch
-  col.ori <- col
-
-
   ## subset data to visible area ##
   coords <- getCoords(x)
   toKeep <- isInArea(x, reg = "current", res.type = "integer", quiet = TRUE)
@@ -287,44 +252,9 @@ setMethod("points", signature("gGraph"), function(x, psize = NULL, pch = NULL, c
   if (is.null(pch)) pch <- last.plot.param$pch
 
 
-  ## handle color from attribute
-  useAttrCol <- FALSE
-  if (is.null(col.rules)) {
-    if (!is.null(x@meta$colors)) {
-      col.rules <- x@meta$colors
-      useAttrCol <- TRUE
-    }
-  } else {
-    useAttrCol <- TRUE
-  }
-
-  if (!is.null(col)) { # col overrides rules
-    useAttrCol <- FALSE
-  }
-
-
-  ## handle color
-  if (useAttrCol) {
-    col <- getColors(x, nodes = toKeep, attr.name = colnames(col.rules)[1], col.rules = col.rules)
-  } else if (is.null(col.ori)) {
-    col <- "red"
-  } else {
-    col <- rep(col.ori, length = length(getNodes(x)))
-    names(col) <- getNodes(x)
-    col <- col[toKeep]
-  }
-
-
-  ## define colors for these points
-  if (useAttrCol) {
-    col <- getColors(x, nodes = toKeep, attr.name = colnames(col.rules)[1], col.rules = col.rules)
-  } else if (is.null(col)) {
-    col <- "red"
-  } else {
-    col <- rep(col, length = length(getNodes(x)))
-    names(col) <- getNodes(x)
-    col <- col[toKeep]
-  } # end handle color
+  ## handle color (computed once: recycling the colours of the visible nodes
+  ## over all nodes a second time would misalign them)
+  col <- .nodeColors(x, toKeep, col = col, col.rules = col.rules)
 
 
   ## handle zoom and psize
@@ -423,7 +353,7 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
 
   edges <- getEdges(x, res.type = "matNames", unique = TRUE) # retrieve (unique) edges
   temp <- (edges[, 1] %in% rownames(keptCoords)) & (edges[, 2] %in% rownames(keptCoords))
-  keptEdges <- edges[temp, ]
+  keptEdges <- edges[temp, , drop = FALSE]
 
   if (nrow(keptEdges) < 1) {
     cat("\nNo edge to plot.\n")
@@ -473,3 +403,23 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
 
   return(invisible())
 } # end plotEdges
+
+
+#' internal: colours of a subset of nodes (indices or names) of a gGraph.
+#' `col` is recycled over all nodes then subset; if `col` is NULL, colours
+#' come from `col.rules` (by default `x@meta$colors`), or are all red.
+#' @noRd
+.nodeColors <- function(x, nodes, col = NULL, col.rules = NULL) {
+  if (is.null(col)) {
+    if (is.null(col.rules)) {
+      col.rules <- x@meta$colors
+    }
+    if (is.null(col.rules)) {
+      return("red")
+    }
+    return(getColors(x, nodes = nodes, attr.name = colnames(col.rules)[1], col.rules = col.rules))
+  }
+  col <- rep(col, length = length(getNodes(x)))
+  names(col) <- getNodes(x)
+  col[nodes]
+}

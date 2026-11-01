@@ -69,3 +69,70 @@ test_that("we give message when columns are not recognized", {
   )
   expect_identical(correct.heading, unrecognised.heading)
 })
+
+test_that("gData constructor keeps user-supplied nodes.id", {
+  my.nodes <- getNodes(worldgraph.10k)[c(10, 20)]
+  x <- new("gData",
+    coords = cbind(c(10, 20), c(50, 40)),
+    nodes.id = my.nodes, gGraph.name = "worldgraph.10k"
+  )
+  expect_identical(getNodes(x), my.nodes)
+})
+
+test_that("gData constructor errors on unknown nodes.id", {
+  expect_error(
+    new("gData",
+        coords = cbind(10, 50),
+        nodes.id = "not_a_node", gGraph.name = "worldgraph.10k"
+    ),
+    "not nodes of the gGraph object worldgraph.10k: not_a_node"
+  )
+})
+
+test_that("gData constructor errors when nodes.id does not match coords", {
+  expect_error(
+    new("gData", coords = cbind(c(10, 20), c(50, 40)), nodes.id = "1"),
+    "one value per location"
+  )
+})
+
+test_that("gData constructor names the missing gGraph in its warning", {
+  expect_warning(
+    new("gData", coords = cbind(10, 50), gGraph.name = "no_such_graph_xyz"),
+    "The gGraph object no_such_graph_xyz is missing"
+  )
+})
+
+test_that("gGraph constructor keeps the meta argument", {
+  col.rules <- data.frame(habitat = c("land", "sea"), color = c("green", "blue"))
+  x <- new("gGraph",
+    coords = cbind(lon = c(0, 1), lat = c(0, 1)),
+    nodes.attr = data.frame(habitat = c("land", "sea")),
+    meta = list(colors = col.rules)
+  )
+  expect_identical(getColors(x, res.type = "rules"), col.rules)
+  expect_error(
+    new("gGraph", coords = cbind(lon = 0, lat = 0), meta = "not a list"),
+    "meta must be a list"
+  )
+})
+
+test_that("gGraph constructor accepts coordinates without column names", {
+  expect_message(
+    x <- new("gGraph", coords = matrix(c(31, 55, -24, 37), ncol = 2)),
+    "use the order they were given in"
+  )
+  ref <- new("gGraph", coords = data.frame(lon = c(31, 55), lat = c(-24, 37)))
+  expect_identical(x, ref)
+})
+
+test_that("validity checks report an informative message", {
+  x <- worldgraph.10k
+  x@nodes.attr <- x@nodes.attr[1:3, , drop = FALSE]
+  expect_error(validObject(x), "Number of coords do not match number of node attributes")
+
+  # graph with fewer nodes than coords must not pass through recycling
+  y <- new("gGraph", coords = cbind(lon = 1:4, lat = 1:4))
+  y@graph <- new("graphNEL", nodes = c("1", "2"))
+  expect_error(validObject(y), "Row names of @coords do not match node names of @graph")
+})

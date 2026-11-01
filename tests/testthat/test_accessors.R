@@ -95,6 +95,17 @@ test_that("setColors errors when col.rules has no 'color' column", {
   )
 })
 
+
+test_that("getColors does not chain rules when colours equal attribute values", {
+  x <- new("gGraph",
+           coords = cbind(lon = 1:3, lat = 1:3),
+           nodes.attr = data.frame(hue = c("red", "blue", "green"))
+  )
+  rules <- data.frame(hue = c("red", "blue", "green"), color = c("blue", "green", "red"))
+  res <- getColors(x, attr.name = "hue", col.rules = rules)
+  expect_equal(unname(res), c("blue", "green", "red"))
+})
+
 #######################
 ## getGraph,gData
 #######################
@@ -189,6 +200,16 @@ test_that("getNodeCosts errors when meta has no costs component", {
   )
 })
 
+test_that("getNodeCosts does not chain rules when costs equal attribute values", {
+  x <- new("gGraph",
+           coords = cbind(lon = 1:3, lat = 1:3),
+           nodes.attr = data.frame(code = c(1, 2, 3))
+  )
+  cost_rules <- data.frame(code = c(1, 2, 3), cost = c(2, 10, 3))
+  x <- setCosts(x, attr.name = "code", cost.rules = cost_rules)
+  expect_equal(unname(getNodeCosts(x, attr.name = "code")), c(2, 10, 3))
+})
+
 #######################
 ## getCoords
 #######################
@@ -198,3 +219,4 @@ test_that("getCoords for gData with original = FALSE returns matched node coords
   expect_equal(nrow(res), length(getNodes(hgdp)))
   expect_equal(ncol(res), 2L)
 })
+

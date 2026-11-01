@@ -45,3 +45,39 @@ test_that("setNodesAttr replaces an existing attribute", {
 
   expect_true(all(getNodesAttr(result)$habitat == "land"))
 })
+
+test_that("node attributes can be set and read on a gGraph created without any", {
+  x <- makeSquareGrid(n.lon = 2, n.lat = 2, lon.range = c(0, 1), lat.range = c(0, 1))
+  expect_equal(nrow(getNodesAttr(x)), 4L)
+  expect_equal(ncol(getNodesAttr(x)), 0L)
+
+  x <- setNodesAttr(x, attr.name = "code", values = 1:4)
+  expect_equal(getNodesAttr(x, attr.name = "code")$code, 1:4)
+  expect_true(validObject(x))
+})
+
+test_that("node attributes can be set on legacy gGraphs with an empty nodes.attr", {
+  x <- makeSquareGrid(n.lon = 2, n.lat = 2, lon.range = c(0, 1), lat.range = c(0, 1))
+  x@nodes.attr <- data.frame() # as stored by older versions of the constructor
+  expect_equal(nrow(getNodesAttr(x)), 4L)
+  x <- setNodesAttr(x, attr.name = "code", values = 1:4)
+  expect_equal(getNodesAttr(x)$code, 1:4)
+})
+
+test_that("functions relying on node attributes work on a gGraph without any", {
+  x <- new("gGraph", coords = cbind(lon = c(0, 1, 2), lat = c(0, 0, 0)))
+  x <- setEdges(x, add = data.frame(c("1", "2"), c("2", "3")))
+  buf <- buffer(x, "1", 150, res.type = "gGraph")
+  expect_equal(getNodesAttr(buf)$buffer, c(TRUE, TRUE, FALSE))
+  expect_s3_class(ggplot2::ggplot() + geom_ggraph(data = x), "ggplot")
+})
+
+test_that("a hexagonal grid without attributes can be subset and queried", {
+  hex <- suppressMessages(
+    makeHexGrid(c(xmin = -10, xmax = 30, ymin = 35, ymax = 60), spacing = 1000)
+  )
+  sub <- hex[1:3]
+  expect_equal(length(getNodes(sub)), 3L)
+  expect_true(validObject(sub))
+  expect_equal(dim(getNodesAttr(hex)), c(length(getNodes(hex)), 0L))
+})

@@ -126,3 +126,62 @@ test_that("dijkstraBetween works with a single pair of nodes", {
   expect_s3_class(result, "gPath")
   expect_equal(length(result), 1L)
 })
+
+test_that("dijkstraBetween computes every path from each 'from' to each 'to' node", {
+  sq <- makeSquareGrid(n.lon = 5, n.lat = 5, lon.range = c(0, 4), lat.range = c(0, 4))
+
+  one.to.many <- dijkstraBetween(sq, from = "1", to = c("2", "3"))
+  expect_equal(names(one.to.many), c("1:2", "1:3"))
+
+  many.to.many <- dijkstraBetween(sq, from = c("1", "2"), to = c("3", "4", "5"))
+  expect_equal(
+    names(many.to.many),
+    c("1:3", "1:4", "1:5", "2:3", "2:4", "2:5")
+  )
+
+  # distances agree with single-source computations
+  d <- gPath2dist(many.to.many)
+  expect_equal(dim(d), c(2L, 3L))
+  expect_equal(dimnames(d), list(c("1", "2"), c("3", "4", "5")))
+  from1 <- gPath2dist(dijkstraFrom(sq, "1"))
+  expect_equal(unname(d["1", ]), unname(from1[c("1:3", "1:4", "1:5")]))
+})
+
+test_that("dijkstraBetween with a missing or identical 'to' gives all pairs", {
+  sq <- makeSquareGrid(n.lon = 5, n.lat = 5, lon.range = c(0, 4), lat.range = c(0, 4))
+  nodes <- c("1", "7", "25")
+  p.missing <- dijkstraBetween(sq, from = nodes)
+  p.same <- dijkstraBetween(sq, from = nodes, to = nodes)
+  expect_identical(p.missing, p.same)
+  expect_equal(names(p.same), c("1:7", "1:25", "7:25"))
+  expect_s3_class(gPath2dist(p.same), "dist")
+})
+
+test_that("dijkstraBetween keeps duplicated nodes in 'from' and 'to'", {
+  sq <- makeSquareGrid(n.lon = 5, n.lat = 5, lon.range = c(0, 4), lat.range = c(0, 4))
+  p <- dijkstraBetween(sq, from = c("1", "1"), to = c("3", "2"))
+  expect_equal(names(p), c("1:3", "1:2", "1:3", "1:2"))
+  d <- gPath2dist(p)
+  expect_equal(d[1, ], d[2, ])
+})
+
+test_that("the xy attribute of a gPath is always a matrix", {
+  sq <- makeSquareGrid(n.lon = 5, n.lat = 5, lon.range = c(0, 4), lat.range = c(0, 4))
+  p <- dijkstraBetween(sq, from = "1", to = "1")
+  expect_true(is.matrix(attr(p, "xy")))
+  expect_equal(rownames(attr(p, "xy")), "1")
+})
+
+test_that("dijkstraFrom on gData gives informative errors for a bad start", {
+  hgdp.sub <- hgdp[1:3]
+  habitat <- getNodesAttr(worldgraph.40k, attr.name = "habitat")$habitat
+  sea.node <- getNodes(worldgraph.40k)[habitat == "sea"][1]
+  expect_error(dijkstraFrom(hgdp.sub, sea.node), "not connected to the locations")
+  expect_error(dijkstraFrom(hgdp.sub, "not_a_node"), "Starting node is not in the gGraph")
+  expect_error(dijkstraFrom(hgdp.sub, getNodes(hgdp.sub)[1:2]), "single node")
+})
+
+test_that("dijkstraFrom on gGraph requires a single start node", {
+  max.set <- keepMaxConnectedSet(worldgraph.10k)
+  expect_error(dijkstraFrom(max.set, getNodes(max.set)[1:2]), "single node")
+})

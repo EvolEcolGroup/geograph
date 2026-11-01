@@ -1,7 +1,7 @@
 #' Plot segments correctly when crossing the antimeridian
 #'
 #' A substitute to \code{segments} which correctly draws
-#' segments between locations distant by more than 90 degrees of longitude
+#' segments between locations distant by more than 180 degrees of longitude
 #' (i.e. from one hemisphere to the other). It is used instead of segments, but
 #' it is slower.
 #'
@@ -28,7 +28,7 @@
 geo.segments <- function(x0, y0, x1, y1,
                          col = graphics::par("fg"), lty = graphics::par("lty"), lwd = graphics::par("lwd"), ...) {
   ## some declarations ##
-  THRES <- 90
+  THRES <- 180
   XMIN <- graphics::par("usr")[1]
   XMAX <- graphics::par("usr")[2]
 
@@ -41,16 +41,26 @@ geo.segments <- function(x0, y0, x1, y1,
     return(invisible())
   }
 
+  ## one graphical parameter per segment, so they can follow their segment
+  col <- rep(col, length.out = length(x0))
+  lwd <- rep(lwd, length.out = length(x0))
+  lty <- rep(lty, length.out = length(x0))
+
   ## isolate problematic segments ##
   x0.ok <- x0[!toChange] # these are ok
   x1.ok <- x1[!toChange]
   y0.ok <- y0[!toChange]
   y1.ok <- y1[!toChange]
+  col.ok <- col[!toChange]
+  lwd.ok <- lwd[!toChange]
+  lty.ok <- lty[!toChange]
 
   x0 <- x0[toChange] # problematic
   x1 <- x1[toChange]
   y0 <- y0[toChange]
   y1 <- y1[toChange]
+  col <- col[toChange]
+  lwd <- lwd[toChange]
 
 
   ## sort x and y coordinates so that x0 < x1 ##
@@ -68,8 +78,7 @@ geo.segments <- function(x0, y0, x1, y1,
   ## notations:
   ## - x0: x coord, left point
   ## - x1: x coord, right point
-  ## - d0: distance x0 -
-  XMIN
+  ## - d0: distance x0 - XMIN
   ## - d1: distance XMAX - x1
   ## - h0, h1: differential of y coord for new coord
   ## - (h0/d0 = h1/d1)
@@ -110,12 +119,12 @@ geo.segments <- function(x0, y0, x1, y1,
   oxpd <- graphics::par("xpd")
   graphics::par(xpd = TRUE)
   graphics::segments(x0.ok, y0.ok, x1.ok, y1.ok,
-    col = col, lty = lty, lwd = lwd, ...
+    col = col.ok, lty = lty.ok, lwd = lwd.ok, ...
   )
 
-  ## modified segments
+  ## modified segments (each split in two: both halves keep its parameters)
   graphics::segments(x0.out, y0.out, x1.out, y1.out,
-    col = col, lty = 3, lwd = lwd, ...
+    col = rep(col, 2), lty = 3, lwd = rep(lwd, 2), ...
   )
 
   graphics::par(xpd = oxpd)

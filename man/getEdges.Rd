@@ -18,7 +18,7 @@ getEdges(x, ...)
 used. See value.}
 
 \item{unique}{a logical indicating whether all returned edges should be
-unique (TRUE) or if duplicated edges should be allowed (TRUE, default).}
+unique (TRUE) or if duplicated edges should be allowed (FALSE, default).}
 }
 \value{
 The output depends on the value of the argument \code{res.type}:\cr

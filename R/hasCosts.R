@@ -17,7 +17,7 @@
 #' @examples
 #'
 #' hasCosts(rawgraph.10k) # TRUE
-#' hasCosts(worldgraph.10k) # FALSE as not all edges have costs
+#' hasCosts(worldgraph.10k) # FALSE as all its edges have the same cost
 #'
 #' @export
 
