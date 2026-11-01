@@ -3,9 +3,8 @@
 ## Behaviour changes
 
 * `dijkstraBetween(x, from, to)` on a `gGraph` now returns every path from each
-  node of `from` to each node of `to` (previously most requested paths were
-  silently dropped). With `to` missing or identical to `from`, all pairs of
-  `from` are computed, as before. `polygonBetween()` benefits from this.
+  node of `from` to each node of `to`. With `to` missing or identical to `from`, all pairs of
+  `from` are computed, as before. 
 
 * `gPath` objects record their `type`; `gPath2dist()` uses it and returns a
   `from` x `to` matrix for the output of `dijkstraBetween()` with distinct
@@ -35,7 +34,7 @@
   `setNodesAttr()`, `buffer()`, `geom_ggraph()`.
 
 * `setCosts()`, `getNodeCosts()` and `getColors()` no longer chain rules when
-  a cost or colour equals another attribute value.
+  a cost or color equals another attribute value.
 
 * `assignByPolygon()` and `findLand()` handle layers in a projected CRS, and
   `assignByPolygon()` works on `gData` objects with several locations on the
@@ -49,18 +48,9 @@
 * `areConnected()` no longer reports an isolated node as connected in graphs
   without edges.
 
-* `combineCosts()` compares the edges of the two graphs reliably.
-
-* Plotting: `plotEdges()` works with a single visible edge; `points()` keeps
-  per-node colours on the right nodes when zoomed in; `plot(x, shape = NULL)`
-  draws the nodes of the new area; `geo.segments()` keeps per-segment colours
-  with their segments.
-
 * `[` and `geom_gdata()` work on `gData` objects whose data is a vector.
 
-* `assignByRaster()` accepts summary functions without an `na.rm` argument.
-
-* `dropDeadEdges()` also drops edges when all costs are equal.
+* `assignByRaster()` removes missing values directly on `na.rm` argument.
 
 * `dijkstraFrom()` on a `gData` gives an informative error when `start` is not
   connected to the locations.
