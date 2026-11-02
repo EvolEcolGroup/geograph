@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,32 @@
       <small>Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.1.0" id="geograph-v210">geoGraph v2.1.0<a class="anchor" aria-label="anchor" href="#geograph-v210"></a></h2>
+<ul><li><p><code>dijkstraBetween(x, from, to)</code> on a <code>gGraph</code> now returns every path from each node of <code>from</code> to each node of <code>to</code>. With <code>to</code> missing or identical to <code>from</code>, all pairs of <code>from</code> are computed, as before. <code><a href="../reference/polygonBetween.html">polygonBetween()</a></code> benefits from this.</p></li>
+<li><p><code>gPath</code> objects record their <code>type</code>; <code><a href="../reference/gPath2dist.html">gPath2dist()</a></code> uses it and returns a <code>from</code> x <code>to</code> matrix for the output of <code><a href="../reference/dijkstraBetween.html">dijkstraBetween()</a></code> with distinct <code>from</code> and <code>to</code> (and so for <code><a href="../reference/polygonBetween.html">polygonBetween()</a></code>). <code><a href="../reference/dijkstraBetween.html">dijkstraBetween()</a></code> on a <code>gData</code> with two locations now returns a <code>dist</code>, as for more locations.</p></li>
+<li><p><code><a href="../reference/dijkstraBuffer.html">dijkstraBuffer()</a></code> includes the origin node and works on graphs that are not fully connected.</p></li>
+<li><p><code><a href="../reference/isInArea.html">isInArea()</a></code> errors on an invalid <code>reg</code> (it returned <code>NA</code>), and accepts <code>reg = c(xmin, xmax, ymin, ymax)</code>.</p></li>
+<li><p><code><a href="../reference/findLand.html">findLand()</a></code>, <code><a href="../reference/assignByPolygon.html">assignByPolygon()</a></code> and <code><a href="../reference/buffer.html">buffer()</a></code> replace existing node attributes of the same name instead of adding duplicated columns; <code><a href="../reference/findLand.html">findLand()</a></code> always returns a factor with levels <code>land</code> and <code>sea</code>.</p></li>
+<li><p><code><a href="../reference/assignByRaster.html">assignByRaster()</a></code> removes <code>NA</code>s itself (when <code>na.rm = TRUE</code>) before applying <code>fun</code>, so any summary function works, including <code>length</code> and functions without an <code>na.rm</code> argument. <code>na.rm</code> is no longer passed to <code>fun</code>.</p></li>
+<li><p><code><a href="../reference/polygonBetween.html">polygonBetween()</a></code> only accepts <code>gGraph</code> objects (for gData use <code><a href="../reference/dijkstraBetween.html">dijkstraBetween()</a></code> on the linked <code>gGraph</code> instead).</p></li>
+<li><p><code><a href="../reference/makeHexGrid.html">makeHexGrid()</a></code> is much faster on large grids , neighbors are found with a nearest-neighbor search instead of <code>spdep</code>.</p></li>
+<li><p><code><a href="../reference/setDistCosts.html">setDistCosts()</a></code> is about 8x faster; its documentation now states that costs are in miles.</p></li>
+<li><p><code><a href="../reference/dijkstraBuffer.html">dijkstraBuffer()</a></code> is much faster: it no longer builds every path.</p></li>
+<li><p><code>new("gData", nodes.id = ...)</code> no longer ignores <code>nodes.id</code>; <code>new("gGraph", meta = ...)</code> no longer ignores <code>meta</code>; <code>new("gGraph")</code> accepts coordinates without column names.</p></li>
+<li><p><code>gGraph</code> objects without node attributes (e.g. from <code><a href="../reference/makeSquareGrid.html">makeSquareGrid()</a></code> or <code><a href="../reference/makeHexGrid.html">makeHexGrid()</a></code>, or saved with older versions) can be subset, and work with <code><a href="../reference/getNodesAttr.html">getNodesAttr()</a></code>, <code><a href="../reference/setNodesAttr.html">setNodesAttr()</a></code>, <code><a href="../reference/buffer.html">buffer()</a></code>, <code><a href="../reference/dijkstraBuffer.html">dijkstraBuffer()</a></code>, <code><a href="../reference/assignByRaster.html">assignByRaster()</a></code> and <code><a href="../reference/geom_ggraph.html">geom_ggraph()</a></code>.</p></li>
+<li><p><code><a href="../reference/setCosts.html">setCosts()</a></code>, <code><a href="../reference/getCosts.html">getNodeCosts()</a></code> and <code><a href="../reference/getColors.html">getColors()</a></code> no longer chain rules when a cost or colour equals another attribute value.</p></li>
+<li><p><code><a href="../reference/assignByPolygon.html">assignByPolygon()</a></code> and <code><a href="../reference/findLand.html">findLand()</a></code> handle layers in a projected CRS, and <code><a href="../reference/assignByPolygon.html">assignByPolygon()</a></code> works on <code>gData</code> objects with several locations on the same node.</p></li>
+<li><p><code><a href="../reference/closestNode.html">closestNode()</a></code> accepts a single location as <code>c(lon, lat)</code>.</p></li>
+<li><p><code><a href="../reference/polygonBetween.html">polygonBetween()</a></code> detects polygon outlines correctly on subset graphs.</p></li>
+<li><p><code><a href="../reference/areConnected.html">areConnected()</a></code> no longer reports an isolated node as connected in graphs without edges.</p></li>
+<li><p><code><a href="../reference/combineCosts.html">combineCosts()</a></code> compares the edges of the two graphs reliably.</p></li>
+<li><p><code><a href="../reference/dropDeadEdges.html">dropDeadEdges()</a></code> also drops edges when all costs are equal.</p></li>
+<li><p><code><a href="../reference/dijkstraFrom.html">dijkstraFrom()</a></code> on a <code>gData</code> gives an informative error when <code>start</code> is not connected to the locations.</p></li>
+<li><p>Plotting: <code><a href="../reference/plot-gGraph.html">plotEdges()</a></code> works with a single visible edge; <code><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points()</a></code> keeps per-node colours on the right nodes when zoomed in; <code>plot(x, shape = NULL)</code> draws the nodes of the new area; <code><a href="../reference/geo.segments.html">geo.segments()</a></code> keeps per-segment colours with their segments.</p></li>
+<li><p><code>[</code> and <code><a href="../reference/geom_gdata.html">geom_gdata()</a></code> work on <code>gData</code> objects whose data is a vector.</p></li>
+<li><p>Validity checks give informative messages.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.0.1" id="geograph-v201">geoGraph v2.0.1<a class="anchor" aria-label="anchor" href="#geograph-v201"></a></h2>
 <ul><li><p>Added ggplot2 support for gGraph, gData, and gPath objects via autoplot() methods and geom_ggraph(), geom_gdata(), and geom_gpath() layers.</p></li>
@@ -73,7 +99,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Cassandra Gunasekaram, Andrea Manica.</p>
+  <p>Developed by Dominik Jud, Evie Carter, Andrea Pozzi, Ondrej Pelanek, Aramish Fatima, Margherita Colucci, Cecilia Padilla-Iglesias, Michela Leonardi, Shujie Chang, Cassandra Gunasekaram, Thibaut Jombart, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">

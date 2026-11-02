@@ -74,7 +74,7 @@ isInArea(
   vectors of length two, giving x and y limits of the area, e.g.
   `list(x = c(-10, 30), y = c(35, 70))`. A list produced by
   [`locator()`](https://rdrr.io/r/graphics/locator.html) is also a valid
-  value.
+  value, as is a numeric vector `c(xmin, xmax, ymin, ymax)`.
 
 - res.type:
 
@@ -150,8 +150,7 @@ head(isInArea(worldgraph.10k, res.type = "character", quiet = TRUE))
 ## subset the gGraph just to visible nodes
 x <- worldgraph.10k[isInArea(worldgraph.10k)]
 #> Area: lon = [-29.4479, 61.4479], lat = [30.2400, 77.7600]
-#> 
-#>       Reproducible call: reg = list(x = c(-29.4479, 61.4479), y = c(30.2400, 77.7600))
+#> Reproducible call: reg = list(x = c(-29.4479, 61.4479), y = c(30.2400, 77.7600))
 plot(x, reset = TRUE)
 #> Spherical geometry (s2) switched off
 

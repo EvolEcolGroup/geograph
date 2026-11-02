@@ -2,23 +2,27 @@
 
 ## Authors
 
-- **Thibaut Jombart**. Author.
-
 - **Dominik Jud**. Author.
-
-- **Cecilia Padilla-Iglesias**. Author.
-
-- **Ondrej Pelanek**. Author.
-
-- **Andrea Pozzi**. Author.
-
-- **Margherita Colucci**. Author.
 
 - **Evie Carter**. Author.
 
+- **Andrea Pozzi**. Author.
+
+- **Ondrej Pelanek**. Author.
+
+- **Aramish Fatima**. Author.
+
+- **Margherita Colucci**. Author.
+
+- **Cecilia Padilla-Iglesias**. Author.
+
 - **Michela Leonardi**. Author.
 
+- **Shujie Chang**. Author.
+
 - **Cassandra Gunasekaram**. Author.
+
+- **Thibaut Jombart**. Author.
 
 - **Andrea Manica**. Author, maintainer.
 
@@ -27,15 +31,16 @@
 Source:
 [`DESCRIPTION`](https://github.com/EvolEcolGroup/geograph/blob/dev/DESCRIPTION)
 
-Jombart T, Jud D, Padilla-Iglesias C, Pelanek O, Pozzi A, Colucci M,
-Carter E, Leonardi M, Gunasekaram C, Manica A (2026). *geoGraph: Walking
-Through the Geographic Space Using Graphs*. R package version
-2.0.1.9001, <https://github.com/EvolEcolGroup/geograph>.
+Jud D, Carter E, Pozzi A, Pelanek O, Fatima A, Colucci M,
+Padilla-Iglesias C, Leonardi M, Chang S, Gunasekaram C, Jombart T,
+Manica A (2026). *geoGraph: Walking Through the Geographic Space Using
+Graphs*. R package version 2.0.1.9002,
+<https://github.com/EvolEcolGroup/geograph>.
 
     @Manual{,
       title = {geoGraph: Walking Through the Geographic Space Using Graphs},
-      author = {Thibaut Jombart and Dominik Jud and Cecilia Padilla-Iglesias and Ondrej Pelanek and Andrea Pozzi and Margherita Colucci and Evie Carter and Michela Leonardi and Cassandra Gunasekaram and Andrea Manica},
+      author = {Dominik Jud and Evie Carter and Andrea Pozzi and Ondrej Pelanek and Aramish Fatima and Margherita Colucci and Cecilia Padilla-Iglesias and Michela Leonardi and Shujie Chang and Cassandra Gunasekaram and Thibaut Jombart and Andrea Manica},
       year = {2026},
-      note = {R package version 2.0.1.9001},
+      note = {R package version 2.0.1.9002},
       url = {https://github.com/EvolEcolGroup/geograph},
     }

@@ -21,20 +21,24 @@ Authors:
 
 - Andrea Manica <am315@cam.ac.uk>
 
-- Thibaut Jombart
-
 - Dominik Jud
-
-- Cecilia Padilla-Iglesias
-
-- Ondrej Pelanek
-
-- Andrea Pozzi
-
-- Margherita Colucci
 
 - Evie Carter
 
+- Andrea Pozzi
+
+- Ondrej Pelanek
+
+- Aramish Fatima
+
+- Margherita Colucci
+
+- Cecilia Padilla-Iglesias
+
 - Michela Leonardi
 
+- Shujie Chang
+
 - Cassandra Gunasekaram
+
+- Thibaut Jombart

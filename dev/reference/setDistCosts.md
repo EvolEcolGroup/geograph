@@ -3,10 +3,10 @@
 The function `setDistCosts` sets the costs of a
 [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
 object using the geographic distance. The cost associated to an edge is
-defined as the great circle distance between the two nodes of this edge.
-`setDistCosts` actually relies on
-[`rdist.earth`](https://rdrr.io/pkg/fields/man/rdist.earth.html) of the
-`fields` package.
+defined as the great circle distance between the two nodes of this edge,
+in miles. `setDistCosts` actually relies on
+[`rdist.earth.vec`](https://rdrr.io/pkg/fields/man/rdist.earth.html) of
+the `fields` package.
 
 ## Usage
 
@@ -80,8 +80,7 @@ plotEdges(rawgraph.10k)
 
 x <- rawgraph.10k[isInArea(rawgraph.10k)]
 #> Area: lon = [103.2044, 156.7956], lat = [-46.6000, -3.4000]
-#> 
-#>       Reproducible call: reg = list(x = c(103.2044, 156.7956), y = c(-46.6000, -3.4000))
+#> Reproducible call: reg = list(x = c(103.2044, 156.7956), y = c(-46.6000, -3.4000))
 x <- setDistCosts(x)
 
 plotEdges(x)

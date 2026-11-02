@@ -13,7 +13,7 @@ minimum-cost routes connecting pairs of nodes in the graph."><meta property="og:
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,6 +77,10 @@ destination.</p></li>
 </ul><p>An <code>xy</code> attribute stores a matrix of spatial coordinates (longitude and
 latitude) for all nodes referenced in the paths, with node identifiers
 as row names.</p>
+<p>A <code>type</code> attribute records which paths were computed: <code>"from"</code> (one
+origin to many nodes, see <code><a href="dijkstraFrom.html">dijkstraFrom</a></code>), <code>"pairwise"</code> (all pairs of a
+set of nodes) or <code>"cross"</code> (each <code>from</code> node to each <code>to</code> node, see
+<code><a href="dijkstraBetween.html">dijkstraBetween</a></code>); <code><a href="gPath2dist.html">gPath2dist</a></code> uses it to shape its output.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -155,7 +159,7 @@ distances. <code><a href="gGraph-class.html">gGraph</a></code> and <code><a href
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Cassandra Gunasekaram, Andrea Manica.</p>
+  <p>Developed by Dominik Jud, Evie Carter, Andrea Pozzi, Ondrej Pelanek, Aramish Fatima, Margherita Colucci, Cecilia Padilla-Iglesias, Michela Leonardi, Shujie Chang, Cassandra Gunasekaram, Thibaut Jombart, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">

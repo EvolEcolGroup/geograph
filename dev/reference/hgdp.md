@@ -33,7 +33,7 @@ object with the following slots:
 
 ## Details
 
-`hgdp` describes 52 populations from the original Human Genome Diversity
+`hgdp` describes 51 populations from the original Human Genome Diversity
 Panel.  
 
 `hgdpPlus` describes `hgdp` populations plus 24 native American

@@ -54,7 +54,8 @@ The output depends on the nature of the input:
 - `gGraph`: a
   [gGraph](https://evolecolgroup.github.io/geograph/dev/reference/gGraph-class.md)
   object with a new node attribute, possibly added to previously
-  existing node attributes (`@nodes.attr` slot).  
+  existing node attributes (`@nodes.attr` slot). If an attribute named
+  `attr.name` already exists, it is replaced.  
 
 ## Details
 
@@ -88,7 +89,8 @@ obj # note: no node attribute
 #> ...
 #> 
 #> @nodes.attr: 0 nodes attributes
-#> data frame with 0 columns and 0 rows
+#> data frame with 0 columns and 3 rows
+#> ...
 #> 
 #> @meta: list of meta information with 0 items
 #> 

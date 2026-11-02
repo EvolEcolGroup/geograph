@@ -44,10 +44,23 @@ gPath2dist(m, diag = FALSE, upper = FALSE, res.type = NULL)
 
 ## Value
 
-Either a [`dist`](https://rdrr.io/r/stats/dist.html) object containing
-pairwise distances between nodes the gPath object was constructed from
-dijkstraBetween(), or a numeric vector of distances if the gPath object
-was constructed from dijkstraFrom().
+Depending on how the gPath object was constructed:
+
+- a [`dist`](https://rdrr.io/r/stats/dist.html) object of pairwise
+  distances, for
+  [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md)
+  between all pairs of a set of nodes (e.g. on a
+  [`gData`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
+  object);
+
+- a matrix with one row per `from` node and one column per `to` node,
+  for
+  [`dijkstraBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraBetween.md)
+  with distinct `from` and `to` (e.g.
+  [`polygonBetween()`](https://evolecolgroup.github.io/geograph/dev/reference/polygonBetween.md));
+
+- a named numeric vector, for
+  [`dijkstraFrom()`](https://evolecolgroup.github.io/geograph/dev/reference/dijkstraFrom.md).
 
 ## See also
 

@@ -11,7 +11,7 @@ objects."><meta property="og:image" content="https://evolecolgroup.github.io/geo
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,12 +77,20 @@ objects.</p>
 
 
 <dt id="arg-to">to<a class="anchor" aria-label="anchor" href="#arg-to"></a></dt>
-<dd><p>A character vector of ending node IDs.</p></dd>
+<dd><p>A character vector of ending node IDs. If missing, or identical
+to <code>from</code>, paths are computed between all pairs of nodes in <code>from</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code><a href="gPath-class.html">gPath</a></code> object.</p>
+    <p>A <code><a href="gPath-class.html">gPath</a></code> object:</p><ul><li><p>if <code>to</code> is missing or identical to <code>from</code> (and has more than one
+node), one path for each pair of nodes <code>from[i]</code>, <code>from[j]</code> with
+<code>i &lt; j</code>, in the order used by <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></code> objects; this is always the case
+for the <code><a href="gData-class.html">gData</a></code> method, which uses all locations of <code>x</code>;</p></li>
+<li><p>otherwise, one path from each node of <code>from</code> to each node of <code>to</code>
+(<code>length(from) * length(to)</code> paths, <code>from</code> varying slowest).</p></li>
+</ul><p><code><a href="gPath2dist.html">gPath2dist</a></code> turns these into a <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></code> object or a
+<code>length(from) x length(to)</code> matrix, respectively.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -117,7 +125,7 @@ duplicated paths.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Cassandra Gunasekaram, Andrea Manica.</p>
+  <p>Developed by Dominik Jud, Evie Carter, Andrea Pozzi, Ondrej Pelanek, Aramish Fatima, Margherita Colucci, Cecilia Padilla-Iglesias, Michela Leonardi, Shujie Chang, Cassandra Gunasekaram, Thibaut Jombart, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">

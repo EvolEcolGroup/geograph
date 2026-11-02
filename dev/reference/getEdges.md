@@ -32,7 +32,7 @@ getEdges(x, res.type = c("asIs", "matNames", "matId"), unique = FALSE, ...)
 - unique:
 
   a logical indicating whether all returned edges should be unique
-  (TRUE) or if duplicated edges should be allowed (TRUE, default).
+  (TRUE) or if duplicated edges should be allowed (FALSE, default).
 
 ## Value
 

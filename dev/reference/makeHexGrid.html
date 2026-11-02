@@ -11,7 +11,7 @@ The graph is restricted to a geographic bounding box defined by the user."><meta
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,7 @@ specified geographic region. The <code>@nodes.attr</code> slot is empty.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The function constructs a discrete global grid using the <code>dggridR</code> package,
-then identifies neighboring grid cells using the <code>spdep</code> package, and finally builds a
+then identifies neighboring grid cells with a nearest-neighbor search (<code>FNN</code>), and finally builds a
 <code><a href="gGraph-class.html">gGraph</a></code> object with the resulting graph structure and node coordinates.</p>
     </div>
 
@@ -105,7 +105,7 @@ then identifies neighboring grid cells using the <code>spdep</code> package, and
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Cassandra Gunasekaram, Andrea Manica.</p>
+  <p>Developed by Dominik Jud, Evie Carter, Andrea Pozzi, Ondrej Pelanek, Aramish Fatima, Margherita Colucci, Cecilia Padilla-Iglesias, Michela Leonardi, Shujie Chang, Cassandra Gunasekaram, Thibaut Jombart, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">

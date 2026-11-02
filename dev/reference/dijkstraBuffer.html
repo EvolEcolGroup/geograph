@@ -11,7 +11,7 @@ defined as the cumulative least-cost path over weighted edges."><meta property="
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,14 +92,16 @@ attribute <code>reachable</code> when <code>res.type = "gGraph"</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Internally, the function computes single-source shortest paths using
+    <p>Internally, the function computes single-source shortest path costs using
 Dijkstra's algorithm from the origin node and returns all nodes whose
-minimum path cost does not exceed the specified threshold.</p>
+minimum path cost does not exceed the specified threshold. The origin
+itself (cost 0) is always included; nodes that cannot be reached from the
+origin (e.g. in another connected set) are not.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="dijkstraFrom.html">dijkstraFrom</a></code> and <code><a href="gPath2dist.html">gPath2dist</a></code> for the underlying path
-computations. <code><a href="buffer.html">buffer</a></code> for geographic distance-based buffers.
+    <div class="dont-index"><p><code><a href="dijkstraFrom.html">dijkstraFrom</a></code> and <code><a href="gPath2dist.html">gPath2dist</a></code> to obtain the least-cost paths
+themselves. <code><a href="buffer.html">buffer</a></code> for geographic distance-based buffers.
 <code><a href="setCosts.html">setCosts</a></code> to define edge costs before running <code>dijkstraBuffer</code>.</p>
 <p>Other dijkstra_methods:
 <code><a href="dijkstraBetween.html">dijkstraBetween()</a></code>,
@@ -136,7 +138,7 @@ computations. <code><a href="buffer.html">buffer</a></code> for geographic dista
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Cassandra Gunasekaram, Andrea Manica.</p>
+  <p>Developed by Dominik Jud, Evie Carter, Andrea Pozzi, Ondrej Pelanek, Aramish Fatima, Margherita Colucci, Cecilia Padilla-Iglesias, Michela Leonardi, Shujie Chang, Cassandra Gunasekaram, Thibaut Jombart, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">

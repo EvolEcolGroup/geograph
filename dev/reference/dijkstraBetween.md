@@ -36,13 +36,29 @@ dijkstraBetween(x)
 
 - to:
 
-  A character vector of ending node IDs.
+  A character vector of ending node IDs. If missing, or identical to
+  `from`, paths are computed between all pairs of nodes in `from`.
 
 ## Value
 
 A
 [`gPath`](https://evolecolgroup.github.io/geograph/dev/reference/gPath-class.md)
-object.
+object:
+
+- if `to` is missing or identical to `from` (and has more than one
+  node), one path for each pair of nodes `from[i]`, `from[j]` with
+  `i < j`, in the order used by
+  [`dist`](https://rdrr.io/r/stats/dist.html) objects; this is always
+  the case for the
+  [`gData`](https://evolecolgroup.github.io/geograph/dev/reference/gData-class.md)
+  method, which uses all locations of `x`;
+
+- otherwise, one path from each node of `from` to each node of `to`
+  (`length(from) * length(to)` paths, `from` varying slowest).
+
+[`gPath2dist`](https://evolecolgroup.github.io/geograph/dev/reference/gPath2dist.md)
+turns these into a [`dist`](https://rdrr.io/r/stats/dist.html) object or
+a `length(from) x length(to)` matrix, respectively.
 
 ## Details
 

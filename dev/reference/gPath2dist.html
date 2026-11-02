@@ -11,7 +11,7 @@ returns either a dist object or a numeric vector of distances."><meta property="
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9001</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.1.9002</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,10 +79,12 @@ automatically detects whether the input is from <code><a href="dijkstraBetween.h
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Either a <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></code> object containing pairwise distances between
-nodes the gPath object was constructed from dijkstraBetween(),
-or a numeric vector of distances if the gPath object was constructed from dijkstraFrom().</p>
-    </div>
+    <p>Depending on how the gPath object was constructed:</p><ul><li><p>a <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></code> object of pairwise distances, for <code><a href="dijkstraBetween.html">dijkstraBetween()</a></code> between
+all pairs of a set of nodes (e.g. on a <code><a href="gData-class.html">gData</a></code> object);</p></li>
+<li><p>a matrix with one row per <code>from</code> node and one column per <code>to</code> node, for
+<code><a href="dijkstraBetween.html">dijkstraBetween()</a></code> with distinct <code>from</code> and <code>to</code> (e.g. <code><a href="polygonBetween.html">polygonBetween()</a></code>);</p></li>
+<li><p>a named numeric vector, for <code><a href="dijkstraFrom.html">dijkstraFrom()</a></code>.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other dijkstra_methods:
@@ -117,7 +119,7 @@ or a numeric vector of distances if the gPath object was constructed from dijkst
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Cassandra Gunasekaram, Andrea Manica.</p>
+  <p>Developed by Dominik Jud, Evie Carter, Andrea Pozzi, Ondrej Pelanek, Aramish Fatima, Margherita Colucci, Cecilia Padilla-Iglesias, Michela Leonardi, Shujie Chang, Cassandra Gunasekaram, Thibaut Jombart, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">
