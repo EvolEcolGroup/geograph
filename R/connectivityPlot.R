@@ -33,18 +33,8 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
   ## some checks ##
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
 
-  ## get connected sets ##
-  connected.sets <- RBGL::connectedComp(getGraph(x))
-
-  ## just keep sets > 1 node
-  temp <- sapply(connected.sets, length)
-  reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
-  temp <- temp[reOrd]
-  if (min(temp) == 1) {
-    connected.sets <- connected.sets[reOrd][seq_len(which.min(temp) - 1)]
-  }
-
-  names(connected.sets) <- paste("set", seq_along(connected.sets), recycle0 = TRUE)
+  ## get connected sets (with more than one node) ##
+  connected.sets <- .connectedSets(getGraph(x))
 
   ## define colors ##
   nbSets <- length(connected.sets)
@@ -95,18 +85,8 @@ setMethod("connectivityPlot", "gData", function(x, ..., seed = NULL) {
   ## some checks ##
   if (!is.gData(x)) stop("x is not a valid gData object")
 
-  ## get connected sets ##
-  connected.sets <- RBGL::connectedComp(getGraph(x))
-
-  ## just keep sets > 1 node
-  temp <- sapply(connected.sets, length)
-  reOrd <- order(temp, decreasing = TRUE) # sets ordered in decreasing size
-  temp <- temp[reOrd]
-  if (min(temp) == 1) {
-    connected.sets <- connected.sets[reOrd][seq_len(which.min(temp) - 1)]
-  }
-
-  names(connected.sets) <- paste("set", seq_along(connected.sets), recycle0 = TRUE)
+  ## get connected sets (with more than one node) ##
+  connected.sets <- .connectedSets(getGraph(x))
 
   ## define colors ##
   nbSets <- length(connected.sets)
@@ -131,7 +111,6 @@ setMethod("connectivityPlot", "gData", function(x, ..., seed = NULL) {
   color.idx <- 0
   for (i in seq_len(nbSets)) {
     e <- connected.sets[[i]]
-    col[names(col) %in% e] <- colSets[i]
     nodes.in.set <- names(col)[names(col) %in% e]
     if (length(nodes.in.set) > 0) {
       color.idx <- color.idx + 1

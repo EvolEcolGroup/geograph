@@ -54,7 +54,7 @@ strings can be \code{"current"} (current user window, default) or \code{"zoom"}
 (current zoom). If a list, it must have two components, both being
 numeric vectors of length two, giving x and y limits of the area, e.g.
 \code{list(x = c(-10, 30), y = c(35, 70))}. A list produced by \code{locator()}
-is also a valid value.}
+is also a valid value, as is a numeric vector \code{c(xmin, xmax, ymin, ymax)}.}
 
 \item{res.type}{a character string indicating what kind of output should
 be produced. See value.}

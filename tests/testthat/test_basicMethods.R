@@ -88,3 +88,14 @@ test_that("[,gData subsets data columns with j", {
   expect_equal(ncol(getData(x)), 2L)
   expect_equal(colnames(getData(x)), data.cols)
 })
+
+test_that("gData objects with vector data can be subset", {
+  gd <- new("gData",
+    coords = cbind(c(10, 12, 14), c(50, 51, 52)),
+    data = c(1, 2, 3), gGraph.name = "worldgraph.10k"
+  )
+  sub <- gd[2:3]
+  expect_equal(getData(sub), c(2, 3))
+  expect_equal(nrow(getCoords(sub)), 2L)
+  expect_equal(unname(getNodes(sub)), unname(getNodes(gd)[2:3]))
+})

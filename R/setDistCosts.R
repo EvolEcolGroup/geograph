@@ -2,9 +2,9 @@
 #'
 #' The function \code{setDistCosts} sets the costs of a \linkS4class{gGraph}
 #' object using the geographic distance. The cost associated to an edge is
-#' defined as the great circle distance between the two nodes of this edge.
-#' \code{setDistCosts} actually relies on \code{\link[fields]{rdist.earth}} of
-#' the \code{fields} package.
+#' defined as the great circle distance between the two nodes of this edge,
+#' in miles. \code{setDistCosts} actually relies on
+#' \code{\link[fields]{rdist.earth.vec}} of the \code{fields} package.
 #'
 #' The notion of 'costs' in the context of \linkS4class{gGraph} objects is
 #' identical to the concept of 'weights' in the library `graph` (and thus
@@ -51,14 +51,12 @@ setMethod("setDistCosts", "gGraph", function(x, ...) {
   E <- getEdges(x, res.type = "matNames")
 
   xy <- getCoords(x)
-  xy1 <- xy[E[, 1], ]
-  xy2 <- xy[E[, 2], ]
+  xy1 <- xy[E[, 1], , drop = FALSE]
+  xy2 <- xy[E[, 2], , drop = FALSE]
 
 
-  ## get costs ##
-  w <- sapply(seq_len(nrow(E)), function(i) {
-    fields::rdist.earth(xy1[i, , drop = FALSE], xy2[i, , drop = FALSE])
-  }) # list of costs
+  ## get costs (great circle distances in miles, one per edge) ##
+  w <- fields::rdist.earth.vec(xy1, xy2)
 
   ## assign costs to the graphNEL ##
   edgeData(x@graph, from = E[, 1], to = E[, 2], attr = "weight") <- w

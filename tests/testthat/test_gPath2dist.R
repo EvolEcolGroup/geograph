@@ -117,3 +117,20 @@ test_that("gPath2dist emits a deprecation message when res.type is supplied", {
   hgdp.path <- dijkstraBetween(hgdp.sub)
   expect_message(gPath2dist(hgdp.path, res.type = "dist"), "deprecated")
 })
+
+test_that("gPath2dist returns a dist object for dijkstraBetween on two locations", {
+  hgdp.sub <- hgdp[c(1, 2)]
+  result <- gPath2dist(dijkstraBetween(hgdp.sub))
+  expect_s3_class(result, "dist")
+  expect_equal(attr(result, "Size"), 2L)
+})
+
+test_that("gPath2dist still recognises gPath objects without a type attribute", {
+  hgdp.sub <- hgdp[c(1, 2, 3, 4)]
+  between <- dijkstraBetween(hgdp.sub)
+  from <- dijkstraFrom(hgdp.sub, "24988")
+  attr(between, "type") <- NULL
+  attr(from, "type") <- NULL
+  expect_s3_class(gPath2dist(between), "dist")
+  expect_false(inherits(gPath2dist(from), "dist"))
+})

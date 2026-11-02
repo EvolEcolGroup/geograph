@@ -1,17 +1,19 @@
 Package: geoGraph
 Type: Package
 Title: Walking Through the Geographic Space Using Graphs
-Version: 2.0.1.9001
+Version: 2.0.1.9002
 Authors@R: c(
-    person("Thibaut", "Jombart", role = "aut"),
     person("Dominik", "Jud", role = "aut"),
-    person("Cecilia", "Padilla-Iglesias", role =  "aut"),
-    person("Ondrej", "Pelanek", role = "aut"),
-    person("Andrea", "Pozzi", role = "aut"),
-    person("Margherita", "Colucci", role = "aut"),
     person("Evie", "Carter", role = "aut"),
+    person("Andrea", "Pozzi", role = "aut"),
+    person("Ondrej", "Pelanek", role = "aut"),
+    person("Aramish", "Fatima", role = "aut"),
+    person("Margherita", "Colucci", role = "aut"),
+    person("Cecilia", "Padilla-Iglesias", role = "aut"),
     person("Michela", "Leonardi", role = "aut"),
+    person("Shujie", "Chang", role = "aut"),
     person("Cassandra", "Gunasekaram", role = "aut"),
+    person("Thibaut", "Jombart", role = "aut"),
     person("Andrea", "Manica", email = "am315@cam.ac.uk", role = c("aut", "cre")))
 Maintainer: Andrea Manica <am315@cam.ac.uk>
 Description: Classes and methods for spatial graphs interfaced with support for GIS shapefiles.
@@ -38,7 +40,6 @@ Imports:
  sf,
  magrittr,
  dggridR,
- spdep,
  tibble,
  tidyr,
  terra,

@@ -123,3 +123,40 @@ test_that("assignByPolygon handles duplicate coordinates correctly", {
   expect_equal(nrow(res), 2L)
   expect_equal(res$continent[1], res$continent[2])
 })
+
+test_that("assignByPolygon handles layers in a projected CRS", {
+  pA <- sf::st_polygon(list(rbind(c(0, 0), c(1, 0), c(1, 1), c(0, 1), c(0, 0))))
+  pB <- sf::st_polygon(list(rbind(c(2, 0), c(3, 0), c(3, 1), c(2, 1), c(2, 0))))
+  layer <- sf::st_sf(id = c("A", "B"), geometry = sf::st_sfc(pA, pB, crs = 4326))
+  layer.proj <- sf::st_transform(layer, 3857) # web mercator, in metres
+  locs <- cbind(c(0.5, 2.5, 5), c(0.5, 0.5, 5))
+
+  res <- assignByPolygon(locs, layer = layer.proj, attr = "id")
+  expect_equal(res$id, c("A", "B", NA))
+  expect_equal(res, assignByPolygon(locs, layer = layer, attr = "id"))
+})
+
+test_that("assignByPolygon works on gData whose locations share a node", {
+  gdat <- new("gData",
+    coords = data.frame(lon = c(10, 10.01, 2), lat = c(50, 50.01, 48)),
+    data = data.frame(id = 1:3), gGraph.name = "worldgraph.10k"
+  )
+  expect_equal(unname(getNodes(gdat)[1]), unname(getNodes(gdat)[2]))
+  res <- assignByPolygon(gdat, layer = "world", attr = "name")
+  expect_equal(getData(res)$id, 1:3)
+  expect_equal(as.character(getData(res)$name), c("Germany", "Germany", "France"))
+})
+
+test_that("assignByPolygon on a gGraph replaces attributes instead of duplicating them", {
+  x <- worldgraph.10k[isInArea(worldgraph.10k, reg = list(x = c(0, 20), y = c(40, 55)), quiet = TRUE)]
+  x <- assignByPolygon(x, layer = "world", attr = "continent")
+  x <- assignByPolygon(x, layer = "world", attr = c("continent", "name"))
+  expect_equal(colnames(getNodesAttr(x)), c("habitat", "continent", "name"))
+  expect_true(validObject(x))
+})
+
+test_that("assignByPolygon on a gGraph with a single node keeps its attributes", {
+  x <- worldgraph.10k[closestNode(worldgraph.10k, c(10, 50))] # a node in Germany
+  x <- assignByPolygon(x, layer = "world", attr = "continent")
+  expect_equal(colnames(getNodesAttr(x)), c("habitat", "continent"))
+})

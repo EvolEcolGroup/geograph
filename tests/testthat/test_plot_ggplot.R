@@ -59,3 +59,14 @@ test_that("autoplot methods return ggplot objects in both modes", {
   expect_s3_class(autoplot(worldgraph.40k, mode = "orthographic"), "ggplot")
   expect_s3_class(autoplot(hgdp), "ggplot")
 })
+
+test_that("geom_gdata handles gData objects whose data is a vector", {
+  gd <- new("gData",
+    coords = cbind(c(10, 12, 14), c(50, 51, 52)),
+    data = c(1, 2, 3), gGraph.name = "worldgraph.10k"
+  )
+  df <- .gdataDf(gd)
+  expect_equal(df$data, c(1, 2, 3))
+  p <- ggplot2::ggplot() + geom_gdata(data = gd, ggplot2::aes(color = data))
+  expect_s3_class(p, "ggplot")
+})

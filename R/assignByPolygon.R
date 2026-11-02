@@ -89,11 +89,13 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
   }
 
 
-  # create an sf point object from the coordinates
-  locations.st <- x %>%
-    as.data.frame() %>%
-    sf::st_as_sf(coords = c(1, 2)) %>%
-    sf::st_set_crs(sf::st_crs(layer))
+  # sf points in lon/lat, transformed into the layer's CRS
+  target_crs <- sf::st_crs(layer)
+  if (is.na(target_crs)) target_crs <- sf::st_crs(4326)
+  locations.st <- sf::st_transform(
+    sf::st_as_sf(as.data.frame(x), coords = c(1, 2), crs = 4326),
+    target_crs
+  )
   # now find points in polygons
   points.within <- sf::st_intersects(layer, locations.st)
   points.within <- data.frame(
@@ -167,13 +169,12 @@ setMethod("assignByPolygon", "list", function(x, layer = "world", attr = "all", 
 setMethod("assignByPolygon", "gGraph", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
   res <- assignByPolygon(x = coords, layer = layer, attr = attr, ...)
-
-  if (nrow(x@nodes.attr) > 1) {
-    x@nodes.attr <- cbind.data.frame(x@nodes.attr, res)
-  } else {
-    x@nodes.attr <- res
+  
+  ## add new attributes, replacing existing ones with the same name
+  for (attr_name in names(res)) {
+    x <- setNodesAttr(x, attr.name = attr_name, values = res[[attr_name]])
   }
-
+  
   return(x)
 }) # end assignByPolygon
 
@@ -185,6 +186,7 @@ setMethod("assignByPolygon", "gGraph", function(x, layer = "world", attr = "all"
 #' @export
 setMethod("assignByPolygon", "gData", function(x, layer = "world", attr = "all", ...) {
   coords <- getCoords(x)
+  rownames(coords) <- NULL # node ids, which are duplicated when locations share a node
   res <- assignByPolygon(x = coords, layer = layer, attr = attr, ...)
 
   if (is.null(x@data)) {

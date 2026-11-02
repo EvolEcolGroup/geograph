@@ -7,7 +7,7 @@
 polygonBetween(g, layer, from, to, outline = TRUE)
 }
 \arguments{
-\item{g}{\code{\link{gData}} or \code{\link{gGraph}} object with edge costs already defined.}
+\item{g}{\code{\link{gGraph}} object with edge costs already defined.}
 
 \item{layer}{Character. Name of the node attribute layer containing polygon
 membership.}
@@ -21,12 +21,13 @@ membership.}
 to \code{TRUE}.}
 }
 \value{
-A numeric vector containing the least-cost distances between nodes
-of the two polygons.
+A \code{\link{gPath}} object with the least-cost paths from each node of the
+first polygon to each node of the second (see \code{\link{dijkstraBetween}}); use
+\code{\link{gPath2dist}} to obtain the matrix of their costs. \code{NA} if \code{outline = TRUE} and one of the polygons has no outline node.
 }
 \description{
 This function computes least-cost path distances between all nodes
-belonging to two polygons in a \code{\link{gData}} or \code{\link{gGraph}} using \code{dijkstraBetween.}
+belonging to two polygons in a \code{\link{gGraph}} using \code{dijkstraBetween.}
 The polygons are specified via a node attribute layer. Optionally, only outline
 nodes (nodes with at least one neighbor outside the polygon) are used to
 reduce computation time.

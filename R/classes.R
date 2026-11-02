@@ -193,6 +193,11 @@ setClass(
 #' latitude) for all nodes referenced in the paths, with node identifiers
 #' as row names.
 #'
+#' A `type` attribute records which paths were computed: `"from"` (one
+#' origin to many nodes, see [`dijkstraFrom`]), `"pairwise"` (all pairs of a
+#' set of nodes) or `"cross"` (each `from` node to each `to` node, see
+#' [`dijkstraBetween`]); [`gPath2dist`] uses it to shape its output.
+#'
 #' @seealso [`dijkstraFrom`], [`dijkstraBetween`]  and [`polygonBetween`] to create `gPath`
 #'   objects. [`plot.gPath`] to visualize paths. [`gPath2dist`] to extract
 #'   distances. [`gGraph-class`] and [`gData-class`] for related classes.
@@ -230,27 +235,23 @@ NULL
 
   ## coords not numeric
   if (!is.numeric(x@coords)) {
-    cat("\n Content of coords is not numeric.")
-    return(FALSE)
+    return("Content of coords is not numeric.")
   }
 
   ## wrong nrow for nodes attributes
   temp <- nrow(x@nodes.attr)
   if (temp > 0 && temp != N) {
-    cat("\n Number of coords do not match number of node attributes.")
-    return(FALSE)
+    return("Number of coords do not match number of node attributes.")
   }
 
   ## NAs in coords
   if (any(is.na(x@coords))) {
-    cat("\n NAs in coords coordinates.")
-    return(FALSE)
+    return("NAs in coords coordinates.")
   }
 
   ## node labels consistency
-  if (!all(rownames(x@coords) == nodes(x@graph))) {
-    cat("\n Row names of @coords do not match node names of @graph.")
-    return(FALSE)
+  if (!identical(rownames(x@coords), nodes(x@graph))) {
+    return("Row names of @coords do not match node names of @graph.")
   }
 
 
@@ -275,8 +276,7 @@ NULL
 
   ## dim matching
   if (n.coords != n.nodes) {
-    cat("\n Number of coordinates and of nodes do not match.")
-    return(FALSE)
+    return("Number of coordinates and of nodes do not match.")
   }
 
   return(TRUE)
@@ -336,17 +336,20 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
       stop("Argument coords includes NAs")
     }
 
-    ## Convert all column names to lower case
-    colnames(input$coords) <- tolower(colnames(input$coords))
+    ## Convert all column names to lower case (unnamed columns match nothing)
+    coord.names <- tolower(colnames(input$coords))
+    if (length(coord.names) != 2) {
+      coord.names <- c("", "")
+    }
     ## Create list of lon/lat column heading names
     lonlist <- list("lon", "long", "longitude", "x")
     latlist <- list("lat", "latitude", "y")
     ## Test if the column order is inverted
-    if (is.element(colnames(input$coords)[1], latlist) &&
-        is.element(colnames(input$coords)[2], lonlist)) {
+    if (is.element(coord.names[1], latlist) &&
+        is.element(coord.names[2], lonlist)) {
       input$coords[, c(1, 2)] <- input$coords[, c(2, 1)]
-    } else if (!(is.element(colnames(input$coords)[1], lonlist) &&
-                 is.element(colnames(input$coords)[2], latlist))) {
+    } else if (!(is.element(coord.names[1], lonlist) &&
+                 is.element(coord.names[2], latlist))) {
       message(
         "The coordinate column names are not part of the standardised list;\n",
         "we will use the order they were given in, make sure it corresponds to x and y!"
@@ -374,6 +377,9 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
     }
 
     x@nodes.attr <- input$nodes.attr
+  } else if (nrow(x@coords) > 0) {
+    ## no attributes yet: one row per node, no columns
+    x@nodes.attr <- data.frame(row.names = rownames(x@coords))
   }
 
 
@@ -391,6 +397,13 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
   }
 
   x@graph <- input$graph
+
+
+  ## handle @meta ##
+  if (!is.null(input$meta)) {
+    if (!is.list(input$meta)) stop("Argument meta must be a list.")
+    x@meta <- input$meta
+  }
 
   ## return object
   return(x)
@@ -431,7 +444,7 @@ setMethod("initialize", "gData", function(.Object, ...) {
   ## handle gGraph.name and gGraph.version
   if (!is.null(input$gGraph.name)) {
     if (!exists(input$gGraph.name, envir = .GlobalEnv)) {
-      warning(paste("The gGraph object", input$gGraphName, "is missing."))
+      warning(paste("The gGraph object", input$gGraph.name, "is missing."))
       myGraph <- NULL
     } else {
       myGraph <- get(input$gGraph.name, envir = .GlobalEnv) # used later for node.id
@@ -448,10 +461,17 @@ setMethod("initialize", "gData", function(.Object, ...) {
       x@nodes.id <- closestNode(myGraph, loc = x@coords) # deduce nodes.id from the gGraph
     }
   } else {
-    x@nodes.id <- as.character(x@nodes.id)
+    x@nodes.id <- as.character(input$nodes.id)
+    if (length(x@nodes.id) != nrow(x@coords)) {
+      stop("Argument nodes.id must have one value per location in coords.")
+    }
     if (!is.null(myGraph)) {
-      if (!all(x@nodes.id %in% getNodes(myGraph))) {
-        warning(paste("Some nodes were not found in the gGraph object", x@gGraphName, "."))
+      unknown_nodes <- setdiff(x@nodes.id, getNodes(myGraph))
+      if (length(unknown_nodes) > 0) {
+        stop(
+          "Some nodes.id are not nodes of the gGraph object ", x@gGraph.name, ": ",
+          paste(utils::head(unknown_nodes), collapse = ", ")
+        )
       }
     }
   }

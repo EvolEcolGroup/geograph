@@ -25,15 +25,17 @@ Useful links:
 Authors:
 \itemize{
   \item Andrea Manica \email{am315@cam.ac.uk}
-  \item Thibaut Jombart
   \item Dominik Jud
-  \item Cecilia Padilla-Iglesias
-  \item Ondrej Pelanek
-  \item Andrea Pozzi
-  \item Margherita Colucci
   \item Evie Carter
+  \item Andrea Pozzi
+  \item Ondrej Pelanek
+  \item Aramish Fatima
+  \item Margherita Colucci
+  \item Cecilia Padilla-Iglesias
   \item Michela Leonardi
+  \item Shujie Chang
   \item Cassandra Gunasekaram
+  \item Thibaut Jombart
 }
 
 }
