@@ -56,9 +56,9 @@ closestNode(
   locations, specified as a list with two components indicating
   longitude and latitude of locations. Alternatively, this can be a
   `data.frame` or a matrix with longitude and latitude in columns, in
-  this order. Note that
-  [`locator()`](https://rdrr.io/r/graphics/locator.html) can be used to
-  specify the locations interactively.
+  this order, or a numeric vector `c(lon, lat)` for a single location.
+  Note that [`locator()`](https://rdrr.io/r/graphics/locator.html) can
+  be used to specify the locations interactively.
 
 - method:
 

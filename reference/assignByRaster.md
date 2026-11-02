@@ -41,8 +41,8 @@ assignByRaster(
   a function or character string specifying how to summarize raster
   values within each node. Built-in options are `"mean"`, `"max"`,
   `"min"`, `"median"`, `"sd"`, `"any"`, and `"all"`. Alternatively, pass
-  any function that takes a numeric vector and returns a scalar.
-  Defaults to `"mean"`.
+  any function that takes a numeric vector and returns a scalar (`NA`s
+  are removed beforehand when `na.rm = TRUE`). Defaults to `"mean"`.
 
 - na.rm:
 

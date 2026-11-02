@@ -39,8 +39,8 @@ region. The `@nodes.attr` slot is empty.
 ## Details
 
 The function constructs a discrete global grid using the `dggridR`
-package, then identifies neighboring grid cells using the `spdep`
-package, and finally builds a
+package, then identifies neighboring grid cells with a nearest-neighbor
+search (`FNN`), and finally builds a
 [`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
 object with the resulting graph structure and node coordinates.
 

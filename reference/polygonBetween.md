@@ -2,8 +2,6 @@
 
 This function computes least-cost path distances between all nodes
 belonging to two polygons in a
-[`gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
-or
 [`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
 using `dijkstraBetween.` The polygons are specified via a node attribute
 layer. Optionally, only outline nodes (nodes with at least one neighbor
@@ -19,8 +17,6 @@ polygonBetween(g, layer, from, to, outline = TRUE)
 
 - g:
 
-  [`gData`](https://evolecolgroup.github.io/geograph/reference/gData-class.md)
-  or
   [`gGraph`](https://evolecolgroup.github.io/geograph/reference/gGraph-class.md)
   object with edge costs already defined.
 
@@ -44,8 +40,15 @@ polygonBetween(g, layer, from, to, outline = TRUE)
 
 ## Value
 
-A numeric vector containing the least-cost distances between nodes of
-the two polygons.
+A
+[`gPath`](https://evolecolgroup.github.io/geograph/reference/gPath-class.md)
+object with the least-cost paths from each node of the first polygon to
+each node of the second (see
+[`dijkstraBetween`](https://evolecolgroup.github.io/geograph/reference/dijkstraBetween.md));
+use
+[`gPath2dist`](https://evolecolgroup.github.io/geograph/reference/gPath2dist.md)
+to obtain the matrix of their costs. `NA` if `outline = TRUE` and one of
+the polygons has no outline node.
 
 ## Details
 

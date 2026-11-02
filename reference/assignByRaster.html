@@ -11,7 +11,7 @@ collapses the values to a single scalar per node using a summary function."><met
 
     <a class="navbar-brand me-2" href="../index.html">geoGraph</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ collapses the values to a single scalar per node using a summary function."><met
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Assign raster values to graph nodes</h1>
-      <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/v2.0.1/R/assignByRaster.R" class="external-link"><code>R/assignByRaster.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EvolEcolGroup/geograph/blob/dev/R/assignByRaster.R" class="external-link"><code>R/assignByRaster.R</code></a></small>
       <div class="d-none name"><code>assignByRaster.Rd</code></div>
     </div>
 
@@ -82,8 +82,8 @@ attribute. Defaults to <code>"raster_points"</code>.</p></dd>
 <dd><p>a function or character string specifying how to summarize
 raster values within each node. Built-in options are <code>"mean"</code>, <code>"max"</code>,
 <code>"min"</code>, <code>"median"</code>, <code>"sd"</code>, <code>"any"</code>, and <code>"all"</code>. Alternatively, pass
-any function that takes a numeric vector and returns a scalar. Defaults
-to <code>"mean"</code>.</p></dd>
+any function that takes a numeric vector and returns a scalar (<code>NA</code>s are
+removed beforehand when <code>na.rm = TRUE</code>). Defaults to <code>"mean"</code>.</p></dd>
 
 
 <dt id="arg-na-rm">na.rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
@@ -150,7 +150,7 @@ derived using <code><a href="setNodesAttr.html">setNodesAttr</a></code>.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Thibaut Jombart, Dominik Jud, Cecilia Padilla-Iglesias, Ondrej Pelanek, Andrea Pozzi, Margherita Colucci, Evie Carter, Michela Leonardi, Cassandra Gunasekaram, Andrea Manica.</p>
+  <p>Developed by Dominik Jud, Evie Carter, Andrea Pozzi, Ondrej Pelanek, Aramish Fatima, Margherita Colucci, Cecilia Padilla-Iglesias, Michela Leonardi, Shujie Chang, Cassandra Gunasekaram, Thibaut Jombart, Andrea Manica.</p>
 </div>
 
 <div class="pkgdown-footer-right">

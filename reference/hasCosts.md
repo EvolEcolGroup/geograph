@@ -50,6 +50,6 @@ Other cost_functions:
 
 hasCosts(rawgraph.10k) # TRUE
 #> [1] TRUE
-hasCosts(worldgraph.10k) # FALSE as not all edges have costs
+hasCosts(worldgraph.10k) # FALSE as all its edges have the same cost
 #> [1] FALSE
 ```

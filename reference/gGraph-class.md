@@ -96,8 +96,7 @@ title("Europe")
 ## defining a new object restrained to visible nodes
 x <- rawgraph.10k[isInArea(rawgraph.10k)]
 #> Area: lon = [-29.4479, 61.4479], lat = [30.2400, 77.7600]
-#> 
-#>       Reproducible call: reg = list(x = c(-29.4479, 61.4479), y = c(30.2400, 77.7600))
+#> Reproducible call: reg = list(x = c(-29.4479, 61.4479), y = c(30.2400, 77.7600))
 plot(x, reset = TRUE, edges = TRUE)
 #> Spherical geometry (s2) switched off
 #> Spherical geometry (s2) switched on

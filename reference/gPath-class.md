@@ -40,6 +40,15 @@ An `xy` attribute stores a matrix of spatial coordinates (longitude and
 latitude) for all nodes referenced in the paths, with node identifiers
 as row names.
 
+A `type` attribute records which paths were computed: `"from"` (one
+origin to many nodes, see
+[`dijkstraFrom`](https://evolecolgroup.github.io/geograph/reference/dijkstraFrom.md)),
+`"pairwise"` (all pairs of a set of nodes) or `"cross"` (each `from`
+node to each `to` node, see
+[`dijkstraBetween`](https://evolecolgroup.github.io/geograph/reference/dijkstraBetween.md));
+[`gPath2dist`](https://evolecolgroup.github.io/geograph/reference/gPath2dist.md)
+uses it to shape its output.
+
 ## See also
 
 [`dijkstraFrom`](https://evolecolgroup.github.io/geograph/reference/dijkstraFrom.md),

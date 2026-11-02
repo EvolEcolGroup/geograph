@@ -16,10 +16,10 @@ objects with the following specificities:
 
   habitat corresponding to each vertex; currently 'land' or 'sea'.
 
-- @meta\$color:
+- @meta\$colors:
 
-  a matrix assigning a color for plotting vertices (second column) to
-  different values of habitat (first column).
+  a data.frame assigning a color for plotting vertices (second column)
+  to different values of habitat (first column).
 
 ## Source
 

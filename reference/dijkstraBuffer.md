@@ -55,16 +55,18 @@ object with a new logical node attribute `reachable` when
 
 ## Details
 
-Internally, the function computes single-source shortest paths using
-Dijkstra's algorithm from the origin node and returns all nodes whose
-minimum path cost does not exceed the specified threshold.
+Internally, the function computes single-source shortest path costs
+using Dijkstra's algorithm from the origin node and returns all nodes
+whose minimum path cost does not exceed the specified threshold. The
+origin itself (cost 0) is always included; nodes that cannot be reached
+from the origin (e.g. in another connected set) are not.
 
 ## See also
 
 [`dijkstraFrom`](https://evolecolgroup.github.io/geograph/reference/dijkstraFrom.md)
 and
 [`gPath2dist`](https://evolecolgroup.github.io/geograph/reference/gPath2dist.md)
-for the underlying path computations.
+to obtain the least-cost paths themselves.
 [`buffer`](https://evolecolgroup.github.io/geograph/reference/buffer.md)
 for geographic distance-based buffers.
 [`setCosts`](https://evolecolgroup.github.io/geograph/reference/setCosts.md)
