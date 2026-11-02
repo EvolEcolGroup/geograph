@@ -44,7 +44,7 @@
   `assignByRaster()` and `geom_ggraph()`.
 
 * `setCosts()`, `getNodeCosts()` and `getColors()` no longer chain rules when
-  a cost or colour equals another attribute value.
+  a cost or color equals another attribute value.
 
 * `assignByPolygon()` and `findLand()` handle layers in a projected CRS, and
   `assignByPolygon()` works on `gData` objects with several locations on the
@@ -65,8 +65,8 @@
   connected to the locations.
 
 * Plotting: `plotEdges()` works with a single visible edge; `points()` keeps
-  per-node colours on the right nodes when zoomed in; `plot(x, shape = NULL)`
-  draws the nodes of the new area; `geo.segments()` keeps per-segment colours
+  per-node colors on the right nodes when zoomed in; `plot(x, shape = NULL)`
+  draws the nodes of the new area; `geo.segments()` keeps per-segment colors
   with their segments.
 
 * `[` and `geom_gdata()` work on `gData` objects whose data is a vector.
