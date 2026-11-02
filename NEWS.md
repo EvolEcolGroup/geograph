@@ -1,40 +1,50 @@
-# geoGraph (development version)
-
-## Behaviour changes
+# geoGraph v2.1.0
 
 * `dijkstraBetween(x, from, to)` on a `gGraph` now returns every path from each
   node of `from` to each node of `to`. With `to` missing or identical to `from`, all pairs of
-  `from` are computed, as before. 
+  `from` are computed, as before. `polygonBetween()` benefits from this.
 
 * `gPath` objects record their `type`; `gPath2dist()` uses it and returns a
   `from` x `to` matrix for the output of `dijkstraBetween()` with distinct
   `from` and `to` (and so for `polygonBetween()`). `dijkstraBetween()` on a
   `gData` with two locations now returns a `dist`, as for more locations.
 
-* `dijkstraBuffer()` includes the origin node, works on graphs that are not
-  fully connected, and is much faster.
+* `dijkstraBuffer()` includes the origin node and works on graphs that are not
+  fully connected.
 
 * `isInArea()` errors on an invalid `reg` (it returned `NA`), and accepts
   `reg = c(xmin, xmax, ymin, ymax)`.
 
-* `findLand()` and `assignByPolygon()` replace existing node attributes of the
-  same name instead of adding duplicated columns; `findLand()` always returns
-  a factor with levels `land` and `sea`.
+* `findLand()`, `assignByPolygon()` and `buffer()` replace existing node
+  attributes of the same name instead of adding duplicated columns;
+  `findLand()` always returns a factor with levels `land` and `sea`.
 
-* `dijkstraFrom()` requires a single `start` node.
+* `assignByRaster()` removes `NA`s itself (when `na.rm = TRUE`) before applying
+  `fun`, so any summary function works, including `length` and functions
+  without an `na.rm` argument. `na.rm` is no longer passed to `fun`.
 
-## Bug fixes
+* `polygonBetween()` only accepts `gGraph` objects (for gData 
+  use `dijkstraBetween()` on the linked `gGraph` instead).
+
+* `makeHexGrid()` is much faster on large grids , neighbors are found with 
+  a nearest-neighbor search instead of `spdep`.
+
+* `setDistCosts()` is about 8x faster; its documentation now states that costs
+  are in miles.
+
+* `dijkstraBuffer()` is much faster: it no longer builds every path.
 
 * `new("gData", nodes.id = ...)` no longer ignores `nodes.id`;
   `new("gGraph", meta = ...)` no longer ignores `meta`; `new("gGraph")` accepts
   coordinates without column names.
 
 * `gGraph` objects without node attributes (e.g. from `makeSquareGrid()` or
-  `makeHexGrid()`) can be subset, and work with `getNodesAttr()`,
-  `setNodesAttr()`, `buffer()`, `geom_ggraph()`.
+  `makeHexGrid()`, or saved with older versions) can be subset, and work with
+  `getNodesAttr()`, `setNodesAttr()`, `buffer()`, `dijkstraBuffer()`,
+  `assignByRaster()` and `geom_ggraph()`.
 
 * `setCosts()`, `getNodeCosts()` and `getColors()` no longer chain rules when
-  a cost or color equals another attribute value.
+  a cost or colour equals another attribute value.
 
 * `assignByPolygon()` and `findLand()` handle layers in a projected CRS, and
   `assignByPolygon()` works on `gData` objects with several locations on the
@@ -42,21 +52,26 @@
 
 * `closestNode()` accepts a single location as `c(lon, lat)`.
 
-* `polygonBetween()` detects polygon outlines correctly on subset graphs. It
-  only accepts `gGraph` objects.
+* `polygonBetween()` detects polygon outlines correctly on subset graphs.
 
 * `areConnected()` no longer reports an isolated node as connected in graphs
   without edges.
 
-* `[` and `geom_gdata()` work on `gData` objects whose data is a vector.
+* `combineCosts()` compares the edges of the two graphs reliably.
 
-* `assignByRaster()` removes missing values directly on `na.rm` argument.
+* `dropDeadEdges()` also drops edges when all costs are equal.
 
 * `dijkstraFrom()` on a `gData` gives an informative error when `start` is not
   connected to the locations.
 
-* `setDistCosts()` is much faster; its documentation now states that costs
-  are in miles.
+* Plotting: `plotEdges()` works with a single visible edge; `points()` keeps
+  per-node colours on the right nodes when zoomed in; `plot(x, shape = NULL)`
+  draws the nodes of the new area; `geo.segments()` keeps per-segment colours
+  with their segments.
+
+* `[` and `geom_gdata()` work on `gData` objects whose data is a vector.
+
+* Validity checks give informative messages.
 
 # geoGraph v2.0.1
 

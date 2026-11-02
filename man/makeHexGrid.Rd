@@ -27,7 +27,7 @@ The graph is restricted to a geographic bounding box defined by the user.
 }
 \details{
 The function constructs a discrete global grid using the \code{dggridR} package,
-then identifies neighboring grid cells using the \code{spdep} package, and finally builds a
+then identifies neighboring grid cells with a nearest-neighbor search (\code{FNN}), and finally builds a
 \code{\link{gGraph}} object with the resulting graph structure and node coordinates.
 }
 \examples{
