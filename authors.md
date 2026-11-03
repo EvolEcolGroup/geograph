@@ -29,7 +29,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/EvolEcolGroup/geograph/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/EvolEcolGroup/geograph/blob/v2.1.0/DESCRIPTION)
 
 Jud D, Carter E, Pozzi A, Pelanek O, Fatima A, Colucci M,
 Padilla-Iglesias C, Leonardi M, Chang S, Gunasekaram C, Jombart T,
