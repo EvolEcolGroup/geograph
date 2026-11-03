@@ -19,10 +19,22 @@ dijkstraBetween(x, ...)
 
 \item{from}{A character vector of starting node IDs.}
 
-\item{to}{A character vector of ending node IDs.}
+\item{to}{A character vector of ending node IDs. If missing, or identical
+to \code{from}, paths are computed between all pairs of nodes in \code{from}.}
 }
 \value{
-A \code{\link{gPath}} object.
+A \code{\link{gPath}} object:
+\itemize{
+\item if \code{to} is missing or identical to \code{from} (and has more than one
+node), one path for each pair of nodes \code{from[i]}, \code{from[j]} with
+\code{i < j}, in the order used by \code{\link{dist}} objects; this is always the case
+for the \code{\link{gData}} method, which uses all locations of \code{x};
+\item otherwise, one path from each node of \code{from} to each node of \code{to}
+(\code{length(from) * length(to)} paths, \code{from} varying slowest).
+}
+
+\code{\link{gPath2dist}} turns these into a \code{\link{dist}} object or a
+\verb{length(from) x length(to)} matrix, respectively.
 }
 \description{
 This function finds the shortest path between nodes in a graph

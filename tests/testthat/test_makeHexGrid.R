@@ -205,3 +205,11 @@ test_that("makeHexGrid neighbours are correct across the dateline", {
   }
   expect_true(bridges.dateline)
 })
+
+test_that("makeHexGrid builds a graph with edges and an empty meta", {
+  hex <- suppressMessages(
+    makeHexGrid(c(xmin = -10, xmax = 30, ymin = 35, ymax = 60), spacing = 1000)
+  )
+  expect_gt(nrow(getEdges(hex, res.type = "matNames")), 0)
+  expect_identical(hex@meta, list())
+})

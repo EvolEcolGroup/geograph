@@ -37,3 +37,21 @@ test_that("setDistCosts errors on a non-gGraph input", {
   expect_error(setDistCosts("not_a_graph"))
   expect_error(setDistCosts(42))
 })
+
+test_that("setDistCosts gives the great circle distance in miles of each edge", {
+  x <- new("gGraph", coords = cbind(lon = c(0, 1, 0), lat = c(0, 0, 1)))
+  x <- setEdges(x, add = data.frame(c("1", "1"), c("2", "3")))
+  x <- setDistCosts(x)
+  costs <- getCosts(x, res.type = "vector")
+  xy <- getCoords(x)
+  expected <- fields::rdist.earth(xy, miles = TRUE)
+  expect_equal(unname(costs["1.2"]), expected[1, 2])
+  expect_equal(unname(costs["1.3"]), expected[1, 3])
+  expect_equal(unname(costs["2.1"]), expected[2, 1])
+})
+
+test_that("setDistCosts works on a graph with a single edge", {
+  x <- new("gGraph", coords = cbind(lon = c(0, 1), lat = c(0, 0)))
+  x <- setEdges(x, add = data.frame("1", "2"))
+  expect_true(all(getCosts(setDistCosts(x), res.type = "vector") > 60))
+})

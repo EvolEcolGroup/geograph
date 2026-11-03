@@ -106,3 +106,29 @@ test_that("isReachable works with a gData object", {
   expect_warning(res <- isReachable(x = hgdp.sub, loc = location2), "The reference node is not connected to any node.")
   expect_false(res)
 })
+
+test_that("areConnected is FALSE for nodes of a graph without edges", {
+  # previously the first isolated node was reported as connected
+  iso <- new("gGraph", coords = cbind(lon = 1:3, lat = 1:3))
+  expect_false(areConnected(iso, "1"))
+  expect_false(areConnected(iso, "2"))
+  expect_false(isConnected(iso))
+})
+
+test_that(".connectedSets keeps sets of more than one node, largest first", {
+  x <- new("gGraph", coords = cbind(lon = 1:6, lat = rep(0, 6)))
+  expect_length(geoGraph:::.connectedSets(getGraph(x)), 0L)
+  x <- setEdges(x, add = data.frame(c("1", "4", "5"), c("2", "5", "6")))
+  sets <- geoGraph:::.connectedSets(getGraph(x))
+  expect_equal(names(sets), c("set 1", "set 2"))
+  expect_setequal(sets[[1]], c("4", "5", "6"))
+  expect_setequal(sets[[2]], c("1", "2"))
+})
+
+test_that("isReachable returns one value per location", {
+  hgdp.sub <- hgdp[getData(hgdp)$Population %in% c("Mandenka", "Yoruba", "San")]
+  location <- getCoords(hgdp[getData(hgdp)$Population == "BantuKenya"])
+  res <- isReachable(x = hgdp.sub, loc = location)
+  expect_equal(names(res), unname(getNodes(hgdp.sub)))
+  expect_true(all(res))
+})

@@ -19,9 +19,14 @@ automatically detects whether the input is from \code{\link[=dijkstraBetween]{di
 \code{\link[=dijkstraFrom]{dijkstraFrom()}} and returns the appropriate output type.}
 }
 \value{
-Either a \code{\link{dist}} object containing pairwise distances between
-nodes the gPath object was constructed from dijkstraBetween(),
-or a numeric vector of distances if the gPath object was constructed from dijkstraFrom().
+Depending on how the gPath object was constructed:
+\itemize{
+\item a \code{\link{dist}} object of pairwise distances, for \code{\link[=dijkstraBetween]{dijkstraBetween()}} between
+all pairs of a set of nodes (e.g. on a \code{\link{gData}} object);
+\item a matrix with one row per \code{from} node and one column per \code{to} node, for
+\code{\link[=dijkstraBetween]{dijkstraBetween()}} with distinct \code{from} and \code{to} (e.g. \code{\link[=polygonBetween]{polygonBetween()}});
+\item a named numeric vector, for \code{\link[=dijkstraFrom]{dijkstraFrom()}}.
+}
 }
 \description{
 This function extracts distances from a \code{gPath} object returned by

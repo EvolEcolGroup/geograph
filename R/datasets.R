@@ -5,7 +5,7 @@
 #' objects, interfaced with the \linkS4class{gGraph} object
 #' \code{\link{worldgraph.40k}}.\cr
 #'
-#' \code{hgdp} describes 52 populations from the original Human Genome
+#' \code{hgdp} describes 51 populations from the original Human Genome
 #' Diversity Panel. \cr
 #'
 #' \code{hgdpPlus} describes \code{hgdp} populations plus 24 native American
@@ -79,7 +79,7 @@ NULL
 #' @format \code{worldgraph.10k} and \code{worldgraph.40k} are
 #' \linkS4class{gGraph} objects with the following specificities: \describe{
 #' \item{@nodes.attr$habitat}{habitat corresponding to each vertex; currently
-#' 'land' or 'sea'.} \item{@meta$color}{a matrix assigning a color for
+#' 'land' or 'sea'.} \item{@meta$colors}{a data.frame assigning a color for
 #' plotting vertices (second column) to different values of habitat (first
 #' column).} }
 #' @references === On the construction of the graph ===\cr Randall, D. A.;

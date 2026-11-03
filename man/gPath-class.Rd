@@ -34,6 +34,11 @@ destination.
 An \code{xy} attribute stores a matrix of spatial coordinates (longitude and
 latitude) for all nodes referenced in the paths, with node identifiers
 as row names.
+
+A \code{type} attribute records which paths were computed: \code{"from"} (one
+origin to many nodes, see \code{\link{dijkstraFrom}}), \code{"pairwise"} (all pairs of a
+set of nodes) or \code{"cross"} (each \code{from} node to each \code{to} node, see
+\code{\link{dijkstraBetween}}); \code{\link{gPath2dist}} uses it to shape its output.
 }
 
 \examples{

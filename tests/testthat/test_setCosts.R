@@ -183,3 +183,16 @@ test_that("setCosts computes edge costs as the product of node costs", {
   expect_gt(length(w), 0)
   expect_true(all(w == 4))
 })
+
+test_that("setCosts does not chain rules when costs equal attribute values", {
+  # nodes coded 1 and 2; code 1 costs 2 and code 2 costs 10.
+  # A rule-by-rule replacement would turn 1 -> 2 -> 10.
+  x <- makeSquareGrid(n.lon = 2, n.lat = 2, lon.range = c(0, 1), lat.range = c(0, 1))
+  x <- setNodesAttr(x, attr.name = "code", values = c(1, 2, 2, 1))
+  x <- setCosts(x,
+    attr.name = "code", method = "product",
+    cost.rules = data.frame(code = c(1, 2), cost = c(2, 10))
+  )
+  # every edge joins a code-1 node to a code-2 node: 2 * 10
+  expect_true(all(getCosts(x, res.type = "vector") == 20))
+})

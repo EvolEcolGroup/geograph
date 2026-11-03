@@ -13,7 +13,7 @@
 #' @return A [`gGraph`] object representing the DGGS restricted to the
 #' specified geographic region. The `@nodes.attr` slot is empty.
 #' @details The function constructs a discrete global grid using the `dggridR` package,
-#' then identifies neighboring grid cells using the `spdep` package, and finally builds a
+#' then identifies neighboring grid cells with a nearest-neighbor search (`FNN`), and finally builds a
 #' [`gGraph`] object with the resulting graph structure and node coordinates.
 #' @examples
 #' # Define a geographic bounding box (e.g., for a region in Europe)
@@ -26,12 +26,12 @@
 
 makeHexGrid <- function(geo.box, spacing, ...) {
   if (!is.numeric(spacing) ||
-    length(spacing) != 1 ||
-    is.na(spacing) ||
-    spacing <= 0) {
+      length(spacing) != 1 ||
+      is.na(spacing) ||
+      spacing <= 0) {
     stop("`spacing` must be a single positive numeric value (in km).")
   }
-
+  
   # get the boundaries of the region in the format we need
   if (inherits(geo.box, "sf")) {
     if (!is.na(sf::st_crs(geo.box)) && sf::st_crs(geo.box) != sf::st_crs(4326)) {
@@ -48,10 +48,10 @@ makeHexGrid <- function(geo.box, spacing, ...) {
   } else {
     stop("geo.box must be a bbox, sf object, or named numeric vector.")
   }
-
+  
   # check the validity of coordinates
   if (bbox["xmin"] < -180 || bbox["xmin"] > 180 ||
-    bbox["xmax"] < -180 || bbox["xmax"] > 180) {
+      bbox["xmax"] < -180 || bbox["xmax"] > 180) {
     stop("Longitude values in geo.box must be between -180 and 180.")
   }
   if (bbox["ymin"] < -90 || bbox["ymax"] > 90) {
@@ -60,79 +60,84 @@ makeHexGrid <- function(geo.box, spacing, ...) {
   if (bbox["ymin"] >= bbox["ymax"]) {
     stop("ymin must be less than ymax in geo.box.")
   }
-
+  
   # construct the gird (for the whole world) using the specified spacing
   dggs <- dggridR::dgconstruct(
     spacing = spacing,
     metric = TRUE,
     resround = "down"
   )
-
+  
   # find all grid cells within the bounding box
   resolution <- dggs$res
-
+  
   cell.size <- dggridR::dggetres(dggs) %>%
     dplyr::filter(.data$res == resolution) %>%
     dplyr::pull(dplyr::all_of("spacing_km"))
-
+  
   samp.cellsize <- cell.size / 333 # at least 9 points per cell
-
+  
   samp <- .makeSamplePoints(
     xmin     = bbox["xmin"], xmax = bbox["xmax"],
     ymin     = bbox["ymin"], ymax = bbox["ymax"],
     cellsize = samp.cellsize
   )
-
-  # get the boundary coordinates of cells
+  
+  # cells covering the box, in increasing order of their DGGS sequence number
   seqnums <- dggridR::dgGEO_to_SEQNUM(dggs, samp$lon, samp$lat)$seqnum
-  seqnums <- unique(seqnums)
-  grid.sf <- dggridR::dgcellstogrid(dggs, seqnums)
-
-
+  seqnums <- sort(unique(seqnums))
+  
   # get the coords argument from the centers of the grid cells
-  centers <- dggridR::dgSEQNUM_to_GEO(dggs, grid.sf$seqnum)
-
+  centers <- dggridR::dgSEQNUM_to_GEO(dggs, seqnums)
+  
   coords <- data.frame(
     lon = centers$lon,
     lat = centers$lat
   )
-
-  # get the neighbours using spdep
-  xy <- as.matrix(coords)
-  nb <- spdep::dnearneigh( # TODO switch to sf at some point here
-    xy,
-    d1 = 0,
-    d2 = cell.size * 1.5,
-    longlat = TRUE
-  )
-
-  neighbours <- unclass(nb)
-
-  # build graphNEL object
-  node.ids <- as.character(seq_len(nrow(coords)))
-
-  edgeL <- lapply(seq_along(neighbours), function(i) {
-    list(edges = node.ids[neighbours[[i]]])
-  })
+  
+  # find the neighbours: in a hexagonal grid a cell has at most 6 neighbours,
+  # at about cell.size, while the next cells are more than 1.7 * cell.size
+  # away. So we take the 6 nearest cells (on the unit sphere, as in
+  # closestNode) and keep those closer than 1.5 * cell.size.
+  n.cells <- nrow(coords)
+  lon <- coords$lon * pi / 180
+  lat <- coords$lat * pi / 180
+  xyz <- cbind(cos(lat) * cos(lon), cos(lat) * sin(lon), sin(lat))
+  max.chord <- 2 * sin(1.5 * cell.size / 6371 / 2) # 1.5 * cell.size, as a chord
+  
+  from <- integer(0)
+  to <- integer(0)
+  if (n.cells > 1) {
+    nn <- FNN::get.knn(xyz, k = min(6, n.cells - 1))
+    is.neighbour <- nn$nn.dist <= max.chord
+    from <- row(nn$nn.index)[is.neighbour]
+    to <- nn$nn.index[is.neighbour]
+  }
+  ord <- order(from, to)
+  neighbours <- split(to[ord], factor(from[ord], levels = seq_len(n.cells)))
+  
+  # build graphNEL object (edges given as positions, which is much faster
+  # than node names)
+  node.ids <- as.character(seq_len(n.cells))
+  
+  edgeL <- lapply(neighbours, function(e) list(edges = e))
   names(edgeL) <- node.ids
-
+  
   gNEL <- new(
     "graphNEL",
     nodes = node.ids,
     edgeL = edgeL,
     edgemode = "undirected"
   )
-
+  
   # create the gGraph object
   newGraph <- new(
     "gGraph",
-    graphNEL = gNEL,
+    graph = gNEL,
     coords = coords,
-    nodes.attr = data.frame(row.names = node.ids),
-    meta = list(costs = NULL, colors = NULL),
-    neighbours = neighbours
+    nodes.attr = data.frame(row.names = node.ids)
   )
-
+  
   return(newGraph)
 }
 

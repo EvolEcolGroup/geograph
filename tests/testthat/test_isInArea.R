@@ -16,9 +16,19 @@ test_that("isInArea errors when reg list has wrong length", {
   )
 })
 
-test_that("isInArea returns NA for invalid reg", {
-  result <- isInArea(getCoords(worldgraph.10k), reg = "invalid")
-  expect_true(is.na(result))
+test_that("isInArea errors for invalid reg", {
+  expect_error(
+    isInArea(getCoords(worldgraph.10k), reg = "invalid"),
+    "reg must be 'current', 'zoom'"
+  )
+  expect_error(isInArea(worldgraph.10k, reg = c(1, 2, 3)), "reg must be")
+})
+
+test_that("isInArea accepts reg as c(xmin, xmax, ymin, ymax)", {
+  as.vec <- isInArea(worldgraph.10k, reg = c(-6, 38, 35, 73), quiet = TRUE)
+  as.list <- isInArea(worldgraph.10k, reg = list(x = c(-6, 38), y = c(35, 73)), quiet = TRUE)
+  expect_identical(as.vec, as.list)
+  expect_true(any(as.vec))
 })
 
 test_that("isInArea works with gData input and returns correct nodes", {
