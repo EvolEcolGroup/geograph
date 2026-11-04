@@ -40,8 +40,6 @@ Imports:
  sf,
  magrittr,
  dggridR,
- tibble,
- tidyr,
  terra,
  FNN,
  ggplot2

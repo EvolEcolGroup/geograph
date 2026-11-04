@@ -127,3 +127,22 @@ getCostsAsIsUniqueRef <- function(x) {
   names(res) <- names(graph::edgeWeights(x@graph))
   res
 }
+
+## assignByRaster(), previous implementation: nearest node with
+## sf::st_nearest_feature() (s2 off) on the cells of as.data.frame(raster)
+assignByRasterRef <- function(graph, raster, layer.name = "raster_points", fun = "mean", na.rm = TRUE, ...) {
+  raster.df <- as.data.frame(raster, xy = TRUE)
+  colnames(raster.df) <- c("lon", "lat", "value")
+  raster.sf <- sf::st_as_sf(raster.df, coords = c("lon", "lat"), crs = terra::crs(raster, proj = TRUE))
+  node.coords <- as.data.frame(getCoords(graph))
+  nodes.sf <- sf::st_as_sf(node.coords, coords = c("lon", "lat"), crs = 4326)
+  raster.sf <- sf::st_transform(raster.sf, sf::st_crs(nodes.sf))
+  old.s2 <- sf::sf_use_s2()
+  on.exit(suppressMessages(sf::sf_use_s2(old.s2)), add = TRUE)
+  suppressMessages(sf::sf_use_s2(FALSE))
+  node.id <- suppressMessages(sf::st_nearest_feature(raster.sf, nodes.sf))
+  ## values per node, in cell order (as group_by() + nest() + left_join())
+  vals <- split(raster.sf$value, factor(node.id, levels = seq_len(nrow(node.coords))))
+  collapsed <- .collapseNodeAttribute(unname(vals), fun = fun, na.rm = na.rm, ...)
+  setNodesAttr(graph, attr.name = layer.name, values = collapsed)
+}

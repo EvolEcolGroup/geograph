@@ -18,7 +18,13 @@
 #' @param ... additional arguments passed to `fun`.
 #' @return A [`gGraph`] object with a new scalar node attribute named
 #'   `layer.name`.
-#' @details This function is memory-intensive for high-resolution rasters or
+#' @details Each cell is assigned to the node closest to its centre, using
+#'   Euclidean distances on longitude and latitude (rasters in another CRS are
+#'   projected to WGS84 first). A cell centre exactly equidistant from several
+#'   nodes (e.g. a raster aligned halfway between the nodes of a square grid)
+#'   goes to one of them, chosen arbitrarily.
+#'
+#'   This function is memory-intensive for high-resolution rasters or
 #'   large graphs. Once values are assigned, further node attributes can be
 #'   derived using [`setNodesAttr`].
 #' @seealso [`setNodesAttr`] to set node attributes manually.
@@ -54,40 +60,32 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
     stop("raster must have exactly one layer.")
   }
 
-  ## convert raster to data.frame
-  raster.df <- as.data.frame(raster, xy = TRUE)
-  colnames(raster.df) <- c("lon", "lat", "value")
+  ## values and centres of the non-NA cells (as as.data.frame(raster, xy =
+  ## TRUE), keeping factor and logical values)
+  value <- terra::values(raster, dataframe = TRUE)[[1]]
+  cells <- which(!is.na(value))
+  value <- value[cells]
+  xy <- terra::xyFromCell(raster, cells)
 
-  ## convert to sf
-  raster.sf <- sf::st_as_sf(
-    raster.df,
-    coords = c("lon", "lat"),
-    crs = terra::crs(raster, proj = TRUE)
-  )
-  node.coords <- as.data.frame(getCoords(graph))
-  node.coords$node.id <- seq_len(nrow(node.coords))
-  nodes.sf <- sf::st_as_sf(node.coords, coords = c("lon", "lat"), crs = 4326)
-  raster.sf <- sf::st_transform(raster.sf, sf::st_crs(nodes.sf))
+  ## cell centres in lon/lat (WGS84)
+  raster.crs <- terra::crs(raster, proj = TRUE)
+  if (sf::st_crs(raster.crs) != sf::st_crs(4326)) {
+    pts <- sf::st_as_sf(as.data.frame(xy), coords = c(1, 2), crs = raster.crs)
+    xy <- sf::st_coordinates(sf::st_transform(pts, 4326))
+  }
 
-  ## find nearest node for each raster point
-  old.s2 <- sf::sf_use_s2()
-  on.exit(sf::sf_use_s2(old.s2), add = TRUE)
-  sf::sf_use_s2(FALSE)
-  raster.sf$node.id <- sf::st_nearest_feature(raster.sf, nodes.sf)
+  ## nearest node for each cell: Euclidean distance on lon/lat, as
+  ## sf::st_nearest_feature() with s2 switched off, but with a k-d tree
+  n.nodes <- nrow(getCoords(graph))
+  node.id <- integer(0)
+  if (length(cells) > 0 && n.nodes > 0) {
+    node.id <- FNN::get.knnx(unname(getCoords(graph)), unname(xy[, 1:2, drop = FALSE]), k = 1)$nn.index[, 1]
+  }
 
-  ## build nested tibble of values per node
-  attribute <- raster.sf %>%
-    sf::st_drop_geometry() %>%
-    dplyr::group_by(.data$node.id) %>%
-    tidyr::nest()
-
-  all.nodes <- tibble::tibble(node.id = seq_len(nrow(nodes.sf)))
-  attribute.full <- all.nodes %>%
-    dplyr::left_join(attribute, by = "node.id")
-
-  ## collapse to scalar per node using internal function
+  ## values per node (nodes without cells get an empty vector), collapsed to
+  ## a scalar per node using internal function
   collapsed <- .collapseNodeAttribute(
-    x      = attribute.full$data,
+    x      = unname(split(value, factor(node.id, levels = seq_len(n.nodes)))),
     fun    = fun,
     na.rm  = na.rm,
     ...
@@ -101,10 +99,9 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
 #' Collapse a list-based node attribute to a scalar per node
 #'
 #' Internal function used by [`assignByRaster`] to summarize a list of
-#' per-node data frames into a single numeric value per node.
+#' per-node vectors of values into a single value per node.
 #'
-#' @param x a list of data frames, one per node (as produced by
-#'   `assignByRaster` internally).
+#' @param x a list of vectors, one per node (empty for nodes without values).
 #' @param fun a function or character string, see [`assignByRaster`].
 #' @param na.rm logical. Whether to remove `NA` values. Defaults to `TRUE`.
 #' @param ... additional arguments passed to `fun`.
@@ -129,12 +126,7 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
   }
   
   ## collapse one node safely
-  collapseOneNode <- function(df, fun, na.rm, ...) {
-    if (is.null(df) || length(df) == 0 || nrow(df) == 0) {
-      return(NA_real_)
-    }
-    if (ncol(df) != 1) stop("Node data has multiple columns; cannot infer value column.")
-    vals <- df[[1]]
+  collapseOneNode <- function(vals, fun, na.rm, ...) {
     if (length(vals) == 0 || all(is.na(vals))) {
       return(NA_real_)
     }

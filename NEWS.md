@@ -10,6 +10,16 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `assignByRaster()` finds the nearest node of each cell with a k-d tree
+  (`FNN`) instead of `sf::st_nearest_feature()`, using the same planar
+  distances on longitude and latitude, and groups values per node without
+  data frames: 0.1 s instead of 1.1 s for 175k cells, 2.3 s instead of 20 s
+  for a 2.3M-cell world raster. Results are unchanged, except for cells
+  whose centre is exactly equidistant from several nodes (e.g. a raster
+  aligned halfway between the nodes of a square grid), which can go to a
+  different one of these nodes: the choice is arbitrary in both versions.
+  `tidyr` and `tibble` are no longer needed.
+
 * `getCosts(res.type = "asIs", unique = TRUE)` no longer looks up each node by
   name: 0.2 s instead of 3.1 s on `worldgraph.40k`, same result.
 
