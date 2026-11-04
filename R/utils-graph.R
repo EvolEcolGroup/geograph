@@ -61,7 +61,7 @@
     if (length(from) > 0) {
       ## set the slot directly: graph::edgemode<- also resets edgeRenderInfo
       g@graphData$edgemode <- "directed"
-      graph::edgeData(g, from = nodes[from], to = nodes[to], attr = "weight") <- w
+      graph::edgeData(g, from = nodes[from], to = nodes[to], attr = "weight") <- unname(w)
       g@graphData$edgemode <- edgemode
     }
   }
@@ -69,6 +69,44 @@
 }
 
 
+
+
+#' Weights of the reverse edges
+#'
+#' For each directed edge `from -> to` of an undirected graph, the weight of
+#' `to -> from`. Building an undirected `graphNEL` from a nested edge list
+#' (`list(edges = , weights = )`), as `setCosts()`, `dropDeadEdges()` and
+#' `combineCosts()` used to do, stores for each edge the weight given for its
+#' reverse; this reproduces it. It is the identity for symmetric weights, and
+#' only matters for asymmetric ones (e.g. `setCosts(method = "function")` with
+#' an asymmetric `FUN`).
+#'
+#' @param from,to,w an edge table, as returned by `.edgeTable()`.
+#' @param n the number of nodes.
+#' @return the weights of the reverse edges, in table order.
+#' @noRd
+.reverseWeights <- function(from, to, w, n) {
+  w[match((to - 1) * n + from, (from - 1) * n + to)]
+}
+
+
+#' Weights as stored by the nested graphNEL constructor
+#'
+#' `new("graphNEL", edgeL = <list(edges = , weights = )>)` concatenates the
+#' weights of all nodes with `unlist()`, nodes without edges contributing
+#' `numeric(0)`, and refuses non-numeric weights. Functions that used to build
+#' their graph this way use this to keep the type of the stored weights.
+#'
+#' @param w numeric weights, one per directed edge.
+#' @param from the node positions of the edges.
+#' @param n the number of nodes.
+#' @return `w`, as double if it is integer and some node has no edge.
+#' @noRd
+.nestedWeights <- function(w, from, n) {
+  if (!is.numeric(w)) stop("weights in edgeL must be numeric")
+  if (is.integer(w) && length(unique(from)) < n) w <- as.double(w)
+  w
+}
 
 #' Subset a graphNEL to some of its nodes
 #'

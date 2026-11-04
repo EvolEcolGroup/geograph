@@ -61,38 +61,43 @@ combineCosts <- function(x1, x2, method = c("sum", "product", "function"), FUN =
 
   ## get the edges and weights from the two graphs
   myGraph1 <- getGraph(x1)
-  edgeW1 <- edgeWeights(myGraph1)
-  edgeL1 <- edgeL(myGraph1)
-
   myGraph2 <- getGraph(x2)
-  edgeW2 <- edgeWeights(myGraph2)
-  edgeL2 <- edgeL(myGraph2)
+  et1 <- .edgeTable(myGraph1)
+  et2 <- .edgeTable(myGraph2)
 
   # test that the two graphs have the same nodes and edges (in the same order,
   # so that their weights can be combined element-wise)
-  edges1 <- lapply(edgeL1, function(e) as.integer(e$edges))
-  edges2 <- lapply(edgeL2, function(e) as.integer(e$edges))
   if (!identical(nodes(myGraph1), nodes(myGraph2)) ||
-        !identical(unname(edges1), unname(edges2))) {
+        !identical(et1$from, et2$from) || !identical(et1$to, et2$to)) {
     stop("the graphs differ in the edges they have")
   }
+  myNodes <- nodes(myGraph1)
 
-  newEdgeL <- list()
-  for (i in seq_along(edgeL1)) {
-    newEdgeL[[i]] <- list()
-    newEdgeL[[i]]$edges <- edgeL1[[i]]$edges
-    if (method == "sum") {
-      newEdgeL[[i]]$weights <- edgeW1[[i]] + edgeW2[[i]]
-    } else if (method == "product") {
-      newEdgeL[[i]]$weights <- edgeW1[[i]] * edgeW2[[i]]
-    } else if (method == "function") {
-      newEdgeL[[i]]$weights <- FUN(edgeW1[[i]], edgeW2[[i]], ...)
+  if (method == "sum") {
+    w <- et1$w + et2$w
+  } else if (method == "product") {
+    w <- et1$w * et2$w
+  } else if (method == "function") {
+    ## FUN is called once per node, with the weights of its edges in each graph,
+    ## named by neighbour as in edgeWeights()
+    byNode <- function(w) {
+      names(w) <- myNodes[et1$to]
+      split(w, factor(et1$from, levels = seq_along(myNodes)))
     }
+    edgeW1 <- byNode(et1$w)
+    edgeW2 <- byNode(et2$w)
+    w <- lapply(seq_along(edgeW1), function(i) FUN(edgeW1[[i]], edgeW2[[i]], ...))
+    if (!identical(lengths(w), lengths(edgeW1, use.names = FALSE))) {
+      stop("FUN must return one value for each edge of a node.")
+    }
+    w <- unlist(w, use.names = FALSE)
   }
 
-  names(newEdgeL) <- nodes(myGraph1) # items of the list must be named
-
-  newGraph <- new("graphNEL", nodes = nodes(myGraph1), edgeL = newEdgeL)
+  ## each edge stores the combined weight of its reverse, as when the graph was
+  ## rebuilt from its edge list (the same value, unless weights are asymmetric)
+  w <- .reverseWeights(et1$from, et1$to, w, length(myNodes))
+  w <- .nestedWeights(w, et1$from, length(myNodes))
+  newGraph <- .graphFromTable(myNodes, et1$from, et1$to, w)
   res <- x1
   res@graph <- newGraph
 

@@ -119,27 +119,31 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
   }
 
   ## find costs of edges as a function of terminating vertices
-  EL <- getGraph(x)@edgeL
+  et <- .edgeTable(getGraph(x), weights = FALSE)
 
   if (method == "mean") {
-    for (i in seq_along(EL)) {
-      EL[[i]]$weights <- (nodeCosts[i] + nodeCosts[EL[[i]]$edges]) / 2
-    }
+    w <- (nodeCosts[et$from] + nodeCosts[et$to]) / 2
   }
 
   if (method == "product") {
-    for (i in seq_along(EL)) {
-      EL[[i]]$weights <- nodeCosts[i] * nodeCosts[EL[[i]]$edges]
-    }
+    w <- nodeCosts[et$from] * nodeCosts[et$to]
   }
 
   if (method == "function") {
-    for (i in seq_along(EL)) {
-      EL[[i]]$weights <- FUN(nodeCosts[i], nodeCosts[EL[[i]]$edges], ...)
+    ## FUN is called once per node, with the cost of the node and the costs of
+    ## its neighbours, so that it does not need to be vectorised
+    nbrs <- split(et$to, factor(et$from, levels = seq_along(getNodes(x))))
+    w <- lapply(seq_along(nbrs), function(i) FUN(nodeCosts[i], nodeCosts[nbrs[[i]]], ...))
+    if (!identical(lengths(w), lengths(nbrs, use.names = FALSE))) {
+      stop("FUN must return one value for each neighbour of a node.")
     }
+    ## the edge i -> j has always stored the value computed for j -> i,
+    ## FUN(cost_j, cost_i); keep it so that results do not change
+    w <- .reverseWeights(et$from, et$to, unlist(w, use.names = FALSE), length(getNodes(x)))
   }
 
-  newGraph <- new("graphNEL", nodes = getNodes(x), edgeL = EL)
+  w <- .nestedWeights(w, et$from, length(getNodes(x)))
+  newGraph <- .graphFromTable(getNodes(x), et$from, et$to, w)
   res <- x
   res@graph <- newGraph
 

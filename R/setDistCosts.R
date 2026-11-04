@@ -59,7 +59,12 @@ setMethod("setDistCosts", "gGraph", function(x, ...) {
   w <- fields::rdist.earth.vec(xy1, xy2)
 
   ## assign costs to the graphNEL ##
+  ## E lists both directions of each edge: assign them in directed mode, so that
+  ## edgeData<- writes each from|to key once instead of twice
+  mode <- x@graph@graphData$edgemode
+  x@graph@graphData$edgemode <- "directed"
   edgeData(x@graph, from = E[, 1], to = E[, 2], attr = "weight") <- w
+  x@graph@graphData$edgemode <- mode
 
   return(x)
 }) # end setDistCosts gGraph

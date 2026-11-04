@@ -62,3 +62,58 @@ expect_same_gGraph <- function(a, b) {
   expect_identical(a@meta, b@meta)
   expect_same_graph(getGraph(a), getGraph(b))
 }
+
+## edge weights of setCosts(), computed from the node costs as before
+setCostsGraphRef <- function(x, nodeCosts, method, FUN = NULL, ...) {
+  EL <- getGraph(x)@edgeL
+  for (i in seq_along(EL)) {
+    EL[[i]]$weights <- switch(method,
+      mean = (nodeCosts[i] + nodeCosts[EL[[i]]$edges]) / 2,
+      product = nodeCosts[i] * nodeCosts[EL[[i]]$edges],
+      "function" = FUN(nodeCosts[i], nodeCosts[EL[[i]]$edges], ...)
+    )
+  }
+  new("graphNEL", nodes = getNodes(x), edgeL = EL)
+}
+
+dropDeadEdgesGraphRef <- function(x, thres) {
+  myGraph <- getGraph(x)
+  edgeW <- graph::edgeWeights(myGraph)
+  edgeL <- graph::edgeL(myGraph)
+  toKeep <- lapply(edgeW, function(v) v <= thres)
+  newEdgeL <- list()
+  for (i in seq_along(edgeL)) {
+    newEdgeL[[i]] <- list()
+    newEdgeL[[i]]$edges <- edgeL[[i]]$edges[toKeep[[i]]]
+    newEdgeL[[i]]$weights <- edgeW[[i]][toKeep[[i]]]
+  }
+  names(newEdgeL) <- graph::nodes(myGraph)
+  new("graphNEL", nodes = graph::nodes(myGraph), edgeL = newEdgeL)
+}
+
+combineCostsGraphRef <- function(x1, x2, method, FUN = NULL, ...) {
+  myGraph1 <- getGraph(x1)
+  edgeW1 <- graph::edgeWeights(myGraph1)
+  edgeL1 <- graph::edgeL(myGraph1)
+  edgeW2 <- graph::edgeWeights(getGraph(x2))
+  newEdgeL <- list()
+  for (i in seq_along(edgeL1)) {
+    newEdgeL[[i]] <- list()
+    newEdgeL[[i]]$edges <- edgeL1[[i]]$edges
+    newEdgeL[[i]]$weights <- switch(method,
+      sum = edgeW1[[i]] + edgeW2[[i]],
+      product = edgeW1[[i]] * edgeW2[[i]],
+      "function" = FUN(edgeW1[[i]], edgeW2[[i]], ...)
+    )
+  }
+  names(newEdgeL) <- graph::nodes(myGraph1)
+  new("graphNEL", nodes = graph::nodes(myGraph1), edgeL = newEdgeL)
+}
+
+setDistCostsGraphRef <- function(x) {
+  E <- getEdges(x, res.type = "matNames")
+  xy <- getCoords(x)
+  w <- fields::rdist.earth.vec(xy[E[, 1], , drop = FALSE], xy[E[, 2], , drop = FALSE])
+  graph::edgeData(x@graph, from = E[, 1], to = E[, 2], attr = "weight") <- w
+  x@graph
+}
