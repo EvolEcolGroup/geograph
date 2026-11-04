@@ -105,7 +105,7 @@ test_that("setEdges gives the same graph as graph::addEdge and graph::removeEdge
     rm <- und[sample(nrow(und), 300), ]
     rm <- rbind(rm, rm[1, 2:1], c(getNodes(x)[1], getNodes(x)[500]))
     temp <- areNeighbours(rm[, 1], rm[, 2], getGraph(x))
-    expect_same_edge_data(
+    expectSameEdgeData(
       getGraph(setEdges(x, remove = rm)),
       graph::removeEdge(rm[temp, 1], rm[temp, 2], getGraph(x))
     )
@@ -115,11 +115,11 @@ test_that("setEdges gives the same graph as graph::addEdge and graph::removeEdge
     add <- add[add[, 1] != add[, 2], ]
     add <- rbind(add, und[1:5, ], add[1, ], add[2, 2:1], rep(getNodes(x)[7], 2))
     costs <- runif(nrow(add))
-    expect_same_edge_data(
+    expectSameEdgeData(
       getGraph(setEdges(x, add = add, costs = costs)),
       suppressWarnings(graph::addEdge(add[, 1], add[, 2], getGraph(x), costs))
     )
-    expect_same_edge_data(
+    expectSameEdgeData(
       getGraph(setEdges(x, add = add)),
       suppressWarnings(graph::addEdge(add[, 1], add[, 2], getGraph(x), rep(1, nrow(add))))
     )

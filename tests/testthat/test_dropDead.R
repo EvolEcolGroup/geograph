@@ -22,13 +22,13 @@ test_that("dropDeadEdges leaves a graph without stored costs unchanged", {
 test_that("dropDeadNodes gives the same result as the previous implementation", {
   for (x in list(worldgraph.10k, rawgraph.10k, dropCosts(worldgraph.10k))) {
     res <- dropDeadNodes(x)
-    expect_same_gGraph(res, dropDeadNodesRef(x))
+    expectSameGGraph(res, dropDeadNodesRef(x))
   }
   x <- new("gGraph", coords = cbind(lon = 1:5, lat = 1:5))
   x@graph <- graph::addEdge(c("4", "2"), c("5", "4"), getGraph(x), c(1, 2))
-  expect_same_gGraph(dropDeadNodes(x), dropDeadNodesRef(x))
+  expectSameGGraph(dropDeadNodes(x), dropDeadNodesRef(x))
   expect_identical(getNodes(dropDeadNodes(x)), c("2", "4", "5"))
   ## edgeless graph
   x <- new("gGraph", coords = cbind(lon = 1:3, lat = 1:3))
-  expect_same_gGraph(dropDeadNodes(x), dropDeadNodesRef(x))
+  expectSameGGraph(dropDeadNodes(x), dropDeadNodesRef(x))
 })

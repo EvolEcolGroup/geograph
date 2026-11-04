@@ -3,12 +3,12 @@
 ## Compare two graphNEL objects on what matters to geoGraph. Do not use
 ## identical() on the graphNEL objects themselves: the internal order of the
 ## @edgeData@data entries can differ while the graph is the same.
-expect_same_graph <- function(a, b) {
-  expect_identical(graph::nodes(a), graph::nodes(b))
-  expect_identical(graph::edges(a), graph::edges(b))
-  expect_identical(graph::edgeWeights(a), graph::edgeWeights(b))
-  expect_identical(graph::edgemode(a), graph::edgemode(b))
-  expect_identical(length(a@edgeData@data), length(b@edgeData@data))
+expectSameGraph <- function(a, b) {
+  testthat::expect_identical(graph::nodes(a), graph::nodes(b))
+  testthat::expect_identical(graph::edges(a), graph::edges(b))
+  testthat::expect_identical(graph::edgeWeights(a), graph::edgeWeights(b))
+  testthat::expect_identical(graph::edgemode(a), graph::edgemode(b))
+  testthat::expect_identical(length(a@edgeData@data), length(b@edgeData@data))
 }
 
 ## ---- previous implementations, used as references ---------------------------
@@ -55,12 +55,12 @@ keepMaxConnectedSetRef <- function(x) {
   dropDeadNodesRef(res)
 }
 
-## compare two gGraph objects (graph slot compared with expect_same_graph)
-expect_same_gGraph <- function(a, b) {
-  expect_identical(getCoords(a), getCoords(b))
-  expect_identical(a@nodes.attr, b@nodes.attr)
-  expect_identical(a@meta, b@meta)
-  expect_same_graph(getGraph(a), getGraph(b))
+## compare two gGraph objects (graph slot compared with expectSameGraph)
+expectSameGGraph <- function(a, b) {
+  testthat::expect_identical(getCoords(a), getCoords(b))
+  testthat::expect_identical(a@nodes.attr, b@nodes.attr)
+  testthat::expect_identical(a@meta, b@meta)
+  expectSameGraph(getGraph(a), getGraph(b))
 }
 
 ## edge weights of setCosts(), computed from the node costs as before
@@ -157,15 +157,15 @@ areNeighboursRef <- function(V1, V2, graph) {
   res
 }
 
-## stricter than expect_same_graph: also compares the stored edge data
+## stricter than expectSameGraph: also compares the stored edge data
 ## (sorted by key) and the edge data defaults
-expect_same_edge_data <- function(a, b) {
-  expect_same_graph(a, b)
+expectSameEdgeData <- function(a, b) {
+  expectSameGraph(a, b)
   da <- a@edgeData@data
   db <- b@edgeData@data
-  expect_identical(da[sort(as.character(names(da)))], db[sort(as.character(names(db)))])
-  expect_identical(a@edgeData@defaults, b@edgeData@defaults)
-  expect_identical(lapply(a@edgeL, `[[`, "edges"), lapply(b@edgeL, `[[`, "edges"))
+  testthat::expect_identical(da[sort(as.character(names(da)))], db[sort(as.character(names(db)))])
+  testthat::expect_identical(a@edgeData@defaults, b@edgeData@defaults)
+  testthat::expect_identical(lapply(a@edgeL, `[[`, "edges"), lapply(b@edgeL, `[[`, "edges"))
 }
 
 ## segments drawn by the previous plotEdges(), for the nodes 'toKeep' in the

@@ -18,18 +18,18 @@ test_that(".graphFromTable rebuilds weighted and unweighted graphs", {
   g <- getGraph(worldgraph.10k)
   res <- roundTrip(g)
   expect_true(validObject(res))
-  expect_same_graph(res, g)
+  expectSameGraph(res, g)
   expect_false(graph::isDirected(res))
 
   ## heterogeneous costs
   g <- getGraph(rawgraph.10k)
-  expect_same_graph(roundTrip(g), g)
+  expectSameGraph(roundTrip(g), g)
 
   ## no stored edge data
   g <- getGraph(dropCosts(rawgraph.10k))
   expect_length(g@edgeData@data, 0)
   res <- roundTrip(g)
-  expect_same_graph(res, g)
+  expectSameGraph(res, g)
   expect_length(res@edgeData@data, 0)
 })
 
@@ -39,13 +39,13 @@ test_that(".graphFromTable handles small and edgeless graphs", {
   g <- graph::addEdge("a", "b", g, 2.5)
   res <- roundTrip(g)
   expect_true(validObject(res))
-  expect_same_graph(res, g)
+  expectSameGraph(res, g)
 
   ## isolated node
   g <- new("graphNEL", nodes = c("a", "b", "c"), edgemode = "undirected")
   g <- graph::addEdge("a", "c", g, 3)
   res <- roundTrip(g)
-  expect_same_graph(res, g)
+  expectSameGraph(res, g)
   expect_identical(graph::degree(res), c(a = 1, b = 0, c = 1))
 
   ## no edges, with and without weights
@@ -56,7 +56,7 @@ test_that(".graphFromTable handles small and edgeless graphs", {
   expect_identical(et$w, numeric(0))
   res <- .graphFromTable(graph::nodes(g), et$from, et$to)
   expect_true(validObject(res))
-  expect_same_graph(res, g)
+  expectSameGraph(res, g)
   res <- .graphFromTable(graph::nodes(g), et$from, et$to, et$w)
   expect_true(validObject(res))
   expect_identical(graph::nodes(res), graph::nodes(g))
@@ -69,7 +69,7 @@ test_that(".graphFromTable keeps a directed graph directed, with its own weights
   res <- roundTrip(g)
   expect_true(validObject(res))
   expect_true(graph::isDirected(res))
-  expect_same_graph(res, g)
+  expectSameGraph(res, g)
 })
 
 test_that(".graphFromTable stores the weight of each direction separately", {

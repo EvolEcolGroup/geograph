@@ -84,7 +84,7 @@ test_that("makeSquareGrid builds the same graph as ftM2graphNEL", {
   for (n in list(c(2, 2), c(3, 5), c(7, 4), c(30, 20))) {
     res <- makeSquareGrid(n.lon = n[1], n.lat = n[2])
     expect_true(validObject(getGraph(res)))
-    expect_same_graph(getGraph(res), ref(n[1], n[2]))
+    expectSameGraph(getGraph(res), ref(n[1], n[2]))
   }
 })
 

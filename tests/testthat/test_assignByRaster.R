@@ -188,10 +188,16 @@ test_that("assignByRaster gives the same result as with sf::st_nearest_feature",
   )
   ## logical and integer rasters
   rb <- r > 0.5
-  expect_identical(getNodesAttr(assignByRaster(g, rb, fun = "any")), getNodesAttr(assignByRasterRef(g, rb, fun = "any")))
+  expect_identical(
+    getNodesAttr(assignByRaster(g, rb, fun = "any")),
+    getNodesAttr(assignByRasterRef(g, rb, fun = "any"))
+  )
   ri <- r
   terra::values(ri) <- sample(1:5, terra::ncell(r), replace = TRUE)
-  expect_identical(getNodesAttr(assignByRaster(g, ri, fun = "max")), getNodesAttr(assignByRasterRef(g, ri, fun = "max")))
+  expect_identical(
+    getNodesAttr(assignByRaster(g, ri, fun = "max")),
+    getNodesAttr(assignByRasterRef(g, ri, fun = "max"))
+  )
   ## a raster in a projected CRS
   rp <- suppressWarnings(terra::project(r, "EPSG:3035"))
   expect_identical(getNodesAttr(assignByRaster(g, rp)), getNodesAttr(assignByRasterRef(g, rp)))

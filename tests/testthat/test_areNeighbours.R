@@ -32,7 +32,10 @@ test_that("areNeighbours gives the same result as the previous implementation", 
   expect_identical(areNeighbours(nn[, 1], nn[, 2], g), areNeighboursRef(nn[, 1], nn[, 2], g))
   expect_identical(areNeighbours(character(0), character(0), g), areNeighboursRef(character(0), character(0), g))
   ## numeric node names and a directed graph
-  expect_identical(areNeighbours(c(1, 2), c(2, 1), makeSquareGrid(9)), areNeighboursRef(c(1, 2), c(2, 1), makeSquareGrid(9)))
+  sq <- makeSquareGrid(9)
+  expect_identical(areNeighbours(c(1, 2), c(2, 1), sq), areNeighboursRef(c(1, 2), c(2, 1), sq))
   d <- graph::addEdge(c("a", "b"), c("b", "c"), new("graphNEL", nodes = c("a", "b", "c"), edgemode = "directed"))
-  expect_identical(areNeighbours(c("a", "b", "c"), c("b", "a", "b"), d), areNeighboursRef(c("a", "b", "c"), c("b", "a", "b"), d))
+  V1 <- c("a", "b", "c")
+  V2 <- c("b", "a", "b")
+  expect_identical(areNeighbours(V1, V2, d), areNeighboursRef(V1, V2, d))
 })

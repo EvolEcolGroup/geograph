@@ -114,14 +114,17 @@ test_that("[,gGraph gives the same graph as graph::subGraph", {
   half <- seq(1, N, by = 2)
   shuffled <- sample(N, 500)
   for (x in list(weighted, costs, unweighted)) {
-    for (i in list(half, shuffled, -half, rep(c(TRUE, FALSE, FALSE), length = N),
-      getNodes(x)[shuffled], c(TRUE, FALSE))) {
+    indices <- list(
+      half, shuffled, -half, rep(c(TRUE, FALSE, FALSE), length = N),
+      getNodes(x)[shuffled], c(TRUE, FALSE)
+    )
+    for (i in indices) {
       res <- getGraph(x[i])
       expect_true(validObject(res))
-      expect_same_graph(res, ref(x, i))
+      expectSameGraph(res, ref(x, i))
     }
   }
   ## a single node, and no node at all
-  expect_same_graph(getGraph(weighted[5]), ref(weighted, 5))
-  expect_same_graph(getGraph(weighted[integer(0)]), ref(weighted, integer(0)))
+  expectSameGraph(getGraph(weighted[5]), ref(weighted, 5))
+  expectSameGraph(getGraph(weighted[integer(0)]), ref(weighted, integer(0)))
 })
