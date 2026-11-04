@@ -221,3 +221,70 @@
   names(res) <- paste(start, finish, sep = ":")
   res
 }
+
+
+#' Add edges to a graphNEL
+#'
+#' Same result as `graph::addEdge(from, to, g, weights)`, whose loops look up
+#' the edge list of each node by name: new neighbours are appended to the edge
+#' list of each `from` node, then (undirected graphs) of each `to` node,
+#' without duplicates; the default weight is set to `1L` if the graph has
+#' none, and the weights are assigned with `edgeData<-`.
+#'
+#' @param g a `graphNEL`.
+#' @param from,to character vectors of node names (of the graph), of the same
+#'   length.
+#' @param weights numeric weights, one per edge.
+#' @return a `graphNEL`.
+#' @noRd
+.addEdges <- function(g, from, to, weights) {
+  gN <- graph::nodes(g)
+  whF <- match(from, gN)
+  whT <- match(to, gN)
+  if (graph::isDirected(g)) {
+    nb <- split(whT, factor(whF, levels = seq_along(gN)))
+  } else {
+    nb <- split(c(whT, whF), factor(c(whF, whT), levels = seq_along(gN)))
+  }
+  eL <- g@edgeL
+  for (i in which(lengths(nb) > 0)) {
+    eL[[i]]$edges <- unique(c(eL[[i]]$edges, nb[[i]]))
+  }
+  g@edgeL <- eL
+  if (!("weight" %in% names(graph::edgeDataDefaults(g)))) {
+    graph::edgeDataDefaults(g, attr = "weight") <- 1L
+  }
+  graph::edgeData(g, from = from, to = to, attr = "weight") <- weights
+  g
+}
+
+
+#' Remove edges from a graphNEL
+#'
+#' Same result as `graph::removeEdge(from, to, g)` for existing edges, whose
+#' loops look up the edge list of each node by name: the edges (both
+#' directions for an undirected graph) and their data are removed.
+#'
+#' @param g a `graphNEL`.
+#' @param from,to character vectors of node names, of the same length, giving
+#'   existing edges.
+#' @return a `graphNEL`.
+#' @noRd
+.removeEdges <- function(g, from, to) {
+  if (!graph::isDirected(g)) {
+    fromOrig <- from
+    from <- c(fromOrig, to)
+    to <- c(to, fromOrig)
+  }
+  graph::removeAttrDataItem(g@edgeData, x = paste(from, to, sep = "|")) <- NULL
+  gN <- graph::nodes(g)
+  kill <- split(match(to, gN), factor(match(from, gN), levels = seq_along(gN)))
+  eL <- g@edgeL
+  for (i in which(lengths(kill) > 0)) {
+    k <- match(kill[[i]], eL[[i]]$edges)
+    k <- k[!is.na(k)]
+    if (length(k) > 0) eL[[i]]$edges <- eL[[i]]$edges[-k]
+  }
+  g@edgeL <- eL
+  g
+}

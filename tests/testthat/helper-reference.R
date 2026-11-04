@@ -146,3 +146,24 @@ assignByRasterRef <- function(graph, raster, layer.name = "raster_points", fun =
   collapsed <- .collapseNodeAttribute(unname(vals), fun = fun, na.rm = na.rm, ...)
   setNodesAttr(graph, attr.name = layer.name, values = collapsed)
 }
+
+areNeighboursRef <- function(V1, V2, graph) {
+  V1 <- as.character(V1)
+  V2 <- as.character(V2)
+  if (inherits(graph, "gGraph")) graph <- getGraph(graph)
+  edg <- graph::edges(graph)
+  res <- mapply(function(x, y) any(edg[[x]] == y), V1, V2)
+  names(res) <- paste(V1, V2, sep = "->")
+  res
+}
+
+## stricter than expect_same_graph: also compares the stored edge data
+## (sorted by key) and the edge data defaults
+expect_same_edge_data <- function(a, b) {
+  expect_same_graph(a, b)
+  da <- a@edgeData@data
+  db <- b@edgeData@data
+  expect_identical(da[sort(as.character(names(da)))], db[sort(as.character(names(db)))])
+  expect_identical(a@edgeData@defaults, b@edgeData@defaults)
+  expect_identical(lapply(a@edgeL, `[[`, "edges"), lapply(b@edgeL, `[[`, "edges"))
+}

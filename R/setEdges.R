@@ -71,7 +71,7 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
       stop("`costs` must have length 1 or match the number of edges in `add`.")
     }
 
-    myGraph <- suppressWarnings(addEdge(from = from, to = to, graph = x@graph, weights = costs))
+    myGraph <- suppressWarnings(.addEdges(x@graph, from = from, to = to, weights = costs))
   } else { ## remove edges ##
     remove <- as.data.frame(remove)
     if (ncol(remove) != 2) stop("remove does not have two columns")
@@ -81,7 +81,7 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
 
     ## avoid attempts to removing non-existing edges
     temp <- areNeighbours(from, to, x@graph)
-    myGraph <- removeEdge(from = from[temp], to = to[temp], graph = x@graph)
+    myGraph <- .removeEdges(x@graph, from = from[temp], to = to[temp])
   }
 
   res <- x

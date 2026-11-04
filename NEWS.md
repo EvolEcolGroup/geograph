@@ -10,6 +10,12 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `areNeighbours()` looks up pairs of nodes with numeric keys (0.02 s instead
+  of 0.4 s for 5,000 pairs), and `setEdges()` adds and removes edges by node
+  position instead of name: 0.08 s instead of 2 s to remove 5,000 edges of
+  `worldgraph.40k`, 0.17 s instead of 1.7 s to add 5,000. Results are
+  unchanged.
+
 * `assignByRaster()` finds the nearest node of each cell with a k-d tree
   (`FNN`) instead of `sf::st_nearest_feature()`, using the same planar
   distances on longitude and latitude, and groups values per node without

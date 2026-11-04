@@ -95,3 +95,33 @@ test_that("setEdges recycles scalar cost to all edges", {
   expect_equal(unname(all.costs[edge.1.key]), 5)
   expect_equal(unname(all.costs[edge.2.key]), 5)
 })
+
+test_that("setEdges gives the same graph as graph::addEdge and graph::removeEdge", {
+  set.seed(10)
+  for (x in list(worldgraph.10k, rawgraph.10k, dropCosts(rawgraph.10k))) {
+    E0 <- getEdges(x, res.type = "matNames")
+    und <- E0[E0[, 1] < E0[, 2], ]
+    ## remove, including both directions of an edge and a non-existing edge
+    rm <- und[sample(nrow(und), 300), ]
+    rm <- rbind(rm, rm[1, 2:1], c(getNodes(x)[1], getNodes(x)[500]))
+    temp <- areNeighbours(rm[, 1], rm[, 2], getGraph(x))
+    expect_same_edge_data(
+      getGraph(setEdges(x, remove = rm)),
+      graph::removeEdge(rm[temp, 1], rm[temp, 2], getGraph(x))
+    )
+    ## add, including existing edges, duplicated pairs in both directions,
+    ## and a self-loop
+    add <- cbind(sample(getNodes(x), 300), sample(getNodes(x), 300))
+    add <- add[add[, 1] != add[, 2], ]
+    add <- rbind(add, und[1:5, ], add[1, ], add[2, 2:1], rep(getNodes(x)[7], 2))
+    costs <- runif(nrow(add))
+    expect_same_edge_data(
+      getGraph(setEdges(x, add = add, costs = costs)),
+      suppressWarnings(graph::addEdge(add[, 1], add[, 2], getGraph(x), costs))
+    )
+    expect_same_edge_data(
+      getGraph(setEdges(x, add = add)),
+      suppressWarnings(graph::addEdge(add[, 1], add[, 2], getGraph(x), rep(1, nrow(add))))
+    )
+  }
+})
