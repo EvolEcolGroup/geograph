@@ -391,7 +391,9 @@ setMethod("initialize", "gGraph", function(.Object, ...) {
       input$graph <- new("graphNEL")
     }
   } else { # graph provided
-    if (nrow(x@coords) > 0) {
+    ## renaming the nodes is slow on large graphs: skip it when the names are
+    ## already right
+    if (nrow(x@coords) > 0 && !identical(nodes(input$graph), rownames(x@coords))) {
       nodes(input$graph) <- rownames(x@coords)
     }
   }

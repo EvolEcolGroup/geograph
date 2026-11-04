@@ -136,3 +136,13 @@ test_that("validity checks report an informative message", {
   y@graph <- new("graphNEL", nodes = c("1", "2"))
   expect_error(validObject(y), "Row names of @coords do not match node names of @graph")
 })
+
+test_that("gGraph constructor renames the nodes of the graph only if needed", {
+  g <- graph::addEdge(c("a", "b"), c("b", "c"), new("graphNEL", nodes = c("a", "b", "c")), c(2, 3))
+  x <- new("gGraph", coords = cbind(lon = 1:3, lat = 1:3), graph = g)
+  expect_identical(getNodes(x), c("1", "2", "3"))
+  expect_equal(sort(unname(unlist(graph::edgeWeights(getGraph(x))))), c(2, 2, 3, 3))
+  g2 <- getGraph(x)
+  y <- new("gGraph", coords = cbind(lon = 1:3, lat = 1:3), graph = g2)
+  expect_identical(getGraph(y), g2)
+})

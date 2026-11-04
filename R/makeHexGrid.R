@@ -114,21 +114,11 @@ makeHexGrid <- function(geo.box, spacing, ...) {
     to <- nn$nn.index[is.neighbour]
   }
   ord <- order(from, to)
-  neighbours <- split(to[ord], factor(from[ord], levels = seq_len(n.cells)))
-  
-  # build graphNEL object (edges given as positions, which is much faster
-  # than node names)
+
+  # build graphNEL object from the edge table, with stored default weights of
+  # 1 (other functions, e.g. combineCosts(), rely on stored weights)
   node.ids <- as.character(seq_len(n.cells))
-  
-  edgeL <- lapply(neighbours, function(e) list(edges = e))
-  names(edgeL) <- node.ids
-  
-  gNEL <- new(
-    "graphNEL",
-    nodes = node.ids,
-    edgeL = edgeL,
-    edgemode = "undirected"
-  )
+  gNEL <- .graphFromTable(node.ids, from[ord], to[ord], w = rep(1, length(ord)))
   
   # create the gGraph object
   newGraph <- new(

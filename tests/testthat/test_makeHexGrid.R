@@ -213,3 +213,14 @@ test_that("makeHexGrid builds a graph with edges and an empty meta", {
   expect_gt(nrow(getEdges(hex, res.type = "matNames")), 0)
   expect_identical(hex@meta, list())
 })
+
+test_that("makeHexGrid stores the same graph as the nested graphNEL construction", {
+  res <- makeHexGrid(c(xmin = -10, xmax = 10, ymin = 40, ymax = 55), spacing = 100)
+  g <- getGraph(res)
+  expect_true(validObject(g))
+  ## reference: the previous construction, from the same neighbour lists
+  edgeL <- lapply(g@edgeL, function(e) list(edges = e$edges))
+  ref <- new("graphNEL", nodes = graph::nodes(g), edgeL = edgeL, edgemode = "undirected")
+  expect_same_graph(g, ref)
+  expect_true(all(unlist(graph::edgeWeights(g)) == 1))
+})

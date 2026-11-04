@@ -10,6 +10,15 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `makeHexGrid()` and `makeSquareGrid()` build their graph from a flat edge
+  list, and `new("gGraph")` no longer renames the nodes of a graph whose node
+  names are already right: `makeSquareGrid(size = 90000)` takes 1.2 s instead
+  of 4 s, `makeHexGrid()` over Europe at `spacing = 15` 19 s instead of 23 s.
+  The graphs are unchanged (with stored weights of 1).
+
+* `makeSquareGrid()` works for grids of 100,000 nodes or more (it failed with
+  "node names in 'ft' must be in 'V'", as `as.character(1e5)` is `"1e+05"`).
+
 * `setCosts()`, `dropDeadEdges()`, `combineCosts()` and `setDistCosts()` compute
   and store edge weights in one pass over the edges instead of node by node,
   and no longer write every weight twice: 2-2.5 times faster (e.g.
