@@ -6,6 +6,11 @@
   nodes: keeping every other node of `worldgraph.40k` takes 0.3 s instead of
   3.3 s (7 s instead of 0.13 s without costs). The result is unchanged.
 
+* `keepMaxConnectedSet()` subsets the graph to the largest connected set
+  directly instead of rebuilding it node by node: 0.4 s instead of 8 s on
+  `worldgraph.40k`. `dropDeadNodes()` finds nodes with edges on node positions
+  (5 s to 0.3 s, mostly from the faster subsetting). Results are unchanged.
+
 # geoGraph v2.1.0
 
 * `dijkstraBetween(x, from, to)` on a `gGraph` now returns every path from each

@@ -68,11 +68,10 @@ dropDeadEdges <- function(x, thres) { # x is a gGraph object
 dropDeadNodes <- function(x) { # x is a gGraph object
   if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
 
-  ## get names of connected nodes
-  nodes.in.edges <- unique(as.vector(getEdges(x, res.type = "matNames")))
-
-  ## get all nodes
-  res <- x[nodes.in.edges]
+  ## positions of the nodes with edges, in order of first appearance in the
+  ## edge list (increasing for an undirected graph)
+  et <- .edgeTable(getGraph(x), weights = FALSE)
+  res <- x[unique(c(et$from, et$to))]
 
   return(res)
 } # end dropDeadNodes
