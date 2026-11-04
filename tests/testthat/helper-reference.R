@@ -167,3 +167,24 @@ expect_same_edge_data <- function(a, b) {
   expect_identical(a@edgeData@defaults, b@edgeData@defaults)
   expect_identical(lapply(a@edgeL, `[[`, "edges"), lapply(b@edgeL, `[[`, "edges"))
 }
+
+## segments drawn by the previous plotEdges(), for the nodes 'toKeep' in the
+## plotting area
+plotEdgesSegmentsRef <- function(x, toKeep, useCosts, lwd = 1, lty = 1, maxLwd = 3) {
+  keptCoords <- getCoords(x)[toKeep, , drop = FALSE]
+  edges <- getEdges(x, res.type = "matNames", unique = TRUE)
+  temp <- (edges[, 1] %in% rownames(keptCoords)) & (edges[, 2] %in% rownames(keptCoords))
+  keptEdges <- edges[temp, , drop = FALSE]
+  if (useCosts) {
+    edges.w <- getCosts(x, res.type = "vector", unique = TRUE)[temp]
+    lwd <- unname((1 - edges.w / max(edges.w)) * maxLwd) # names are not drawn
+    lty <- rep(1, length(lwd))
+    lty[lwd < 1e-5] <- 3
+  }
+  idx1 <- match(as.character(keptEdges[, 1]), rownames(keptCoords))
+  idx2 <- match(as.character(keptEdges[, 2]), rownames(keptCoords))
+  list(
+    x0 = keptCoords[idx1, 1], y0 = keptCoords[idx1, 2], x1 = keptCoords[idx2, 1], y1 = keptCoords[idx2, 2],
+    lwd = lwd, lty = lty
+  )
+}

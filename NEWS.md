@@ -10,6 +10,12 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `plotEdges()` and `plot(x, edges = TRUE)` select the visible edges and their
+  costs from one edge table instead of matching node names and splitting
+  edge names: `plotEdges(rawgraph.40k)` takes 0.65 s instead of 1.7 s. The
+  segments, their order and widths are unchanged. `plot()` computes the
+  visible nodes and their colors once when a shape is drawn.
+
 * `hasCosts()` reads the stored weights directly when every edge has one
   (0.02 s instead of 0.2 s on `worldgraph.40k`).
 

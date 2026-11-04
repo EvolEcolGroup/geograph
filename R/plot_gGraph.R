@@ -134,22 +134,12 @@ setMethod(
       psize <- get("psize", envir = .geoGraphEnv)
     }
 
-    ## nodes in the new plotting area (the device still shows the previous
-    ## plot, so reg = "current" would use the previous area)
-    toKeep <- isInArea(x, reg = list(x = xlim, y = ylim), res.type = "integer", quiet = TRUE)
-    coords <- coords[toKeep, , drop = FALSE]
-
-
     ## store previous last.points in envir (is erased by plotEdges)
     if (exists("last.points", envir = .geoGraphEnv)) {
       last.points <- get("last.points", envir = .geoGraphEnv)
     } else {
       last.points <- expression()
     }
-
-
-    ## handle colors
-    col <- .nodeColors(x, toKeep, col = col.ori, col.rules = col.rules)
 
 
     ## handle shape
@@ -185,6 +175,12 @@ setMethod(
       }
       points(coords, cex = psize, pch = pch, col = col, ...)
     } else { ## plot only points ##
+      ## nodes in the new plotting area (the device still shows the previous
+      ## plot, so reg = "current" would use the previous area), and their colors
+      toKeep <- isInArea(x, reg = list(x = xlim, y = ylim), res.type = "integer", quiet = TRUE)
+      coords <- coords[toKeep, , drop = FALSE]
+      col <- .nodeColors(x, toKeep, col = col.ori, col.rules = col.rules)
+
       plot(coords,
         xlab = "longitude", ylab = "latitude", xlim = xlim, ylim = ylim,
         cex = psize, pch = pch, col = col, ...
@@ -318,7 +314,6 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
   ## retained coords (those within plotting area)
   coords <- getCoords(x)
   toKeep <- isInArea(x, reg = "current", res.type = "integer", quiet = TRUE)
-  keptCoords <- coords[toKeep, , drop = FALSE]
 
   ## adjust pcol to subset of points in area
 
@@ -351,19 +346,27 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
   }
 
 
-  edges <- getEdges(x, res.type = "matNames", unique = TRUE) # retrieve (unique) edges
-  temp <- (edges[, 1] %in% rownames(keptCoords)) & (edges[, 2] %in% rownames(keptCoords))
-  keptEdges <- edges[temp, , drop = FALSE]
+  ## (unique) edges with both ends in the plotting area, from one edge table:
+  ## one direction per edge, chosen by comparing node names as getEdges() and
+  ## getCosts() do with unique = TRUE, so that segments are drawn in the same
+  ## order and orientation
+  et <- .edgeTable(getGraph(x), weights = useCosts)
+  nN <- getNodes(x)
+  inArea <- logical(length(nN))
+  inArea[toKeep] <- TRUE
+  temp <- inArea[et$from] & inArea[et$to]
+  temp[temp] <- nN[et$from[temp]] < nN[et$to[temp]]
+  from <- et$from[temp]
+  to <- et$to[temp]
 
-  if (nrow(keptEdges) < 1) {
+  if (length(from) < 1) {
     cat("\nNo edge to plot.\n")
     return(invisible())
   }
 
   ## handle costs
   if (useCosts) {
-    edges.w <- getCosts(x, res.type = "vector", unique = TRUE)
-    edges.w <- edges.w[temp]
+    edges.w <- et$w[temp]
     lwd <- edges.w / max(edges.w) # max lwd = 1
     lwd <- 1 - lwd # invert scale (to have thiner edges for larger costs)
     lwd <- lwd * maxLwd # max lwd = maxLwd
@@ -372,11 +375,8 @@ plotEdges <- function(x, useCosts = NULL, col = "black", lwd = 1,
   }
 
   ## plot segments
-  idx1 <- match(as.character(keptEdges[, 1]), rownames(keptCoords))
-  idx2 <- match(as.character(keptEdges[, 2]), rownames(keptCoords))
-
-  graphics::segments(keptCoords[idx1, 1], keptCoords[idx1, 2],
-    keptCoords[idx2, 1], keptCoords[idx2, 2],
+  graphics::segments(coords[from, 1], coords[from, 2],
+    coords[to, 1], coords[to, 2],
     col = col, lwd = lwd, lty = lty, ...
   )
 
