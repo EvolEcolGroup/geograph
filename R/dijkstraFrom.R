@@ -50,16 +50,7 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
 
   endNodes <- getNodes(x)[!getNodes(x) %in% start]
 
-  res <- RBGL::sp.between(myGraph,
-    start = start,
-    finish = endNodes
-  )
-
-  ## sp.between uses unique(x@nodes.id) ##
-  ## eventually have to duplicate paths ##
-  temp <- gsub(".*:", "", names(res))
-  res <- res[match(endNodes, temp)]
-
+  res <- .shortestPaths(myGraph, start = rep(start, length(endNodes)), finish = endNodes)
 
   ## make it a class "gPath" (output + xy coords) ##
   allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
@@ -94,15 +85,9 @@ setMethod("dijkstraFrom", "gData", function(x, start) {
   coords <- getCoords(myGraph) # store xy for later
   myGraph <- getGraph(myGraph)
 
-  ## wrap ##
-  res <- RBGL::sp.between(myGraph, start = start, finish = x@nodes.id)
-
-
-  ## sp.between uses unique(x@nodes.id) ##
-  ## eventually have to duplicate paths ##
-  temp <- gsub(".*:", "", names(res))
-  res <- res[match(getNodes(x), temp)]
-
+  ## wrap: one path per location, in the order of the locations ##
+  endNodes <- getNodes(x)
+  res <- .shortestPaths(myGraph, start = rep(start, length(endNodes)), finish = endNodes)
 
   ## make it a class "gPath" (output + xy coords) ##
   allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))

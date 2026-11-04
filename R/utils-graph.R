@@ -99,3 +99,87 @@
   res@nodeData@data <- g@nodeData@data[match(nN[idx], names(g@nodeData@data), 0L)]
   res
 }
+
+
+#' Shortest paths between pairs of nodes
+#'
+#' Replacement for `RBGL::sp.between()`, which does a linear name lookup and
+#' grows vectors for every path (and loops over all nodes for an unreachable
+#' target). Paths from the same start are traced back from all their targets at
+#' once, and step weights are looked up by numeric edge keys.
+#'
+#' @param g a `graphNEL` with nonnegative edge weights.
+#' @param start,finish character vectors of node names, of the same length:
+#'   one path is computed for each pair `start[k]`, `finish[k]`.
+#' @param eW the edge weights, `unlist(edgeWeights(g), use.names = FALSE)`;
+#'   computed if `NULL`.
+#' @return a list with one element per pair, in the order of the pairs
+#'   (duplicates kept), named `"start:finish"`, each element being the same as
+#'   in `sp.between()`: `list(length, path_detail, length_detail)`. A path
+#'   from a node to itself has `length = NA` and `length_detail = list(NA)`; an
+#'   unreachable target has `path_detail = NA`.
+#' @noRd
+.shortestPaths <- function(g, start, finish, eW = NULL) {
+  nN <- graph::nodes(g)
+  N <- length(nN)
+  if (length(start) != length(finish)) stop("start and finish must have the same length")
+  s.idx <- match(start, nN)
+  f.idx <- match(finish, nN)
+  if (anyNA(s.idx) || anyNA(f.idx)) stop("all nodes must be in the graph")
+  if (is.null(eW)) eW <- unlist(graph::edgeWeights(g), use.names = FALSE)
+  if (any(eW < 0, na.rm = TRUE)) stop("edge weights must be nonnegative")
+  directed <- graph::isDirected(g)
+  em <- graph::edgeMatrix(g, duplicates = !directed)
+  ## weight of the directed step u -> v, looked up by a numeric key (exact
+  ## below 2^53, i.e. for any realistic graph)
+  ekey <- (em[1, ] - 1) * N + em[2, ]
+
+  ## node positions of each path, traced back from the targets
+  P <- length(start)
+  path.idx <- vector("list", P)
+  for (s in unique(s.idx)) {
+    pen <- RBGL::dijkstra.sp(g, nN[s], eW)$penult
+    k <- which(s.idx == s)
+    cur <- f.idx[k]
+    steps <- list(cur)
+    active <- cur != s
+    while (any(active)) {
+      nxt <- cur
+      nxt[active] <- pen[cur[active]]
+      stuck <- active & nxt == cur # unreachable: BGL sets penult[v] = v
+      cur <- nxt
+      active <- active & !stuck & cur != s
+      steps[[length(steps) + 1L]] <- cur
+    }
+    M <- do.call(cbind, steps) # one row per target, walking back to s
+    len <- max.col(M == s, ties.method = "first")
+    reached <- M[cbind(seq_along(k), len)] == s
+    for (j in seq_along(k)) {
+      path.idx[[k[j]]] <- if (reached[j]) rev(M[j, seq_len(len[j])]) else NA_integer_
+    }
+  }
+
+  ## weights of all steps of all paths at once
+  lens <- lengths(path.idx)
+  all.nodes <- unlist(path.idx, use.names = FALSE)
+  last <- cumsum(lens)
+  first <- last - lens + 1L
+  u <- all.nodes[-last]
+  v <- all.nodes[-first]
+  w <- eW[match((u - 1) * N + v, ekey)]
+  names(w) <- paste(nN[u], nN[v], sep = if (directed) "->" else "--")
+  pid <- rep.int(seq_len(P), lens - 1L)
+  ws <- split(w, factor(pid, levels = seq_len(P)))
+
+  res <- vector("list", P)
+  for (i in seq_len(P)) {
+    wi <- if (lens[i] > 1L) ws[[i]] else NA
+    res[[i]] <- list(
+      length = sum(wi),
+      path_detail = nN[path.idx[[i]]],
+      length_detail = list(wi)
+    )
+  }
+  names(res) <- paste(start, finish, sep = ":")
+  res
+}

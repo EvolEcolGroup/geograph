@@ -1,5 +1,13 @@
 # geoGraph (development version)
 
+* `dijkstraFrom()`, `dijkstraBetween()` and `polygonBetween()` no longer use
+  `RBGL::sp.between()`, which spent most of its time looking up node names
+  and growing vectors for every path (and looped over the whole graph for an
+  unreachable node). Paths from the same start are now traced back together:
+  `dijkstraBetween(hgdp)` takes 1.7 s instead of 3.7 s, and the 10.5k paths
+  from one node to the rest of the largest connected set of `worldgraph.40k`
+  2 s instead of 7.6 s. The paths, lengths and their order are unchanged.
+
 * Subsetting a `gGraph` with `[` (and so `isInArea()`-based subsets,
   `dropDeadNodes()` and `keepMaxConnectedSet()`) no longer uses
   `graph::subGraph()`, whose cost grows with the number of kept times dropped

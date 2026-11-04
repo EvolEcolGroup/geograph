@@ -70,11 +70,8 @@ setMethod("dijkstraBetween", "gGraph", function(x, from, to) {
     finish <- rep(to, times = length(from))
   }
 
-  ## wrap ##
-  ## ! sp.between does not return duplicated paths, and groups them by start:
-  ## put them back in the requested order, duplicating them if needed
-  res <- RBGL::sp.between(myGraph, start = start, finish = finish)
-  res <- res[paste(start, finish, sep = ":")]
+  ## wrap: one path per pair, in the requested order ##
+  res <- .shortestPaths(myGraph, start = start, finish = finish)
 
 
   ## make it a class "gPath" (output + xy coords) ##
