@@ -713,6 +713,77 @@ it once Phases 1–2 have removed the redundant calls.
 
 ------------------------------------------------------------------------
 
+## 8. Implementation status (November 2026)
+
+Implemented on `speed`, one commit per item, each with equivalence tests
+against the previous code (kept in `tests/testthat/helper-reference.R`) or
+against `graph`/`RBGL`/`sf` themselves: P0, P1.1–P1.7 (and bug 1 of
+section 7), P2.1–P2.9, P2.11 (single `.connectedSets()` in `dijkstraFrom()`;
+`closestNode()` left alone, as suggested) and P2.12. `R CMD check` and
+`lintr` (no new lint) pass; `data-raw/speed/verify_prototypes.R` still prints
+`TRUE` everywhere. Before/after timings are in Appendix A.
+
+Deviations from the instructions above, and things found on the way:
+
+-   **Asymmetric weights are swapped by every nested rebuild** (P1.6), not
+    only by `setCosts(method = "function")`: `dropDeadEdges()` and
+    `combineCosts()` also stored, for each edge, the weight given for its
+    reverse. This is reproduced by `.reverseWeights()` in all three, so
+    results stay identical (the fix is still P3.3). The nested constructor
+    also turns integer weights into doubles when some node has no edge and
+    refuses non-numeric weights; reproduced by `.nestedWeights()`.
+-   **P2.1 and P2.2 keep the string-based choice of edge direction** (the
+    same comparison `getEdges(unique = TRUE)` makes), computed on the integer
+    table, so segment order and orientation are unchanged and there is no ⚠
+    change; P3.4 still applies.
+-   **P2.5 `setEdges(add = )` and `remove = ` emulate `addEdge()` and
+    `removeEdge()` by node position** instead of rebuilding the graph: this
+    keeps partially stored edge data (edges added to a graph without costs),
+    the default weight `1L` and the order of edge lists identical, which a
+    rebuild would not. Faster than the rebuild (0.08 s / 0.17 s for 5,000
+    edges).
+-   **P1.3** keeps two behaviours of the old code: an edgeless graph gives an
+    empty graph, and a graph without stored costs comes back with stored
+    weights of 1.
+-   **P1.4 ties**: on a 1° raster centred exactly halfway between the nodes
+    of a 1° square grid, 81 of 100 cells go to a different (equally near)
+    node than with GEOS; documented in `@details` and NEWS, as instructed.
+    No difference at other resolutions.
+-   **P1.7 gains are smaller than estimated** with graph 1.88: building the
+    136k-node hexagonal grid's graph takes 2.0 s instead of 3.2 s (nested
+    construction 2.5 s + renaming 0.8 s), out of ~18 s in total, mostly
+    `dggridR`.
+-   **P2.12** does not use `.edgeTable()`, which coerces positions to
+    integer: the bundled graphs store them as double, and the `matId` matrix
+    must keep that type to stay identical.
+-   **`sp.between()` on this machine** took 4.3–7.6 s for the 10.5k-path
+    case, not 28 s; the new code takes 2–2.3 s.
+
+**Not implemented: P2.10** (latitude-dependent sampling in `makeHexGrid()`).
+The node set changes in 6 of 10 box/spacing combinations (cells along the
+box edges), so it needs the maintainer's agreement:
+
+```
+box (xmin,xmax,ymin,ymax)   spacing  sample points       cells           difference
+-20,20,-10,10                 200      4140 ->   4112      464 ->  464    none
+-20,20,-10,10                  60     35644 ->  35508     3954 -> 3954    none
+-10,40,35,70 (Europe)         200      8848 ->   5322      612 ->  610    2 missing
+-10,40,35,70 (Europe)          60     77589 ->  46573     5154 -> 5155    1 missing, 2 extra
+-60,60,60,85 (polar)          200     15162 ->   4539      524 ->  524    none
+-60,60,60,85 (polar)           60    132932 ->  39776     4423 -> 4422    1 missing
+100,160,-50,-10               200     12060 ->  10262     1170 -> 1169    1 missing
+100,160,-50,-10                60    106134 ->  90084     9951 -> 9945    6 missing
+170,-170,50,70 (antimerid.)   200      2208 ->   1142      136 ->  136    none
+170,-170,50,70 (antimerid.)    60     18224 ->   9222     1022 -> 1021    1 missing
+```
+
+Still open: **Phase 3** (P3.1–P3.5, each needs a decision) and **bugs 2 and 3
+of section 7** (documentation of `makeHexGrid(spacing)`; `sp.between()`'s
+`NA` paths, now irrelevant as `.shortestPaths()` returns `NA` without a
+warning).
+
+------------------------------------------------------------------------
+
 ## Appendix A. Baseline (`Rscript data-raw/speed/benchmark.R`, `dev` at `9f4fce4`)
 
 4-core container, R 4.3.3, graph 1.80.0, RBGL 1.78.0, sf 1.0-15, terra
@@ -762,6 +833,59 @@ Slow cases (`--slow`, measured separately): `dijkstraFrom()` on the
 \~28 s (extrapolated from 8,000 paths = 21.5 s);
 `assignByRaster()` on a 2.3M-cell world raster 39.5 s;
 `makeHexGrid(Europe, spacing = 15)` (136k nodes) 39–40 s.
+
+### After implementation (same benchmark, `--slow`)
+
+Measured on the implementation machine (24 cores, R 4.5.2, graph 1.88.1,
+RBGL 1.86.0, sf 1.1.3, terra 1.9.50, dggridR 3.1.1), running the benchmark
+on `dev` + this plan (`6bc2b91`, "before") and on the implemented branch
+("after") one after the other. Timings vary by about ±30% between runs on
+this machine; rows for functions that were not changed (`dijkstraBuffer`,
+`closestNode`, `findLand`, `assignByPolygon`) show that noise. Repeated
+runs (median of 5) for `polygonBetween(France, Spain)`: 0.84 -> 0.61 s.
+
+```
+group      benchmark                                                    before    after      x
+costs      setCosts(worldgraph.40k, mean)                               0.626s   0.333s   1.9x
+costs      setCosts(rawgraph.40k, node.values)                          1.586s   0.759s   2.1x
+costs      setDistCosts(rawgraph.40k)                                   1.443s   0.941s   1.5x
+costs      dropDeadEdges(worldgraph.40k, 10)                            0.897s   0.496s   1.8x
+costs      combineCosts(worldgraph.40k, worldgraph.40k)                 1.036s   0.680s   1.5x
+costs      hasCosts(worldgraph.40k)                                     0.205s   0.026s   7.9x
+costs      getCosts(vector, unique)                                     0.268s   0.263s   1.0x
+costs      getCosts(asIs, unique)                                       3.132s   0.222s  14.1x
+costs      getEdges(matNames, unique)                                   0.063s   0.065s   1.0x
+subset     worldgraph.40k[Europe]                                       0.399s   0.198s   2.0x
+subset     worldgraph.40k[every other node]                             3.031s   0.293s  10.3x
+subset     dropDeadNodes(worldgraph.40k)                                4.526s   0.338s  13.4x
+subset     keepMaxConnectedSet(worldgraph.40k)                          8.180s   0.485s  16.9x
+subset     areNeighbours(5000 pairs)                                    0.409s   0.016s  25.6x
+subset     setEdges(remove = 5000 edges)                                2.099s   0.075s  28.0x
+subset     setEdges(add = ~5000 edges)                                  1.706s   0.166s  10.3x
+dijkstra   dijkstraBetween(hgdp) [51 locations, 1275 paths]             3.226s   1.737s   1.9x
+dijkstra   dijkstraFrom(hgdp, Addis Ababa)                              0.415s   0.362s   1.1x
+dijkstra   dijkstraFrom(gGraph, ~10.5k connected nodes)                 4.336s   2.276s   1.9x
+dijkstra   dijkstraBuffer(worldgraph.40k, d = 5000)                     0.137s   0.241s   0.6x
+dijkstra   polygonBetween(France, Spain) [209 paths]                    0.846s   0.899s   0.9x
+buffer     buffer(worldgraph.40k, 1 node, d = 5000 km)                  0.100s   0.024s   4.2x
+buffer     buffer(rawgraph.40k, 51 nodes, d = 300 km)                   0.190s   0.050s   3.8x
+buffer     closestNode(1e5 locations)                                   0.075s   0.092s   0.8x
+raster     assignByRaster(175k cells)                                   0.876s   0.098s   8.9x
+raster     assignByRaster(2.3M cells, world)                           14.528s   2.203s   6.6x
+raster     findLand(worldgraph.40k)                                     0.133s   0.184s   0.7x
+raster     assignByPolygon(worldgraph.40k)                              0.144s   0.224s   0.6x
+grid       makeHexGrid(Europe, spacing = 30) [15k nodes]                1.900s   1.950s   1.0x
+grid       makeHexGrid(Europe, spacing = 15) [136k nodes]              17.666s  18.319s   1.0x
+grid       makeSquareGrid(size = 90000)                                 2.258s   1.526s   1.5x
+plot       plot(worldgraph.40k, reset = TRUE)                           0.075s   0.080s   0.9x
+plot       plot(worldgraph.40k, edges = TRUE, reset = TRUE)             0.419s   0.323s   1.3x
+plot       plotEdges(rawgraph.40k)                                      0.845s   0.518s   1.6x
+plot       plot(gPath with 1275 paths)                                  0.248s   0.030s   8.3x
+plot       connectivityPlot(worldgraph.40k)                             0.242s   0.171s   1.4x
+ggplot     ggplot_build(autoplot(worldgraph.40k))                       0.904s   0.747s   1.2x
+ggplot     ggplot_build(geom_ggraph(rawgraph.40k, edges))               2.567s   2.134s   1.2x
+ggplot     .gpathDf + .dfToSfPaths(1275 paths)                          0.306s   0.052s   5.9x
+```
 
 ## Appendix B. Suggested order of commits
 
