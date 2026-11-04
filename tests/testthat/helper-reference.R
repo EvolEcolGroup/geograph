@@ -266,3 +266,10 @@ drawnSegments <- function(expr) {
   rownames(res) <- NULL
   res
 }
+
+## outline nodes of a polygon, as computed by the previous polygonBetween()
+polygonOutlineRef <- function(g, nodes.polygon) {
+  neighL <- graph::edges(getGraph(g))
+  is.outline <- vapply(nodes.polygon, function(node) !all(neighL[[node]] %in% nodes.polygon), logical(1))
+  nodes.polygon[is.outline]
+}

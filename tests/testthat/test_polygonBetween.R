@@ -159,3 +159,23 @@ test_that("polygonBetween computes all paths between the two polygons", {
   expect_equal(length(result), n.west * n.east)
   expect_equal(dim(gPath2dist(result)), c(n.west, n.east))
 })
+
+test_that("polygonBetween uses the same outline nodes as the previous implementation", {
+  ## a subset graph (positions differ from names) with a node without edges
+  g <- test.graph[c(seq(2, 10242, by = 1), 1)]
+  attr <- getNodesAttr(g)$name
+  for (pol in c("west", "east")) {
+    nodes.pol <- getNodes(g)[attr %in% pol]
+    ref <- polygonOutlineRef(g, nodes.pol)
+    p <- polygonBetween(g, "name", from = pol, to = setdiff(c("west", "east"), pol))
+    expect_identical(attr(p, "nodes")$from, ref)
+  }
+  ## a polygon node without edges is not an outline node
+  E <- getEdges(g, res.type = "matNames")
+  lonely <- getNodes(g)[attr %in% "west"][3]
+  g2 <- setEdges(g, remove = E[E[, 1] == lonely, , drop = FALSE])
+  nodes.pol <- getNodes(g2)[getNodesAttr(g2)$name %in% "west"]
+  p <- polygonBetween(g2, "name", from = "west", to = "east")
+  expect_identical(attr(p, "nodes")$from, polygonOutlineRef(g2, nodes.pol))
+  expect_false(lonely %in% attr(p, "nodes")$from)
+})

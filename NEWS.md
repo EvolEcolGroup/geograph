@@ -10,6 +10,10 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `polygonBetween()` finds the outline nodes of the polygons in one pass over
+  the edges (0.01 s instead of 0.3 s for Africa on `rawgraph.40k`); most of
+  its time is in the shortest paths, see above.
+
 * `plot()` on a `gPath` draws all segments of all paths in one call instead
   of one call per path: 0.03 s instead of 0.34 s for 1,275 paths. Segments
   crossing the antimeridian (drawn split and dotted) are now drawn after all
