@@ -69,11 +69,11 @@ test_that("plotEdges draws the same segments as the previous implementation", {
   pdf(NULL)
   on.exit(dev.off(), add = TRUE)
   drawn <- new.env()
-  trace(graphics::segments,
+  suppressMessages(trace(graphics::segments,
     bquote(assign("args", list(x0 = x0, y0 = y0, x1 = x1, y1 = y1, lwd = lwd, lty = lty), envir = .(drawn))),
     print = FALSE
-  )
-  on.exit(untrace(graphics::segments), add = TRUE)
+  ))
+  on.exit(suppressMessages(untrace(graphics::segments)), add = TRUE)
   set.seed(11)
   costly <- setCosts(rawgraph.10k, node.values = runif(length(getNodes(rawgraph.10k))))
   for (x in list(worldgraph.10k, rawgraph.10k, costly)) {

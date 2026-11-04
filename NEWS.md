@@ -10,6 +10,11 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `plot()` on a `gPath` draws all segments of all paths in one call instead
+  of one call per path: 0.03 s instead of 0.34 s for 1,275 paths. Segments
+  crossing the antimeridian (drawn split and dotted) are now drawn after all
+  the other segments rather than path by path.
+
 * `geom_gpath()` builds the data of its paths in one go instead of one data
   frame per path: 0.06 s instead of 0.4 s for 1,275 paths, same layer data.
 

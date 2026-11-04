@@ -222,3 +222,47 @@ dfToSfPathsRef <- function(df) {
   lines <- lapply(by.path, function(p) sf::st_linestring(cbind(p$lon, p$lat)))
   sf::st_sf(path_id = names(by.path), geometry = sf::st_sfc(lines, crs = 4326))
 }
+
+plotGPathRef <- function(x, col = "rainbow", lwd = 3, seed = NULL, ...) {
+  listNodes <- lapply(x, function(e) e$path_detail)
+  xy <- attr(x, "xy")
+  n.path <- length(listNodes)
+  if (is.character(col) && col[1] == "rainbow") {
+    if (!is.null(seed)) set.seed(seed)
+    col <- sample(grDevices::rainbow(length(x)))
+  }
+  col <- rep(col, length = n.path)
+  lwd <- rep(lwd, length = n.path)
+  f1 <- function(vecNodes, col, lwd, ...) {
+    N <- length(vecNodes)
+    if (N < 2) return()
+    from <- vecNodes[seq_len(N - 1)]
+    to <- vecNodes[2:N]
+    geo.segments(xy[from, 1], xy[from, 2], xy[to, 1], xy[to, 2], col = col, lwd = lwd, ...)
+  }
+  lapply(seq_along(listNodes), function(i) f1(listNodes[[i]], col = col[i], lwd = lwd[i], ...))
+  invisible()
+}
+
+## all segments drawn by graphics::segments() while evaluating expr, one row
+## per segment
+drawnSegments <- function(expr) {
+  drawn <- new.env()
+  drawn$segs <- list()
+  suppressMessages(trace(graphics::segments,
+    bquote({
+      n <- length(x0)
+      seg <- data.frame(
+        x0 = x0, y0 = y0, x1 = x1, y1 = y1,
+        col = rep(col, length.out = n), lwd = rep(lwd, length.out = n), lty = rep(lty, length.out = n)
+      )
+      assign("segs", c(get("segs", envir = .(drawn)), list(seg)), envir = .(drawn))
+    }),
+    print = FALSE
+  ))
+  on.exit(suppressMessages(untrace(graphics::segments)))
+  force(expr)
+  res <- do.call(rbind, drawn$segs)
+  rownames(res) <- NULL
+  res
+}
