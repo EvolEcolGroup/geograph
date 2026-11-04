@@ -10,6 +10,11 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `geom_ggraph(edges = TRUE)` builds its edge segments faster (one matrix per
+  edge, without the checks of `sf::st_linestring()`, and edges selected by
+  node position): `ggplot_build()` of the edges of `rawgraph.40k` takes 2.5 s
+  instead of 3.9 s. The layer data are unchanged.
+
 * `plotEdges()` and `plot(x, edges = TRUE)` select the visible edges and their
   costs from one edge table instead of matching node names and splitting
   edge names: `plotEdges(rawgraph.40k)` takes 0.65 s instead of 1.7 s. The

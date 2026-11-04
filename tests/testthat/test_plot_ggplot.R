@@ -70,3 +70,13 @@ test_that("geom_gdata handles gData objects whose data is a vector", {
   p <- ggplot2::ggplot() + geom_gdata(data = gd, ggplot2::aes(color = data))
   expect_s3_class(p, "ggplot")
 })
+
+test_that("edge layer data are identical to the previous implementation", {
+  for (g in list(worldgraph.10k, rawgraph.10k, worldgraph.10k[1:50])) {
+    df <- .ggraphEdgesDf(g)
+    expect_identical(df, ggraphEdgesDfRef(g))
+    expect_identical(.dfToSfLines(df), dfToSfLinesRef(df))
+  }
+  df <- .ggraphEdgesDf(worldgraph.10k)[0, ]
+  expect_identical(.dfToSfLines(df), dfToSfLinesRef(df))
+})

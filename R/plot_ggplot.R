@@ -219,12 +219,18 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 #' Internal function to convert a `gGraph's` edges to a data.frame for ggplot
 #' @noRd
 .ggraphEdgesDf <- function(g) {
-  E <- getEdges(g, res.type = "matNames", unique = TRUE)
+  ## one direction per edge, chosen by comparing node names as
+  ## getEdges(unique = TRUE) does
+  et <- .edgeTable(getGraph(g), weights = FALSE)
+  nN <- getNodes(g)
+  keep <- nN[et$from] < nN[et$to]
+  from <- et$from[keep]
+  to <- et$to[keep]
   co <- getCoords(g)
   data.frame(
-    from = E[, 1], to = E[, 2],
-    x = co[E[, 1], 1], y = co[E[, 1], 2],
-    xend = co[E[, 2], 1], yend = co[E[, 2], 2]
+    from = nN[from], to = nN[to],
+    x = co[from, 1], y = co[from, 2],
+    xend = co[to, 1], yend = co[to, 2]
   )
 }
 
@@ -270,11 +276,11 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 #' Internal function to convert a data.frame of edges to sf linestrings for ggplot
 #' @noRd
 .dfToSfLines <- function(df) {
+  ## build the 2 x 2 coordinate matrix of each segment and set its class
+  ## directly (what sf::st_linestring() returns, without its checks)
+  m <- cbind(df$x, df$xend, df$y, df$yend)
   lines <- lapply(seq_len(nrow(df)), function(i) {
-    sf::st_linestring(rbind(
-      c(df$x[i], df$y[i]),
-      c(df$xend[i], df$yend[i])
-    ))
+    structure(matrix(m[i, ], 2, 2), class = c("XY", "LINESTRING", "sfg"))
   })
   sf::st_sf(
     from = df$from, to = df$to,

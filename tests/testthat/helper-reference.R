@@ -188,3 +188,20 @@ plotEdgesSegmentsRef <- function(x, toKeep, useCosts, lwd = 1, lty = 1, maxLwd =
     lwd = lwd, lty = lty
   )
 }
+
+ggraphEdgesDfRef <- function(g) {
+  E <- getEdges(g, res.type = "matNames", unique = TRUE)
+  co <- getCoords(g)
+  data.frame(
+    from = E[, 1], to = E[, 2],
+    x = co[E[, 1], 1], y = co[E[, 1], 2],
+    xend = co[E[, 2], 1], yend = co[E[, 2], 2]
+  )
+}
+
+dfToSfLinesRef <- function(df) {
+  lines <- lapply(seq_len(nrow(df)), function(i) {
+    sf::st_linestring(rbind(c(df$x[i], df$y[i]), c(df$xend[i], df$yend[i])))
+  })
+  sf::st_sf(from = df$from, to = df$to, geometry = sf::st_sfc(lines, crs = 4326))
+}
