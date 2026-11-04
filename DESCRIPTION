@@ -95,6 +95,7 @@ Collate:
     'setDistCosts.R'
     'setEdges.R'
     'setNodesAttr.R'
+    'utils-graph.R'
     'utils-pipe.R'
     'zoom.R'
     'zzz.R'
