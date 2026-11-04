@@ -1,3 +1,11 @@
+# geoGraph (development version)
+
+* Subsetting a `gGraph` with `[` (and so `isInArea()`-based subsets,
+  `dropDeadNodes()` and `keepMaxConnectedSet()`) no longer uses
+  `graph::subGraph()`, whose cost grows with the number of kept times dropped
+  nodes: keeping every other node of `worldgraph.40k` takes 0.3 s instead of
+  3.3 s (7 s instead of 0.13 s without costs). The result is unchanged.
+
 # geoGraph v2.1.0
 
 * `dijkstraBetween(x, from, to)` on a `gGraph` now returns every path from each

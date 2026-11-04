@@ -99,3 +99,29 @@ test_that("gData objects with vector data can be subset", {
   expect_equal(nrow(getCoords(sub)), 2L)
   expect_equal(unname(getNodes(sub)), unname(getNodes(gd)[2:3]))
 })
+
+test_that("[,gGraph gives the same graph as graph::subGraph", {
+  set.seed(1)
+  ref <- function(x, i) {
+    if (is.logical(i)) i <- rep(i, length = length(getNodes(x)))
+    if (is.character(i)) i <- match(i, getNodes(x))
+    subGraph(graph::nodes(getGraph(x))[i], getGraph(x))
+  }
+  N <- length(getNodes(worldgraph.10k))
+  weighted <- worldgraph.10k
+  costs <- rawgraph.10k
+  unweighted <- dropCosts(rawgraph.10k)
+  half <- seq(1, N, by = 2)
+  shuffled <- sample(N, 500)
+  for (x in list(weighted, costs, unweighted)) {
+    for (i in list(half, shuffled, -half, rep(c(TRUE, FALSE, FALSE), length = N),
+      getNodes(x)[shuffled], c(TRUE, FALSE))) {
+      res <- getGraph(x[i])
+      expect_true(validObject(res))
+      expect_same_graph(res, ref(x, i))
+    }
+  }
+  ## a single node, and no node at all
+  expect_same_graph(getGraph(weighted[5]), ref(weighted, 5))
+  expect_same_graph(getGraph(weighted[integer(0)]), ref(weighted, integer(0)))
+})

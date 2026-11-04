@@ -67,7 +67,12 @@ setMethod("[", "gGraph", function(x, i, j, ..., drop = TRUE) {
       res@nodes.attr <- res@nodes.attr[i, j, drop = FALSE]
     }
   }
-  res@graph <- subGraph(nodes(res@graph)[i], res@graph)
+  idx <- seq_len(nrow(getCoords(x)))[i]
+  if (anyNA(idx) || anyDuplicated(idx)) {
+    res@graph <- subGraph(nodes(res@graph)[i], res@graph)
+  } else {
+    res@graph <- .subsetGraph(res@graph, idx)
+  }
 
   return(res)
 })

@@ -68,3 +68,34 @@
   g
 }
 
+
+
+#' Subset a graphNEL to some of its nodes
+#'
+#' Replacement for `graph::subGraph()`, which is O(kept x dropped nodes). Edges
+#' between kept nodes are kept with their weights, if the graph has stored edge
+#' data, and node data are carried over as in `subGraph()`. The nodes of the
+#' result are in the order of `idx`.
+#'
+#' @param g a `graphNEL`.
+#' @param idx integer positions (without duplicates or `NA`) of the nodes to
+#'   keep.
+#' @return a `graphNEL`.
+#' @noRd
+.subsetGraph <- function(g, idx) {
+  nN <- graph::nodes(g)
+  newpos <- integer(length(nN))
+  newpos[idx] <- seq_along(idx)
+  weighted <- length(g@edgeData@data) > 0
+  et <- .edgeTable(g, weights = weighted)
+  keep <- newpos[et$from] > 0L & newpos[et$to] > 0L
+  res <- .graphFromTable(nN[idx], newpos[et$from[keep]], newpos[et$to[keep]],
+    w = if (weighted) et$w[keep] else NULL,
+    edgemode = graph::edgemode(g)
+  )
+  ## geoGraph keeps node attributes in @nodes.attr, but carry graph node data
+  ## over as subGraph() does
+  res@nodeData@defaults <- g@nodeData@defaults
+  res@nodeData@data <- g@nodeData@data[match(nN[idx], names(g@nodeData@data), 0L)]
+  res
+}
