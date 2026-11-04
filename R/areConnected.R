@@ -38,10 +38,15 @@ areConnected <- function(x, nodes) { # x is a gGraph
   ## get connected sets (with more than one node) ##
   connected.sets <- .connectedSets(getGraph(x))
 
-  res <- vapply(connected.sets, function(e) all(nodes %in% e), logical(1))
-  res <- any(res)
+  res <- .inOneSet(connected.sets, nodes)
 
   return(res)
+}
+
+
+## are all 'nodes' in one of the 'connected.sets' (as returned by .connectedSets)?
+.inOneSet <- function(connected.sets, nodes) {
+  any(vapply(connected.sets, function(e) all(nodes %in% e), logical(1)))
 }
 
 

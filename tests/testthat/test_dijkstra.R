@@ -179,6 +179,14 @@ test_that("dijkstraFrom on gData gives informative errors for a bad start", {
   expect_error(dijkstraFrom(hgdp.sub, sea.node), "not connected to the locations")
   expect_error(dijkstraFrom(hgdp.sub, "not_a_node"), "Starting node is not in the gGraph")
   expect_error(dijkstraFrom(hgdp.sub, getNodes(hgdp.sub)[1:2]), "single node")
+
+  ## locations in different connected sets: checked before the start
+  habitat <- getNodesAttr(worldgraph.40k, attr.name = "habitat")$habitat
+  sea.nodes <- getNodes(worldgraph.40k)[habitat == "sea"][1:2]
+  apart <- hgdp[1:2]
+  apart@nodes.id <- setNames(sea.nodes, names(apart@nodes.id))
+  expect_error(dijkstraFrom(apart, "not_a_node"), "Not all locations are connected")
+  expect_error(dijkstraFrom(apart, getNodes(hgdp.sub)[1]), "Not all locations are connected")
 })
 
 test_that("dijkstraFrom on gGraph requires a single start node", {

@@ -7,6 +7,8 @@
   `dijkstraBetween(hgdp)` takes 1.7 s instead of 3.7 s, and the 10.5k paths
   from one node to the rest of the largest connected set of `worldgraph.40k`
   2 s instead of 7.6 s. The paths, lengths and their order are unchanged.
+  `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
+  once instead of twice.
 
 * Subsetting a `gGraph` with `[` (and so `isInArea()`-based subsets,
   `dropDeadNodes()` and `keepMaxConnectedSet()`) no longer uses
