@@ -81,3 +81,10 @@ test_that("closestNode handles exact poles without error", {
   loc <- data.frame(lon = c(0, 180), lat = c(90, -90))
   expect_no_error(closestNode(worldgraph.40k, loc))
 })
+
+test_that("closestNode accepts a single location given as c(lon, lat)", {
+  r.vec <- closestNode(worldgraph.40k, c(12, 50))
+  r.mat <- closestNode(worldgraph.40k, matrix(c(12, 50), ncol = 2))
+  expect_identical(unname(r.vec), unname(r.mat))
+  expect_error(closestNode(worldgraph.40k, c(12, 50, 3)), "two columns")
+})

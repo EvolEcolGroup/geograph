@@ -11,8 +11,8 @@
 #' @param fun a function or character string specifying how to summarize
 #'   raster values within each node. Built-in options are `"mean"`, `"max"`,
 #'   `"min"`, `"median"`, `"sd"`, `"any"`, and `"all"`. Alternatively, pass
-#'   any function that takes a numeric vector and returns a scalar. Defaults
-#'   to `"mean"`.
+#'   any function that takes a numeric vector and returns a scalar (`NA`s are
+#'   removed beforehand when `na.rm = TRUE`). Defaults to `"mean"`.
 #' @param na.rm logical. Whether to remove `NA` values before summarizing.
 #'   Defaults to `TRUE`.
 #' @param ... additional arguments passed to `fun`.
@@ -93,7 +93,7 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
     ...
   )
 
-  graph@nodes.attr[[layer.name]] <- collapsed
+  graph <- setNodesAttr(graph, attr.name = layer.name, values = collapsed)
   return(graph)
 }
 
@@ -115,19 +115,19 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
   if (is.character(fun)) {
     fun <- match.arg(fun, c("mean", "max", "min", "median", "sd", "any", "all"))
     fun <- switch(fun,
-      mean   = mean,
-      max    = max,
-      min    = min,
-      median = stats::median,
-      sd     = stats::sd,
-      any    = any,
-      all    = all
+                  mean   = mean,
+                  max    = max,
+                  min    = min,
+                  median = stats::median,
+                  sd     = stats::sd,
+                  any    = any,
+                  all    = all
     )
   }
   if (!is.function(fun)) {
     stop("`fun` must be a function or a supported character string.")
   }
-
+  
   ## collapse one node safely
   collapseOneNode <- function(df, fun, na.rm, ...) {
     if (is.null(df) || length(df) == 0 || nrow(df) == 0) {
@@ -141,10 +141,14 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
     if (identical(fun, any) || identical(fun, all)) {
       vals <- as.logical(vals)
     }
-    out <- fun(vals, na.rm = na.rm, ...)
+    ## remove NAs here, so that fun does not need an na.rm argument
+    if (na.rm) {
+      vals <- vals[!is.na(vals)]
+    }
+    out <- fun(vals, ...)
     if (length(out) != 1L) stop("`fun` must return a scalar per node.")
     return(out)
   }
-
+  
   sapply(x, collapseOneNode, fun = fun, na.rm = na.rm, ...)
 }

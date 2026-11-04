@@ -235,8 +235,11 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
   colnames(co) <- c("lon", "lat")
 
   df <- cbind(data.frame(node_id = gd@nodes.id), co)
-  if (!is.null(gd@data) && length(gd@data) > 0 && nrow(gd@data) > 0) {
-    df <- cbind(df, gd@data)
+  dat <- gd@data
+  if (length(dim(dat)) == 2 && nrow(dat) == nrow(df)) { # data.frame or matrix
+    df <- cbind(df, dat)
+  } else if (is.atomic(dat) && is.null(dim(dat)) && length(dat) == nrow(df)) { # vector
+    df$data <- dat
   }
   df
 }

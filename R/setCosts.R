@@ -105,12 +105,10 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
         ))
       }
 
-      ## use named indexing — safe regardless of column order
-      for (i in seq_len(nrow(rules))) {
-        nodeCosts[nodeCosts == as.character(rules[[attr.name]][i])] <- rules[[cost.col]][i]
-      }
-
-      nodeCosts <- as.numeric(nodeCosts)
+      ## use named indexing — safe regardless of column order; look up all
+      ## values at once, as replacing rule by rule would chain replacements
+      ## whenever a cost equals another attribute value
+      nodeCosts <- as.numeric(rules[[cost.col]][match(nodeCosts, known.values)])
     } else {
       stop("x@meta does not contain a 'costs' component.")
     }

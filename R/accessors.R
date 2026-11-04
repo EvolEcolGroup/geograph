@@ -125,18 +125,19 @@ setGeneric("getNodesAttr", function(x, ...) {
 #' @describeIn getNodesAttr Method for gGraph objects
 #' @export
 setMethod("getNodesAttr", "gGraph", function(x, nodes = NULL, attr.name = NULL, ...) {
-  if (is.null(nodes)) { # no node specified -> all nodes kept
-    nodes <- TRUE
+  res <- x@nodes.attr
+  ## graphs saved with older versions can have a 0 x 0 nodes.attr
+  if (nrow(res) == 0) res <- data.frame(row.names = getNodes(x))
+  ## NULL -> all kept; note that df[, TRUE] fails on a data.frame without columns
+  if (!is.null(nodes)) {
+    res <- res[nodes, , drop = FALSE]
   }
-  if (is.null(attr.name)) { # no attr specified -> all attr kept
-    attr.name <- TRUE
+  if (!is.null(attr.name)) {
+    res <- res[, attr.name, drop = FALSE]
   }
-
-  res <- x@nodes.attr[nodes, attr.name, drop = FALSE]
 
   return(res)
 })
-
 
 #' @describeIn getNodesAttr Method for gData objects
 #' @export
@@ -255,7 +256,7 @@ setMethod("getNodes", "gData", function(x, ...) {
 #' @param res.type a character string indicating which kind of output should be
 #' used. See value.
 #' @param unique a logical indicating whether all returned edges should be
-#' unique (TRUE) or if duplicated edges should be allowed (TRUE, default).
+#' unique (TRUE) or if duplicated edges should be allowed (FALSE, default).
 #' @param \dots other arguments passed to other methods (currently unused).
 #' @return The output depends on the value of the argument \code{res.type}:\cr
 #' - \code{asIs}: output is a named list of nodes, each slot containing nodes
@@ -436,12 +437,11 @@ setMethod("getNodeCosts", "gGraph", function(x, attr.name, ...) {
     if (!any(attr.name %in% colnames(x@meta$costs))) {
       stop("attr.name is not documented in x@meta$costs.")
     }
-    nodeCosts <- as.character(nodeAttr)
     rules <- x@meta$costs
-    for (i in seq_len(nrow(x@meta$costs))) {
-      nodeCosts[nodeCosts == rules[i, attr.name]] <- rules[i, ncol(rules)]
-    }
-    nodeCosts <- as.numeric(nodeCosts)
+    ## look up all values at once: replacing rule by rule would chain
+    ## replacements whenever a cost equals another attribute value
+    idx <- match(as.character(nodeAttr), as.character(rules[[attr.name]]))
+    nodeCosts <- as.numeric(rules[[ncol(rules)]][idx])
   } else {
     stop("x@meta does not contain a 'costs' component.")
   }
@@ -612,11 +612,9 @@ setMethod("getColors", "gGraph", function(x, nodes = "all", attr.name = NULL,
 
   ## define colors
   criterion <- getNodesAttr(x, nodes = toKeep, attr.name = attr.name)
-  col <- as.character(unlist(criterion))
-
-  for (i in seq_len(nrow(col.rules))) {
-    col[col == col.rules[i, 1]] <- col.rules[i, 2]
-  }
+  ## look up all values at once (see getNodeCosts); values without a rule get NA
+  idx <- match(as.character(unlist(criterion)), as.character(col.rules[[1]]))
+  col <- as.character(col.rules[[2]])[idx]
 
   names(col) <- getNodes(x)[toKeep]
   return(col)

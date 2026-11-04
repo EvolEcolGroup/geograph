@@ -4,9 +4,11 @@
 #' origin within a specified maximum cumulative cost, where the distance is
 #' defined as the cumulative least-cost path over weighted edges.
 #'
-#' Internally, the function computes single-source shortest paths using
+#' Internally, the function computes single-source shortest path costs using
 #' Dijkstra's algorithm from the origin node and returns all nodes whose
-#' minimum path cost does not exceed the specified threshold.
+#' minimum path cost does not exceed the specified threshold. The origin
+#' itself (cost 0) is always included; nodes that cannot be reached from the
+#' origin (e.g. in another connected set) are not.
 #'
 #' @param x a valid [`gGraph`] object with edge costs defined (see
 #'   [`setCosts`]).
@@ -22,8 +24,8 @@
 #' @return A character vector of reachable node names when
 #'   `res.type = "nodes"`, or a [`gGraph`] object with a new logical node
 #'   attribute `reachable` when `res.type = "gGraph"`.
-#' @seealso [`dijkstraFrom`] and [`gPath2dist`] for the underlying path
-#'   computations. [`buffer`] for geographic distance-based buffers.
+#' @seealso [`dijkstraFrom`] and [`gPath2dist`] to obtain the least-cost paths
+#'   themselves. [`buffer`] for geographic distance-based buffers.
 #'   [`setCosts`] to define edge costs before running `dijkstraBuffer`.
 #' @family dijkstra_methods
 #' @examples
@@ -66,13 +68,9 @@ dijkstraBuffer <- function(x, origin, d, res.type = c("nodes", "gGraph"), ...) {
     }
   }
 
-  ## compute least-cost paths from origin
-  paths <- dijkstraFrom(x, start = origin.node)
-  dists <- gPath2dist(paths)
-
-  ## extract destination node names
-  dest.nodes <- sub(".*:", "", names(dists))
-  names(dists) <- dest.nodes
+  ## least-cost distances from origin to every node (0 for the origin itself,
+  ## Inf for nodes that cannot be reached); paths are not needed here
+  dists <- RBGL::dijkstra.sp(getGraph(x), start = origin.node)$distances
   in.reach <- names(dists)[dists <= d]
 
   if (res.type == "nodes") {
@@ -81,8 +79,6 @@ dijkstraBuffer <- function(x, origin, d, res.type = c("nodes", "gGraph"), ...) {
 
   ## map back onto graph as node attribute
   reachable <- getNodes(x) %in% in.reach
-  names(reachable) <- getNodes(x)
-  x@nodes.attr$reachable <- reachable
-
+  x <- setNodesAttr(x, attr.name = "reachable", values = reachable)
   return(x)
 }
