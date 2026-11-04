@@ -298,3 +298,22 @@ test_that("setDistCosts gives the same weights as the previous implementation", 
     expect_same_graph(getGraph(setDistCosts(x)), setDistCostsGraphRef(x))
   }
 })
+
+test_that("hasCosts reads stored weights, and falls back on edgeWeights for partially stored graphs", {
+  ref <- function(x) {
+    length(getGraph(x)@edgeData@data) > 0 && length(unique(getCosts(x, res.type = "vector"))) > 1
+  }
+  for (x in list(worldgraph.10k, rawgraph.10k, dropCosts(rawgraph.10k), setCosts(worldgraph.10k, node.values = 2))) {
+    expect_identical(hasCosts(x), ref(x))
+  }
+  ## edges added to a graph without costs: only their weights are stored
+  x <- dropCosts(worldgraph.10k)
+  y <- setEdges(x, add = cbind("1", "5000"), costs = 1)
+  expect_false(hasCosts(y))
+  y <- setEdges(x, add = cbind("1", "5000"), costs = 3)
+  expect_true(hasCosts(y))
+  ## stored weights all equal to 2, but missing ones default to 1
+  y <- setEdges(dropCosts(worldgraph.10k), add = cbind(c("1", "2"), c("5000", "6000")), costs = 2)
+  expect_identical(hasCosts(y), ref(y))
+  expect_true(hasCosts(y))
+})

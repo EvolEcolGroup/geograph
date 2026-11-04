@@ -10,6 +10,9 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `hasCosts()` reads the stored weights directly when every edge has one
+  (0.02 s instead of 0.2 s on `worldgraph.40k`).
+
 * `areNeighbours()` looks up pairs of nodes with numeric keys (0.02 s instead
   of 0.4 s for 5,000 pairs), and `setEdges()` adds and removes edges by node
   position instead of name: 0.08 s instead of 2 s to remove 5,000 edges of
