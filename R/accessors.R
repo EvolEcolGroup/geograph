@@ -299,10 +299,11 @@ setMethod("getEdges", "gGraph", function(x, res.type = c("asIs", "matNames", "ma
   }
 
   if (res.type == "matId") { # return matrix of node numbers
-    res <- edgeL(x@graph)
-    temp <- sapply(res, function(e) length(e$edges))
-    col1 <- rep(seq_along(res), temp)
-    col2 <- unlist(res)
+    ## neighbour positions of each node, as stored in @edgeL (one 'edges'
+    ## component per node)
+    res <- lapply(x@graph@edgeL, `[[`, "edges")
+    col1 <- rep(seq_along(res), lengths(res))
+    col2 <- unlist(res, use.names = FALSE)
     res <- cbind(Vi = col1, Vj = col2)
   }
 

@@ -228,3 +228,11 @@ test_that("getCosts(asIs, unique = TRUE) gives the same result as the previous i
   x <- new("gGraph", coords = cbind(lon = 1:3, lat = 1:3))
   expect_identical(getCosts(x, res.type = "asIs", unique = TRUE), getCostsAsIsUniqueRef(x))
 })
+
+test_that("getEdges(matId) gives the same matrix as the previous implementation", {
+  for (x in list(worldgraph.10k, rawgraph.10k[1:500], makeSquareGrid(9), new("gGraph", coords = cbind(lon = 1:2, lat = 1:2)))) {
+    for (u in c(FALSE, TRUE)) {
+      expect_identical(getEdges(x, res.type = "matId", unique = u), getEdgesMatIdRef(x, unique = u))
+    }
+  }
+})

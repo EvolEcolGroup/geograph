@@ -326,3 +326,13 @@ connectivityColRef <- function(x, seed = NULL) {
   }
   col
 }
+
+getEdgesMatIdRef <- function(x, unique = FALSE) {
+  res <- graph::edgeL(x@graph)
+  col1 <- rep(seq_along(res), sapply(res, function(e) length(e$edges)))
+  col2 <- unlist(res)
+  res <- cbind(Vi = col1, Vj = col2)
+  if (unique) res <- res[res[, 1] < res[, 2], , drop = FALSE]
+  rownames(res) <- NULL
+  res
+}
