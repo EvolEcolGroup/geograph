@@ -10,6 +10,10 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `connectivityPlot()` colors nodes by connected set with one lookup instead
+  of one assignment per set: on a graph with 2,000 sets 0.1 s instead of
+  3.2 s. The colors are unchanged.
+
 * `buffer()` runs its search on node positions with a logical vector of
   visited nodes (0.06 s instead of 0.3 s for 51 nodes at 300 km on
   `rawgraph.40k`), with the same result.

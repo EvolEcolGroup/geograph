@@ -296,3 +296,33 @@ bufferNodesRef <- function(x, nodes, d) {
   }
   unique(unlist(lapply(nodes, find.buf.onenode, d)))
 }
+
+## colours of connectivityPlot(), previous implementation
+connectivityColRef <- function(x, seed = NULL) {
+  connected.sets <- .connectedSets(getGraph(x))
+  nbSets <- length(connected.sets)
+  myNodes <- getNodes(x)
+  if (is.gGraph(x)) {
+    if (!is.null(seed)) set.seed(seed)
+    colSets <- sample(grDevices::rainbow(nbSets))
+    col <- rep("lightgray", length(myNodes))
+    names(col) <- myNodes
+    for (i in seq_len(nbSets)) col[connected.sets[[i]]] <- colSets[i]
+    return(col)
+  }
+  nbRelSets <- 0
+  for (i in seq_len(nbSets)) if (any(myNodes %in% connected.sets[[i]])) nbRelSets <- nbRelSets + 1
+  if (!is.null(seed)) set.seed(seed)
+  colSets <- sample(grDevices::rainbow(nbRelSets))
+  col <- rep("lightgray", length(myNodes))
+  names(col) <- myNodes
+  color.idx <- 0
+  for (i in seq_len(nbSets)) {
+    nodes.in.set <- names(col)[names(col) %in% connected.sets[[i]]]
+    if (length(nodes.in.set) > 0) {
+      color.idx <- color.idx + 1
+      col[nodes.in.set] <- colSets[color.idx]
+    }
+  }
+  col
+}
