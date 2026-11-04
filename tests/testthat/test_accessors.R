@@ -220,3 +220,11 @@ test_that("getCoords for gData with original = FALSE returns matched node coords
   expect_equal(ncol(res), 2L)
 })
 
+
+test_that("getCosts(asIs, unique = TRUE) gives the same result as the previous implementation", {
+  for (x in list(worldgraph.10k, rawgraph.10k, worldgraph.10k[1:200])) {
+    expect_identical(getCosts(x, res.type = "asIs", unique = TRUE), getCostsAsIsUniqueRef(x))
+  }
+  x <- new("gGraph", coords = cbind(lon = 1:3, lat = 1:3))
+  expect_identical(getCosts(x, res.type = "asIs", unique = TRUE), getCostsAsIsUniqueRef(x))
+})

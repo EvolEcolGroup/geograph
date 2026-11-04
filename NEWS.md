@@ -10,6 +10,9 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `getCosts(res.type = "asIs", unique = TRUE)` no longer looks up each node by
+  name: 0.2 s instead of 3.1 s on `worldgraph.40k`, same result.
+
 * `makeHexGrid()` and `makeSquareGrid()` build their graph from a flat edge
   list, and `new("gGraph")` no longer renames the nodes of a graph whose node
   names are already right: `makeSquareGrid(size = 90000)` takes 1.2 s instead

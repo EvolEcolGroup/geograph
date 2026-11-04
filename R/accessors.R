@@ -392,9 +392,10 @@ setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector", "rule
   ## apply unique filtering for both asIs and vector
   if (unique) {
     if (res.type == "asIs") {
-      # For asIs (list format), we need to filter each element
-      res <- lapply(names(res), function(node) {
-        edges <- res[[node]]
+      # For asIs (list format), we need to filter each element; iterate over
+      # names and elements together (res[[node]] would scan all names)
+      nodeNames <- names(res)
+      res <- .mapply(function(node, edges) {
         if (length(edges) > 0) {
           # Keep only edges where node name < neighbor name
           keep <- node < names(edges)
@@ -402,8 +403,8 @@ setMethod("getCosts", "gGraph", function(x, res.type = c("asIs", "vector", "rule
         } else {
           edges
         }
-      })
-      names(res) <- names(edgeWeights(x@graph))
+      }, list(nodeNames, res), NULL)
+      names(res) <- nodeNames
     } else {
       # For vector format
       nodeNames <- names(res)

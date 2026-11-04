@@ -117,3 +117,13 @@ setDistCostsGraphRef <- function(x) {
   graph::edgeData(x@graph, from = E[, 1], to = E[, 2], attr = "weight") <- w
   x@graph
 }
+
+getCostsAsIsUniqueRef <- function(x) {
+  res <- graph::edgeWeights(x@graph)
+  res <- lapply(names(res), function(node) {
+    edges <- res[[node]]
+    if (length(edges) > 0) edges[node < names(edges)] else edges
+  })
+  names(res) <- names(graph::edgeWeights(x@graph))
+  res
+}
