@@ -77,3 +77,18 @@ test_that("buffer on gData delegates to gGraph", {
   expect_s4_class(res, "gGraph")
   expect_true("buffer" %in% colnames(getNodesAttr(res)))
 })
+
+test_that("buffer gives the same nodes as the previous implementation", {
+  set.seed(12)
+  sub <- worldgraph.10k[sample(10242, 6000)] # node positions differ from names
+  for (x in list(worldgraph.10k, rawgraph.10k, sub)) {
+    nodes <- sample(getNodes(x), 5)
+    for (d in c(100, 800, 3000)) {
+      expect_identical(buffer(x, nodes, d = d), bufferNodesRef(x, nodes, d = d))
+    }
+  }
+  ## a node without edges, and duplicated nodes
+  x <- new("gGraph", coords = cbind(lon = c(0, 1, 2, 10), lat = 0))
+  x <- setEdges(x, add = cbind(c("1", "2"), c("2", "3")))
+  expect_identical(buffer(x, c("4", "1", "1"), d = 200), bufferNodesRef(x, c("4", "1", "1"), d = 200))
+})

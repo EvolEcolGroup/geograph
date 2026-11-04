@@ -10,6 +10,10 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `buffer()` runs its search on node positions with a logical vector of
+  visited nodes (0.06 s instead of 0.3 s for 51 nodes at 300 km on
+  `rawgraph.40k`), with the same result.
+
 * `polygonBetween()` finds the outline nodes of the polygons in one pass over
   the edges (0.01 s instead of 0.3 s for Africa on `rawgraph.40k`); most of
   its time is in the shortest paths, see above.

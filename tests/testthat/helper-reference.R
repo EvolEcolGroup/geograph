@@ -273,3 +273,26 @@ polygonOutlineRef <- function(g, nodes.polygon) {
   is.outline <- vapply(nodes.polygon, function(node) !all(neighL[[node]] %in% nodes.polygon), logical(1))
   nodes.polygon[is.outline]
 }
+
+## nodes of buffer(), previous implementation
+bufferNodesRef <- function(x, nodes, d) {
+  EDGES <- graph::edges(getGraph(x))
+  XY <- getCoords(x)
+  find.buf.onenode <- function(node, d) {
+    curNodes <- node
+    res <- node
+    visited.nodes <- node
+    while (TRUE) {
+      neig <- unlist(EDGES[curNodes])
+      neig <- setdiff(neig, visited.nodes)
+      visited.nodes <- c(visited.nodes, neig)
+      temp <- fields::rdist.earth(XY[node, , drop = FALSE], XY[neig, , drop = FALSE], miles = FALSE, R = NULL)
+      toKeep <- temp < d
+      if (!any(toKeep)) break
+      curNodes <- neig[toKeep]
+      res <- c(res, neig[toKeep])
+    }
+    res
+  }
+  unique(unlist(lapply(nodes, find.buf.onenode, d)))
+}
