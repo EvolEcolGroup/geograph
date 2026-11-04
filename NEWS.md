@@ -1,3 +1,5 @@
+# geoGraph (development version)
+
 # geoGraph v2.1.0
 
 * `dijkstraBetween(x, from, to)` on a `gGraph` now returns every path from each
