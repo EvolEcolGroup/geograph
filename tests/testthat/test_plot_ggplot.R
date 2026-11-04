@@ -80,3 +80,21 @@ test_that("edge layer data are identical to the previous implementation", {
   df <- .ggraphEdgesDf(worldgraph.10k)[0, ]
   expect_identical(.dfToSfLines(df), dfToSfLinesRef(df))
 })
+
+test_that("path layer data are identical to the previous implementation", {
+  hg <- hgdp[1:12]
+  nodes <- getNodes(hg)
+  for (p in list(
+    dijkstraBetween(worldgraph.40k, nodes),
+    dijkstraFrom(hg, nodes[1]), # includes a path from a node to itself
+    dijkstraBetween(worldgraph.40k, nodes[1:3], nodes[c(1, 4)])
+  )) {
+    df <- .gpathDf(p)
+    expect_identical(df, gpathDfRef(p))
+    expect_identical(.dfToSfPaths(df), dfToSfPathsRef(df))
+  }
+  ## no path with a step
+  p <- dijkstraBetween(worldgraph.40k, nodes[1], nodes[1])
+  expect_null(.gpathDf(p))
+  expect_identical(.gpathDf(p), gpathDfRef(p))
+})

@@ -205,3 +205,20 @@ dfToSfLinesRef <- function(df) {
   })
   sf::st_sf(from = df$from, to = df$to, geometry = sf::st_sfc(lines, crs = 4326))
 }
+
+gpathDfRef <- function(gp) {
+  xy <- attr(gp, "xy")
+  do.call(rbind, lapply(seq_along(gp), function(k) {
+    nd <- gp[[k]]$path_detail
+    if (length(nd) < 2) {
+      return(NULL)
+    }
+    data.frame(path_id = k, order = seq_along(nd), lon = xy[nd, 1], lat = xy[nd, 2])
+  }))
+}
+
+dfToSfPathsRef <- function(df) {
+  by.path <- split(df, df$path_id)
+  lines <- lapply(by.path, function(p) sf::st_linestring(cbind(p$lon, p$lat)))
+  sf::st_sf(path_id = names(by.path), geometry = sf::st_sfc(lines, crs = 4326))
+}

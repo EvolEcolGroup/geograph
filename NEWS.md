@@ -10,6 +10,9 @@
   `dijkstraFrom()` on a `gData` also computes the connected sets of the graph
   once instead of twice.
 
+* `geom_gpath()` builds the data of its paths in one go instead of one data
+  frame per path: 0.06 s instead of 0.4 s for 1,275 paths, same layer data.
+
 * `geom_ggraph(edges = TRUE)` builds its edge segments faster (one matrix per
   edge, without the checks of `sf::st_linestring()`, and edges selected by
   node position): `ggplot_build()` of the edges of `rawgraph.40k` takes 2.5 s
