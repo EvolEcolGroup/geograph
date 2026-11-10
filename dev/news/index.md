@@ -1,5 +1,7 @@
 # Changelog
 
+## geoGraph (development version)
+
 ## geoGraph v2.1.0
 
 - `dijkstraBetween(x, from, to)` on a `gGraph` now returns every path
@@ -77,7 +79,7 @@
   [`getNodeCosts()`](https://evolecolgroup.github.io/geograph/dev/reference/getCosts.md)
   and
   [`getColors()`](https://evolecolgroup.github.io/geograph/dev/reference/getColors.md)
-  no longer chain rules when a cost or colour equals another attribute
+  no longer chain rules when a cost or color equals another attribute
   value.
 
 - [`assignByPolygon()`](https://evolecolgroup.github.io/geograph/dev/reference/assignByPolygon.md)
@@ -111,10 +113,10 @@
   [`plotEdges()`](https://evolecolgroup.github.io/geograph/dev/reference/plot-gGraph.md)
   works with a single visible edge;
   [`points()`](https://rdrr.io/r/graphics/points.html) keeps per-node
-  colours on the right nodes when zoomed in; `plot(x, shape = NULL)`
+  colors on the right nodes when zoomed in; `plot(x, shape = NULL)`
   draws the nodes of the new area;
   [`geo.segments()`](https://evolecolgroup.github.io/geograph/dev/reference/geo.segments.md)
-  keeps per-segment colours with their segments.
+  keeps per-segment colors with their segments.
 
 - `[` and
   [`geom_gdata()`](https://evolecolgroup.github.io/geograph/dev/reference/geom_gdata.md)

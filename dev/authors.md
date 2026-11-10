@@ -34,13 +34,13 @@ Source:
 Jud D, Carter E, Pozzi A, Pelanek O, Fatima A, Colucci M,
 Padilla-Iglesias C, Leonardi M, Chang S, Gunasekaram C, Jombart T,
 Manica A (2026). *geoGraph: Walking Through the Geographic Space Using
-Graphs*. R package version 2.0.1.9002,
+Graphs*. R package version 2.1.0.9001,
 <https://github.com/EvolEcolGroup/geograph>.
 
     @Manual{,
       title = {geoGraph: Walking Through the Geographic Space Using Graphs},
       author = {Dominik Jud and Evie Carter and Andrea Pozzi and Ondrej Pelanek and Aramish Fatima and Margherita Colucci and Cecilia Padilla-Iglesias and Michela Leonardi and Shujie Chang and Cassandra Gunasekaram and Thibaut Jombart and Andrea Manica},
       year = {2026},
-      note = {R package version 2.0.1.9002},
+      note = {R package version 2.1.0.9001},
       url = {https://github.com/EvolEcolGroup/geograph},
     }
