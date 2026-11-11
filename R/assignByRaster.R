@@ -18,11 +18,11 @@
 #' @param ... additional arguments passed to `fun`.
 #' @return A [`gGraph`] object with a new scalar node attribute named
 #'   `layer.name`.
-#' @details Each cell is assigned to the node closest to its centre, using
-#'   Euclidean distances on longitude and latitude (rasters in another CRS are
-#'   projected to WGS84 first). A cell centre exactly equidistant from several
-#'   nodes (e.g. a raster aligned halfway between the nodes of a square grid)
-#'   goes to one of them, chosen arbitrarily.
+#' @details Each cell is assigned to the node closest to its centre, by
+#'   great-circle distance (rasters in another CRS are projected to WGS84
+#'   first). A cell centre exactly equidistant from several nodes goes to one
+#'   of them, chosen arbitrarily. Nodes to which no cell is closest get `NA`;
+#'   this happens when the raster is coarser than the graph.
 #'
 #'   This function is memory-intensive for high-resolution rasters or
 #'   large graphs. Once values are assigned, further node attributes can be
@@ -79,8 +79,8 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
   n.nodes <- nrow(getCoords(graph))
   node.id <- integer(0)
   if (length(cells) > 0 && n.nodes > 0) {
-    node.id <- FNN::get.knnx(unname(getCoords(graph)), unname(xy[, 1:2, drop = FALSE]), k = 1)$nn.index[, 1]
-  }
+    node.id <- FNN::get.knnx(.buildNnIndex(getCoords(graph)), .buildNnIndex(xy), k = 1)$nn.index[, 1]
+    }
 
   ## values per node (nodes without cells get an empty vector), collapsed to
   ## a scalar per node using internal function

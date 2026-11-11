@@ -42,11 +42,11 @@ The function \code{assignByRaster} takes a \code{\link{gGraph}} object and a
 collapses the values to a single scalar per node using a summary function.
 }
 \details{
-Each cell is assigned to the node closest to its centre, using
-Euclidean distances on longitude and latitude (rasters in another CRS are
-projected to WGS84 first). A cell centre exactly equidistant from several
-nodes (e.g. a raster aligned halfway between the nodes of a square grid)
-goes to one of them, chosen arbitrarily.
+Each cell is assigned to the node closest to its centre, by
+great-circle distance (rasters in another CRS are projected to WGS84
+first). A cell centre exactly equidistant from several nodes goes to one
+of them, chosen arbitrarily. Nodes to which no cell is closest get \code{NA};
+this happens when the raster is coarser than the graph.
 
 This function is memory-intensive for high-resolution rasters or
 large graphs. Once values are assigned, further node attributes can be

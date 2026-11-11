@@ -224,3 +224,11 @@ test_that("assignByRaster assigns a cell equidistant from several nodes to one o
   d <- sqrt(rowSums((xy - unname(getCoords(sq)[node, ]))^2))
   expect_equal(d, rep(sqrt(0.5), terra::ncell(r)))
 })
+
+test_that("assignByRaster assigns cells across the antimeridian to the nearest node", {
+  x <- new("gGraph", coords = cbind(lon = c(179, -179.95), lat = c(0, 0)))
+  r <- terra::rast(xmin = 179.8, xmax = 180, ymin = -0.1, ymax = 0.1, resolution = 0.2, crs = "EPSG:4326")
+  terra::values(r) <- 5
+  res <- assignByRaster(x, r, fun = "mean")
+  expect_equal(getNodesAttr(res)$raster_points, c(NA, 5))
+})
