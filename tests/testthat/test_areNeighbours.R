@@ -25,11 +25,6 @@ test_that("areNeighbours gives the same result as the previous implementation", 
   E0 <- getEdges(g, res.type = "matNames")
   nn <- E0[sample(nrow(E0), 2000), ]
   nn[1:50, 2] <- sample(getNodes(g), 50)
-  nn[51, 1] <- "not_a_node"
-  nn[52, 2] <- "not_a_node"
-  nn[53, 1] <- NA
-  nn[54, 2] <- NA
-  nn[55, ] <- c(nn[56, 1], NA)
   expect_identical(areNeighbours(nn[, 1], nn[, 2], g), areNeighboursRef(nn[, 1], nn[, 2], g))
   expect_identical(areNeighbours(character(0), character(0), g), areNeighboursRef(character(0), character(0), g))
   ## numeric node names and a directed graph
@@ -39,4 +34,9 @@ test_that("areNeighbours gives the same result as the previous implementation", 
   V1 <- c("a", "b", "c")
   V2 <- c("b", "a", "b")
   expect_identical(areNeighbours(V1, V2, d), areNeighboursRef(V1, V2, d))
+})
+
+test_that("areNeighbours errors on nodes not in the graph", {
+  expect_error(areNeighbours("1", "not_a_node", worldgraph.10k), "not in the graph")
+  expect_error(areNeighbours(NA, "1", worldgraph.10k), "not in the graph")
 })

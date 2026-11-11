@@ -45,14 +45,11 @@ areNeighbours <- function(V1, V2, graph) {
   ## look up the pairs among the edges, by numeric keys on node positions
   nN <- nodes(graph)
   N <- length(nN)
-  et <- .edgeTable(graph, weights = FALSE)
   i1 <- match(V1, nN)
   i2 <- match(V2, nN)
+  if (anyNA(i1) || anyNA(i2)) stop("Some nodes are not in the graph.")
+  et <- .edgeTable(graph, weights = FALSE)
   res <- ((i1 - 1) * N + i2) %in% ((et$from - 1) * N + et$to)
-  ## a missing V2 compared with the neighbours of V1 gave NA
-  if (anyNA(V2)) {
-    res[is.na(V2) & !is.na(i1) & tabulate(et$from, N)[i1] > 0] <- NA
-  }
 
   names(res) <- paste(V1, V2, sep = "->")
 
