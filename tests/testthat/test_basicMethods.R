@@ -128,3 +128,21 @@ test_that("[,gGraph gives the same graph as graph::subGraph", {
   expectSameGraph(getGraph(weighted[5]), ref(weighted, 5))
   expectSameGraph(getGraph(weighted[integer(0)]), ref(weighted, integer(0)))
 })
+
+test_that("[,gGraph gives clear errors for NA and duplicated indices", {
+  expect_error(worldgraph.10k[c(1, NA)], "NA or larger")
+  expect_error(worldgraph.10k[20000], "NA or larger")
+  expect_error(worldgraph.10k[c(1, 1, 2)], "only be selected once")
+})
+
+test_that("[,gData with node names keeps all locations on these nodes", {
+  gd <- new("gData",
+            coords = cbind(lon = c(10.00, 10.01, 2.35), lat = c(51.00, 51.00, 48.85)),
+            gGraph.name = "worldgraph.10k"
+  )
+  shared <- getNodes(gd)[1]
+  expect_identical(unname(getNodes(gd)[2]), unname(shared)) # the two German locations share a node
+  res <- gd[shared]
+  expect_identical(nrow(getCoords(res)), 2L)
+  expect_error(gd["not_a_node"], "not found")
+})
