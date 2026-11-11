@@ -104,7 +104,8 @@ test_that("isReachable works with a gData object", {
 
   # Check this is false
   expect_warning(res <- isReachable(x = hgdp.sub, loc = location2), "The reference node is not connected to any node.")
-  expect_false(res)
+  expect_false(any(res))
+  expect_length(res, length(getNodes(hgdp.sub)))
 })
 
 test_that("areConnected is FALSE for nodes of a graph without edges", {

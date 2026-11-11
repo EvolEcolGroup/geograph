@@ -152,6 +152,9 @@ test_that("connectivityPlot gives the same colours as the previous implementatio
   habitat <- getNodesAttr(worldgraph.40k, attr.name = "habitat")$habitat
   hg <- hgdp[c(1:20, 3, 5)]
   hg@nodes.id[2] <- getNodes(worldgraph.40k)[habitat == "sea"][1]
-  expect_true(anyDuplicated(getNodes(hg)) > 0)
-  expect_identical(connectivityPlot(hg, seed = 2), connectivityColRef(hg, seed = 2))
+  res <- connectivityPlot(hg, seed = 2)
+  ref <- connectivityColRef(hg, seed = 2)
+  first <- !duplicated(getNodes(hg))
+  expect_identical(res[first], ref[first]) # as before for the first location of each node
+  expect_identical(res, res[match(getNodes(hg), getNodes(hg))]) # same colour for locations on the same node
 })

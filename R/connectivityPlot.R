@@ -106,9 +106,8 @@ setMethod("connectivityPlot", "gData", function(x, ..., seed = NULL) {
   col <- rep("lightgray", length(myNodes))
   names(col) <- myNodes
 
-  ## colours were assigned by node name, which only reaches the first
-  ## location of each node
-  toColor <- !is.na(set.id) & !duplicated(myNodes)
+  ## colour of each location: that of its set
+  toColor <- !is.na(set.id)
   col[toColor] <- colSets[match(set.id[toColor], relSets)]
 
   ## call to plot ##
