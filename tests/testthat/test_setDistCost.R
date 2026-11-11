@@ -55,3 +55,9 @@ test_that("setDistCosts works on a graph with a single edge", {
   x <- setEdges(x, add = data.frame("1", "2"))
   expect_true(all(getCosts(setDistCosts(x), res.type = "vector") > 60))
 })
+
+test_that("setDistCosts gives km with miles = FALSE", {
+  miles <- getCosts(setDistCosts(rawgraph.10k), res.type = "vector")
+  km <- getCosts(setDistCosts(rawgraph.10k, miles = FALSE), res.type = "vector")
+  expect_equal(unname(km / miles), rep(1.609344, length(km)), tolerance = 1e-4)
+})

@@ -8,10 +8,12 @@
 \usage{
 setDistCosts(x, ...)
 
-\S4method{setDistCosts}{gGraph}(x, ...)
+\S4method{setDistCosts}{gGraph}(x, miles = TRUE, ...)
 }
 \arguments{
-\item{x}{a valid \linkS4class{gGraph}.}
+\item{x}{a valid \linkS4class{gGraph}.
+#' @param miles logical; if \code{TRUE} (the default) costs are in miles, if
+\code{FALSE} in km.}
 
 \item{\dots}{other arguments passed to other methods (currently unused).}
 }
