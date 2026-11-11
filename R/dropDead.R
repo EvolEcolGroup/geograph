@@ -38,15 +38,15 @@ dropDeadEdges <- function(x, thres) { # x is a gGraph object
     return(x)
   }
 
-  ## keep edges with weights under the threshold
+  # keep edges whose cost is under the threshold
   myGraph <- getGraph(x)
   et <- .edgeTable(myGraph)
-  toKeep <- et$w <= thres
-  ## each edge stores the weight of its reverse, as when the graph was rebuilt
-  ## from its edge list (the same value, unless weights are asymmetric)
-  w <- .reverseWeights(et$from, et$to, et$w, length(nodes(myGraph)))
-  w <- .nestedWeights(w[toKeep], et$from[toKeep], length(nodes(myGraph)))
-  newGraph <- .graphFromTable(nodes(myGraph), et$from[toKeep], et$to[toKeep], w)
+  n <- length(nodes(myGraph))
+  ## an edge is kept if either direction is under the threshold, so that both
+  ## directions stay (an undirected graph needs both)
+  reverse <- match((et$to - 1) * n + et$from, (et$from - 1) * n + et$to)
+  toKeep <- et$w <= thres | et$w[reverse] <= thres
+  newGraph <- .graphFromTable(nodes(myGraph), et$from[toKeep], et$to[toKeep], as.double(et$w[toKeep]))
   res <- x
   res@graph <- newGraph
 

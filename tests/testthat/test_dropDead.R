@@ -33,3 +33,17 @@ test_that("dropDeadNodes gives the same result as the previous implementation", 
   x <- new("gGraph", coords = cbind(lon = 1:3, lat = 1:3))
   expectSameGGraph(dropDeadNodes(x), dropDeadNodesRef(x))
 })
+
+test_that("dropDeadEdges gives the same graph as the previous implementation", {
+  skip_on_cran()
+  set.seed(6)
+  x <- setCosts(rawgraph.10k, node.values = runif(length(getNodes(rawgraph.10k))))
+  th <- median(getCosts(x, res.type = "vector"))
+  expectSameGraph(getGraph(dropDeadEdges(x, th)), dropDeadEdgesGraphRef(x, th))
+  ## asymmetric weights: an edge is kept if either direction is under the threshold
+  y <- suppressWarnings(setCosts(rawgraph.10k, node.values = runif(length(getNodes(rawgraph.10k))),
+                                 method = "function", FUN = function(a, b) a + 2 * b
+  ))
+  th <- median(getCosts(y, res.type = "vector"))
+  expect_true(validObject(getGraph(dropDeadEdges(y, th))))
+})

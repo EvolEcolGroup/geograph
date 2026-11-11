@@ -91,12 +91,10 @@ combineCosts <- function(x1, x2, method = c("sum", "product", "function"), FUN =
       stop("FUN must return one value for each edge of a node.")
     }
     w <- unlist(w, use.names = FALSE)
+    if (!is.numeric(w)) stop("costs computed by FUN must be numeric.")
   }
-
-  ## each edge stores the combined weight of its reverse, as when the graph was
-  ## rebuilt from its edge list (the same value, unless weights are asymmetric)
-  w <- .reverseWeights(et1$from, et1$to, w, length(myNodes))
-  w <- .nestedWeights(w, et1$from, length(myNodes))
+  
+  w <- as.double(w)
   newGraph <- .graphFromTable(myNodes, et1$from, et1$to, w)
   res <- x1
   res@graph <- newGraph

@@ -209,8 +209,8 @@ test_that("setCosts gives the same weights as the previous implementation", {
         setCostsGraphRef(x, nv, method)
       )
     }
-    ## asymmetric and symmetric functions, extra arguments
-    FUN <- function(a, b, k = 2) a + k * b
+    ## symmetric functions, extra arguments
+    FUN <- function(a, b, k = 2) k * (a + b)
     expectSameGraph(
       getGraph(setCosts(x, node.values = nv, method = "function", FUN = FUN)),
       setCostsGraphRef(x, nv, "function", FUN)
@@ -242,15 +242,15 @@ test_that("setCosts gives the same weights as the previous implementation", {
   habitat <- as.character(getNodesAttr(x, attr.name = "habitat")$habitat)
   rules <- data.frame(habitat = unique(habitat), cost = seq_along(unique(habitat)) * 1.5)
   expectSameGraph(
-    getGraph(setCosts(x, attr.name = "habitat", cost.rules = rules, method = "function", FUN = function(a, b) a - b)),
-    setCostsGraphRef(x, rules$cost[match(habitat, rules$habitat)], "function", function(a, b) a - b)
+    getGraph(setCosts(x, attr.name = "habitat", cost.rules = rules, method = "function", FUN = function(a, b) abs(a - b))),
+    setCostsGraphRef(x, rules$cost[match(habitat, rules$habitat)], "function", function(a, b) abs(a - b))
   )
-  ## integer weights on a graph where every node has an edge stay integer
+  ## weights are stored as double, also for integer node values
   y <- keepMaxConnectedSet(worldgraph.10k)
   nv <- sample(1:5, length(getNodes(y)), replace = TRUE)
   res <- getGraph(setCosts(y, node.values = nv, method = "product"))
-  expectSameGraph(res, setCostsGraphRef(y, nv, "product"))
-  expect_type(graph::edgeWeights(res)[[1]], "integer")
+  expect_type(graph::edgeWeights(res)[[1]], "double")
+  expect_equal(graph::edgeWeights(res), graph::edgeWeights(setCostsGraphRef(y, nv, "product")))
   expect_error(
     setCosts(y, node.values = nv, method = "function", FUN = function(a, b) a > b),
     "must be numeric"
@@ -264,25 +264,12 @@ test_that("setCosts errors if FUN does not return one value per neighbour", {
   )
 })
 
-test_that("dropDeadEdges gives the same graph as the previous implementation", {
-  skip_on_cran()
-  set.seed(6)
-  x <- setCosts(rawgraph.10k, node.values = runif(length(getNodes(rawgraph.10k))))
-  th <- median(getCosts(x, res.type = "vector"))
-  expectSameGraph(getGraph(dropDeadEdges(x, th)), dropDeadEdgesGraphRef(x, th))
-  ## asymmetric weights are swapped, as before
-  y <- setCosts(rawgraph.10k, node.values = runif(length(getNodes(rawgraph.10k))),
-    method = "function", FUN = function(a, b) a + 2 * b
-  )
-  expectSameGraph(getGraph(dropDeadEdges(y, Inf)), dropDeadEdgesGraphRef(y, Inf))
-})
-
 test_that("combineCosts gives the same graph as the previous implementation", {
   skip_on_cran()
   set.seed(7)
   N <- length(getNodes(rawgraph.10k))
   x1 <- setCosts(rawgraph.10k, node.values = runif(N))
-  x2 <- setCosts(rawgraph.10k, node.values = runif(N), method = "function", FUN = function(a, b) a + 2 * b)
+  x2 <- setCosts(rawgraph.10k, node.values = runif(N), method = "product")
   for (method in c("sum", "product")) {
     expectSameGraph(getGraph(combineCosts(x1, x2, method = method)), combineCostsGraphRef(x1, x2, method))
   }
@@ -320,4 +307,19 @@ test_that("hasCosts reads stored weights, and falls back on edgeWeights for part
   y <- setEdges(dropCosts(worldgraph.10k), add = cbind(c("1", "2"), c("5000", "6000")), costs = 2)
   expect_identical(hasCosts(y), ref(y))
   expect_true(hasCosts(y))
+})
+
+test_that("setCosts with an asymmetric FUN gives each direction FUN(cost_from, cost_to)", {
+  x <- new("gGraph", coords = cbind(lon = c(0, 1), lat = c(0, 0)))
+  x <- setEdges(x, add = data.frame("1", "2"))
+  expect_warning(
+    x <- setCosts(x, node.values = c(1, 10), method = "function", FUN = function(a, b) b / a),
+    "asymmetric"
+  )
+  w <- graph::edgeWeights(getGraph(x))
+  expect_equal(unname(w[["1"]]), 10) # 1 -> 2: 10 / 1
+  expect_equal(unname(w[["2"]]), 0.1) # 2 -> 1: 1 / 10
+  ## and shortest paths use the cost of the direction travelled
+  expect_equal(dijkstraBetween(x, from = "1", to = "2")[[1]]$length, 10)
+  expect_equal(dijkstraBetween(x, from = "2", to = "1")[[1]]$length, 0.1)
 })

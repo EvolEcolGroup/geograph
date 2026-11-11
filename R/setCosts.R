@@ -18,8 +18,14 @@
 #'   before computing edge costs. If `NULL`, existing `x@meta$costs` is used.
 #' @param method how edge costs are computed from node costs: `"mean"`,
 #'   `"product"`, or `"function"` (requires `FUN`).
-#' @param FUN a function to compute edge cost from two node costs. Required
-#'   when `method = "function"`.
+#' @param FUN a function of two node costs, `FUN(cost_from, cost_to)`, giving
+#'   the cost of moving from a node to its neighbor. It is called once per
+#'   node, with the cost of the node and the costs of its neighbors, and must
+#'   return one value per neighbor. If `FUN` is asymmetric, the two directions
+#'   of an edge get different costs: `dijkstraFrom()` and
+#'   `dijkstraBetween(from, to)` follow the direction of travel, while
+#'   `gPath2dist()`, `getCosts(unique = TRUE)` and plots use one cost per edge.
+#'   Required when `method = "function"`.
 #' @param ... additional arguments passed to `FUN`.
 #' @return A [`gGraph`] object with the newly defined edge costs.
 #' @seealso [`dropDeadEdges`], [`getCosts`], [`hasCosts`]
@@ -137,12 +143,20 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
     if (!identical(lengths(w), lengths(nbrs, use.names = FALSE))) {
       stop("FUN must return one value for each neighbour of a node.")
     }
-    ## the edge i -> j has always stored the value computed for j -> i,
-    ## FUN(cost_j, cost_i); keep it so that results do not change
-    w <- .reverseWeights(et$from, et$to, unlist(w, use.names = FALSE), length(getNodes(x)))
+    w <- unlist(w, use.names = FALSE) # the edge i -> j gets FUN(cost_i, cost_j)
+    if (!is.numeric(w)) stop("costs computed by FUN must be numeric.")
+    n <- length(getNodes(x))
+    reverse <- match((et$to - 1) * n + et$from, (et$from - 1) * n + et$to)
+    if (!isTRUE(all.equal(w, w[reverse]))) {
+      warning(
+        "FUN is asymmetric, so the two directions of some edges have different costs. ",
+        "dijkstraFrom() and dijkstraBetween(from, to) follow the direction of travel; ",
+        "gPath2dist(), getCosts(unique = TRUE) and plots use one cost per edge."
+      )
+    }
   }
-
-  w <- .nestedWeights(w, et$from, length(getNodes(x)))
+  
+  w <- as.double(w)
   newGraph <- .graphFromTable(getNodes(x), et$from, et$to, w)
   res <- x
   res@graph <- newGraph
