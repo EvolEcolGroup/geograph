@@ -222,6 +222,7 @@ test_that("getCoords for gData with original = FALSE returns matched node coords
 
 
 test_that("getCosts(asIs, unique = TRUE) gives the same result as the previous implementation", {
+  skip_on_cran()
   for (x in list(worldgraph.10k, rawgraph.10k, worldgraph.10k[1:200])) {
     expect_identical(getCosts(x, res.type = "asIs", unique = TRUE), getCostsAsIsUniqueRef(x))
   }
@@ -230,6 +231,7 @@ test_that("getCosts(asIs, unique = TRUE) gives the same result as the previous i
 })
 
 test_that("getEdges(matId) gives the same matrix as the previous implementation", {
+  skip_on_cran()
   edgeless <- new("gGraph", coords = cbind(lon = 1:2, lat = 1:2))
   for (x in list(worldgraph.10k, rawgraph.10k[1:500], makeSquareGrid(9), edgeless)) {
     for (u in c(FALSE, TRUE)) {

@@ -72,6 +72,7 @@ test_that("geom_gdata handles gData objects whose data is a vector", {
 })
 
 test_that("edge layer data are identical to the previous implementation", {
+  skip_on_cran()
   for (g in list(worldgraph.10k, rawgraph.10k, worldgraph.10k[1:50])) {
     df <- .ggraphEdgesDf(g)
     expect_identical(df, ggraphEdgesDfRef(g))
@@ -82,6 +83,7 @@ test_that("edge layer data are identical to the previous implementation", {
 })
 
 test_that("path layer data are identical to the previous implementation", {
+  skip_on_cran()
   hg <- hgdp[1:12]
   nodes <- getNodes(hg)
   for (p in list(

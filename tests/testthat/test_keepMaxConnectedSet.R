@@ -11,6 +11,7 @@ test_that("keepMaxConnectedSet drops all small sets", {
 })
 
 test_that("keepMaxConnectedSet gives the same result as the previous implementation", {
+  skip_on_cran()
   expectSameGGraph(keepMaxConnectedSet(worldgraph.10k), keepMaxConnectedSetRef(worldgraph.10k))
   expectSameGGraph(keepMaxConnectedSet(rawgraph.10k), keepMaxConnectedSetRef(rawgraph.10k))
   ## without stored costs, the result stores weights of 1

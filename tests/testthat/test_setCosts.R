@@ -198,6 +198,7 @@ test_that("setCosts does not chain rules when costs equal attribute values", {
 })
 
 test_that("setCosts gives the same weights as the previous implementation", {
+  skip_on_cran()
   set.seed(5)
   for (x in list(worldgraph.10k, rawgraph.10k)) {
     N <- length(getNodes(x))
@@ -264,6 +265,7 @@ test_that("setCosts errors if FUN does not return one value per neighbour", {
 })
 
 test_that("dropDeadEdges gives the same graph as the previous implementation", {
+  skip_on_cran()
   set.seed(6)
   x <- setCosts(rawgraph.10k, node.values = runif(length(getNodes(rawgraph.10k))))
   th <- median(getCosts(x, res.type = "vector"))
@@ -276,6 +278,7 @@ test_that("dropDeadEdges gives the same graph as the previous implementation", {
 })
 
 test_that("combineCosts gives the same graph as the previous implementation", {
+  skip_on_cran()
   set.seed(7)
   N <- length(getNodes(rawgraph.10k))
   x1 <- setCosts(rawgraph.10k, node.values = runif(N))
@@ -294,6 +297,7 @@ test_that("combineCosts gives the same graph as the previous implementation", {
 })
 
 test_that("setDistCosts gives the same weights as the previous implementation", {
+  skip_on_cran()
   for (x in list(rawgraph.10k, worldgraph.10k)) {
     expectSameGraph(getGraph(setDistCosts(x)), setDistCostsGraphRef(x))
   }

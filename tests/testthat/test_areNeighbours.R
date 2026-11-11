@@ -19,6 +19,7 @@ test_that("areNeighbours works correctly", {
 })
 
 test_that("areNeighbours gives the same result as the previous implementation", {
+  skip_on_cran()
   set.seed(9)
   g <- worldgraph.10k
   E0 <- getEdges(g, res.type = "matNames")

@@ -161,6 +161,7 @@ test_that("polygonBetween computes all paths between the two polygons", {
 })
 
 test_that("polygonBetween uses the same outline nodes as the previous implementation", {
+  skip_on_cran()
   ## a subset graph (positions differ from names) with a node without edges
   g <- test.graph[c(seq(2, 10242, by = 1), 1)]
   attr <- getNodesAttr(g)$name

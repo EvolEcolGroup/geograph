@@ -66,6 +66,7 @@ test_that("plot without a shape draws the nodes of the new area, not the previou
 })
 
 test_that("plotEdges draws the same segments as the previous implementation", {
+  skip_on_cran()
   pdf(NULL)
   on.exit(dev.off(), add = TRUE)
   drawn <- new.env()

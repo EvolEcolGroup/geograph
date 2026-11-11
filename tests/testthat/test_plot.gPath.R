@@ -41,6 +41,7 @@ test_that("print.gPath shows truncated path names for long gPath", {
 })
 
 test_that("plot.gPath draws the same segments as the previous implementation", {
+  skip_on_cran()
   pdf(NULL)
   on.exit(dev.off(), add = TRUE)
   sortRows <- function(d) {

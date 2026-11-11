@@ -141,6 +141,7 @@ test_that("connectivityPlot assigns colors correctly to gData with sparse releva
 })
 
 test_that("connectivityPlot gives the same colours as the previous implementation", {
+  skip_on_cran()
   pdf(NULL)
   on.exit(dev.off(), add = TRUE)
   for (x in list(worldgraph.10k, rawgraph.10k[1:3000])) {

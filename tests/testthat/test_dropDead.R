@@ -20,6 +20,7 @@ test_that("dropDeadEdges leaves a graph without stored costs unchanged", {
 })
 
 test_that("dropDeadNodes gives the same result as the previous implementation", {
+  skip_on_cran()
   for (x in list(worldgraph.10k, rawgraph.10k, dropCosts(worldgraph.10k))) {
     res <- dropDeadNodes(x)
     expectSameGGraph(res, dropDeadNodesRef(x))

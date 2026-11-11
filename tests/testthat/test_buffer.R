@@ -79,6 +79,7 @@ test_that("buffer on gData delegates to gGraph", {
 })
 
 test_that("buffer gives the same nodes as the previous implementation", {
+  skip_on_cran()
   set.seed(12)
   sub <- worldgraph.10k[sample(10242, 6000)] # node positions differ from names
   for (x in list(worldgraph.10k, rawgraph.10k, sub)) {

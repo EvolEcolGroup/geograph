@@ -1,6 +1,6 @@
 ## Internal helpers to work on graphNEL objects in integer space.
 ##
-## The graph package stores a graphNEL as a list of neighbours per node
+## The graph package stores a graphNEL as a list of neighbors per node
 ## (@edgeL) plus an environment-like list of edge attributes keyed by
 ## "from|to" (@edgeData@data). Working on node names (match(), name subsetting,
 ## subGraph(), the nested edge list form of new("graphNEL")) is quadratic or
@@ -226,7 +226,7 @@
 #' Add edges to a graphNEL
 #'
 #' Same result as `graph::addEdge(from, to, g, weights)`, whose loops look up
-#' the edge list of each node by name: new neighbours are appended to the edge
+#' the edge list of each node by name: new neighbors are appended to the edge
 #' list of each `from` node, then (undirected graphs) of each `to` node,
 #' without duplicates; the default weight is set to `1L` if the graph has
 #' none, and the weights are assigned with `edgeData<-`.
