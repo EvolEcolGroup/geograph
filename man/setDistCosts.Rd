@@ -11,11 +11,12 @@ setDistCosts(x, ...)
 \S4method{setDistCosts}{gGraph}(x, miles = TRUE, ...)
 }
 \arguments{
-\item{x}{a valid \linkS4class{gGraph}.
-#' @param miles logical; if \code{TRUE} (the default) costs are in miles, if
-\code{FALSE} in km.}
+\item{x}{a valid \linkS4class{gGraph}.}
 
 \item{\dots}{other arguments passed to other methods (currently unused).}
+
+\item{miles}{logical; if \code{TRUE} (the default) costs are in miles, if
+\code{FALSE} in km.}
 }
 \value{
 For the \linkS4class{gGraph} method, a \linkS4class{gGraph} object
@@ -26,7 +27,7 @@ object.
 The function \code{setDistCosts} sets the costs of a \linkS4class{gGraph}
 object using the geographic distance. The cost associated to an edge is
 defined as the great circle distance between the two nodes of this edge,
-in miles. \code{setDistCosts} actually relies on
+in miles (or km with \code{miles = FALSE}). \code{setDistCosts} actually relies on
 \code{\link[fields]{rdist.earth.vec}} of the \code{fields} package.
 }
 \details{
