@@ -140,6 +140,7 @@ assignByRasterRef <- function(graph, raster, layer.name = "raster_points", fun =
   old.s2 <- sf::sf_use_s2()
   on.exit(suppressMessages(sf::sf_use_s2(old.s2)), add = TRUE)
   suppressMessages(sf::sf_use_s2(FALSE))
+  suppressMessages(sf::sf_use_s2(TRUE))   # was FALSE
   node.id <- suppressMessages(sf::st_nearest_feature(raster.sf, nodes.sf))
   ## values per node, in cell order (as group_by() + nest() + left_join())
   vals <- split(raster.sf$value, factor(node.id, levels = seq_len(nrow(node.coords))))

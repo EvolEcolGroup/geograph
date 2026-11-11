@@ -146,3 +146,4 @@ test_that("[,gData with node names keeps all locations on these nodes", {
   expect_identical(nrow(getCoords(res)), 2L)
   expect_error(gd["not_a_node"], "not found")
 })
+

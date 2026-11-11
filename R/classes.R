@@ -266,7 +266,7 @@ NULL
   n.nodes <- length(x@nodes.id)
 
   if (x@gGraph.name == "") {
-    stop("x is not associated with a gGraph object.")
+    return("x is not associated with a gGraph object.")
   }
 
   ## gGraph object
