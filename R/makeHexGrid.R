@@ -11,7 +11,8 @@
 #' of the discrete global grid. The closest available DGGS resolution is used.
 #' @param ... Additional arguments passed to other methods (currently not used).
 #' @return A [`gGraph`] object representing the DGGS restricted to the
-#' specified geographic region. The `@nodes.attr` slot is empty.
+#' specified geographic region, with no node attributes and a cost of 1 for
+#' every edge.
 #' @details The function constructs a discrete global grid using the `dggridR` package,
 #' then identifies neighboring grid cells with a nearest-neighbor search (`FNN`), and finally builds a
 #' [`gGraph`] object with the resulting graph structure and node coordinates.
@@ -134,28 +135,34 @@ makeHexGrid <- function(geo.box, spacing, ...) {
 
 #' Generate a dense grid of sample points across a bounding box
 #'
-#' Internal helper for [`makeHexGrid`]. Produces a regular grid of longitude /
-#' latitude points covering the requested region. When `xmin` is greater than
-#' `xmax`, the region is assumed to cross the antimeridian and the longitude
-#' span is split into `[xmin, 180]` and `[-180, xmax]`.
+#' Internal helper for [`makeHexGrid`]. Produces rows of longitude / latitude
+#' points covering the requested region, one row per latitude. The longitude
+#' step widens with latitude (`cellsize / cos(lat)`), so that points are as far
+#' apart in km as at the equator, instead of crowding towards the poles. When
+#' `xmin` is greater than `xmax`, the region is assumed to cross the
+#' antimeridian and the longitude span is split into `[xmin, 180]` and
+#' `[-180, xmax]`.
 #'
 #' @param xmin,xmax longitude limits. `xmin > xmax` indicates a dateline
 #'   crossing.
 #' @param ymin,ymax latitude limits.
-#' @param cellsize spacing in degrees between sample points.
+#' @param cellsize spacing in degrees between sample points (in longitude at
+#'   the equator, and in latitude everywhere).
 #' @return a `data.frame` with columns `lon` and `lat`.
 #' @noRd
 .makeSamplePoints <- function(xmin, xmax, ymin, ymax, cellsize) {
-  if (xmin > xmax) {
-    ## include 180 and xmax explicitly so edge/seam cells are sampled
-    lon <- c(
-      seq(xmin, 180, by = cellsize), 180,
-      seq(-180, xmax, by = cellsize), xmax
-    )
-    lon <- sort(unique(lon))
-  } else {
-    lon <- sort(unique(c(seq(xmin, xmax, by = cellsize), xmax)))
-  }
   lat <- sort(unique(c(seq(ymin, ymax, by = cellsize), ymax)))
-  expand.grid(lon = lon, lat = lat)
+  rows <- lapply(lat, function(one.lat) {
+    ## longitude step for this latitude, capped near the poles where a
+    ## degree of longitude becomes very short
+    lon.step <- cellsize / max(cos(one.lat * pi / 180), cellsize / 360)
+    if (xmin > xmax) {
+      ## include 180 and xmax explicitly so edge/seam cells are sampled
+      lon <- c(seq(xmin, 180, by = lon.step), 180, seq(-180, xmax, by = lon.step), xmax)
+    } else {
+      lon <- c(seq(xmin, xmax, by = lon.step), xmax)
+    }
+    data.frame(lon = sort(unique(lon)), lat = one.lat)
+  })
+  do.call(rbind, rows)
 }

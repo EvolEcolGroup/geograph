@@ -224,3 +224,12 @@ test_that("makeHexGrid stores the same graph as the nested graphNEL construction
   expectSameGraph(g, ref)
   expect_true(all(unlist(graph::edgeWeights(g)) == 1))
 })
+
+test_that(".makeSamplePoints spaces points evenly in km", {
+  s <- .makeSamplePoints(0, 10, 0, 60, cellsize = 0.5)
+  step_equator <- diff(sort(s$lon[s$lat == 0]))[1]
+  step_60 <- diff(sort(s$lon[s$lat == 60]))[1]
+  expect_equal(step_60 / step_equator, 2, tolerance = 0.01) # cos(60) = 0.5
+  ## a box up to the pole still gets sample points at 90 degrees
+  expect_true(any(.makeSamplePoints(0, 10, 80, 90, cellsize = 0.5)$lat == 90))
+})
