@@ -18,9 +18,9 @@
 #' @param ... additional arguments passed to `fun`.
 #' @return A [`gGraph`] object with a new scalar node attribute named
 #'   `layer.name`.
-#' @details Each cell is assigned to the node closest to its centre, by
+#' @details Each cell is assigned to the node closest to its center, by
 #'   great-circle distance (rasters in another CRS are projected to WGS84
-#'   first). A cell centre exactly equidistant from several nodes goes to one
+#'   first). A cell center exactly equidistant from several nodes goes to one
 #'   of them, chosen arbitrarily. Nodes to which no cell is closest get `NA`;
 #'   this happens when the raster is coarser than the graph.
 #'
@@ -60,14 +60,14 @@ assignByRaster <- function(graph, raster, layer.name = "raster_points",
     stop("raster must have exactly one layer.")
   }
 
-  ## values and centres of the non-NA cells (as as.data.frame(raster, xy =
+  ## values and centers of the non-NA cells (as as.data.frame(raster, xy =
   ## TRUE), keeping factor and logical values)
   value <- terra::values(raster, dataframe = TRUE)[[1]]
   cells <- which(!is.na(value))
   value <- value[cells]
   xy <- terra::xyFromCell(raster, cells)
 
-  ## cell centres in lon/lat (WGS84)
+  ## cell centers in lon/lat (WGS84)
   raster.crs <- terra::crs(raster, proj = TRUE)
   if (sf::st_crs(raster.crs) != sf::st_crs(4326)) {
     pts <- sf::st_as_sf(as.data.frame(xy), coords = c(1, 2), crs = raster.crs)

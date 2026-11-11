@@ -1,90 +1,61 @@
 # geoGraph (development version)
 
-## Speed
+## Behavior changes
 
-Many functions are faster, mostly by working on node positions instead of
-node names and by avoiding slow paths of the `graph` and `RBGL` packages.
-Results are unchanged unless stated otherwise. Timings are on
-`worldgraph.40k` or `rawgraph.40k` (about 41,000 nodes) and vary by about 30%
-between runs; `data-raw/speed_plan.md` has the details and the benchmark
-script.
+* `setCosts(method = "function")` gives the edge from node `i` to node `j` the
+  cost `FUN(cost_i, cost_j)`. An asymmetric `FUN` now gives a warning: 
+  `dijkstraFrom()` and `dijkstraBetween(from, to)`
+  follow the direction of travel, while `gPath2dist()`,
+  `getCosts(unique = TRUE)` and plots use one cost per edge. Edge weights are
+  always stored as double.
+
+* `assignByRaster()` assigns each cell to the nearest node by great-circle
+  distance.
+
+* `makeHexGrid()` samples the box with points evenly spaced in km instead of in
+  degrees. Cells only partly inside the box can differ.
+
+## Performance
+
+* Many functions are faster, mostly by working on node positions instead of
+  node names and by avoiding slow paths of the `graph` and `RBGL` packages.
 
 * `dijkstraFrom()`, `dijkstraBetween()` and `polygonBetween()` no longer use
-  `RBGL::sp.between()`, which spent most of its time looking up node names
-  and growing vectors for every path (and looped over the whole graph for an
-  unreachable node). Paths from the same start are now traced back together:
-  `dijkstraBetween(hgdp)` takes 1.7 s instead of 3.2 s, the 10.5k paths from
-  one node to the rest of the largest connected set of `worldgraph.40k` 2.3 s
-  instead of 4.3 s, and `polygonBetween()` between France and Spain 0.6 s
-  instead of 0.8 s. `dijkstraFrom()` on a `gData` computes the connected sets
-  of the graph once instead of twice, and `polygonBetween()` finds the outline
-  nodes of the polygons in one pass over the edges.
+  `RBGL::sp.between()`.
 
-* Subsetting a `gGraph` with `[` (and so `isInArea()`-based subsets and
-  `dropDeadNodes()`) no longer uses `graph::subGraph()`, whose cost grows with
-  the number of kept times dropped nodes: keeping every other node takes 0.3 s
-  instead of 3 s (0.13 s instead of 7 s for a graph without costs).
-  `keepMaxConnectedSet()` subsets the graph to the largest connected set
-  instead of rebuilding it node by node: 0.5 s instead of 8 s.
-  `dropDeadNodes()`: 0.3 s instead of 4.5 s.
+* `assignByRaster()` finds nearest nodes with `FNN`; `tidyr` and `tibble` are
+  no longer dependencies.
 
-* `setCosts()`, `dropDeadEdges()`, `combineCosts()` and `setDistCosts()` compute
-  and store edge weights in one pass over the edges instead of node by node,
-  and no longer write every weight twice: 1.5 to 2 times faster (e.g.
-  `setCosts()` on `rawgraph.40k` 0.8 s instead of 1.6 s). The weights are
-  unchanged, including the quirk of `setCosts(method = "function")` with an
-  asymmetric `FUN`, where the edge from `i` to `j` stores `FUN(cost_j, cost_i)`.
-  `FUN` is still called once per node. `setCosts()` and `combineCosts()` now
-  give an informative error when `FUN` does not return one value per edge.
+## New features
 
-* `assignByRaster()` finds the nearest node of each cell with a k-d tree
-  (`FNN`) instead of `sf::st_nearest_feature()`, using the same planar
-  distances on longitude and latitude, and groups values per node without
-  data frames: 0.1 s instead of 0.9 s for 175k cells, 2.2 s instead of 15 s
-  for a 2.3M-cell world raster. A cell whose centre is exactly equidistant
-  from several nodes (e.g. a raster aligned halfway between the nodes of a
-  square grid) can now go to a different one of these nodes: the choice is
-  arbitrary in both versions. `tidyr` and `tibble` are no longer needed.
-
-* `setEdges()` adds and removes edges by node position instead of name: 0.08 s
-  instead of 2.1 s to remove 5,000 edges, 0.17 s instead of 1.7 s to add
-  5,000. `areNeighbours()` looks up pairs of nodes with numeric keys: 0.02 s
-  instead of 0.4 s for 5,000 pairs.
-
-* `getCosts(res.type = "asIs", unique = TRUE)` no longer looks up each node by
-  name (0.2 s instead of 3.1 s), and `hasCosts()` reads the stored weights
-  directly when every edge has one (0.03 s instead of 0.2 s).
-
-* `makeHexGrid()` and `makeSquareGrid()` build their graph from a flat edge
-  list, and `new("gGraph")` no longer renames the nodes of a graph whose node
-  names are already right: `makeSquareGrid(size = 90000)` takes 1.5 s instead
-  of 2.3 s; building the graph of a 136k-cell hexagonal grid takes 2 s instead
-  of 3.2 s (most of the time of `makeHexGrid()` is spent in `dggridR`). The
-  graphs are unchanged (with stored weights of 1).
-
-* Plotting: `plotEdges()` and `plot(x, edges = TRUE)` select the visible edges
-  and their costs from one edge table (`plotEdges(rawgraph.40k)` 0.5 s instead
-  of 0.85 s), and `plot()` computes the visible nodes and their colors once
-  when a shape is drawn. `plot()` on a `gPath` draws all its segments in one
-  call (0.03 s instead of 0.25 s for 1,275 paths); segments crossing the
-  antimeridian (drawn split and dotted) are now drawn after the other
-  segments rather than path by path. `connectivityPlot()` colors nodes with
-  one lookup instead of one assignment per connected set (0.1 s instead of
-  3.2 s on a graph with 2,000 sets).
-
-* `ggplot2` layers: `geom_ggraph(edges = TRUE)` builds its segments without
-  calling `sf::st_linestring()` for each edge (`ggplot_build()` of the edges
-  of `rawgraph.40k` 2.1 s instead of 2.6 s), and `geom_gpath()` builds the
-  data of all paths at once (0.05 s instead of 0.3 s for 1,275 paths). The
-  layer data are unchanged.
-
-* `buffer()` runs its search on node positions with a logical vector of
-  visited nodes: 0.05 s instead of 0.2 s for 51 nodes at 300 km.
+* `setDistCosts()` has a `miles` argument; use `miles = FALSE` for costs in
+  km.
 
 ## Bug fixes
 
-* `makeSquareGrid()` works for grids of 100,000 nodes or more (it failed with
-  "node names in 'ft' must be in 'V'", as `as.character(1e5)` is `"1e+05"`).
+* `makeSquareGrid()` works for grids of 100,000 nodes or more.
+
+* `[` on a `gGraph` gives clear errors for `NA`, too large or duplicated
+  indices. On a `gData` with node names it keeps all locations on these nodes.
+
+* `dropDeadEdges()` keeps an edge if either of its directions is under the
+  threshold, so that graphs with asymmetric costs stay valid.
+
+* `dijkstraFrom()` on a `gGraph` that is not fully connected computes paths to
+  the nodes connected to `start`, with a warning (it stopped with an error),
+  and errors if `start` has no neighbors.
+
+* `connectivityPlot()` on a `gData` colors all locations of a node, not only
+  the first.
+
+* `isReachable()` returns one value per location also when the reference
+  node is isolated.
+
+* `areNeighbours()` errors on nodes that are not in the graph (it returned
+  `FALSE`).
+
+* `assignByPolygon()` errors on an `attr` that is not in the layer (it
+  printed the layer and returned `NULL`).
 
 # geoGraph v2.1.0
 
