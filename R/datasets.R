@@ -1,15 +1,15 @@
 #' Human genome diversity panel - georeferenced data
 #'
-#' The datasets \code{hgdp} and \code{hgdpPlus} provides genetic diversity
-#' several human populations worldwide. Both datasets are \linkS4class{gData}
+#' The datasets \code{hgdp} and \code{hgdpPlus} provide the genetic diversity
+#' of several human populations worldwide. Both datasets are \linkS4class{gData}
 #' objects, interfaced with the \linkS4class{gGraph} object
 #' \code{\link{worldgraph.40k}}.\cr
 #'
 #' \code{hgdp} describes 51 populations from the original Human Genome
 #' Diversity Panel. \cr
 #'
-#' \code{hgdpPlus} describes \code{hgdp} populations plus 24 native American
-#' populations. \cr
+#' \code{hgdpPlus} describes 76 populations: the 51 \code{hgdp} populations,
+#' 24 Native American populations, and the Siberian Tundra Nentsi. \cr
 #'
 #'
 #' @name hgdp
