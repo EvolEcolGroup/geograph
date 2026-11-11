@@ -280,12 +280,9 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 #' Internal function to convert a data.frame of edges to sf linestrings for ggplot
 #' @noRd
 .dfToSfLines <- function(df) {
-  ## build the 2 x 2 coordinate matrix of each segment and set its class
-  ## directly (what sf::st_linestring() returns, without its checks)
+  ## one 2 x 2 coordinate matrix per segment
   m <- cbind(df$x, df$xend, df$y, df$yend)
-  lines <- lapply(seq_len(nrow(df)), function(i) {
-    structure(matrix(m[i, ], 2, 2), class = c("XY", "LINESTRING", "sfg"))
-  })
+  lines <- lapply(seq_len(nrow(df)), function(i) sf::st_linestring(matrix(m[i, ], 2, 2)))
   sf::st_sf(
     from = df$from, to = df$to,
     geometry = sf::st_sfc(lines, crs = 4326)
