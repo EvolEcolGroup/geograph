@@ -71,7 +71,25 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
       stop("`costs` must have length 1 or match the number of edges in `add`.")
     }
 
-    myGraph <- suppressWarnings(.addEdges(x@graph, from = from, to = to, weights = costs))
+    ## append the new neighbours to the edge list of each node (both ends for an
+    ## undirected graph), without duplicates; much faster than graph::addEdge(),
+    ## which looks up each node by name
+    myGraph <- x@graph
+    node.names <- nodes(myGraph)
+    from.idx <- match(from, node.names)
+    to.idx <- match(to, node.names)
+    if (isDirected(myGraph)) {
+      new.nbrs <- split(to.idx, factor(from.idx, levels = seq_along(node.names)))
+    } else {
+      new.nbrs <- split(c(to.idx, from.idx), factor(c(from.idx, to.idx), levels = seq_along(node.names)))
+    }
+    for (i in which(lengths(new.nbrs) > 0)) {
+      myGraph@edgeL[[i]]$edges <- unique(c(myGraph@edgeL[[i]]$edges, new.nbrs[[i]]))
+    }
+    if (!("weight" %in% names(edgeDataDefaults(myGraph)))) {
+      edgeDataDefaults(myGraph, attr = "weight") <- 1L
+    }
+    edgeData(myGraph, from = from, to = to, attr = "weight") <- costs
   } else { ## remove edges ##
     remove <- as.data.frame(remove)
     if (ncol(remove) != 2) stop("remove does not have two columns")
@@ -81,8 +99,25 @@ setMethod("setEdges", "gGraph", function(x, add = NULL, remove = NULL, costs = N
 
     ## avoid attempts to removing non-existing edges
     temp <- areNeighbours(from, to, x@graph)
-    myGraph <- .removeEdges(x@graph, from = from[temp], to = to[temp])
-  }
+    ## remove the edges (both directions for an undirected graph) and their
+    ## weights; much faster than graph::removeEdge()
+    from <- from[temp]
+    to <- to[temp]
+    myGraph <- x@graph
+    if (!isDirected(myGraph)) {
+      from.both <- c(from, to)
+      to <- c(to, from)
+      from <- from.both
+    }
+    removeAttrDataItem(myGraph@edgeData, x = paste(from, to, sep = "|")) <- NULL
+    node.names <- nodes(myGraph)
+    to.remove <- split(match(to, node.names), factor(match(from, node.names), levels = seq_along(node.names)))
+    for (i in which(lengths(to.remove) > 0)) {
+      k <- match(to.remove[[i]], myGraph@edgeL[[i]]$edges)
+      k <- k[!is.na(k)]
+      if (length(k) > 0) myGraph@edgeL[[i]]$edges <- myGraph@edgeL[[i]]$edges[-k]
+    }
+    }
 
   res <- x
   res@graph <- myGraph
