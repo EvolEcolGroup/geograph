@@ -1,7 +1,7 @@
 Package: geoGraph
 Type: Package
 Title: Walking Through the Geographic Space Using Graphs
-Version: 2.1.0.9001
+Version: 2.1.0.9002
 Authors@R: c(
     person("Dominik", "Jud", role = "aut"),
     person("Evie", "Carter", role = "aut"),
