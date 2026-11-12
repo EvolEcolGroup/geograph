@@ -29,8 +29,14 @@ before computing edge costs. If \code{NULL}, existing \code{x@meta$costs} is use
 \item{method}{how edge costs are computed from node costs: \code{"mean"},
 \code{"product"}, or \code{"function"} (requires \code{FUN}).}
 
-\item{FUN}{a function to compute edge cost from two node costs. Required
-when \code{method = "function"}.}
+\item{FUN}{a function of two node costs, \code{FUN(cost_from, cost_to)}, giving
+the cost of moving from a node to its neighbor. It is called once per
+node, with the cost of the node and the costs of its neighbors, and must
+return one value per neighbor. If \code{FUN} is asymmetric, the two directions
+of an edge get different costs: \code{dijkstraFrom()} and
+\code{dijkstraBetween(from, to)} follow the direction of travel, while
+\code{gPath2dist()}, \code{getCosts(unique = TRUE)} and plots use one cost per edge.
+Required when \code{method = "function"}.}
 
 \item{...}{additional arguments passed to \code{FUN}.}
 }

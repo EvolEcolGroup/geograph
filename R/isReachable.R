@@ -36,7 +36,9 @@ isReachable <- function(x, loc) { # x is a gData object
   temp <- vapply(connected.sets, function(e) refNode %in% e, logical(1))
   if (!any(temp)) {
     warning("The reference node is not connected to any node.")
-    return(FALSE)
+    res <- rep(FALSE, length(getNodes(x)))
+    names(res) <- getNodes(x)
+    return(res)
   }
   refSet <- connected.sets[[which(temp)]]
 

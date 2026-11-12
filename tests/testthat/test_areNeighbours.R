@@ -17,3 +17,26 @@ test_that("areNeighbours works correctly", {
     graph = testGraph
   )), c(TRUE, FALSE))
 })
+
+test_that("areNeighbours gives the same result as the previous implementation", {
+  skip_on_cran()
+  set.seed(9)
+  g <- worldgraph.10k
+  E0 <- getEdges(g, res.type = "matNames")
+  nn <- E0[sample(nrow(E0), 2000), ]
+  nn[1:50, 2] <- sample(getNodes(g), 50)
+  expect_identical(areNeighbours(nn[, 1], nn[, 2], g), areNeighboursRef(nn[, 1], nn[, 2], g))
+  expect_identical(areNeighbours(character(0), character(0), g), areNeighboursRef(character(0), character(0), g))
+  ## numeric node names and a directed graph
+  sq <- makeSquareGrid(9)
+  expect_identical(areNeighbours(c(1, 2), c(2, 1), sq), areNeighboursRef(c(1, 2), c(2, 1), sq))
+  d <- graph::addEdge(c("a", "b"), c("b", "c"), new("graphNEL", nodes = c("a", "b", "c"), edgemode = "directed"))
+  V1 <- c("a", "b", "c")
+  V2 <- c("b", "a", "b")
+  expect_identical(areNeighbours(V1, V2, d), areNeighboursRef(V1, V2, d))
+})
+
+test_that("areNeighbours errors on nodes not in the graph", {
+  expect_error(areNeighbours("1", "not_a_node", worldgraph.10k), "not in the graph")
+  expect_error(areNeighbours(NA, "1", worldgraph.10k), "not in the graph")
+})

@@ -99,3 +99,51 @@ test_that("gData objects with vector data can be subset", {
   expect_equal(nrow(getCoords(sub)), 2L)
   expect_equal(unname(getNodes(sub)), unname(getNodes(gd)[2:3]))
 })
+
+test_that("[,gGraph gives the same graph as graph::subGraph", {
+  set.seed(1)
+  ref <- function(x, i) {
+    if (is.logical(i)) i <- rep(i, length = length(getNodes(x)))
+    if (is.character(i)) i <- match(i, getNodes(x))
+    subGraph(graph::nodes(getGraph(x))[i], getGraph(x))
+  }
+  N <- length(getNodes(worldgraph.10k))
+  weighted <- worldgraph.10k
+  costs <- rawgraph.10k
+  unweighted <- dropCosts(rawgraph.10k)
+  half <- seq(1, N, by = 2)
+  shuffled <- sample(N, 500)
+  for (x in list(weighted, costs, unweighted)) {
+    indices <- list(
+      half, shuffled, -half, rep(c(TRUE, FALSE, FALSE), length = N),
+      getNodes(x)[shuffled], c(TRUE, FALSE)
+    )
+    for (i in indices) {
+      res <- getGraph(x[i])
+      expect_true(validObject(res))
+      expectSameGraph(res, ref(x, i))
+    }
+  }
+  ## a single node, and no node at all
+  expectSameGraph(getGraph(weighted[5]), ref(weighted, 5))
+  expectSameGraph(getGraph(weighted[integer(0)]), ref(weighted, integer(0)))
+})
+
+test_that("[,gGraph gives clear errors for NA and duplicated indices", {
+  expect_error(worldgraph.10k[c(1, NA)], "NA or larger")
+  expect_error(worldgraph.10k[20000], "NA or larger")
+  expect_error(worldgraph.10k[c(1, 1, 2)], "only be selected once")
+})
+
+test_that("[,gData with node names keeps all locations on these nodes", {
+  gd <- new("gData",
+            coords = cbind(lon = c(10.00, 10.01, 2.35), lat = c(51.00, 51.00, 48.85)),
+            gGraph.name = "worldgraph.10k"
+  )
+  shared <- getNodes(gd)[1]
+  expect_identical(unname(getNodes(gd)[2]), unname(shared)) # the two German locations share a node
+  res <- gd[shared]
+  expect_identical(nrow(getCoords(res)), 2L)
+  expect_error(gd["not_a_node"], "not found")
+})
+

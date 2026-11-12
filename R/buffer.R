@@ -79,20 +79,26 @@ setMethod("buffer", "gGraph", function(x, nodes, d, res.type = c("nodes", "gGrap
   if (!all(nodes %in% all.nodes)) stop("Some requested nodes do not exist in the gGraph grid.")
 
   GRAPH <- getGraph(x)
-  EDGES <- edges(GRAPH)
   XY <- getCoords(x)
+  ## neighbours of each node, as node positions, in the order of edges(GRAPH)
+  et <- .edgeTable(GRAPH, weights = FALSE)
+  NEIG <- split(et$to, factor(et$from, levels = seq_along(all.nodes)))
 
 
   ## FIND BUFFER FOR A NODE ##
+  ## breadth-first search from the node: neighbours of the current nodes not
+  ## visited yet, kept if closer than d to the node
   find.buf.onenode <- function(node, d) {
+    node <- match(node, all.nodes)
     curNodes <- node
     res <- node
-    visited.nodes <- node
+    visited <- logical(length(all.nodes))
+    visited[node] <- TRUE
 
     while (TRUE) {
-      neig <- unlist(EDGES[curNodes])
-      neig <- setdiff(neig, visited.nodes)
-      visited.nodes <- c(visited.nodes, neig)
+      neig <- unlist(NEIG[curNodes], use.names = FALSE)
+      neig <- unique(neig[!visited[neig]])
+      visited[neig] <- TRUE
 
       temp <- fields::rdist.earth(XY[node, , drop = FALSE], XY[neig, , drop = FALSE], miles = FALSE, R = NULL)
       toKeep <- temp < d
@@ -100,7 +106,7 @@ setMethod("buffer", "gGraph", function(x, nodes, d, res.type = c("nodes", "gGrap
       curNodes <- neig[toKeep]
       res <- c(res, neig[toKeep])
     }
-    return(res)
+    return(all.nodes[res])
   }
 
 

@@ -1,6 +1,6 @@
 #' @title Find the minimum cost path
 #' @description This function finds the shortest path from a given 'source' node
-#'    to all other nodes in the graph using Dijkstra's algorithm.
+#'    to all other nodes connected to in the graph using Dijkstra's algorithm.
 #'    It can be applied to both gGraph and gData objects.
 #' @param x A [`gGraph`] or [`gData`] object.
 #' @param start a character string naming the 'source' node.
@@ -42,24 +42,18 @@ setMethod("dijkstraFrom", "gGraph", function(x, start) {
   if (length(start) != 1) stop("start must be a single node.")
   if (!all(start %in% getNodes(x))) stop("Starting node is not in x.")
 
-  ## check connectivity ##
-  if (!areConnected(x, getNodes(x))) stop("Not all nodes are connected by the graph.")
-
-  ## build the wrapper ##
+  ## paths only to the nodes connected to start ##
   myGraph <- getGraph(x)
+  connected.sets <- RBGL::connectedComp(myGraph)
+  start.set <- connected.sets[[which(vapply(connected.sets, function(e) start %in% e, logical(1)))]]
+  if (length(start.set) == 1) stop("Starting node is not connected to any other node.")
+  if (length(start.set) < length(getNodes(x))) {
+    warning("Not all nodes are connected to start; paths are only computed to the ", length(start.set) - 1, " nodes that are.")
+  }
+  
+  endNodes <- getNodes(x)[getNodes(x) %in% start.set & getNodes(x) != start]
 
-  endNodes <- getNodes(x)[!getNodes(x) %in% start]
-
-  res <- RBGL::sp.between(myGraph,
-    start = start,
-    finish = endNodes
-  )
-
-  ## sp.between uses unique(x@nodes.id) ##
-  ## eventually have to duplicate paths ##
-  temp <- gsub(".*:", "", names(res))
-  res <- res[match(endNodes, temp)]
-
+  res <- .shortestPaths(myGraph, start = rep(start, length(endNodes)), finish = endNodes)
 
   ## make it a class "gPath" (output + xy coords) ##
   allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))
@@ -82,27 +76,26 @@ setMethod("dijkstraFrom", "gData", function(x, start) {
   if (!exists(x@gGraph.name, envir = .GlobalEnv)) stop(paste("gGraph object", x@gGraph.name, "not found."))
   if (length(x@nodes.id) == 0) stop("No assigned nodes (x@nodes.id is empty).")
   if (length(start) != 1) stop("start must be a single node.")
-  if (!isConnected(x)) stop("Not all locations are connected by the graph")
-
 
   ## build the wrapper ##
   myGraph <- get(x@gGraph.name, envir = .GlobalEnv) # myGraph is a gGraph object
+
+  ## connectivity checks (as isConnected(x), then areConnected() with the
+  ## start), computing the connected sets only once ##
+  if (!is.gGraph(myGraph)) stop(paste(x@gGraph.name, "is not a valid gGraph object."))
+  if (!all(getNodes(x) %in% getNodes(myGraph))) stop("Some specified nodes were not found in the gGraph object.")
+  connected.sets <- .connectedSets(getGraph(myGraph))
+  if (!.inOneSet(connected.sets, unique(getNodes(x)))) stop("Not all locations are connected by the graph")
   if (!start %in% getNodes(myGraph)) stop("Starting node is not in the gGraph object.")
-  if (!areConnected(myGraph, unique(c(start, getNodes(x))))) {
+  if (!.inOneSet(connected.sets, unique(c(start, getNodes(x))))) {
     stop("Starting node is not connected to the locations by the graph.")
   }
   coords <- getCoords(myGraph) # store xy for later
   myGraph <- getGraph(myGraph)
 
-  ## wrap ##
-  res <- RBGL::sp.between(myGraph, start = start, finish = x@nodes.id)
-
-
-  ## sp.between uses unique(x@nodes.id) ##
-  ## eventually have to duplicate paths ##
-  temp <- gsub(".*:", "", names(res))
-  res <- res[match(getNodes(x), temp)]
-
+  ## wrap: one path per location, in the order of the locations ##
+  endNodes <- getNodes(x)
+  res <- .shortestPaths(myGraph, start = rep(start, length(endNodes)), finish = endNodes)
 
   ## make it a class "gPath" (output + xy coords) ##
   allNodes <- unique(unlist(lapply(res, function(e) e$path_detail)))

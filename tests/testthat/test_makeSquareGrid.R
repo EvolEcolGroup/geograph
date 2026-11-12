@@ -70,3 +70,27 @@ test_that("makeSquareGrid handles one-dimensional grids correctly", {
   expect_true(all(col.deg %in% c(1, 2)))
   expect_true(all(row.deg %in% c(1, 2)))
 })
+
+test_that("makeSquareGrid builds the same graph as ftM2graphNEL", {
+  ## reference: the from/to matrix of makeSquareGrid, given to ftM2graphNEL
+  ref <- function(n.lon, n.lat) {
+    size <- n.lon * n.lat
+    from <- seq_len(size - n.lat)
+    to <- n.lat + (seq_len(size - n.lat))
+    temp <- setdiff(seq_len(size - 1), seq(n.lat, size, length = n.lon))
+    ft <- cbind(c(from, temp), c(to, temp + 1))
+    graph::ftM2graphNEL(ft, V = as.character(seq_len(size)), edgemode = "undirected")
+  }
+  for (n in list(c(2, 2), c(3, 5), c(7, 4), c(30, 20))) {
+    res <- makeSquareGrid(n.lon = n[1], n.lat = n[2])
+    expect_true(validObject(getGraph(res)))
+    expectSameGraph(getGraph(res), ref(n[1], n[2]))
+  }
+})
+
+test_that("makeSquareGrid works with 100,000 nodes or more", {
+  res <- makeSquareGrid(n.lon = 400, n.lat = 250)
+  expect_length(getNodes(res), 100000L)
+  expect_identical(getNodes(res)[100000], "100000")
+  expect_equal(graph::numEdges(getGraph(res)), 399 * 250 + 400 * 249)
+})

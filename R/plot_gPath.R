@@ -44,20 +44,19 @@ plot.gPath <- function(x, col = "rainbow", lwd = 3, seed = NULL, ...) {
   col <- rep(col, length = n.path)
   lwd <- rep(lwd, length = n.path)
 
-  ## function plotting one gPath
-  f1 <- function(vecNodes, col, lwd, ...) {
-    N <- length(vecNodes)
-    if (N < 2) {
-      return()
-    } # escape if a path is a single vertex
-    from <- vecNodes[seq_len(N - 1)]
-    to <- vecNodes[2:N]
-    geo.segments(xy[from, 1], xy[from, 2], xy[to, 1], xy[to, 2], col = col, lwd = lwd, ...)
+  ## all segments of all paths (consecutive nodes of each path with at least
+  ## two nodes), with the colour and width of their path, drawn at once
+  len <- lengths(listNodes)
+  keep <- len >= 2
+  nodes <- unlist(listNodes[keep], use.names = FALSE)
+  last <- cumsum(len[keep])
+  first <- last - len[keep] + 1L
+  from <- nodes[-last]
+  to <- nodes[-first]
+  path <- rep.int(which(keep), len[keep] - 1L)
+  if (length(from) > 0) {
+    geo.segments(xy[from, 1], xy[from, 2], xy[to, 1], xy[to, 2], col = col[path], lwd = lwd[path], ...)
   }
-
-
-  ## plot all gPaths
-  lapply(seq_along(listNodes), function(i) f1(listNodes[[i]], col = col[i], lwd = lwd[i], ...))
 
   return(invisible())
 } # end plot.gPath

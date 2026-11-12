@@ -171,3 +171,64 @@ test_that("assignByRaster accepts a primitive without an na.rm argument", {
   n <- getNodesAttr(result)$raster_points
   expect_equal(sum(n, na.rm = TRUE), terra::ncell(test.raster))
 })
+
+test_that("assignByRaster gives the same result as with sf::st_nearest_feature", {
+  set.seed(8)
+  g <- worldgraph.10k
+  r <- terra::rast(xmin = -10, xmax = 40, ymin = 35, ymax = 70, resolution = 0.5, crs = "EPSG:4326")
+  v <- runif(terra::ncell(r))
+  v[sample(length(v), 500)] <- NA
+  terra::values(r) <- v
+  for (fn in list("mean", "max", "sd", length, function(x) sum(x > 0.5))) {
+    expect_identical(getNodesAttr(assignByRaster(g, r, fun = fn)), getNodesAttr(assignByRasterRef(g, r, fun = fn)))
+  }
+  expect_identical(
+    getNodesAttr(assignByRaster(g, r, fun = "max", na.rm = FALSE)),
+    getNodesAttr(assignByRasterRef(g, r, fun = "max", na.rm = FALSE))
+  )
+  ## logical and integer rasters
+  rb <- r > 0.5
+  expect_identical(
+    getNodesAttr(assignByRaster(g, rb, fun = "any")),
+    getNodesAttr(assignByRasterRef(g, rb, fun = "any"))
+  )
+  ri <- r
+  terra::values(ri) <- sample(1:5, terra::ncell(r), replace = TRUE)
+  expect_identical(
+    getNodesAttr(assignByRaster(g, ri, fun = "max")),
+    getNodesAttr(assignByRasterRef(g, ri, fun = "max"))
+  )
+  ## a raster in a projected CRS
+  rp <- suppressWarnings(terra::project(r, "EPSG:3035"))
+  expect_identical(getNodesAttr(assignByRaster(g, rp)), getNodesAttr(assignByRasterRef(g, rp)))
+  ## a raster with only NA values
+  rn <- r
+  terra::values(rn) <- NA_real_
+  res <- assignByRaster(g, rn)
+  expect_true(all(is.na(getNodesAttr(res)$raster_points)))
+  expect_identical(getNodesAttr(res), getNodesAttr(suppressWarnings(assignByRasterRef(g, rn))))
+})
+
+test_that("assignByRaster assigns a cell equidistant from several nodes to one of them", {
+  sq <- makeSquareGrid(n.lon = 11, n.lat = 11, lon.range = c(0, 10), lat.range = c(0, 10))
+  ## 1-degree cells centred halfway between four nodes
+  r <- terra::rast(xmin = 0, xmax = 10, ymin = 0, ymax = 10, resolution = 1, crs = "EPSG:4326")
+  terra::values(r) <- seq_len(terra::ncell(r))
+  res <- getNodesAttr(assignByRaster(sq, r, fun = function(x) paste(x, collapse = " ")))$raster_points
+  cells <- lapply(strsplit(res, " "), as.integer)
+  cells[is.na(res)] <- list(integer(0))
+  ## every cell is assigned once, to one of its nearest nodes
+  expect_identical(sort(unlist(cells)), seq_len(terra::ncell(r)))
+  xy <- terra::xyFromCell(r, seq_len(terra::ncell(r)))
+  node <- rep(seq_along(cells), lengths(cells))[order(unlist(cells))]
+  d <- sqrt(rowSums((xy - unname(getCoords(sq)[node, ]))^2))
+  expect_equal(d, rep(sqrt(0.5), terra::ncell(r)))
+})
+
+test_that("assignByRaster assigns cells across the antimeridian to the nearest node", {
+  x <- new("gGraph", coords = cbind(lon = c(179, -179.95), lat = c(0, 0)))
+  r <- terra::rast(xmin = 179.8, xmax = 180, ymin = -0.1, ymax = 0.1, resolution = 0.2, crs = "EPSG:4326")
+  terra::values(r) <- 5
+  res <- assignByRaster(x, r, fun = "mean")
+  expect_equal(getNodesAttr(res)$raster_points, c(NA, 5))
+})

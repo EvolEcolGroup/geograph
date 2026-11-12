@@ -102,22 +102,25 @@ test_that("dijkstraFrom errors when start node is not in the graph", {
   )
 })
 
-test_that("dijkstraFrom errors when gGraph is not fully connected", {
-  # rawgraph.10k with dead edges dropped will have disconnected nodes
-  disconnected <- dropDeadEdges(rawgraph.10k, thres = 0)
-  expect_error(
-    dijkstraFrom(disconnected, "1"),
-    "Not all nodes are connected by the graph."
-  )
+test_that("dijkstraFrom on a disconnected gGraph computes paths to the connected nodes", {
+  x <- worldgraph.10k
+  start <- getNodes(keepMaxConnectedSet(x))[1]
+  expect_warning(res <- dijkstraFrom(x, start), "Not all nodes are connected")
+  reference <- dijkstraFrom(keepMaxConnectedSet(x), start)
+  expect_identical(names(res), names(reference))
 })
 
-test_that("dijkstraBetween errors when nodes are not connected", {
+test_that("dijkstraFrom errors when start has no neighbours", {
   disconnected <- dropDeadEdges(rawgraph.10k, thres = 0)
-  nodes <- getNodes(disconnected)[1:2]
-  expect_error(
-    dijkstraBetween(disconnected, from = nodes[1], to = nodes[2]),
-    "Not all nodes are connected by the graph."
-  )
+  expect_error(dijkstraFrom(disconnected, "1"), "not connected to any other node")
+})
+
+test_that("dijkstraFrom on a disconnected gGraph computes paths to the connected nodes", {
+  x <- worldgraph.10k
+  start <- getNodes(keepMaxConnectedSet(x))[1]
+  expect_warning(res <- dijkstraFrom(x, start), "Not all nodes are connected")
+  reference <- dijkstraFrom(keepMaxConnectedSet(x), start)
+  expect_identical(names(res), names(reference))
 })
 
 test_that("dijkstraBetween works with a single pair of nodes", {
@@ -179,6 +182,14 @@ test_that("dijkstraFrom on gData gives informative errors for a bad start", {
   expect_error(dijkstraFrom(hgdp.sub, sea.node), "not connected to the locations")
   expect_error(dijkstraFrom(hgdp.sub, "not_a_node"), "Starting node is not in the gGraph")
   expect_error(dijkstraFrom(hgdp.sub, getNodes(hgdp.sub)[1:2]), "single node")
+
+  ## locations in different connected sets: checked before the start
+  habitat <- getNodesAttr(worldgraph.40k, attr.name = "habitat")$habitat
+  sea.nodes <- getNodes(worldgraph.40k)[habitat == "sea"][1:2]
+  apart <- hgdp[1:2]
+  apart@nodes.id <- setNames(sea.nodes, names(apart@nodes.id))
+  expect_error(dijkstraFrom(apart, "not_a_node"), "Not all locations are connected")
+  expect_error(dijkstraFrom(apart, getNodes(hgdp.sub)[1]), "Not all locations are connected")
 })
 
 test_that("dijkstraFrom on gGraph requires a single start node", {

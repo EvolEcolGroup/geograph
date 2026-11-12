@@ -22,7 +22,7 @@ A \code{\link{gPath}} object.
 }
 \description{
 This function finds the shortest path from a given 'source' node
-to all other nodes in the graph using Dijkstra's algorithm.
+to all other nodes connected to in the graph using Dijkstra's algorithm.
 It can be applied to both gGraph and gData objects.
 }
 \details{

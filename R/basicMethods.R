@@ -58,6 +58,10 @@ setMethod("[", "gGraph", function(x, i, j, ..., drop = TRUE) {
   }
 
   ## do the subsetting ##
+  idx <- seq_len(nrow(getCoords(x)))[i]
+  if (anyNA(idx)) stop("Some indices are NA or larger than the number of nodes.")
+  if (anyDuplicated(idx)) stop("Nodes can only be selected once.")
+  
   res <- x
   res@coords <- res@coords[i, , drop = FALSE]
   if (nrow(res@nodes.attr) > 0) {
@@ -67,7 +71,7 @@ setMethod("[", "gGraph", function(x, i, j, ..., drop = TRUE) {
       res@nodes.attr <- res@nodes.attr[i, j, drop = FALSE]
     }
   }
-  res@graph <- subGraph(nodes(res@graph)[i], res@graph)
+  res@graph <- .subsetGraph(res@graph, idx)
 
   return(res)
 })
@@ -113,8 +117,8 @@ setMethod("[", "gData", function(x, i, j, ..., drop = FALSE) {
     i <- rep(i, length = nrow(getCoords(x)))
   }
   if (is.character(i)) {
-    i <- match(i, getNodes(x))
-    if (any(is.na(i))) stop("Some specified node labels were not found.")
+    if (!all(i %in% getNodes(x))) stop("Some specified node labels were not found.")
+    i <- which(getNodes(x) %in% i) # all locations on these nodes
   }
   if (missing(j)) {
     j <- TRUE

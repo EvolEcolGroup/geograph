@@ -80,11 +80,11 @@ setMethod("assignByPolygon", "matrix", function(x, layer = "world", attr = "all"
     selAttr <- seq_len(ncol(layer)) - 1
   } else {
     selAttr <- match(attr, colnames(layer)) # selected attributes
-    if (any(is.na(selAttr))) { # attribute not found in layer@data
-      cat("\nSome requested attribute (attr) not found in the layer.\n")
-      cat("\nAvailable data are:\n")
-      print(utils::head(layer))
-      return(NULL) # return NULL if attr not found, not generate an error
+    if (any(is.na(selAttr))) {
+      stop(
+        "Attribute(s) not found in the layer: ", paste(attr[is.na(selAttr)], collapse = ", "),
+        ". Available attributes: ", paste(setdiff(colnames(layer), attr(layer, "sf_column")), collapse = ", ")
+      )
     }
   }
 

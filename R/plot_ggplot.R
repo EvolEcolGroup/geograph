@@ -219,12 +219,18 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 #' Internal function to convert a `gGraph's` edges to a data.frame for ggplot
 #' @noRd
 .ggraphEdgesDf <- function(g) {
-  E <- getEdges(g, res.type = "matNames", unique = TRUE)
+  ## one direction per edge, chosen by comparing node names as
+  ## getEdges(unique = TRUE) does
+  et <- .edgeTable(getGraph(g), weights = FALSE)
+  nN <- getNodes(g)
+  keep <- nN[et$from] < nN[et$to]
+  from <- et$from[keep]
+  to <- et$to[keep]
   co <- getCoords(g)
   data.frame(
-    from = E[, 1], to = E[, 2],
-    x = co[E[, 1], 1], y = co[E[, 1], 2],
-    xend = co[E[, 2], 1], yend = co[E[, 2], 2]
+    from = nN[from], to = nN[to],
+    x = co[from, 1], y = co[from, 2],
+    xend = co[to, 1], yend = co[to, 2]
   )
 }
 
@@ -248,16 +254,20 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 #' @noRd
 .gpathDf <- function(gp) {
   xy <- attr(gp, "xy")
-  do.call(rbind, lapply(seq_along(gp), function(k) {
-    nd <- gp[[k]]$path_detail
-    if (length(nd) < 2) {
-      return(NULL)
-    }
-    data.frame(
-      path_id = k, order = seq_along(nd),
-      lon = xy[nd, 1], lat = xy[nd, 2]
-    )
-  }))
+  nd <- lapply(unclass(gp), `[[`, "path_detail")
+  len <- lengths(nd)
+  keep <- len >= 2 # paths with at least one step
+  if (!any(keep)) {
+    return(NULL)
+  }
+  nodes <- unlist(nd[keep], use.names = FALSE)
+  res <- data.frame(
+    path_id = rep.int(which(keep), len[keep]), order = sequence(len[keep]),
+    lon = unname(xy[nodes, 1]), lat = unname(xy[nodes, 2])
+  )
+  ## row names as given by rbind() of one data frame per path
+  rownames(res) <- make.unique(nodes, sep = "")
+  res
 }
 
 
@@ -270,12 +280,9 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 #' Internal function to convert a data.frame of edges to sf linestrings for ggplot
 #' @noRd
 .dfToSfLines <- function(df) {
-  lines <- lapply(seq_len(nrow(df)), function(i) {
-    sf::st_linestring(rbind(
-      c(df$x[i], df$y[i]),
-      c(df$xend[i], df$yend[i])
-    ))
-  })
+  ## one 2 x 2 coordinate matrix per segment
+  m <- cbind(df$x, df$xend, df$y, df$yend)
+  lines <- lapply(seq_len(nrow(df)), function(i) sf::st_linestring(matrix(m[i, ], 2, 2)))
   sf::st_sf(
     from = df$from, to = df$to,
     geometry = sf::st_sfc(lines, crs = 4326)
@@ -285,8 +292,9 @@ autoplot.gData <- function(object, show.gGraph = TRUE, edges = FALSE, ...) {
 #' Internal function to convert a data.frame of paths to sf linestrings for ggplot
 #' @noRd
 .dfToSfPaths <- function(df) {
-  by.path <- split(df, df$path_id)
-  lines <- lapply(by.path, function(p) sf::st_linestring(cbind(p$lon, p$lat)))
+  co <- cbind(df$lon, df$lat)
+  by.path <- split(seq_len(nrow(df)), df$path_id)
+  lines <- lapply(by.path, function(i) sf::st_linestring(co[i, , drop = FALSE]))
   sf::st_sf(
     path_id = names(by.path),
     geometry = sf::st_sfc(lines, crs = 4326)
