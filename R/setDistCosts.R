@@ -3,7 +3,7 @@
 #' The function \code{setDistCosts} sets the costs of a \linkS4class{gGraph}
 #' object using the geographic distance. The cost associated to an edge is
 #' defined as the great circle distance between the two nodes of this edge,
-#' in miles. \code{setDistCosts} actually relies on
+#' in miles (or km with `miles = FALSE`). \code{setDistCosts} actually relies on
 #' \code{\link[fields]{rdist.earth.vec}} of the \code{fields} package.
 #'
 #' The notion of 'costs' in the context of \linkS4class{gGraph} objects is
@@ -13,6 +13,8 @@
 #'
 #' @aliases setDistCosts setDistCosts-methods setDistCosts,gGraph-method
 #' @param x a valid \linkS4class{gGraph}.
+#' @param miles logical; if `TRUE` (the default) costs are in miles, if
+#' `FALSE` in km.
 #' @param \dots other arguments passed to other methods (currently unused).
 #' @return For the \linkS4class{gGraph} method, a \linkS4class{gGraph} object
 #' with appropriate weights. Note that former weights will be removed from the
@@ -46,7 +48,7 @@ setGeneric("setDistCosts", function(x, ...) {
 #################
 #' @export
 #' @describeIn setDistCosts Method for gGraph object
-setMethod("setDistCosts", "gGraph", function(x, ...) {
+setMethod("setDistCosts", "gGraph", function(x, miles = TRUE, ...) {
   ## get edges and coords ##
   E <- getEdges(x, res.type = "matNames")
 
@@ -56,10 +58,15 @@ setMethod("setDistCosts", "gGraph", function(x, ...) {
 
 
   ## get costs (great circle distances in miles, one per edge) ##
-  w <- fields::rdist.earth.vec(xy1, xy2)
+  w <- fields::rdist.earth.vec(xy1, xy2, miles = miles)
 
   ## assign costs to the graphNEL ##
+  ## E lists both directions of each edge: assign them in directed mode, so that
+  ## edgeData<- writes each from|to key once instead of twice
+  mode <- x@graph@graphData$edgemode
+  x@graph@graphData$edgemode <- "directed"
   edgeData(x@graph, from = E[, 1], to = E[, 2], attr = "weight") <- w
+  x@graph@graphData$edgemode <- mode
 
   return(x)
 }) # end setDistCosts gGraph

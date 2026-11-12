@@ -1,5 +1,62 @@
 # geoGraph (development version)
 
+## Behavior changes
+
+* `setCosts(method = "function")` gives the edge from node `i` to node `j` the
+  cost `FUN(cost_i, cost_j)`. An asymmetric `FUN` now gives a warning: 
+  `dijkstraFrom()` and `dijkstraBetween(from, to)`
+  follow the direction of travel, while `gPath2dist()`,
+  `getCosts(unique = TRUE)` and plots use one cost per edge. Edge weights are
+  always stored as double.
+
+* `assignByRaster()` assigns each cell to the nearest node by great-circle
+  distance.
+
+* `makeHexGrid()` samples the box with points evenly spaced in km instead of in
+  degrees. Cells only partly inside the box can differ.
+
+## Performance
+
+* Many functions are faster, mostly by working on node positions instead of
+  node names and by avoiding slow paths of the `graph` and `RBGL` packages.
+
+* `dijkstraFrom()`, `dijkstraBetween()` and `polygonBetween()` no longer use
+  `RBGL::sp.between()`.
+
+* `assignByRaster()` finds nearest nodes with `FNN`; `tidyr` and `tibble` are
+  no longer dependencies.
+
+## New features
+
+* `setDistCosts()` has a `miles` argument; use `miles = FALSE` for costs in
+  km.
+
+## Bug fixes
+
+* `makeSquareGrid()` works for grids of 100,000 nodes or more.
+
+* `[` on a `gGraph` gives clear errors for `NA`, too large or duplicated
+  indices. On a `gData` with node names it keeps all locations on these nodes.
+
+* `dropDeadEdges()` keeps an edge if either of its directions is under the
+  threshold, so that graphs with asymmetric costs stay valid.
+
+* `dijkstraFrom()` on a `gGraph` that is not fully connected computes paths to
+  the nodes connected to `start`, with a warning (it stopped with an error),
+  and errors if `start` has no neighbors.
+
+* `connectivityPlot()` on a `gData` colors all locations of a node, not only
+  the first.
+
+* `isReachable()` returns one value per location also when the reference
+  node is isolated.
+
+* `areNeighbours()` errors on nodes that are not in the graph (it returned
+  `FALSE`).
+
+* `assignByPolygon()` errors on an `attr` that is not in the layer (it
+  printed the layer and returned `NULL`).
+
 # geoGraph v2.1.0
 
 * `dijkstraBetween(x, from, to)` on a `gGraph` now returns every path from each

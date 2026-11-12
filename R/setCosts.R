@@ -18,8 +18,14 @@
 #'   before computing edge costs. If `NULL`, existing `x@meta$costs` is used.
 #' @param method how edge costs are computed from node costs: `"mean"`,
 #'   `"product"`, or `"function"` (requires `FUN`).
-#' @param FUN a function to compute edge cost from two node costs. Required
-#'   when `method = "function"`.
+#' @param FUN a function of two node costs, `FUN(cost_from, cost_to)`, giving
+#'   the cost of moving from a node to its neighbor. It is called once per
+#'   node, with the cost of the node and the costs of its neighbors, and must
+#'   return one value per neighbor. If `FUN` is asymmetric, the two directions
+#'   of an edge get different costs: `dijkstraFrom()` and
+#'   `dijkstraBetween(from, to)` follow the direction of travel, while
+#'   `gPath2dist()`, `getCosts(unique = TRUE)` and plots use one cost per edge.
+#'   Required when `method = "function"`.
 #' @param ... additional arguments passed to `FUN`.
 #' @return A [`gGraph`] object with the newly defined edge costs.
 #' @seealso [`dropDeadEdges`], [`getCosts`], [`hasCosts`]
@@ -119,27 +125,39 @@ setCosts <- function(x, attr.name = NULL, node.values = NULL, cost.rules = NULL,
   }
 
   ## find costs of edges as a function of terminating vertices
-  EL <- getGraph(x)@edgeL
+  et <- .edgeTable(getGraph(x), weights = FALSE)
 
   if (method == "mean") {
-    for (i in seq_along(EL)) {
-      EL[[i]]$weights <- (nodeCosts[i] + nodeCosts[EL[[i]]$edges]) / 2
-    }
+    w <- (nodeCosts[et$from] + nodeCosts[et$to]) / 2
   }
 
   if (method == "product") {
-    for (i in seq_along(EL)) {
-      EL[[i]]$weights <- nodeCosts[i] * nodeCosts[EL[[i]]$edges]
-    }
+    w <- nodeCosts[et$from] * nodeCosts[et$to]
   }
 
   if (method == "function") {
-    for (i in seq_along(EL)) {
-      EL[[i]]$weights <- FUN(nodeCosts[i], nodeCosts[EL[[i]]$edges], ...)
+    ## FUN is called once per node, with the cost of the node and the costs of
+    ## its neighbours, so that it does not need to be vectorised
+    nbrs <- split(et$to, factor(et$from, levels = seq_along(getNodes(x))))
+    w <- lapply(seq_along(nbrs), function(i) FUN(nodeCosts[i], nodeCosts[nbrs[[i]]], ...))
+    if (!identical(lengths(w), lengths(nbrs, use.names = FALSE))) {
+      stop("FUN must return one value for each neighbour of a node.")
+    }
+    w <- unlist(w, use.names = FALSE) # the edge i -> j gets FUN(cost_i, cost_j)
+    if (!is.numeric(w)) stop("costs computed by FUN must be numeric.")
+    n <- length(getNodes(x))
+    reverse <- match((et$to - 1) * n + et$from, (et$from - 1) * n + et$to)
+    if (!isTRUE(all.equal(w, w[reverse]))) {
+      warning(
+        "FUN is asymmetric, so the two directions of some edges have different costs. ",
+        "dijkstraFrom() and dijkstraBetween(from, to) follow the direction of travel; ",
+        "gPath2dist(), getCosts(unique = TRUE) and plots use one cost per edge."
+      )
     }
   }
-
-  newGraph <- new("graphNEL", nodes = getNodes(x), edgeL = EL)
+  
+  w <- as.double(w)
+  newGraph <- .graphFromTable(getNodes(x), et$from, et$to, w)
   res <- x
   res@graph <- newGraph
 

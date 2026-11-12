@@ -18,7 +18,8 @@ of the discrete global grid. The closest available DGGS resolution is used.}
 }
 \value{
 A \code{\link{gGraph}} object representing the DGGS restricted to the
-specified geographic region. The \verb{@nodes.attr} slot is empty.
+specified geographic region, with no node attributes and a cost of 1 for
+every edge.
 }
 \description{
 This function constructs a new \code{\link{gGraph}} object based on a hexagonal

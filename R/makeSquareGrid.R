@@ -153,10 +153,15 @@ makeSquareGrid <- function(size = NULL, n.lon = NULL, n.lat = NULL,
   temp <- setdiff(seq_len(size - 1), seq(n.lat, size, length = n.lon))
   from <- c(from, temp)
   to <- c(to, temp + 1)
-  ft <- cbind(from, to)
 
   ## CREATE graphNEL ##
-  myGraph <- ftM2graphNEL(ft, V = as.character(seq_len(size)), edgemode = "undirected")
+  ## both directions of each edge, in the order used by ftM2graphNEL(), with
+  ## stored default weights of 1; integer positions avoid converting node
+  ## numbers to names (as.character(1e5) is "1e+05")
+  myGraph <- .graphFromTable(as.character(seq_len(size)),
+    from = as.integer(c(from, to)), to = as.integer(c(to, from)),
+    w = rep(1, 2 * length(from))
+  )
 
 
   ## CREATE gGraph ##

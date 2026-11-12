@@ -18,3 +18,32 @@ test_that("dropDeadEdges leaves a graph without stored costs unchanged", {
   x <- new("gGraph", coords = cbind(lon = 1:3, lat = 1:3))
   expect_identical(dropDeadEdges(x, thres = 0), x)
 })
+
+test_that("dropDeadNodes gives the same result as the previous implementation", {
+  skip_on_cran()
+  for (x in list(worldgraph.10k, rawgraph.10k, dropCosts(worldgraph.10k))) {
+    res <- dropDeadNodes(x)
+    expectSameGGraph(res, dropDeadNodesRef(x))
+  }
+  x <- new("gGraph", coords = cbind(lon = 1:5, lat = 1:5))
+  x@graph <- graph::addEdge(c("4", "2"), c("5", "4"), getGraph(x), c(1, 2))
+  expectSameGGraph(dropDeadNodes(x), dropDeadNodesRef(x))
+  expect_identical(getNodes(dropDeadNodes(x)), c("2", "4", "5"))
+  ## edgeless graph
+  x <- new("gGraph", coords = cbind(lon = 1:3, lat = 1:3))
+  expectSameGGraph(dropDeadNodes(x), dropDeadNodesRef(x))
+})
+
+test_that("dropDeadEdges gives the same graph as the previous implementation", {
+  skip_on_cran()
+  set.seed(6)
+  x <- setCosts(rawgraph.10k, node.values = runif(length(getNodes(rawgraph.10k))))
+  th <- median(getCosts(x, res.type = "vector"))
+  expectSameGraph(getGraph(dropDeadEdges(x, th)), dropDeadEdgesGraphRef(x, th))
+  ## asymmetric weights: an edge is kept if either direction is under the threshold
+  y <- suppressWarnings(setCosts(rawgraph.10k, node.values = runif(length(getNodes(rawgraph.10k))),
+                                 method = "function", FUN = function(a, b) a + 2 * b
+  ))
+  th <- median(getCosts(y, res.type = "vector"))
+  expect_true(validObject(getGraph(dropDeadEdges(y, th))))
+})

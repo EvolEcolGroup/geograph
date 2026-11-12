@@ -160,3 +160,8 @@ test_that("assignByPolygon on a gGraph with a single node keeps its attributes",
   x <- assignByPolygon(x, layer = "world", attr = "continent")
   expect_equal(colnames(getNodesAttr(x)), c("habitat", "continent"))
 })
+
+test_that("assignByPolygon errors on an attribute not in the layer", {
+  coords <- cbind(lon = 10, lat = 50)
+  expect_error(assignByPolygon(coords, layer = "world", attr = "not_a_column"), "not found in the layer: not_a_column")
+})

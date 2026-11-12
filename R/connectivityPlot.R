@@ -48,10 +48,11 @@ setMethod("connectivityPlot", "gGraph", function(x, ..., seed = NULL) {
   col <- rep("lightgray", length(myNodes))
   names(col) <- myNodes
 
-  for (i in seq_len(nbSets)) {
-    e <- connected.sets[[i]] # 'e' is a vector of connected nodes
-    col[e] <- colSets[i]
-  }
+  ## set of each node (NA if in no set), from one lookup instead of one
+  ## named assignment per set
+  set.id <- rep(seq_len(nbSets), lengths(connected.sets))[match(myNodes, unlist(connected.sets, use.names = FALSE))]
+  inSet <- !is.na(set.id)
+  col[inSet] <- colSets[set.id[inSet]]
 
   ## call to plot ##
   plot(x, col = col, ...)
@@ -90,15 +91,12 @@ setMethod("connectivityPlot", "gData", function(x, ..., seed = NULL) {
 
   ## define colors ##
   nbSets <- length(connected.sets)
-  ## find the number of relevant sets
-  nbRelSets <- 0
   myNodes <- getNodes(x)
-
-  for (i in seq_len(nbSets)) {
-    if (any(myNodes %in% connected.sets[[i]])) {
-      nbRelSets <- nbRelSets + 1
-    }
-  }
+  ## set of each location (NA if in no set), and the relevant sets (those
+  ## with a location), in the order of the sets
+  set.id <- rep(seq_len(nbSets), lengths(connected.sets))[match(myNodes, unlist(connected.sets, use.names = FALSE))]
+  relSets <- sort(unique(set.id[!is.na(set.id)]))
+  nbRelSets <- length(relSets)
 
   if (!is.null(seed) && is.numeric(seed)) {
     set.seed(seed)
@@ -108,15 +106,9 @@ setMethod("connectivityPlot", "gData", function(x, ..., seed = NULL) {
   col <- rep("lightgray", length(myNodes))
   names(col) <- myNodes
 
-  color.idx <- 0
-  for (i in seq_len(nbSets)) {
-    e <- connected.sets[[i]]
-    nodes.in.set <- names(col)[names(col) %in% e]
-    if (length(nodes.in.set) > 0) {
-      color.idx <- color.idx + 1
-      col[nodes.in.set] <- colSets[color.idx]
-    }
-  }
+  ## colour of each location: that of its set
+  toColor <- !is.na(set.id)
+  col[toColor] <- colSets[match(set.id[toColor], relSets)]
 
   ## call to plot ##
   plot(x,

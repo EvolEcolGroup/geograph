@@ -14,6 +14,7 @@ HGDP
 Heikes
 Iglesias
 KNN
+Nentsi
 RBGL
 RBGL's
 Ringler
@@ -23,8 +24,6 @@ autoplot
 coords
 dev
 dijkstra
-dijkstraBetween
-dijkstraFrom
 equirectangular
 et
 gData

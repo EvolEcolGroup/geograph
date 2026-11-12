@@ -35,14 +35,21 @@ areNeighbours <- function(V1, V2, graph) {
     stop("graph is not a valid gGraph or graphNEL object.")
   }
 
-  edg <- edges(graph)
-
-  ## function testing if two nodes are directly connected
-  f1 <- function(A, B) {
-    return(any(edg[[A]] == B))
+  ## an empty input gave an empty list (mapply over no pair)
+  if (length(V1) == 0) {
+    res <- list()
+    names(res) <- character(0)
+    return(res)
   }
 
-  res <- mapply(function(x, y) f1(x, y), V1, V2)
+  ## look up the pairs among the edges, by numeric keys on node positions
+  nN <- nodes(graph)
+  N <- length(nN)
+  i1 <- match(V1, nN)
+  i2 <- match(V2, nN)
+  if (anyNA(i1) || anyNA(i2)) stop("Some nodes are not in the graph.")
+  et <- .edgeTable(graph, weights = FALSE)
+  res <- ((i1 - 1) * N + i2) %in% ((et$from - 1) * N + et$to)
 
   names(res) <- paste(V1, V2, sep = "->")
 

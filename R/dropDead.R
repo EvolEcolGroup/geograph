@@ -38,22 +38,15 @@ dropDeadEdges <- function(x, thres) { # x is a gGraph object
     return(x)
   }
 
-  ## check weights under threshold
+  # keep edges whose cost is under the threshold
   myGraph <- getGraph(x)
-  edgeW <- edgeWeights(myGraph)
-  edgeL <- edgeL(myGraph)
-  toKeep <- lapply(edgeW, function(v) v <= thres)
-
-  newEdgeL <- list()
-  for (i in seq_along(edgeL)) {
-    newEdgeL[[i]] <- list()
-    newEdgeL[[i]]$edges <- edgeL[[i]]$edges[toKeep[[i]]]
-    newEdgeL[[i]]$weights <- edgeW[[i]][toKeep[[i]]]
-  }
-
-  names(newEdgeL) <- nodes(myGraph) # items of the list must be named
-
-  newGraph <- new("graphNEL", nodes = nodes(myGraph), edgeL = newEdgeL)
+  et <- .edgeTable(myGraph)
+  n <- length(nodes(myGraph))
+  ## an edge is kept if either direction is under the threshold, so that both
+  ## directions stay (an undirected graph needs both)
+  reverse <- match((et$to - 1) * n + et$from, (et$from - 1) * n + et$to)
+  toKeep <- et$w <= thres | et$w[reverse] <= thres
+  newGraph <- .graphFromTable(nodes(myGraph), et$from[toKeep], et$to[toKeep], as.double(et$w[toKeep]))
   res <- x
   res@graph <- newGraph
 
@@ -68,11 +61,10 @@ dropDeadEdges <- function(x, thres) { # x is a gGraph object
 dropDeadNodes <- function(x) { # x is a gGraph object
   if (!is.gGraph(x)) stop("x is not a valid gGraph object.")
 
-  ## get names of connected nodes
-  nodes.in.edges <- unique(as.vector(getEdges(x, res.type = "matNames")))
-
-  ## get all nodes
-  res <- x[nodes.in.edges]
+  ## positions of the nodes with edges, in order of first appearance in the
+  ## edge list (increasing for an undirected graph)
+  et <- .edgeTable(getGraph(x), weights = FALSE)
+  res <- x[unique(c(et$from, et$to))]
 
   return(res)
 } # end dropDeadNodes

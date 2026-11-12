@@ -13,38 +13,19 @@
 keepMaxConnectedSet <- function(x) {
   myGraph <- getGraph(x)
   connected.sets <- RBGL::connectedComp(myGraph)
-  # find the largest set
-  maxSet <- connected.sets[[which.max(lapply(connected.sets, length))]]
-  maxSet.idx <- match(maxSet, nodes(myGraph))
-  maxSet.idx <- maxSet.idx[!is.na(maxSet.idx)]
-  # all cells NOT in the largest set need to be removed
-
-  # get the edges from the graph
-  edgeW <- edgeWeights(myGraph)
-  edgeL <- edgeL(myGraph)
-
-  # We create a new list and then copy over only the edges for which we have a node
-  # from the largest set
-  newEdgeL <- list()
-  for (i in seq_along(edgeL)) {
-    newEdgeL[[i]] <- list()
-    # if the source is in the set, we keep its edges but remove any destination not in the set
-    if (i %in% maxSet.idx) {
-      keep <- edgeL[[i]]$edges %in% maxSet.idx
-      newEdgeL[[i]]$edges <- edgeL[[i]]$edges[keep]
-      newEdgeL[[i]]$weights <- edgeW[[i]][keep]
-    } else { # we remove this edge
-      newEdgeL[[i]]$edges <- numeric(0)
-      newEdgeL[[i]]$weights <- numeric(0)
-    }
+  # find the largest set (the first one in case of ties)
+  maxSet <- connected.sets[[which.max(lengths(connected.sets))]]
+  # keep the nodes of the largest set, in their original order; nodes without
+  # edges are dropped, so a set of a single node (edgeless graph) gives an
+  # empty graph
+  idx <- if (length(maxSet) > 1) sort(match(maxSet, nodes(myGraph))) else integer(0)
+  res <- x[idx]
+  # the edges of the largest set have always been stored with their weights:
+  # a graph without stored costs gets weights of 1
+  if (length(myGraph@edgeData@data) == 0) {
+    et <- .edgeTable(res@graph, weights = FALSE)
+    res@graph <- .graphFromTable(nodes(res@graph), et$from, et$to, w = rep(1, length(et$from)))
   }
-  names(newEdgeL) <- nodes(myGraph) # items of the list must be named
-
-  newGraph <- new("graphNEL", nodes = nodes(myGraph), edgeL = newEdgeL)
-  res <- x
-  res@graph <- newGraph
-
-  res <- dropDeadNodes(res)
 
   return(res)
 }

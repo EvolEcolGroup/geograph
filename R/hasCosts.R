@@ -22,10 +22,16 @@
 #' @export
 
 hasCosts <- function(x) {
-  if (length(getGraph(x)@edgeData@data) == 0) {
+  stored <- getGraph(x)@edgeData@data
+  if (length(stored) == 0) {
     return(FALSE)
   }
-  w <- getCosts(x, res.type = "vector")
+  ## when every edge has a stored weight, read the weights from the store
+  ## (much faster than edgeWeights()); otherwise missing ones default to 1
+  w <- unlist(lapply(stored, `[[`, "weight"), use.names = FALSE)
+  if (length(w) != sum(lengths(lapply(getGraph(x)@edgeL, `[[`, "edges")))) {
+    w <- getCosts(x, res.type = "vector")
+  }
   if (length(unique(w)) < 2) {
     return(FALSE)
   }

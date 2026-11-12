@@ -63,16 +63,19 @@ polygonBetween <- function(g, layer, from, to, outline = TRUE) {
     stop("One or both polygons contain no nodes.")
   }
   
-  # neighbour list, as node names (@edgeL stores positions, which differ
-  # from node names once a graph has been subset)
-  neighL <- graph::edges(getGraph(g))
+  # edge table, on node positions
+  et <- .edgeTable(getGraph(g), weights = FALSE)
   
-  # function to compute outline nodes
+  # function to compute outline nodes: nodes of the polygon with a neighbour
+  # outside it (nodes without neighbours are not outline nodes), in the order
+  # of nodes.polygon
   polygonOutlineNodes <- function(nodes.polygon) {
-    is.outline <- vapply(nodes.polygon, function(node) {
-      !all(neighL[[node]] %in% nodes.polygon)
-    }, logical(1))
-    nodes.polygon[is.outline]
+    idx <- match(nodes.polygon, node.ids)
+    in.polygon <- logical(length(node.ids))
+    in.polygon[idx] <- TRUE
+    is.outline <- logical(length(node.ids))
+    is.outline[et$from[in.polygon[et$from] & !in.polygon[et$to]]] <- TRUE
+    nodes.polygon[is.outline[idx]]
   }
   
   # optionally restrict to outline nodes

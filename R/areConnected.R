@@ -30,7 +30,6 @@
 #' @export
 areConnected <- function(x, nodes) { # x is a gGraph
   ## some checks ##
-  ## if(!require(RBGL)) stop("RBGL package is required.") not needed
   if (!is.gGraph(x)) stop("x is not a valid gGraph object")
   if (!all(nodes %in% getNodes(x))) stop("Some specified nodes were not found in the gGraph object.")
   nodes <- unique(nodes)
@@ -38,10 +37,15 @@ areConnected <- function(x, nodes) { # x is a gGraph
   ## get connected sets (with more than one node) ##
   connected.sets <- .connectedSets(getGraph(x))
 
-  res <- vapply(connected.sets, function(e) all(nodes %in% e), logical(1))
-  res <- any(res)
+  res <- .inOneSet(connected.sets, nodes)
 
   return(res)
+}
+
+
+## are all 'nodes' in one of the 'connected.sets' (as returned by .connectedSets)?
+.inOneSet <- function(connected.sets, nodes) {
+  any(vapply(connected.sets, function(e) all(nodes %in% e), logical(1)))
 }
 
 
